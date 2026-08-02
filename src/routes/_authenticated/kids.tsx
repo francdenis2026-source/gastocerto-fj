@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { Upload } from "lucide-react";
@@ -29,10 +29,13 @@ import {
   AlertCircle,
   BellRing,
   TrendingUp,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { formatCurrency } from "@/lib/format";
+import { regeneratePixCharge } from "@/lib/pix-ledger.functions";
+
 
 import { useProfile } from "@/lib/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
