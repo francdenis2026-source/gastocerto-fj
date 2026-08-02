@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -102,13 +102,13 @@ function KidSpacePage() {
         .from("ledger_entries")
         .select("*")
         .eq("dependent_id", dependent!.id)
-        .eq("status", "approved")
         .order("created_at", { ascending: false })
         .limit(1);
       
       if (error) throw error;
       return data?.[0];
     }
+
   });
 
   useEffect(() => {

@@ -220,8 +220,9 @@ function KidsAccessPage() {
     const lastLogin = withCode
       .map((kid) => (kid.kid_last_login_at ? { at: kid.kid_last_login_at, name: kid.name } : null))
       .filter((value): value is { at: string; name: string } => Boolean(value))
-      .sort((a, b) => (a.at < b.at ? 1 : -1))[0] ?? null;
+      .sort((a, b) => ((a.at < b.at) ? 1 : -1))[0] ?? null;
     return { total: withCode.length, active: active.length, nextExpiry, lastLogin };
+
   }, [kids]);
 
 
@@ -500,8 +501,9 @@ function KidsAccessPage() {
             }));
             const csv = [
               ['Data', 'Ação', 'Dependente', 'Código'],
-              ...data.map(r => [r.Data, r.Acao, r.Dependente, r.Codigo])
+              ...data.map(r => [String(r.Data), String(r.Acao), String(r.Dependente), String(r.Codigo)])
             ].map(e => e.join(",")).join("\n");
+
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
