@@ -182,6 +182,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        {/* nao seri maiso porfssional, poder clicar em qualquer recurso epoder abrir o modal masi detalhado sobre a funcioanlidade? */}
         {children}
         <Scripts />
       </body>
