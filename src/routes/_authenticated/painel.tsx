@@ -415,7 +415,10 @@ function DashboardPage() {
     };
   }, [dependents]);
 
-  return (
+  const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
+
+  if (loadingTransactions || loadingCategories) {
+    return (
       <AppShell>
         <div className="flex min-h-[40vh] items-center justify-center">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
@@ -424,7 +427,6 @@ function DashboardPage() {
     );
   }
 
-  const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
 
   return (
     <AppShell>
