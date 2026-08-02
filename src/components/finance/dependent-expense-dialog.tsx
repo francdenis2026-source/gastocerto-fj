@@ -264,8 +264,8 @@ export function DependentExpenseDialog({
             </DialogTitle>
             <DialogDescription>
               {selected
-                ? "Registre ganhos e gastos das crianças. Ensine educação financeira na prática!"
-                : "Cadastre as crianças para gerenciar mesadas, presentes e ensinar o valor do dinheiro."}
+                ? "Registre ganhos e gastos das crianças. Para o Modo Criança, peça para ela digitar o PIN de acesso."
+                : "Cadastre as crianças para gerenciar mesadas, metas e ensinar o valor do dinheiro. O Modo Criança simplificado exige um PIN definido no cadastro."}
             </DialogDescription>
           </DialogHeader>
 
@@ -346,11 +346,22 @@ export function DependentExpenseDialog({
               </div>
             </div>
           ) : !selected ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
+              <div className="rounded-xl bg-primary/5 p-4 border border-primary/20">
+                <h4 className="text-sm font-bold text-primary flex items-center gap-2 mb-2">
+                  <Target className="size-4" />
+                  Como usar o Modo Kids?
+                </h4>
+                <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
+                  <li>Vá em <span className="font-bold">Meus Cadastros</span> e crie um perfil para seu filho.</li>
+                  <li>Defina um <span className="font-bold text-primary">PIN de 4 dígitos</span> no cadastro dele.</li>
+                  <li>Volte aqui, clique no nome dele e peça para ele digitar o PIN!</li>
+                </ol>
+              </div>
+
               {active.length === 0 ? (
                 <p className="rounded-xl border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
-                  Nenhum dependente cadastrado ainda. Cadastre seus filhos para separar os gastos
-                  de cada um.
+                  Nenhum dependente cadastrado ainda. Cadastre seus filhos para começar a usar o Espaço Kids.
                 </p>
               ) : (
                 <div className="grid gap-2 sm:grid-cols-2">
@@ -370,13 +381,17 @@ export function DependentExpenseDialog({
                           }
                         }}
                         className={cn(
-                          "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          isLimitReached && "border-destructive/30 bg-destructive/5"
+                          "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group",
+                          isLimitReached && "border-destructive/30 bg-destructive/5",
+                          !(item as any).pin_code && "opacity-80"
                         )}
                       >
                         <div className="relative">
                           <span
-                            className="flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                            className={cn(
+                              "flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-transform group-hover:scale-110",
+                              !(item as any).pin_code && "grayscale-[0.5]"
+                            )}
                             style={{
                               backgroundColor: `${item.color ?? "#64748b"}22`,
                               color: item.color ?? undefined,
@@ -384,8 +399,12 @@ export function DependentExpenseDialog({
                           >
                             {(item.nickname?.trim() || item.name).slice(0, 2).toUpperCase()}
                           </span>
-                          {(item as any).pin_code && (
-                            <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-background shadow-sm border border-border">
+                          {(item as any).pin_code ? (
+                            <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary shadow-sm border border-background">
+                              <ShieldCheck className="size-2 text-primary-foreground" />
+                            </div>
+                          ) : (
+                            <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-muted shadow-sm border border-border">
                               <Lock className="size-2 text-muted-foreground" />
                             </div>
                           )}
@@ -401,8 +420,11 @@ export function DependentExpenseDialog({
                             {relationLabel(item.relation)}
                             {age !== null ? ` · ${age} anos` : ""}
                           </span>
-                          <span className="block text-[11px] text-muted-foreground">
-                            No mês: {formatCurrency(spent)}
+                          <span className={cn(
+                            "block text-[10px] font-bold mt-0.5",
+                            (item as any).pin_code ? "text-primary" : "text-muted-foreground"
+                          )}>
+                            {(item as any).pin_code ? "PIN Configurado ✓" : "Modo Kids: definir PIN no cadastro"}
                           </span>
                         </span>
                       </button>

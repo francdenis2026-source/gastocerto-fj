@@ -90,13 +90,14 @@ const HELP_SECTIONS = [
     id: "kids",
     title: "Educação Financeira (Kids)",
     icon: Baby,
-    content: "Uma área lúdica para ensinar finanças aos filhos. Eles registram mesada e criam metas de poupança. Você acompanha, define limites e aprova recompensas, criando hábitos saudáveis desde cedo.",
+    content: "Uma área lúdica para ensinar finanças aos filhos. Para usar: \n1. Vá em 'Meus Cadastros' e adicione uma criança, definindo um PIN de 4 dígitos e um limite de gastos.\n2. No menu 'Espaço Kids', clique no nome da criança e digite o PIN para entrar no Modo Criança.\n3. Lá, a criança pode ver seu 'Saldo Mágico', guardar 'moedinhas' em metas e registrar seus próprios ganhos e gastos de forma simplificada.",
     steps: [
-      "Configure o perfil do dependente com um PIN de acesso",
-      "Defina o valor e dia da mesada automática",
-      "Acompanhe o histórico de gastos do seu filho no seu painel"
+      "Cadastre a criança em 'Meus Cadastros' definindo um PIN de 4 dígitos",
+      "No 'Espaço Kids', selecione a criança e digite o PIN para o Modo Criança",
+      "Ajude a criança a criar 'Metas Mágicas' para juntar dinheiro para brinquedos ou passeios",
+      "Acompanhe tudo (mesada, gastos e metas) no seu painel de responsável"
     ],
-    tips: ["Defina recompensas reais por metas atingidas", "Use os alertas para monitorar gastos excessivos"]
+    tips: ["Defina recompensas reais por metas atingidas", "Use os alertas para monitorar gastos excessivos", "A mesada pode ser agendada para cair automaticamente todo mês"]
   }
 ];
 
