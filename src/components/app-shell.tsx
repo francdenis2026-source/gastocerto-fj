@@ -126,7 +126,8 @@ export const navGroups: NavGroup[] = [
     icon: HelpCircle,
     children: [
       { key: "support.help", label: "Central de Ajuda", to: "/ajuda" },
-      { key: "support.kids", label: "Espaço Kids", to: "/kids-auditoria" },
+      { key: "support.kids", label: "Espaço Kids (acessos)", to: "/kids" },
+      { key: "support.kidsaudit", label: "Auditoria Kids", to: "/kids-auditoria" },
       { key: "support.calendar", label: "Agenda e Alertas", to: "/calendario" },
     ],
   },

@@ -34,6 +34,7 @@ import {
 
 const searchSchema = z.object({
   mode: z.enum(["login", "signup"]).optional(),
+  kid: z.string().optional(),
 });
 
 export const Route = createFileRoute("/auth")({
