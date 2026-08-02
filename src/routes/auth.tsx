@@ -6,7 +6,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import authHero from "@/assets/auth-hero.jpg";
+import { KidsLoginScreen } from "@/components/kids/kids-login-screen";
 import { PENDING_LICENSE_KEY } from "@/components/landing/code-access-dialog";
+
 import { CodeAccessInline } from "@/components/landing/code-access-inline";
 import { activateLicense } from "@/lib/licenses.functions";
 import { Logo } from "@/components/logo";
