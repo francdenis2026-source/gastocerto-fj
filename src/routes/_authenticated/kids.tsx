@@ -618,6 +618,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const saveVisibility = useServerFn(saveKidVisibility);
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
+  const deleteKid = useServerFn(deleteKidAccount);
+  const [uploading, setUploading] = useState(false);
+
   const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
   const deleteKid = useServerFn(deleteKidAccount);
 
