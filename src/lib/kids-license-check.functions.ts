@@ -17,18 +17,28 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     const { data: profile, error: profErr } = await supabaseAdmin
       .from("profiles")
-      .select("plan, trial_expires_at")
-      .eq("id", kid.user_id)
+      .select("id, plan_id, trial_ends_at, status")
+      .eq("user_id", kid.user_id)
       .maybeSingle();
 
     if (profErr || !profile) {
       return { active: false, reason: "parent_not_found" };
     }
 
-    const isFree = profile.plan === 'free';
-    const trialExpired = profile.trial_expires_at ? new Date(profile.trial_expires_at) < new Date() : false;
+    // Se o perfil está inativo ou bloqueado
+    if (profile.status === 'inactive' || profile.status === 'blocked') {
+      return { 
+        active: false, 
+        readOnly: true, 
+        reason: "parent_inactive",
+        message: "A conta do seu responsável está inativa ou bloqueada. Novos lançamentos estão suspensos."
+      };
+    }
+
+    const trialExpired = profile.trial_ends_at ? new Date(profile.trial_ends_at) < new Date() : false;
     
-    if (!isFree && trialExpired) {
+    // Se não tem plano (plan_id nulo) e o trial expirou
+    if (!profile.plan_id && trialExpired) {
       return { 
         active: true, 
         readOnly: true, 
