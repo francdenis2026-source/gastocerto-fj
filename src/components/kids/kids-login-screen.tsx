@@ -23,7 +23,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,oklch(0.45_0.15_200/0.38),transparent_58%),radial-gradient(circle_at_82%_85%,oklch(0.5_0.18_160/0.3),transparent_52%)]"
       />
 
-      <div className="grid h-full max-h-[90dvh] w-full max-w-4xl lg:min-h-[480px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1.2fr_minmax(0,20rem)]">
+      <div className="grid h-full max-h-[92dvh] w-full max-w-4xl lg:min-h-[460px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1.1fr_minmax(0,19rem)]">
         {/* Lado esquerdo: identidade visual Kids */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           <img
@@ -47,12 +47,12 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
               <Sparkles className="size-3" /> Espaço Kids
             </span>
             <div className="min-w-0">
-              <h1 className="font-display text-3xl font-black leading-tight tracking-tight text-white drop-shadow-lg">
+              <h1 className="font-display text-2xl sm:text-3xl font-black leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 Seu dinheiro,
                 <br />
                 <span className="text-emerald-400">seu mundo.</span>
               </h1>
-              <p className="mt-2 text-[13px] leading-relaxed text-white/80 drop-shadow-sm">
+              <p className="mt-2 text-[12px] sm:text-[13px] leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] font-medium">
                 Entre com seu código e comece a cuidar do que é seu.
               </p>
             </div>
