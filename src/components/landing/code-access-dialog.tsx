@@ -64,7 +64,15 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
       /* storage indisponível */
     }
     setOpen(false);
-    void navigate({ to: "/auth", search: { mode: "signup" } });
+    
+    // Se o código começa com 'VIP', 'OFF', 'PR' ou parece um cupom/plano
+    const isPlanCode = key.startsWith("VIP") || key.startsWith("PLAN") || key.startsWith("OFF") || key.includes("PROMO");
+    
+    if (isPlanCode) {
+      void navigate({ to: "/auth", search: { mode: "signup" } });
+    } else {
+      void navigate({ to: "/auth", search: { mode: "signup" } });
+    }
   };
 
   return (

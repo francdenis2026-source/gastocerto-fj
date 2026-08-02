@@ -22,6 +22,7 @@ import {
   X,
   TrendingUp,
   TrendingDown,
+  Flame,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
@@ -81,9 +82,16 @@ export const navGroups: NavGroup[] = [
     children: [
       { key: "vehicles.fuel", label: "Abastecimentos", to: "/veiculos" },
       { key: "vehicles.report", label: "Relatório de gastos", to: "/veiculos-relatorio" },
-      { key: "vehicles.settings", label: "Configurações", to: "/veiculos-configuracoes" },
       { key: "vehicles.audit", label: "Auditoria", to: "/veiculos-auditoria" },
-      { key: "vehicles.gas", label: "Botijão de gás", to: "/gas" },
+    ],
+  },
+  {
+    key: "gas",
+    label: "Botijão de gás",
+    to: "/gas",
+    icon: Flame,
+    children: [
+      { key: "gas.overview", label: "Status e trocas", to: "/gas" },
     ],
   },
   {
@@ -241,9 +249,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <nav aria-label="Menu principal" className="flex-1 space-y-1 overflow-y-auto p-2">
           {items.map((item) => {
-            const isActive = activeGroup?.to === item.to;
+            const isActive = activeGroup?.key === item.key;
             const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
-            const hasChildren = Boolean(item.children && item.children.length > 1);
+            const hasChildren = Boolean(item.children && item.children.length > 0);
             return (
               <div key={item.to}>
                 <div
