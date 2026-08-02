@@ -18,6 +18,8 @@ import {
   AlertOctagon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ClearHistoryButton } from "@/components/finance/clear-history-button";
+
 
 export function ProfileAuditPanel() {
   const [logs, setLogs] = useState<any[]>([]);
@@ -251,18 +253,26 @@ export function RedemptionHistoryPanel() {
 
   return (
     <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden">
-      <div className="flex items-center justify-between border-b p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b p-4">
         <div className="flex items-center gap-2">
           <Key className="size-4 text-primary" />
-          <h3 className="font-display font-semibold">Histórico de Resgates</h3>
+          <h3 className="font-display font-semibold">Histórico de resgates</h3>
         </div>
-        {suspiciousAttempts.length > 0 && (
-          <Badge variant="destructive" className="animate-pulse">
-            <AlertTriangle className="size-3 mr-1" />
-            Padrão Suspeito
-          </Badge>
-        )}
+        <div className="flex items-center gap-2">
+          {suspiciousAttempts.length > 0 && (
+            <Badge variant="destructive" className="animate-pulse">
+              <AlertTriangle className="size-3 mr-1" />
+              Padrão suspeito
+            </Badge>
+          )}
+          <ClearHistoryButton
+            table="code_redemption_history"
+            label="o histórico de resgates"
+            onCleared={fetchHistory}
+          />
+        </div>
       </div>
+
 
       <div className="p-3 border-b bg-muted/20 space-y-3">
         <div className="relative">
