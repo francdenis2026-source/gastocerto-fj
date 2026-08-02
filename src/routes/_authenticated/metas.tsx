@@ -168,7 +168,9 @@ function GoalsPage() {
 
       <GoalDialog open={open} onOpenChange={setOpen} goal={editing} />
       <ContributionDialog goal={contributingTo} onClose={() => setContributingTo(null)} />
+      <ConfirmDialog />
     </FeatureGate>
+
     </AppShell>
   );
 }
