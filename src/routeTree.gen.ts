@@ -17,6 +17,7 @@ import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAjudaRouteImport } from './routes/_authenticated/ajuda'
 import { Route as AuthenticatedBalancoAnualRouteImport } from './routes/_authenticated/balanco-anual'
 import { Route as AuthenticatedCadastrosRouteImport } from './routes/_authenticated/cadastros'
 import { Route as AuthenticatedCalendarioRouteImport } from './routes/_authenticated/calendario'
@@ -84,6 +85,11 @@ const TermosRoute = TermosRouteImport.update({
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAjudaRoute = AuthenticatedAjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedBalancoAnualRoute =
@@ -250,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ajuda': typeof AuthenticatedAjudaRoute
   '/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/cadastros': typeof AuthenticatedCadastrosRoute
   '/calendario': typeof AuthenticatedCalendarioRoute
@@ -288,6 +295,7 @@ export interface FileRoutesByTo {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ajuda': typeof AuthenticatedAjudaRoute
   '/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/cadastros': typeof AuthenticatedCadastrosRoute
   '/calendario': typeof AuthenticatedCalendarioRoute
@@ -328,6 +336,7 @@ export interface FileRoutesById {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/ajuda': typeof AuthenticatedAjudaRoute
   '/_authenticated/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/_authenticated/cadastros': typeof AuthenticatedCadastrosRoute
   '/_authenticated/calendario': typeof AuthenticatedCalendarioRoute
@@ -368,6 +377,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/termos'
     | '/admin'
+    | '/ajuda'
     | '/balanco-anual'
     | '/cadastros'
     | '/calendario'
@@ -406,6 +416,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/termos'
     | '/admin'
+    | '/ajuda'
     | '/balanco-anual'
     | '/cadastros'
     | '/calendario'
@@ -445,6 +456,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/termos'
     | '/_authenticated/admin'
+    | '/_authenticated/ajuda'
     | '/_authenticated/balanco-anual'
     | '/_authenticated/cadastros'
     | '/_authenticated/calendario'
@@ -545,6 +557,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ajuda': {
+      id: '/_authenticated/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AuthenticatedAjudaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/balanco-anual': {
@@ -755,6 +774,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAjudaRoute: typeof AuthenticatedAjudaRoute
   AuthenticatedBalancoAnualRoute: typeof AuthenticatedBalancoAnualRoute
   AuthenticatedCadastrosRoute: typeof AuthenticatedCadastrosRoute
   AuthenticatedCalendarioRoute: typeof AuthenticatedCalendarioRoute
@@ -785,6 +805,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAjudaRoute: AuthenticatedAjudaRoute,
   AuthenticatedBalancoAnualRoute: AuthenticatedBalancoAnualRoute,
   AuthenticatedCadastrosRoute: AuthenticatedCadastrosRoute,
   AuthenticatedCalendarioRoute: AuthenticatedCalendarioRoute,

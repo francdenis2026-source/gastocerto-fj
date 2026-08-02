@@ -9,11 +9,13 @@ import {
   PiggyBank, 
   Baby,
   ChevronRight,
-  PlayCircle
+  PlayCircle,
+  Lightbulb
 } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
+import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
