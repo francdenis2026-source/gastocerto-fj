@@ -242,10 +242,27 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     return () => {
       active = false;
     };
-  }, [loginUrl]);
+  }, [loginUrl, qrNonce]);
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["dependents"] });
   const refreshAudit = () => queryClient.invalidateQueries({ queryKey: ["kid_access_audit"] });
+
+  async function copyLoginUrl() {
+    if (!loginUrl) return;
+    try {
+      await navigator.clipboard.writeText(loginUrl);
+      toast.success("Link do QR copiado!", { description: loginUrl });
+    } catch {
+      toast.error("Não foi possível copiar o link automaticamente.", { description: loginUrl });
+    }
+  }
+
+  function reloadQr() {
+    setQrNonce((value) => value + 1);
+    void refresh();
+    toast.success("QR atualizado na tela.");
+  }
+
 
   async function persist(nextCode: string, reason: "created" | "updated" | "rotated") {
     const clean = normalizeKidCode(nextCode);
