@@ -214,6 +214,10 @@ export type PlanAccess = {
 export const READ_ONLY_MESSAGE =
   "Seu período de teste venceu. A conta está em modo somente leitura: você continua consultando os dados, mas para inserir ou editar lançamentos é necessário ativar uma nova licença ou assinar um plano.";
 
+export const KID_READ_ONLY_MESSAGE =
+  "A assinatura do seu responsável expirou. Você ainda pode ver seus dados, mas para fazer novos lançamentos o responsável precisa renovar o plano.";
+
+
 
 export function resolvePlanAccess(input: PlanAccessInput): PlanAccess {
   const now = input.now ?? new Date();
