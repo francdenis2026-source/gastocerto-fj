@@ -29,6 +29,8 @@ import { getKidCardControl } from "@/lib/kids-cards.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Progress } from "@/components/ui/progress";
 import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
+import { NotificationCenter } from "@/components/notifications/notification-center";
+
 
 
 export const Route = createFileRoute("/_authenticated/meu-espaco")({
