@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 
 import { DemoDialog } from "@/components/landing/demo-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 import { Reveal } from "@/components/landing/reveal";
 import { handleAnchorClick } from "@/lib/scroll";
 import {
