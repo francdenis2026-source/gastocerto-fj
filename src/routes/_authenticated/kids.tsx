@@ -647,7 +647,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
           )}
         </div>
       </header>
-
       <div className="p-4 sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
         <div className="space-y-4">
@@ -940,6 +939,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </p>
           )}
         </aside>
+        </div>
       </div>
     </article>
   );
