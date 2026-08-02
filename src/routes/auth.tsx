@@ -154,8 +154,8 @@ function AuthPage() {
         className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.95)_0%,oklch(0.16_0.03_258/0.88)_50%,oklch(0.16_0.03_258/0.97)_100%)]"
       />
 
-      {/* Card principal com altura fixa para evitar redimensionamento brusco */}
-      <div className="grid h-[540px] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:grid-cols-[1fr_minmax(0,22rem)]">
+      {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
+      <div className="grid max-h-full w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[520px] lg:grid-cols-[1fr_minmax(0,23rem)]">
         {/* Painel lateral dinâmico (Hero) */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           {/* Imagem Hero específica para cada modo */}
@@ -177,13 +177,13 @@ function AuthPage() {
             className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.25_0.06_259/0.6)] via-transparent to-[oklch(0.16_0.03_258/0.8)]"
           />
 
-          <div className="p-7">
+          <div className="p-5">
             <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
               <Logo onDark />
             </Link>
           </div>
 
-          <div className="relative z-10 space-y-5 p-7">
+          <div className="relative z-10 space-y-4 p-5">
             <div className="flex -space-x-3 overflow-hidden">
               {[
                 "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
@@ -223,7 +223,7 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-3 text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
+              <h2 className="font-display mt-3 text-2xl xl:text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
                 {mode === "login"
                   ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
@@ -244,7 +244,7 @@ function AuthPage() {
             </div>
           </div>
 
-          <div className="p-7 pt-0">
+          <div className="p-5 pt-0">
             <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/60">
               &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
             </p>
@@ -252,7 +252,7 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex flex-col overflow-y-auto px-5 py-5 sm:px-6">
+        <section className="flex max-h-full flex-col overflow-y-auto px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
             <Link to="/" className="w-fit">
               <Logo />
