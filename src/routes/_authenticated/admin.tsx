@@ -19,7 +19,7 @@ import {
   Wallet,
   Settings,
 } from "lucide-react";
-import { Suspense, lazy, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
 import { AdminConsoleShell, type AdminSection } from "@/components/admin/admin-console-shell";
 import { AdminOverviewPanel } from "@/components/admin/overview-panel";
