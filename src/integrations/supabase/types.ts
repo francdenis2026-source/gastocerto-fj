@@ -776,6 +776,7 @@ export type Database = {
           color: string | null
           created_at: string
           id: string
+          kid_code_expires_at: string | null
           kid_login_code: string | null
           kid_user_id: string | null
           kids_mode_enabled: boolean
@@ -798,6 +799,7 @@ export type Database = {
           color?: string | null
           created_at?: string
           id?: string
+          kid_code_expires_at?: string | null
           kid_login_code?: string | null
           kid_user_id?: string | null
           kids_mode_enabled?: boolean
@@ -820,6 +822,7 @@ export type Database = {
           color?: string | null
           created_at?: string
           id?: string
+          kid_code_expires_at?: string | null
           kid_login_code?: string | null
           kid_user_id?: string | null
           kids_mode_enabled?: boolean

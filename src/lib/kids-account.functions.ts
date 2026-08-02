@@ -14,11 +14,11 @@ const saveSchema = z.object({
     .string()
     .transform((value) => value.replace(/\D/g, ""))
     .refine((value) => value.length >= 4 && value.length <= 6, "A senha deve ter 4 a 6 dígitos"),
+  expiresDays: z.number().optional().default(365),
 });
 
 /**
- * Cria (ou atualiza) o acesso próprio da criança. Só o responsável dono do
- * cadastro consegue executar, pois o dependente é lido com a sessão dele.
+ * Cria (ou atualiza) o acesso próprio da criança.
  */
 export const saveKidAccess = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -59,21 +59,25 @@ export const saveKidAccess = createServerFn({ method: "POST" })
       kidUserId = created.user.id;
     }
 
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + data.expiresDays);
+
     const { error: linkError } = await context.supabase
       .from("dependents")
       .update({
         kid_login_code: data.code,
         kid_user_id: kidUserId,
         kids_mode_enabled: true,
-      } as never)
+        kid_code_expires_at: expiresAt.toISOString(),
+      } as any)
       .eq("id", data.dependentId);
 
     if (linkError) throw new Error(linkError.message);
 
-    return { code: data.code, email };
+    return { code: data.code, email, expiresAt: expiresAt.toISOString() };
   });
 
-/** Remove o acesso independente da criança (o cadastro do dependente permanece). */
+/** Remove o acesso independente da criança. */
 export const revokeKidAccess = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ dependentId: z.string().uuid() }).parse(data))
@@ -95,7 +99,7 @@ export const revokeKidAccess = createServerFn({ method: "POST" })
 
     const { error: clearError } = await context.supabase
       .from("dependents")
-      .update({ kid_login_code: null, kid_user_id: null } as never)
+      .update({ kid_login_code: null, kid_user_id: null, kid_code_expires_at: null } as any)
       .eq("id", data.dependentId);
 
     if (clearError) throw new Error(clearError.message);
