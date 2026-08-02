@@ -881,8 +881,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <History className="size-3.5 text-primary" aria-hidden /> Gastos e Movimentações da Criança
             </p>
             <KidTransactionsList dependentId={dependent.id} />
-          </div>
         </div>
+
         <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
 
 
