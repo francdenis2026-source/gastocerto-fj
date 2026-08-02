@@ -175,7 +175,7 @@ function AuthPage() {
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid h-full max-h-[90dvh] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[480px] lg:grid-cols-[1.2fr_minmax(0,20rem)]">
+      <div className="grid h-full max-h-[92dvh] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[460px] lg:grid-cols-[1.1fr_minmax(0,19rem)]">
         {/* Painel lateral dinâmico (Hero) */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           {/* Imagem Hero específica para cada modo */}
@@ -243,7 +243,7 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-3 text-2xl xl:text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
+              <h2 className="font-display mt-3 text-xl xl:text-2xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 {mode === "login"
                   ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
@@ -252,7 +252,7 @@ function AuthPage() {
                       ? "Não se preocupe, vamos te ajudar a voltar."
                       : "Área de administração técnica e suporte."}
               </h2>
-              <p className="mt-3 text-[13px] leading-relaxed text-white/85 drop-shadow-sm">
+              <p className="mt-3 text-[12px] leading-relaxed text-white font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                 {mode === "login"
                   ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta."
                   : mode === "signup"
