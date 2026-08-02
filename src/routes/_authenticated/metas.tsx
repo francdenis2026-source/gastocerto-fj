@@ -41,6 +41,8 @@ import {
   useSaveGoal,
   type Goal,
 } from "@/lib/goals";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+
 
 export const Route = createFileRoute("/_authenticated/metas")({
   head: () => ({
