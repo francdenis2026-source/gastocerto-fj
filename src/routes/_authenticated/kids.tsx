@@ -619,10 +619,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
   const deleteKid = useServerFn(deleteKidAccount);
+  const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
   const [uploading, setUploading] = useState(false);
 
-  const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
-  const deleteKid = useServerFn(deleteKidAccount);
 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
