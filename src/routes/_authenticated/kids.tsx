@@ -1222,12 +1222,12 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             )}
           </aside>
         </div>
-      </div>
-      <ConfirmDialog />
     </article>
-
+    <ConfirmDialog />
+    </>
   );
 }
+
 
 function SessionManager({ dependentId }: { dependentId: string }) {
   const getSessions = useServerFn(getKidSessions);
