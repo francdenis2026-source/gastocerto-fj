@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { 
   HelpCircle, 
   BookOpen, 
@@ -213,8 +213,12 @@ function HelpPage() {
             Acompanhar seus gastos não precisa ser uma tarefa difícil. Com o GastoCerto, você tem a clareza necessária para tomar decisões melhores e alcançar sua tranquilidade financeira.
           </p>
           <div className="flex justify-center gap-3">
-            <Button size="sm">Ir para o Dashboard</Button>
-            <Button size="sm" variant="ghost">Ver Planos Premium</Button>
+            <Link to="/painel">
+              <Button size="sm">Ir para o Dashboard</Button>
+            </Link>
+            <Link to="/perfil">
+              <Button size="sm" variant="ghost">Ver Planos Premium</Button>
+            </Link>
           </div>
         </section>
       </div>
