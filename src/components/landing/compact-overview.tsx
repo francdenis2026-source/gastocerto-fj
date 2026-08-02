@@ -409,13 +409,23 @@ export function CompactOverview() {
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-2.5">
               {pillars.map((pillar, index) => (
                 <Reveal key={pillar.title} delay={index * 70}>
-                  <div className="interactive-card h-full rounded-xl border border-border bg-card p-3 sm:p-3.5">
-                    <span className="grid size-9 place-items-center rounded-lg bg-brand/10 text-brand">
-                      <pillar.icon className="size-4" aria-hidden="true" />
-                    </span>
-                    <p className="mt-2 text-sm font-semibold">{pillar.title}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pillar.text}</p>
-                  </div>
+                  <FeatureDetailDialog
+                    feature={{ title: pillar.title, text: pillar.text, tag: "Segurança" }}
+                  >
+                    <button
+                      type="button"
+                      className="interactive-card h-full w-full rounded-xl border border-border bg-card p-3 text-left hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-3.5"
+                    >
+                      <span className="grid size-9 place-items-center rounded-lg bg-brand/10 text-brand">
+                        <pillar.icon className="size-4" aria-hidden="true" />
+                      </span>
+                      <p className="mt-2 text-sm font-semibold">{pillar.title}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pillar.text}</p>
+                      <span className="mt-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wide text-primary">
+                        Ver detalhes
+                      </span>
+                    </button>
+                  </FeatureDetailDialog>
                 </Reveal>
               ))}
             </div>
