@@ -119,7 +119,7 @@ const HELP_SECTIONS = [
     id: "financial-help",
     title: "Ajuda Financeira Estratégica",
     icon: Lightbulb,
-    content: "Disponível para planos Premium, esta área utiliza IA para analisar sua saúde financeira completa. O Consultor de Dívidas avalia cartões, empréstimos e financiamentos para criar planos de quitação detalhados e metas realistas.",
+    content: "Disponível exclusivamente para planos Premium, esta área utiliza IA para analisar sua saúde financeira completa. O Consultor de Dívidas avalia cartões, empréstimos e financiamentos para criar planos de quitação detalhados e metas realistas.",
     steps: [
       "Acesse o Consultor de Dívidas no topo do seu Painel",
       "Receba um Score de saúde financeira atualizado",
