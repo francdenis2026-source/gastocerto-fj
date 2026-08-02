@@ -47,12 +47,12 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
               <Sparkles className="size-3" /> Espaço Kids
             </span>
             <div className="min-w-0">
-              <h1 className="font-display text-2xl sm:text-3xl font-black leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              <h1 className="font-display text-xl sm:text-2xl lg:text-3xl font-black leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                 Seu dinheiro,
                 <br />
                 <span className="text-emerald-400">seu mundo.</span>
               </h1>
-              <p className="mt-2 text-[12px] sm:text-[13px] leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] font-medium">
+              <p className="mt-2 text-[11px] sm:text-[12px] lg:text-[13px] leading-relaxed text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] font-semibold">
                 Entre com seu código e comece a cuidar do que é seu.
               </p>
             </div>
