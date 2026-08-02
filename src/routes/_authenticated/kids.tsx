@@ -381,7 +381,9 @@ function NotificationPreferences({ userId }: { userId: string }) {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
   const updatePrefs = useServerFn(updateKidNotificationPrefs);
+  const deleteKid = useServerFn(deleteKidAccount);
   const { data: profile } = useProfile();
+
   
   const initialPrefs = (profile as any)?.kid_notification_prefs || {
     channels: { email: true, push: true, whatsapp: false },
