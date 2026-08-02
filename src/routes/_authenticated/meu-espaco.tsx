@@ -237,7 +237,7 @@ function KidSpacePage() {
             const newMode = !compactMode;
             setCompactMode(newMode);
             if (user) {
-              await supabase.from("profiles").update({ ["compact_mode" as any]: newMode }).eq("user_id", user.id);
+              await supabase.from("profiles").update({ ["compact_mode" as string]: newMode } as any).eq("user_id", user.id);
             }
             toast.success(newMode ? "Modo Profissional Ativado! ✨" : "Modo Padrão Ativado!");
           }}
