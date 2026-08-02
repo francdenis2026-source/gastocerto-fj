@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { History, Loader2, Settings2, Upload, User } from "lucide-react";
+import { ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useAvatarUrl, useInvalidateProfile, useProfile, useRoles } from "@/lib/queries";
 import { profileSchema, validateAvatarFile } from "@/lib/validation";
+import { ExternalCodesList, ExternalCodeCreator } from "./kids";
 
 
 export const Route = createFileRoute("/_authenticated/perfil")({
@@ -238,11 +239,16 @@ function ProfilePage() {
                   <Settings2 className="size-3.5" />
                   Configurações
                 </TabsTrigger>
+                <TabsTrigger value="external" className="rounded-lg text-xs gap-2">
+                  <ExternalLink className="size-3.5" />
+                  Acessos Externos
+                </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
                   <History className="size-3.5" />
                   Histórico
                 </TabsTrigger>
               </TabsList>
+
 
               <TabsContent value="profile" className="space-y-4 mt-0">
                 <form
@@ -345,7 +351,26 @@ function ProfilePage() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="external" className="mt-0 space-y-4">
+                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
+                  <div className="flex items-center justify-between border-b border-border/40 pb-2.5">
+                    <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
+                      <ExternalLink className="size-4 text-primary" aria-hidden /> Acessos Externos
+                    </h2>
+                    <ExternalCodeCreator />
+                  </div>
+                  <div className="rounded-xl border border-border bg-muted/20 p-3 text-[11px] text-muted-foreground">
+                    <p className="flex items-center gap-1.5 font-semibold text-foreground mb-1">
+                      <ShieldCheck className="size-3 text-primary" /> Segurança de Acesso
+                    </p>
+                    Crie links protegidos para terceiros visualizarem suas finanças sem registro.
+                  </div>
+                  <ExternalCodesList />
+                </div>
+              </TabsContent>
+
               <TabsContent value="audit" className="mt-0 space-y-4">
+
                 <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
                   <ProfileAuditPanel />
                   <RedemptionHistoryPanel />

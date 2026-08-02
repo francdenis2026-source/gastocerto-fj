@@ -157,8 +157,9 @@ function KidsAccessPage() {
           <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
         </h1>
         <p className="text-[13px] text-muted-foreground">
-          OS PAIS DEVEM SER CAPAZES DE VER AS INFORMAÇÕES DE SEUS FILHOS QUANDO GERENCIADOS NO ESPAÇO KIDS, FALTOU OPÇÕES PROS PAIS SABEREM OS GASTOS DO SEUS FILHOS. Aqui você cria o código, a senha e agora acompanha todas as movimentações financeiras em tempo real.
+          O CLIENTE DEVE TER UM PAINEL DEDICADO E PROFSSIONAL COM SUAS FERRAMENTAS PARA CONTROLAR SEU ESPAÇO, COMO POR EXXEMPLO, SABER SOBRE SEU PLANO, SUAS LICENSAS, TIPOS, GERAÇÃO DE CÓDIGOS DE ACESSO EXTERNO, INFORMAÇOES PESSOAIS ETC. Aqui você cria o código, a senha e agora acompanha todas as movimentações financeiras em tempo real.
         </p>
+
       </header>
 
       <section className="grid gap-3 sm:grid-cols-3">
@@ -354,26 +355,6 @@ function KidsAccessPage() {
         </p>
       </section>
 
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-sm font-bold text-foreground">
-            <ExternalLink className="size-4 text-primary" aria-hidden /> Acessos Externos (Adultos)
-          </h2>
-          <ExternalCodeCreator />
-        </div>
-        <div className="rounded-2xl border border-border bg-muted/20 p-4 text-[12px] text-muted-foreground">
-          <p className="flex items-center gap-2 font-semibold text-foreground mb-1">
-            <ShieldCheck className="size-3.5 text-primary" /> Como funciona o Acesso Externo
-          </p>
-          Crie links protegidos por senha para que outras pessoas (contadores, sócios ou cônjuges) visualizem
-          suas finanças sem precisar criar conta. Você controla a expiração e o que eles podem ver.
-        </div>
-        
-        <div className="grid gap-4 md:grid-cols-2">
-          <ExternalCodesList />
-          <NotificationPreferences userId={kids[0]?.user_id || ""} />
-        </div>
-      </section>
 
     </div>
 
@@ -1026,7 +1007,7 @@ function SessionManager({ dependentId }: { dependentId: string }) {
   );
 }
 
-function ExternalCodeCreator() {
+export function ExternalCodeCreator() {
   const queryClient = useQueryClient();
   const create = useServerFn(createExternalCode);
   const [open, setOpen] = useState(false);
@@ -1139,7 +1120,7 @@ function ExternalCodeCreator() {
   );
 }
 
-function ExternalCodesList() {
+export function ExternalCodesList() {
   const fetchCodes = useServerFn(listExternalCodes);
   const { data: codes, isLoading, refetch } = useQuery({
     queryKey: ["external-codes"],
