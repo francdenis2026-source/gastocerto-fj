@@ -390,17 +390,16 @@ function KidsAccessPage() {
                 ) : (
                   pixHistory.data.map((tx) => (
                     <tr key={tx.id} className="hover:bg-muted/30 transition-colors">
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-3 py-1.5 whitespace-nowrap">
                         {new Date(tx.created_at || new Date()).toLocaleString('pt-BR')}
                       </td>
-
-                      <td className="px-4 py-3 font-semibold">
+                      <td className="px-3 py-1.5 font-semibold truncate max-w-[80px]">
                         {tx.recipient?.name || tx.external_recipient_name || 'N/A'}
                       </td>
-                      <td className="px-4 py-3 font-bold text-primary">
+                      <td className="px-3 py-1.5 font-bold text-primary">
                         {formatCurrency(tx.amount)}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-1.5">
                         <Badge 
                           variant="outline" 
                           className={cn(
