@@ -1067,81 +1067,56 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </div>
           </div>
 
-          <div className="rounded-xl border border-border p-3">
-            <p className="flex items-center gap-2 text-[12px] font-bold">
-              <ShieldAlert className="size-3.5 text-primary" aria-hidden /> Segurança e Notificações
-            </p>
-            <div className="mt-2 space-y-2">
-              <label className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2.5">
-                <span className="min-w-0">
-                  <span className="block text-[11px] font-semibold">Notificar tentativas falhas</span>
-                  <span className="block text-[10px] text-muted-foreground">E-mail/push ao errar senha.</span>
-                </span>
-                <Switch 
-                  checked={Boolean((dependent as any).kids_security_notifications?.failed_login)}
-                  onCheckedChange={(val) => {
-                    const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
-                    void updateSettings({ data: { notifications: { ...current, failed_login: val } } }).then(() => refresh());
-                  }}
-                />
-              </label>
-              <label className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2.5">
-                <span className="min-w-0">
-                  <span className="block text-[11px] font-semibold">Novo dispositivo/IP</span>
-                  <span className="block text-[10px] text-muted-foreground">Aviso ao entrar de outro lugar.</span>
-                </span>
-                <Switch 
-                  checked={Boolean((dependent as any).kids_security_notifications?.new_session)}
-                  onCheckedChange={(val) => {
-                    const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
-                    void updateSettings({ data: { notifications: { ...current, new_session: val } } }).then(() => refresh());
-                  }}
-                />
-              </label>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-border p-3">
-            <div className="flex items-center justify-between mb-2">
-              <p className="flex items-center gap-2 text-[12px] font-bold">
-                <CalendarClock className="size-3.5 text-primary" aria-hidden /> Expiração e Upgrade Automático
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="rounded-xl border border-border p-2.5">
+              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                <ShieldAlert className="size-3 text-primary" aria-hidden /> Segurança
               </p>
-              <Badge variant="outline" className="text-[10px] bg-primary/5">
-                Limite: 14 anos
-              </Badge>
+              <div className="mt-2 space-y-1.5">
+                <label className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 px-2 py-1.5">
+                  <span className="text-[10px] font-semibold">Falhas no Login</span>
+                  <Switch 
+                    className="scale-50 origin-right"
+                    checked={Boolean((dependent as any).kids_security_notifications?.failed_login)}
+                    onCheckedChange={(val) => {
+                      const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
+                      void updateSettings({ data: { notifications: { ...current, failed_login: val } } }).then(() => refresh());
+                    }}
+                  />
+                </label>
+                <label className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 px-2 py-1.5">
+                  <span className="text-[10px] font-semibold">Novo Dispositivo</span>
+                  <Switch 
+                    className="scale-50 origin-right"
+                    checked={Boolean((dependent as any).kids_security_notifications?.new_session)}
+                    onCheckedChange={(val) => {
+                      const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
+                      void updateSettings({ data: { notifications: { ...current, new_session: val } } }).then(() => refresh());
+                    }}
+                  />
+                </label>
+              </div>
             </div>
-            <div className="grid gap-3">
-              <div className="rounded-lg bg-muted/40 p-2.5">
-                <Label className="text-[11px] font-semibold block mb-1.5">
-                  Tempo para Upgrade / Expiração Personalizada
-                </Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {KID_UPGRADE_OPTIONS.map((opt) => (
-                    <Button
-                      key={opt.value}
-                      variant={days === opt.value ? "default" : "outline"}
-                      size="sm"
-                      className="h-7 text-[10px] px-2.5"
-                      onClick={() => handleUpdateUpgrade(opt.value)}
-                    >
-                      {opt.label}
-                    </Button>
-                  ))}
-                  <div className="flex items-center gap-1.5 ml-auto">
-                    <Input
-                      type="number"
-                      className="h-7 w-16 text-[10px] px-2"
-                      value={days}
-                      onChange={(e) => setDays(Number(e.target.value))}
-                      onBlur={() => handleUpdateUpgrade(days)}
-                    />
-                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">dias</span>
-                  </div>
-                </div>
-                <p className="mt-2 text-[10px] text-muted-foreground italic leading-relaxed">
-                  Os pais podem definir tempos personalizados até o limite de upgrade automático (14 anos). 
-                  Pode ser de 30, 60, 90, 360 dias ou personalizado.
+
+            <div className="rounded-xl border border-border p-2.5">
+              <div className="flex items-center justify-between mb-1.5">
+                <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <CalendarClock className="size-3 text-primary" aria-hidden /> Upgrade
                 </p>
+                <Badge variant="outline" className="text-[8px] h-4 px-1.5 bg-primary/5">14 anos</Badge>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {KID_UPGRADE_OPTIONS.slice(0, 4).map((opt) => (
+                  <Button
+                    key={opt.value}
+                    variant={days === opt.value ? "default" : "outline"}
+                    size="sm"
+                    className="h-6 text-[9px] px-2"
+                    onClick={() => handleUpdateUpgrade(opt.value)}
+                  >
+                    {opt.label}
+                  </Button>
+                ))}
               </div>
             </div>
           </div>
