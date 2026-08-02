@@ -346,11 +346,22 @@ export function DependentExpenseDialog({
               </div>
             </div>
           ) : !selected ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
+              <div className="rounded-xl bg-primary/5 p-4 border border-primary/20">
+                <h4 className="text-sm font-bold text-primary flex items-center gap-2 mb-2">
+                  <Target className="size-4" />
+                  Como usar o Modo Kids?
+                </h4>
+                <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
+                  <li>Vá em <span className="font-bold">Meus Cadastros</span> e crie um perfil para seu filho.</li>
+                  <li>Defina um <span className="font-bold text-primary">PIN de 4 dígitos</span> no cadastro dele.</li>
+                  <li>Volte aqui, clique no nome dele e peça para ele digitar o PIN!</li>
+                </ol>
+              </div>
+
               {active.length === 0 ? (
                 <p className="rounded-xl border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
-                  Nenhum dependente cadastrado ainda. Cadastre seus filhos para separar os gastos
-                  de cada um.
+                  Nenhum dependente cadastrado ainda. Cadastre seus filhos para começar a usar o Espaço Kids.
                 </p>
               ) : (
                 <div className="grid gap-2 sm:grid-cols-2">
