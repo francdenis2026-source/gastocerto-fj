@@ -252,81 +252,83 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex max-h-full flex-col overflow-y-auto px-5 py-5 sm:px-6">
+        <section className="flex max-h-full flex-col px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
             <Link to="/" className="w-fit">
               <Logo />
             </Link>
           </div>
 
-          {mode === "forgot" ? (
-            <ForgotPasswordForm onBack={() => setMode("login")} />
-          ) : mode === "admin" ? (
-            <AdminSignInForm onBack={() => setMode("login")} />
-          ) : mode === "external" ? (
-            <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
-          ) : (
-            <Tabs
-              value={mode}
-              onValueChange={(value) => setMode(value as Mode)}
-              className="relative"
-            >
-              <TabsList className="grid h-11 w-full grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
-                <TabsTrigger
-                  value="login"
-                  aria-label="Acessar conta existente"
-                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
-                >
-                  <KeyRound className="size-3.5" aria-hidden />
-                  Entrar
-                
-                </TabsTrigger>
-                <TabsTrigger
-                  value="signup"
-                  aria-label="Criar nova conta"
-                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
-                >
-                  <UserPlus className="size-3.5" aria-hidden />
-                  Criar conta
-                
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="login" className="mt-4">
-                <CpfSignInForm
-                  onForgot={() => setMode("forgot")}
-                  onAdmin={() => setMode("admin")}
-                />
-                <button
-                  type="button"
-                  onClick={() => setMode("kid")}
-                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-[12px] font-bold text-primary transition hover:bg-primary/10"
-                >
-                  <Baby className="size-4" aria-hidden />
-                  Sou criança — entrar com meu código
-                </button>
-                <CodeAccessInline onContinue={() => setMode("signup")} />
-                <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
-                  <p className="text-[11px] font-medium text-muted-foreground">
-                    Alterne entre <strong>Entrar</strong> e <strong>Criar conta</strong> acima para ver as opções disponíveis.
-                  </p>
-                </div>
-              </TabsContent>
-              <TabsContent value="signup" className="mt-4">
-                <CpfSignUpForm onDone={() => setMode("login")} />
-                <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] text-muted-foreground">
-                  Já tem conta?{" "}
-                  <button
-                    type="button"
-                    onClick={() => setMode("login")}
-                    className="font-semibold text-primary underline underline-offset-2"
+          <div className="flex-1 overflow-y-auto pr-1">
+            {mode === "forgot" ? (
+              <ForgotPasswordForm onBack={() => setMode("login")} />
+            ) : mode === "admin" ? (
+              <AdminSignInForm onBack={() => setMode("login")} />
+            ) : mode === "external" ? (
+              <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
+            ) : (
+              <Tabs
+                value={mode}
+                onValueChange={(value) => setMode(value as Mode)}
+                className="relative flex flex-col min-h-[440px]"
+              >
+                <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
+                  <TabsTrigger
+                    value="login"
+                    aria-label="Acessar conta existente"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
                   >
-                    Voltar para Entrar
-                  </button>
-                </p>
-              </TabsContent>
-            </Tabs>
-          )}
+                    <KeyRound className="size-3.5" aria-hidden />
+                    Entrar
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="signup"
+                    aria-label="Criar nova conta"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
+                  >
+                    <UserPlus className="size-3.5" aria-hidden />
+                    Criar conta
+                  </TabsTrigger>
+                </TabsList>
+
+                <div className="flex-1 mt-4">
+                  <TabsContent value="login" className="m-0 focus-visible:outline-none">
+                    <CpfSignInForm
+                      onForgot={() => setMode("forgot")}
+                      onAdmin={() => setMode("admin")}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setMode("kid")}
+                      className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-[12px] font-bold text-primary transition hover:bg-primary/10"
+                    >
+                      <Baby className="size-4" aria-hidden />
+                      Sou criança — entrar com meu código
+                    </button>
+                    <CodeAccessInline onContinue={() => setMode("signup")} />
+                    <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
+                      <p className="text-[11px] font-medium text-muted-foreground">
+                        Alterne entre <strong>Entrar</strong> e <strong>Criar conta</strong> acima para ver as opções disponíveis.
+                      </p>
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="signup" className="m-0 focus-visible:outline-none">
+                    <CpfSignUpForm onDone={() => setMode("login")} />
+                    <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] text-muted-foreground">
+                      Já tem conta?{" "}
+                      <button
+                        type="button"
+                        onClick={() => setMode("login")}
+                        className="font-semibold text-primary underline underline-offset-2"
+                      >
+                        Voltar para Entrar
+                      </button>
+                    </p>
+                  </TabsContent>
+                </div>
+              </Tabs>
+            )}
+          </div>
 
           <p className="mt-4 text-center text-[10px] text-muted-foreground">
             <button
