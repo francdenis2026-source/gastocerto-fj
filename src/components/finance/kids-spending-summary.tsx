@@ -250,16 +250,51 @@ export function KidsSpendingSummary() {
         </div>
       </div>
 
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:justify-between">
+        <p className="min-w-0 text-[12px] text-muted-foreground">
+          As exportações usam exatamente os filtros selecionados acima.
+        </p>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[11px] font-semibold"
+            onClick={handleCsv}
+            aria-label={`Exportar resumo de ${exportFilters.kidName} em CSV`}
+          >
+            <FileDown className="size-3.5" aria-hidden /> CSV
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[11px] font-semibold"
+            onClick={handlePdf}
+            disabled={exporting}
+            aria-label={`Exportar resumo de ${exportFilters.kidName} em PDF`}
+          >
+            {exporting ? (
+              <Loader2 className="size-3.5 animate-spin" aria-hidden />
+            ) : (
+              <FileText className="size-3.5" aria-hidden />
+            )}
+            PDF
+          </Button>
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-border bg-card">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border p-3">
-          <p className="flex items-center gap-1.5 text-[13px] font-bold text-foreground">
-            <Baby className="size-4 text-primary" aria-hidden />
-            {selectedKid?.name ?? "Criança"} · movimentações
-          </p>
-          <Badge variant="outline" className="text-[10px]">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-border p-3 sm:flex sm:justify-between">
+          <h3 className="flex min-w-0 items-center gap-1.5 text-[13px] font-bold text-foreground">
+            <Baby className="size-4 shrink-0 text-primary" aria-hidden />
+            <span className="truncate">{selectedKid?.name ?? "Criança"} · movimentações</span>
+          </h3>
+          <Badge variant="outline" className="shrink-0 text-[11px] text-foreground">
             {totals.count} registro(s)
           </Badge>
         </div>
+
         {isLoading ? (
           <div className="flex justify-center p-6" role="status" aria-live="polite">
             <Loader2 className="size-4 animate-spin text-muted-foreground" />
