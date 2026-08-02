@@ -72,7 +72,14 @@ function AuthPage() {
   const navigate = useNavigate();
   const { session, loading } = useAuth();
   const [mode, setMode] = useState<Mode>(
-    search.external ? "external" : search.kid ? "kid" : search.mode === "signup" ? "signup" : "login",
+    search.external
+      ? "external"
+      : search.kid || search.mode === "kid"
+        ? "kid"
+        : search.mode
+          ? search.mode
+          : "login",
+
   );
 
   const [pendingCode, setPendingCode] = useState<string | null>(null);
