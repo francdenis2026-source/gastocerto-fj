@@ -164,12 +164,13 @@ function KidsAccessPage() {
     
     const headers = ['Data', 'Destinatário', 'Valor', 'Status', 'Descrição'];
     const rows = pixHistory.data.map(tx => [
-      new Date(tx.created_at).toLocaleString('pt-BR'),
-      tx.recipient?.name || tx.external_recipient_name || 'N/A',
-      formatCurrency(tx.amount),
-      tx.status === 'approved' ? 'Aprovado' : tx.status === 'pending' ? 'Pendente' : 'Falhou',
-      tx.description || ''
+      String(new Date(tx.created_at).toLocaleString('pt-BR')),
+      String(tx.recipient?.name || tx.external_recipient_name || 'N/A'),
+      String(formatCurrency(tx.amount)),
+      String(tx.status === 'approved' ? 'Aprovado' : tx.status === 'pending' ? 'Pendente' : 'Falhou'),
+      String(tx.description || '')
     ]);
+
 
     if (format === 'csv') {
       const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
@@ -495,7 +496,7 @@ function KidsAccessPage() {
 
             const data = (audit.data ?? []).map(row => ({
               Data: new Date(row.created_at).toLocaleString('pt-BR'),
-              Acao: KID_ACCESS_ACTION_LABELS[row.action] || row.action,
+              Acao: KID_ACCESS_ACTION_LABELS[row.action as keyof typeof KID_ACCESS_ACTION_LABELS] || row.action,
               Dependente: row.dependent_name || '-',
               Codigo: row.code || '-'
             }));
@@ -503,6 +504,7 @@ function KidsAccessPage() {
               ['Data', 'Ação', 'Dependente', 'Código'],
               ...data.map(r => [String(r.Data), String(r.Acao), String(r.Dependente), String(r.Codigo)])
             ].map(e => e.join(",")).join("\n");
+
 
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
