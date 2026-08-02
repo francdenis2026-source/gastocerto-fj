@@ -82,18 +82,26 @@ export function ProfileAuditPanel() {
 
   return (
     <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden">
-      <div className="flex items-center justify-between border-b p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b p-4">
         <div className="flex items-center gap-2">
           <Shield className="size-4 text-primary" />
-          <h3 className="font-display font-semibold">Auditoria de Perfil</h3>
+          <h3 className="font-display font-semibold">Auditoria de perfil</h3>
         </div>
-        {suspiciousActivity.length > 0 && (
-          <Badge variant="destructive" className="animate-pulse">
-            <AlertOctagon className="size-3 mr-1" />
-            Atividade Suspeita
-          </Badge>
-        )}
+        <div className="flex items-center gap-2">
+          {suspiciousActivity.length > 0 && (
+            <Badge variant="destructive" className="animate-pulse">
+              <AlertOctagon className="size-3 mr-1" />
+              Atividade suspeita
+            </Badge>
+          )}
+          <ClearHistoryButton
+            table="profile_audit_logs"
+            label="a auditoria de perfil"
+            onCleared={fetchLogs}
+          />
+        </div>
       </div>
+
 
       <div className="p-3 border-b bg-muted/20 space-y-3">
         <div className="relative">
