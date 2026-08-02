@@ -64,6 +64,7 @@ import {
   updateKidUpgradeConfig,
   updateKidNotificationPrefs,
 } from "@/lib/kids-account.functions";
+import { getKidTransactions } from "@/lib/kids-transactions.functions";
 import {
   createExternalCode,
   listExternalCodes,
