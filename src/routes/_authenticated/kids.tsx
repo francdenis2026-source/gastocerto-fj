@@ -869,18 +869,63 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        
+
+                        // Validação básica de tamanho (limite de 2MB para evitar erros de timeout/memória no worker)
+                        if (file.size > 2 * 1024 * 1024) {
+                          toast.error("A imagem é muito grande. Escolha uma foto com menos de 2MB.");
+                          if (e.target) e.target.value = '';
+                          return;
+                        }
+
                         setUploading(true);
                         let retries = 2;
-                        
+
+                        // Função para redimensionar/comprimir imagem no navegador antes do upload
+                        const processImage = async (imgFile: File): Promise<Blob> => {
+                          return new Promise((resolve, reject) => {
+                            const img = new Image();
+                            img.src = URL.createObjectURL(imgFile);
+                            img.onload = () => {
+                              const canvas = document.createElement('canvas');
+                              let width = img.width;
+                              let height = img.height;
+                              
+                              // Limitar resolução a no máximo 500px (ideal para avatares)
+                              const MAX_SIZE = 500;
+                              if (width > height) {
+                                if (width > MAX_SIZE) {
+                                  height *= MAX_SIZE / width;
+                                  width = MAX_SIZE;
+                                }
+                              } else {
+                                if (height > MAX_SIZE) {
+                                  width *= MAX_SIZE / height;
+                                  height = MAX_SIZE;
+                                }
+                              }
+                              
+                              canvas.width = width;
+                              canvas.height = height;
+                              const ctx = canvas.getContext('2d');
+                              ctx?.drawImage(img, 0, 0, width, height);
+                              
+                              canvas.toBlob((blob) => {
+                                if (blob) resolve(blob);
+                                else reject(new Error("Falha ao processar imagem"));
+                              }, 'image/jpeg', 0.8); // 80% qualidade
+                            };
+                            img.onerror = () => reject(new Error("Erro ao carregar imagem"));
+                          });
+                        };
+
                         const uploadFile = async () => {
-                          const fileExt = file.name.split('.').pop();
-                          const path = `dependents/${dependent.id}/${Date.now()}.${fileExt}`;
+                          const processedBlob = await processImage(file);
+                          const path = `dependents/${dependent.id}/${Date.now()}.jpg`;
                           
-                          const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, {
-                            cacheControl: '0',
+                          const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, processedBlob, {
+                            cacheControl: '3600',
                             upsert: true,
-                            contentType: file.type || 'image/jpeg'
+                            contentType: 'image/jpeg'
                           });
                           
                           if (uploadErr) throw uploadErr;
@@ -894,17 +939,17 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                         const attempt = async () => {
                           try {
                             await uploadFile();
-                            toast.success("Foto atualizada com sucesso!");
+                            toast.success("Foto do avatar atualizada!");
                             refresh();
                           } catch (err: any) {
+                            console.error("Upload attempt failed:", err);
                             if (retries > 0) {
                               retries--;
-                              toast.loading(`Erro na conexão com o servidor de imagens. Tentando novamente (${2 - retries}/2)...`);
+                              toast.loading(`Ajustando imagem e tentando novamente (${2 - retries}/2)...`);
                               await new Promise(resolve => setTimeout(resolve, 2000));
                               return attempt();
                             } else {
-                              console.error("Upload failed after retries:", err);
-                              toast.error("Erro persistente ao subir imagem. Verifique sua internet ou tente uma foto menor.");
+                              toast.error("Não foi possível subir a imagem. Tente outra foto ou verifique sua internet.");
                             }
                           } finally {
                             if (retries === 0) {
