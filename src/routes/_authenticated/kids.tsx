@@ -246,17 +246,6 @@ function KidsAccessPage() {
       </header>
 
 
-      <section className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-            <KeyRound className="size-3.5 text-primary" aria-hidden /> Códigos ativos
-          </p>
-          <p className="mt-1 text-2xl font-extrabold">{summary.active}</p>
-          <p className="text-[11px] text-muted-foreground">
-            {summary.total === 0
-              ? "Nenhum acesso liberado ainda."
-              : `${summary.total} código(s) criado(s) no total.`}
-          </p>
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         <div className="rounded-xl border border-border bg-card p-2">
           <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
@@ -282,31 +271,9 @@ function KidsAccessPage() {
         </div>
         <div className="rounded-xl border border-border bg-card p-2">
           <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-            <ShieldCheck className="size-3 text-primary" aria-hidden /> Bloqueio
+            <ShieldCheck className="size-3 text-primary" aria-hidden /> Segurança
           </p>
           <p className="mt-0.5 text-[11px] font-bold truncate">{KID_MAX_ATTEMPTS} tent. / {KID_LOCK_MINUTES} min</p>
-        </div>
-      </section>
-
-
-      <section className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
-          <p className="flex items-center gap-2 font-bold text-foreground">
-            <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção e Futuro do Login
-          </p>
-          <p className="mt-1">
-            Após {KID_MAX_ATTEMPTS} tentativas erradas, o acesso trava por {KID_LOCK_MINUTES} min.
-            <strong> Upgrade:</strong> Aos 14 anos, a conta torna-se independente automaticamente.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-[12px] text-emerald-700 dark:text-emerald-400">
-          <p className="flex items-center gap-2 font-bold">
-            <TrendingUp className="size-4" aria-hidden /> Monitoramento Parental
-          </p>
-          <p className="mt-1">
-            Agora você pode ver todos os gastos e ganhos de cada criança diretamente nos cards abaixo.
-            Controle total sobre a educação financeira dos seus filhos.
-          </p>
         </div>
       </section>
 
