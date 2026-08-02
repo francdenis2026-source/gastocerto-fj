@@ -366,27 +366,35 @@ export function CompactOverview() {
                   </div>
                   <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
                     {group.items.map((item, itemIndex) => (
-                      <div
+                      <FeatureDetailDialog
                         key={item.title}
-                        className={
-                          itemIndex > 1
-                            ? "interactive-card group hidden min-w-0 gap-2.5 rounded-xl border border-border/70 bg-background/60 p-2.5 sm:flex"
-                            : "interactive-card group flex min-w-0 gap-2.5 rounded-xl border border-border/70 bg-background/60 p-2.5"
-                        }
+                        feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
-                          <item.icon className="size-4" aria-hidden="true" />
-                        </span>
-                        <div className="min-w-0">
-                          <div className="flex min-w-0 items-center gap-1.5">
-                            <p className="truncate text-sm font-semibold">{item.title}</p>
-                            <span className="shrink-0 rounded-full border border-border bg-secondary/60 px-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
-                              {item.tag}
+                        <button
+                          type="button"
+                          className={
+                            itemIndex > 1
+                              ? "interactive-card group hidden min-w-0 gap-2.5 rounded-xl border border-border/70 bg-background/60 p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex"
+                              : "interactive-card group flex min-w-0 gap-2.5 rounded-xl border border-border/70 bg-background/60 p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                          }
+                        >
+                          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
+                            <item.icon className="size-4" aria-hidden="true" />
+                          </span>
+                          <div className="min-w-0">
+                            <div className="flex min-w-0 items-center gap-1.5">
+                              <p className="truncate text-sm font-semibold">{item.title}</p>
+                              <span className="shrink-0 rounded-full border border-border bg-secondary/60 px-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
+                                {item.tag}
+                              </span>
+                            </div>
+                            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{item.text}</p>
+                            <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                              Ver detalhes
                             </span>
                           </div>
-                          <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{item.text}</p>
-                        </div>
-                      </div>
+                        </button>
+                      </FeatureDetailDialog>
                     ))}
                   </div>
                 </Reveal>
