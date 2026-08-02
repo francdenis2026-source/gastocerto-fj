@@ -1222,12 +1222,12 @@ function SessionManager({ dependentId }: { dependentId: string }) {
   if (loading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
 
   return (
-    <div className="mt-2 space-y-2">
+    <div className="mt-1 space-y-1">
       {sessions.length === 0 ? (
         <p className="py-2 text-center text-[10px] text-muted-foreground">Nenhuma sessão ativa.</p>
       ) : (
         sessions.map((s) => (
-          <div key={s.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 p-2 text-[11px]">
+          <div key={s.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/20 p-1.5 text-[10px]">
             <div className="min-w-0">
               <p className="truncate font-semibold text-foreground">
                 {s.ip_address || "IP oculto"} {s.status === "blocked" && <Badge variant="destructive" className="ml-1 scale-75 h-4 px-1">Bloqueado</Badge>}
