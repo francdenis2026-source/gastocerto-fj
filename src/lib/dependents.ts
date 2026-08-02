@@ -13,6 +13,7 @@ export type Dependent = Tables<"dependents"> & {
   kid_login_code?: string | null;
   kid_user_id?: string | null;
   kid_code_expires_at?: string | null;
+  kid_visibility?: unknown;
 };
 
 

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { AlertCircle, Baby, KeyRound, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -25,6 +26,8 @@ import {
   kidPassword,
   normalizeKidCode,
 } from "@/lib/kids-account";
+import { checkKidLock, registerKidAttempt } from "@/lib/kids-account.functions";
+import { kidLockMessage, kidRemainingMessage } from "@/lib/kids-login-guard";
 import {
   cpfSignInSchema,
   cpfSignUpSchema,
@@ -34,6 +37,7 @@ import {
 
 const searchSchema = z.object({
   mode: z.enum(["login", "signup"]).optional(),
+  kid: z.string().optional(),
 });
 
 export const Route = createFileRoute("/auth")({
@@ -63,7 +67,9 @@ function AuthPage() {
   const search = useSearch({ from: "/auth" });
   const navigate = useNavigate();
   const { session, loading } = useAuth();
-  const [mode, setMode] = useState<Mode>(search.mode === "signup" ? "signup" : "login");
+  const [mode, setMode] = useState<Mode>(
+    search.kid ? "kid" : search.mode === "signup" ? "signup" : "login",
+  );
   const [pendingCode, setPendingCode] = useState<string | null>(null);
 
   useEffect(() => {
@@ -170,7 +176,7 @@ function AuthPage() {
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
             ) : mode === "kid" ? (
-              <KidSignInForm onBack={() => setMode("login")} />
+              <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
             ) : (
               <Tabs 
                 value={mode} 
@@ -503,12 +509,22 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
  * Entrada independente da criança: código definido pelo responsável + senha
  * numérica. Não pede CPF nem e-mail e vai direto para o painel infantil.
  */
-function KidSignInForm({ onBack }: { onBack: () => void }) {
+function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initialCode?: string }) {
   const navigate = useNavigate();
-  const [code, setCode] = useState("");
+  const checkLock = useServerFn(checkKidLock);
+  const registerAttempt = useServerFn(registerKidAttempt);
+  const [code, setCode] = useState(normalizeKidCode(initialCode));
   const [pin, setPin] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [lockSeconds, setLockSeconds] = useState(0);
+
+  // Conta o tempo restante do bloqueio temporário.
+  useEffect(() => {
+    if (lockSeconds <= 0) return;
+    const timer = setInterval(() => setLockSeconds((value) => Math.max(0, value - 1)), 1000);
+    return () => clearInterval(timer);
+  }, [lockSeconds]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -520,14 +536,37 @@ function KidSignInForm({ onBack }: { onBack: () => void }) {
 
     setFormError(null);
     setLoading(true);
+
+    try {
+      const lock = await checkLock({ data: { code: cleanCode } });
+      if (lock.locked) {
+        setLockSeconds(lock.secondsLeft);
+        setFormError(kidLockMessage(lock.secondsLeft));
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // Se a checagem falhar, seguimos com o login normal.
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email: kidCodeToEmail(cleanCode),
       password: kidPassword(cleanCode, pin),
     });
+
+    let status: { locked: boolean; secondsLeft: number; remaining: number } | null = null;
+    try {
+      status = await registerAttempt({ data: { code: cleanCode, success: !error } });
+    } catch {
+      status = null;
+    }
     setLoading(false);
 
     if (error) {
-      const message = "Código ou senha incorretos. Peça ajuda ao seu responsável.";
+      const message = status?.locked
+        ? kidLockMessage(status.secondsLeft)
+        : kidRemainingMessage(status?.remaining ?? 0);
+      if (status?.locked) setLockSeconds(status.secondsLeft);
       setFormError(message);
       toast.error(message);
       return;
@@ -566,7 +605,16 @@ function KidSignInForm({ onBack }: { onBack: () => void }) {
           className="mt-1.5 tracking-[0.4em]"
         />
       </div>
-      <Button type="submit" className="w-full h-12 text-base font-bold shadow-soft" disabled={loading}>
+      {lockSeconds > 0 ? (
+        <p className="rounded-xl bg-destructive/10 p-2.5 text-center text-[12px] font-semibold text-destructive">
+          Bloqueado por {Math.floor(lockSeconds / 60)}:{String(lockSeconds % 60).padStart(2, "0")}
+        </p>
+      ) : null}
+      <Button
+        type="submit"
+        className="w-full h-12 text-base font-bold shadow-soft"
+        disabled={loading || lockSeconds > 0}
+      >
         {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
         Entrar no meu espaço
       </Button>

@@ -29,6 +29,7 @@ import { Route as AuthenticatedDiarioRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedEnergiaRouteImport } from './routes/_authenticated/energia'
 import { Route as AuthenticatedFechamentoRouteImport } from './routes/_authenticated/fechamento'
 import { Route as AuthenticatedGasRouteImport } from './routes/_authenticated/gas'
+import { Route as AuthenticatedKidsRouteImport } from './routes/_authenticated/kids'
 import { Route as AuthenticatedKidsAuditoriaRouteImport } from './routes/_authenticated/kids-auditoria'
 import { Route as AuthenticatedLancamentosRouteImport } from './routes/_authenticated/lancamentos'
 import { Route as AuthenticatedMetasRouteImport } from './routes/_authenticated/metas'
@@ -150,6 +151,11 @@ const AuthenticatedFechamentoRoute = AuthenticatedFechamentoRouteImport.update({
 const AuthenticatedGasRoute = AuthenticatedGasRouteImport.update({
   id: '/gas',
   path: '/gas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedKidsRoute = AuthenticatedKidsRouteImport.update({
+  id: '/kids',
+  path: '/kids',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedKidsAuditoriaRoute =
@@ -281,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/energia': typeof AuthenticatedEnergiaRoute
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/gas': typeof AuthenticatedGasRoute
+  '/kids': typeof AuthenticatedKidsRoute
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/lancamentos': typeof AuthenticatedLancamentosRoute
   '/metas': typeof AuthenticatedMetasRoute
@@ -322,6 +329,7 @@ export interface FileRoutesByTo {
   '/energia': typeof AuthenticatedEnergiaRoute
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/gas': typeof AuthenticatedGasRoute
+  '/kids': typeof AuthenticatedKidsRoute
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/lancamentos': typeof AuthenticatedLancamentosRoute
   '/metas': typeof AuthenticatedMetasRoute
@@ -365,6 +373,7 @@ export interface FileRoutesById {
   '/_authenticated/energia': typeof AuthenticatedEnergiaRoute
   '/_authenticated/fechamento': typeof AuthenticatedFechamentoRoute
   '/_authenticated/gas': typeof AuthenticatedGasRoute
+  '/_authenticated/kids': typeof AuthenticatedKidsRoute
   '/_authenticated/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/_authenticated/lancamentos': typeof AuthenticatedLancamentosRoute
   '/_authenticated/metas': typeof AuthenticatedMetasRoute
@@ -408,6 +417,7 @@ export interface FileRouteTypes {
     | '/energia'
     | '/fechamento'
     | '/gas'
+    | '/kids'
     | '/kids-auditoria'
     | '/lancamentos'
     | '/metas'
@@ -449,6 +459,7 @@ export interface FileRouteTypes {
     | '/energia'
     | '/fechamento'
     | '/gas'
+    | '/kids'
     | '/kids-auditoria'
     | '/lancamentos'
     | '/metas'
@@ -491,6 +502,7 @@ export interface FileRouteTypes {
     | '/_authenticated/energia'
     | '/_authenticated/fechamento'
     | '/_authenticated/gas'
+    | '/_authenticated/kids'
     | '/_authenticated/kids-auditoria'
     | '/_authenticated/lancamentos'
     | '/_authenticated/metas'
@@ -668,6 +680,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/kids': {
+      id: '/_authenticated/kids'
+      path: '/kids'
+      fullPath: '/kids'
+      preLoaderRoute: typeof AuthenticatedKidsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/kids-auditoria': {
       id: '/_authenticated/kids-auditoria'
       path: '/kids-auditoria'
@@ -825,6 +844,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEnergiaRoute: typeof AuthenticatedEnergiaRoute
   AuthenticatedFechamentoRoute: typeof AuthenticatedFechamentoRoute
   AuthenticatedGasRoute: typeof AuthenticatedGasRoute
+  AuthenticatedKidsRoute: typeof AuthenticatedKidsRoute
   AuthenticatedKidsAuditoriaRoute: typeof AuthenticatedKidsAuditoriaRoute
   AuthenticatedLancamentosRoute: typeof AuthenticatedLancamentosRoute
   AuthenticatedMetasRoute: typeof AuthenticatedMetasRoute
@@ -858,6 +878,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEnergiaRoute: AuthenticatedEnergiaRoute,
   AuthenticatedFechamentoRoute: AuthenticatedFechamentoRoute,
   AuthenticatedGasRoute: AuthenticatedGasRoute,
+  AuthenticatedKidsRoute: AuthenticatedKidsRoute,
   AuthenticatedKidsAuditoriaRoute: AuthenticatedKidsAuditoriaRoute,
   AuthenticatedLancamentosRoute: AuthenticatedLancamentosRoute,
   AuthenticatedMetasRoute: AuthenticatedMetasRoute,
