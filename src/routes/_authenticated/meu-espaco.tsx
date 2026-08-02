@@ -383,7 +383,7 @@ function KidSiblingAvatars({ dependentId }: { dependentId: string }) {
 
   return (
     <div className="flex -space-x-2 overflow-hidden">
-      {siblings.map((sibling) => (
+      {siblings.map((sibling: Dependent) => (
         <div
           key={sibling.id}
           title={sibling.name}
