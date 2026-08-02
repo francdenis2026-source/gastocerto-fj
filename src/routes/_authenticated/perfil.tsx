@@ -231,29 +231,48 @@ function ProfilePage() {
 
           {/* Coluna direita: dados, plano e licenças */}
           <div className="min-w-0">
-            <Tabs defaultValue="profile" className="w-full space-y-4">
+            <nav aria-label="Atalhos do painel do cliente" className="mb-3">
+              <ul className="flex flex-wrap gap-2">
+                {SHORTCUTS.map((shortcut) => (
+                  <li key={shortcut.id}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 rounded-xl text-[11px] font-semibold"
+                      onClick={() => jumpTo(shortcut.tab, shortcut.anchor)}
+                    >
+                      {shortcut.label}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <Tabs value={tab} onValueChange={setTab} className="w-full space-y-4">
               <TabsList className="bg-card border border-border rounded-xl p-1 h-11 w-full justify-start overflow-x-auto no-scrollbar">
                 <TabsTrigger value="profile" className="rounded-lg text-xs gap-2">
-                  <User className="size-3.5" />
+                  <User className="size-3.5" aria-hidden />
                   Perfil
                 </TabsTrigger>
                 <TabsTrigger value="settings" className="rounded-lg text-xs gap-2">
-                  <Settings2 className="size-3.5" />
+                  <Settings2 className="size-3.5" aria-hidden />
                   Configurações
                 </TabsTrigger>
                 <TabsTrigger value="external" className="rounded-lg text-xs gap-2">
-                  <ExternalLink className="size-3.5" />
-                  Acessos Externos
+                  <ExternalLink className="size-3.5" aria-hidden />
+                  Acessos externos
                 </TabsTrigger>
                 <TabsTrigger value="kids" className="rounded-lg text-xs gap-2">
-                  <Baby className="size-3.5" />
+                  <Baby className="size-3.5" aria-hidden />
                   Gastos das crianças
                 </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
-                  <History className="size-3.5" />
+                  <History className="size-3.5" aria-hidden />
                   Histórico
                 </TabsTrigger>
               </TabsList>
+
 
 
 
