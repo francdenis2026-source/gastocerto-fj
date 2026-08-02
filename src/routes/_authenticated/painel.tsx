@@ -969,15 +969,6 @@ function DashboardPage() {
               </ChartCard>
             </section>
 
-            {hasFeature(access, "debt_advisor") && (
-
-              <section className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-bold">Consultoria de Dívidas</h2>
-                </div>
-                <DebtAdvisorPanel />
-              </section>
-            )}
 
             <InsightsPanel year={period.year} month={period.month} />
 
