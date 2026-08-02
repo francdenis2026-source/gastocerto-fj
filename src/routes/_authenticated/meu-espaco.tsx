@@ -258,6 +258,7 @@ function KidSpacePage() {
             </ul>
           )}
         </section>
+        ) : null}
       </div>
 
       <KidEntryDialog
