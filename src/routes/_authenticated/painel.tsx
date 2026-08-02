@@ -111,6 +111,9 @@ export const Route = createFileRoute("/_authenticated/painel")({
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const search = useSearch({ from: "/_authenticated/painel" });
+  const queryClient = useQueryClient();
+
   const today = new Date();
   const { year: storedYear, month: storedMonth, setPeriod: setStoredPeriod, reset } = usePeriodStore();
   const [period, setPeriod] = useState({ year: storedYear, month: storedMonth });
