@@ -50,7 +50,7 @@ import { cn } from "@/lib/utils";
 
 
 type Kind = "expense" | "income";
-type NavChild = { key: string; label: string; to: string };
+type NavChild = { key: string; label: string; to: string; highlight?: boolean };
 type NavGroup = {
   key: string;
   label: string;
@@ -126,7 +126,12 @@ export const navGroups: NavGroup[] = [
     icon: HelpCircle,
     children: [
       { key: "support.help", label: "Central de Ajuda", to: "/ajuda" },
-      { key: "support.kids", label: "Espaço Kids (acessos)", to: "/kids" },
+      {
+        key: "support.kids",
+        label: "Espaço Kids — códigos e acessos",
+        to: "/kids",
+        highlight: true,
+      },
       { key: "support.kidsaudit", label: "Auditoria Kids", to: "/kids-auditoria" },
       { key: "support.calendar", label: "Agenda e Alertas", to: "/calendario" },
     ],
