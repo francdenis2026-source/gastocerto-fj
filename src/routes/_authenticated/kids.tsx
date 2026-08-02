@@ -229,7 +229,7 @@ function KidsAccessPage() {
 
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
+    <div className="mx-auto w-full max-w-5xl space-y-4 px-3 py-4 sm:px-6">
       <header className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
@@ -846,20 +846,20 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
           )}
         </div>
       </header>
-      <div className="p-4 sm:p-5">
-        <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
+      <div className="p-3 sm:p-4">
+        <div className="grid gap-4 lg:grid-cols-[1fr_220px]">
           <div className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 rounded-xl border border-border/60 bg-primary/5 p-4">
-              <div className="space-y-2">
-                <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Identidade Visual</Label>
-                <div className="flex items-center gap-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-xl border border-border/60 bg-primary/5 p-3">
+              <div className="space-y-1.5">
+                <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Identidade Visual</Label>
+                <div className="flex items-center gap-2">
                   <Select
                     value={(dependent as any).gender || 'other'}
                     onValueChange={(val) => {
                       void supabase.from('dependents').update({ gender: val }).eq('id', dependent.id).then(() => refresh());
                     }}
                   >
-                    <SelectTrigger className="h-9 text-xs">
+                    <SelectTrigger className="h-8 text-[11px]">
                       <SelectValue placeholder="Gênero" />
                     </SelectTrigger>
                     <SelectContent>
@@ -869,26 +869,43 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     </SelectContent>
                   </Select>
                   
-                <div className="relative">
-                  <Button variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => fileInputRef.current?.click()}>
-                    <Upload className="size-4" />
-                  </Button>
-                  <input 
-                    type="file" 
-                    className="hidden" 
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      const path = `dependents/${dependent.id}/${Date.now()}-${file.name}`;
-                      const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file);
-                      if (uploadErr) return toast.error("Erro ao subir imagem");
-                      await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
-                      toast.success("Foto atualizada!");
-                      refresh();
-                    }}
-                    ref={fileInputRef}
-                  />
+                  <div className="relative">
+                    <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => fileInputRef.current?.click()}>
+                      <Upload className="size-3.5" />
+                    </Button>
+                    <input 
+                      type="file" 
+                      className="hidden" 
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setBusy(true);
+                        try {
+                          const fileExt = file.name.split('.').pop();
+                          const path = `dependents/${dependent.id}/${Date.now()}.${fileExt}`;
+                          const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, {
+                            cacheControl: '3600',
+                            upsert: true
+                          });
+                          if (uploadErr) throw uploadErr;
+                          const { error: updateErr } = await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
+                          if (updateErr) throw updateErr;
+                          toast.success("Foto atualizada!");
+                          refresh();
+                        } catch (err: any) {
+                          console.error("Upload error:", err);
+                          toast.error("Erro ao subir imagem: " + (err.message || "Tente novamente"));
+                        } finally {
+                          setBusy(false);
+                          if (e.target) e.target.value = '';
+                        }
+                      }}
+                      ref={fileInputRef}
+                    />
+                  </div>
                 </div>
+              </div>
                 </div>
               </div>
             </div>
@@ -930,100 +947,117 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-end gap-2">
-            <div>
-              <Label htmlFor={`days-${dependent.id}`} className="text-[12px]">
-                Validade (dias)
-              </Label>
-              <div className="mt-1 flex gap-2">
-                <Input
-                  id={`days-${dependent.id}`}
-                  value={days === "never" ? "" : String(days)}
-                  disabled={days === "never"}
-                  onChange={(event) =>
-                    setDays(Math.min(3650, Math.max(1, Number(event.target.value.replace(/\D/g, "")) || 1)))
-                  }
-                  placeholder="∞"
-                  className="w-20"
-                />
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className={cn(days === "never" && "bg-emerald-50 text-emerald-600 border-emerald-200")}
-                  onClick={() => setDays(days === "never" ? 365 : "never")}
-                >
-                  {days === "never" ? "Com expiração" : "Nunca expira"}
-                </Button>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/30">
               <Button 
                 type="button" 
                 size="sm" 
-                className="bg-emerald-600 hover:bg-emerald-700 shadow-sm"
+                className="h-8 text-[11px] bg-emerald-600 hover:bg-emerald-700"
                 disabled={busy} 
                 onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}
               >
                 <ShieldCheck className="mr-1.5 size-3.5" />
-                {dependent.kid_login_code ? "Salvar alterações" : "Salvar e Liberar acesso"}
+                {dependent.kid_login_code ? "Salvar" : "Liberar"}
               </Button>
-              {dependent.kid_login_code ? (
+              {dependent.kid_login_code && (
                 <>
                   <Button
                     type="button"
                     size="sm"
                     variant="outline"
+                    className="h-8 text-[11px]"
                     disabled={busy}
                     onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
                   >
-                    <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar código
+                    <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar
                   </Button>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="ghost"
-                    className="text-destructive hover:bg-destructive/10"
-                    disabled={busy}
-                    onClick={async () => {
-                      if (confirm(`Tem certeza que deseja bloquear e excluir a conta de ${dependent.name}? Isso removerá todos os dados e acessos dela permanentemente.`)) {
-                        setBusy(true);
-                        try {
-                          await deleteKid({ data: { dependentId: dependent.id } });
-                          toast.success("Conta excluída com sucesso.");
-                          void refresh();
-                          void refreshAudit();
-                        } catch (error) {
-                          toast.error("Erro ao excluir conta.");
-                        } finally {
-                          setBusy(false);
-                        }
-                      }
-                    }}
-                  >
-                    <Trash2 className="mr-1.5 size-3.5" /> Bloquear e Excluir
-                  </Button>
-
+                  
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 text-[11px] text-destructive hover:bg-destructive/10"
+                        disabled={busy}
+                      >
+                        <Trash2 className="mr-1.5 size-3.5" /> Excluir
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[400px]">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2 text-destructive">
+                          <AlertCircle className="size-5" /> Excluir Conta
+                        </DialogTitle>
+                        <DialogDescription className="py-4">
+                          <div className="flex flex-col items-center text-center gap-4">
+                            <div className="bg-destructive/10 p-4 rounded-full">
+                              <Trash2 className="size-12 text-destructive" />
+                            </div>
+                            <p className="text-sm font-medium">
+                              Tem certeza que deseja excluir definitivamente a conta de <span className="font-bold">{dependent.name}</span>?
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Esta ação é irreversível e removerá todos os dados, metas e históricos vinculados a esta criança.
+                            </p>
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" className="h-9 text-xs" onClick={() => {}}>Cancelar</Button>
+                        <Button 
+                          variant="destructive" 
+                          className="h-9 text-xs"
+                          disabled={busy}
+                          onClick={async () => {
+                            setBusy(true);
+                            try {
+                              await deleteKid({ data: { dependentId: dependent.id } });
+                              toast.success("Conta excluída definitivamente.");
+                              void refresh();
+                              void refreshAudit();
+                            } catch (err: any) {
+                              toast.error("Erro ao excluir conta.");
+                            } finally {
+                              setBusy(false);
+                            }
+                          }}
+                        >
+                          Sim, Excluir Agora
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </>
-              ) : null}
-            </div>
+              )}
           </div>
 
           <div className="rounded-xl border border-border/60 bg-muted/20 p-3">
-            <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-              <Eye className="size-3 text-primary" aria-hidden /> Visualização da criança
-            </p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex items-center justify-between mb-2">
+              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                <Eye className="size-3 text-primary" aria-hidden /> Visualização da criança
+              </p>
+              <div className="flex items-center gap-2">
+                <Label htmlFor={`days-${dependent.id}`} className="text-[10px] font-bold text-muted-foreground">Validade:</Label>
+                <Input
+                  id={`days-${dependent.id}`}
+                  value={days === "never" ? "" : String(days)}
+                  onChange={(event) => setDays(Number(event.target.value.replace(/\D/g, "")) || 365)}
+                  placeholder="∞"
+                  className="h-6 w-12 text-[10px] px-1"
+                />
+              </div>
+            </div>
+            <div className="grid gap-1.5 grid-cols-2 sm:grid-cols-3">
               {KID_VISIBILITY_FIELDS.map((field) => (
                 <label
                   key={field.key}
-                  className="flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-card p-2 transition-colors hover:bg-muted/30"
+                  className="flex items-center justify-between gap-2 rounded-lg border border-border/40 bg-card px-2 py-1.5 transition-colors hover:bg-muted/30"
                 >
                   <span className="min-w-0">
-                    <span className="block text-[11px] font-bold">{field.label}</span>
-                    <span className="block text-[9px] leading-tight text-muted-foreground">{field.hint}</span>
+                    <span className="block text-[10px] font-bold truncate">{field.label}</span>
                   </span>
                   <Switch
-                    className="scale-75"
+                    className="scale-50 origin-right"
                     checked={visibility[field.key]}
                     onCheckedChange={(value) => void toggleVisibility(field.key, value)}
                     aria-label={field.label}
