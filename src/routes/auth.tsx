@@ -87,6 +87,26 @@ function AuthPage() {
   );
 
   const [pendingCode, setPendingCode] = useState<string | null>(null);
+  const formAreaRef = useRef<HTMLDivElement>(null);
+  const didMountRef = useRef(false);
+
+  // Ao alternar entre "Entrar" e "Criar conta", leva o foco do teclado
+  // para o primeiro campo do formulário exibido.
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    const container = formAreaRef.current;
+    if (!container) return;
+    const frame = requestAnimationFrame(() => {
+      const first = container.querySelector<HTMLElement>(
+        'input:not([type="hidden"]):not([disabled]), select, textarea',
+      );
+      first?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [mode]);
 
   useEffect(() => {
     try {
