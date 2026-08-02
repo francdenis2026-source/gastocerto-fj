@@ -112,7 +112,7 @@ export const adminCreateLicense = createServerFn({ method: "POST" })
 
 const trialBatchSchema = z.object({
   quantity: z.number().int().min(1).max(50),
-  trialDays: z.union([z.literal(7), z.literal(15), z.literal(30)]).optional(),
+  trialDays: z.union([z.literal(14), z.literal(15), z.literal(30)]).optional(),
   notes: z.string().max(300).optional(),
 });
 
@@ -133,9 +133,9 @@ export const adminCreateTrialLicenses = createServerFn({ method: "POST" })
       .select("id, name, trial_days")
       .eq("slug", TRIAL_GIFT_PLAN_SLUG)
       .maybeSingle();
-    if (!plan) throw new Error("Plano de teste de 7 dias não encontrado");
+    if (!plan) throw new Error("Plano de teste de 14 dias não encontrado");
 
-    const days = data.trialDays ?? plan.trial_days ?? 7;
+    const days = data.trialDays ?? plan.trial_days ?? 14;
 
     const rows = Array.from({ length: data.quantity }).map(() => ({
       plan_id: plan.id,
@@ -199,7 +199,7 @@ export const adminSetLicenseStatus = createServerFn({ method: "POST" })
       !license.user_id
     ) {
       throw new Error(
-        "Licenças de teste de 7 dias só entram em vigor quando o cliente ativa a chave no site ou aplicativo.",
+        "Licenças de teste de 14 dias só entram em vigor quando o cliente ativa a chave no site ou aplicativo.",
       );
     }
 

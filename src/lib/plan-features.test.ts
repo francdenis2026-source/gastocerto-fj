@@ -143,7 +143,7 @@ describe("planos e recursos", () => {
   });
 
   it("mapeia a duração de cada teste", () => {
-    expect(trialDaysForSlug("trial_14")).toBe(7);
+    expect(trialDaysForSlug("trial_14")).toBe(14);
     expect(trialDaysForSlug("trial_30")).toBe(30);
     expect(trialDaysForSlug("premium")).toBeNull();
   });

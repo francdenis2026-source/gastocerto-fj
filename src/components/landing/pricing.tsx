@@ -25,7 +25,7 @@ const basePlans = [
     features: [
       "Até 30 lançamentos por mês",
       "Categorias, painel e balancete do mês",
-      "Inclui 7 dias de teste com tudo liberado",
+      "Inclui 14 dias de teste com tudo liberado",
       "Sem cartão de crédito",
     ],
   },

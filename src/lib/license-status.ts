@@ -3,7 +3,7 @@
  * nas validações de backend.
  *
  * Regras de negócio:
- * - Licença de teste de cortesia (7 dias, valor zero, plano `trial_14_basic`):
+ * - Licença de teste de cortesia (14 dias, valor zero, plano `trial_14_basic`):
  *   recursos limitados, IA SEMPRE bloqueada e validade que só começa a contar
  *   quando o cliente ativa a chave no site/app.
  * - Licença paga (mensal/anual): libera todos os recursos; a IA depende do

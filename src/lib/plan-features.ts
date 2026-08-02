@@ -240,7 +240,7 @@ export function resolvePlanAccess(input: PlanAccessInput): PlanAccess {
   const tier: PlanTier = paid ? "paid" : trialValid ? "trial" : "free";
 
   const trialSlug = String(input.trialPlanSlug ?? "").toLowerCase();
-  // Teste de cortesia (licença de 7 dias doada pelo admin): recursos limitados.
+  // Teste de cortesia (licença de 14 dias doada pelo admin): recursos limitados.
   const courtesyTrial =
     tier === "trial" && (!trialIncludesAi(trialSlug) || !trialIncludesAi(planSlug));
 
