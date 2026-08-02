@@ -257,7 +257,7 @@ export const blockKidSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ sessionId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase.rpc("block_kid_session", { session_id: data.sessionId });
+    const { error } = await context.supabase.from("kid_session_logs" as never).update({ status: 'blocked' } as never).eq("id", data.sessionId);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -267,7 +267,7 @@ export const getKidSessions = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) => z.object({ dependentId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
     const { data: sessions, error } = await context.supabase
-      .from("kid_session_logs")
+      .from("kid_session_logs" as never)
       .select("*")
       .eq("dependent_id", data.dependentId)
       .order("created_at", { ascending: false });
@@ -291,7 +291,7 @@ export const updateKidsSecuritySettings = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase
       .from("profiles")
-      .update({ kids_security_notifications: data.notifications })
+      .update({ kids_security_notifications: data.notifications } as any)
       .eq("id", context.userId);
     if (error) throw new Error(error.message);
     return { ok: true };
