@@ -433,10 +433,12 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
+    /* Garante altura total estável em mobile (resolvendo o problema de barras do navegador que ocultam conteúdo) */
+    height: 100%;
+    min-height: -webkit-fill-available;
     /* Um único scroller: a página rola pelo html. */
     overflow-y: auto;
     overflow-x: hidden;
-    height: auto;
     /* Evita apenas o encadeamento horizontal; a rolagem vertical fica livre. */
     overscroll-behavior-x: none;
   }
@@ -446,10 +448,12 @@
     overflow: visible;
     min-width: 0;
     max-width: 100%;
-    height: auto;
-    min-height: 100dvh;
+    height: 100%;
+    min-height: -webkit-fill-available;
     text-rendering: optimizeLegibility;
     -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Áreas roláveis internas não devolvem o gesto à página (evita travas). */
