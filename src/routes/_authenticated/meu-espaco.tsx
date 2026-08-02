@@ -162,16 +162,21 @@ function KidSpacePage() {
             <h1 className="text-lg font-extrabold leading-tight">Oi, {firstName}!</h1>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={async () => {
-            await signOut();
-            navigate({ to: "/auth", replace: true });
-          }}
-        >
-          <LogOut className="mr-1.5 size-4" /> Sair
-        </Button>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <NotificationCenter isKid />
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 px-2 sm:px-3 text-xs"
+            onClick={async () => {
+              await signOut();
+              navigate({ to: "/auth", replace: true });
+            }}
+          >
+            <LogOut className="mr-1.5 size-4" /> Sair
+          </Button>
+        </div>
+
       </header>
 
       <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
