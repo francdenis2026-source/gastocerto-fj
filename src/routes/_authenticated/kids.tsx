@@ -1007,7 +1007,7 @@ function SessionManager({ dependentId }: { dependentId: string }) {
   );
 }
 
-function ExternalCodeCreator() {
+export function ExternalCodeCreator() {
   const queryClient = useQueryClient();
   const create = useServerFn(createExternalCode);
   const [open, setOpen] = useState(false);
