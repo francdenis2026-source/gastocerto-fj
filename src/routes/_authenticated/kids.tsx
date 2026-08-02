@@ -779,7 +779,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
   return (
+    <>
     <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:border-primary/20">
+
       <header className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-3 px-4 sm:p-4 border-b border-border/50">
         <div className="flex items-center gap-3">
           <Avatar className="size-10 border-2 border-white shadow-sm ring-2 ring-primary/10">
