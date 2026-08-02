@@ -71,7 +71,7 @@ export function TrialLicensesPanel() {
     () =>
       trials.filter(
         (row: { status: string; trial_days?: number | null }) =>
-          row.status === "pending" && Number(row.trial_days ?? 7) === 15,
+          row.status === "pending" && Number(row.trial_days ?? 14) === 15,
       ).length,
     [trials],
   );
