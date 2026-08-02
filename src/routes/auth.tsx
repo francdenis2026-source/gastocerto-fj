@@ -173,7 +173,7 @@ function AuthPage() {
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
             ) : mode === "kid" ? (
-              <KidSignInForm onBack={() => setMode("login")} />
+              <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
             ) : (
               <Tabs 
                 value={mode} 
