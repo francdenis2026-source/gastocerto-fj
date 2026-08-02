@@ -64,7 +64,7 @@ export function describeKidCodeExpiry(expiresAt: string | null | undefined): {
   expired: boolean;
   nearExpiry: boolean;
 } {
-  if (!expiresAt) return { label: "Sem validade definida", expired: false, nearExpiry: false };
+  if (!expiresAt) return { label: "Código sem expiração (Permanente)", expired: false, nearExpiry: false };
   const date = new Date(expiresAt);
   const now = Date.now();
   const diffDays = (date.getTime() - now) / 86_400_000;
