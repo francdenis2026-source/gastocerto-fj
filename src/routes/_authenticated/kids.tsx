@@ -484,6 +484,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
   const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
+  const deleteKid = useServerFn(deleteKidAccount);
+
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
