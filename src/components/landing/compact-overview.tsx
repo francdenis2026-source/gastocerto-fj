@@ -306,20 +306,16 @@ export function CompactOverview() {
           </nav>
         </Reveal>
 
-        <Reveal delay={80} className="mt-3 grid gap-1.5 rounded-xl border border-border bg-card/70 p-2 backdrop-blur sm:grid-cols-3 sm:gap-3 sm:p-2.5">
+        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/70 px-3 py-2 backdrop-blur">
           {highlights.map((item) => (
-            <div key={item.label} className="flex min-w-0 items-center gap-2">
-              <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand">
-                <item.icon className="size-4" aria-hidden="true" />
-              </span>
-              <div className="min-w-0">
-                <p className="tabular text-sm font-bold leading-none">{item.value}</p>
-                <p className="text-[12.5px] leading-snug text-muted-foreground sm:truncate">{item.label}</p>
-                <p className="hidden truncate text-[10px] text-muted-foreground sm:block">{item.hint}</p>
-              </div>
+            <div key={item.label} className="flex min-w-0 items-center gap-1.5">
+              <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
+              <p className="tabular text-[13px] font-bold leading-none">{item.value}</p>
+              <p className="truncate text-[12.5px] leading-none text-muted-foreground">{item.label}</p>
             </div>
           ))}
         </Reveal>
+
 
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-3.5">
@@ -350,58 +346,57 @@ export function CompactOverview() {
             {`Seção ativa: ${tabMeta[tab].label}. ${tabMeta[tab].description}.`}
           </p>
 
-          <TabsContent value="recursos" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
+          <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-2.5 sm:grid-cols-2">
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {featureGroups.map((group, groupIndex) => (
                 <Reveal
                   key={group.group}
-                  delay={groupIndex * 70}
-                  className="rounded-2xl border border-border bg-card/60 p-2.5 backdrop-blur sm:p-3"
+                  delay={groupIndex * 50}
+                  className="rounded-xl border border-border bg-card/60 p-2 backdrop-blur"
                 >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <p className="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-brand">
-                      {group.group}
-                    </p>
-                    <p className="hidden truncate text-[12.5px] text-muted-foreground sm:block">{group.caption}</p>
-                  </div>
-                  <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
-                    {group.items.map((item, itemIndex) => (
-                      <FeatureDetailDialog
-                        key={item.title}
-                        feature={{ title: item.title, text: item.text, tag: item.tag }}
-                      >
-                        <button
-                          type="button"
-                          className={
-                            itemIndex > 1
-                              ? "interactive-card group hidden min-w-0 gap-2.5 rounded-xl border border-border/70 bg-background/60 p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex"
-                              : "interactive-card group flex min-w-0 gap-2.5 rounded-xl border border-border/70 bg-background/60 p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                          }
+                  <p className="px-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                    {group.group}
+                  </p>
+                  <ul className="mt-1.5 grid gap-1">
+                    {group.items.map((item) => (
+                      <li key={item.title} className="min-w-0">
+                        <FeatureDetailDialog
+                          feature={{ title: item.title, text: item.text, tag: item.tag }}
                         >
-                          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
-                            <item.icon className="size-4" aria-hidden="true" />
-                          </span>
-                          <div className="min-w-0">
-                            <div className="flex min-w-0 items-center gap-1.5">
-                              <p className="truncate text-sm font-semibold">{item.title}</p>
-                              <span className="shrink-0 rounded-full border border-border bg-secondary/60 px-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
-                                {item.tag}
-                              </span>
-                            </div>
-                            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{item.text}</p>
-                            <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
-                              Ver detalhes
+                          <button
+                            type="button"
+                            title={item.text}
+                            className="group flex w-full min-w-0 items-center gap-2 rounded-lg border border-transparent px-1.5 py-1.5 text-left transition-colors hover:border-border hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          >
+                            <span className="grid size-7 shrink-0 place-items-center rounded-md bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
+                              <item.icon className="size-3.5" aria-hidden="true" />
                             </span>
-                          </div>
-                        </button>
-                      </FeatureDetailDialog>
+                            <span className="truncate text-[13px] font-medium">{item.title}</span>
+                            <span className="ml-auto shrink-0 rounded-full border border-border bg-secondary/60 px-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
+                              {item.tag}
+                            </span>
+                          </button>
+                        </FeatureDetailDialog>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </Reveal>
               ))}
+              <Reveal
+                delay={featureGroups.length * 50}
+                className="hidden rounded-xl border border-dashed border-brand/30 bg-brand/5 p-3 lg:flex lg:flex-col lg:justify-center"
+              >
+                <p className="text-[13px] font-semibold leading-snug">
+                  Toque em qualquer recurso para ver detalhes, prints e como usar.
+                </p>
+                <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
+                  20 recursos, 5 frentes — tudo no mesmo painel.
+                </p>
+              </Reveal>
             </div>
           </TabsContent>
+
 
 
           <TabsContent value="seguranca" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
