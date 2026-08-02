@@ -624,7 +624,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const updateSettings = useServerFn(updateKidsSecuritySettings);
   const deleteKid = useServerFn(deleteKidAccount);
   const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
+  const { confirm: professionalConfirm, ConfirmDialog } = useConfirm();
   const [uploading, setUploading] = useState(false);
+
 
 
 

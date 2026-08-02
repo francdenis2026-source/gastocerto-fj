@@ -420,18 +420,27 @@ export function TransactionDialog({
                           selectedDate.getFullYear() !== now.getFullYear();
     
     if (!editing && isDifferentDay) {
-      const typeLabel = kind === "income" ? "receita" : "gasto";
-      let msg = `Você selecionou a data ${formatDate(date)}, que é diferente de hoje.`;
+      const msg = `Você selecionou a data ${formatDate(date)}, que é diferente de hoje.${isPast ? " Isso afetará o saldo de meses anteriores." : isFuture ? " Isso ficará pendente no saldo futuro." : ""}`;
       
-      if (isPast) msg += ` Isso afetará o saldo de meses anteriores.`;
-      if (isFuture) msg += ` Isso ficará pendente no saldo futuro.`;
-      
-      if (!confirm(`${msg} Confirmar lançamento para este dia?`)) {
-        return;
-      }
+      professionalConfirm({
+        title: "Confirmar Data",
+        description: `${msg} Deseja prosseguir com o lançamento para este dia?`,
+        type: isPast ? "warning" : "question",
+        onConfirm: () => void executeSubmit(value, cleanDescription)
+      });
+      return;
     }
 
+
+    await executeSubmit(value, cleanDescription);
+  }
+
+  async function executeSubmit(value: number, cleanDescription: string) {
+    const itemsCheck = validatePurchaseItems(items, value);
+    const nextErrors: Record<string, string> = {};
+
     if (itemsCheck.issues.length > 0) {
+
       nextErrors.items = "Corrija os itens destacados da compra.";
     } else if (itemsCheck.totalMismatch) {
       nextErrors.items = `A soma dos itens (${itemsCheck.total
