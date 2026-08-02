@@ -50,6 +50,8 @@ import { useClosingPolicy } from "@/lib/use-closing-policy";
 import { PAST_EDIT_UNLOCK_MINUTES, usePastEditUnlock } from "@/lib/past-edit-unlock";
 import { useAuth } from "@/hooks/use-auth";
 import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+
 
 import { formatDate } from "@/lib/format";
 import { amountToInput, maskAmountInput } from "@/lib/money-input";
@@ -274,7 +276,11 @@ export function TransactionDialog({
 
 
 
+  const { confirm: professionalConfirm, ConfirmDialog } = useConfirm();
+
+
   function shiftDate(kindOfShift: "today" | "yesterday" | "lastMonth") {
+
     const base = new Date();
     if (kindOfShift === "yesterday") base.setDate(base.getDate() - 1);
     if (kindOfShift === "lastMonth") base.setMonth(base.getMonth() - 1);
@@ -1059,7 +1065,10 @@ export function TransactionDialog({
         />
 
       </DialogContent>
-    </Dialog>
+      </Dialog>
+      <ConfirmDialog />
+    </>
+
   );
 }
 

@@ -30,7 +30,9 @@ import {
   BellRing,
   TrendingUp,
   FileText,
+  Trash,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { formatCurrency } from "@/lib/format";
@@ -94,7 +96,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
+
 
 import {
   DEFAULT_KID_VISIBILITY,
@@ -731,23 +735,31 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
 
-  async function handleRevoke() {
-    setBusy(true);
-    try {
-      await revoke({ data: { dependentId: dependent.id } });
-      setCode("");
-      setPin("");
-      toast.success("Acesso removido.");
-      void refresh();
-      void refreshAudit();
-    } catch (error) {
-      toast.error("Não foi possível remover o acesso.", {
-        description: error instanceof Error ? error.message : undefined,
-      });
-    } finally {
-      setBusy(false);
-    }
+  function handleRevoke() {
+    professionalConfirm({
+      title: "Revogar Acesso",
+      description: "Deseja realmente revogar este acesso? Ele será invalidado imediatamente e a criança não conseguirá mais entrar.",
+      type: "warning",
+      onConfirm: async () => {
+        setBusy(true);
+        try {
+          await revoke({ data: { dependentId: dependent.id } });
+          setCode("");
+          setPin("");
+          toast.success("Acesso removido.");
+          void refresh();
+          void refreshAudit();
+        } catch (error) {
+          toast.error("Não foi possível remover o acesso.", {
+            description: error instanceof Error ? error.message : undefined,
+          });
+        } finally {
+          setBusy(false);
+        }
+      }
+    });
   }
+
 
   async function toggleVisibility(key: keyof KidVisibility, value: boolean) {
     const next = { ...visibility, [key]: value };
@@ -1207,7 +1219,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
           </aside>
         </div>
       </div>
+      <ConfirmDialog />
     </article>
+
   );
 }
 
