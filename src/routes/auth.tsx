@@ -87,6 +87,26 @@ function AuthPage() {
   );
 
   const [pendingCode, setPendingCode] = useState<string | null>(null);
+  const formAreaRef = useRef<HTMLDivElement>(null);
+  const didMountRef = useRef(false);
+
+  // Ao alternar entre "Entrar" e "Criar conta", leva o foco do teclado
+  // para o primeiro campo do formulário exibido.
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    const container = formAreaRef.current;
+    if (!container) return;
+    const frame = requestAnimationFrame(() => {
+      const first = container.querySelector<HTMLElement>(
+        'input:not([type="hidden"]):not([disabled]), select, textarea',
+      );
+      first?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [mode]);
 
   useEffect(() => {
     try {
@@ -259,7 +279,7 @@ function AuthPage() {
             </Link>
           </div>
 
-          <div className="flex-1 overflow-y-auto pr-1">
+          <div ref={formAreaRef} className="flex-1 overflow-y-auto pr-1">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
@@ -276,7 +296,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="login"
                     aria-label="Acessar conta existente"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
                   >
                     <KeyRound className="size-3.5" aria-hidden />
                     Entrar
@@ -284,7 +304,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="signup"
                     aria-label="Criar nova conta"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
                   >
                     <UserPlus className="size-3.5" aria-hidden />
                     Criar conta
@@ -292,6 +312,7 @@ function AuthPage() {
                 </TabsList>
 
                 <div className="flex-1 mt-4">
+
                   <TabsContent value="login" className="m-0 focus-visible:outline-none">
                     <CpfSignInForm
                       onForgot={() => setMode("forgot")}
