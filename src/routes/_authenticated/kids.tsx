@@ -298,11 +298,19 @@ function KidsAccessPage() {
       )}
 
       <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-sm font-bold">
-            <History className="size-4 text-primary" aria-hidden /> Auditoria e Histórico Detalhado
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-foreground">
+            <History className="size-4 text-primary" aria-hidden /> Auditoria e histórico
           </h2>
-          <Button variant="outline" size="sm" className="h-7 text-[10px] gap-1" onClick={() => {
+          <div className="flex items-center gap-2">
+          <ClearHistoryButton
+            table="kid_access_audit"
+            label="histórico do Espaço Kids"
+            invalidateKeys={["kid_access_audit"]}
+            onCleared={() => audit.refetch()}
+          />
+          <Button variant="outline" size="sm" className="h-8 text-[11px] gap-1.5" onClick={() => {
+
             const data = (audit.data ?? []).map(row => ({
               Data: new Date(row.created_at).toLocaleString('pt-BR'),
               Acao: KID_ACCESS_ACTION_LABELS[row.action] || row.action,
