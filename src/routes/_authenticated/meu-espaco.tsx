@@ -492,12 +492,10 @@ function KidEntryDialog({
       const value = parseAmount(amount);
       if (!value || value <= 0) throw new Error("Informe um valor maior que zero.");
       
-      const now = new Date();
-      // transaction_date é YYYY-MM-DD
-      const isoDate = now.toISOString().split('T')[0];
-      // Salva a hora exata na descrição ou metadados se necessário, 
-      // mas aqui vamos garantir que o registro seja cronológico
-      
+      // A data, a hora e o created_at são definidos pelo banco de dados (trigger),
+      // então a criança não consegue antedatar ou "burlar" um lançamento.
+      const isoDate = new Date().toISOString().split('T')[0];
+
       const { error } = await supabase.from("transactions").insert({
         user_id: ownerId,
         description: description.trim() || selected.label,
@@ -506,7 +504,6 @@ function KidEntryDialog({
         transaction_date: isoDate,
         status: selected.type === "income" ? "received" : "paid",
         tags: [dependentTag(dependentId), reasonTag(selected.value)],
-        // created_at no banco já lida com o timestamp exato para ordenação técnica
       } as never);
       if (error) throw error;
     },
