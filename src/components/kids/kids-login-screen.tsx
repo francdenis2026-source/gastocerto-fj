@@ -23,7 +23,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,oklch(0.45_0.15_200/0.38),transparent_58%),radial-gradient(circle_at_82%_85%,oklch(0.5_0.18_160/0.3),transparent_52%)]"
       />
 
-      <div className="grid max-h-full w-full max-w-5xl lg:min-h-[520px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1fr_minmax(0,23rem)]">
+      <div className="grid h-full max-h-full w-full max-w-5xl lg:min-h-[520px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1fr_minmax(0,23rem)]">
         {/* Lado esquerdo: identidade visual Kids */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           <img
