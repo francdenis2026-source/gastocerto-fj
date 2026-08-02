@@ -608,6 +608,20 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       return;
     }
 
+    // Verificar se o plano do pai expirou ANTES de redirecionar.
+    try {
+      const statusCheck = await checkStatus({ data: { code: cleanCode } });
+      if (statusCheck.active === false || statusCheck.readOnly) {
+        toast.warning("Aviso de Assinatura", {
+          description: statusCheck.message || "A assinatura do seu responsável está expirada. O sistema entrará em modo somente leitura.",
+          duration: 6000,
+        });
+      }
+    } catch (e) {
+      console.warn("Status check skipped", e);
+    }
+
+
     // Registra a sessão com informações de dispositivo/IP (via RPC ou direto no servidor se possível, mas aqui usamos metadados ou o servidor na próxima requisição)
     try {
       const { data: dependent } = await supabase.from("dependents").select("id, user_id").eq("kid_login_code", cleanCode).single();
