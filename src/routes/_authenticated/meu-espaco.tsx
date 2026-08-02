@@ -656,11 +656,13 @@ function KidEntryDialog({
   onOpenChange,
   dependentId,
   ownerId,
+  syncTx,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dependentId: string;
   ownerId: string;
+  syncTx: any;
 }) {
   const queryClient = useQueryClient();
   const [reason, setReason] = useState<string>(DEPENDENT_REASONS[0].value);
