@@ -81,11 +81,28 @@ export function DependentDialog({
     setNotes(dependent?.notes ?? "");
   }, [open, dependent]);
 
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
   async function handleSave() {
     if (!name.trim()) {
       toast.error("Informe o nome do dependente.");
       return;
     }
+
+    // Validação de idade para migração automática
+    if (birthDate) {
+      const birth = new Date(`${birthDate}T12:00:00`);
+      const now = new Date();
+      let age = now.getFullYear() - birth.getFullYear();
+      const m = now.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+
+      if (age >= 14) {
+        setShowUpgradeModal(true);
+        return;
+      }
+    }
+
     try {
       await save.mutateAsync({
         id: dependent?.id,
@@ -113,6 +130,7 @@ export function DependentDialog({
       });
     }
   }
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
