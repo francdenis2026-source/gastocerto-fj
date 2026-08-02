@@ -98,13 +98,21 @@ function FuelAuditPage() {
               {items.length} registro(s) · {warningCount} com alertas acionados.
             </p>
           </div>
-          <Button asChild variant="outline">
-            <Link to="/veiculos">
-              <ArrowLeft className="mr-2 size-4" />
-              Voltar aos veículos
-            </Link>
-          </Button>
-        </header>
+          <div className="flex flex-wrap items-center gap-2">
+            <ClearHistoryButton
+              table="fuel_audit_log"
+              label="a auditoria de abastecimentos"
+              invalidateKeys={["fuel-audit"]}
+              className="h-10 gap-1.5 text-xs"
+            />
+            <Button asChild variant="outline">
+              <Link to="/veiculos">
+                <ArrowLeft className="mr-2 size-4" />
+                Voltar aos veículos
+              </Link>
+            </Button>
+          </div>
+
 
         <section className="grid gap-3 rounded-2xl border border-border bg-card p-4 auto-cards-sm">
           <div>
