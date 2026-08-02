@@ -1165,317 +1165,61 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   );
 }
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="sm:col-span-2">
-              <Label htmlFor={`code-${dependent.id}`} className="text-[12px]">
-                Código de acesso
-              </Label>
-              <div className="mt-1 flex gap-2">
-                <Input
-                  id={`code-${dependent.id}`}
-                  value={code}
-                  onChange={(event) => setCode(normalizeKidCode(event.target.value))}
-                  placeholder="EX: JOAO-A1B"
-                  className="font-mono uppercase"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setCode(suggestKidCode(dependent.name))}
-                >
-                  Gerar
-                </Button>
-              </div>
-            </div>
-            <div>
-              <Label htmlFor={`pin-${dependent.id}`} className="text-[12px]">
-                Senha (4 a 6 números)
-              </Label>
-              <Input
-                id={`pin-${dependent.id}`}
-                inputMode="numeric"
-                value={pin}
-                onChange={(event) => setPin(event.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="••••"
-                className="mt-1 tracking-[0.3em]"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/30">
-            <Button 
-              type="button" 
-              size="sm" 
-              className="h-8 text-[11px] bg-emerald-600 hover:bg-emerald-700"
-              disabled={busy} 
-              onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}
-            >
-              <ShieldCheck className="mr-1.5 size-3.5" />
-              {dependent.kid_login_code ? "Salvar" : "Liberar"}
-            </Button>
-            {dependent.kid_login_code && (
-              <>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="h-8 text-[11px]"
-                  disabled={busy}
-                  onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
-                >
-                  <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar
-                </Button>
-                
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="ghost"
-                      className="h-8 text-[11px] text-destructive hover:bg-destructive/10"
-                      disabled={busy}
-                    >
-                      <Trash2 className="mr-1.5 size-3.5" /> Excluir
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[400px]">
-                    <DialogHeader>
-                      <DialogTitle className="flex items-center gap-2 text-destructive">
-                        <AlertCircle className="size-5" /> Excluir Conta
-                      </DialogTitle>
-                      <DialogDescription className="py-4">
-                        <div className="flex flex-col items-center text-center gap-4">
-                          <div className="bg-destructive/10 p-4 rounded-full">
-                            <Trash2 className="size-12 text-destructive" />
-                          </div>
-                          <p className="text-sm font-medium">
-                            Tem certeza que deseja excluir definitivamente a conta de <span className="font-bold">{dependent.name}</span>?
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            Esta ação é irreversível e removerá todos os dados, metas e históricos vinculados a esta criança.
-                          </p>
-                        </div>
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter className="gap-2 sm:gap-0">
-                      <Button variant="outline" className="h-9 text-xs" onClick={() => {}}>Cancelar</Button>
-                      <Button 
-                        variant="destructive" 
-                        className="h-9 text-xs"
-                        disabled={busy}
-                        onClick={async () => {
-                          setBusy(true);
-                          try {
-                            await deleteKid({ data: { dependentId: dependent.id } });
-                            toast.success("Conta excluída definitivamente.");
-                            void refresh();
-                            void refreshAudit();
-                          } catch (err: any) {
-                            toast.error("Erro ao excluir conta.");
-                          } finally {
-                            setBusy(false);
-                          }
-                        }}
-                      >
-                        Sim, Excluir Agora
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </>
-            )}
-          </div>
-
-          <div className="rounded-xl border border-border/60 bg-muted/20 p-3">
-            <div className="flex items-center justify-between mb-2">
-              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                <Eye className="size-3 text-primary" aria-hidden /> Visualização da criança
-              </p>
-              <div className="flex items-center gap-2">
-                <Label htmlFor={`days-${dependent.id}`} className="text-[10px] font-bold text-muted-foreground">Validade:</Label>
-                <Input
-                  id={`days-${dependent.id}`}
-                  value={days === "never" ? "" : String(days)}
-                  onChange={(event) => setDays(Number(event.target.value.replace(/\D/g, "")) || 365)}
-                  placeholder="∞"
-                  className="h-6 w-12 text-[10px] px-1"
-                />
-              </div>
-            </div>
-            <div className="grid gap-1.5 grid-cols-2 sm:grid-cols-3">
-              {KID_VISIBILITY_FIELDS.map((field) => (
-                <label
-                  key={field.key}
-                  className="flex items-center justify-between gap-2 rounded-lg border border-border/40 bg-card px-2 py-1.5 transition-colors hover:bg-muted/30"
-                >
-                  <span className="min-w-0">
-                    <span className="block text-[10px] font-bold truncate">{field.label}</span>
-                  </span>
-                  <Switch
-                    className="scale-50 origin-right"
-                    checked={visibility[field.key]}
-                    onCheckedChange={(value) => void toggleVisibility(field.key, value)}
-                    aria-label={field.label}
-                  />
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="rounded-xl border border-border p-2.5">
-              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                <ShieldAlert className="size-3 text-primary" aria-hidden /> Segurança
-              </p>
-              <div className="mt-2 space-y-1.5">
-                <label className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 px-2 py-1.5">
-                  <span className="text-[10px] font-semibold">Falhas no Login</span>
-                  <Switch 
-                    className="scale-50 origin-right"
-                    checked={Boolean((dependent as any).kids_security_notifications?.failed_login)}
-                    onCheckedChange={(val) => {
-                      const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
-                      void updateSettings({ data: { notifications: { ...current, failed_login: val } } }).then(() => refresh());
-                    }}
-                  />
-                </label>
-                <label className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 px-2 py-1.5">
-                  <span className="text-[10px] font-semibold">Novo Dispositivo</span>
-                  <Switch 
-                    className="scale-50 origin-right"
-                    checked={Boolean((dependent as any).kids_security_notifications?.new_session)}
-                    onCheckedChange={(val) => {
-                      const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
-                      void updateSettings({ data: { notifications: { ...current, new_session: val } } }).then(() => refresh());
-                    }}
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-border p-2.5">
-              <div className="flex items-center justify-between mb-1.5">
-                <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                  <CalendarClock className="size-3 text-primary" aria-hidden /> Upgrade
-                </p>
-                <Badge variant="outline" className="text-[8px] h-4 px-1.5 bg-primary/5">14 anos</Badge>
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {KID_UPGRADE_OPTIONS.slice(0, 4).map((opt) => (
-                  <Button
-                    key={opt.value}
-                    variant={days === opt.value ? "default" : "outline"}
-                    size="sm"
-                    className="h-6 text-[9px] px-2"
-                    onClick={() => handleUpdateUpgrade(opt.value)}
-                  >
-                    {opt.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-border p-2">
-            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-              <Tv className="size-3 text-primary" aria-hidden /> Sessões Ativas
-            </p>
-            <SessionManager dependentId={dependent.id} />
-          </div>
-
-          <div className="rounded-xl border border-border p-2">
-            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
-              <History className="size-3 text-primary" aria-hidden /> Movimentações
-            </p>
-            <KidTransactionsList dependentId={dependent.id} />
-          </div>
-        </div>
-
-
-        <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center self-start">
-
-
-          <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            <QrCode className="size-3 text-primary" aria-hidden /> Entrada
-          </p>
-          {qr ? (
-            <>
-              <div id={`qr-container-${dependent.id}`} className="mx-auto mt-2 bg-white p-1 rounded-lg inline-block border border-border/50">
-                <img
-                  src={qr}
-                  alt={`QR code access ${dependent.name}`}
-                  className="w-32"
-                />
-              </div>
-              <p className="mt-1 text-[9px] font-bold text-muted-foreground">{expiry.label}</p>
-              <p className="mt-0.5 text-[9px] text-muted-foreground leading-tight">
-                Escaneie para entrar sem digitar código.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-2 mt-3">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="secondary"
-                  className="w-full text-[10px] h-8 px-1"
-                  onClick={() => void copyLoginUrl()}
-                >
-                  <Copy className="mr-1 size-3" /> Link
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="secondary"
-                  className="w-full text-[10px] h-8 px-1"
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = qr;
-                    link.download = `qr-acesso-${dependent.name.toLowerCase().replace(/\s+/g, '-')}.png`;
-                    link.click();
-                  }}
-                >
-                  <Download className="mr-1 size-3" /> PNG
-                </Button>
-              </div>
-
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                className="mt-2 w-full text-[11px]"
-                onClick={reloadQr}
-              >
-                <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR atualizado
-              </Button>
-
-              <Button
-                type="button"
-                size="sm"
-                variant="ghost"
-                className="mt-2 w-full text-[11px]"
-                disabled={busy}
-                onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
-              >
-                <KeyRound className="mr-1.5 size-3.5" /> Gerar novo código
-              </Button>
-
-
-            </>
-          ) : (
-            <p className="mt-3 text-[11px] text-muted-foreground">
-              Libere o acesso para gerar o QR code de entrada.
-            </p>
-          )}
-        </aside>
-      </div>
-    </article>
   );
 }
-
 
 function SessionManager({ dependentId }: { dependentId: string }) {
   const getSessions = useServerFn(getKidSessions);
   const block = useServerFn(blockKidSession);
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    void getSessions({ data: { dependentId } }).then((res) => {
+      setSessions(res);
+      setLoading(false);
+    });
+  }, [dependentId]);
+
+  if (loading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
+
+  return (
+    <div className="mt-1 space-y-1">
+      {sessions.length === 0 ? (
+        <p className="py-2 text-center text-[10px] text-muted-foreground">Nenhuma sessão ativa.</p>
+      ) : (
+        sessions.map((s) => (
+          <div key={s.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/20 p-1.5 text-[10px]">
+            <div className="min-w-0">
+              <p className="truncate font-semibold text-foreground">
+                {s.ip_address || "IP oculto"} {s.status === "blocked" && <Badge variant="destructive" className="ml-1 scale-75 h-4 px-1">Bloqueado</Badge>}
+              </p>
+              <p className="truncate text-[9px] text-muted-foreground">
+                {new Date(s.created_at).toLocaleDateString("pt-BR")} · {s.user_agent?.split(" ")[0] || "Desconhecido"}
+              </p>
+            </div>
+            {s.status !== "blocked" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 text-[9px] text-destructive hover:bg-destructive/10"
+                onClick={() => {
+                  void block({ data: { sessionId: s.id } }).then(() => {
+                    toast.success("Acesso bloqueado!");
+                    setSessions(sessions.map(sess => sess.id === s.id ? { ...sess, status: 'blocked' } : sess));
+                  });
+                }}
+              >
+                Bloquear
+              </Button>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
   const [sessions, setSessions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
