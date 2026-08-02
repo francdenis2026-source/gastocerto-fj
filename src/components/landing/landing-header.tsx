@@ -102,7 +102,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               className={cn("hidden lg:inline-flex", !scrolled && "text-white hover:bg-white/10 hover:text-white")}
             >
               <KeyRound className="size-4" aria-hidden />
-              Tenho um código
+              Código de acesso
             </Button>
           </CodeAccessDialog>
           {/* Código: ícone compacto no celular, mantendo a ação sempre acessível. */}
