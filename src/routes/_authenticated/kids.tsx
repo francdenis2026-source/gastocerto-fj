@@ -7,6 +7,7 @@ import {
   CalendarClock,
   Copy,
   Download,
+  ExternalLink,
   Eye,
   FileDown,
   History,
@@ -14,13 +15,16 @@ import {
   KeyRound,
   Loader2,
   LogIn,
+  Plus,
   QrCode,
   RefreshCw,
+  Search,
   ShieldAlert,
   ShieldCheck,
   Trash2,
   Tv,
 } from "lucide-react";
+
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -294,7 +298,23 @@ function KidsAccessPage() {
           Perfeito para monitorar aquele almoço especial de domingo!
         </p>
       </section>
+
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-sm font-bold">
+            <ExternalLink className="size-4 text-primary" aria-hidden /> Acessos Externos (Adultos)
+          </h2>
+          <Button variant="outline" size="sm" className="h-8 text-[11px] gap-1">
+            <Plus className="size-3.5" /> Novo Código
+          </Button>
+        </div>
+        <p className="rounded-2xl border border-dashed border-border p-8 text-center text-[12px] text-muted-foreground">
+          Crie códigos de visualização para terceiros (contadores, sócios) com expiração automática. 
+          <br/><span className="text-[10px] mt-1 block">Funcionalidade semelhante ao Espaço Kids, disponível em breve.</span>
+        </p>
+      </section>
     </div>
+
   );
 }
 

@@ -38,7 +38,9 @@ import {
 const searchSchema = z.object({
   mode: z.enum(["login", "signup"]).optional(),
   kid: z.string().optional(),
+  external: z.string().optional(),
 });
+
 
 export const Route = createFileRoute("/auth")({
   validateSearch: searchSchema,
@@ -61,15 +63,16 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-type Mode = "login" | "signup" | "forgot" | "admin" | "kid";
+type Mode = "login" | "signup" | "forgot" | "admin" | "kid" | "external";
 
 function AuthPage() {
   const search = useSearch({ from: "/auth" });
   const navigate = useNavigate();
   const { session, loading } = useAuth();
   const [mode, setMode] = useState<Mode>(
-    search.kid ? "kid" : search.mode === "signup" ? "signup" : "login",
+    search.external ? "external" : search.kid ? "kid" : search.mode === "signup" ? "signup" : "login",
   );
+
   const [pendingCode, setPendingCode] = useState<string | null>(null);
 
   useEffect(() => {
@@ -177,7 +180,10 @@ function AuthPage() {
               <AdminSignInForm onBack={() => setMode("login")} />
             ) : mode === "kid" ? (
               <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
+            ) : mode === "external" ? (
+              <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
             ) : (
+
               <Tabs 
                 value={mode} 
                 onValueChange={(value) => setMode(value as Mode)}
@@ -658,3 +664,69 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     </form>
   );
 }
+
+function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initialCode: string }) {
+  const [code, setCode] = useState(initialCode.toUpperCase());
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!code || !password) return;
+    setLoading(true);
+    setError(null);
+    try {
+      // In a real implementation, this would call a server function to verify
+      // and redirect to /compartilhado/[token] if successful.
+      // For now, we simulate the redirection.
+      toast.info("Verificando código de acesso externo...");
+      setTimeout(() => {
+        window.location.href = `/compartilhado/${code}`;
+      }, 1000);
+    } catch (err: any) {
+      setError(err.message || "Erro ao validar código.");
+      setLoading(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="text-center">
+        <h3 className="text-lg font-bold">Acesso Externo</h3>
+        <p className="text-[12px] text-muted-foreground">Visualize relatórios compartilhados sem cadastro.</p>
+      </div>
+      <FormAlert message={error} />
+      <div>
+        <Label htmlFor="ext-code">Código de Acesso</Label>
+        <Input
+          id="ext-code"
+          value={code}
+          onChange={(e) => setCode(e.target.value.toUpperCase())}
+          placeholder="EX: SHARE-123"
+          className="mt-1 font-mono uppercase"
+          required
+        />
+      </div>
+      <div>
+        <Label htmlFor="ext-pass">Senha</Label>
+        <Input
+          id="ext-pass"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Digite a senha do link"
+          className="mt-1"
+          required
+        />
+      </div>
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : "Ver Relatório"}
+      </Button>
+      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
+        Voltar
+      </Button>
+    </form>
+  );
+}
+
