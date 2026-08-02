@@ -157,8 +157,9 @@ function KidsAccessPage() {
           <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
         </h1>
         <p className="text-[13px] text-muted-foreground">
-          O CLIENTE DEVE TER UM PAINEL DEDICADO E PROFSSIONAL COM SUAS FERRAMENTAS PARA CONTROLAR SEU ESPAÇO, COMO POR EXXEMPLO, SABER SOBRE SEU PLANO, SUAS LICENSAS, TIPOS, GERAÇÃO DE CÓDIGOS DE ACESSO EXTERNO, INFORMAÇOES PESSOAIS ETC. Aqui você cria o código, a senha e agora acompanha todas as movimentações financeiras em tempo real.
+          Crie o código e a senha de cada criança e acompanhe as movimentações em tempo real.
         </p>
+
 
       </header>
 
