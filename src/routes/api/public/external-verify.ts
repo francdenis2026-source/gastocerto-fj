@@ -7,7 +7,10 @@ export const Route = createFileRoute('/api/public/external-verify')({
       POST: async ({ request }) => {
         const { code, password } = await request.json()
         
-        const { data: codeData, error } = await (supabaseAdmin.rpc as any)('verify_external_access', { p_code: code.toUpperCase() })
+        // Use any cast on supabaseAdmin itself to bypass strict table name checking if it's stale
+        const admin = supabaseAdmin as any
+        
+        const { data: codeData, error } = await admin.rpc('verify_external_access', { p_code: code.toUpperCase() })
           .single()
 
         if (error || !codeData) {
@@ -19,7 +22,7 @@ export const Route = createFileRoute('/api/public/external-verify')({
 
         if (hash !== (codeData as any).password_hash) {
           // Log failed attempt
-          await (supabaseAdmin.from('external_access_logs') as any).insert({
+          await admin.from('external_access_logs').insert({
             code_id: (codeData as any).id,
             action: 'failed_attempt',
             ip_address: request.headers.get('x-forwarded-for') || '0.0.0.0',
@@ -29,7 +32,7 @@ export const Route = createFileRoute('/api/public/external-verify')({
         }
 
         // Log successful login
-        await (supabaseAdmin.from('external_access_logs') as any).insert({
+        await admin.from('external_access_logs').insert({
           code_id: (codeData as any).id,
           action: 'login',
           ip_address: request.headers.get('x-forwarded-for') || '0.0.0.0',
