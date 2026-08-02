@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { getKidCardControl } from "@/lib/kids-cards.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Progress } from "@/components/ui/progress";
+import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
 
 
 export const Route = createFileRoute("/_authenticated/meu-espaco")({
@@ -142,6 +143,7 @@ function KidSpacePage() {
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
   return (
+    <KidsStatusGuard kidUserId={dependent.id}>
     <main className="min-h-dvh bg-gradient-to-b from-primary/10 via-background to-background pb-16">
       <header className="flex items-center justify-between gap-3 px-4 py-5 sm:px-6">
         <div className="flex items-center gap-3">
@@ -351,6 +353,7 @@ function KidSpacePage() {
         ownerId={dependent.user_id}
       />
     </main>
+    </KidsStatusGuard>
   );
 }
 

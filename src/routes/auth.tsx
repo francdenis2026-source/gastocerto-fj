@@ -536,6 +536,18 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   const navigate = useNavigate();
   const checkLock = useServerFn(checkKidLock);
   const registerAttempt = useServerFn(registerKidAttempt);
+  const checkStatus = useServerFn(async (args: { data: { kidUserId?: string; code?: string } }) => {
+    const { checkKidAccountStatus } = await import("@/lib/kids-license-check.functions");
+    let kidUserId = args.data.kidUserId;
+    if (!kidUserId && args.data.code) {
+      const { data } = await supabase.from("dependents").select("id").eq("kid_login_code", args.data.code).maybeSingle();
+      if (data) kidUserId = data.id;
+    }
+    if (!kidUserId) return { active: true, readOnly: false };
+    const result = await checkKidAccountStatus({ data: { kidUserId } });
+    return result as import("@/lib/kids-license-check.functions").KidAccountStatus;
+  });
+
   const [code, setCode] = useState(normalizeKidCode(initialCode));
   const [pin, setPin] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -548,6 +560,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     const timer = setInterval(() => setLockSeconds((value) => Math.max(0, value - 1)), 1000);
     return () => clearInterval(timer);
   }, [lockSeconds]);
+
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -594,6 +607,21 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       toast.error(message);
       return;
     }
+
+    // Verificar se o plano do pai expirou ANTES de redirecionar.
+    try {
+      const statusCheck = await checkStatus({ data: { code: cleanCode } }) as any;
+      if (statusCheck.active === false || statusCheck.readOnly) {
+        toast.warning("Aviso de Assinatura", {
+          description: statusCheck.message || "A assinatura do seu responsável está expirada. O sistema entrará em modo somente leitura.",
+          duration: 6000,
+        });
+      }
+    } catch (e) {
+      console.warn("Status check skipped", e);
+    }
+
+
 
     // Registra a sessão com informações de dispositivo/IP (via RPC ou direto no servidor se possível, mas aqui usamos metadados ou o servidor na próxima requisição)
     try {
