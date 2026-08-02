@@ -80,7 +80,7 @@ export function Hero() {
 
       <div className="section-shell relative grid w-full items-center gap-6 lg:grid-cols-[1.06fr_1fr] lg:gap-10">
         <div className="min-w-0">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white sm:text-[11px]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white sm:text-[12.5px]">
             <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
             Controle hoje, tranquilidade sempre
           </span>
@@ -121,7 +121,7 @@ export function Hero() {
             {modules.map((mod) => (
               <li
                 key={mod.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/90"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-medium text-white/90"
               >
                 <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
                 {mod.label}
@@ -139,7 +139,7 @@ export function Hero() {
                 <p className="tabular mt-0.5 text-xl font-bold text-white">
                   {formatCurrency(3782.45)}
                 </p>
-                <p className="text-[11px] text-white/70">despesas consolidadas</p>
+                <p className="text-[12.5px] text-white/70">despesas consolidadas</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.06] px-2.5 py-2">
                 <RingChart className="size-9 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
@@ -150,13 +150,13 @@ export function Hero() {
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-2.5 py-2">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-white/85">
+              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/85">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Despesas vs. mês anterior
               </span>
               <span className="inline-flex items-center gap-2">
                 <Sparkline className="h-6 w-16 text-success" />
-                <span className="tabular text-[11px] font-semibold text-success">-8,2%</span>
+                <span className="tabular text-[12.5px] font-semibold text-success">-8,2%</span>
               </span>
             </div>
           </div>
@@ -164,13 +164,13 @@ export function Hero() {
           <dl className="mt-5 hidden grid-cols-3 gap-3 border-t border-white/10 pt-3 sm:grid">
             {stats.map((stat) => (
               <div key={stat.label} className="min-w-0">
-                <dt className="truncate text-[10px] uppercase tracking-wide text-white/70 sm:text-[11px]">
+                <dt className="truncate text-[10px] uppercase tracking-wide text-white/70 sm:text-[12.5px]">
                   {stat.label}
                 </dt>
                 <dd className="tabular mt-0.5 truncate text-sm font-bold text-white sm:text-base">
                   {stat.value}
                 </dd>
-                <p className="truncate text-[11px] text-white/65">{stat.hint}</p>
+                <p className="truncate text-[12.5px] text-white/65">{stat.hint}</p>
               </div>
             ))}
           </dl>
@@ -184,7 +184,7 @@ export function Hero() {
           </div>
 
           <div className="absolute -left-8 bottom-14 w-44 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
-            <div className="flex items-center justify-between text-[11px]">
+            <div className="flex items-center justify-between text-[12.5px]">
               <span className="inline-flex items-center gap-1.5 font-medium text-white/85">
                 <TrendingDown className="size-3.5 text-success" aria-hidden="true" />
                 Despesas
@@ -197,7 +197,7 @@ export function Hero() {
           <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
             <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
             <div className="min-w-0">
-              <p className="text-[11px] text-white/70">Orçamento</p>
+              <p className="text-[12.5px] text-white/70">Orçamento</p>
               <p className="tabular text-sm font-bold text-white">68% usado</p>
             </div>
           </div>

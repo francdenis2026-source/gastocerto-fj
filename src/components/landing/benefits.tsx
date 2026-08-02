@@ -88,7 +88,7 @@ export function Benefits() {
     >
       <div className="section-shell">
         <Reveal className="max-w-2xl">
-          <p className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-brand sm:text-[11px]">
+          <p className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-brand sm:text-[12.5px]">
             <Sparkles className="size-3.5" aria-hidden="true" />
             Benefícios e diferenciais
           </p>

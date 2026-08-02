@@ -42,14 +42,14 @@ export function CodeAccessInline({ onContinue }: { onContinue?: () => void }) {
         <KeyRound className="size-4 text-primary" aria-hidden />
         Recebeu um código de teste?
       </h2>
-      <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
         Informe a chave liberada pela equipe. O teste libera os recursos essenciais; o Consultor de
         IA permanece exclusivo dos planos pagos.
       </p>
 
       <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end">
         <div className="flex-1">
-          <Label htmlFor="inline-access-code" className="text-[12px]">
+          <Label htmlFor="inline-access-code" className="text-[13px]">
             Código de acesso
           </Label>
           <Input

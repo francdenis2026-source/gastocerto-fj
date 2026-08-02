@@ -270,7 +270,7 @@ export function CompactOverview() {
       <div className="section-shell">
         <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-brand">
+            <p className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
               <Sparkles className="size-3.5" aria-hidden="true" />
               Recursos da plataforma
             </p>
@@ -313,7 +313,7 @@ export function CompactOverview() {
               </span>
               <div className="min-w-0">
                 <p className="tabular text-sm font-bold leading-none">{item.value}</p>
-                <p className="text-[11px] leading-snug text-muted-foreground sm:truncate">{item.label}</p>
+                <p className="text-[12.5px] leading-snug text-muted-foreground sm:truncate">{item.label}</p>
                 <p className="hidden truncate text-[10px] text-muted-foreground sm:block">{item.hint}</p>
               </div>
             </div>
@@ -359,10 +359,10 @@ export function CompactOverview() {
                   className="rounded-2xl border border-border bg-card/60 p-2.5 backdrop-blur sm:p-3"
                 >
                   <div className="flex items-baseline justify-between gap-2">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                    <p className="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-brand">
                       {group.group}
                     </p>
-                    <p className="hidden truncate text-[11px] text-muted-foreground sm:block">{group.caption}</p>
+                    <p className="hidden truncate text-[12.5px] text-muted-foreground sm:block">{group.caption}</p>
                   </div>
                   <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
                     {group.items.map((item, itemIndex) => (
