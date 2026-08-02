@@ -257,37 +257,34 @@ function KidsAccessPage() {
               ? "Nenhum acesso liberado ainda."
               : `${summary.total} código(s) criado(s) no total.`}
           </p>
-        </div>
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-            <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="rounded-xl border border-border bg-card p-2">
+          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
+            <Baby className="size-3 text-primary" aria-hidden /> Ativas
           </p>
-          <div className="flex items-center gap-2">
-            <p className={cn("mt-1 text-[13px] font-bold", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
-              {describeKidCodeExpiry(summary.nextExpiry).label}
-            </p>
-            {describeKidCodeExpiry(summary.nextExpiry).nearExpiry && (
-              <Badge variant="outline" className="bg-orange-50 text-orange-600 border-orange-200 animate-pulse text-[9px] py-0 h-4 flex items-center gap-1">
-                <AlertCircle className="size-2" /> REEMITIR QR
-              </Badge>
-            )}
-          </div>
-          <p className="text-[11px] text-muted-foreground">
-            {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
+          <p className="mt-0.5 text-base font-black">{kids.length}</p>
+        </div>
+        <div className="rounded-xl border border-border bg-card p-2">
+          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
+            <CalendarClock className="size-3 text-primary" aria-hidden /> Expiração
+          </p>
+          <p className={cn("mt-0.5 text-[11px] font-bold truncate", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
+            {describeKidCodeExpiry(summary.nextExpiry).label}
           </p>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-            <LogIn className="size-3.5 text-primary" aria-hidden /> Último login da criança
+        <div className="rounded-xl border border-border bg-card p-2">
+          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
+            <LogIn className="size-3 text-primary" aria-hidden /> Último Login
           </p>
-          <p className="mt-1 text-[13px] font-bold">
-            {summary.lastLogin
-              ? new Date(summary.lastLogin.at).toLocaleString("pt-BR")
-              : "Ainda sem acesso registrado"}
+          <p className="mt-0.5 text-[11px] font-bold truncate">
+            {summary.lastLogin ? new Date(summary.lastLogin.at).toLocaleDateString("pt-BR") : "Nenhum"}
           </p>
-          <p className="text-[11px] text-muted-foreground">
-            {summary.lastLogin ? summary.lastLogin.name : "O registro aparece após a primeira entrada."}
+        </div>
+        <div className="rounded-xl border border-border bg-card p-2">
+          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
+            <ShieldCheck className="size-3 text-primary" aria-hidden /> Bloqueio
           </p>
+          <p className="mt-0.5 text-[11px] font-bold truncate">{KID_MAX_ATTEMPTS} tent. / {KID_LOCK_MINUTES} min</p>
         </div>
       </section>
 
