@@ -32,7 +32,7 @@ const modules = [
   { label: "Gás", icon: Flame },
   { label: "Cartões", icon: CreditCard },
   { label: "Espaço Kids", icon: Baby },
-  { label: "PIX", icon: Send },
+  { label: "PIX Kids", icon: Send },
   { label: "Consultor IA", icon: Sparkles },
 ] as const;
 
@@ -71,7 +71,7 @@ export function Hero() {
       {/* véu único e sólido: garante contraste AA sem excesso de brilho */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.024_252/0.92),oklch(0.14_0.024_252/0.8)_55%,oklch(0.14_0.024_252/0.97))] sm:bg-[linear-gradient(100deg,oklch(0.13_0.022_252/0.97)_0%,oklch(0.14_0.024_252/0.88)_48%,oklch(0.15_0.026_252/0.55)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.12_0.02_252/0.95),oklch(0.12_0.02_252/0.85)_55%,oklch(0.12_0.02_252/0.98))] sm:bg-[linear-gradient(100deg,oklch(0.12_0.02_252/0.98)_0%,oklch(0.12_0.02_252/0.92)_48%,oklch(0.13_0.02_252/0.75)_100%)]"
       />
       <div
         aria-hidden="true"
@@ -82,17 +82,17 @@ export function Hero() {
         <div className="min-w-0">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white sm:text-[12.5px]">
             <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-            Controle hoje, tranquilidade sempre
+            Controle financeiro e tranquilidade sempre
           </span>
 
           <h1 className="font-display mt-3 text-[2.15rem] font-extrabold leading-[1.03] tracking-[-0.032em] text-white [text-wrap:balance] sm:text-[2.7rem] lg:text-[3.15rem]">
-            Todo o seu dinheiro
+            Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="text-[oklch(0.88_0.11_165)]">em um só painel.</span>
+            <span className="text-[oklch(0.88_0.11_165)]">organizado e simples.</span>
           </h1>
 
           <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-white/90 sm:text-base">
-            Despesas, veículos, gás, cartões, PIX para os filhos e um consultor com IA — organizados
+            Despesas, veículos, gás, cartões, Espaço Kids e um consultor com IA — organizados
             em módulos simples, rápidos de usar todos os dias.
           </p>
 
@@ -112,7 +112,7 @@ export function Hero() {
                 className="h-12 w-full justify-center border-white/25 bg-white/[0.08] px-5 text-sm text-white hover:bg-white/[0.16] hover:text-white sm:h-11 sm:w-auto sm:px-6"
               >
                 <KeyRound className="size-4 shrink-0" aria-hidden="true" />
-                <span className="truncate">Tenho um código</span>
+                <span className="truncate">Código de acesso</span>
               </Button>
             </CodeAccessDialog>
           </div>
@@ -142,10 +142,10 @@ export function Hero() {
                 <p className="text-[12.5px] text-white/70">despesas consolidadas</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.06] px-2.5 py-2">
-                <RingChart className="size-9 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
+                <RingChart className="size-9 shrink-0 text-[oklch(0.82_0.11_165)]" value={45} />
                 <div className="min-w-0">
                   <p className="text-[10px] text-white/70">Orçamento</p>
-                  <p className="tabular text-[13px] font-bold text-white">68%</p>
+                  <p className="tabular text-[13px] font-bold text-white">45%</p>
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@ export function Hero() {
               </span>
               <span className="inline-flex items-center gap-2">
                 <Sparkline className="h-6 w-16 text-success" />
-                <span className="tabular text-[12.5px] font-semibold text-success">-8,2%</span>
+                <span className="tabular text-[12.5px] font-semibold text-success">-12,4%</span>
               </span>
             </div>
           </div>
@@ -189,16 +189,16 @@ export function Hero() {
                 <TrendingDown className="size-3.5 text-success" aria-hidden="true" />
                 Despesas
               </span>
-              <span className="font-semibold text-success">-8,2%</span>
+              <span className="font-semibold text-success">-12,4%</span>
             </div>
             <Sparkline className="mt-2 h-12 w-full text-success" />
           </div>
 
           <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
-            <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
+            <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={45} />
             <div className="min-w-0">
               <p className="text-[12.5px] text-white/70">Orçamento</p>
-              <p className="tabular text-sm font-bold text-white">68% usado</p>
+              <p className="tabular text-sm font-bold text-white">45% usado</p>
             </div>
           </div>
         </div>

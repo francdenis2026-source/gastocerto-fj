@@ -20,7 +20,7 @@ const socials = [
   { label: "Instagram", icon: Instagram, href: "#inicio" },
   { label: "LinkedIn", icon: Linkedin, href: "#inicio" },
   { label: "YouTube", icon: Youtube, href: "#inicio" },
-  { label: "E-mail", icon: Mail, href: "mailto:aplicativosfj@gmail.com" },
+  { label: "E-mail", icon: Mail, href: "mailto:contato@gastocerto.app" },
 ];
 
 // Tap target ≥44px via invisible overlay, keeps the footer visually short.
@@ -80,7 +80,7 @@ export function LandingFooter() {
         <div className="section-shell flex items-center justify-between gap-x-3 py-1.5 text-[10px] text-foreground sm:py-2 sm:text-[12.5px]">
           <p className="truncate">© {new Date().getFullYear()} GastoCerto.</p>
           <div className="flex shrink-0 items-center gap-1">
-            <p className="truncate">Dev. Franc D&apos;nis · Feijó-AC</p>
+            <p className="truncate">Dev. Franc D&apos;nis · Acre</p>
             <Link
               to="/admin"
               aria-label="Acesso restrito da equipe"

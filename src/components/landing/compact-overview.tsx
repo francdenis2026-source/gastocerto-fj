@@ -137,7 +137,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   },
   {
     group: "Família e Kids",
-    caption: "Mesada, PIX e educação financeira",
+    caption: "Gestão e educação financeira",
     items: [
       {
         icon: Baby,
@@ -147,8 +147,8 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
       },
       {
         icon: Send,
-        title: "PIX para os filhos",
-        text: "Envie mesada por PIX, com histórico, comprovante e aviso na hora.",
+        title: "PIX",
+        text: "Envie dinheiro por PIX, com histórico, comprovante e aviso na hora.",
         tag: "PIX",
       },
       {
@@ -159,7 +159,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
       },
       {
         icon: Repeat,
-        title: "Mesada automática",
+        title: "Envio automático",
         text: "Recorrência semanal ou mensal lançada sozinha no orçamento da casa.",
         tag: "Automático",
       },
@@ -211,8 +211,8 @@ const steps = [
 ];
 
 const proofs = [
-  { name: "Ana Paula", role: "Autônoma · Rio Branco", text: "Achei R$ 380 por mês em assinaturas que eu nem lembrava que existiam." },
-  { name: "Rafael Lima", role: "Motorista de app · Feijó", text: "Descobri que rodava por R$ 0,52 o km. Reajustei minha meta no mesmo dia." },
+  { name: "Mariana Silva", role: "Gestora · Rio Branco", text: "Achei R$ 380 por mês em assinaturas que eu nem lembrava que existiam." },
+  { name: "Rafael Lima", role: "Motorista · Feijó", text: "Descobri que rodava por R$ 0,52 o km. Reajustei minha meta no mesmo dia." },
   { name: "Juliana Costa", role: "Professora · Cruzeiro do Sul", text: "Zerei juros de atraso: o app avisa três dias antes de cada conta." },
 ];
 
@@ -275,7 +275,7 @@ export function CompactOverview() {
               Recursos da plataforma
             </p>
             <h2 className="mt-1 section-title">
-              Um sistema para todo o seu controle financeiro
+              Um sistema completo para o seu controle financeiro
             </h2>
             <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
               Recursos integrados para o dia a dia, veículos, planejamento, família e análise.
@@ -288,7 +288,7 @@ export function CompactOverview() {
                 className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Ver painel ao vivo
+                Ver demonstração
               </button>
             </DemoDialog>
             {shortcuts.map((item) => (

@@ -102,7 +102,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               className={cn("hidden lg:inline-flex", !scrolled && "text-white hover:bg-white/10 hover:text-white")}
             >
               <KeyRound className="size-4" aria-hidden />
-              Tenho um código
+              Código de acesso
             </Button>
           </CodeAccessDialog>
           {/* Código: ícone compacto no celular, mantendo a ação sempre acessível. */}
@@ -133,7 +133,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           {!hideActions && (
             <>
               <Button className="hidden shadow-soft lg:inline-flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Criar conta gratuita</Link>
+                <Link to="/auth" search={{ mode: "signup" }}>Começar grátis</Link>
               </Button>
               <Button
                 variant="outline"
@@ -188,7 +188,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               <CodeAccessDialog>
                 <Button variant="ghost" className="w-full justify-center">
                   <KeyRound className="size-4" aria-hidden />
-                  Tenho um código
+                  Código de acesso
                 </Button>
               </CodeAccessDialog>
             </div>

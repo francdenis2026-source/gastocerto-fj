@@ -32,6 +32,7 @@ import { Progress } from "@/components/ui/progress";
 import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { useAvatarUrl } from "@/lib/queries";
+import { syncKidTransaction } from "@/lib/kids-sync.functions";
 
 
 
@@ -78,6 +79,7 @@ function KidSpacePage() {
   const [compactMode, setCompactMode] = useState(initialCompactMode);
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
+  const syncTx = useServerFn(syncKidTransaction);
 
   const fetchCardControl = useServerFn(getKidCardControl);
 
@@ -384,7 +386,7 @@ function KidSpacePage() {
               )} 
               onClick={() => setEntryOpen(true)}
             >
-              {compactMode ? "Anotar" : "Anotar Agora 📝"}
+              {compactMode ? "Anotar" : "Lançar agora 📝"}
             </Button>
           </section>
 
@@ -554,10 +556,11 @@ function KidSpacePage() {
         onOpenChange={setEntryOpen}
         dependentId={dependent.id}
         ownerId={dependent.user_id}
+        syncTx={syncTx}
       />
       <footer className="mt-auto border-t border-border/50 py-6 text-center">
         <p className="text-[10px] font-medium text-muted-foreground/60 uppercase tracking-widest">
-          &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+          &lt;Dev. Franc D&apos;nis&gt; · Acre
         </p>
       </footer>
 
@@ -654,11 +657,13 @@ function KidEntryDialog({
   onOpenChange,
   dependentId,
   ownerId,
+  syncTx,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dependentId: string;
   ownerId: string;
+  syncTx: any;
 }) {
   const queryClient = useQueryClient();
   const [reason, setReason] = useState<string>(DEPENDENT_REASONS[0].value);
@@ -686,6 +691,23 @@ function KidEntryDialog({
         tags: [dependentTag(dependentId), reasonTag(selected.value)],
       } as never);
       if (error) throw error;
+      
+      // 3. Sincronizar com o painel do pai (registrar despesa automática)
+      try {
+        await syncTx({
+          data: {
+            dependentId,
+            amount: value,
+            description: description.trim() || selected.label,
+            transactionDate: isoDate,
+            type: selected.type
+          }
+        });
+      } catch (syncErr) {
+        console.warn("[kids-sync] Falha na sincronização silenciosa", syncErr);
+        // Não travamos o fluxo da criança se a sincronização falhar, 
+        // mas o log acima ajuda no debug.
+      }
     },
     onMutate: async () => {
       // Pedir confirmação com diálogo profissional antes de salvar

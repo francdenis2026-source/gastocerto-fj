@@ -230,7 +230,7 @@ function OrderStatusPage() {
         </section>
 
         <p className="text-center text-xs text-muted-foreground">
-          Dúvidas sobre o pagamento? Fale com o suporte pelo site.
+          Dúvidas sobre o pagamento? Fale com o suporte no menu Ajuda.
         </p>
       </div>
     </main>
