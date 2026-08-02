@@ -537,17 +537,17 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   const checkLock = useServerFn(checkKidLock);
   const registerAttempt = useServerFn(registerKidAttempt);
   const checkStatus = useServerFn(async (args: { data: { kidUserId?: string; code?: string } }) => {
-    // Importamos dinamicamente ou usamos o que temos.
     const { checkKidAccountStatus } = await import("@/lib/kids-license-check.functions");
-    // Se passarmos o código, precisamos achar o kidUserId primeiro.
     let kidUserId = args.data.kidUserId;
     if (!kidUserId && args.data.code) {
       const { data } = await supabase.from("dependents").select("id").eq("kid_login_code", args.data.code).maybeSingle();
       if (data) kidUserId = data.id;
     }
     if (!kidUserId) return { active: true, readOnly: false };
-    return await checkKidAccountStatus({ data: { kidUserId } });
+    const result = await checkKidAccountStatus({ data: { kidUserId } });
+    return result as import("@/lib/kids-license-check.functions").KidAccountStatus;
   });
+
   const [code, setCode] = useState(normalizeKidCode(initialCode));
   const [pin, setPin] = useState("");
   const [formError, setFormError] = useState<string | null>(null);

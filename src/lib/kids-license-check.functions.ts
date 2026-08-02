@@ -2,9 +2,16 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
+export type KidAccountStatus = {
+  active: boolean;
+  readOnly?: boolean;
+  reason?: "kid_not_found" | "parent_not_found" | "parent_inactive" | "parent_expired";
+  message?: string;
+};
+
 export const checkKidAccountStatus = createServerFn({ method: "GET" })
   .inputValidator((data) => z.object({ kidUserId: z.string() }).parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<KidAccountStatus> => {
     const { data: kid, error: kidErr } = await supabaseAdmin
       .from("dependents")
       .select("user_id, name")
@@ -25,7 +32,6 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
       return { active: false, reason: "parent_not_found" };
     }
 
-    // Se o perfil está inativo ou bloqueado
     if (profile.status === 'inactive' || profile.status === 'blocked') {
       return { 
         active: false, 
@@ -37,7 +43,6 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     const trialExpired = profile.trial_ends_at ? new Date(profile.trial_ends_at) < new Date() : false;
     
-    // Se não tem plano (plan_id nulo) e o trial expirou
     if (!profile.plan_id && trialExpired) {
       return { 
         active: true, 
@@ -49,3 +54,4 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     return { active: true, readOnly: false };
   });
+
