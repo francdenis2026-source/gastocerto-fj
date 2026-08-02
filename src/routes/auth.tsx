@@ -612,10 +612,11 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
-      <div className="flex items-center gap-2">
-        <Baby className="size-5 text-primary" aria-hidden />
-        <h3 className="text-base font-bold text-foreground">Entrada da criança</h3>
+      <div className="flex items-center justify-center gap-2">
+        <Baby className="size-5 shrink-0 text-primary" aria-hidden />
+        <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>
       </div>
+
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="kid-code">Meu código</Label>
