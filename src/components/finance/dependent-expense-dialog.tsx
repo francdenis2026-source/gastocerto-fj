@@ -264,8 +264,8 @@ export function DependentExpenseDialog({
             </DialogTitle>
             <DialogDescription>
               {selected
-                ? "Registre ganhos e gastos das crianças. Ensine educação financeira na prática!"
-                : "Cadastre as crianças para gerenciar mesadas, presentes e ensinar o valor do dinheiro."}
+                ? "Registre ganhos e gastos das crianças. Para o Modo Criança, peça para ela digitar o PIN de acesso."
+                : "Cadastre as crianças para gerenciar mesadas, metas e ensinar o valor do dinheiro. O Modo Criança simplificado exige um PIN definido no cadastro."}
             </DialogDescription>
           </DialogHeader>
 

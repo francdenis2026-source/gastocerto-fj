@@ -110,7 +110,7 @@ export function DependentDialog({
         <DialogHeader>
           <DialogTitle>{dependent ? "Editar dependente" : "Novo filho / dependente"}</DialogTitle>
           <DialogDescription>
-            Cadastre cada filho para acompanhar os gastos extras separados por pessoa.
+            Cadastre cada filho para acompanhar os gastos extras. Defina um PIN de 4 dígitos para que a criança possa entrar no Modo Criança sozinha.
           </DialogDescription>
         </DialogHeader>
 
