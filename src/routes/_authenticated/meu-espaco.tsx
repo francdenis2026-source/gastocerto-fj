@@ -18,7 +18,7 @@ import {
 import { MoneyInput } from "@/components/ui/money-input";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { DEPENDENT_REASONS, dependentTag, reasonTag } from "@/lib/dependents";
+import { DEPENDENT_REASONS, dependentTag, reasonTag, useDependents, type Dependent } from "@/lib/dependents";
 import { parseAmount } from "@/lib/finance";
 import { formatCurrency } from "@/lib/format";
 import { useKidSession } from "@/lib/kids-session";
