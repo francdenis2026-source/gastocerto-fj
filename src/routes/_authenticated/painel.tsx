@@ -952,7 +952,8 @@ function DashboardPage() {
               </ChartCard>
             </section>
 
-            {hasFeature(profile?.plan_tier ?? "free", "debt_advisor") && (
+            {hasFeature(access, "debt_advisor") && (
+
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-sm font-bold">Consultoria de Dívidas</h2>
