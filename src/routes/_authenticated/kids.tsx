@@ -882,6 +882,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </p>
             <KidTransactionsList dependentId={dependent.id} />
         </div>
+      </div>
+
 
         <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
 
