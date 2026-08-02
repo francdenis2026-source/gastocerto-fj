@@ -1,3 +1,4 @@
+import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Diff, History, TriangleAlert } from "lucide-react";
 import { useMemo, useState } from "react";
