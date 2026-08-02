@@ -213,6 +213,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const [days, setDays] = useState(30);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
+  const [qrNonce, setQrNonce] = useState(0);
   const [visibility, setVisibility] = useState<KidVisibility>(
     parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility) ??
       DEFAULT_KID_VISIBILITY,
