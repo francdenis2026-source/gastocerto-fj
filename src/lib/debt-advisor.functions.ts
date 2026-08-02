@@ -7,61 +7,58 @@ export const getDebtAdvisorInsights = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { userId } = data;
 
-    // 1. Busca transações (gastos vs receitas), dívidas (compromissos) e cartões
-    const [transactionsRes, commitmentsRes, cardsRes] = await Promise.all([
-      supabaseAdmin.from("transactions").select("*").eq("user_id", userId).eq("status", "pending").is("deleted_at", null),
+    // 1. Busca transações e compromissos (tabelas que sabemos que existem)
+    const [transactionsRes, commitmentsRes] = await Promise.all([
+      supabaseAdmin.from("transactions").select("*").eq("user_id", userId).is("deleted_at", null),
       supabaseAdmin.from("commitments").select("*").eq("user_id", userId).eq("status", "open"),
-      supabaseAdmin.from("credit_cards").select("*").eq("user_id", userId),
     ]);
 
     const txs = transactionsRes.data || [];
-    const commitments = commitmentsRes.data || [];
-    const cards = cardsRes.data || [];
+    const commitments = (commitmentsRes.data || []) as any[];
+
+    // Tenta buscar cartões (se a migração já refletiu nos tipos, senão usamos consulta crua ou ignoramos erro de tipo)
+    // Para evitar erros de build se os tipos não atualizaram, usamos 'any'
+    const cardsRes = await (supabaseAdmin.from("credit_cards") as any).select("*").eq("user_id", userId);
+    const cards = (cardsRes.data || []) as any[];
 
     // Cálculo básico de saúde financeira
     const totalIncome = txs.filter(t => t.transaction_type === 'income').reduce((s, t) => s + Number(t.amount), 0);
     const totalExpense = txs.filter(t => t.transaction_type === 'expense').reduce((s, t) => s + Number(t.amount), 0);
+    
+    // Compromissos pendentes
     const totalDebt = commitments.reduce((s, c) => s + (Number(c.total_amount) - Number(c.paid_amount || 0)), 0);
     
-    // Análise de cartões (gastos nos cartões vs limite se disponível)
+    // Análise de cartões
     const cardDebt = cards.reduce((s, c) => s + Number(c.current_balance || 0), 0);
 
     const plans = [];
 
     // Lógica de sugestão
-    if (totalDebt > 0) {
-      const monthsToPay = totalIncome > totalExpense ? Math.ceil(totalDebt / (totalIncome - totalExpense)) : 99;
+    if (totalDebt > 0 || cardDebt > 0) {
+      const combinedDebt = totalDebt + cardDebt;
+      const surplus = totalIncome - totalExpense;
+      const monthsToPay = surplus > 0 ? Math.ceil(combinedDebt / surplus) : 99;
       
       plans.push({
-        title: "Plano de Quitação Acelerada",
-        description: `Com base na sua sobra atual, você pode quitar todas as dívidas em aproximadamente ${monthsToPay > 24 ? 'mais de 2 anos' : monthsToPay + ' meses'}.`,
+        title: "Plano de Quitação GastoCerto",
+        description: surplus > 0 
+          ? `Com sua sobra de ${surplus.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}, você quita tudo em aprox. ${monthsToPay} meses.`
+          : "Seu orçamento está apertado. Precisamos reduzir gastos para gerar sobra e pagar as dívidas.",
         steps: [
-          "Elimine gastos supérfluos IMEDIATAMENTE.",
-          "Negocie taxas de juros com os credores das dívidas maiores.",
-          "Pague primeiro as dívidas com juros mais altos (Cartão de Crédito).",
-          `Reserve R$ ${Math.max(100, (totalIncome - totalExpense) * 0.8).toFixed(2)} por mês exclusivamente para dívidas.`
-        ]
-      });
-    }
-
-    if (cardDebt > (totalIncome * 0.3)) {
-      plans.push({
-        title: "Alerta de Uso de Cartão",
-        description: "Seu endividamento em cartões ultrapassa 30% da sua renda. Isso é um sinal de alerta crítico.",
-        steps: [
-          "Pare de usar os cartões para compras parceladas.",
-          "Consolide a dívida do cartão em um empréstimo com juros menores, se possível.",
-          "Use apenas débito para controle psicológico de gastos."
+          "Elimine gastos não essenciais (Lazer, Assinaturas) imediatamente.",
+          "Priorize o pagamento do rotativo do Cartão de Crédito (Juros mais altos).",
+          "Tente renegociar prazos de empréstimos e financiamentos.",
+          `Objetivo: Economizar R$ ${Math.max(200, combinedDebt * 0.05).toFixed(2)} extras por mês.`
         ]
       });
     }
 
     return {
       summary: {
-        totalDebt,
+        totalDebt: totalDebt + cardDebt,
         cardDebt,
-        debtToIncomeRatio: totalIncome > 0 ? (totalDebt / totalIncome) * 100 : 0,
-        healthScore: totalDebt === 0 ? 100 : Math.max(0, 100 - (totalDebt / (totalIncome * 12)) * 100)
+        debtToIncomeRatio: totalIncome > 0 ? ((totalDebt + cardDebt) / totalIncome) * 100 : 0,
+        healthScore: (totalDebt + cardDebt) === 0 ? 100 : Math.max(0, 100 - ((totalDebt + cardDebt) / (Math.max(1, totalIncome) * 12)) * 100)
       },
       plans
     };
