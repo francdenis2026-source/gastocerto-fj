@@ -194,7 +194,7 @@ export function Hero() {
             <Sparkline className="mt-2 h-12 w-full text-success" />
           </div>
 
-          <div className="absolute right-0 top-8 flex w-40 items-center gap-3 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
+          <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
             <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
             <div className="min-w-0">
               <p className="text-[11px] text-white/70">Orçamento</p>
