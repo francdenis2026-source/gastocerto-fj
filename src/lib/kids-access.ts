@@ -44,6 +44,8 @@ export const KID_ACCESS_ACTION_LABELS: Record<string, string> = {
   rotated: "Código rotacionado",
   revoked: "Acesso revogado",
   visibility: "Permissões alteradas",
+  pin_customized: "PIN personalizado",
+  login_failed: "Tentativa de login falhou",
 };
 
 /** Rótulo amigável para a validade do código. */

@@ -16,7 +16,7 @@ const saveSchema = z.object({
     .transform((value) => value.replace(/\D/g, ""))
     .refine((value) => value.length >= 4 && value.length <= 6, "A senha deve ter 4 a 6 dígitos"),
   expiresDays: z.number().min(1).max(3650).optional().default(365),
-  reason: z.enum(["created", "updated", "rotated"]).optional().default("updated"),
+  reason: z.enum(["created", "updated", "rotated", "pin_customized"]).optional().default("updated"),
 });
 
 /** Cria, troca ou rotaciona o acesso próprio da criança (código + senha). */
@@ -72,6 +72,7 @@ export const saveKidAccess = createServerFn({ method: "POST" })
         kid_user_id: kidUserId,
         kids_mode_enabled: true,
         kid_code_expires_at: expiresAt.toISOString(),
+        pin_code: data.pin,
       } as never)
       .eq("id", data.dependentId);
 
@@ -119,7 +120,7 @@ export const revokeKidAccess = createServerFn({ method: "POST" })
 
     const { error: clearError } = await context.supabase
       .from("dependents")
-      .update({ kid_login_code: null, kid_user_id: null, kid_code_expires_at: null } as never)
+      .update({ kid_login_code: null, kid_user_id: null, kid_code_expires_at: null, pin_code: null } as never)
       .eq("id", data.dependentId);
 
     if (clearError) throw new Error(clearError.message);
@@ -250,4 +251,48 @@ export const registerKidAttempt = createServerFn({ method: "POST" })
       secondsLeft: shouldLock ? KID_LOCK_MINUTES_SERVER * 60 : 0,
       remaining: shouldLock ? 0 : Math.max(0, KID_MAX_ATTEMPTS_SERVER - attempts),
     };
+  });
+
+export const blockKidSession = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({ sessionId: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.rpc("block_kid_session", { session_id: data.sessionId });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const getKidSessions = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({ dependentId: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { data: sessions, error } = await context.supabase
+      .from("kid_session_logs")
+      .select("*")
+      .eq("dependent_id", data.dependentId)
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return sessions;
+  });
+
+export const updateKidsSecuritySettings = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        notifications: z.object({
+          failed_login: z.boolean(),
+          code_revoked: z.boolean(),
+          new_session: z.boolean(),
+        }),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("profiles")
+      .update({ kids_security_notifications: data.notifications })
+      .eq("id", context.userId);
+    if (error) throw new Error(error.message);
+    return { ok: true };
   });
