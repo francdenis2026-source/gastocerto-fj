@@ -403,19 +403,8 @@ function DashboardPage() {
   const vehicleTotal = vehicleSummary.reduce((sum, row) => sum + row.total, 0);
 
 
-  if (isLoading) {
-    return (
-      <AppShell>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
-        </div>
-      </AppShell>
-    );
-  }
-
   const { data: dependents } = useDependents();
 
-  
   const kidsOnboarding = useMemo(() => {
     const active = (dependents ?? []).filter(d => d.active !== false);
     const hasKid = active.length > 0;
@@ -434,6 +423,16 @@ function DashboardPage() {
   }, [dependents]);
 
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
+
+  if (isLoading) {
+    return (
+      <AppShell>
+        <div className="flex min-h-[40vh] items-center justify-center">
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+        </div>
+      </AppShell>
+    );
+  }
 
   if (loadingTransactions || loadingCategories) {
     return (
