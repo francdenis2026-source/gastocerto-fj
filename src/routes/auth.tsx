@@ -576,16 +576,16 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     try {
       const { data: dependent } = await supabase.from("dependents").select("id, user_id").eq("kid_login_code", cleanCode).single();
       if (dependent) {
-        await supabase.from("kid_session_logs").insert({
+        await supabase.from("kid_session_logs" as any).insert({
           dependent_id: dependent.id,
           user_id: dependent.user_id,
           user_agent: navigator.userAgent,
           device_info: { 
             screen: { width: window.screen.width, height: window.screen.height },
-            platform: navigator.platform,
+            platform: (navigator as any).platform,
             language: navigator.language
           }
-        });
+        } as any);
       }
     } catch (e) {
       console.warn("Falha ao registrar log de sessão:", e);
