@@ -1217,55 +1217,6 @@ function SessionManager({ dependentId }: { dependentId: string }) {
     </div>
   );
 }
-  const [sessions, setSessions] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    void getSessions({ data: { dependentId } }).then((res) => {
-      setSessions(res);
-      setLoading(false);
-    });
-  }, [dependentId]);
-
-  if (loading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
-
-  return (
-    <div className="mt-1 space-y-1">
-      {sessions.length === 0 ? (
-        <p className="py-2 text-center text-[10px] text-muted-foreground">Nenhuma sessão ativa.</p>
-      ) : (
-        sessions.map((s) => (
-          <div key={s.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/20 p-1.5 text-[10px]">
-            <div className="min-w-0">
-              <p className="truncate font-semibold text-foreground">
-                {s.ip_address || "IP oculto"} {s.status === "blocked" && <Badge variant="destructive" className="ml-1 scale-75 h-4 px-1">Bloqueado</Badge>}
-              </p>
-              <p className="truncate text-[9px] text-muted-foreground">
-                {new Date(s.created_at).toLocaleDateString("pt-BR")} · {s.user_agent?.split(" ")[0] || "Desconhecido"}
-              </p>
-            </div>
-            {s.status !== "blocked" && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 text-[9px] text-destructive hover:bg-destructive/10"
-                onClick={() => {
-                  void block({ data: { sessionId: s.id } }).then(() => {
-                    toast.success("Acesso bloqueado!");
-                    setSessions(sessions.map(sess => sess.id === s.id ? { ...sess, status: 'blocked' } : sess));
-                  });
-                }}
-              >
-                Bloquear
-              </Button>
-            )}
-          </div>
-        ))
-      )}
-    </div>
-  );
-}
 
 export function ExternalCodeCreator() {
   const queryClient = useQueryClient();
