@@ -577,6 +577,36 @@ export type Database = {
         }
         Relationships: []
       }
+      code_redemption_history: {
+        Row: {
+          code: string
+          code_type: string
+          id: string
+          metadata: Json | null
+          redeemed_at: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          code_type: string
+          id?: string
+          metadata?: Json | null
+          redeemed_at?: string
+          status: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          code_type?: string
+          id?: string
+          metadata?: Json | null
+          redeemed_at?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       commitment_entries: {
         Row: {
           amount: number
@@ -1646,6 +1676,36 @@ export type Database = {
           trial_days?: number | null
           updated_at?: string
           vehicle_limit?: number | null
+        }
+        Relationships: []
+      }
+      profile_audit_logs: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          field_name: string
+          id: string
+          new_value: string | null
+          old_value: string | null
+          user_id: string
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          field_name: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          user_id: string
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          field_name?: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          user_id?: string
         }
         Relationships: []
       }
