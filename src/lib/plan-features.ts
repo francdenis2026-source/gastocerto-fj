@@ -1,4 +1,6 @@
+import { useProfile, useRoles } from "./queries";
 /**
+
  * Regras de plano do GastoCerto — função pura, testável e compartilhada entre
  * cliente e servidor.
  *
