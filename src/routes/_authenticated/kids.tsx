@@ -499,6 +499,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               ) : null}
             </div>
           </div>
+
+          <div className="rounded-xl border border-border p-3">
             <p className="flex items-center gap-2 text-[12px] font-bold">
               <Eye className="size-3.5 text-primary" aria-hidden /> O que a criança pode ver
             </p>
