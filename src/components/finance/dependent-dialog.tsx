@@ -235,6 +235,15 @@ export function DependentDialog({
             />
           </div>
 
+          {dependent?.id ? (
+            <KidAccessSection dependentId={dependent.id} name={name} currentCode={dependent.kid_login_code ?? null} />
+          ) : (
+            <p className="rounded-xl border border-dashed border-border p-3 text-[12px] text-muted-foreground">
+              Salve o cadastro para liberar o acesso independente da criança (entrada pela tela inicial
+              com código e senha).
+            </p>
+          )}
+
 
           <div>
             <Label>Cor de identificação</Label>
