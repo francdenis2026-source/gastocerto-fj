@@ -12,6 +12,8 @@ export type KidSessionDependent = {
   monthly_allowance: number | null;
   monthly_limit: number | null;
   kid_login_code: string | null;
+  gender: string | null;
+  avatar_url: string | null;
 };
 
 /**
