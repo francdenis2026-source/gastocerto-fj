@@ -479,7 +479,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
-  const [days, setDays] = useState(dependent.kid_auto_upgrade_days ?? 365);
+  const [days, setDays] = useState<number | string>(dependent.kid_auto_upgrade_days ?? 365);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
   const [qrNonce, setQrNonce] = useState(0);
@@ -533,10 +533,11 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     toast.success("QR atualizado na tela.");
   }
 
-  async function handleUpdateUpgrade(newDays: number) {
+  async function handleUpdateUpgrade(newDays: number | string) {
+    const numericDays = typeof newDays === "string" ? 0 : newDays;
     setDays(newDays);
     try {
-      await updateUpgradeConfig({ data: { dependentId: dependent.id, days: newDays } });
+      await updateUpgradeConfig({ data: { dependentId: dependent.id, days: numericDays } });
       toast.success("Tempo de upgrade atualizado!");
       void refresh();
       void refreshAudit();
@@ -557,7 +558,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       return;
     }
     setBusy(true);
-    const promise = save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays: days, reason } });
+    const expiresDays = days === "never" ? null : Number(days);
+    const promise = save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays, reason } });
     
     toast.promise(promise, {
       loading: 'Salvando acesso...',
@@ -690,15 +692,26 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <Label htmlFor={`days-${dependent.id}`} className="text-[12px]">
                 Validade (dias)
               </Label>
-              <Input
-                id={`days-${dependent.id}`}
-                inputMode="numeric"
-                value={String(days)}
-                onChange={(event) =>
-                  setDays(Math.min(3650, Math.max(1, Number(event.target.value.replace(/\D/g, "")) || 1)))
-                }
-                className="mt-1 w-24"
-              />
+              <div className="mt-1 flex gap-2">
+                <Input
+                  id={`days-${dependent.id}`}
+                  value={days === "never" ? "" : String(days)}
+                  disabled={days === "never"}
+                  onChange={(event) =>
+                    setDays(Math.min(3650, Math.max(1, Number(event.target.value.replace(/\D/g, "")) || 1)))
+                  }
+                  placeholder="∞"
+                  className="w-20"
+                />
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className={cn(days === "never" && "bg-emerald-50 text-emerald-600 border-emerald-200")}
+                  onClick={() => setDays(days === "never" ? 365 : "never")}
+                >
+                  {days === "never" ? "Com expiração" : "Nunca expira"}
+                </Button>
+              </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <Button 

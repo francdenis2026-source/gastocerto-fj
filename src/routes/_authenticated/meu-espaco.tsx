@@ -171,46 +171,59 @@ function KidSpacePage() {
       </header>
 
       <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
-        <section className="rounded-3xl border border-primary/20 bg-card p-6 text-center shadow-sm">
-          {visibility.balance ? (
-            <>
-              <p className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-wide text-primary">
-                <Sparkles className="size-4" /> Saldo mágico
-              </p>
-              <p
-                className={cn(
-                  "mt-2 text-4xl font-black tabular-nums",
-                  balance < 0 ? "text-destructive" : "text-foreground",
-                )}
-              >
-                {formatCurrency(balance)}
-              </p>
-            </>
-          ) : (
-            <p className="text-[13px] font-semibold text-muted-foreground">
-              Seu responsável escolheu não mostrar o saldo aqui.
-            </p>
-          )}
-          {visibility.income ? (
-            <div className="mt-4 grid grid-cols-2 gap-3 text-left">
-              <div className="rounded-2xl bg-emerald-500/10 p-3">
-                <p className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-600">
-                  <TrendingUp className="size-3.5" /> Ganhei
+        <div className="grid gap-4 sm:grid-cols-2">
+          <section className="rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px]">
+            {visibility.balance ? (
+              <>
+                <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                  <Sparkles className="size-3.5" /> Saldo mágico
                 </p>
-                <p className="text-base font-bold tabular-nums">{formatCurrency(income)}</p>
-              </div>
-              <div className="rounded-2xl bg-destructive/10 p-3">
-                <p className="flex items-center gap-1.5 text-[11px] font-bold text-destructive">
-                  <TrendingDown className="size-3.5" /> Gastei
+                <p
+                  className={cn(
+                    "mt-1 text-3xl font-black tabular-nums",
+                    balance < 0 ? "text-destructive" : "text-foreground",
+                  )}
+                >
+                  {formatCurrency(balance)}
                 </p>
-                <p className="text-base font-bold tabular-nums">{formatCurrency(expense)}</p>
+              </>
+            ) : (
+              <p className="text-[11px] font-semibold text-muted-foreground">
+                Saldo oculto pelo responsável.
+              </p>
+            )}
+            
+            {visibility.income ? (
+              <div className="mt-3 grid grid-cols-2 gap-2 text-left">
+                <div className="rounded-xl bg-emerald-500/10 p-2">
+                  <p className="flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase tracking-tight">
+                    <TrendingUp className="size-3" /> Ganhei
+                  </p>
+                  <p className="text-sm font-bold tabular-nums">{formatCurrency(income)}</p>
+                </div>
+                <div className="rounded-xl bg-destructive/10 p-2">
+                  <p className="flex items-center gap-1 text-[9px] font-bold text-destructive uppercase tracking-tight">
+                    <TrendingDown className="size-3" /> Gastei
+                  </p>
+                  <p className="text-sm font-bold tabular-nums">{formatCurrency(expense)}</p>
+                </div>
               </div>
+            ) : null}
+          </section>
+
+          <section className="rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4">
+            <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <PiggyBank className="size-8 text-primary" />
             </div>
-          ) : null}
-          <Button className="mt-4 h-12 w-full rounded-2xl text-base" onClick={() => setEntryOpen(true)}>
-            <PiggyBank className="mr-2 size-5" /> Registrar agora
-          </Button>
-        </section>
+            <div className="text-center">
+              <h3 className="text-sm font-bold">Novo registro</h3>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Clique abaixo para lançar</p>
+            </div>
+            <Button className="h-10 w-full rounded-xl text-sm font-bold" onClick={() => setEntryOpen(true)}>
+              Registrar agora
+            </Button>
+          </section>
+        </div>
 
         {visibility.goals && (goals.data ?? []).length > 0 && (
           <section className="space-y-3">
