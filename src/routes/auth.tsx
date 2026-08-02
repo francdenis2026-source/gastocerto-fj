@@ -266,10 +266,31 @@ function AuthPage() {
           ) : mode === "external" ? (
             <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
           ) : (
-            <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
-              <TabsList className="grid h-9 w-full grid-cols-2">
-                <TabsTrigger value="login" className="text-xs">Entrar</TabsTrigger>
-                <TabsTrigger value="signup" className="text-xs">Criar conta</TabsTrigger>
+            <Tabs 
+              value={mode} 
+              onValueChange={(value) => setMode(value as Mode)}
+              className="relative"
+            >
+              <div className="absolute -inset-x-2 -inset-y-1 z-0 bg-primary/5 rounded-2xl blur-lg opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-100" />
+              <TabsList className="relative z-10 grid h-10 w-full grid-cols-2 bg-muted/50 p-1 backdrop-blur-sm">
+              <TabsTrigger 
+                value="login" 
+                className="group relative text-xs font-bold transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg active:scale-95 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-data-[state=active]:translate-y-0" />
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <KeyRound className="size-3" /> Entrar
+                </span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="signup" 
+                className="group relative text-xs font-bold transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg active:scale-95 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-data-[state=active]:translate-y-0" />
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <UserPlus className="size-3" /> Criar conta
+                </span>
+              </TabsTrigger>
               </TabsList>
 
               <TabsContent value="login" className="mt-4">
@@ -286,6 +307,11 @@ function AuthPage() {
                   Sou criança — entrar com meu código
                 </button>
                 <CodeAccessInline onContinue={() => setMode("signup")} />
+                <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
+                  <p className="text-[11px] font-medium text-muted-foreground">
+                    Alterne entre <strong>Entrar</strong> e <strong>Criar conta</strong> acima para ver as opções disponíveis.
+                  </p>
+                </div>
               </TabsContent>
               <TabsContent value="signup" className="mt-4">
                 <CpfSignUpForm onDone={() => setMode("login")} />
