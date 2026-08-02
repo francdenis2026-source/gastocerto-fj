@@ -23,6 +23,8 @@ import {
   TrendingUp,
   TrendingDown,
   Flame,
+  Zap,
+  HelpCircle,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
@@ -86,12 +88,13 @@ export const navGroups: NavGroup[] = [
     ],
   },
   {
-    key: "gas",
-    label: "Botijão de gás",
+    key: "utility",
+    label: "Utilidades e Consumo",
     to: "/gas",
-    icon: Flame,
+    icon: Zap,
     children: [
-      { key: "gas.overview", label: "Status e trocas", to: "/gas" },
+      { key: "utility.gas", label: "Botijão de gás", to: "/gas" },
+      { key: "utility.energy", label: "Energia Elétrica", to: "/energia" },
     ],
   },
   {
@@ -117,6 +120,15 @@ export const navGroups: NavGroup[] = [
       { key: "analytics.reports", label: "Relatórios", to: "/relatorios" },
       { key: "analytics.advisor", label: "Consultor de IA", to: "/consultor" },
       { key: "analytics.reconciliation", label: "Reconciliação", to: "/reconciliacao" },
+    ],
+  },
+  {
+    key: "help",
+    label: "Ajuda",
+    to: "/ajuda",
+    icon: HelpCircle,
+    children: [
+      { key: "help.center", label: "Central de Ajuda", to: "/ajuda" },
     ],
   },
   {

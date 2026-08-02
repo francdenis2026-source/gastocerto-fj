@@ -17,6 +17,7 @@ import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAjudaRouteImport } from './routes/_authenticated/ajuda'
 import { Route as AuthenticatedBalancoAnualRouteImport } from './routes/_authenticated/balanco-anual'
 import { Route as AuthenticatedCadastrosRouteImport } from './routes/_authenticated/cadastros'
 import { Route as AuthenticatedCalendarioRouteImport } from './routes/_authenticated/calendario'
@@ -25,6 +26,7 @@ import { Route as AuthenticatedCompromissosRouteImport } from './routes/_authent
 import { Route as AuthenticatedComprovantesRouteImport } from './routes/_authenticated/comprovantes'
 import { Route as AuthenticatedConsultorRouteImport } from './routes/_authenticated/consultor'
 import { Route as AuthenticatedDiarioRouteImport } from './routes/_authenticated/diario'
+import { Route as AuthenticatedEnergiaRouteImport } from './routes/_authenticated/energia'
 import { Route as AuthenticatedFechamentoRouteImport } from './routes/_authenticated/fechamento'
 import { Route as AuthenticatedGasRouteImport } from './routes/_authenticated/gas'
 import { Route as AuthenticatedKidsAuditoriaRouteImport } from './routes/_authenticated/kids-auditoria'
@@ -85,6 +87,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAjudaRoute = AuthenticatedAjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBalancoAnualRoute =
   AuthenticatedBalancoAnualRouteImport.update({
     id: '/balanco-anual',
@@ -126,6 +133,11 @@ const AuthenticatedConsultorRoute = AuthenticatedConsultorRouteImport.update({
 const AuthenticatedDiarioRoute = AuthenticatedDiarioRouteImport.update({
   id: '/diario',
   path: '/diario',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEnergiaRoute = AuthenticatedEnergiaRouteImport.update({
+  id: '/energia',
+  path: '/energia',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFechamentoRoute = AuthenticatedFechamentoRouteImport.update({
@@ -244,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ajuda': typeof AuthenticatedAjudaRoute
   '/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/cadastros': typeof AuthenticatedCadastrosRoute
   '/calendario': typeof AuthenticatedCalendarioRoute
@@ -252,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/comprovantes': typeof AuthenticatedComprovantesRoute
   '/consultor': typeof AuthenticatedConsultorRoute
   '/diario': typeof AuthenticatedDiarioRoute
+  '/energia': typeof AuthenticatedEnergiaRoute
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/gas': typeof AuthenticatedGasRoute
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
@@ -281,6 +295,7 @@ export interface FileRoutesByTo {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ajuda': typeof AuthenticatedAjudaRoute
   '/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/cadastros': typeof AuthenticatedCadastrosRoute
   '/calendario': typeof AuthenticatedCalendarioRoute
@@ -289,6 +304,7 @@ export interface FileRoutesByTo {
   '/comprovantes': typeof AuthenticatedComprovantesRoute
   '/consultor': typeof AuthenticatedConsultorRoute
   '/diario': typeof AuthenticatedDiarioRoute
+  '/energia': typeof AuthenticatedEnergiaRoute
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/gas': typeof AuthenticatedGasRoute
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
@@ -320,6 +336,7 @@ export interface FileRoutesById {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/ajuda': typeof AuthenticatedAjudaRoute
   '/_authenticated/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/_authenticated/cadastros': typeof AuthenticatedCadastrosRoute
   '/_authenticated/calendario': typeof AuthenticatedCalendarioRoute
@@ -328,6 +345,7 @@ export interface FileRoutesById {
   '/_authenticated/comprovantes': typeof AuthenticatedComprovantesRoute
   '/_authenticated/consultor': typeof AuthenticatedConsultorRoute
   '/_authenticated/diario': typeof AuthenticatedDiarioRoute
+  '/_authenticated/energia': typeof AuthenticatedEnergiaRoute
   '/_authenticated/fechamento': typeof AuthenticatedFechamentoRoute
   '/_authenticated/gas': typeof AuthenticatedGasRoute
   '/_authenticated/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
@@ -359,6 +377,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/termos'
     | '/admin'
+    | '/ajuda'
     | '/balanco-anual'
     | '/cadastros'
     | '/calendario'
@@ -367,6 +386,7 @@ export interface FileRouteTypes {
     | '/comprovantes'
     | '/consultor'
     | '/diario'
+    | '/energia'
     | '/fechamento'
     | '/gas'
     | '/kids-auditoria'
@@ -396,6 +416,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/termos'
     | '/admin'
+    | '/ajuda'
     | '/balanco-anual'
     | '/cadastros'
     | '/calendario'
@@ -404,6 +425,7 @@ export interface FileRouteTypes {
     | '/comprovantes'
     | '/consultor'
     | '/diario'
+    | '/energia'
     | '/fechamento'
     | '/gas'
     | '/kids-auditoria'
@@ -434,6 +456,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/termos'
     | '/_authenticated/admin'
+    | '/_authenticated/ajuda'
     | '/_authenticated/balanco-anual'
     | '/_authenticated/cadastros'
     | '/_authenticated/calendario'
@@ -442,6 +465,7 @@ export interface FileRouteTypes {
     | '/_authenticated/comprovantes'
     | '/_authenticated/consultor'
     | '/_authenticated/diario'
+    | '/_authenticated/energia'
     | '/_authenticated/fechamento'
     | '/_authenticated/gas'
     | '/_authenticated/kids-auditoria'
@@ -535,6 +559,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ajuda': {
+      id: '/_authenticated/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AuthenticatedAjudaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/balanco-anual': {
       id: '/_authenticated/balanco-anual'
       path: '/balanco-anual'
@@ -589,6 +620,13 @@ declare module '@tanstack/react-router' {
       path: '/diario'
       fullPath: '/diario'
       preLoaderRoute: typeof AuthenticatedDiarioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/energia': {
+      id: '/_authenticated/energia'
+      path: '/energia'
+      fullPath: '/energia'
+      preLoaderRoute: typeof AuthenticatedEnergiaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/fechamento': {
@@ -736,6 +774,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAjudaRoute: typeof AuthenticatedAjudaRoute
   AuthenticatedBalancoAnualRoute: typeof AuthenticatedBalancoAnualRoute
   AuthenticatedCadastrosRoute: typeof AuthenticatedCadastrosRoute
   AuthenticatedCalendarioRoute: typeof AuthenticatedCalendarioRoute
@@ -744,6 +783,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedComprovantesRoute: typeof AuthenticatedComprovantesRoute
   AuthenticatedConsultorRoute: typeof AuthenticatedConsultorRoute
   AuthenticatedDiarioRoute: typeof AuthenticatedDiarioRoute
+  AuthenticatedEnergiaRoute: typeof AuthenticatedEnergiaRoute
   AuthenticatedFechamentoRoute: typeof AuthenticatedFechamentoRoute
   AuthenticatedGasRoute: typeof AuthenticatedGasRoute
   AuthenticatedKidsAuditoriaRoute: typeof AuthenticatedKidsAuditoriaRoute
@@ -765,6 +805,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAjudaRoute: AuthenticatedAjudaRoute,
   AuthenticatedBalancoAnualRoute: AuthenticatedBalancoAnualRoute,
   AuthenticatedCadastrosRoute: AuthenticatedCadastrosRoute,
   AuthenticatedCalendarioRoute: AuthenticatedCalendarioRoute,
@@ -773,6 +814,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedComprovantesRoute: AuthenticatedComprovantesRoute,
   AuthenticatedConsultorRoute: AuthenticatedConsultorRoute,
   AuthenticatedDiarioRoute: AuthenticatedDiarioRoute,
+  AuthenticatedEnergiaRoute: AuthenticatedEnergiaRoute,
   AuthenticatedFechamentoRoute: AuthenticatedFechamentoRoute,
   AuthenticatedGasRoute: AuthenticatedGasRoute,
   AuthenticatedKidsAuditoriaRoute: AuthenticatedKidsAuditoriaRoute,

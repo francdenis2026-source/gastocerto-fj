@@ -832,6 +832,42 @@ export type Database = {
         }
         Relationships: []
       }
+      energy_bills: {
+        Row: {
+          amount: number
+          bill_date: string
+          consumption_kwh: number
+          created_at: string | null
+          due_date: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          bill_date: string
+          consumption_kwh: number
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          bill_date?: string
+          consumption_kwh?: number
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       fuel_audit_log: {
         Row: {
           action: string
