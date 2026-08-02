@@ -779,6 +779,7 @@ export type Database = {
           kid_code_expires_at: string | null
           kid_login_code: string | null
           kid_user_id: string | null
+          kid_visibility: Json
           kids_mode_enabled: boolean
           last_allowance_month: string | null
           monthly_allowance: number | null
@@ -802,6 +803,7 @@ export type Database = {
           kid_code_expires_at?: string | null
           kid_login_code?: string | null
           kid_user_id?: string | null
+          kid_visibility?: Json
           kids_mode_enabled?: boolean
           last_allowance_month?: string | null
           monthly_allowance?: number | null
@@ -825,6 +827,7 @@ export type Database = {
           kid_code_expires_at?: string | null
           kid_login_code?: string | null
           kid_user_id?: string | null
+          kid_visibility?: Json
           kids_mode_enabled?: boolean
           last_allowance_month?: string | null
           monthly_allowance?: number | null
@@ -1187,6 +1190,74 @@ export type Database = {
           rotated_at?: string | null
           updated_at?: string
           updated_by?: string | null
+        }
+        Relationships: []
+      }
+      kid_access_audit: {
+        Row: {
+          action: string
+          code: string | null
+          created_at: string
+          dependent_id: string | null
+          dependent_name: string | null
+          detail: Json
+          expires_at: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          code?: string | null
+          created_at?: string
+          dependent_id?: string | null
+          dependent_name?: string | null
+          detail?: Json
+          expires_at?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          code?: string | null
+          created_at?: string
+          dependent_id?: string | null
+          dependent_name?: string | null
+          detail?: Json
+          expires_at?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kid_access_audit_dependent_id_fkey"
+            columns: ["dependent_id"]
+            isOneToOne: false
+            referencedRelation: "dependents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kid_login_attempts: {
+        Row: {
+          attempts: number
+          code: string
+          last_attempt_at: string
+          locked_until: string | null
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          code: string
+          last_attempt_at?: string
+          locked_until?: string | null
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          code?: string
+          last_attempt_at?: string
+          locked_until?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
