@@ -566,13 +566,27 @@ function KidSignInForm({ onBack }: { onBack: () => void }) {
           className="mt-1.5 tracking-[0.4em]"
         />
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full h-12 text-base font-bold shadow-soft" disabled={loading}>
         {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
         Entrar no meu espaço
       </Button>
-      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
-        Voltar
-      </Button>
+      
+      <div className="flex flex-col gap-2 pt-2 border-t border-border mt-2">
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="w-full text-xs gap-2"
+          onClick={() => {
+            toast.info("Aponte a câmera para o QR Code no painel do seu responsável.");
+          }}
+        >
+          <KeyRound className="size-3.5" />
+          Acesso via QR Code
+        </Button>
+        <Button type="button" variant="ghost" className="w-full text-xs" onClick={onBack}>
+          Voltar
+        </Button>
+      </div>
     </form>
   );
 }

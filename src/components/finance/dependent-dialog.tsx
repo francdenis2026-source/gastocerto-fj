@@ -246,7 +246,12 @@ export function DependentDialog({
           </div>
 
           {dependent?.id ? (
-            <KidAccessSection dependentId={dependent.id} name={name} currentCode={dependent.kid_login_code ?? null} />
+            <KidAccessSection 
+              dependentId={dependent.id} 
+              name={name} 
+              currentCode={dependent.kid_login_code ?? null} 
+              expiresAt={dependent.kid_code_expires_at ?? null}
+            />
           ) : (
             <p className="rounded-xl border border-dashed border-border p-3 text-[12px] text-muted-foreground">
               Salve o cadastro para liberar o acesso independente da criança (entrada pela tela inicial
@@ -310,10 +315,12 @@ function KidAccessSection({
   dependentId,
   name,
   currentCode,
+  expiresAt,
 }: {
   dependentId: string;
   name: string;
   currentCode: string | null;
+  expiresAt?: string | null;
 }) {
   const queryClient = useQueryClient();
   const saveAccess = useServerFn(saveKidAccess);
@@ -429,6 +436,11 @@ function KidAccessSection({
       {currentCode ? (
         <p className="mt-2 text-[11px] font-semibold text-primary">
           Código ativo: <span className="font-mono">{currentCode}</span>
+          {expiresAt && (
+            <span className="block mt-0.5 text-[10px] text-muted-foreground font-normal">
+              Válido até: {new Date(expiresAt).toLocaleDateString("pt-BR")}
+            </span>
+          )}
         </p>
       ) : null}
     </section>

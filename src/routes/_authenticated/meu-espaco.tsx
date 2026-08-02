@@ -18,7 +18,7 @@ import {
 import { MoneyInput } from "@/components/ui/money-input";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { DEPENDENT_REASONS, dependentTag, reasonTag } from "@/lib/dependents";
+import { DEPENDENT_REASONS, dependentTag, reasonTag, useDependents, type Dependent } from "@/lib/dependents";
 import { parseAmount } from "@/lib/finance";
 import { formatCurrency } from "@/lib/format";
 import { useKidSession } from "@/lib/kids-session";
@@ -212,8 +212,11 @@ function KidSpacePage() {
           </section>
         )}
 
-        <section className="space-y-2">
-          <h2 className="text-sm font-bold">Meu histórico</h2>
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold">Meu histórico</h2>
+            <KidSiblingAvatars dependentId={dependent.id} />
+          </div>
           {rows.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
               Nada registrado ainda. Toque em “Registrar agora” para começar.
@@ -369,5 +372,27 @@ function KidEntryDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function KidSiblingAvatars({ dependentId }: { dependentId: string }) {
+  const { data: dependents } = useDependents();
+  const siblings = (dependents ?? []).filter((d: Dependent) => d.id !== dependentId && d.active !== false);
+
+  if (siblings.length === 0) return null;
+
+  return (
+    <div className="flex -space-x-2 overflow-hidden">
+      {siblings.map((sibling: Dependent) => (
+        <div
+          key={sibling.id}
+          title={sibling.name}
+          className="inline-flex size-7 items-center justify-center rounded-full border-2 border-card text-[10px] font-bold text-white shadow-sm"
+          style={{ backgroundColor: sibling.color ?? "#94a3b8" }}
+        >
+          {sibling.name.charAt(0).toUpperCase()}
+        </div>
+      ))}
+    </div>
   );
 }

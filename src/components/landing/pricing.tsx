@@ -81,7 +81,7 @@ export function Pricing() {
   const savingsPercent = Math.max(0, Math.round((1 - premium.yearly / premium.monthly) * 100));
   const savingsPerYear = premium.monthly * 12 - premium.yearly * 12;
 
-  const [cycle, setCycle] = useState<Cycle>("yearly");
+  const [cycle, setCycle] = useState<Cycle>("monthly");
   const isYearly = cycle === "yearly";
   const [checkoutPlan, setCheckoutPlan] = useState<"free" | "premium" | "premium_ia" | null>(null);
 
