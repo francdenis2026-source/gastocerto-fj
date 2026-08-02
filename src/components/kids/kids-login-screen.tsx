@@ -29,12 +29,14 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
 
       <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 lg:grid lg:grid-cols-[1.05fr_minmax(0,26rem)] lg:items-center lg:gap-10 lg:py-10">
         <section className="min-w-0 text-white">
-          <Link
-            to="/"
-            className="inline-flex w-fit rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-          >
-            <Logo onDark />
-          </Link>
+          <div>
+            <Link
+              to="/"
+              className="inline-flex w-fit rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            >
+              <Logo onDark />
+            </Link>
+          </div>
 
           <p className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
             <Sparkles className="size-3.5" aria-hidden /> Espaço Kids
