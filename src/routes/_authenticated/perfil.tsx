@@ -411,7 +411,12 @@ function ProfilePage() {
               </TabsContent>
 
               <TabsContent value="kids" className="mt-0 space-y-4">
-                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
+                <div
+                  id="perfil-kids"
+                  tabIndex={-1}
+                  className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4"
+                >
+
                   <div className="border-b border-border/40 pb-2.5">
                     <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
                       <Baby className="size-4 text-primary" aria-hidden /> Gastos e movimentações das crianças
