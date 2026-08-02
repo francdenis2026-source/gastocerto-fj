@@ -198,22 +198,34 @@ function HelpPage() {
             
             <div className="space-y-3">
               {[
-                { title: "Primeiros Passos no Dashboard", time: "2:15" },
-                { title: "Como criar seu primeiro Orçamento", time: "1:45" },
-                { title: "Configurando o Espaço Kids", time: "3:30" }
+                { title: "Primeiros Passos no Dashboard", time: "2:15", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { title: "Como criar seu primeiro Orçamento", time: "1:45", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { title: "Configurando o Espaço Kids", time: "3:30", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
               ].map((video, idx) => (
-                <button 
-                  key={idx}
-                  className="w-full flex items-center justify-between p-3 rounded-xl border border-border/50 hover:bg-muted/50 transition text-left group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-lg bg-background flex items-center justify-center border border-border">
-                      <PlayCircle className="size-4 text-muted-foreground group-hover:text-primary transition" />
+                <div key={idx} className="space-y-2">
+                  <button 
+                    onClick={() => setActiveVideo(activeVideo === video.title ? null : video.title)}
+                    className="w-full flex items-center justify-between p-3 rounded-xl border border-border/50 hover:bg-muted/50 transition text-left group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="size-8 rounded-lg bg-background flex items-center justify-center border border-border">
+                        <PlayCircle className={cn("size-4 text-muted-foreground group-hover:text-primary transition", activeVideo === video.title && "text-primary")} />
+                      </div>
+                      <span className="text-sm font-medium">{video.title}</span>
                     </div>
-                    <span className="text-sm font-medium">{video.title}</span>
-                  </div>
-                  <span className="text-[10px] text-muted-foreground font-mono">{video.time}</span>
-                </button>
+                    <span className="text-[10px] text-muted-foreground font-mono">{video.time}</span>
+                  </button>
+                  {activeVideo === video.title && (
+                    <div className="aspect-video rounded-xl overflow-hidden border border-border bg-black">
+                      <iframe
+                        src={video.url}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
 
