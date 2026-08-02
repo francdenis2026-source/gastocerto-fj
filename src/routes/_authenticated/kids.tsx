@@ -107,6 +107,7 @@ function KidsAccessPage() {
     return { total: withCode.length, active: active.length, nextExpiry, lastLogin };
   }, [kids]);
 
+
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
       <header className="space-y-1">
@@ -156,6 +157,7 @@ function KidsAccessPage() {
           </p>
         </div>
       </section>
+
 
       <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
         <p className="flex items-center gap-2 font-bold text-foreground">
