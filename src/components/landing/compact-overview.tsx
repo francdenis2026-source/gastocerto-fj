@@ -148,7 +148,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
       {
         icon: Send,
         title: "PIX para os filhos",
-        text: "Envie mesada por PIX, com histórico, comprovante e aviso na hora.",
+        text: "Envie dinheiro por PIX, com histórico, comprovante e aviso na hora.",
         tag: "PIX",
       },
       {
@@ -159,7 +159,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
       },
       {
         icon: Repeat,
-        title: "Mesada automática",
+        title: "Envio automático",
         text: "Recorrência semanal ou mensal lançada sozinha no orçamento da casa.",
         tag: "Automático",
       },

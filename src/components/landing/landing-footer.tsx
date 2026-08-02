@@ -20,7 +20,7 @@ const socials = [
   { label: "Instagram", icon: Instagram, href: "#inicio" },
   { label: "LinkedIn", icon: Linkedin, href: "#inicio" },
   { label: "YouTube", icon: Youtube, href: "#inicio" },
-  { label: "E-mail", icon: Mail, href: "mailto:aplicativosfj@gmail.com" },
+  { label: "E-mail", icon: Mail, href: "mailto:contato@gastocerto.app" },
 ];
 
 // Tap target ≥44px via invisible overlay, keeps the footer visually short.
