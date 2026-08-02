@@ -18,6 +18,7 @@ import heroBg from "@/assets/hero-bg-2027.jpg";
 import heroMobileBg from "@/assets/hero-bg-2027-mobile.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 import { RingChart, Sparkline } from "@/components/landing/decor";
 import { formatCurrency } from "@/lib/format";
 
