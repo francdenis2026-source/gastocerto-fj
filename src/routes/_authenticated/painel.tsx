@@ -1,5 +1,6 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { RefreshCw, ToyBrick, Flame } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import {
   AlertTriangle,
@@ -83,6 +84,8 @@ import { formatCurrency, formatDate } from "@/lib/format";
 import { MONTH_NAMES, isoDate, monthRange, periodDefaultDate } from "@/lib/finance";
 import { useCategories, useProfile } from "@/lib/queries";
 import { useBudgets, useTransactions, type Transaction } from "@/lib/transactions";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useAutoRecurring } from "@/lib/recurring";
 import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
 import { vehicleSpendBreakdown } from "@/lib/vehicle-spend";
