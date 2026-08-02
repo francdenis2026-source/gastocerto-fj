@@ -23,67 +23,74 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,oklch(0.45_0.15_200/0.38),transparent_58%),radial-gradient(circle_at_82%_85%,oklch(0.5_0.18_160/0.3),transparent_52%)]"
       />
 
-      <div className="grid max-h-full w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1fr_minmax(0,22rem)]">
-        {/* Lado esquerdo: identidade compacta (desktop) */}
-        <section className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-emerald-600/25 to-blue-600/10 p-7 lg:flex">
-          <Link to="/" className="w-fit">
-            <Logo onDark />
-          </Link>
+      <div className="grid h-[540px] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1fr_minmax(0,22rem)]">
+        {/* Lado esquerdo: identidade visual Kids */}
+        <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
+          <img
+            src={kidsHero}
+            alt=""
+            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.4] transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-600/40 via-transparent to-blue-600/30"
+          />
 
-          <div className="space-y-3">
+          <div className="p-7">
+            <Link to="/" className="w-fit">
+              <Logo onDark />
+            </Link>
+          </div>
+
+          <div className="p-7 space-y-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-emerald-300">
               <Sparkles className="size-3" /> Espaço Kids
             </span>
-            <div className="flex items-center gap-4">
-              <div className="min-w-0">
-                <h1 className="font-display text-2xl font-black leading-tight tracking-tight text-white">
-                  Seu dinheiro,
-                  <br />
-                  <span className="text-emerald-400">seu mundo.</span>
-                </h1>
-                <p className="mt-2 text-[12px] leading-relaxed text-white/70">
-                  Entre com seu código e comece a cuidar do que é seu.
-                </p>
-              </div>
-              <div className="relative group">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-400 to-blue-400 opacity-30 blur transition duration-1000 group-hover:opacity-50 group-hover:duration-200" />
-                <img
-                  src={kidsHero}
-                  alt="Finanças para crianças"
-                  className="relative size-24 shrink-0 rounded-2xl border border-white/20 object-cover shadow-2xl transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+            <div className="min-w-0">
+              <h1 className="font-display text-3xl font-black leading-tight tracking-tight text-white drop-shadow-lg">
+                Seu dinheiro,
+                <br />
+                <span className="text-emerald-400">seu mundo.</span>
+              </h1>
+              <p className="mt-2 text-[13px] leading-relaxed text-white/80 drop-shadow-sm">
+                Entre com seu código e comece a cuidar do que é seu.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 mt-4">
+              {HIGHLIGHTS.map((item) => (
+                <div key={item.title} className="rounded-xl border border-white/10 bg-white/10 p-2 shadow-sm backdrop-blur-sm">
+                  <item.icon className="mb-1 size-3.5 text-emerald-400" />
+                  <p className="text-[10px] font-bold leading-tight text-white">{item.title}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            {HIGHLIGHTS.map((item) => (
-              <div key={item.title} className="rounded-xl border border-white/10 bg-white/5 p-2">
-                <item.icon className="mb-1 size-3.5 text-emerald-400" />
-                <p className="text-[10px] font-bold leading-tight text-white">{item.title}</p>
-              </div>
-            ))}
+          <div className="p-7 pt-0">
+            <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/50">
+              &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+            </p>
           </div>
         </section>
 
         {/* Lado direito: formulário */}
-        <section className="flex max-h-[calc(100dvh-1.5rem)] min-h-0 flex-col overflow-y-auto bg-card px-5 py-5 sm:px-6">
+        <section className="flex flex-col overflow-y-auto bg-card px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
-            <Link to="/">
+            <Link to="/" className="w-fit">
               <Logo />
             </Link>
           </div>
 
           {children}
 
-          <p className="mt-3 rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-center text-[10px] font-semibold leading-snug text-primary">
-            Precisa de ajuda? Peça seu código ao seu responsável.
-          </p>
-
-          <p className="mt-3 text-center text-[9px] font-bold uppercase tracking-[0.25em] text-muted-foreground/50">
-            &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
-          </p>
+          <div className="mt-auto pt-4 space-y-3">
+            <p className="rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-center text-[10px] font-semibold leading-snug text-primary">
+              Precisa de ajuda? Peça seu código ao seu responsável.
+            </p>
+          </div>
         </section>
+      </div>
       </div>
     </main>
   );
