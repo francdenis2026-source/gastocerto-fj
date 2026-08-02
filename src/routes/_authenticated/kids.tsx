@@ -265,10 +265,10 @@ function KidsAccessPage() {
           Novidade: Agora você pode acompanhar gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> na categoria "Churrasco & Fim de Semana".
           Perfeito para monitorar aquele almoço especial de domingo!
         </p>
-      </section>
     </div>
   );
 }
+
 
 function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const queryClient = useQueryClient();
