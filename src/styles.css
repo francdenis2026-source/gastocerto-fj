@@ -81,13 +81,13 @@
 :root {
   --radius: 0.75rem;
   --background: oklch(0.985 0.004 250);
-  --foreground: oklch(0.22 0.045 258);
+  --foreground: oklch(0.12 0.045 258);
   --surface: oklch(1 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.045 258);
+  --card-foreground: oklch(0.12 0.045 258);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.045 258);
-  --primary: oklch(0.35 0.11 259);
+  --popover-foreground: oklch(0.12 0.045 258);
+  --primary: oklch(0.35 0.11 259); /* Mantendo o Marinho Profissional como base */
   --primary-foreground: oklch(0.985 0.005 250);
   --brand: oklch(0.48 0.16 258);
   --brand-foreground: oklch(0.99 0.004 250);
@@ -137,17 +137,17 @@
 }
 
 .dark {
-  --background: oklch(0.19 0.032 258);
-  --foreground: oklch(0.965 0.006 250);
-  --surface: oklch(0.235 0.036 258);
-  --card: oklch(0.235 0.036 258);
-  --card-foreground: oklch(0.965 0.006 250);
-  --popover: oklch(0.235 0.036 258);
-  --popover-foreground: oklch(0.965 0.006 250);
+  --background: oklch(0.14 0.025 258);
+  --foreground: oklch(0.98 0.005 250);
+  --surface: oklch(0.18 0.03 258);
+  --card: oklch(0.18 0.03 258);
+  --card-foreground: oklch(0.98 0.005 250);
+  --popover: oklch(0.18 0.03 258);
+  --popover-foreground: oklch(0.98 0.005 250);
   --primary: oklch(0.68 0.13 255);
-  --primary-foreground: oklch(0.17 0.035 258);
+  --primary-foreground: oklch(0.12 0.03 258);
   --brand: oklch(0.68 0.13 255);
-  --brand-foreground: oklch(0.17 0.035 258);
+  --brand-foreground: oklch(0.12 0.03 258);
   --secondary: oklch(0.29 0.038 258);
   --secondary-foreground: oklch(0.95 0.006 250);
   --muted: oklch(0.29 0.038 258);
