@@ -152,16 +152,24 @@ function KidsAccessPage() {
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
-      <header className="space-y-1">
-        <h1 className="flex items-center gap-2 text-xl font-extrabold">
-          <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
-        </h1>
-        <p className="text-[13px] text-muted-foreground">
-          Crie o código e a senha de cada criança e acompanhe as movimentações em tempo real.
-        </p>
-
-
+      <header className="space-y-3">
+        <div className="space-y-1">
+          <h1 className="flex items-center gap-2 text-xl font-extrabold text-foreground">
+            <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
+          </h1>
+          <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
+            Aqui você cria e controla o código e a senha de cada criança. Os gastos, as entradas e o
+            resumo financeiro de cada uma ficam em <strong className="font-semibold text-foreground">Meu perfil</strong>.
+          </p>
+        </div>
+        <Button asChild size="sm" variant="outline" className="h-9 gap-2 text-xs">
+          <Link to="/perfil">
+            <TrendingUp className="size-4" aria-hidden />
+            Ver planos, licenças e movimentações no Meu perfil
+          </Link>
+        </Button>
       </header>
+
 
       <section className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-4">
@@ -346,15 +354,6 @@ function KidsAccessPage() {
         )}
       </section>
 
-      <section className="rounded-2xl border border-orange-500/20 bg-orange-500/5 p-4 text-[12px]">
-        <p className="flex items-center gap-2 font-bold text-orange-600 dark:text-orange-400">
-          <Tv className="size-4" aria-hidden /> Controle de Fim de Semana
-        </p>
-        <p className="mt-1 text-muted-foreground">
-          Novidade: Agora você pode acompanhar gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> na categoria "Churrasco & Fim de Semana".
-          Perfeito para monitorar aquele almoço especial de domingo!
-        </p>
-      </section>
 
 
     </div>
