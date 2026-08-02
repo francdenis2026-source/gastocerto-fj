@@ -439,10 +439,15 @@ function ProfilePage() {
               <TabsContent value="audit" className="mt-0 space-y-4">
 
 
-                <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+                <div
+                  id="perfil-historico"
+                  tabIndex={-1}
+                  className="grid gap-3 sm:gap-4 md:grid-cols-2"
+                >
                   <ProfileAuditPanel />
                   <RedemptionHistoryPanel />
                 </div>
+
               </TabsContent>
             </Tabs>
           </div>
