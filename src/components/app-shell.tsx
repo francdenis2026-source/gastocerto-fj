@@ -363,13 +363,17 @@ export function AppShell({ children }: { children: ReactNode }) {
                         to={child.to as never}
                         aria-current={pathname === child.to ? "page" : undefined}
                         className={cn(
-                          "block truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+                          "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
                           pathname === child.to
                             ? "bg-secondary text-foreground"
-                            : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                            : child.highlight
+                              ? "bg-brand/10 text-brand hover:bg-brand/20"
+                              : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                          child.highlight && "font-semibold",
                         )}
                       >
-                        {child.label}
+                        {child.highlight ? <Baby className="size-3.5 shrink-0" aria-hidden /> : null}
+                        <span className="truncate">{child.label}</span>
                       </Link>
                     ))}
                   </div>
