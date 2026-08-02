@@ -23,7 +23,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,oklch(0.45_0.15_200/0.38),transparent_58%),radial-gradient(circle_at_82%_85%,oklch(0.5_0.18_160/0.3),transparent_52%)]"
       />
 
-      <div className="grid h-[540px] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1fr_minmax(0,22rem)]">
+      <div className="grid max-h-full w-full max-w-5xl lg:min-h-[520px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1fr_minmax(0,23rem)]">
         {/* Lado esquerdo: identidade visual Kids */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           <img
@@ -36,13 +36,13 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-600/40 via-transparent to-blue-600/30"
           />
 
-          <div className="p-7">
+          <div className="p-5">
             <Link to="/" className="w-fit">
               <Logo onDark />
             </Link>
           </div>
 
-          <div className="p-7 space-y-4">
+          <div className="p-5 space-y-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-emerald-300">
               <Sparkles className="size-3" /> Espaço Kids
             </span>
@@ -67,7 +67,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             </div>
           </div>
 
-          <div className="p-7 pt-0">
+          <div className="p-5 pt-0">
             <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/50">
               &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
             </p>
@@ -75,7 +75,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
         </section>
 
         {/* Lado direito: formulário */}
-        <section className="flex flex-col overflow-y-auto bg-card px-5 py-5 sm:px-6">
+        <section className="flex max-h-full flex-col overflow-y-auto bg-card px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
             <Link to="/" className="w-fit">
               <Logo />
