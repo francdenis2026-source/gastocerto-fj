@@ -10,6 +10,7 @@ import { AvatarCropDialog } from "@/components/finance/avatar-crop-dialog";
 import { LicenseCard } from "@/components/finance/license-card";
 import { LicenseDetailPanel } from "@/components/finance/license-detail-panel";
 import { TrialCard } from "@/components/finance/trial-card";
+import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -317,6 +318,11 @@ function ProfilePage() {
 
             <LicenseDetailPanel />
             <LicenseCard />
+            
+            <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+              <ProfileAuditPanel />
+              <RedemptionHistoryPanel />
+            </div>
           </div>
         </div>
       </div>
