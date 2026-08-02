@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { KeyRound, ShieldAlert } from "lucide-react";
+import { KeyRound, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -17,21 +17,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useServerFn } from "@tanstack/react-start";
 import { adminAccessByCode } from "@/lib/admin-code.functions";
+import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 /** Chave guardada até o login para ser ativada automaticamente na conta. */
 export const PENDING_LICENSE_KEY = "gastocerto:pending-license";
 
-/**
- * Acesso por código: o visitante informa a chave recebida.
- * Se for o código mestre do admin, abre o painel.
- * Se for licença de teste, leva ao cadastro.
- */
+type Status = "idle" | "verifying" | "valid" | "invalid" | "used";
+
 export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const checkAdmin = useServerFn(adminAccessByCode);
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [message, setMessage] = useState<string | null>(null);
 
   const submit = async () => {
     const key = code.trim().toUpperCase();
@@ -40,78 +40,165 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    setLoading(true);
+    setStatus("verifying");
+    setMessage("Validando código nos servidores...");
+
     try {
-      // Tenta validar como admin primeiro
+      // 1. Tenta validar como acesso administrativo direto (sem auth necessária)
       const res = await checkAdmin({ data: { code: key } });
       if (res.success) {
-        toast.success("Acesso administrativo confirmado.");
-        setOpen(false);
-        // Usamos location.href para forçar uma recarga limpa e garantir o estado do Admin
-        window.location.href = "/admin";
+        setStatus("valid");
+        setMessage(`Bem-vindo, ${res.label || "Administrador"}. Acesso confirmado! Redirecionando...`);
+        setTimeout(() => {
+          setOpen(false);
+          window.location.href = "/admin";
+        }, 1500);
         return;
       }
-    } catch (e) {
-      // Não é admin, segue fluxo de licença normal
-    } finally {
-      setLoading(false);
+    } catch (e: any) {
+      // Se deu erro mas é um erro de limite ou expiração, mostramos
+      if (e.message && (e.message.includes("expirado") || e.message.includes("limite"))) {
+        setStatus("invalid");
+        setMessage(e.message);
+        return;
+      }
     }
 
-    // Fluxo normal de licença pendente
+    // 2. Se não é admin, verifica no banco se é uma licença válida
     try {
-      sessionStorage.setItem(PENDING_LICENSE_KEY, key);
-    } catch {
-      /* storage indisponível */
-    }
-    setOpen(false);
-    
-    // Se o código começa com 'VIP', 'OFF', 'PR' ou parece um cupom/plano
-    const isPlanCode = key.startsWith("VIP") || key.startsWith("PLAN") || key.startsWith("OFF") || key.includes("PROMO");
-    
-    if (isPlanCode) {
-      void navigate({ to: "/auth", search: { mode: "signup" } });
-    } else {
-      void navigate({ to: "/auth", search: { mode: "signup" } });
+      const { data: license, error } = await supabase
+        .from("licenses")
+        .select("status, activated_at, expires_at, plans(name, slug)")
+        .eq("license_key", key)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!license) {
+        setStatus("invalid");
+        setMessage("Este código não foi encontrado. Verifique e tente novamente.");
+        return;
+      }
+
+      if (license.status === "revoked") {
+        setStatus("invalid");
+        setMessage("Esta licença foi bloqueada/revogada pelo administrador.");
+        return;
+      }
+
+      if (license.status === "expired" || (license.expires_at && new Date(license.expires_at).getTime() < Date.now())) {
+        setStatus("invalid");
+        setMessage("Esta licença já expirou.");
+        return;
+      }
+
+      if (license.activated_at) {
+        setStatus("invalid");
+        setMessage("Este código já foi utilizado em outra conta.");
+        return;
+      }
+
+      // Licença válida!
+      setStatus("valid");
+      const planName = (license.plans as any)?.name;
+      setMessage(planName 
+        ? `Licença para o plano "${planName}" identificada! Redirecionando para o cadastro...`
+        : "Código de licença válido! Você será redirecionado para o cadastro."
+      );
+
+      try {
+        sessionStorage.setItem(PENDING_LICENSE_KEY, key);
+      } catch {}
+
+      setTimeout(() => {
+        setOpen(false);
+        void navigate({ to: "/auth", search: { mode: "signup" } });
+      }, 2000);
+
+    } catch (err) {
+      console.error("[code-access] erro na validação:", err);
+      setStatus("invalid");
+      setMessage("Erro ao validar código. Tente novamente mais tarde.");
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(val) => {
+      setOpen(val);
+      if (!val) {
+        setStatus("idle");
+        setMessage(null);
+        setCode("");
+      }
+    }}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <KeyRound className="size-4 text-primary" aria-hidden />
-            Acesso por código
+            <KeyRound className="size-5 text-primary" aria-hidden />
+            Acesso Profissional por Código
           </DialogTitle>
           <DialogDescription>
-            Insira seu código de acesso ou licença. Se você recebeu um código administrativo, insira-o aqui para acessar o painel.
+            Insira seu código de acesso, cupom ou licença para desbloquear sua conta.
           </DialogDescription>
         </DialogHeader>
 
-        <div>
-          <Label htmlFor="access-code">Código</Label>
-          <Input
-            id="access-code"
-            value={code}
-            autoComplete="off"
-            spellCheck={false}
-            placeholder="GC-XXXX-XXXX"
-            onChange={(event) => setCode(event.target.value.toUpperCase())}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") submit();
-            }}
-            className="mt-1.5 font-mono"
-          />
+        <div className="space-y-4 py-2">
+          <div className="space-y-2">
+            <Label htmlFor="access-code">Código de Acesso</Label>
+            <div className="relative">
+              <Input
+                id="access-code"
+                value={code}
+                autoComplete="off"
+                spellCheck={false}
+                disabled={status === "verifying" || status === "valid"}
+                placeholder="GC-XXXX-XXXX"
+                onChange={(event) => setCode(event.target.value.toUpperCase())}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") submit();
+                }}
+                className={cn(
+                  "font-mono transition-all duration-200 pr-10",
+                  status === "valid" && "border-emerald-500 bg-emerald-50/30",
+                  status === "invalid" && "border-destructive bg-destructive/5"
+                )}
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                {status === "verifying" && <Loader2 className="size-4 animate-spin text-muted-foreground" />}
+                {status === "valid" && <CheckCircle2 className="size-4 text-emerald-500" />}
+                {status === "invalid" && <XCircle className="size-4 text-destructive" />}
+              </div>
+            </div>
+          </div>
+
+          {message && (
+            <div className={cn(
+              "rounded-lg border p-3 text-xs leading-relaxed transition-all animate-in fade-in slide-in-from-top-1",
+              status === "valid" && "border-emerald-200 bg-emerald-50 text-emerald-800",
+              status === "invalid" && "border-destructive/20 bg-destructive/10 text-destructive",
+              status === "verifying" && "border-border bg-secondary/50 text-muted-foreground"
+            )}>
+              <p className="flex items-start gap-2">
+                {status === "valid" && <CheckCircle2 className="size-3.5 mt-0.5 shrink-0" />}
+                {status === "invalid" && <XCircle className="size-3.5 mt-0.5 shrink-0" />}
+                {message}
+              </p>
+            </div>
+          )}
         </div>
 
         <DialogFooter className="flex-col gap-2 sm:flex-row">
-          <Button type="button" onClick={submit} disabled={loading} className="w-full sm:w-auto">
-            {loading ? "Verificando..." : "Continuar"}
+          <Button 
+            type="button" 
+            onClick={submit} 
+            disabled={status === "verifying" || status === "valid" || !code} 
+            className="w-full sm:w-auto"
+          >
+            {status === "verifying" ? "Validando..." : "Verificar Código"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
-

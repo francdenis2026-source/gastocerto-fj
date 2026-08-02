@@ -279,12 +279,46 @@ export const activateLicense = createServerFn({ method: "POST" })
       .eq("license_key", key)
       .maybeSingle();
 
-    if (!license) throw new Error("Chave de licença inválida");
-    if (license.status === "revoked") throw new Error("Licença revogada");
-    if (license.status === "expired") throw new Error("Esta licença já expirou");
+    if (!license) {
+      await supabaseAdmin.from("code_redemption_history").insert({
+        user_id: context.userId,
+        code: key,
+        code_type: "license",
+        status: "invalid"
+      });
+      throw new Error("Chave de licença inválida");
+    }
+    
+    if (license.status === "revoked") {
+      await supabaseAdmin.from("code_redemption_history").insert({
+        user_id: context.userId,
+        code: key,
+        code_type: "license",
+        status: "blocked"
+      });
+      throw new Error("Licença revogada");
+    }
+
+    if (license.status === "expired") {
+      await supabaseAdmin.from("code_redemption_history").insert({
+        user_id: context.userId,
+        code: key,
+        code_type: "license",
+        status: "invalid"
+      });
+      throw new Error("Esta licença já expirou");
+    }
+
     if (license.user_id && license.user_id !== context.userId) {
+      await supabaseAdmin.from("code_redemption_history").insert({
+        user_id: context.userId,
+        code: key,
+        code_type: "license",
+        status: "already_used"
+      });
       throw new Error("Esta licença já está vinculada a outra conta");
     }
+
     if (
       license.expires_at &&
       new Date(license.expires_at).getTime() <= Date.now() &&
@@ -312,8 +346,6 @@ export const activateLicense = createServerFn({ method: "POST" })
         ? (license.trial_days ?? plan?.trial_days ?? 7)
         : null;
 
-    // Teste de cortesia: a validade SEMPRE começa a contar no momento em que o
-    // cliente ativa a chave (nunca antes) e nunca libera a IA.
     const expiresAt = trialDays
       ? new Date(now.getTime() + trialDays * 24 * 60 * 60 * 1000)
       : addMonths(now, monthsFromCycle(license.billing_cycle));
@@ -329,6 +361,7 @@ export const activateLicense = createServerFn({ method: "POST" })
           : (license.expires_at ?? expiresAt.toISOString()),
       })
       .eq("id", license.id);
+
     if (error) throw new Error("Não foi possível ativar a licença");
 
     if (license.plan_id) {
@@ -347,6 +380,14 @@ export const activateLicense = createServerFn({ method: "POST" })
         })
         .eq("user_id", context.userId);
     }
+
+    await supabaseAdmin.from("code_redemption_history").insert({
+      user_id: context.userId,
+      code: key,
+      code_type: trialDays ? "license" : "plan",
+      status: "success",
+      metadata: { expires_at: expiresAt.toISOString() }
+    });
 
     await supabaseAdmin.from("admin_logs").insert({
       actor_id: context.userId,

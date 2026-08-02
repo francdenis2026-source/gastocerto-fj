@@ -140,8 +140,19 @@ const adminNavGroups: NavGroup[] = [
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [quickEntry, setQuickEntry] = useState<Kind | null>(null);
-  const [railCollapsed, setRailCollapsed] = useState(false);
+  const [railCollapsed, setRailCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("gc:sidebar-collapsed") === "true";
+  });
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  const toggleRail = () => {
+    setRailCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem("gc:sidebar-collapsed", String(next));
+      return next;
+    });
+  };
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -212,7 +223,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             variant="ghost"
             size="icon"
             className="ml-auto size-8 text-muted-foreground"
-            onClick={() => setRailCollapsed((value) => !value)}
+            onClick={toggleRail}
             aria-label={railCollapsed ? "Expandir menu" : "Recolher menu"}
           >
             {railCollapsed ? (

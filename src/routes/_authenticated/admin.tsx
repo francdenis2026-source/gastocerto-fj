@@ -89,6 +89,7 @@ const PaymentsAuditPanel = lazy(() =>
 const IntegrationsPanel = lazy(() =>
   import("@/components/admin/integrations-panel").then((m) => ({ default: m.IntegrationsPanel })),
 );
+import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -211,7 +212,15 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
             <ReopenRequestsPanel />
           </div>
         ) : null}
-        {current === "audit" ? <AuditLogsPanel globalSearch={search} /> : null}
+        {current === "audit" ? (
+          <div className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <ProfileAuditPanel />
+              <RedemptionHistoryPanel />
+            </div>
+            <AuditLogsPanel globalSearch={search} />
+          </div>
+        ) : null}
         {current === "security" ? (
           <div className="space-y-4">
             <AdminAccessPanel />
