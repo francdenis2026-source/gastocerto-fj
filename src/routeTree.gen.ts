@@ -25,6 +25,7 @@ import { Route as AuthenticatedCompromissosRouteImport } from './routes/_authent
 import { Route as AuthenticatedComprovantesRouteImport } from './routes/_authenticated/comprovantes'
 import { Route as AuthenticatedConsultorRouteImport } from './routes/_authenticated/consultor'
 import { Route as AuthenticatedDiarioRouteImport } from './routes/_authenticated/diario'
+import { Route as AuthenticatedEnergiaRouteImport } from './routes/_authenticated/energia'
 import { Route as AuthenticatedFechamentoRouteImport } from './routes/_authenticated/fechamento'
 import { Route as AuthenticatedGasRouteImport } from './routes/_authenticated/gas'
 import { Route as AuthenticatedKidsAuditoriaRouteImport } from './routes/_authenticated/kids-auditoria'
@@ -126,6 +127,11 @@ const AuthenticatedConsultorRoute = AuthenticatedConsultorRouteImport.update({
 const AuthenticatedDiarioRoute = AuthenticatedDiarioRouteImport.update({
   id: '/diario',
   path: '/diario',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEnergiaRoute = AuthenticatedEnergiaRouteImport.update({
+  id: '/energia',
+  path: '/energia',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFechamentoRoute = AuthenticatedFechamentoRouteImport.update({
@@ -252,6 +258,7 @@ export interface FileRoutesByFullPath {
   '/comprovantes': typeof AuthenticatedComprovantesRoute
   '/consultor': typeof AuthenticatedConsultorRoute
   '/diario': typeof AuthenticatedDiarioRoute
+  '/energia': typeof AuthenticatedEnergiaRoute
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/gas': typeof AuthenticatedGasRoute
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
@@ -289,6 +296,7 @@ export interface FileRoutesByTo {
   '/comprovantes': typeof AuthenticatedComprovantesRoute
   '/consultor': typeof AuthenticatedConsultorRoute
   '/diario': typeof AuthenticatedDiarioRoute
+  '/energia': typeof AuthenticatedEnergiaRoute
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/gas': typeof AuthenticatedGasRoute
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
@@ -328,6 +336,7 @@ export interface FileRoutesById {
   '/_authenticated/comprovantes': typeof AuthenticatedComprovantesRoute
   '/_authenticated/consultor': typeof AuthenticatedConsultorRoute
   '/_authenticated/diario': typeof AuthenticatedDiarioRoute
+  '/_authenticated/energia': typeof AuthenticatedEnergiaRoute
   '/_authenticated/fechamento': typeof AuthenticatedFechamentoRoute
   '/_authenticated/gas': typeof AuthenticatedGasRoute
   '/_authenticated/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
@@ -367,6 +376,7 @@ export interface FileRouteTypes {
     | '/comprovantes'
     | '/consultor'
     | '/diario'
+    | '/energia'
     | '/fechamento'
     | '/gas'
     | '/kids-auditoria'
@@ -404,6 +414,7 @@ export interface FileRouteTypes {
     | '/comprovantes'
     | '/consultor'
     | '/diario'
+    | '/energia'
     | '/fechamento'
     | '/gas'
     | '/kids-auditoria'
@@ -442,6 +453,7 @@ export interface FileRouteTypes {
     | '/_authenticated/comprovantes'
     | '/_authenticated/consultor'
     | '/_authenticated/diario'
+    | '/_authenticated/energia'
     | '/_authenticated/fechamento'
     | '/_authenticated/gas'
     | '/_authenticated/kids-auditoria'
@@ -589,6 +601,13 @@ declare module '@tanstack/react-router' {
       path: '/diario'
       fullPath: '/diario'
       preLoaderRoute: typeof AuthenticatedDiarioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/energia': {
+      id: '/_authenticated/energia'
+      path: '/energia'
+      fullPath: '/energia'
+      preLoaderRoute: typeof AuthenticatedEnergiaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/fechamento': {
@@ -744,6 +763,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedComprovantesRoute: typeof AuthenticatedComprovantesRoute
   AuthenticatedConsultorRoute: typeof AuthenticatedConsultorRoute
   AuthenticatedDiarioRoute: typeof AuthenticatedDiarioRoute
+  AuthenticatedEnergiaRoute: typeof AuthenticatedEnergiaRoute
   AuthenticatedFechamentoRoute: typeof AuthenticatedFechamentoRoute
   AuthenticatedGasRoute: typeof AuthenticatedGasRoute
   AuthenticatedKidsAuditoriaRoute: typeof AuthenticatedKidsAuditoriaRoute
@@ -773,6 +793,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedComprovantesRoute: AuthenticatedComprovantesRoute,
   AuthenticatedConsultorRoute: AuthenticatedConsultorRoute,
   AuthenticatedDiarioRoute: AuthenticatedDiarioRoute,
+  AuthenticatedEnergiaRoute: AuthenticatedEnergiaRoute,
   AuthenticatedFechamentoRoute: AuthenticatedFechamentoRoute,
   AuthenticatedGasRoute: AuthenticatedGasRoute,
   AuthenticatedKidsAuditoriaRoute: AuthenticatedKidsAuditoriaRoute,
