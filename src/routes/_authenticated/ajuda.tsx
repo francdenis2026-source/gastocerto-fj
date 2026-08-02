@@ -15,7 +15,8 @@ import {
   CheckCircle2,
   CreditCard as CardIcon
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 import { AppShell } from "@/components/app-shell";
@@ -118,7 +119,7 @@ const HELP_SECTIONS = [
     id: "financial-help",
     title: "Ajuda Financeira Estratégica",
     icon: Lightbulb,
-    content: "Disponível para planos Premium, esta área utiliza IA para analisar sua saúde financeira completa. O Consultor de Dívidas avalia cartões, empréstimos e financiamentos para criar planos de quitação detalhados e metas realistas.",
+    content: "Disponível exclusivamente para planos Premium, esta área utiliza IA para analisar sua saúde financeira completa. O Consultor de Dívidas avalia cartões, empréstimos e financiamentos para criar planos de quitação detalhados e metas realistas.",
     steps: [
       "Acesse o Consultor de Dívidas no topo do seu Painel",
       "Receba um Score de saúde financeira atualizado",
@@ -141,6 +142,20 @@ function HelpPage() {
       s.steps.some(step => step.toLowerCase().includes(term))
     );
   }, [search]);
+
+  useEffect(() => {
+    const tourShown = localStorage.getItem("help_tour_v1");
+    if (!tourShown) {
+      toast("Bem-vindo à Central de Ajuda!", {
+        description: "Explore os guias à esquerda para aprender sobre Kids QR, Cartões e o Consultor de Dívidas.",
+        duration: 8000,
+        action: {
+          label: "Entendido",
+          onClick: () => localStorage.setItem("help_tour_v1", "true")
+        }
+      });
+    }
+  }, []);
 
   return (
     <AppShell>

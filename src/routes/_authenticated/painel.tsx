@@ -462,13 +462,17 @@ function DashboardPage() {
             <ShieldAlert className="size-5 text-amber-600 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <p className="text-sm font-semibold text-amber-900">Área de Ajuda Financeira Restrita</p>
-              <p className="text-xs text-amber-700">Esta funcionalidade está disponível apenas para planos Premium ou contas com permissão especial. Faça o upgrade para receber planos de quitação de dívidas personalizados.</p>
+              <p className="text-xs text-amber-700">
+                Esta funcionalidade está disponível apenas para planos Premium ativos ou contas com permissão especial do administrador. 
+                Fique atento: o Consultor de Dívidas analisa cartões e financiamentos para criar metas reais de quitação.
+              </p>
               <Link to="/perfil">
-                <Button variant="link" className="p-0 h-auto text-xs text-amber-600 hover:text-amber-700">Ver Planos</Button>
+                <Button variant="link" className="p-0 h-auto text-xs text-amber-600 hover:text-amber-700">Ver Planos e Fazer Upgrade</Button>
               </Link>
             </div>
           </div>
         )}
+
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
           <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-sm">
