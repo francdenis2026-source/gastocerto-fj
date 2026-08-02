@@ -27,13 +27,41 @@ const DashboardPreview = lazy(() =>
 
 /** módulos reais do sistema, resumidos em pílulas legíveis */
 const modules = [
-  { label: "Lançamentos", icon: BarChart3 },
-  { label: "Combustível", icon: Fuel },
-  { label: "Gás", icon: Flame },
-  { label: "Cartões", icon: CreditCard },
-  { label: "Espaço Kids", icon: Baby },
-  { label: "PIX Kids", icon: Send },
-  { label: "Consultor IA", icon: Sparkles },
+  {
+    label: "Lançamentos",
+    icon: BarChart3,
+    text: "Despesa ou receita com categoria, anexo, parcelas e data retroativa.",
+  },
+  {
+    label: "Combustível",
+    icon: Fuel,
+    text: "Litros, preço por litro, odômetro validado e custo por km por veículo.",
+  },
+  {
+    label: "Gás",
+    icon: Flame,
+    text: "Histórico de botijões, duração média e aviso quando estiver acabando.",
+  },
+  {
+    label: "Cartões",
+    icon: CreditCard,
+    text: "Faturas, limites, vencimentos e parcelas em aberto de cada cartão.",
+  },
+  {
+    label: "Espaço Kids",
+    icon: Baby,
+    text: "Painel simplificado por criança, com PIN, avatar e tema próprio.",
+  },
+  {
+    label: "PIX Kids",
+    icon: Send,
+    text: "Envie mesada por PIX, com histórico, comprovante e aviso na hora.",
+  },
+  {
+    label: "Consultor IA",
+    icon: Sparkles,
+    text: "Diagnóstico do mês, plano de saída de dívidas e dicas sob medida.",
+  },
 ] as const;
 
 const stats = [
