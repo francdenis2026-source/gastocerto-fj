@@ -1128,9 +1128,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             <SessionManager dependentId={dependent.id} />
           </div>
 
-          <div className="rounded-xl border border-border p-3">
-            <p className="flex items-center gap-2 text-[12px] font-bold mb-3">
-              <History className="size-3.5 text-primary" aria-hidden /> Gastos e Movimentações da Criança
+          <div className="rounded-xl border border-border p-2">
+            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
+              <History className="size-3 text-primary" aria-hidden /> Movimentações
             </p>
             <KidTransactionsList dependentId={dependent.id} />
           </div>
