@@ -28,7 +28,9 @@ export type FeatureKey =
   | "receipts"
   | "notifications"
   | "ai_advisor"
-  | "unlimited_transactions";
+  | "unlimited_transactions"
+  | "debt_advisor"
+  | "credit_cards";
 
 /** Recursos liberados no plano gratuito (o resto fica visível, mas bloqueado). */
 export const FREE_FEATURES: FeatureKey[] = [
