@@ -879,7 +879,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                           
                           const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, {
                             cacheControl: '0',
-                            upsert: true
+                            upsert: true,
+                            contentType: file.type || 'image/jpeg'
                           });
                           
                           if (uploadErr) throw uploadErr;
