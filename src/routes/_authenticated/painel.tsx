@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert } from "lucide-react";
 
 
 import { cn } from "@/lib/utils";
@@ -457,6 +457,19 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="space-y-4">
+        {!hasFeature(access, "financial_help") && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 mb-4 flex items-start gap-3">
+            <ShieldAlert className="size-5 text-amber-600 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-amber-900">Área de Ajuda Financeira Restrita</p>
+              <p className="text-xs text-amber-700">Esta funcionalidade está disponível apenas para planos Premium ou contas com permissão especial. Faça o upgrade para receber planos de quitação de dívidas personalizados.</p>
+              <Link to="/perfil">
+                <Button variant="link" className="p-0 h-auto text-xs text-amber-600 hover:text-amber-700">Ver Planos</Button>
+              </Link>
+            </div>
+          </div>
+        )}
+
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
           <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
