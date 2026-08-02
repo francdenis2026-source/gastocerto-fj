@@ -25,8 +25,9 @@ import {
   Flame,
   Zap,
   HelpCircle,
+  Settings,
 } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, type ReactNode, useEffect, useMemo } from "react";
 
 import { Logo } from "@/components/logo";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
@@ -40,6 +41,10 @@ import { useAvatarUrl, useProfile, useRoles } from "@/lib/queries";
 import { clearBrowserCredentials } from "@/lib/local-session";
 import { useNotifications } from "@/lib/notifications";
 import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
+import { formatCurrency } from "@/lib/format";
+import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
+import { useQuery } from "@tanstack/react-query";
+import type { SidebarMetric } from "./settings/sidebar-config";
 import { cn } from "@/lib/utils";
 
 
@@ -158,6 +163,32 @@ export function AppShell({ children }: { children: ReactNode }) {
   usePlanRealtimeSync();
   // Avisos e conquistas do Espaço Kids chegam sem recarregar a tela.
   useKidsRealtimeAlerts();
+
+  const { data: recurrents } = useQuery({
+    queryKey: ["recurrent-expenses-sidebar"],
+    queryFn: () => getRecurrentExpenses()
+  });
+
+  const [metricsConfig, setMetricsConfig] = useState<SidebarMetric[]>([]);
+
+  useEffect(() => {
+    const loadConfig = () => {
+      const saved = localStorage.getItem("sidebar-metrics-config");
+      if (saved) {
+        try {
+          setMetricsConfig(JSON.parse(saved));
+        } catch (e) {}
+      }
+    };
+    loadConfig();
+    window.addEventListener("sidebar-config-updated", loadConfig);
+    return () => window.removeEventListener("sidebar-config-updated", loadConfig);
+  }, []);
+
+  const activeMetrics = useMemo(() => {
+    if (metricsConfig.length === 0) return [];
+    return metricsConfig.filter(m => m.enabled);
+  }, [metricsConfig]);
   const unreadCount = (notifications ?? []).filter((item) => !item.read_at).length;
   const isStaff = (roles ?? []).some((role) => role === "admin" || role === "support");
   const isAdminArea = pathname.startsWith("/admin");
@@ -328,7 +359,44 @@ export function AppShell({ children }: { children: ReactNode }) {
         </nav>
 
         {!isAdminArea && (
-          <EnergySidebarWidget collapsed={railCollapsed} />
+          <div className="mb-4 space-y-2">
+            <EnergySidebarWidget collapsed={railCollapsed} />
+            
+            {activeMetrics.length > 0 && !railCollapsed && (
+              <div className="mx-2 p-3 rounded-xl border border-border bg-secondary/30 space-y-3">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                  <Settings className="size-3 text-brand" />
+                  Métricas
+                </div>
+                <div className="space-y-2">
+                  {activeMetrics.map(metric => {
+                    const relevantRows = (recurrents ?? []).filter(r => 
+                      r.categories?.name?.toLowerCase().includes(metric.label.toLowerCase()) ||
+                      r.categories?.name?.toLowerCase().includes(metric.id.toLowerCase())
+                    );
+                    const currentAmount = relevantRows.reduce((sum, r) => sum + Number(r.amount), 0);
+                    const isHigh = currentAmount > metric.defaultAmount && metric.defaultAmount > 0;
+
+                    return (
+                      <div key={metric.id} className="space-y-0.5">
+                        <div className="flex items-center justify-between text-[10px]">
+                          <span className="text-muted-foreground">{metric.label}</span>
+                          {isHigh ? (
+                            <span className="text-orange-500 font-bold">Alta</span>
+                          ) : (
+                            <span className="text-emerald-500 font-bold">Ok</span>
+                          )}
+                        </div>
+                        <p className="text-sm font-bold tabular-nums">
+                          {formatCurrency(currentAmount)}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         <div className="border-t border-border p-2">
