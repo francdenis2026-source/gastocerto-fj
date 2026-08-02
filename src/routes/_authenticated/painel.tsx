@@ -58,8 +58,8 @@ import { InteractiveCalendar } from "@/components/finance/interactive-calendar";
 import { StatTile } from "@/components/finance/stat-tile";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
-import { useProfile } from "@/lib/queries";
 import { hasFeature } from "@/lib/plan-features";
+
 
 
 
