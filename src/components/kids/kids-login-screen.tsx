@@ -83,7 +83,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
           </div>
 
           <div className="flex-1 overflow-y-auto pr-1">
-            {children}
+            <div className="flex min-h-[440px] flex-col justify-center">{children}</div>
           </div>
 
           <div className="mt-4 pt-4 shrink-0 space-y-3 border-t border-border/50">
