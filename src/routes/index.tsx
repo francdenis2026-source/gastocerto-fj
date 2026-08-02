@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import heroBg from "@/assets/hero-desk-night.jpg";
+import heroBg from "@/assets/hero-bg-2026.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
 import { CtaBanner } from "@/components/landing/cta-banner";
@@ -12,7 +12,8 @@ import { Pricing } from "@/components/landing/pricing";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
-  "A plataforma completa para gestão de finanças pessoais. Controle combustível, gás, mercado e contas em um só lugar com o GastoCerto.";
+  "Painel único para despesas, veículos, gás, cartões, mesada por PIX no Espaço Kids e consultor financeiro com IA. Comece grátis no GastoCerto.";
+
 
 const ogImage = "https://pagina-limpa-controle.lovable.app/og-gastocerto.jpg";
 
