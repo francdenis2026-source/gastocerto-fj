@@ -87,6 +87,21 @@ export const saveCardTransaction = createServerFn({ method: "POST" })
     installments_total: z.number().default(1),
   }))
   .handler(async ({ data }) => {
+    // Verificação de duplicados (mesmo valor, data e descrição similar)
+    const txDate = data.transaction_date || new Date().toISOString().split('T')[0];
+    const { data: existing } = await supabaseAdmin
+      .from("card_transactions")
+      .select("id")
+      .eq("card_id", data.card_id)
+      .eq("amount", data.amount)
+      .eq("transaction_date", txDate)
+      .ilike("description", `%${data.description}%`)
+      .limit(1);
+
+    if (existing && existing.length > 0) {
+      throw new Error("Provável lançamento duplicado detectado (mesmo valor, data e descrição).");
+    }
+
     const { data: tx, error } = await supabaseAdmin
       .from("card_transactions")
       .insert({

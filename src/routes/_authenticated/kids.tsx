@@ -13,6 +13,7 @@ import {
   History,
   Info,
   KeyRound,
+  LayoutGrid,
   Loader2,
   LogIn,
   Plus,
@@ -162,10 +163,16 @@ function KidsAccessPage() {
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
             <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
           </p>
-          <p className={cn("mt-1 text-[13px] font-bold", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
-            {describeKidCodeExpiry(summary.nextExpiry).label}
-            {describeKidCodeExpiry(summary.nextExpiry).nearExpiry && " ⚠️"}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className={cn("mt-1 text-[13px] font-bold", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
+              {describeKidCodeExpiry(summary.nextExpiry).label}
+            </p>
+            {describeKidCodeExpiry(summary.nextExpiry).nearExpiry && (
+              <Badge variant="outline" className="bg-orange-50 text-orange-600 border-orange-200 animate-pulse text-[9px] py-0 h-4">
+                REEMITIR QR
+              </Badge>
+            )}
+          </div>
           <p className="text-[11px] text-muted-foreground">
             {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
           </p>
@@ -261,7 +268,7 @@ function KidsAccessPage() {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="flex items-center gap-2 text-sm font-bold">
-            <History className="size-4 text-primary" aria-hidden /> Histórico de acessos
+            <History className="size-4 text-primary" aria-hidden /> Auditoria e Histórico Detalhado
           </h2>
           <Button variant="outline" size="sm" className="h-7 text-[10px] gap-1" onClick={() => {
             const data = (audit.data ?? []).map(row => ({

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid } from "lucide-react";
+import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid, FileDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -9,8 +9,10 @@ import { useAuth } from "@/hooks/use-auth";
 import { formatCurrency } from "@/lib/format";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/cartoes")({
@@ -42,9 +44,14 @@ function CreditCardsPage() {
             <h1 className="text-2xl font-bold tracking-tight">Meus Cartões</h1>
             <p className="text-muted-foreground text-sm">Gerencie limites, faturas e gastos por cartão.</p>
           </div>
-          <Button className="gap-2">
-            <Plus className="size-4" /> Novo Cartão
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="gap-2 h-9 text-xs" onClick={() => toast.info("Funcionalidade de exportação em desenvolvimento.")}>
+              <FileDown className="size-4" /> Exportar Relatório
+            </Button>
+            <Button className="gap-2 h-9 text-xs">
+              <Plus className="size-4" /> Novo Cartão
+            </Button>
+          </div>
         </header>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -125,9 +132,23 @@ function CreditCardsPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="transactions" className="mt-6">
-             <div className="rounded-2xl border bg-card p-6 text-center text-muted-foreground">
-                <p className="text-sm">Selecione um cartão para ver as transações detalhadas.</p>
+          <TabsContent value="transactions" className="mt-6 space-y-6">
+             <div className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-4 rounded-2xl">
+                <div className="relative flex-1 min-w-[240px]">
+                  <Input placeholder="Buscar na descrição ou valor..." className="pl-9 h-9 text-xs" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                </div>
+                <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.info("Exportação de transações por cartão em desenvolvimento.")}>
+                  <FileDown className="size-4" /> PDF/CSV do Cartão
+                </Button>
+             </div>
+             
+             <div className="rounded-2xl border bg-card p-8 text-center text-muted-foreground">
+                <History className="size-10 mx-auto mb-3 opacity-20" />
+                <p className="text-sm font-medium">Auditoria e Histórico Detalhado</p>
+                <p className="text-xs mt-1 max-w-[280px] mx-auto opacity-70">
+                  Aqui você poderá ver quem inseriu, editou ou removeu cada compra, com data e IP.
+                </p>
              </div>
           </TabsContent>
         </Tabs>
