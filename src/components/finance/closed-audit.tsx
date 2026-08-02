@@ -1,3 +1,4 @@
+import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { useQuery } from "@tanstack/react-query";
 import { ShieldAlert } from "lucide-react";
 
