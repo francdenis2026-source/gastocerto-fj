@@ -374,7 +374,24 @@ function ProfilePage() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="kids" className="mt-0 space-y-4">
+                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
+                  <div className="border-b border-border/40 pb-2.5">
+                    <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
+                      <Baby className="size-4 text-primary" aria-hidden /> Gastos e movimentações das crianças
+                    </h2>
+                    <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+                      Acompanhe, em tempo real, o resumo financeiro de cada criança cadastrada no
+                      Espaço Kids. Use os filtros para escolher a criança, o período e o tipo de
+                      movimentação.
+                    </p>
+                  </div>
+                  <KidsSpendingSummary />
+                </div>
+              </TabsContent>
+
               <TabsContent value="audit" className="mt-0 space-y-4">
+
 
                 <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
                   <ProfileAuditPanel />
