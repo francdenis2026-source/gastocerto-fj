@@ -13,6 +13,15 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { Download, FileText, FileCode } from "lucide-react";
+import { useRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
+import { exportRecurrentSpendPdf, exportRecurrentSpendCsv } from "@/lib/recurrent-export";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 
 export type SidebarMetric = {
   id: string;
@@ -30,6 +39,7 @@ const DEFAULT_METRICS: SidebarMetric[] = [
 ];
 
 export function SidebarConfig() {
+  const { data: recurrentData } = useRecurrentExpenses();
   const [metrics, setMetrics] = useState<SidebarMetric[]>(DEFAULT_METRICS);
 
   useEffect(() => {
@@ -61,9 +71,30 @@ export function SidebarConfig() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Settings2 className="size-5 text-primary" />
-        <h3 className="font-bold text-lg">Métricas da Barra Lateral</h3>
+      <div className="flex items-center justify-between gap-2 mb-4">
+        <div className="flex items-center gap-2">
+          <Settings2 className="size-5 text-primary" />
+          <h3 className="font-bold text-lg">Métricas da Barra Lateral</h3>
+        </div>
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2 rounded-xl">
+              <Download className="size-4" />
+              Exportar
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => recurrentData && exportRecurrentSpendPdf(recurrentData, [])} className="gap-2">
+              <FileText className="size-4" />
+              Exportar PDF
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => recurrentData && exportRecurrentSpendCsv(recurrentData)} className="gap-2">
+              <FileCode className="size-4" />
+              Exportar CSV
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       
       <p className="text-sm text-muted-foreground mb-6">
