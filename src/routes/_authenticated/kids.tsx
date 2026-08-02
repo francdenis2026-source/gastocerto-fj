@@ -4,10 +4,13 @@ import { useServerFn } from "@tanstack/react-start";
 import QRCode from "qrcode";
 import {
   Baby,
+  CalendarClock,
+  Copy,
   Eye,
   History,
   KeyRound,
   Loader2,
+  LogIn,
   QrCode,
   RefreshCw,
   ShieldCheck,
