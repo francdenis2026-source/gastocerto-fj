@@ -29,7 +29,7 @@ export function useKidSession() {
     queryFn: async (): Promise<KidSessionDependent | null> => {
       const { data, error } = await supabase
         .from("dependents")
-        .select("id, user_id, name, nickname, color, monthly_allowance, monthly_limit, kid_login_code")
+        .select("id, user_id, name, nickname, color, monthly_allowance, monthly_limit, kid_login_code, gender, avatar_url")
         .eq("kid_user_id", user!.id)
         .maybeSingle();
       if (error) return null;
