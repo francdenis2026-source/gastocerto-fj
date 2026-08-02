@@ -391,11 +391,18 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </p>
           </div>
         </div>
-        {dependent.kid_login_code ? (
-          <Badge variant={expiry.expired ? "destructive" : "secondary"} className="text-[10px]">
-            {expiry.expired ? "Código expirado" : "Acesso ativo"}
-          </Badge>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {dependent.kid_login_code ? (
+            <Badge variant={expiry.expired ? "destructive" : "secondary"} className="text-[10px]">
+              {expiry.expired ? "Código expirado" : "Acesso ativo"}
+            </Badge>
+          ) : null}
+          {(dependent as any).pin_code && (
+            <Badge variant="outline" className="border-primary/30 text-primary text-[10px] gap-1">
+              <ShieldCheck className="size-3" /> PIN Personalizado
+            </Badge>
+          )}
+        </div>
       </header>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_240px]">
