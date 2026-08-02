@@ -119,6 +119,30 @@ function KidsAccessPage() {
         </p>
       </header>
 
+      <section className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <KeyRound className="size-3.5 text-primary" aria-hidden /> Códigos ativos
+          </p>
+          <p className="mt-1 text-2xl font-extrabold">{summary.active}</p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.total === 0
+              ? "Nenhum acesso liberado ainda."
+              : `${summary.total} código(s) criado(s) no total.`}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
+          </p>
+          <p className="mt-1 text-[13px] font-bold">
+            {describeKidCodeExpiry(summary.nextExpiry).label}
+          </p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
             <LogIn className="size-3.5 text-primary" aria-hidden /> Último login da criança
           </p>
@@ -143,6 +167,7 @@ function KidsAccessPage() {
           validade definida por você.
         </p>
       </section>
+
 
 
       <div className="flex flex-wrap items-center justify-between gap-3">
