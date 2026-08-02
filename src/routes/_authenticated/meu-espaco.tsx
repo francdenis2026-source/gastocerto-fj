@@ -315,27 +315,35 @@ function KidSpacePage() {
             </div>
 
             {visibility.balance ? (
-              <>
-                <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+              <div className={cn(compactMode && "flex flex-col")}>
+                <p className={cn(
+                  "flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary",
+                  compactMode && "justify-start"
+                )}>
                   <Sparkles className="size-3.5" /> Saldo disponível
                 </p>
                 <p
                   className={cn(
                     "mt-1 text-4xl font-black tabular-nums tracking-tighter",
+                    compactMode && "text-2xl mt-0",
                     balance < 0 ? "text-destructive" : "text-foreground",
                   )}
                 >
                   {formatCurrency(balance)}
                 </p>
-              </>
+              </div>
             ) : (
+
               <p className="text-[11px] font-semibold text-muted-foreground">
                 Saldo oculto pelo responsável.
               </p>
             )}
             
             {visibility.income ? (
-              <div className="mt-3 grid grid-cols-2 gap-2 text-left">
+              <div className={cn(
+                "mt-3 grid grid-cols-2 gap-2 text-left",
+                compactMode && "mt-0 grid-cols-1 gap-1"
+              )}>
                 <div className="rounded-xl bg-emerald-500/10 p-2">
                   <p className="flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase tracking-tight">
                     <TrendingUp className="size-3" /> Ganhei
@@ -354,8 +362,32 @@ function KidSpacePage() {
 
           <section className={cn(
             "rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4 group hover:border-primary/40 transition-all",
+            compactMode && "rounded-2xl p-4 flex-row justify-between",
             isBoy ? "hover:border-blue-500/40" : isGirl ? "hover:border-pink-500/40" : ""
           )}>
+            <div className={cn(
+              "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
+              compactMode && "size-10",
+              isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
+            )}>
+              <TrendingUp className={cn("size-8", compactMode && "size-5")} />
+            </div>
+            <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
+              <h3 className="text-sm font-bold">Comprei ou Ganhei?</h3>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Toque no botão para anotar</p>
+            </div>
+            <Button 
+              className={cn(
+                "h-10 w-full rounded-xl text-sm font-bold shadow-lg",
+                compactMode && "w-auto px-4 h-9",
+                isBoy ? "bg-blue-600 hover:bg-blue-700" : isGirl ? "bg-pink-600 hover:bg-pink-700" : ""
+              )} 
+              onClick={() => setEntryOpen(true)}
+            >
+              {compactMode ? "Anotar" : "Anotar Agora 📝"}
+            </Button>
+          </section>
+
             <div className={cn(
               "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
               isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
