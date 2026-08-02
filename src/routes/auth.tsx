@@ -155,7 +155,7 @@ function AuthPage() {
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid max-h-full w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[520px] lg:grid-cols-[1fr_minmax(0,23rem)]">
+      <div className="grid h-full max-h-full w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[520px] lg:grid-cols-[1fr_minmax(0,23rem)]">
         {/* Painel lateral dinâmico (Hero) */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           {/* Imagem Hero específica para cada modo */}
