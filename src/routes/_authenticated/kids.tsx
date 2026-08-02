@@ -1232,7 +1232,7 @@ function SessionManager({ dependentId }: { dependentId: string }) {
               <p className="truncate font-semibold text-foreground">
                 {s.ip_address || "IP oculto"} {s.status === "blocked" && <Badge variant="destructive" className="ml-1 scale-75 h-4 px-1">Bloqueado</Badge>}
               </p>
-              <p className="truncate text-[10px] text-muted-foreground">
+              <p className="truncate text-[9px] text-muted-foreground">
                 {new Date(s.created_at).toLocaleDateString("pt-BR")} · {s.user_agent?.split(" ")[0] || "Desconhecido"}
               </p>
             </div>
@@ -1240,7 +1240,7 @@ function SessionManager({ dependentId }: { dependentId: string }) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 text-[10px] text-destructive hover:bg-destructive/10"
+                className="h-6 text-[9px] text-destructive hover:bg-destructive/10"
                 onClick={() => {
                   void block({ data: { sessionId: s.id } }).then(() => {
                     toast.success("Acesso bloqueado!");
