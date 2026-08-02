@@ -5,14 +5,27 @@ import {
   ChevronRight, 
   ArrowLeft,
   Circle,
-  Banknote
+  Banknote,
+  History,
+  Clock,
+  Filter,
+  Search,
+  Bell,
+  CalendarCheck
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/lib/format";
-import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { formatCurrency, formatDate } from "@/lib/format";
+import { useCommitments, useCommitmentEntries, summarizeAll, useSyncNotifications } from "@/lib/commitments";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/pagar-dividas")({
   head: () => ({
@@ -27,11 +40,38 @@ export const Route = createFileRoute("/_authenticated/pagar-dividas")({
 function PayDebtsPage() {
   const { data: commitments, isLoading: isLoadingCommitments } = useCommitments();
   const { data: entries, isLoading: isLoadingEntries } = useCommitmentEntries();
+  const syncNotifications = useSyncNotifications();
   
   const summaries = useMemo(() => summarizeAll(commitments ?? [], entries ?? []), [commitments, entries]);
   const overdueItems = summaries.filter((s: any) => s.overdue && s.commitment.status === 'open');
+  const paidItems = summaries.filter((s: any) => s.commitment.status === 'paid' || (s.outstanding === 0 && s.paid > 0));
 
+  const [search, setSearch] = useState("");
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+
+  // Efeito para sincronizar notificações de atraso
+  useEffect(() => {
+    if (overdueItems.length > 0) {
+      const drafts = overdueItems.map(item => ({
+        notification_type: "debt_overdue",
+        title: "Dívida em Atraso",
+        message: `O compromisso "${item.commitment.name}" está vencido. Valor pendente: ${formatCurrency(item.outstanding)}.`,
+        severity: "warning" as const,
+        link: "/pagar-dividas",
+        reference_id: item.commitment.id,
+        dedupe_key: `overdue-${item.commitment.id}-${new Date().toISOString().split('T')[0]}`
+      }));
+      syncNotifications.mutate(drafts);
+    }
+  }, [overdueItems.length]);
+
+  const filteredOverdue = overdueItems.filter((item: any) => 
+    item.commitment.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredPaid = paidItems.filter((item: any) => 
+    item.commitment.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const toggleCheck = (id: string) => {
     setChecked(prev => ({ ...prev, [id]: !prev[id] }));
