@@ -127,8 +127,10 @@ function DashboardPage() {
   const [taxOpen, setTaxOpen] = useState(false);
 
   const { data: profile, isLoading } = useProfile();
+  const access = usePlanAccess();
   const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
+
   const range = monthRange(period.year, period.month);
   const { data: transactions, isLoading: loadingTransactions } = useTransactions(range);
   const { data: budgets } = useBudgets(period.year, period.month);
