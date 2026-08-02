@@ -33,9 +33,10 @@ export const fullNameSchema = z
   .pipe(
     z
       .string()
-      .min(3, "Informe seu nome completo")
+      .min(3, "O nome deve ter no mínimo 3 caracteres")
       .max(100, "Nome muito longo")
-      .regex(/^[\p{L}\p{M}'\-\s.]+$/u, "O nome contém caracteres inválidos"),
+      .regex(/^[\p{L}\p{M}'\-\s.]+$/u, "O nome contém caracteres inválidos")
+      .refine(val => val.split(' ').filter(Boolean).length >= 2, "Informe seu nome e sobrenome")
   );
 
 export const phoneSchema = z
@@ -78,8 +79,9 @@ export const cpfSchema = z
   .pipe(
     z
       .string()
-      .length(11, "O CPF deve ter 11 dígitos")
-      .refine(isValidCpf, "CPF inválido"),
+      .length(11, "O CPF deve ter exatamente 11 dígitos")
+      .refine(val => !/^(\d)\1{10}$/.test(val), "O CPF não pode ter todos os dígitos iguais")
+      .refine(isValidCpf, "Dígitos verificadores do CPF inválidos. Verifique se digitou corretamente."),
   );
 
 /** Senha numérica de 6 dígitos usada no acesso por CPF. */
