@@ -1,10 +1,14 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertCircle, Baby, KeyRound, Loader2, Sparkles } from "lucide-react";
+import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import loginHero from "@/assets/auth/login-hero.jpg";
+import signupHero from "@/assets/auth/signup-hero.jpg";
+import forgotHero from "@/assets/auth/forgot-hero.jpg";
+import adminHero from "@/assets/auth/admin-hero.jpg";
 import authHero from "@/assets/auth-hero.jpg";
 import { KidsLoginScreen } from "@/components/kids/kids-login-screen";
 import { PENDING_LICENSE_KEY } from "@/components/landing/code-access-dialog";
@@ -137,6 +141,7 @@ function AuthPage() {
 
   return (
     <main className="relative isolate grid h-dvh max-h-dvh w-full place-items-center overflow-hidden p-3 sm:p-4">
+      {/* Imagem de fundo global para o layout */}
       <img
         src={authHero}
         alt=""
@@ -146,20 +151,39 @@ function AuthPage() {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.94)_0%,oklch(0.16_0.03_258/0.82)_50%,oklch(0.16_0.03_258/0.96)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.95)_0%,oklch(0.16_0.03_258/0.88)_50%,oklch(0.16_0.03_258/0.97)_100%)]"
       />
 
-      <div className="grid max-h-full w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:grid-cols-[1fr_minmax(0,22rem)]">
-        {/* Painel institucional (desktop) */}
-        <section className="relative hidden flex-col justify-between overflow-hidden bg-[oklch(0.16_0.03_258)] p-7 text-white lg:flex">
+      {/* Card principal com altura fixa para evitar redimensionamento brusco */}
+      <div className="grid h-[540px] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:grid-cols-[1fr_minmax(0,22rem)]">
+        {/* Painel lateral dinâmico (Hero) */}
+        <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
+          {/* Imagem Hero específica para cada modo */}
+          <img
+            src={
+              mode === "login"
+                ? loginHero
+                : mode === "signup"
+                  ? signupHero
+                  : mode === "forgot"
+                    ? forgotHero
+                    : adminHero
+            }
+            alt=""
+            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.4] transition-all duration-700"
+          />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,oklch(0.6_0.14_165/0.28),transparent_60%)]"
+            className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.25_0.06_259/0.6)] via-transparent to-[oklch(0.16_0.03_258/0.8)]"
           />
-          <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
-            <Logo onDark />
-          </Link>
-          <div className="relative z-10 space-y-4">
+
+          <div className="p-7">
+            <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
+              <Logo onDark />
+            </Link>
+          </div>
+
+          <div className="relative z-10 space-y-5 p-7">
             <div className="flex -space-x-3 overflow-hidden">
               {[
                 "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
@@ -170,42 +194,67 @@ function AuthPage() {
                 <img
                   key={i}
                   src={url}
-                  className="inline-block size-9 rounded-full border-2 border-[oklch(0.16_0.03_258)] object-cover"
+                  className="inline-block size-9 rounded-full border-2 border-primary object-cover shadow-lg"
                   alt="Usuário satisfeito"
                 />
               ))}
-              <div className="flex size-9 items-center justify-center rounded-full border-2 border-[oklch(0.16_0.03_258)] bg-emerald-500 text-[10px] font-bold">
+              <div className="flex size-9 items-center justify-center rounded-full border-2 border-primary bg-emerald-500 text-[10px] font-bold shadow-lg">
                 +2k
               </div>
             </div>
 
-            <div className="max-w-xs">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
-                Acesso à plataforma
-              </p>
-              <h2 className="font-display mt-2 text-2xl font-extrabold leading-tight tracking-[-0.02em]">
-                Suas finanças organizadas em um só sistema.
+            <div className="max-w-sm">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-emerald-300">
+                {mode === "login" ? (
+                  <>
+                    <LayoutDashboard className="size-3" /> Acesso ao Painel
+                  </>
+                ) : mode === "signup" ? (
+                  <>
+                    <UserPlus className="size-3" /> Nova Conta
+                  </>
+                ) : mode === "forgot" ? (
+                  <>
+                    <Lock className="size-3" /> Recuperar Acesso
+                  </>
+                ) : (
+                  <>
+                    <ShieldAlert className="size-3" /> Área Segura
+                  </>
+                )}
+              </span>
+              <h2 className="font-display mt-3 text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
+                {mode === "login"
+                  ? "Suas finanças organizadas em um só sistema."
+                  : mode === "signup"
+                    ? "Comece hoje sua jornada para a liberdade financeira."
+                    : mode === "forgot"
+                      ? "Não se preocupe, vamos te ajudar a voltar."
+                      : "Área de administração técnica e suporte."}
               </h2>
-              <div className="mt-3 flex items-center gap-1.5 text-emerald-400">
-                <Sparkles className="size-4" />
-                <span className="text-[11px] font-bold uppercase tracking-wider">
-                  Melhor Escolha 2026
-                </span>
-              </div>
-              <p className="mt-2 text-[13px] leading-relaxed text-white/75">
-                Entre com CPF e senha de 6 dígitos. Cadastro gratuito, sem cartão.
+              <p className="mt-3 text-[13px] leading-relaxed text-white/85 drop-shadow-sm">
+                {mode === "login"
+                  ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta."
+                  : mode === "signup"
+                    ? "Crie sua conta em segundos. Teste grátis por 14 dias com todos os recursos liberados."
+                    : mode === "forgot"
+                      ? "Informe seus dados para validar sua identidade e redefinir sua senha de acesso."
+                      : "Acesso restrito para gerentes do sistema e auditores."}
               </p>
             </div>
           </div>
-          <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/45">
-            &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
-          </p>
+
+          <div className="p-7 pt-0">
+            <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/60">
+              &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+            </p>
+          </div>
         </section>
 
-        {/* Painel do formulário — rola internamente, nunca a janela */}
-        <section className="flex max-h-[calc(100dvh-1.5rem)] min-h-0 w-full flex-col overflow-y-auto px-5 py-5 sm:px-6">
+        {/* Painel do formulário rolável */}
+        <section className="flex flex-col overflow-y-auto px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
-            <Link to="/">
+            <Link to="/" className="w-fit">
               <Logo />
             </Link>
           </div>
