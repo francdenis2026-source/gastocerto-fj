@@ -1236,9 +1236,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               Libere o acesso para gerar o QR code de entrada.
             </p>
           )}
-        </aside>
         </div>
       </div>
+    </article>
 
 
 
