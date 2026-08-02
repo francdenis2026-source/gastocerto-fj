@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   BellRing,
   BrainCircuit,
@@ -19,7 +19,7 @@ import {
   Wallet,
   Settings,
 } from "lucide-react";
-import { Suspense, lazy, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
 import { AdminConsoleShell, type AdminSection } from "@/components/admin/admin-console-shell";
 import { AdminOverviewPanel } from "@/components/admin/overview-panel";
@@ -140,8 +140,16 @@ function AdminPage() {
   const { data: roles, isLoading } = useRoles();
   const isAdmin = (roles ?? []).includes("admin");
   const isStaff = isAdmin || (roles ?? []).includes("support");
+  const navigate = useNavigate();
 
-  if (isLoading) {
+  // Guarda extra no cliente: se os papéis mudarem em tempo real, sai da central.
+  useEffect(() => {
+    if (!isLoading && !isStaff) {
+      navigate({ to: "/painel", replace: true });
+    }
+  }, [isLoading, isStaff, navigate]);
+
+  if (isLoading || !isStaff) {
     return (
       <div className="mx-auto w-full max-w-[1400px] space-y-4 p-6">
         <Skeleton className="h-24 rounded-2xl" />
@@ -150,13 +158,9 @@ function AdminPage() {
     );
   }
 
-  if (!isStaff) {
-    window.location.href = "/painel";
-    return null;
-  }
-
   return <AdminConsole isAdmin={isAdmin} />;
 }
+
 
 function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
   const { user } = useAuth();
