@@ -8,7 +8,6 @@ import {
   Banknote,
   History,
   Clock,
-  Filter,
   Search,
   Bell,
   CalendarCheck
@@ -19,11 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatCurrency, formatDate } from "@/lib/format";
-import { useCommitments, useCommitmentEntries, summarizeAll, useSyncNotifications } from "@/lib/commitments";
+import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
+import { useSyncNotifications } from "@/lib/notifications";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
