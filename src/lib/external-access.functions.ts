@@ -70,3 +70,35 @@ export const revokeExternalCode = createServerFn({ method: "POST" })
     if (error) throw error;
     return { success: true };
   });
+
+export const updateExternalCodeExpiry = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ id: z.string(), expiresDays: z.number().min(1).max(365) }).parse(data))
+  .handler(async ({ data, context }) => {
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + data.expiresDays);
+
+    const { error } = await (context.supabase as any)
+      .from("external_access_codes")
+      .update({ expires_at: expiresAt.toISOString(), revoked_at: null })
+      .eq("id", data.id)
+      .eq("user_id", context.userId);
+
+    if (error) throw error;
+    return { success: true, expires_at: expiresAt.toISOString() };
+  });
+
+export const getExternalAccessLogs = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ codeId: z.string() }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { data: logs, error } = await (context.supabase as any)
+      .from("external_access_logs")
+      .select("*")
+      .eq("code_id", data.codeId)
+      .order("created_at", { ascending: false })
+      .limit(50);
+
+    if (error) throw error;
+    return logs;
+  });

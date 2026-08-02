@@ -677,17 +677,22 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
     setLoading(true);
     setError(null);
     try {
-      // In a real implementation, this would call a server function to verify
-      // and redirect to /compartilhado/[token] if successful.
-      // For now, we simulate the redirection.
-      toast.info("Verificando código de acesso externo...");
-      setTimeout(() => {
-        window.location.href = `/compartilhado/${code}`;
-      }, 1000);
+      const res = await fetch("/api/public/external-verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, password }),
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao validar");
+
+      toast.success("Acesso autorizado!");
+      window.location.href = `/compartilhado/\${code}`;
     } catch (err: any) {
       setError(err.message || "Erro ao validar código.");
       setLoading(false);
     }
+
   }
 
   return (

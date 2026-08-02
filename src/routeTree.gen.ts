@@ -49,6 +49,7 @@ import { Route as AuthenticatedVeiculosConfiguracoesRouteImport } from './routes
 import { Route as AuthenticatedVeiculosRelatorioRouteImport } from './routes/_authenticated/veiculos-relatorio'
 import { Route as CompartilhadoTokenRouteImport } from './routes/compartilhado.$token'
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
+import { Route as ApiPublicExternalVerifyRouteImport } from './routes/api/public/external-verify'
 import { Route as ApiPublicMercadopagoRouteImport } from './routes/api/public/mercadopago'
 
 const IndexRoute = IndexRouteImport.update({
@@ -261,6 +262,11 @@ const PedidoIdRoute = PedidoIdRouteImport.update({
   path: '/pedido/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicExternalVerifyRoute = ApiPublicExternalVerifyRouteImport.update({
+  id: '/api/public/external-verify',
+  path: '/api/public/external-verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicMercadopagoRoute = ApiPublicMercadopagoRouteImport.update({
   id: '/api/public/mercadopago',
   path: '/api/public/mercadopago',
@@ -307,6 +313,7 @@ export interface FileRoutesByFullPath {
   '/veiculos-relatorio': typeof AuthenticatedVeiculosRelatorioRoute
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
+  '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
 }
 export interface FileRoutesByTo {
@@ -349,6 +356,7 @@ export interface FileRoutesByTo {
   '/veiculos-relatorio': typeof AuthenticatedVeiculosRelatorioRoute
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
+  '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
 }
 export interface FileRoutesById {
@@ -393,6 +401,7 @@ export interface FileRoutesById {
   '/_authenticated/veiculos-relatorio': typeof AuthenticatedVeiculosRelatorioRoute
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
+  '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
 }
 export interface FileRouteTypes {
@@ -437,6 +446,7 @@ export interface FileRouteTypes {
     | '/veiculos-relatorio'
     | '/compartilhado/$token'
     | '/pedido/$id'
+    | '/api/public/external-verify'
     | '/api/public/mercadopago'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -479,6 +489,7 @@ export interface FileRouteTypes {
     | '/veiculos-relatorio'
     | '/compartilhado/$token'
     | '/pedido/$id'
+    | '/api/public/external-verify'
     | '/api/public/mercadopago'
   id:
     | '__root__'
@@ -522,6 +533,7 @@ export interface FileRouteTypes {
     | '/_authenticated/veiculos-relatorio'
     | '/compartilhado/$token'
     | '/pedido/$id'
+    | '/api/public/external-verify'
     | '/api/public/mercadopago'
   fileRoutesById: FileRoutesById
 }
@@ -535,6 +547,7 @@ export interface RootRouteChildren {
   TermosRoute: typeof TermosRoute
   CompartilhadoTokenRoute: typeof CompartilhadoTokenRoute
   PedidoIdRoute: typeof PedidoIdRoute
+  ApiPublicExternalVerifyRoute: typeof ApiPublicExternalVerifyRoute
   ApiPublicMercadopagoRoute: typeof ApiPublicMercadopagoRoute
 }
 
@@ -820,6 +833,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PedidoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/external-verify': {
+      id: '/api/public/external-verify'
+      path: '/api/public/external-verify'
+      fullPath: '/api/public/external-verify'
+      preLoaderRoute: typeof ApiPublicExternalVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/mercadopago': {
       id: '/api/public/mercadopago'
       path: '/api/public/mercadopago'
@@ -912,6 +932,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermosRoute: TermosRoute,
   CompartilhadoTokenRoute: CompartilhadoTokenRoute,
   PedidoIdRoute: PedidoIdRoute,
+  ApiPublicExternalVerifyRoute: ApiPublicExternalVerifyRoute,
   ApiPublicMercadopagoRoute: ApiPublicMercadopagoRoute,
 }
 export const routeTree = rootRouteImport
