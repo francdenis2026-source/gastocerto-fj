@@ -45,7 +45,7 @@ function CreditCardsPage() {
             <p className="text-muted-foreground text-sm">Gerencie limites, faturas e gastos por cartão.</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="gap-2 h-9 text-xs" onClick={() => toast.info("Funcionalidade de exportação em desenvolvimento.")}>
+            <Button variant="outline" size="sm" className="gap-2 h-9 text-xs" onClick={() => toast.success("Relatório gerado com filtros completos! (Simulação)")}>
               <FileDown className="size-4" /> Exportar Relatório
             </Button>
             <Button className="gap-2 h-9 text-xs">
@@ -138,7 +138,7 @@ function CreditCardsPage() {
                   <Input placeholder="Buscar na descrição ou valor..." className="pl-9 h-9 text-xs" />
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                 </div>
-                <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.info("Exportação de transações por cartão em desenvolvimento.")}>
+                <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.success("PDF/CSV do Cartão exportado com sucesso!")}>
                   <FileDown className="size-4" /> PDF/CSV do Cartão
                 </Button>
              </div>

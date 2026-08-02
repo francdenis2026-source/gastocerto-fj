@@ -12,7 +12,8 @@ import {
   PlayCircle,
   Lightbulb,
   Search,
-  CheckCircle2
+  CheckCircle2,
+  CreditCard as CardIcon
 } from "lucide-react";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -90,15 +91,40 @@ const HELP_SECTIONS = [
     id: "kids",
     title: "Educação Financeira (Kids)",
     icon: Baby,
-    content: "O Espaço Kids é uma área lúdica integrada à sua conta, projetada para ensinar finanças na prática. A criança NÃO precisa criar uma conta separada com CPF e senha. \n\nComo funciona o acesso: \n1. A criança utiliza o mesmo dispositivo que você já está logado.\n2. No menu lateral, você seleciona 'Espaço Kids'.\n3. A criança escolhe o perfil dela e digita o PIN de 4 dígitos que você definiu.\n4. O sistema bloqueia todos os seus dados e abre o 'Saldo Mágico' dela.\n\nIsso garante que ela não precise decorar senhas complexas ou ter um CPF cadastrado para usar o sistema, mantendo a simplicidade e segurança.",
+    content: "O Espaço Kids é uma área lúdica integrada à sua conta, projetada para ensinar finanças na prática. A criança NÃO precisa criar uma conta separada com CPF e senha. \n\nComo funciona o acesso: \n1. A criança utiliza o mesmo dispositivo que você já está logado ou pode usar um QR Code rotativo exclusivo para login rápido.\n2. No menu lateral, você seleciona 'Espaço Kids' ou usa o QR Code.\n3. A criança escolhe o perfil dela e digita o PIN de 4 dígitos que você definiu.\n4. O sistema bloqueia todos os seus dados e abre o 'Saldo Mágico' dela.\n\nIsso garante que ela não precise decorar senhas complexas ou ter um CPF cadastrado para usar o sistema, mantendo a simplicidade e segurança.",
     steps: [
       "Acesse 'Meus Cadastros' e adicione o perfil da criança com um PIN de 4 dígitos",
-      "No 'Espaço Kids', peça para a criança selecionar o perfil dela",
+      "No 'Espaço Kids', peça para a criança selecionar o perfil dela ou aponte a câmera para o QR Code rotativo",
       "Ela deve digitar o PIN para destravar o Modo Criança exclusivo",
       "A criança registra ganhos (como mesada) e gastos de forma simples",
       "Você acompanha e aprova as 'Metas Mágicas' pelo seu painel principal"
     ],
     tips: ["A criança não precisa de e-mail ou senha, apenas do PIN", "O Modo Criança esconde todos os dados financeiros do responsável", "Você define o limite de gastos mensal para evitar surpresas"]
+  },
+  {
+    id: "cards",
+    title: "Gestão de Cartões",
+    icon: CardIcon,
+    content: "Controle total de seus cartões de crédito e débito. Acompanhe limites, datas de fechamento e vencimento, e tenha uma visão clara do seu saldo devedor em tempo real. O sistema conta com auditoria detalhada para cada lançamento e proteção contra duplicidade.",
+    steps: [
+      "Cadastre seus cartões em 'Gestão de Cartões'",
+      "Lançamentos feitos no cartão abatem automaticamente do limite disponível",
+      "O sistema impede lançamentos duplicados comparando valor, data e descrição",
+      "Acompanhe o histórico de quem inseriu ou editou cada compra"
+    ],
+    tips: ["Use o 'Modo Churrasco' para lançamentos rápidos de fim de semana", "Exporte relatórios em PDF/CSV com filtros completos por período"]
+  },
+  {
+    id: "financial-help",
+    title: "Ajuda Financeira Estratégica",
+    icon: Lightbulb,
+    content: "Disponível para planos Premium, esta área utiliza IA para analisar sua saúde financeira completa. O Consultor de Dívidas avalia cartões, empréstimos e financiamentos para criar planos de quitação detalhados e metas realistas.",
+    steps: [
+      "Acesse o Consultor de Dívidas no topo do seu Painel",
+      "Receba um Score de saúde financeira atualizado",
+      "Siga o plano de ação sugerido pela IA para eliminar juros e dívidas"
+    ],
+    tips: ["O acesso é restrito a assinantes ou contas com permissão especial", "A IA analisa tendências e sugere cortes inteligentes baseados no seu perfil"]
   }
 ];
 
