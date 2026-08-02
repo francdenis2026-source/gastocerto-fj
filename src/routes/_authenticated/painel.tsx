@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed } from "lucide-react";
+
 
 import { cn } from "@/lib/utils";
 import {
@@ -494,14 +495,15 @@ function DashboardPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-5 shadow-sm">
              <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2">
                <div className="flex items-center gap-2">
                  <div className="size-8 rounded-xl bg-orange-500/20 flex items-center justify-center">
-                   <Flame className="size-4 text-orange-600" />
+                   <UtensilsCrossed className="size-4 text-orange-600" />
                  </div>
-                 <h3 className="text-sm font-bold text-orange-950 dark:text-orange-200">Fim de Semana</h3>
+                 <h3 className="text-sm font-bold text-orange-950 dark:text-orange-200">Churrasco & Fim de Semana</h3>
                </div>
                <Badge variant="outline" className="bg-orange-100 dark:bg-orange-900/30 border-orange-200 text-orange-700 dark:text-orange-300 text-[10px] scale-90">
-                 NOVO
+                 Destaque
                </Badge>
              </div>
              <p className="text-[11px] text-orange-800/70 dark:text-orange-300/70 leading-relaxed mb-4">
@@ -510,6 +512,7 @@ function DashboardPage() {
              <div className="flex items-center justify-between">
                 <div>
                    <span className="block text-[10px] uppercase font-bold text-orange-600/50">Gasto no mês</span>
+
                    <span className="text-lg font-black text-orange-700 dark:text-orange-400">
                      {formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}
                    </span>

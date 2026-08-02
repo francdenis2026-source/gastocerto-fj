@@ -92,6 +92,8 @@ export function ExpenseCardsDialog({
   const [validityDays, setValidityDays] = useState("30");
   // Compras de créditos (plataformas de IA/apps): lançamento em lote.
   const [creditsOpen, setCreditsOpen] = useState(false);
+  const [bbqMode, setBbqMode] = useState(false);
+
 
 
   const expenseCategories = useMemo(() => {
@@ -126,7 +128,9 @@ export function ExpenseCardsDialog({
     setPhoneMode(false);
     setGigas("");
     setValidityDays("30");
+    setBbqMode(false);
   }
+
 
   /** Categoria de telefonia usada pelo card de recarga. */
   const phoneCategory = useMemo(() => {
@@ -235,12 +239,16 @@ export function ExpenseCardsDialog({
       return;
     }
     const baseDescription = note.trim() ? note.trim().slice(0, 140) : selected.name;
+    const bbqPrefix = bbqMode ? "Churrasco/Almoço Fim de Semana" : "";
     const description = phoneMode
       ? `Recarga de celular${gigas.trim() ? ` ${gigas.trim()}GB` : ""}${note.trim() ? ` — ${note.trim()}` : ""}`.slice(
           0,
           140,
-        )
-      : baseDescription;
+          )
+      : bbqMode 
+        ? `${bbqPrefix}${note.trim() ? ` — ${note.trim()}` : ""}`.slice(0, 140)
+        : baseDescription;
+
 
     try {
       if (kind === "installments") {
@@ -384,6 +392,28 @@ export function ExpenseCardsDialog({
                 </span>
               </span>
             </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const cat = categories?.find(c => c.name === 'Churrasco & Fim de Semana');
+                if (cat) setSelected(cat);
+                setBbqMode(true);
+                setKind("single");
+              }}
+              className="flex w-full items-center gap-3 rounded-xl border border-orange-400/40 bg-orange-500/5 p-3 text-left transition hover:-translate-y-0.5 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <span className="flex size-9 items-center justify-center rounded-lg bg-orange-500/15 text-orange-600">
+                <UtensilsCrossed className="size-4" aria-hidden />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold">Churrasco & Fim de Semana</span>
+                <span className="block text-[11px] text-muted-foreground">
+                  Carnes assadas, frango e almoços especiais
+                </span>
+              </span>
+            </button>
+
 
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
               {expenseCategories.slice(0, 24).map((category) => {
