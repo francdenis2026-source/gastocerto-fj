@@ -61,6 +61,14 @@ function AuthPage() {
   const navigate = useNavigate();
   const { session, loading } = useAuth();
   const [mode, setMode] = useState<Mode>(search.mode === "signup" ? "signup" : "login");
+  const [pendingCode, setPendingCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const val = sessionStorage.getItem(PENDING_LICENSE_KEY);
+      if (val) setPendingCode(val);
+    } catch {}
+  }, []);
 
   useEffect(() => {
     if (loading || !session) return;
@@ -107,8 +115,7 @@ function AuthPage() {
 
 
   return (
-    <main className="relative isolate grid min-h-dvh lg:grid-cols-[1.05fr_minmax(0,28rem)]">
-      {/* Fundo institucional: cobre a tela inteira no celular e a coluna esquerda no desktop. */}
+    <main className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
       <img
         src={authHero}
         alt=""
@@ -179,10 +186,14 @@ function AuthPage() {
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
             ) : (
-              <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
+              <Tabs 
+                value={mode} 
+                onValueChange={(value) => setMode(value as Mode)}
+                className="transition-all duration-300 ease-in-out"
+              >
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="login">Entrar</TabsTrigger>
-                  <TabsTrigger value="signup">Criar conta</TabsTrigger>
+                  <TabsTrigger value="login" className="transition-all">Entrar</TabsTrigger>
+                  <TabsTrigger value="signup" className="transition-all">Criar conta</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="login" className="mt-5">
@@ -498,6 +509,17 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
     const parsed = cpfSignUpSchema.safeParse({
       fullName: String(form.get("fullName") ?? ""),
       cpf,
+      contactEmail: String(form.get("contactEmail") ?? ""),
+      pin: String(form.get("pin") ?? ""),
+      confirmPin: String(form.get("confirmPin") ?? ""),
+      acceptTerms: true,
+      acceptPrivacy: true,
+    });
+      pin: String(form.get("pin") ?? ""),
+      confirmPin: String(form.get("confirmPin") ?? ""),
+      acceptTerms: true,
+      acceptPrivacy: true,
+    });
       contactEmail: String(form.get("contactEmail") ?? ""),
       pin: String(form.get("pin") ?? ""),
       confirmPin: String(form.get("confirmPin") ?? ""),
