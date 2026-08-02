@@ -25,7 +25,7 @@ export const createExternalCode = createServerFn({ method: "POST" })
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + data.expiresDays);
 
-    const { data: row, error } = await context.supabase
+    const { data: row, error } = await (context.supabase as any)
       .from("external_access_codes")
       .insert({
         user_id: context.userId,
@@ -46,7 +46,7 @@ export const createExternalCode = createServerFn({ method: "POST" })
 export const listExternalCodes = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data, error } = await context.supabase
+    const { data, error } = await (context.supabase as any)
       .from("external_access_codes")
       .select("*")
       .eq("user_id", context.userId)
@@ -61,7 +61,7 @@ export const revokeExternalCode = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ id: z.string() }).parse(data))
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase
+    const { error } = await (context.supabase as any)
       .from("external_access_codes")
       .update({ revoked_at: new Date().toISOString() })
       .eq("id", data.id)
