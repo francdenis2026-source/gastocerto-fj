@@ -16,8 +16,33 @@ const saveSchema = z.object({
     .transform((value) => value.replace(/\D/g, ""))
     .refine((value) => value.length >= 4 && value.length <= 6, "A senha deve ter 4 a 6 dígitos"),
   expiresDays: z.number().min(1).max(3650).optional().default(365),
-  reason: z.enum(["created", "updated", "rotated", "pin_customized"]).optional().default("updated"),
+  reason: z.enum([\"created\", \"updated\", \"rotated\", \"pin_customized\"]).optional().default(\"updated\"),
+  autoUpgradeDays: z.number().min(30).max(3650).optional().default(365),
 });
+
+export const updateKidUpgradeConfig = createServerFn({ method: \"POST\" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({
+    dependentId: z.string().uuid(),
+    days: z.number().min(30).max(3650)
+  }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from(\"dependents\")
+      .update({ kid_auto_upgrade_days: data.days } as any)
+      .eq(\"id\", data.dependentId);
+
+    if (error) throw new Error(error.message);
+
+    await context.supabase.from(\"kid_access_audit\" as any).insert({
+      user_id: context.userId,
+      dependent_id: data.dependentId,
+      action: \"upgrade_config\",
+      detail: { auto_upgrade_days: data.days },
+    } as any);
+
+    return { ok: true };
+  });
 
 /** Cria, troca ou rotaciona o acesso próprio da criança (código + senha). */
 export const saveKidAccess = createServerFn({ method: "POST" })

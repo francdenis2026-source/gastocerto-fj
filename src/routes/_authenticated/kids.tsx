@@ -48,6 +48,7 @@ import {
   getKidSessions,
   blockKidSession,
   updateKidsSecuritySettings,
+  updateKidUpgradeConfig,
 } from "@/lib/kids-account.functions";
 import {
   createExternalCode,
@@ -75,6 +76,7 @@ import {
   describeKidCodeExpiry,
   parseKidVisibility,
   type KidVisibility,
+  KID_UPGRADE_OPTIONS,
 } from "@/lib/kids-access";
 import { KID_LOCK_MINUTES, KID_MAX_ATTEMPTS } from "@/lib/kids-login-guard";
 
@@ -190,7 +192,8 @@ function KidsAccessPage() {
           Após {KID_MAX_ATTEMPTS} tentativas erradas de código ou senha, o acesso fica bloqueado por{" "}
           {KID_LOCK_MINUTES} minutos automaticamente. 
           <strong> Novidade:</strong> Ao atingir 14 anos, o sistema permitirá o upgrade automático 
-          para uma conta independente, sem intervenção manual.
+          para uma conta independente. Você pode definir tempos personalizados de expiração do código
+          até o limite de upgrade automático (30 dias a 1 ano ou mais).
         </p>
       </section>
 
@@ -352,10 +355,11 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const saveVisibility = useServerFn(saveKidVisibility);
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
+  const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
-  const [days, setDays] = useState(30);
+  const [days, setDays] = useState(dependent.kid_auto_upgrade_days ?? 365);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
   const [qrNonce, setQrNonce] = useState(0);
@@ -407,6 +411,18 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     setQrNonce((value) => value + 1);
     void refresh();
     toast.success("QR atualizado na tela.");
+  }
+
+  async function handleUpdateUpgrade(newDays: number) {
+    setDays(newDays);
+    try {
+      await updateUpgradeConfig({ data: { dependentId: dependent.id, days: newDays } });
+      toast.success("Tempo de upgrade atualizado!");
+      void refresh();
+      void refreshAudit();
+    } catch (error) {
+      toast.error("Erro ao atualizar tempo de upgrade.");
+    }
   }
 
 

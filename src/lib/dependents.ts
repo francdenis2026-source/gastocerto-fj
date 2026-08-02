@@ -16,6 +16,7 @@ export type Dependent = Tables<"dependents"> & {
   kid_last_login_at?: string | null;
   pin_code?: string | null;
   kids_security_notifications?: unknown;
+  kid_auto_upgrade_days?: number | null;
 };
 
 

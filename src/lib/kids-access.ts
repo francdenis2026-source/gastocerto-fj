@@ -46,7 +46,17 @@ export const KID_ACCESS_ACTION_LABELS: Record<string, string> = {
   visibility: "Permissões alteradas",
   pin_customized: "PIN personalizado",
   login_failed: "Tentativa de login falhou",
+  upgrade_config: "Tempo de upgrade alterado",
 };
+
+export const KID_UPGRADE_OPTIONS = [
+  { value: 30, label: "30 dias" },
+  { value: 60, label: "60 dias" },
+  { value: 90, label: "90 dias" },
+  { value: 180, label: "6 meses" },
+  { value: 365, label: "1 ano (Padrão)" },
+  { value: 730, label: "2 anos" },
+];
 
 /** Rótulo amigável para a validade do código. */
 export function describeKidCodeExpiry(expiresAt: string | null | undefined): {
