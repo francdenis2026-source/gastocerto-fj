@@ -682,7 +682,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
       // For now, we simulate the redirection.
       toast.info("Verificando código de acesso externo...");
       setTimeout(() => {
-        window.location.href = `/compartilhado/${code}`;
+        window.location.href = `/compartilhado?token=${code}`;
       }, 1000);
     } catch (err: any) {
       setError(err.message || "Erro ao validar código.");
