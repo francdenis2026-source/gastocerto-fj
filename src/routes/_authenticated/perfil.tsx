@@ -382,8 +382,13 @@ function ProfilePage() {
               </div>
                 </form>
 
-                <LicenseDetailPanel />
-                <LicenseCard />
+                <div id="perfil-licencas" tabIndex={-1}>
+                  <LicenseDetailPanel />
+                </div>
+                <div id="perfil-planos" tabIndex={-1}>
+                  <LicenseCard />
+                </div>
+
               </TabsContent>
 
               <TabsContent value="settings" className="mt-0">
