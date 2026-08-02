@@ -64,7 +64,9 @@ function AuthPage() {
   const search = useSearch({ from: "/auth" });
   const navigate = useNavigate();
   const { session, loading } = useAuth();
-  const [mode, setMode] = useState<Mode>(search.mode === "signup" ? "signup" : "login");
+  const [mode, setMode] = useState<Mode>(
+    search.kid ? "kid" : search.mode === "signup" ? "signup" : "login",
+  );
   const [pendingCode, setPendingCode] = useState<string | null>(null);
 
   useEffect(() => {
