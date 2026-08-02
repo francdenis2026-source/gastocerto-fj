@@ -879,7 +879,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                           
                           const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, {
                             cacheControl: '0',
-                            upsert: true
+                            upsert: true,
+                            contentType: file.type || 'image/jpeg'
                           });
                           
                           if (uploadErr) throw uploadErr;
@@ -898,14 +899,15 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                           } catch (err: any) {
                             if (retries > 0) {
                               retries--;
-                              toast.loading("Erro na conexão. Tentando novamente...");
-                              setTimeout(attempt, 1500);
+                              toast.loading(`Erro na conexão com o servidor de imagens. Tentando novamente (${2 - retries}/2)...`);
+                              await new Promise(resolve => setTimeout(resolve, 2000));
+                              return attempt();
                             } else {
                               console.error("Upload failed after retries:", err);
-                              toast.error("Erro ao subir imagem. Verifique sua conexão.");
+                              toast.error("Erro persistente ao subir imagem. Verifique sua internet ou tente uma foto menor.");
                             }
                           } finally {
-                            if (retries === 0 || !uploading) {
+                            if (retries === 0) {
                               setUploading(false);
                               if (e.target) e.target.value = '';
                             }

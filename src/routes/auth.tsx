@@ -137,7 +137,7 @@ function AuthPage() {
 
   return (
 
-    <main className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
+    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
       <img
         src={authHero}
         alt=""
