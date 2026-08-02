@@ -39,7 +39,7 @@ import { formatCurrency } from "@/lib/format";
 import { regeneratePixCharge } from "@/lib/pix-ledger.functions";
 
 
-import { useProfile } from "@/lib/queries";
+import { useAvatarUrl, useProfile } from "@/lib/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -625,6 +625,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
   const { confirm: professionalConfirm, ConfirmDialog } = useConfirm();
   const [uploading, setUploading] = useState(false);
+  const avatarUrl = useAvatarUrl(dependent.avatar_url);
 
 
 
@@ -784,8 +785,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       <header className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-3 px-4 sm:p-4 border-b border-border/50">
         <div className="flex items-center gap-3">
           <Avatar className="size-10 border-2 border-white shadow-sm ring-2 ring-primary/10">
-            {dependent.avatar_url ? (
-              <AvatarImage src={supabase.storage.from('avatars').getPublicUrl(dependent.avatar_url).data.publicUrl} />
+            {avatarUrl ? (
+              <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
             ) : null}
             <AvatarFallback 
               className="text-xs font-black text-white"
@@ -870,22 +871,30 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                         const file = e.target.files?.[0];
                         if (!file) return;
 
-                        // Validação básica de tamanho (limite de 2MB para evitar erros de timeout/memória no worker)
-                        if (file.size > 2 * 1024 * 1024) {
-                          toast.error("A imagem é muito grande. Escolha uma foto com menos de 2MB.");
+                        if (!file.type.startsWith("image/")) {
+                          toast.error("Escolha um arquivo de imagem válido.");
+                          e.target.value = "";
+                          return;
+                        }
+
+                        // A foto será reduzida antes do envio; o limite protege apenas a memória do navegador.
+                        if (file.size > 15 * 1024 * 1024) {
+                          toast.error("A imagem excede 15 MB. Escolha uma foto menor.");
                           if (e.target) e.target.value = '';
                           return;
                         }
 
                         setUploading(true);
-                        let retries = 2;
+                        const loadingToast = toast.loading("Preparando a foto...");
 
                         // Função para redimensionar/comprimir imagem no navegador antes do upload
                         const processImage = async (imgFile: File): Promise<Blob> => {
                           return new Promise((resolve, reject) => {
                             const img = new Image();
-                            img.src = URL.createObjectURL(imgFile);
+                            const objectUrl = URL.createObjectURL(imgFile);
+                            img.src = objectUrl;
                             img.onload = () => {
+                              URL.revokeObjectURL(objectUrl);
                               const canvas = document.createElement('canvas');
                               let width = img.width;
                               let height = img.height;
@@ -904,23 +913,37 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                                 }
                               }
                               
-                              canvas.width = width;
-                              canvas.height = height;
+                              canvas.width = Math.max(1, Math.round(width));
+                              canvas.height = Math.max(1, Math.round(height));
                               const ctx = canvas.getContext('2d');
-                              ctx?.drawImage(img, 0, 0, width, height);
+                              if (!ctx) {
+                                reject(new Error("Seu navegador não conseguiu preparar a imagem."));
+                                return;
+                              }
+                              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                               
                               canvas.toBlob((blob) => {
                                 if (blob) resolve(blob);
                                 else reject(new Error("Falha ao processar imagem"));
                               }, 'image/jpeg', 0.8); // 80% qualidade
                             };
-                            img.onerror = () => reject(new Error("Erro ao carregar imagem"));
+                            img.onerror = () => {
+                              URL.revokeObjectURL(objectUrl);
+                              reject(new Error("Formato de imagem não reconhecido."));
+                            };
                           });
                         };
 
-                        const uploadFile = async () => {
+                        try {
                           const processedBlob = await processImage(file);
-                          const path = `dependents/${dependent.id}/${Date.now()}.jpg`;
+                          const { data: authData, error: authError } = await supabase.auth.getUser();
+                          if (authError || !authData.user) {
+                            throw new Error("Sua sessão expirou. Entre novamente para enviar a foto.");
+                          }
+
+                          // As regras do bucket exigem o ID do proprietário como primeira pasta.
+                          const path = `${authData.user.id}/dependents/${dependent.id}/avatar.jpg`;
+                          toast.loading("Enviando a foto...", { id: loadingToast });
                           
                           const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, processedBlob, {
                             cacheControl: '3600',
@@ -932,34 +955,19 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                           
                           const { error: updateErr } = await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
                           if (updateErr) throw updateErr;
-                          
-                          return path;
-                        };
 
-                        const attempt = async () => {
-                          try {
-                            await uploadFile();
-                            toast.success("Foto do avatar atualizada!");
-                            refresh();
-                          } catch (err: any) {
-                            console.error("Upload attempt failed:", err);
-                            if (retries > 0) {
-                              retries--;
-                              toast.loading(`Ajustando imagem e tentando novamente (${2 - retries}/2)...`);
-                              await new Promise(resolve => setTimeout(resolve, 2000));
-                              return attempt();
-                            } else {
-                              toast.error("Não foi possível subir a imagem. Tente outra foto ou verifique sua internet.");
-                            }
-                          } finally {
-                            if (retries === 0) {
-                              setUploading(false);
-                              if (e.target) e.target.value = '';
-                            }
-                          }
-                        };
-
-                        attempt();
+                          await refresh();
+                          toast.success("Foto atualizada e disponível no Espaço Kids.", { id: loadingToast });
+                        } catch (error) {
+                          console.error("[kids] falha ao salvar avatar", error);
+                          toast.error("Não foi possível enviar a foto.", {
+                            id: loadingToast,
+                            description: error instanceof Error ? error.message : "Tente novamente em instantes.",
+                          });
+                        } finally {
+                          setUploading(false);
+                          e.target.value = "";
+                        }
                       }}
                       ref={fileInputRef}
                     />
