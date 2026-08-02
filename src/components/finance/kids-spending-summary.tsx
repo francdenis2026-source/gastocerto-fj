@@ -107,6 +107,42 @@ export function KidsSpendingSummary() {
   }, [rows]);
 
   const selectedKid = kids.find((kid) => kid.id === kidId);
+  const [exporting, setExporting] = useState(false);
+
+  const exportRows: KidExportRow[] = useMemo(
+    () =>
+      rows.map((row) => ({
+        date: String(row["transaction_date"]),
+        description: String(row["description"] ?? "Movimentação"),
+        type: row["transaction_type"] === "income" ? "income" : "expense",
+        amount: Number(row["amount"] ?? 0),
+      })),
+    [rows],
+  );
+
+  const exportFilters = {
+    kidName: selectedKid?.name ?? "Criança",
+    periodLabel: PERIOD_LABELS[period],
+    typeLabel: TYPE_LABELS[type],
+  };
+
+  function handleCsv() {
+    exportKidsSummaryCsv(exportRows, totals, exportFilters);
+    toast.success("CSV gerado com os filtros aplicados.");
+  }
+
+  async function handlePdf() {
+    setExporting(true);
+    try {
+      await exportKidsSummaryPdf(exportRows, totals, exportFilters);
+      toast.success("PDF gerado com os filtros aplicados.");
+    } catch {
+      toast.error("Não foi possível gerar o PDF agora.");
+    } finally {
+      setExporting(false);
+    }
+  }
+
 
   if (dependents.isLoading) {
     return (
