@@ -440,8 +440,8 @@ function DebtOverdueNotice() {
           </h3>
           <p className="text-xs text-muted-foreground leading-relaxed">
             O valor total pendente é de <span className="font-bold text-destructive">{formatCurrency(totalOverdue)}</span>. 
-            Para que estes lançamentos deixem de aparecer como atrasados, você deve registrar o pagamento parcial ou total no menu 
-            <Link to="/compromissos" className="mx-1 font-semibold underline text-destructive hover:opacity-80">Compromissos</Link>.
+            Para regularizar, siga o checklist na página de 
+            <Link to="/pagar-dividas" className="mx-1 font-semibold underline text-destructive hover:opacity-80">Pagar Dívidas</Link>.
           </p>
         </div>
       </div>
