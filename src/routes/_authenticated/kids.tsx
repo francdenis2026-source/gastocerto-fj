@@ -50,6 +50,25 @@ import {
   updateKidsSecuritySettings,
 } from "@/lib/kids-account.functions";
 import {
+  createExternalCode,
+  listExternalCodes,
+  revokeExternalCode,
+  updateExternalCodeExpiry,
+  getExternalAccessLogs,
+} from "@/lib/external-access.functions";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+
+import {
   DEFAULT_KID_VISIBILITY,
   KID_ACCESS_ACTION_LABELS,
   KID_VISIBILITY_FIELDS,
