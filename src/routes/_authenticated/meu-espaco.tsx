@@ -577,6 +577,13 @@ function KidEntryDialog({
           </div>
         </div>
 
+        <p className="rounded-xl bg-muted/50 px-3 py-2 text-[11px] font-medium text-muted-foreground">
+          🔒 Atenção: depois de salvar, a data e a hora são marcadas automaticamente e o registro
+          <strong> não pode ser editado nem apagado</strong>. Só um responsável pode corrigir.
+        </p>
+
+
+
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             Cancelar
