@@ -203,7 +203,7 @@ function HelpPage() {
               {[
                 { title: "Primeiros Passos no Dashboard", time: "2:15", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" },
                 { title: "Como criar seu primeiro Orçamento", time: "1:45", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" },
-                { title: "Configurando o Espaço Kids", time: "3:30", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" }
+                { title: "Espaço Kids: Do PIN ao Saldo Mágico", time: "2:50", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" }
               ].map((video, idx) => (
                 <div key={idx} className="space-y-2">
                   <button 

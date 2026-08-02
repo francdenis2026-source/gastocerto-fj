@@ -190,15 +190,24 @@ export function DependentDialog({
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <Label htmlFor="dep-pin">PIN de Acesso (4 dígitos)</Label>
+              <Label htmlFor="dep-pin" className="flex items-center gap-2">
+                PIN de Acesso (4 dígitos)
+                <span className="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-bold">Obrigatório para Modo Kids</span>
+              </Label>
               <Input
                 id="dep-pin"
                 value={pinCode}
-                onChange={(e) => setPinCode(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, "").slice(0, 4);
+                  setPinCode(val);
+                }}
                 placeholder="Ex: 1234"
                 maxLength={4}
                 className="mt-1"
               />
+              <p className="text-[10px] text-muted-foreground mt-1 leading-tight">
+                Evite PINs óbvios como 1234 ou 0000. Este código será usado pela criança para entrar no ambiente dela.
+              </p>
             </div>
             <div>
               <Label htmlFor="dep-recur">Dia da Mesada (1-28)</Label>

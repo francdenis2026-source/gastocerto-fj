@@ -82,6 +82,8 @@ import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
 import { vehicleSpendBreakdown } from "@/lib/vehicle-spend";
 import { labelFor } from "@/lib/finance";
 
+import { useDependents } from "@/lib/dependents";
+import { CheckSquare, Circle } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/painel")({
   head: () => ({
@@ -394,7 +396,26 @@ function DashboardPage() {
 
 
   if (isLoading) {
-    return (
+  const { data: dependents } = useDependents();
+  
+  const kidsOnboarding = useMemo(() => {
+    const active = (dependents ?? []).filter(d => d.active !== false);
+    const hasKid = active.length > 0;
+    const hasPin = active.some(d => (d as any).pin_code);
+    const hasLimit = active.some(d => (d as any).monthly_limit);
+    const hasAllowance = active.some(d => d.monthly_allowance || (d as any).recurring_allowance_day);
+
+    return {
+      hasKid,
+      hasPin,
+      hasLimit,
+      hasAllowance,
+      complete: hasKid && hasPin && hasLimit,
+      visible: hasKid // Só mostra se já começou a cadastrar ou se queremos incentivar
+    };
+  }, [dependents]);
+
+  return (
       <AppShell>
         <div className="flex min-h-[40vh] items-center justify-center">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
