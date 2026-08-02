@@ -2,6 +2,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -167,8 +169,10 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     await queryClient.invalidateQueries({ queryKey: ["admin"] });
   }
 
+  const { confirm, ConfirmDialog } = useConfirm();
   return (
     <div className="space-y-3">
+
       <div className="flex flex-wrap gap-3">
         <div className="relative min-w-64 flex-1">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -291,7 +295,9 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
         onClose={() => setSelected(null)}
         onChanged={refreshAll}
       />
+      <ConfirmDialog />
     </div>
+
   );
 }
 
@@ -310,7 +316,9 @@ function ManageUserDialog({
   onClose: () => void;
   onChanged: () => Promise<void>;
 }) {
+  const { confirm, ConfirmDialog } = useConfirm();
   const [pending, setPending] = useState<string | null>(null);
+
 
   async function run(key: string, action: () => Promise<unknown>, successMessage: string) {
     setPending(key);
@@ -607,7 +615,9 @@ function ManageUserDialog({
             </section>
           </div>
         )}
+        <ConfirmDialog />
       </DialogContent>
+
     </Dialog>
   );
 }
