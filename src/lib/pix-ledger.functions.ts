@@ -101,5 +101,14 @@ export const regeneratePixCharge = createServerFn({ method: "POST" })
       .single();
 
     if (updateError) throw updateError;
+
+    // Registrar auditoria para o administrador
+    await context.supabase.from("kid_access_audit" as any).insert({
+      user_id: context.userId,
+      dependent_id: oldTx.recipient_id,
+      action: "access_granted", // Reusing this for PIX updates
+      details: { amount: oldTx.amount, type: 'pix_regenerated', tx_id: oldTx.id }
+    } as any);
+
     return updated;
   });
