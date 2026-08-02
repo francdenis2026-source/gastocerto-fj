@@ -155,7 +155,7 @@ const overrides: Record<string, Overrides> = {
       "Transparência total de uso de créditos.",
     ],
     actions: [
-      { label: "Ver planos", to: "/" },
+      { label: "Ver planos", to: "/#planos" },
       { label: "Criar conta grátis", to: "/auth" },
     ],
   },
@@ -220,7 +220,7 @@ export function getFeatureDetail(input: { title: string; text: string; tag?: str
       ],
     actions: custom.actions ?? [
       { label: "Criar conta grátis", to: "/auth" },
-      { label: "Ver planos", to: "/" },
+      { label: "Ver planos", to: "/#planos" },
     ],
     screenshot: screenshots[screenshotKey],
     screenshotAlt: `Tela do GastoCerto ilustrando ${input.title}`,
