@@ -215,6 +215,10 @@ export const registerKidAttempt = createServerFn({ method: "POST" })
         { code: data.code, attempts: 0, locked_until: null, updated_at: new Date().toISOString() } as never,
         { onConflict: "code" } as never,
       );
+      await supabaseAdmin
+        .from("dependents")
+        .update({ kid_last_login_at: new Date().toISOString() } as never)
+        .eq("kid_login_code", data.code);
       return { locked: false, secondsLeft: 0, remaining: KID_MAX_ATTEMPTS_SERVER };
     }
 
