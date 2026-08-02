@@ -777,6 +777,7 @@ export type Database = {
           created_at: string
           id: string
           kid_code_expires_at: string | null
+          kid_last_login_at: string | null
           kid_login_code: string | null
           kid_user_id: string | null
           kid_visibility: Json
@@ -801,6 +802,7 @@ export type Database = {
           created_at?: string
           id?: string
           kid_code_expires_at?: string | null
+          kid_last_login_at?: string | null
           kid_login_code?: string | null
           kid_user_id?: string | null
           kid_visibility?: Json
@@ -825,6 +827,7 @@ export type Database = {
           created_at?: string
           id?: string
           kid_code_expires_at?: string | null
+          kid_last_login_at?: string | null
           kid_login_code?: string | null
           kid_user_id?: string | null
           kid_visibility?: Json

@@ -4,10 +4,13 @@ import { useServerFn } from "@tanstack/react-start";
 import QRCode from "qrcode";
 import {
   Baby,
+  CalendarClock,
+  Copy,
   Eye,
   History,
   KeyRound,
   Loader2,
+  LogIn,
   QrCode,
   RefreshCw,
   ShieldCheck,
@@ -70,6 +73,23 @@ function KidsAccessPage() {
   const audit = useKidAccessAudit(60);
   const kids = (dependents.data ?? []).filter((item) => item.active !== false);
 
+  const summary = useMemo(() => {
+    const withCode = kids.filter((kid) => Boolean(kid.kid_login_code));
+    const active = withCode.filter((kid) => {
+      const expires = kid.kid_code_expires_at ? new Date(kid.kid_code_expires_at).getTime() : null;
+      return expires === null || expires > Date.now();
+    });
+    const nextExpiry = withCode
+      .map((kid) => kid.kid_code_expires_at)
+      .filter((value): value is string => Boolean(value))
+      .sort()[0] ?? null;
+    const lastLogin = withCode
+      .map((kid) => (kid.kid_last_login_at ? { at: kid.kid_last_login_at, name: kid.name } : null))
+      .filter((value): value is { at: string; name: string } => Boolean(value))
+      .sort((a, b) => (a.at < b.at ? 1 : -1))[0] ?? null;
+    return { total: withCode.length, active: active.length, nextExpiry, lastLogin };
+  }, [kids]);
+
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
       <header className="space-y-1">
@@ -82,6 +102,44 @@ function KidsAccessPage() {
         </p>
       </header>
 
+      <section className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <KeyRound className="size-3.5 text-primary" aria-hidden /> Códigos ativos
+          </p>
+          <p className="mt-1 text-2xl font-extrabold">{summary.active}</p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.total === 0
+              ? "Nenhum acesso liberado ainda."
+              : `${summary.total} código(s) criado(s) no total.`}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
+          </p>
+          <p className="mt-1 text-[13px] font-bold">
+            {describeKidCodeExpiry(summary.nextExpiry).label}
+          </p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <LogIn className="size-3.5 text-primary" aria-hidden /> Último login da criança
+          </p>
+          <p className="mt-1 text-[13px] font-bold">
+            {summary.lastLogin
+              ? new Date(summary.lastLogin.at).toLocaleString("pt-BR")
+              : "Ainda sem acesso registrado"}
+          </p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.lastLogin ? summary.lastLogin.name : "O registro aparece após a primeira entrada."}
+          </p>
+        </div>
+      </section>
+
       <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
         <p className="flex items-center gap-2 font-bold text-foreground">
           <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção do login infantil
@@ -92,6 +150,7 @@ function KidsAccessPage() {
           validade definida por você.
         </p>
       </section>
+
 
       {dependents.isLoading ? (
         <div className="flex justify-center py-10">
@@ -154,6 +213,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const [days, setDays] = useState(30);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
+  const [qrNonce, setQrNonce] = useState(0);
   const [visibility, setVisibility] = useState<KidVisibility>(
     parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility) ??
       DEFAULT_KID_VISIBILITY,
@@ -183,10 +243,27 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     return () => {
       active = false;
     };
-  }, [loginUrl]);
+  }, [loginUrl, qrNonce]);
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["dependents"] });
   const refreshAudit = () => queryClient.invalidateQueries({ queryKey: ["kid_access_audit"] });
+
+  async function copyLoginUrl() {
+    if (!loginUrl) return;
+    try {
+      await navigator.clipboard.writeText(loginUrl);
+      toast.success("Link do QR copiado!", { description: loginUrl });
+    } catch {
+      toast.error("Não foi possível copiar o link automaticamente.", { description: loginUrl });
+    }
+  }
+
+  function reloadQr() {
+    setQrNonce((value) => value + 1);
+    void refresh();
+    toast.success("QR atualizado na tela.");
+  }
+
 
   async function persist(nextCode: string, reason: "created" | "updated" | "rotated") {
     const clean = normalizeKidCode(nextCode);
@@ -401,13 +478,32 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <Button
                 type="button"
                 size="sm"
+                variant="secondary"
+                className="mt-2 w-full text-[11px]"
+                onClick={() => void copyLoginUrl()}
+              >
+                <Copy className="mr-1.5 size-3.5" /> Copiar link do QR
+              </Button>
+              <Button
+                type="button"
+                size="sm"
                 variant="outline"
+                className="mt-2 w-full text-[11px]"
+                onClick={reloadQr}
+              >
+                <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR atualizado
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
                 className="mt-2 w-full text-[11px]"
                 disabled={busy}
                 onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
               >
-                <RefreshCw className="mr-1.5 size-3.5" /> Atualizar QR
+                <KeyRound className="mr-1.5 size-3.5" /> Gerar novo código
               </Button>
+
             </>
           ) : (
             <p className="mt-3 text-[11px] text-muted-foreground">

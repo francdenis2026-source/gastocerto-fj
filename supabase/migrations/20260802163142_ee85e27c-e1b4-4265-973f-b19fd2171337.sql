@@ -1,0 +1,1 @@
+ALTER TABLE public.dependents ADD COLUMN IF NOT EXISTS kid_last_login_at timestamptz;
