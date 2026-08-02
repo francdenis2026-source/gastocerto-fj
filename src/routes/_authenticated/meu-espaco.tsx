@@ -31,6 +31,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Progress } from "@/components/ui/progress";
 import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
 import { NotificationCenter } from "@/components/notifications/notification-center";
+import { useAvatarUrl } from "@/lib/queries";
 
 
 
@@ -66,6 +67,7 @@ function KidSpacePage() {
   const navigate = useNavigate();
   const { signOut } = useAuth();
   const { dependent, loading } = useKidSession();
+  const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
   const fetchCardControl = useServerFn(getKidCardControl);
 
@@ -213,8 +215,8 @@ function KidSpacePage() {
       <header className="flex items-center justify-between gap-3 px-4 py-5 sm:px-6">
         <div className="flex items-center gap-3">
           <Avatar className="size-12 border-2 border-white shadow-md ring-2 ring-primary/20">
-            {dependent.avatar_url ? (
-              <AvatarImage src={supabase.storage.from('avatars').getPublicUrl(dependent.avatar_url).data.publicUrl} />
+            {avatarUrl ? (
+              <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
             ) : null}
             <AvatarFallback 
               className="text-lg font-black text-white"
