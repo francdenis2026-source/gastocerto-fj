@@ -6,15 +6,20 @@ import {
   Baby,
   CalendarClock,
   Copy,
+  Download,
   Eye,
+  FileDown,
   History,
+  Info,
   KeyRound,
   Loader2,
   LogIn,
   QrCode,
   RefreshCw,
+  ShieldAlert,
   ShieldCheck,
   Trash2,
+  Tv,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -36,6 +41,9 @@ import {
   revokeKidAccess,
   saveKidAccess,
   saveKidVisibility,
+  getKidSessions,
+  blockKidSession,
+  updateKidsSecuritySettings,
 } from "@/lib/kids-account.functions";
 import {
   DEFAULT_KID_VISIBILITY,
@@ -207,6 +215,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const save = useServerFn(saveKidAccess);
   const revoke = useServerFn(revokeKidAccess);
   const saveVisibility = useServerFn(saveKidVisibility);
+  const blockSession = useServerFn(blockKidSession);
+  const updateSettings = useServerFn(updateKidsSecuritySettings);
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
@@ -265,7 +275,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
 
-  async function persist(nextCode: string, reason: "created" | "updated" | "rotated") {
+  async function persist(nextCode: string, reason: "created" | "updated" | "rotated" | "pin_customized") {
     const clean = normalizeKidCode(nextCode);
     if (!isValidKidCode(clean)) {
       toast.error("Escolha um código com pelo menos 4 caracteres.");
@@ -280,7 +290,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       const result = await save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays: days, reason } });
       setCode(clean);
       setPin("");
-      toast.success(reason === "rotated" ? "Novo código gerado!" : "Acesso salvo!", {
+      toast.success(reason === "rotated" ? "Novo código gerado!" : reason === "pin_customized" ? "PIN personalizado salvo!" : "Acesso salvo!", {
         description: `Código ${result.code} — validade de ${days} dia(s).`,
       });
       void refresh();
@@ -456,6 +466,40 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                   />
                 </label>
               ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-border p-3">
+            <p className="flex items-center gap-2 text-[12px] font-bold">
+              <ShieldAlert className="size-3.5 text-primary" aria-hidden /> Segurança e Notificações
+            </p>
+            <div className="mt-2 space-y-2">
+              <label className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2.5">
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-semibold">Notificar tentativas falhas</span>
+                  <span className="block text-[10px] text-muted-foreground">E-mail/push ao errar senha.</span>
+                </span>
+                <Switch 
+                  checked={Boolean((dependent as any).kids_security_notifications?.failed_login)}
+                  onCheckedChange={(val) => {
+                    const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
+                    void updateSettings({ data: { notifications: { ...current, failed_login: val } } }).then(() => refresh());
+                  }}
+                />
+              </label>
+              <label className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2.5">
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-semibold">Novo dispositivo/IP</span>
+                  <span className="block text-[10px] text-muted-foreground">Aviso ao entrar de outro lugar.</span>
+                </span>
+                <Switch 
+                  checked={Boolean((dependent as any).kids_security_notifications?.new_session)}
+                  onCheckedChange={(val) => {
+                    const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
+                    void updateSettings({ data: { notifications: { ...current, new_session: val } } }).then(() => refresh());
+                  }}
+                />
+              </label>
             </div>
           </div>
         </div>
