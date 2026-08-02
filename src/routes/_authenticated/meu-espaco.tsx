@@ -32,6 +32,7 @@ import { Progress } from "@/components/ui/progress";
 import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { useAvatarUrl } from "@/lib/queries";
+import { syncKidTransaction } from "@/lib/kids-sync.functions";
 
 
 
@@ -78,6 +79,7 @@ function KidSpacePage() {
   const [compactMode, setCompactMode] = useState(initialCompactMode);
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
+  const syncTx = useServerFn(syncKidTransaction);
 
   const fetchCardControl = useServerFn(getKidCardControl);
 
