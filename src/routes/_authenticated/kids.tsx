@@ -821,10 +821,30 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     </SelectContent>
                   </Select>
                   
-                  <div className="relative">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => fileInputRef.current?.click()}>
-                      <Upload className="size-3.5" />
+                  <div className="relative group/upload">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className={cn(
+                        "h-8 w-8 p-0 transition-all",
+                        uploading && "border-primary bg-primary/5 shadow-[0_0_8px_rgba(var(--primary),0.3)]"
+                      )} 
+                      onClick={() => !uploading && fileInputRef.current?.click()}
+                      disabled={uploading}
+                    >
+                      {uploading ? (
+                        <Loader2 className="size-3.5 animate-spin text-primary" />
+                      ) : (
+                        <Upload className="size-3.5" />
+                      )}
                     </Button>
+                    
+                    {uploading && (
+                      <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-muted overflow-hidden rounded-full">
+                        <div className="h-full bg-primary animate-progress-indeterminate w-full" />
+                      </div>
+                    )}
+
                     <input 
                       type="file" 
                       className="hidden" 
@@ -832,26 +852,50 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        setBusy(true);
-                        try {
+                        
+                        setUploading(true);
+                        let retries = 2;
+                        
+                        const uploadFile = async () => {
                           const fileExt = file.name.split('.').pop();
                           const path = `dependents/${dependent.id}/${Date.now()}.${fileExt}`;
+                          
                           const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, {
-                            cacheControl: '3600',
+                            cacheControl: '0',
                             upsert: true
                           });
+                          
                           if (uploadErr) throw uploadErr;
+                          
                           const { error: updateErr } = await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
                           if (updateErr) throw updateErr;
-                          toast.success("Foto atualizada!");
-                          refresh();
-                        } catch (err: any) {
-                          console.error("Upload error:", err);
-                          toast.error("Erro ao subir imagem: " + (err.message || "Tente novamente"));
-                        } finally {
-                          setBusy(false);
-                          if (e.target) e.target.value = '';
-                        }
+                          
+                          return path;
+                        };
+
+                        const attempt = async () => {
+                          try {
+                            await uploadFile();
+                            toast.success("Foto atualizada com sucesso!");
+                            refresh();
+                          } catch (err: any) {
+                            if (retries > 0) {
+                              retries--;
+                              toast.loading("Erro na conexão. Tentando novamente...");
+                              setTimeout(attempt, 1500);
+                            } else {
+                              console.error("Upload failed after retries:", err);
+                              toast.error("Erro ao subir imagem. Verifique sua conexão.");
+                            }
+                          } finally {
+                            if (retries === 0 || !uploading) {
+                              setUploading(false);
+                              if (e.target) e.target.value = '';
+                            }
+                          }
+                        };
+
+                        attempt();
                       }}
                       ref={fileInputRef}
                     />
