@@ -7,6 +7,7 @@ import {
   CalendarClock,
   Copy,
   Download,
+  ExternalLink,
   Eye,
   FileDown,
   History,
@@ -14,13 +15,16 @@ import {
   KeyRound,
   Loader2,
   LogIn,
+  Plus,
   QrCode,
   RefreshCw,
+  Search,
   ShieldAlert,
   ShieldCheck,
   Trash2,
   Tv,
 } from "lucide-react";
+
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -79,7 +83,16 @@ export const Route = createFileRoute("/_authenticated/kids")({
 function KidsAccessPage() {
   const dependents = useDependents();
   const audit = useKidAccessAudit(60);
+  const [search, setSearch] = useState("");
   const kids = (dependents.data ?? []).filter((item) => item.active !== false);
+  const filteredKids = kids.filter((kid) => {
+    if (!search) return true;
+    const term = search.toLowerCase();
+    return (
+      kid.name.toLowerCase().includes(term) ||
+      (kid.kid_login_code ?? "").toLowerCase().includes(term)
+    );
+  });
 
   const summary = useMemo(() => {
     const withCode = kids.filter((kid) => Boolean(kid.kid_login_code));
@@ -97,6 +110,7 @@ function KidsAccessPage() {
       .sort((a, b) => (a.at < b.at ? 1 : -1))[0] ?? null;
     return { total: withCode.length, active: active.length, nextExpiry, lastLogin };
   }, [kids]);
+
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
@@ -148,6 +162,7 @@ function KidsAccessPage() {
         </div>
       </section>
 
+
       <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
         <p className="flex items-center gap-2 font-bold text-foreground">
           <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção do login infantil
@@ -160,17 +175,58 @@ function KidsAccessPage() {
       </section>
 
 
+
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="relative flex-1 min-w-[240px]">
+          <Input
+            placeholder="Buscar por nome ou código..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9 text-sm"
+          />
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+            <Baby className="size-4" />
+          </div>
+        </div>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="gap-2 h-9 text-[11px]" 
+          onClick={() => {
+            const withCode = kids.filter(k => k.kid_login_code);
+            const csv = [
+              ['Criança', 'Código', 'Expiração', 'Último Login'],
+              ...withCode.map(k => [
+                k.name, 
+                k.kid_login_code, 
+                k.kid_code_expires_at ? new Date(k.kid_code_expires_at).toLocaleString('pt-BR') : 'Sem expiração',
+                k.kid_last_login_at ? new Date(k.kid_last_login_at).toLocaleString('pt-BR') : 'Nunca'
+              ])
+            ].map(e => e.join(",")).join("\n");
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `acessos-kids-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+          }}
+        >
+          <FileDown className="size-4" />
+          Exportar Acessos
+        </Button>
+      </div>
+
       {dependents.isLoading ? (
         <div className="flex justify-center py-10">
           <Loader2 className="size-5 animate-spin text-primary" />
         </div>
-      ) : kids.length === 0 ? (
+      ) : filteredKids.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-          Cadastre uma criança em “Meus Cadastros” para liberar o acesso dela.
+          {search ? "Nenhum acesso encontrado para esta busca." : "Cadastre uma criança em “Meus Cadastros” para liberar o acesso dela."}
         </p>
       ) : (
         <div className="space-y-5">
-          {kids.map((kid) => (
+          {filteredKids.map((kid) => (
             <KidAccessCard key={kid.id} dependent={kid} />
           ))}
         </div>
@@ -242,9 +298,27 @@ function KidsAccessPage() {
           Perfeito para monitorar aquele almoço especial de domingo!
         </p>
       </section>
+
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-sm font-bold">
+            <ExternalLink className="size-4 text-primary" aria-hidden /> Acessos Externos (Adultos)
+          </h2>
+          <Button variant="outline" size="sm" className="h-8 text-[11px] gap-1">
+            <Plus className="size-3.5" /> Novo Código
+          </Button>
+        </div>
+        <p className="rounded-2xl border border-dashed border-border p-8 text-center text-[12px] text-muted-foreground">
+          Crie códigos de visualização para terceiros (contadores, sócios) com expiração automática. 
+          <br/><span className="text-[10px] mt-1 block">Funcionalidade semelhante ao Espaço Kids, disponível em breve.</span>
+        </p>
+      </section>
     </div>
+
   );
 }
+
+
 
 function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const queryClient = useQueryClient();
@@ -322,23 +396,29 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       return;
     }
     setBusy(true);
+    const promise = save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays: days, reason } });
+    
+    toast.promise(promise, {
+      loading: 'Salvando acesso...',
+      success: (result) => {
+        setCode(clean);
+        setPin("");
+        void refresh();
+        void refreshAudit();
+        return reason === "rotated" ? "Novo código gerado!" : reason === "pin_customized" ? "Alterações salvas com sucesso!" : "Acesso liberado!";
+      },
+      error: (error) => {
+        return error instanceof Error ? error.message : "Não foi possível salvar o acesso.";
+      }
+    });
+
     try {
-      const result = await save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays: days, reason } });
-      setCode(clean);
-      setPin("");
-      toast.success(reason === "rotated" ? "Novo código gerado!" : reason === "pin_customized" ? "PIN personalizado salvo!" : "Acesso salvo!", {
-        description: `Código ${result.code} — validade de ${days} dia(s).`,
-      });
-      void refresh();
-      void refreshAudit();
-    } catch (error) {
-      toast.error("Não foi possível salvar o acesso.", {
-        description: error instanceof Error ? error.message : undefined,
-      });
+      await promise;
     } finally {
       setBusy(false);
     }
   }
+
 
   async function handleRevoke() {
     setBusy(true);
@@ -572,24 +652,44 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
           </p>
           {qr ? (
             <>
-              <img
-                src={qr}
-                alt={`QR code de acesso do painel Kids de ${dependent.name}`}
-                className="mx-auto mt-2 w-40 rounded-lg bg-white p-2"
-              />
+              <div id={`qr-container-${dependent.id}`} className="mx-auto mt-2 bg-white p-2 rounded-lg inline-block">
+                <img
+                  src={qr}
+                  alt={`QR code de acesso do painel Kids de ${dependent.name}`}
+                  className="w-40"
+                />
+              </div>
               <p className="mt-2 text-[11px] text-muted-foreground">{expiry.label}</p>
               <p className="mt-1 text-[11px] text-muted-foreground">
                 A criança escaneia, o código já vem preenchido e ela digita só a senha.
               </p>
-              <Button
-                type="button"
-                size="sm"
-                variant="secondary"
-                className="mt-2 w-full text-[11px]"
-                onClick={() => void copyLoginUrl()}
-              >
-                <Copy className="mr-1.5 size-3.5" /> Copiar link do QR
-              </Button>
+              
+              <div className="grid grid-cols-2 gap-2 mt-3">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  className="w-full text-[10px] h-8 px-1"
+                  onClick={() => void copyLoginUrl()}
+                >
+                  <Copy className="mr-1 size-3" /> Link
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  className="w-full text-[10px] h-8 px-1"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = qr;
+                    link.download = `qr-acesso-${dependent.name.toLowerCase().replace(/\s+/g, '-')}.png`;
+                    link.click();
+                  }}
+                >
+                  <Download className="mr-1 size-3" /> PNG
+                </Button>
+              </div>
+
               <Button
                 type="button"
                 size="sm"
@@ -599,6 +699,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               >
                 <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR atualizado
               </Button>
+
               <Button
                 type="button"
                 size="sm"
@@ -609,6 +710,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               >
                 <KeyRound className="mr-1.5 size-3.5" /> Gerar novo código
               </Button>
+
 
             </>
           ) : (
