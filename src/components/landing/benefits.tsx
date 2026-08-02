@@ -14,6 +14,7 @@ import {
 import { Reveal } from "@/components/landing/reveal";
 import { Button } from "@/components/ui/button";
 import { DemoDialog } from "@/components/landing/demo-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 
 type Benefit = {
   icon: LucideIcon;
