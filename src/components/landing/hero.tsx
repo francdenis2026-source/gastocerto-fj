@@ -68,10 +68,10 @@ export function Hero() {
         decoding="async"
         className="absolute inset-0 -z-20 size-full object-cover object-center sm:hidden"
       />
-      {/* véu único e sólido: garante contraste AA sem excesso de brilho */}
+      {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.86),oklch(0.14_0.02_252/0.62)_55%,oklch(0.14_0.02_252/0.9))] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.94)_0%,oklch(0.13_0.02_252/0.72)_46%,oklch(0.14_0.02_252/0.28)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.88),oklch(0.14_0.02_252/0.65)_55%,oklch(0.14_0.02_252/0.92))] backdrop-blur-[2px] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.95)_0%,oklch(0.13_0.02_252/0.78)_46%,oklch(0.14_0.02_252/0.32)_100%)] sm:backdrop-blur-[3px]"
       />
       <div
         aria-hidden="true"
