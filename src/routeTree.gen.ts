@@ -32,6 +32,7 @@ import { Route as AuthenticatedGasRouteImport } from './routes/_authenticated/ga
 import { Route as AuthenticatedKidsAuditoriaRouteImport } from './routes/_authenticated/kids-auditoria'
 import { Route as AuthenticatedLancamentosRouteImport } from './routes/_authenticated/lancamentos'
 import { Route as AuthenticatedMetasRouteImport } from './routes/_authenticated/metas'
+import { Route as AuthenticatedMeuEspacoRouteImport } from './routes/_authenticated/meu-espaco'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOrcamentosRouteImport } from './routes/_authenticated/orcamentos'
 import { Route as AuthenticatedPagarDividasRouteImport } from './routes/_authenticated/pagar-dividas'
@@ -168,6 +169,11 @@ const AuthenticatedMetasRoute = AuthenticatedMetasRouteImport.update({
   path: '/metas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMeuEspacoRoute = AuthenticatedMeuEspacoRouteImport.update({
+  id: '/meu-espaco',
+  path: '/meu-espaco',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -278,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/lancamentos': typeof AuthenticatedLancamentosRoute
   '/metas': typeof AuthenticatedMetasRoute
+  '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/orcamentos': typeof AuthenticatedOrcamentosRoute
   '/pagar-dividas': typeof AuthenticatedPagarDividasRoute
@@ -318,6 +325,7 @@ export interface FileRoutesByTo {
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/lancamentos': typeof AuthenticatedLancamentosRoute
   '/metas': typeof AuthenticatedMetasRoute
+  '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/orcamentos': typeof AuthenticatedOrcamentosRoute
   '/pagar-dividas': typeof AuthenticatedPagarDividasRoute
@@ -360,6 +368,7 @@ export interface FileRoutesById {
   '/_authenticated/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/_authenticated/lancamentos': typeof AuthenticatedLancamentosRoute
   '/_authenticated/metas': typeof AuthenticatedMetasRoute
+  '/_authenticated/meu-espaco': typeof AuthenticatedMeuEspacoRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/orcamentos': typeof AuthenticatedOrcamentosRoute
   '/_authenticated/pagar-dividas': typeof AuthenticatedPagarDividasRoute
@@ -402,6 +411,7 @@ export interface FileRouteTypes {
     | '/kids-auditoria'
     | '/lancamentos'
     | '/metas'
+    | '/meu-espaco'
     | '/onboarding'
     | '/orcamentos'
     | '/pagar-dividas'
@@ -442,6 +452,7 @@ export interface FileRouteTypes {
     | '/kids-auditoria'
     | '/lancamentos'
     | '/metas'
+    | '/meu-espaco'
     | '/onboarding'
     | '/orcamentos'
     | '/pagar-dividas'
@@ -483,6 +494,7 @@ export interface FileRouteTypes {
     | '/_authenticated/kids-auditoria'
     | '/_authenticated/lancamentos'
     | '/_authenticated/metas'
+    | '/_authenticated/meu-espaco'
     | '/_authenticated/onboarding'
     | '/_authenticated/orcamentos'
     | '/_authenticated/pagar-dividas'
@@ -677,6 +689,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMetasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/meu-espaco': {
+      id: '/_authenticated/meu-espaco'
+      path: '/meu-espaco'
+      fullPath: '/meu-espaco'
+      preLoaderRoute: typeof AuthenticatedMeuEspacoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
@@ -809,6 +828,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedKidsAuditoriaRoute: typeof AuthenticatedKidsAuditoriaRoute
   AuthenticatedLancamentosRoute: typeof AuthenticatedLancamentosRoute
   AuthenticatedMetasRoute: typeof AuthenticatedMetasRoute
+  AuthenticatedMeuEspacoRoute: typeof AuthenticatedMeuEspacoRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedOrcamentosRoute: typeof AuthenticatedOrcamentosRoute
   AuthenticatedPagarDividasRoute: typeof AuthenticatedPagarDividasRoute
@@ -841,6 +861,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedKidsAuditoriaRoute: AuthenticatedKidsAuditoriaRoute,
   AuthenticatedLancamentosRoute: AuthenticatedLancamentosRoute,
   AuthenticatedMetasRoute: AuthenticatedMetasRoute,
+  AuthenticatedMeuEspacoRoute: AuthenticatedMeuEspacoRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedOrcamentosRoute: AuthenticatedOrcamentosRoute,
   AuthenticatedPagarDividasRoute: AuthenticatedPagarDividasRoute,

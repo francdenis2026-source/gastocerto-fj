@@ -776,6 +776,8 @@ export type Database = {
           color: string | null
           created_at: string
           id: string
+          kid_login_code: string | null
+          kid_user_id: string | null
           kids_mode_enabled: boolean
           last_allowance_month: string | null
           monthly_allowance: number | null
@@ -796,6 +798,8 @@ export type Database = {
           color?: string | null
           created_at?: string
           id?: string
+          kid_login_code?: string | null
+          kid_user_id?: string | null
           kids_mode_enabled?: boolean
           last_allowance_month?: string | null
           monthly_allowance?: number | null
@@ -816,6 +820,8 @@ export type Database = {
           color?: string | null
           created_at?: string
           id?: string
+          kid_login_code?: string | null
+          kid_user_id?: string | null
           kids_mode_enabled?: boolean
           last_allowance_month?: string | null
           monthly_allowance?: number | null
@@ -2336,6 +2342,9 @@ export type Database = {
         }
         Returns: boolean
       }
+      kid_dependent_id: { Args: { _uid: string }; Returns: string }
+      kid_owner_id: { Args: { _uid: string }; Returns: string }
+      kid_tag: { Args: { _uid: string }; Returns: string }
     }
     Enums: {
       app_role: "user" | "admin" | "support"

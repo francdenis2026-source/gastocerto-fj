@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { AlertCircle, KeyRound, Loader2 } from "lucide-react";
+import { AlertCircle, Baby, KeyRound, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -18,6 +18,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { clearBrowserCredentials } from "@/lib/local-session";
 import { resolveHomeRoute, resolveHomeRouteForSession } from "@/lib/post-login";
 import { cpfToLoginEmail, maskCpf, onlyDigits, pinToPassword } from "@/lib/cpf";
+import {
+  isValidKidCode,
+  isValidKidPin,
+  kidCodeToEmail,
+  kidPassword,
+  normalizeKidCode,
+} from "@/lib/kids-account";
 import {
   cpfSignInSchema,
   cpfSignUpSchema,
@@ -50,7 +57,7 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-type Mode = "login" | "signup" | "forgot" | "admin";
+type Mode = "login" | "signup" | "forgot" | "admin" | "kid";
 
 function AuthPage() {
   const search = useSearch({ from: "/auth" });
@@ -162,6 +169,8 @@ function AuthPage() {
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
+            ) : mode === "kid" ? (
+              <KidSignInForm onBack={() => setMode("login")} />
             ) : (
               <Tabs 
                 value={mode} 
@@ -178,6 +187,14 @@ function AuthPage() {
                     onForgot={() => setMode("forgot")}
                     onAdmin={() => setMode("admin")}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setMode("kid")}
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2.5 text-[12px] font-bold text-primary transition hover:bg-primary/10"
+                  >
+                    <Baby className="size-4" aria-hidden />
+                    Sou criança — entrar com meu código
+                  </button>
                 </TabsContent>
                 <TabsContent value="signup" className="mt-5">
                   <CpfSignUpForm onDone={() => setMode("login")} />
@@ -479,5 +496,83 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       <p className="text-sm text-muted-foreground">Use suas credenciais de administrador.</p>
       <Button onClick={onBack} variant="outline" className="w-full">Voltar</Button>
     </div>
+  );
+}
+
+/**
+ * Entrada independente da criança: código definido pelo responsável + senha
+ * numérica. Não pede CPF nem e-mail e vai direto para o painel infantil.
+ */
+function KidSignInForm({ onBack }: { onBack: () => void }) {
+  const navigate = useNavigate();
+  const [code, setCode] = useState("");
+  const [pin, setPin] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const cleanCode = normalizeKidCode(code);
+    if (!isValidKidCode(cleanCode) || !isValidKidPin(pin)) {
+      setFormError("Confira o código e a senha (4 a 6 números).");
+      return;
+    }
+
+    setFormError(null);
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: kidCodeToEmail(cleanCode),
+      password: kidPassword(cleanCode, pin),
+    });
+    setLoading(false);
+
+    if (error) {
+      const message = "Código ou senha incorretos. Peça ajuda ao seu responsável.";
+      setFormError(message);
+      toast.error(message);
+      return;
+    }
+    navigate({ to: await resolveHomeRouteForSession(), replace: true });
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
+      <div className="flex items-center gap-2">
+        <Baby className="size-5 text-primary" aria-hidden />
+        <h3 className="text-base font-bold text-foreground">Entrada da criança</h3>
+      </div>
+      <FormAlert message={formError} />
+      <div>
+        <Label htmlFor="kid-code">Meu código</Label>
+        <Input
+          id="kid-code"
+          value={code}
+          onChange={(event) => setCode(normalizeKidCode(event.target.value))}
+          placeholder="EX: JOAO-A1B"
+          autoComplete="username"
+          className="mt-1.5 font-mono tracking-wide uppercase"
+        />
+      </div>
+      <div>
+        <Label htmlFor="kid-pin">Minha senha (4 a 6 números)</Label>
+        <Input
+          id="kid-pin"
+          type="password"
+          inputMode="numeric"
+          value={pin}
+          onChange={(event) => setPin(onlyDigits(event.target.value).slice(0, 6))}
+          placeholder="••••"
+          autoComplete="current-password"
+          className="mt-1.5 tracking-[0.4em]"
+        />
+      </div>
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+        Entrar no meu espaço
+      </Button>
+      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
+        Voltar
+      </Button>
+    </form>
   );
 }

@@ -31,6 +31,7 @@ import { useState, type ReactNode, useEffect, useMemo } from "react";
 
 import { Logo } from "@/components/logo";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { useKidSession } from "@/lib/kids-session";
 import { useKidsRealtimeAlerts } from "@/lib/kids-realtime";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -163,6 +164,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   usePlanRealtimeSync();
   // Avisos e conquistas do Espaço Kids chegam sem recarregar a tela.
   useKidsRealtimeAlerts();
+
+  // Conta de criança nunca vê o painel do responsável.
+  const { isKid } = useKidSession();
+  useEffect(() => {
+    if (isKid && pathname !== "/meu-espaco") {
+      navigate({ to: "/meu-espaco", replace: true });
+    }
+  }, [isKid, pathname, navigate]);
 
   const { data: recurrents } = useQuery({
     queryKey: ["recurrent-expenses-sidebar"],
