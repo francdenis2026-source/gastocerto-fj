@@ -25,7 +25,7 @@ const basePlans = [
     features: [
       "Até 30 lançamentos por mês",
       "Categorias, painel e balancete do mês",
-      "Inclui 7 dias de teste com tudo liberado",
+      "Inclui 14 dias de teste com tudo liberado",
       "Sem cartão de crédito",
     ],
   },
@@ -91,7 +91,7 @@ export function Pricing() {
       <div className="section-shell">
         <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
          <div className="min-w-0">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand">
+          <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
             Planos
           </p>
           <h2 className="section-title mt-1.5">
@@ -143,7 +143,7 @@ export function Pricing() {
               </button>
             ))}
           </div>
-          <p aria-live="polite" className="text-[11px] text-muted-foreground">
+          <p aria-live="polite" className="text-[12.5px] text-muted-foreground">
             {isYearly
               ? `Melhor economia: você poupa ${formatCurrency(savingsPerYear)} por ano no Premium.`
               : `Mude para o anual e economize ${formatCurrency(savingsPerYear)} por ano.`}
@@ -191,7 +191,7 @@ export function Pricing() {
 
                 <ul className="mt-2.5 flex-1 space-y-0.5 sm:space-y-1">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-[12px] sm:text-[13px]">
+                    <li key={feature} className="flex items-start gap-2 text-[13px]">
                       <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true" />
                       <span className="text-muted-foreground">{feature}</span>
                     </li>
@@ -207,7 +207,7 @@ export function Pricing() {
                     {plan.cta}
                     {plan.monthly > 0 && " · Pix"}
                   </Button>
-                  <p className="mt-1.5 text-center text-[11px] text-muted-foreground">
+                  <p className="mt-1.5 text-center text-[12.5px] text-muted-foreground">
                     {plan.monthly === 0
                       ? "Sem cartão. Comece em menos de um minuto."
                       : "Pagamento por Pix com liberação imediata da chave."}

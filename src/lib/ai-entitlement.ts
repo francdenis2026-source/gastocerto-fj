@@ -27,10 +27,10 @@ export const AI_TRIAL_SLUGS = ["free", "gratuito", "gratis", "trial", "teste", "
 export const AI_PLAN_SLUGS = ["premium_ia", "premium-ia", "premium_ai", "ia", "ai"];
 
 /**
- * Testes de cortesia distribuídos pelo administrador (licenças de 7 dias):
+ * Testes de cortesia distribuídos pelo administrador (licenças de 14 dias):
  * recursos limitados e IA SEMPRE bloqueada, pois cada análise consome créditos.
  */
-export const AI_BLOCKED_TRIAL_SLUGS = ["trial_7_basic", "trial_gift", "trial_7_gift"];
+export const AI_BLOCKED_TRIAL_SLUGS = ["trial_14_basic", "trial_gift", "trial_14_gift"];
 
 /** Falso quando o período de teste em vigor é um teste de cortesia sem IA. */
 export function trialIncludesAi(trialPlanSlug?: string | null): boolean {
@@ -61,7 +61,7 @@ export const AI_UPGRADE_MESSAGE =
   "Seu plano é pago, mas não inclui o Consultor de IA. Faça upgrade para o Premium IA para liberar as análises com inteligência artificial.";
 
 export const AI_TRIAL_BLOCK_MESSAGE =
-  "As licenças de teste de 7 dias liberam apenas os recursos básicos e não incluem o Consultor de IA. Assine o Premium IA para liberar as análises com inteligência artificial.";
+  "As licenças de teste de 14 dias liberam apenas os recursos básicos e não incluem o Consultor de IA. Assine o Premium IA para liberar as análises com inteligência artificial.";
 
 
 
@@ -157,7 +157,7 @@ export function evaluateAiEntitlement(input: {
   }
 
   // Período de teste vigente: tudo liberado, inclusive a IA — exceto nos
-  // testes de cortesia de 7 dias, que nunca liberam a IA.
+  // testes de cortesia de 14 dias, que nunca liberam a IA.
   const trialEnd = input.trialEndsAt ? new Date(input.trialEndsAt) : null;
   const trialSlug = String(input.trialPlanSlug ?? "").toLowerCase();
   if (trialEnd && Number.isFinite(trialEnd.getTime())) {

@@ -34,7 +34,7 @@ export function TrialGrantPanel() {
   const grant = useServerFn(adminGrantTrial);
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
-  const [slug, setSlug] = useState<TrialSlug>("trial_7");
+  const [slug, setSlug] = useState<TrialSlug>("trial_14");
 
   const users = useQuery({
     queryKey: ["admin", "trial-users"],

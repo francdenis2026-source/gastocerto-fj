@@ -3,7 +3,7 @@
  * nas validações de backend.
  *
  * Regras de negócio:
- * - Licença de teste de cortesia (7 dias, valor zero, plano `trial_7_basic`):
+ * - Licença de teste de cortesia (14 dias, valor zero, plano `trial_14_basic`):
  *   recursos limitados, IA SEMPRE bloqueada e validade que só começa a contar
  *   quando o cliente ativa a chave no site/app.
  * - Licença paga (mensal/anual): libera todos os recursos; a IA depende do
@@ -19,7 +19,7 @@ import {
   type FeatureKey,
 } from "./plan-features";
 
-export const TRIAL_GIFT_PLAN_SLUG = "trial_7_basic";
+export const TRIAL_GIFT_PLAN_SLUG = "trial_14_basic";
 export const TRIAL_GIFT_SOURCE = "trial_gift";
 
 const COURTESY_SOURCES = [TRIAL_GIFT_SOURCE, "trial", "teste", "cortesia", "demo"];

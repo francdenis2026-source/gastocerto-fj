@@ -71,13 +71,13 @@ export function TrialLicensesPanel() {
     () =>
       trials.filter(
         (row: { status: string; trial_days?: number | null }) =>
-          row.status === "pending" && Number(row.trial_days ?? 7) === 15,
+          row.status === "pending" && Number(row.trial_days ?? 14) === 15,
       ).length,
     [trials],
   );
 
   const mutation = useMutation({
-    mutationFn: (input: { quantity: number; days: 7 | 15 | 30 }) =>
+    mutationFn: (input: { quantity: number; days: 14 | 15 | 30 }) =>
       create({
         data: {
           quantity: input.quantity,
@@ -157,7 +157,7 @@ export function TrialLicensesPanel() {
           event.preventDefault();
           mutation.mutate({
             quantity: Math.max(1, Math.min(50, Number(quantity) || 1)),
-            days: Number(trialDays) as 7 | 15 | 30,
+            days: Number(trialDays) as 14 | 15 | 30,
           });
         }}
       >
@@ -178,7 +178,7 @@ export function TrialLicensesPanel() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">7 dias</SelectItem>
+              <SelectItem value="14">14 dias</SelectItem>
               <SelectItem value="15">15 dias</SelectItem>
               <SelectItem value="30">30 dias</SelectItem>
             </SelectContent>

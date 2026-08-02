@@ -56,7 +56,7 @@ function PreviewCard({
 }) {
   return (
     <div className="rounded-xl border border-border bg-surface p-3">
-      <p className="text-[11px] font-medium text-muted-foreground">{label}</p>
+      <p className="text-[12.5px] font-medium text-muted-foreground">{label}</p>
       <p
         className={cn(
           "tabular mt-1 text-base font-bold tracking-tight",
@@ -66,7 +66,7 @@ function PreviewCard({
       >
         {value}
       </p>
-      {hint && <p className="mt-0.5 text-[11px] text-muted-foreground">{hint}</p>}
+      {hint && <p className="mt-0.5 text-[12.5px] text-muted-foreground">{hint}</p>}
     </div>
   );
 }
@@ -98,7 +98,7 @@ export function DashboardPreview() {
       <div className="mt-3 rounded-xl border border-border bg-surface p-3">
         <div className="flex items-center justify-between">
           <p className="text-xs font-medium">Despesas por dia</p>
-          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-success">
+          <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-success">
             <ArrowDownRight className="size-3" aria-hidden="true" /> 8,2% vs. junho
           </span>
         </div>
@@ -121,7 +121,7 @@ export function DashboardPreview() {
           <ul className="mt-2 space-y-2">
             {topCategories.map((cat) => (
               <li key={cat.name} className="space-y-1">
-                <div className="flex items-center justify-between text-[11px]">
+                <div className="flex items-center justify-between text-[12.5px]">
                   <span className="inline-flex items-center gap-1.5 font-medium">
                     <cat.icon className="size-3.5 text-brand" aria-hidden="true" />
                     {cat.name}
@@ -137,11 +137,11 @@ export function DashboardPreview() {
         <div className="space-y-3">
           <div className="rounded-xl border border-border bg-surface p-3">
             <p className="text-xs font-medium">Abastecimentos recentes</p>
-            <div className="mt-2 flex items-center justify-between text-[11px]">
+            <div className="mt-2 flex items-center justify-between text-[12.5px]">
               <span className="text-muted-foreground">Consumo médio</span>
               <span className="tabular font-semibold">11,8 km/l</span>
             </div>
-            <div className="mt-1 flex items-center justify-between text-[11px]">
+            <div className="mt-1 flex items-center justify-between text-[12.5px]">
               <span className="text-muted-foreground">Preço médio</span>
               <span className="tabular font-semibold">{formatCurrency(5.89)}/L</span>
             </div>
@@ -151,7 +151,7 @@ export function DashboardPreview() {
             <p className="text-xs font-medium">Próximas contas</p>
             <ul className="mt-2 space-y-1.5">
               {upcomingBills.map((bill) => (
-                <li key={bill.name} className="flex items-center justify-between text-[11px]">
+                <li key={bill.name} className="flex items-center justify-between text-[12.5px]">
                   <span className="text-muted-foreground">
                     {bill.name} · {formatDate(bill.date)}
                   </span>
@@ -166,13 +166,13 @@ export function DashboardPreview() {
       <div className="mt-3 rounded-xl border border-border bg-surface p-3">
         <div className="flex items-center justify-between">
           <p className="text-xs font-medium">Últimos lançamentos</p>
-          <span className="text-[11px] text-muted-foreground">
+          <span className="text-[12.5px] text-muted-foreground">
             Orçamento consumido {formatPercent(68)}
           </span>
         </div>
         <ul className="mt-2 space-y-1.5">
           {lastEntries.map((entry) => (
-            <li key={entry.name} className="flex items-center justify-between text-[11px]">
+            <li key={entry.name} className="flex items-center justify-between text-[12.5px]">
               <span className="inline-flex items-center gap-1.5">
                 {entry.value > 0 ? (
                   <ArrowUpRight className="size-3.5 text-success" aria-hidden="true" />

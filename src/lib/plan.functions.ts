@@ -7,12 +7,12 @@ import { loadPlanAccess } from "@/lib/plan-access.server";
 import { trialDaysForSlug } from "@/lib/plan-features";
 
 const trialSchema = z.object({
-  slug: z.enum(["trial_7", "trial_15", "trial_30"]),
+  slug: z.enum(["trial_14", "trial_15", "trial_30"]),
 });
 
 const adminTrialSchema = z.object({
   targetUserId: z.string().uuid(),
-  slug: z.enum(["trial_7", "trial_15", "trial_30"]),
+  slug: z.enum(["trial_14", "trial_15", "trial_30"]),
   restart: z.boolean().optional(),
 });
 
@@ -53,7 +53,7 @@ export const startTrial = createServerFn({ method: "POST" })
       throw new Error("Você já utilizou seu período de teste. Assine para liberar tudo novamente.");
     }
 
-    const days = trialDaysForSlug(data.slug) ?? 7;
+    const days = trialDaysForSlug(data.slug) ?? 14;
     const now = new Date();
     const ends = new Date(now.getTime() + days * 86_400_000);
 
@@ -86,7 +86,7 @@ export const adminGrantTrial = createServerFn({ method: "POST" })
     await assertAdminRole(supabase, userId);
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const days = trialDaysForSlug(data.slug) ?? 7;
+    const days = trialDaysForSlug(data.slug) ?? 14;
     const now = new Date();
     const ends = new Date(now.getTime() + days * 86_400_000);
 

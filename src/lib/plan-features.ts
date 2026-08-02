@@ -88,7 +88,7 @@ export const FEATURE_LABEL: Record<FeatureKey, string> = {
 };
 
 /**
- * Recursos liberados nas licenças de teste de cortesia (7 dias): um pouco mais
+ * Recursos liberados nas licenças de teste de cortesia (14 dias): um pouco mais
  * que o gratuito, mas sem IA, sem relatórios avançados e sem exportações.
  */
 export const TRIAL_BASIC_FEATURES: FeatureKey[] = [
@@ -106,7 +106,7 @@ export const TRIAL_BASIC_FEATURES: FeatureKey[] = [
 export const FREE_MONTHLY_TRANSACTION_LIMIT = 30;
 
 export const TRIAL_OPTIONS = [
-  { slug: "trial_7", days: 7, label: "7 dias" },
+  { slug: "trial_14", days: 14, label: "14 dias" },
   { slug: "trial_15", days: 15, label: "15 dias" },
   { slug: "trial_30", days: 30, label: "30 dias" },
 ] as const;
@@ -194,7 +194,7 @@ export type PlanAccess = {
   /** Verdadeiro quando o plano atual inclui o Consultor de IA. */
   aiIncluded: boolean;
   trialActive: boolean;
-  /** Teste de cortesia de 7 dias: recursos limitados e IA bloqueada. */
+  /** Teste de cortesia de 14 dias: recursos limitados e IA bloqueada. */
   courtesyTrial: boolean;
   trialDaysLeft: number;
   trialEndsAt: string | null;
@@ -240,7 +240,7 @@ export function resolvePlanAccess(input: PlanAccessInput): PlanAccess {
   const tier: PlanTier = paid ? "paid" : trialValid ? "trial" : "free";
 
   const trialSlug = String(input.trialPlanSlug ?? "").toLowerCase();
-  // Teste de cortesia (licença de 7 dias doada pelo admin): recursos limitados.
+  // Teste de cortesia (licença de 14 dias doada pelo admin): recursos limitados.
   const courtesyTrial =
     tier === "trial" && (!trialIncludesAi(trialSlug) || !trialIncludesAi(planSlug));
 

@@ -282,7 +282,7 @@ export function CheckoutDialog({
                       </span>
                       <span className="tabular text-lg font-extrabold">
                         {formatCurrency(checkoutPrice(item, cycle))}
-                        <span className="ml-1 text-[11px] font-medium text-muted-foreground">
+                        <span className="ml-1 text-[12.5px] font-medium text-muted-foreground">
                           {cycle === "annual" ? "/ano" : "/mês"}
                         </span>
                       </span>
@@ -345,7 +345,7 @@ export function CheckoutDialog({
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              <p className="mt-1 text-[11px] text-muted-foreground">
+              <p className="mt-1 text-[12.5px] text-muted-foreground">
                 Sua conta só é criada depois que você confirmar este e-mail.
               </p>
             </div>
@@ -475,7 +475,7 @@ export function CheckoutDialog({
                   </Button>
                 </div>
                 {manual.bank ? (
-                  <p className="mt-1 text-[11px] text-muted-foreground">Instituição: {manual.bank}</p>
+                  <p className="mt-1 text-[12.5px] text-muted-foreground">Instituição: {manual.bank}</p>
                 ) : null}
               </div>
             ) : (

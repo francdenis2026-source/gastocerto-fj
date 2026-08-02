@@ -6,7 +6,7 @@ import { resolvePlanAccess } from "./plan-features";
 const gift = {
   source: "trial_gift",
   amount: 0,
-  planSlug: "trial_7_basic",
+  planSlug: "trial_14_basic",
   billing_cycle: "monthly",
   trialDays: 7,
 };
@@ -77,8 +77,8 @@ describe("license-status", () => {
 describe("plano durante teste de cortesia", () => {
   it("não libera IA nem relatórios avançados", () => {
     const access = resolvePlanAccess({
-      planSlug: "trial_7_basic",
-      trialPlanSlug: "trial_7_basic",
+      planSlug: "trial_14_basic",
+      trialPlanSlug: "trial_14_basic",
       trialEndsAt: new Date(Date.now() + 3 * 86_400_000).toISOString(),
     });
     expect(access.tier).toBe("trial");

@@ -25,7 +25,7 @@ export function CtaBanner() {
                 Conta gratuita, sem cartão de crédito e sem instalar nada. Prefere ver antes?
                 Abra a demonstração com dados de exemplo.
               </p>
-              <p className="mt-2 inline-flex items-center gap-2 text-[11px] text-white/90">
+              <p className="mt-2 inline-flex items-center gap-2 text-[12.5px] text-white/90">
                 <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Seus dados são só seus: exporte ou apague quando quiser.
               </p>

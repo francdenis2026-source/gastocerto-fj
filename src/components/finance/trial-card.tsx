@@ -91,7 +91,7 @@ export function TrialCard() {
                   key={option.slug}
                   type="button"
                   size="sm"
-                  variant={option.slug === "trial_7" ? "default" : "outline"}
+                  variant={option.slug === "trial_14" ? "default" : "outline"}
                   disabled={mutation.isPending}
                   onClick={() => mutation.mutate(option.slug)}
                 >
