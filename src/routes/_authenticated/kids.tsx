@@ -857,8 +857,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     />
                   </div>
                 </div>
-              </div>
             </div>
+          </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
@@ -898,87 +898,87 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/30">
-              <Button 
-                type="button" 
-                size="sm" 
-                className="h-8 text-[11px] bg-emerald-600 hover:bg-emerald-700"
-                disabled={busy} 
-                onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}
-              >
-                <ShieldCheck className="mr-1.5 size-3.5" />
-                {dependent.kid_login_code ? "Salvar" : "Liberar"}
-              </Button>
-              {dependent.kid_login_code && (
-                <>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    className="h-8 text-[11px]"
-                    disabled={busy}
-                    onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
-                  >
-                    <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar
-                  </Button>
-                  
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="ghost"
-                        className="h-8 text-[11px] text-destructive hover:bg-destructive/10"
-                        disabled={busy}
-                      >
-                        <Trash2 className="mr-1.5 size-3.5" /> Excluir
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[400px]">
-                      <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2 text-destructive">
-                          <AlertCircle className="size-5" /> Excluir Conta
-                        </DialogTitle>
-                        <DialogDescription className="py-4">
-                          <div className="flex flex-col items-center text-center gap-4">
-                            <div className="bg-destructive/10 p-4 rounded-full">
-                              <Trash2 className="size-12 text-destructive" />
-                            </div>
-                            <p className="text-sm font-medium">
-                              Tem certeza que deseja excluir definitivamente a conta de <span className="font-bold">{dependent.name}</span>?
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              Esta ação é irreversível e removerá todos os dados, metas e históricos vinculados a esta criança.
-                            </p>
+            <Button 
+              type="button" 
+              size="sm" 
+              className="h-8 text-[11px] bg-emerald-600 hover:bg-emerald-700"
+              disabled={busy} 
+              onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}
+            >
+              <ShieldCheck className="mr-1.5 size-3.5" />
+              {dependent.kid_login_code ? "Salvar" : "Liberar"}
+            </Button>
+            {dependent.kid_login_code && (
+              <>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="h-8 text-[11px]"
+                  disabled={busy}
+                  onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
+                >
+                  <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar
+                </Button>
+                
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 text-[11px] text-destructive hover:bg-destructive/10"
+                      disabled={busy}
+                    >
+                      <Trash2 className="mr-1.5 size-3.5" /> Excluir
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[400px]">
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-2 text-destructive">
+                        <AlertCircle className="size-5" /> Excluir Conta
+                      </DialogTitle>
+                      <DialogDescription className="py-4">
+                        <div className="flex flex-col items-center text-center gap-4">
+                          <div className="bg-destructive/10 p-4 rounded-full">
+                            <Trash2 className="size-12 text-destructive" />
                           </div>
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter className="gap-2 sm:gap-0">
-                        <Button variant="outline" className="h-9 text-xs" onClick={() => {}}>Cancelar</Button>
-                        <Button 
-                          variant="destructive" 
-                          className="h-9 text-xs"
-                          disabled={busy}
-                          onClick={async () => {
-                            setBusy(true);
-                            try {
-                              await deleteKid({ data: { dependentId: dependent.id } });
-                              toast.success("Conta excluída definitivamente.");
-                              void refresh();
-                              void refreshAudit();
-                            } catch (err: any) {
-                              toast.error("Erro ao excluir conta.");
-                            } finally {
-                              setBusy(false);
-                            }
-                          }}
-                        >
-                          Sim, Excluir Agora
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
+                          <p className="text-sm font-medium">
+                            Tem certeza que deseja excluir definitivamente a conta de <span className="font-bold">{dependent.name}</span>?
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Esta ação é irreversível e removerá todos os dados, metas e históricos vinculados a esta criança.
+                          </p>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="gap-2 sm:gap-0">
+                      <Button variant="outline" className="h-9 text-xs" onClick={() => {}}>Cancelar</Button>
+                      <Button 
+                        variant="destructive" 
+                        className="h-9 text-xs"
+                        disabled={busy}
+                        onClick={async () => {
+                          setBusy(true);
+                          try {
+                            await deleteKid({ data: { dependentId: dependent.id } });
+                            toast.success("Conta excluída definitivamente.");
+                            void refresh();
+                            void refreshAudit();
+                          } catch (err: any) {
+                            toast.error("Erro ao excluir conta.");
+                          } finally {
+                            setBusy(false);
+                          }
+                        }}
+                      >
+                        Sim, Excluir Agora
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
           </div>
 
           <div className="rounded-xl border border-border/60 bg-muted/20 p-3">
