@@ -82,6 +82,8 @@ import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
 import { vehicleSpendBreakdown } from "@/lib/vehicle-spend";
 import { labelFor } from "@/lib/finance";
 
+import { useDependents } from "@/lib/dependents";
+import { CheckSquare, Circle } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/painel")({
   head: () => ({
@@ -120,7 +122,7 @@ function DashboardPage() {
   const [taxOpen, setTaxOpen] = useState(false);
 
   const { data: profile, isLoading } = useProfile();
-  const { data: categories } = useCategories();
+  const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
   const range = monthRange(period.year, period.month);
   const { data: transactions, isLoading: loadingTransactions } = useTransactions(range);
@@ -403,11 +405,73 @@ function DashboardPage() {
     );
   }
 
+  const { data: dependents } = useDependents();
+
+  
+  const kidsOnboarding = useMemo(() => {
+    const active = (dependents ?? []).filter(d => d.active !== false);
+    const hasKid = active.length > 0;
+    const hasPin = active.some(d => (d as any).pin_code);
+    const hasLimit = active.some(d => (d as any).monthly_limit);
+    const hasAllowance = active.some(d => d.monthly_allowance || (d as any).recurring_allowance_day);
+
+    return {
+      hasKid,
+      hasPin,
+      hasLimit,
+      hasAllowance,
+      complete: hasKid && hasPin && hasLimit,
+      visible: hasKid // Só mostra se já começou a cadastrar ou se queremos incentivar
+    };
+  }, [dependents]);
+
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
+
+  if (loadingTransactions || loadingCategories) {
+    return (
+      <AppShell>
+        <div className="flex min-h-[40vh] items-center justify-center">
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+        </div>
+      </AppShell>
+    );
+  }
+
 
   return (
     <AppShell>
       <div className="space-y-4">
+        {kidsOnboarding.visible && !kidsOnboarding.complete && (
+          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Baby className="size-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold">Ativar Espaço Kids</h3>
+                <p className="text-[11px] text-muted-foreground">Complete os passos para liberar o Modo Criança seguro.</p>
+              </div>
+            </div>
+            
+            <div className="grid gap-3 sm:grid-cols-4">
+              {[
+                { label: "Cadastrar Criança", done: kidsOnboarding.hasKid },
+                { label: "Definir PIN de 4 dígitos", done: kidsOnboarding.hasPin },
+                { label: "Configurar Limites", done: kidsOnboarding.hasLimit },
+                { label: "Agendar Mesada", done: kidsOnboarding.hasAllowance }
+              ].map((step, idx) => (
+                <div key={idx} className={cn(
+                  "flex items-center gap-2 p-2 rounded-xl border transition",
+                  step.done ? "bg-primary/10 border-primary/20 text-primary" : "bg-background border-border text-muted-foreground"
+                )}>
+                  {step.done ? <CheckSquare className="size-4" /> : <Circle className="size-4" />}
+                  <span className="text-[10px] font-bold">{step.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
           <div className="min-w-0">
             <h1 className="page-title truncate">
