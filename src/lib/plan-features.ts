@@ -325,3 +325,20 @@ export function hasFeature(access: PlanAccess | null | undefined, feature: Featu
   if (!access) return false;
   return access.features.includes(feature);
 }
+
+export function usePlanAccess() {
+  const { data: profile } = useProfile();
+  const { data: roles } = useRoles();
+
+  return resolvePlanAccess({
+    planSlug: (profile as any)?.plan_slug,
+    planTier: (profile as any)?.plan_tier,
+    planPrice: (profile as any)?.plan_price,
+    trialEndsAt: (profile as any)?.trial_ends_at,
+    trialPlanSlug: (profile as any)?.trial_plan_slug,
+    hasPaidLicense: (profile as any)?.has_paid_license,
+    paidPlanSlug: (profile as any)?.paid_plan_slug,
+    isAdmin: (roles ?? []).includes("admin"),
+  });
+}
+
