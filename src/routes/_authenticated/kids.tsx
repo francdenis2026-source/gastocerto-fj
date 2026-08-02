@@ -754,21 +754,22 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </div>
           </div>
 
-          <div className="rounded-xl border border-border p-3">
-            <p className="flex items-center gap-2 text-[12px] font-bold">
-              <Eye className="size-3.5 text-primary" aria-hidden /> O que a criança pode ver
+          <div className="rounded-xl border border-border/60 bg-muted/20 p-3">
+            <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <Eye className="size-3 text-primary" aria-hidden /> Visualização da criança
             </p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {KID_VISIBILITY_FIELDS.map((field) => (
                 <label
                   key={field.key}
-                  className="flex items-start justify-between gap-3 rounded-lg bg-muted/40 p-2.5"
+                  className="flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-card p-2 transition-colors hover:bg-muted/30"
                 >
                   <span className="min-w-0">
-                    <span className="block text-[12px] font-semibold">{field.label}</span>
-                    <span className="block text-[11px] text-muted-foreground">{field.hint}</span>
+                    <span className="block text-[11px] font-bold">{field.label}</span>
+                    <span className="block text-[9px] leading-tight text-muted-foreground">{field.hint}</span>
                   </span>
                   <Switch
+                    className="scale-75"
                     checked={visibility[field.key]}
                     onCheckedChange={(value) => void toggleVisibility(field.key, value)}
                     aria-label={field.label}
