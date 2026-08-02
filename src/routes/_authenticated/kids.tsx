@@ -1227,7 +1227,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     <ConfirmDialog />
     </>
 
-    </>
   );
 }
 
