@@ -283,10 +283,15 @@ function ProfilePage() {
                   <Baby className="size-3.5" aria-hidden />
                   Gastos das crianças
                 </TabsTrigger>
+                <TabsTrigger value="notifications" className="rounded-lg text-xs gap-2">
+                  <Bell className="size-3.5" aria-hidden />
+                  Avisos
+                </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
                   <History className="size-3.5" aria-hidden />
                   Histórico
                 </TabsTrigger>
+
               </TabsList>
 
 
