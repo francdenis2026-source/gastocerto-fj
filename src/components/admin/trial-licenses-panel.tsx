@@ -6,7 +6,8 @@ import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ConfirmDialog, useConfirm } from "@/components/ui/confirm-dialog";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,7 +45,8 @@ export function TrialLicensesPanel() {
   const listLicenses = useServerFn(adminListLicenses);
   const queryClient = useQueryClient();
   const deleteLicense = useServerFn(adminDeleteLicense);
-  const { confirm } = useConfirm();
+  const { confirm, ConfirmDialog } = useConfirm();
+
 
 
   const [quantity, setQuantity] = useState("5");
