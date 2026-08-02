@@ -873,11 +873,15 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <Tv className="size-3.5 text-primary" aria-hidden /> Dispositivos e Sessões
             </p>
             <SessionManager dependentId={dependent.id} />
+          </div>
+
           <div className="rounded-xl border border-border p-3">
             <p className="flex items-center gap-2 text-[12px] font-bold mb-3">
               <History className="size-3.5 text-primary" aria-hidden /> Gastos e Movimentações da Criança
             </p>
             <KidTransactionsList dependentId={dependent.id} />
+          </div>
+
           </div>
         </div>
 
