@@ -536,6 +536,18 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   const navigate = useNavigate();
   const checkLock = useServerFn(checkKidLock);
   const registerAttempt = useServerFn(registerKidAttempt);
+  const checkStatus = useServerFn(async (args: { data: { kidUserId?: string; code?: string } }) => {
+    // Importamos dinamicamente ou usamos o que temos.
+    const { checkKidAccountStatus } = await import("@/lib/kids-license-check.functions");
+    // Se passarmos o código, precisamos achar o kidUserId primeiro.
+    let kidUserId = args.data.kidUserId;
+    if (!kidUserId && args.data.code) {
+      const { data } = await supabase.from("dependents").select("id").eq("kid_login_code", args.data.code).maybeSingle();
+      if (data) kidUserId = data.id;
+    }
+    if (!kidUserId) return { active: true, readOnly: false };
+    return await checkKidAccountStatus({ data: { kidUserId } });
+  });
   const [code, setCode] = useState(normalizeKidCode(initialCode));
   const [pin, setPin] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -548,6 +560,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     const timer = setInterval(() => setLockSeconds((value) => Math.max(0, value - 1)), 1000);
     return () => clearInterval(timer);
   }, [lockSeconds]);
+
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
