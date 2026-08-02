@@ -200,7 +200,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
 
 const highlights = [
   { icon: Droplets, value: "20+", label: "categorias prontas", hint: "gás, combustível, água, roupas…" },
-  { icon: Dumbbell, value: "7", label: "módulos integrados", hint: "de lançamentos a auditoria" },
+  { icon: Dumbbell, value: "12", label: "módulos integrados", hint: "de lançamentos ao Espaço Kids" },
   { icon: ShieldCheck, value: "100%", label: "dados isolados", hint: "cada conta vê só o que é seu" },
 ];
 
@@ -242,7 +242,7 @@ const tabs = ["recursos", "seguranca", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
-  recursos: { label: "Recursos", description: "Dezesseis recursos organizados em quatro frentes" },
+  recursos: { label: "Recursos", description: "Vinte e quatro recursos organizados em seis frentes" },
   seguranca: { label: "Segurança", description: "LGPD, criptografia e controle de acesso" },
   faq: { label: "FAQ", description: "Perguntas frequentes: seis dúvidas comuns sobre planos e demonstração" },
 };
@@ -278,7 +278,7 @@ export function CompactOverview() {
               Um sistema para todo o seu controle financeiro
             </h2>
             <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
-              Recursos integrados para o dia a dia, veículos, planejamento e análise.
+              Recursos integrados para o dia a dia, veículos, planejamento, família e análise.
             </p>
           </div>
           <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
