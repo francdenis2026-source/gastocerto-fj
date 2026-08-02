@@ -182,7 +182,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {/* nao seri maiso porfssional, poder clicar em qualquer recurso epoder abrir o modal masi detalhado sobre a funcioanlidade? */}
+        {/* as telas de login e cadastros nao tem nenhum hero para combinar ao site */}
         {children}
         <Scripts />
       </body>

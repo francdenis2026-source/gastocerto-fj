@@ -159,16 +159,43 @@ function AuthPage() {
           <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
             <Logo onDark />
           </Link>
-          <div className="relative z-10 max-w-xs">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
-              Acesso à plataforma
-            </p>
-            <h2 className="font-display mt-2 text-2xl font-extrabold leading-tight tracking-[-0.02em]">
-              Suas finanças organizadas em um só sistema.
-            </h2>
-            <p className="mt-2 text-[13px] leading-relaxed text-white/75">
-              Entre com CPF e senha de 6 dígitos. Cadastro gratuito, sem cartão.
-            </p>
+          <div className="relative z-10 space-y-4">
+            <div className="flex -space-x-3 overflow-hidden">
+              {[
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+              ].map((url, i) => (
+                <img
+                  key={i}
+                  src={url}
+                  className="inline-block size-9 rounded-full border-2 border-[oklch(0.16_0.03_258)] object-cover"
+                  alt="Usuário satisfeito"
+                />
+              ))}
+              <div className="flex size-9 items-center justify-center rounded-full border-2 border-[oklch(0.16_0.03_258)] bg-emerald-500 text-[10px] font-bold">
+                +2k
+              </div>
+            </div>
+
+            <div className="max-w-xs">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
+                Acesso à plataforma
+              </p>
+              <h2 className="font-display mt-2 text-2xl font-extrabold leading-tight tracking-[-0.02em]">
+                Suas finanças organizadas em um só sistema.
+              </h2>
+              <div className="mt-3 flex items-center gap-1.5 text-emerald-400">
+                <Sparkles className="size-4" />
+                <span className="text-[11px] font-bold uppercase tracking-wider">
+                  Melhor Escolha 2026
+                </span>
+              </div>
+              <p className="mt-2 text-[13px] leading-relaxed text-white/75">
+                Entre com CPF e senha de 6 dígitos. Cadastro gratuito, sem cartão.
+              </p>
+            </div>
           </div>
           <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/45">
             &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE

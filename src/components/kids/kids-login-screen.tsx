@@ -45,11 +45,14 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
                   Entre com seu código e comece a cuidar do que é seu.
                 </p>
               </div>
-              <img
-                src={kidsHero}
-                alt="Finanças para crianças"
-                className="size-24 shrink-0 rounded-2xl border border-white/20 object-cover shadow-xl"
-              />
+              <div className="relative group">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-400 to-blue-400 opacity-30 blur transition duration-1000 group-hover:opacity-50 group-hover:duration-200" />
+                <img
+                  src={kidsHero}
+                  alt="Finanças para crianças"
+                  className="relative size-24 shrink-0 rounded-2xl border border-white/20 object-cover shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
             </div>
           </div>
 
