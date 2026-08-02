@@ -38,7 +38,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             </Link>
           </div>
 
-          <p className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+          <p className="mt-8 flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
             <Sparkles className="size-3.5" aria-hidden /> Espaço Kids
           </p>
           <h1 className="font-display mt-3 text-3xl font-extrabold leading-tight tracking-[-0.02em] sm:text-4xl xl:text-5xl">
