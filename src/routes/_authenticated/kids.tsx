@@ -538,6 +538,13 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               </label>
             </div>
           </div>
+
+          <div className="rounded-xl border border-border p-3">
+            <p className="flex items-center gap-2 text-[12px] font-bold">
+              <Tv className="size-3.5 text-primary" aria-hidden /> Dispositivos e Sessões
+            </p>
+            <SessionManager dependentId={dependent.id} />
+          </div>
         </div>
 
         <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
