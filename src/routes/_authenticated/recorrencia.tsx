@@ -325,9 +325,9 @@ function RecurringPage() {
           ) : (rules ?? []).length === 0 ? (
             <div className="p-10 text-center">
               <CalendarClock className="mx-auto size-8 text-muted-foreground" />
-              <p className="mt-3 text-sm text-muted-foreground">
-                Cadastre recargas de celular, açougue, aluguel, internet, mensalidades e assinaturas para manter seu orçamento sempre atualizado.
-              </p>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Cadastre recargas de celular, assinaturas, aluguel, internet e outros gastos fixos. O sistema identifica e classifica automaticamente seus compromissos para evitar classificações incorretas.
+                </p>
               <Button
                 className="mt-4"
                 onClick={() => {

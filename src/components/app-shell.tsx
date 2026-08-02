@@ -322,7 +322,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                   {hasChildren && !railCollapsed ? (
                     <button
                       type="button"
-                      onClick={() => setExpanded(isOpen ? "" : item.key)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setExpanded(isOpen ? "" : item.key);
+                      }}
                       aria-expanded={isOpen}
                       aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
                       className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground hover:bg-secondary"

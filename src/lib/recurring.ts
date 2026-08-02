@@ -283,10 +283,14 @@ export function useGenerateRecurring() {
             account_id: rule.account_id,
             payment_method: rule.payment_method,
             expense_type: rule.transaction_type === "expense" ? "recorrente" : null,
+            // Classificação inteligente baseada na descrição e categoria da regra
+            is_essential: rule.is_essential || 
+              rule.description.toLowerCase().includes("aluguel") || 
+              rule.description.toLowerCase().includes("energia") || 
+              rule.description.toLowerCase().includes("água"),
             transaction_date: dueDate,
             due_date: dueDate,
             is_recurring: true,
-            is_essential: rule.is_essential,
             notes: rule.notes,
             status: dueDate < todayIso ? "overdue" : "pending",
           });
