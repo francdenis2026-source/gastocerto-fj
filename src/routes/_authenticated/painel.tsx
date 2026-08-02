@@ -494,7 +494,6 @@ function DashboardPage() {
         {/* Ferramentas rápidas e Insights */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-5 shadow-sm">
-             <div className="flex items-center justify-between mb-3">
             <div className="flex items-center justify-between mb-2">
                <div className="flex items-center gap-2">
                  <div className="size-8 rounded-xl bg-orange-500/20 flex items-center justify-center">
@@ -506,6 +505,7 @@ function DashboardPage() {
                  Destaque
                </Badge>
              </div>
+
              <p className="text-[11px] text-orange-800/70 dark:text-orange-300/70 leading-relaxed mb-4">
                Acompanhe os gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> de domingo. 
              </p>
