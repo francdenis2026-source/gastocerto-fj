@@ -15,6 +15,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { useState, useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";

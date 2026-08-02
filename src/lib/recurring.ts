@@ -291,7 +291,6 @@ export function useGenerateRecurring() {
             transaction_date: dueDate,
             due_date: dueDate,
             is_recurring: true,
-            is_essential: rule.is_essential,
             notes: rule.notes,
             status: dueDate < todayIso ? "overdue" : "pending",
           });
