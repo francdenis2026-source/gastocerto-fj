@@ -857,8 +857,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     />
                   </div>
                 </div>
+              </div>
             </div>
-          </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
