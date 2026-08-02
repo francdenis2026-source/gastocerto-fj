@@ -177,9 +177,35 @@ function KidsAccessPage() {
       )}
 
       <section className="space-y-3">
-        <h2 className="flex items-center gap-2 text-sm font-bold">
-          <History className="size-4 text-primary" aria-hidden /> Histórico de acessos
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-sm font-bold">
+            <History className="size-4 text-primary" aria-hidden /> Histórico de acessos
+          </h2>
+          <Button variant="outline" size="sm" className="h-7 text-[10px] gap-1" onClick={() => {
+            const data = (audit.data ?? []).map(row => ({
+              Data: new Date(row.created_at).toLocaleString('pt-BR'),
+              Acao: KID_ACCESS_ACTION_LABELS[row.action] || row.action,
+              Dependente: row.dependent_name || '-',
+              Codigo: row.code || '-'
+            }));
+            const csv = [
+              ['Data', 'Ação', 'Dependente', 'Código'],
+              ...data.map(r => [r.Data, r.Acao, r.Dependente, r.Codigo])
+            ].map(e => e.join(",")).join("\n");
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `auditoria-kids-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}>
+            <FileDown className="size-3" />
+            Exportar CSV
+          </Button>
+        </div>
         {(audit.data ?? []).length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-6 text-center text-[13px] text-muted-foreground">
             Nenhuma alteração registrada ainda.
@@ -205,6 +231,16 @@ function KidsAccessPage() {
             ))}
           </ul>
         )}
+      </section>
+
+      <section className="rounded-2xl border border-orange-500/20 bg-orange-500/5 p-4 text-[12px]">
+        <p className="flex items-center gap-2 font-bold text-orange-600 dark:text-orange-400">
+          <Tv className="size-4" aria-hidden /> Controle de Fim de Semana
+        </p>
+        <p className="mt-1 text-muted-foreground">
+          Novidade: Agora você pode acompanhar gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> na categoria "Churrasco & Fim de Semana".
+          Perfeito para monitorar aquele almoço especial de domingo!
+        </p>
       </section>
     </div>
   );
