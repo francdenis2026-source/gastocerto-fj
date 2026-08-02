@@ -133,7 +133,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           {!hideActions && (
             <>
               <Button className="hidden shadow-soft lg:inline-flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Criar conta gratuita</Link>
+                <Link to="/auth" search={{ mode: "signup" }}>Começar grátis</Link>
               </Button>
               <Button
                 variant="outline"

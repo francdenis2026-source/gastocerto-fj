@@ -688,6 +688,23 @@ function KidEntryDialog({
         tags: [dependentTag(dependentId), reasonTag(selected.value)],
       } as never);
       if (error) throw error;
+      
+      // 3. Sincronizar com o painel do pai (registrar despesa automática)
+      try {
+        await syncTx({
+          data: {
+            dependentId,
+            amount: value,
+            description: description.trim() || selected.label,
+            transactionDate: isoDate,
+            type: selected.type
+          }
+        });
+      } catch (syncErr) {
+        console.warn("[kids-sync] Falha na sincronização silenciosa", syncErr);
+        // Não travamos o fluxo da criança se a sincronização falhar, 
+        // mas o log acima ajuda no debug.
+      }
     },
     onMutate: async () => {
       // Pedir confirmação com diálogo profissional antes de salvar

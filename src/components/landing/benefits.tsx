@@ -27,7 +27,7 @@ type Benefit = {
 const benefits: Benefit[] = [
   {
     icon: Gauge,
-    title: "Visão do mês em um toque",
+    title: "Visão mensal em um toque",
     text: "Receitas, despesas, sobra e pendências consolidados assim que você abre o app.",
     metric: "10 s",
     metricLabel: "para lançar",
@@ -93,7 +93,7 @@ export function Benefits() {
             Benefícios e diferenciais
           </p>
           <h2 id="beneficios-titulo" className="mt-1.5 section-title">
-            Por que o GastoCerto organiza melhor o seu dinheiro
+            Por que o GastoCerto facilita o controle do seu dinheiro
           </h2>
           <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
             Seis diferenciais que separam um controle improvisado de uma gestão financeira
@@ -146,7 +146,7 @@ export function Benefits() {
 
         <Reveal className="mt-3.5 hidden gap-2 rounded-2xl border border-brand/25 bg-brand/8 p-3.5 sm:mt-4 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-4">
           <p className="text-[13px] font-medium leading-relaxed sm:text-sm">
-            Comece pelo plano Gratuito e evolua quando precisar de relatórios avançados, múltiplos
+            Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
             veículos e consultor com inteligência artificial.
           </p>
           <div className="grid gap-2 sm:flex sm:items-center">

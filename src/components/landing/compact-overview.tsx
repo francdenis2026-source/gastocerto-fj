@@ -275,7 +275,7 @@ export function CompactOverview() {
               Recursos da plataforma
             </p>
             <h2 className="mt-1 section-title">
-              Um sistema para todo o seu controle financeiro
+              Um sistema completo para o seu controle financeiro
             </h2>
             <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
               Recursos integrados para o dia a dia, veículos, planejamento, família e análise.

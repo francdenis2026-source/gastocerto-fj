@@ -86,7 +86,7 @@ export function Hero() {
           </span>
 
           <h1 className="font-display mt-3 text-[2.15rem] font-extrabold leading-[1.03] tracking-[-0.032em] text-white [text-wrap:balance] sm:text-[2.7rem] lg:text-[3.15rem]">
-            Todo o seu dinheiro
+            Controle financeiro
             <br className="hidden sm:block" />{" "}
             <span className="text-[oklch(0.88_0.11_165)]">em um só painel.</span>
           </h1>
