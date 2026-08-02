@@ -880,9 +880,11 @@ export type Database = {
       dependents: {
         Row: {
           active: boolean
+          avatar_url: string | null
           birth_date: string | null
           color: string | null
           created_at: string
+          gender: string | null
           id: string
           kid_code_expires_at: string | null
           kid_last_login_at: string | null
@@ -905,9 +907,11 @@ export type Database = {
         }
         Insert: {
           active?: boolean
+          avatar_url?: string | null
           birth_date?: string | null
           color?: string | null
           created_at?: string
+          gender?: string | null
           id?: string
           kid_code_expires_at?: string | null
           kid_last_login_at?: string | null
@@ -930,9 +934,11 @@ export type Database = {
         }
         Update: {
           active?: boolean
+          avatar_url?: string | null
           birth_date?: string | null
           color?: string | null
           created_at?: string
+          gender?: string | null
           id?: string
           kid_code_expires_at?: string | null
           kid_last_login_at?: string | null
@@ -1464,6 +1470,54 @@ export type Database = {
           },
         ]
       }
+      ledger_entries: {
+        Row: {
+          amount: number
+          created_at: string | null
+          dependent_id: string | null
+          description: string | null
+          id: string
+          pix_transaction_id: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          dependent_id?: string | null
+          description?: string | null
+          id?: string
+          pix_transaction_id?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          dependent_id?: string | null
+          description?: string | null
+          id?: string
+          pix_transaction_id?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_entries_dependent_id_fkey"
+            columns: ["dependent_id"]
+            isOneToOne: false
+            referencedRelation: "dependents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_pix_transaction_id_fkey"
+            columns: ["pix_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "pix_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       licenses: {
         Row: {
           activated_at: string | null
@@ -1851,6 +1905,86 @@ export type Database = {
             columns: ["license_id"]
             isOneToOne: false
             referencedRelation: "licenses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pix_audit_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pix_transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          description: string | null
+          external_recipient_key: string | null
+          external_recipient_name: string | null
+          id: string
+          mercadopago_payment_id: string | null
+          pix_copy_paste: string | null
+          pix_qr_code: string | null
+          recipient_id: string | null
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          description?: string | null
+          external_recipient_key?: string | null
+          external_recipient_name?: string | null
+          id?: string
+          mercadopago_payment_id?: string | null
+          pix_copy_paste?: string | null
+          pix_qr_code?: string | null
+          recipient_id?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          description?: string | null
+          external_recipient_key?: string | null
+          external_recipient_name?: string | null
+          id?: string
+          mercadopago_payment_id?: string | null
+          pix_copy_paste?: string | null
+          pix_qr_code?: string | null
+          recipient_id?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pix_transactions_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "dependents"
             referencedColumns: ["id"]
           },
         ]
