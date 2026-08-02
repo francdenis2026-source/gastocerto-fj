@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
-import { useServerFn, useHydrated } from "@tanstack/react-start";
+import { useServerFn } from "@tanstack/react-start";
 import QRCode from "qrcode";
 import {
   Baby,
@@ -62,6 +62,7 @@ import {
   blockKidSession,
   updateKidsSecuritySettings,
   updateKidUpgradeConfig,
+  updateKidNotificationPrefs,
 } from "@/lib/kids-account.functions";
 import {
   createExternalCode,
@@ -70,7 +71,7 @@ import {
   updateExternalCodeExpiry,
   getExternalAccessLogs,
 } from "@/lib/external-access.functions";
-import { useQuery } from "@tanstack/react-query";
+
 import {
   Dialog,
   DialogContent,
@@ -372,7 +373,8 @@ function KidsAccessPage() {
 
 
 function NotificationPreferences({ userId }: { userId: string }) {
-  const isHydrated = useHydrated();
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
   const updatePrefs = useServerFn(updateKidNotificationPrefs);
   const { data: profile } = useProfile();
   
@@ -397,7 +399,7 @@ function NotificationPreferences({ userId }: { userId: string }) {
     }
   }
 
-  if (!isHydrated) return null;
+  if (!hydrated) return null;
 
   return (
     <Card className="border-border/40 shadow-sm">
