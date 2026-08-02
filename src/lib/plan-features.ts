@@ -57,6 +57,8 @@ export const ALL_FEATURES: FeatureKey[] = [
   "notifications",
   "ai_advisor",
   "unlimited_transactions",
+  "debt_advisor",
+  "credit_cards",
 ];
 
 export const FEATURE_LABEL: Record<FeatureKey, string> = {
