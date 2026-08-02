@@ -10,12 +10,15 @@ import {
   Baby,
   ChevronRight,
   PlayCircle,
-  Lightbulb
+  Lightbulb,
+  Search,
+  CheckCircle2
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Accordion,
   AccordionContent,
@@ -98,6 +101,17 @@ const HELP_SECTIONS = [
 
 function HelpPage() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filteredSections = useMemo(() => {
+    if (!search.trim()) return HELP_SECTIONS;
+    const term = search.toLowerCase();
+    return HELP_SECTIONS.filter(s => 
+      s.title.toLowerCase().includes(term) || 
+      s.content.toLowerCase().includes(term) ||
+      s.steps.some(step => step.toLowerCase().includes(term))
+    );
+  }, [search]);
 
   return (
     <AppShell>
@@ -112,6 +126,16 @@ function HelpPage() {
           </p>
         </header>
 
+        <div className="relative max-w-md mx-auto">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input 
+            placeholder="O que você precisa fazer? (ex: pagar dívidas)" 
+            className="pl-10 h-11 rounded-xl"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
         <section className="grid gap-6 sm:grid-cols-2">
           <article className="rounded-2xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center gap-3">
@@ -124,7 +148,7 @@ function HelpPage() {
               Explicações passo a passo das ferramentas mais importantes do sistema.
             </p>
             <Accordion type="single" collapsible className="w-full">
-              {HELP_SECTIONS.map((section) => (
+              {filteredSections.map((section) => (
                 <AccordionItem key={section.id} value={section.id} className="border-border/50">
                   <AccordionTrigger className="text-sm hover:no-underline py-3">
                     <div className="flex items-center gap-3">

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Loader2, Settings2, Upload, User } from "lucide-react";
+import { History, Loader2, Settings2, Upload, User } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -11,6 +11,8 @@ import { LicenseCard } from "@/components/finance/license-card";
 import { LicenseDetailPanel } from "@/components/finance/license-detail-panel";
 import { TrialCard } from "@/components/finance/trial-card";
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
+import { SidebarConfig } from "@/components/settings/sidebar-config";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -225,12 +227,29 @@ function ProfilePage() {
           </aside>
 
           {/* Coluna direita: dados, plano e licenças */}
-          <div className="min-w-0 space-y-3 sm:space-y-4">
-            <form
-              onSubmit={handleSubmit}
-              className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5"
-              noValidate
-            >
+          <div className="min-w-0">
+            <Tabs defaultValue="profile" className="w-full space-y-4">
+              <TabsList className="bg-card border border-border rounded-xl p-1 h-11 w-full justify-start overflow-x-auto no-scrollbar">
+                <TabsTrigger value="profile" className="rounded-lg text-xs gap-2">
+                  <User className="size-3.5" />
+                  Perfil
+                </TabsTrigger>
+                <TabsTrigger value="settings" className="rounded-lg text-xs gap-2">
+                  <Settings2 className="size-3.5" />
+                  Configurações
+                </TabsTrigger>
+                <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
+                  <History className="size-3.5" />
+                  Histórico
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="profile" className="space-y-4 mt-0">
+                <form
+                  onSubmit={handleSubmit}
+                  className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5"
+                  noValidate
+                >
               <div className="mb-3 border-b border-border/40 pb-2.5">
                 <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
                   Informações pessoais
@@ -314,15 +333,25 @@ function ProfilePage() {
                   Salvar perfil
                 </Button>
               </div>
-            </form>
+                </form>
 
-            <LicenseDetailPanel />
-            <LicenseCard />
-            
-            <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-              <ProfileAuditPanel />
-              <RedemptionHistoryPanel />
-            </div>
+                <LicenseDetailPanel />
+                <LicenseCard />
+              </TabsContent>
+
+              <TabsContent value="settings" className="mt-0">
+                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5">
+                  <SidebarConfig />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="audit" className="mt-0 space-y-4">
+                <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+                  <ProfileAuditPanel />
+                  <RedemptionHistoryPanel />
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>

@@ -34,6 +34,7 @@ import { Route as AuthenticatedLancamentosRouteImport } from './routes/_authenti
 import { Route as AuthenticatedMetasRouteImport } from './routes/_authenticated/metas'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOrcamentosRouteImport } from './routes/_authenticated/orcamentos'
+import { Route as AuthenticatedPagarDividasRouteImport } from './routes/_authenticated/pagar-dividas'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedReceitasRouteImport } from './routes/_authenticated/receitas'
@@ -177,6 +178,12 @@ const AuthenticatedOrcamentosRoute = AuthenticatedOrcamentosRouteImport.update({
   path: '/orcamentos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPagarDividasRoute =
+  AuthenticatedPagarDividasRouteImport.update({
+    id: '/pagar-dividas',
+    path: '/pagar-dividas',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -273,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/metas': typeof AuthenticatedMetasRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/orcamentos': typeof AuthenticatedOrcamentosRoute
+  '/pagar-dividas': typeof AuthenticatedPagarDividasRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/receitas': typeof AuthenticatedReceitasRoute
@@ -312,6 +320,7 @@ export interface FileRoutesByTo {
   '/metas': typeof AuthenticatedMetasRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/orcamentos': typeof AuthenticatedOrcamentosRoute
+  '/pagar-dividas': typeof AuthenticatedPagarDividasRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/receitas': typeof AuthenticatedReceitasRoute
@@ -353,6 +362,7 @@ export interface FileRoutesById {
   '/_authenticated/metas': typeof AuthenticatedMetasRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/orcamentos': typeof AuthenticatedOrcamentosRoute
+  '/_authenticated/pagar-dividas': typeof AuthenticatedPagarDividasRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/receitas': typeof AuthenticatedReceitasRoute
@@ -394,6 +404,7 @@ export interface FileRouteTypes {
     | '/metas'
     | '/onboarding'
     | '/orcamentos'
+    | '/pagar-dividas'
     | '/painel'
     | '/perfil'
     | '/receitas'
@@ -433,6 +444,7 @@ export interface FileRouteTypes {
     | '/metas'
     | '/onboarding'
     | '/orcamentos'
+    | '/pagar-dividas'
     | '/painel'
     | '/perfil'
     | '/receitas'
@@ -473,6 +485,7 @@ export interface FileRouteTypes {
     | '/_authenticated/metas'
     | '/_authenticated/onboarding'
     | '/_authenticated/orcamentos'
+    | '/_authenticated/pagar-dividas'
     | '/_authenticated/painel'
     | '/_authenticated/perfil'
     | '/_authenticated/receitas'
@@ -678,6 +691,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOrcamentosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pagar-dividas': {
+      id: '/_authenticated/pagar-dividas'
+      path: '/pagar-dividas'
+      fullPath: '/pagar-dividas'
+      preLoaderRoute: typeof AuthenticatedPagarDividasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/painel': {
       id: '/_authenticated/painel'
       path: '/painel'
@@ -791,6 +811,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMetasRoute: typeof AuthenticatedMetasRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedOrcamentosRoute: typeof AuthenticatedOrcamentosRoute
+  AuthenticatedPagarDividasRoute: typeof AuthenticatedPagarDividasRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedReceitasRoute: typeof AuthenticatedReceitasRoute
@@ -822,6 +843,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMetasRoute: AuthenticatedMetasRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedOrcamentosRoute: AuthenticatedOrcamentosRoute,
+  AuthenticatedPagarDividasRoute: AuthenticatedPagarDividasRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedReceitasRoute: AuthenticatedReceitasRoute,
