@@ -38,7 +38,7 @@ import {
 } from "@/lib/validation";
 
 const searchSchema = z.object({
-  mode: z.enum(["login", "signup"]).optional(),
+  mode: z.enum(["login", "signup", "forgot", "admin", "kid", "external"]).optional(),
   kid: z.string().optional(),
   external: z.string().optional(),
 });
