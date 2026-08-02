@@ -801,7 +801,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       <div className="p-3 sm:p-4">
         <div className="grid gap-4 lg:grid-cols-[1fr_220px]">
           <div className="space-y-4">
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-xl border border-border/60 bg-primary/5 p-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 rounded-xl border border-border/60 bg-primary/5 p-3">
               <div className="space-y-1.5">
                 <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Identidade Visual</Label>
                 <div className="flex items-center gap-2">
@@ -856,8 +856,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                       ref={fileInputRef}
                     />
                   </div>
-                </div>
-              </div>
                 </div>
               </div>
             </div>
