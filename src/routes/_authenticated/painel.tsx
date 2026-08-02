@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   AlertTriangle,
