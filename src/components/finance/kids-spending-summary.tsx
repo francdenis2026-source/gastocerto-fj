@@ -43,6 +43,13 @@ const PERIOD_LABELS: Record<PeriodKey, string> = {
   all: "Todo o período",
 };
 
+const TYPE_LABELS: Record<"all" | "expense" | "income", string> = {
+  all: "Gastos e entradas",
+  expense: "Somente gastos",
+  income: "Somente entradas",
+};
+
+
 /**
  * Resumo de gastos e movimentações por criança, com filtros e atualização
  * em tempo real, exibido no painel Meu Perfil.
