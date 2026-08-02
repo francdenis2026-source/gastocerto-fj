@@ -6,6 +6,8 @@ import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog, useConfirm } from "@/components/ui/confirm-dialog";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -42,6 +44,8 @@ export function TrialLicensesPanel() {
   const listLicenses = useServerFn(adminListLicenses);
   const queryClient = useQueryClient();
   const deleteLicense = useServerFn(adminDeleteLicense);
+  const { confirm } = useConfirm();
+
 
   const [quantity, setQuantity] = useState("5");
   const [trialDays, setTrialDays] = useState("15");
@@ -265,11 +269,17 @@ export function TrialLicensesPanel() {
                         size="icon"
                         className="size-8 text-muted-foreground hover:text-destructive"
                         disabled={deleteMutation.isPending}
-                        onClick={() => {
-                          if (confirm("Tem certeza que deseja excluir esta licença?")) {
+                        onClick={async () => {
+                          const ok = await confirm({
+                            title: "Excluir Licença",
+                            message: "Tem certeza que deseja excluir esta licença? Esta ação não pode ser desfeita.",
+                            type: "warning"
+                          });
+                          if (ok) {
                             deleteMutation.mutate(row.id);
                           }
                         }}
+
                       >
                         <Trash2 className="size-4" />
                       </Button>
@@ -281,6 +291,8 @@ export function TrialLicensesPanel() {
           </TableBody>
         </Table>
       </div>
+      <ConfirmDialog />
     </section>
+
   );
 }
