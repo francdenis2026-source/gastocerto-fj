@@ -452,9 +452,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 className="mt-1 w-24"
               />
             </div>
-            <Button type="button" size="sm" disabled={busy} onClick={() => persist(code, "updated")}>
+            <Button type="button" size="sm" disabled={busy} onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}>
               <KeyRound className="mr-1.5 size-3.5" />
-              {dependent.kid_login_code ? "Atualizar acesso" : "Liberar acesso"}
+              {dependent.kid_login_code ? "Salvar PIN personalizado" : "Liberar acesso"}
             </Button>
             {dependent.kid_login_code ? (
               <>
