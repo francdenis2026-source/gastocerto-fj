@@ -168,8 +168,8 @@ function KidsAccessPage() {
               {describeKidCodeExpiry(summary.nextExpiry).label}
             </p>
             {describeKidCodeExpiry(summary.nextExpiry).nearExpiry && (
-              <Badge variant="outline" className="bg-orange-50 text-orange-600 border-orange-200 animate-pulse text-[9px] py-0 h-4">
-                REEMITIR QR
+              <Badge variant="outline" className="bg-orange-50 text-orange-600 border-orange-200 animate-pulse text-[9px] py-0 h-4 flex items-center gap-1">
+                <AlertCircle className="size-2" /> REEMITIR QR
               </Badge>
             )}
           </div>

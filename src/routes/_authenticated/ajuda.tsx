@@ -15,7 +15,8 @@ import {
   CheckCircle2,
   CreditCard as CardIcon
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 import { AppShell } from "@/components/app-shell";
@@ -141,6 +142,20 @@ function HelpPage() {
       s.steps.some(step => step.toLowerCase().includes(term))
     );
   }, [search]);
+
+  useEffect(() => {
+    const tourShown = localStorage.getItem("help_tour_v1");
+    if (!tourShown) {
+      toast("Bem-vindo à Central de Ajuda!", {
+        description: "Explore os guias à esquerda para aprender sobre Kids QR, Cartões e o Consultor de Dívidas.",
+        duration: 8000,
+        action: {
+          label: "Entendido",
+          onClick: () => localStorage.setItem("help_tour_v1", "true")
+        }
+      });
+    }
+  }, []);
 
   return (
     <AppShell>
