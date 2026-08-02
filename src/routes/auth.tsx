@@ -175,7 +175,7 @@ function AuthPage() {
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid h-full max-h-[92dvh] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[460px] lg:grid-cols-[1.1fr_minmax(0,19rem)]">
+      <div className="grid h-full max-h-[85dvh] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[420px] lg:grid-cols-[1.1fr_minmax(0,19rem)]">
         {/* Painel lateral dinâmico (Hero) */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           {/* Imagem Hero específica para cada modo */}
@@ -290,7 +290,7 @@ function AuthPage() {
               <Tabs
                 value={mode}
                 onValueChange={(value) => setMode(value as Mode)}
-                className="relative flex flex-col min-h-[380px]"
+                className="relative flex flex-col min-h-[340px]"
               >
                 <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
                   <TabsTrigger
