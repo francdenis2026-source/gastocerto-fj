@@ -459,33 +459,45 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 className="mt-1 w-24"
               />
             </div>
-            <Button type="button" size="sm" disabled={busy} onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}>
-              <KeyRound className="mr-1.5 size-3.5" />
-              {dependent.kid_login_code ? "Salvar PIN personalizado" : "Liberar acesso"}
-            </Button>
-            {dependent.kid_login_code ? (
-              <>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  disabled={busy}
-                  onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
-                >
-                  <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar código
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="ghost"
-                  className="text-destructive"
-                  disabled={busy}
-                  onClick={handleRevoke}
-                >
-                  <Trash2 className="mr-1.5 size-3.5" /> Revogar
-                </Button>
-              </>
-            ) : null}
+            <div className="flex flex-wrap items-center gap-2">
+              <Button 
+                type="button" 
+                size="sm" 
+                className="bg-emerald-600 hover:bg-emerald-700 shadow-sm"
+                disabled={busy} 
+                onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}
+              >
+                <ShieldCheck className="mr-1.5 size-3.5" />
+                {dependent.kid_login_code ? "Salvar alterações" : "Salvar e Liberar acesso"}
+              </Button>
+              {dependent.kid_login_code ? (
+                <>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    disabled={busy}
+                    onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
+                  >
+                    <RefreshCw className="mr-1.5 size-3.5" /> Rotacionar código
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="text-destructive hover:bg-destructive/10"
+                    disabled={busy}
+                    onClick={() => {
+                      if (confirm(`Tem certeza que deseja bloquear e excluir o acesso de ${dependent.name}? Isso removerá o código e senha atuais.`)) {
+                        handleRevoke();
+                      }
+                    }}
+                  >
+                    <Trash2 className="mr-1.5 size-3.5" /> Bloquear e Excluir
+                  </Button>
+                </>
+              ) : null}
+            </div>
           </div>
 
           <div className="rounded-xl border border-border p-3">
