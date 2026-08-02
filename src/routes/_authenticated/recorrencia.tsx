@@ -63,15 +63,15 @@ import {
 export const Route = createFileRoute("/_authenticated/recorrencia")({
   head: () => ({
     meta: [
-      { title: "Contas recorrentes — GastoCerto" },
+      { title: "Recargas e Assinaturas — GastoCerto" },
       {
         name: "description",
-        content: "Cadastre contas fixas e gere automaticamente os próximos vencimentos.",
+        content: "Gerencie recargas de celular, açougue, assinaturas, mensalidades e outras contas fixas.",
       },
-      { property: "og:title", content: "Contas recorrentes — GastoCerto" },
+      { property: "og:title", content: "Recargas e Assinaturas — GastoCerto" },
       {
         property: "og:description",
-        content: "Cadastre contas fixas e gere automaticamente os próximos vencimentos.",
+        content: "Controle recargas, açougue e contas fixas com geração automática de vencimentos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -215,7 +215,7 @@ function RecurringPage() {
       <div className="space-y-4">
         <header className="flex flex-wrap items-center justify-between gap-3">
           <div className="min-w-0">
-            <h1 className="page-title">Contas recorrentes</h1>
+            <h1 className="page-title">Recargas e Assinaturas</h1>
             <p className="page-subtitle mt-1">
               {formatCurrency(pendingTotal)} em vencimentos ainda não pagos.
             </p>
@@ -326,8 +326,7 @@ function RecurringPage() {
             <div className="p-10 text-center">
               <CalendarClock className="mx-auto size-8 text-muted-foreground" />
               <p className="mt-3 text-sm text-muted-foreground">
-                Cadastre aluguel, internet, mensalidades e assinaturas para nunca mais esquecer um
-                vencimento.
+                Cadastre recargas de celular, açougue, aluguel, internet, mensalidades e assinaturas para manter seu orçamento sempre atualizado.
               </p>
               <Button
                 className="mt-4"

@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDownRight, ArrowUpRight, CalendarDays, Clock, Plus, Search } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { AlertTriangle, ArrowDownRight, ArrowUpRight, CalendarDays, Clock, Plus, Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
@@ -160,6 +161,9 @@ function DailyPage() {
   return (
     <AppShell>
       <div className="space-y-4">
+        {/* Aviso de Dívidas em Atraso */}
+        <DebtOverdueNotice />
+
         <header className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="page-title">Gastos em detalhes</h1>
@@ -412,3 +416,36 @@ function DailyPage() {
 
   );
 }
+
+function DebtOverdueNotice() {
+  const { data: commitments } = useCommitments();
+  const { data: entries } = useCommitmentEntries();
+  
+  const summaries = useMemo(() => summarizeAll(commitments ?? [], entries ?? []), [commitments, entries]);
+  const overdueItems = summaries.filter((s: any) => s.overdue && s.commitment.status === 'open');
+  
+  if (overdueItems.length === 0) return null;
+  
+  const totalOverdue = overdueItems.reduce((sum: number, s: any) => sum + s.outstanding, 0);
+
+  return (
+    <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-4 mb-4">
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 size-8 shrink-0 rounded-full bg-destructive/20 flex items-center justify-center">
+          <AlertTriangle className="size-5 text-destructive" />
+        </div>
+        <div className="flex-1 space-y-1">
+          <h3 className="text-sm font-bold text-destructive flex items-center gap-2">
+            Atenção: Você possui {overdueItems.length} {overdueItems.length === 1 ? 'dívida' : 'dívidas'} em atraso
+          </h3>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            O valor total pendente é de <span className="font-bold text-destructive">{formatCurrency(totalOverdue)}</span>. 
+            Para que estes lançamentos deixem de aparecer como atrasados, você deve registrar o pagamento parcial ou total no menu 
+            <Link to="/compromissos" className="mx-1 font-semibold underline text-destructive hover:opacity-80">Compromissos</Link>.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
