@@ -32,7 +32,7 @@ const modules = [
   { label: "Gás", icon: Flame },
   { label: "Cartões", icon: CreditCard },
   { label: "Espaço Kids", icon: Baby },
-  { label: "PIX", icon: Send },
+  { label: "PIX Kids", icon: Send },
   { label: "Consultor IA", icon: Sparkles },
 ] as const;
 
@@ -112,7 +112,7 @@ export function Hero() {
                 className="h-12 w-full justify-center border-white/25 bg-white/[0.08] px-5 text-sm text-white hover:bg-white/[0.16] hover:text-white sm:h-11 sm:w-auto sm:px-6"
               >
                 <KeyRound className="size-4 shrink-0" aria-hidden="true" />
-                <span className="truncate">Tenho um código</span>
+                <span className="truncate">Código de acesso</span>
               </Button>
             </CodeAccessDialog>
           </div>

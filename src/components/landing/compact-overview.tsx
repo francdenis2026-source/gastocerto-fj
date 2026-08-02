@@ -288,7 +288,7 @@ export function CompactOverview() {
                 className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Ver painel ao vivo
+                Ver demonstração
               </button>
             </DemoDialog>
             {shortcuts.map((item) => (

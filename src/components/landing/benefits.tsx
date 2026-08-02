@@ -35,7 +35,7 @@ const benefits: Benefit[] = [
   },
   {
     icon: Fuel,
-    title: "Custo real do seu veículo",
+    title: "Custo real do veículo",
     text: "Abastecimentos, consumo médio, custo por km e alertas de desvio por veículo.",
     metric: "R$/km",
     metricLabel: "calculado",
@@ -43,7 +43,7 @@ const benefits: Benefit[] = [
   },
   {
     icon: PiggyBank,
-    title: "Orçamento que avisa antes",
+    title: "Orçamentos inteligentes",
     text: "Limite por categoria com barra de consumo e aviso antes de estourar o mês.",
     metric: "80%",
     metricLabel: "alerta do limite",

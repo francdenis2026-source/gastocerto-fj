@@ -188,7 +188,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               <CodeAccessDialog>
                 <Button variant="ghost" className="w-full justify-center">
                   <KeyRound className="size-4" aria-hidden />
-                  Tenho um código
+                  Código de acesso
                 </Button>
               </CodeAccessDialog>
             </div>
