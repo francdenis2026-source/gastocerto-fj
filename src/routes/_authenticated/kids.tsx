@@ -680,6 +680,38 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR atualizado
               </Button>
 
+                  variant="secondary"
+                  className="w-full text-[10px] h-8 px-1"
+                  onClick={() => void copyLoginUrl()}
+                >
+                  <Copy className="mr-1 size-3" /> Link
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  className="w-full text-[10px] h-8 px-1"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = qr;
+                    link.download = `qr-acesso-${dependent.name.toLowerCase().replace(/\s+/g, '-')}.png`;
+                    link.click();
+                  }}
+                >
+                  <Download className="mr-1 size-3" /> PNG
+                </Button>
+              </div>
+
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="mt-2 w-full text-[11px]"
+                onClick={reloadQr}
+              >
+                <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR atualizado
+              </Button>
+
               <Button
                 type="button"
                 size="sm"
