@@ -137,7 +137,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   },
   {
     group: "Família e Kids",
-    caption: "Mesada, PIX e educação financeira",
+    caption: "Gestão e educação financeira",
     items: [
       {
         icon: Baby,
@@ -147,7 +147,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
       },
       {
         icon: Send,
-        title: "PIX para os filhos",
+        title: "PIX",
         text: "Envie dinheiro por PIX, com histórico, comprovante e aviso na hora.",
         tag: "PIX",
       },
@@ -212,7 +212,7 @@ const steps = [
 
 const proofs = [
   { name: "Mariana Silva", role: "Gestora · Rio Branco", text: "Achei R$ 380 por mês em assinaturas que eu nem lembrava que existiam." },
-  { name: "Rafael Lima", role: "Motorista de app · Feijó", text: "Descobri que rodava por R$ 0,52 o km. Reajustei minha meta no mesmo dia." },
+  { name: "Rafael Lima", role: "Motorista · Feijó", text: "Descobri que rodava por R$ 0,52 o km. Reajustei minha meta no mesmo dia." },
   { name: "Juliana Costa", role: "Professora · Cruzeiro do Sul", text: "Zerei juros de atraso: o app avisa três dias antes de cada conta." },
 ];
 

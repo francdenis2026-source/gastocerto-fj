@@ -82,13 +82,13 @@ export function Hero() {
         <div className="min-w-0">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white sm:text-[12.5px]">
             <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-            Controle hoje, tranquilidade sempre
+            Controle financeiro e tranquilidade sempre
           </span>
 
           <h1 className="font-display mt-3 text-[2.15rem] font-extrabold leading-[1.03] tracking-[-0.032em] text-white [text-wrap:balance] sm:text-[2.7rem] lg:text-[3.15rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="text-[oklch(0.88_0.11_165)]">em um só painel.</span>
+            <span className="text-[oklch(0.88_0.11_165)]">organizado e simples.</span>
           </h1>
 
           <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-white/90 sm:text-base">
