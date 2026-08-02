@@ -578,12 +578,81 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
 }
 
 function AdminSignInForm({ onBack }: { onBack: () => void }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = String(formData.get("email") || "");
+    const password = String(formData.get("password") || "");
+
+    if (!email || !password) {
+      setError("Informe e-mail e senha.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (signInError) {
+      setError(friendlyAuthError(signInError.message));
+      setLoading(false);
+      return;
+    }
+
+    navigate({ to: await resolveHomeRouteForSession(), replace: true });
+  }
+
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
-      <p className="text-sm text-muted-foreground">Use suas credenciais de administrador.</p>
-      <Button onClick={onBack} variant="outline" className="w-full">Voltar</Button>
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="text-center">
+        <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
+        <p className="text-[12px] text-muted-foreground">Área restrita para gestores do sistema.</p>
+      </div>
+      
+      <FormAlert message={error} />
+
+      <div className="space-y-3">
+        <div>
+          <Label htmlFor="admin-email">E-mail</Label>
+          <Input 
+            id="admin-email" 
+            name="email" 
+            type="email" 
+            placeholder="admin@exemplo.com"
+            required
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <Label htmlFor="admin-password">Senha</Label>
+          <Input 
+            id="admin-password" 
+            name="password" 
+            type="password"
+            placeholder="••••••••"
+            required
+            className="mt-1"
+          />
+        </div>
+      </div>
+
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+        Entrar como Admin
+      </Button>
+
+      <Button type="button" onClick={onBack} variant="ghost" className="w-full text-xs">
+        Voltar para login comum
+      </Button>
+    </form>
   );
 }
 
