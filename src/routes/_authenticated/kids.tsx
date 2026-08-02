@@ -125,6 +125,22 @@ export const Route = createFileRoute("/_authenticated/kids")({
 function KidsAccessPage() {
   const dependents = useDependents();
   const audit = useKidAccessAudit(60);
+  
+  const pixHistory = useQuery({
+    queryKey: ["pix_history"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("pix_transactions")
+        .select(`
+          *,
+          recipient:recipient_id (name, nickname)
+        `)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    }
+  });
+
   const [search, setSearch] = useState("");
   const kids = (dependents.data ?? []).filter((item) => item.active !== false);
   const filteredKids = kids.filter((kid) => {

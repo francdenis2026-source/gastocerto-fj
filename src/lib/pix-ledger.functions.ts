@@ -46,8 +46,11 @@ export const createPixCharge = createServerFn({ method: "POST" })
     externalName: z.string().optional()
   }).parse(data))
   .handler(async ({ data, context }) => {
-    // Aqui seria a integração real com Mercado Pago via Server
-    // Por enquanto, simulamos a criação e registramos no banco
+    // Simulação de chamada ao Mercado Pago
+    // Em produção, usaríamos fetch('https://api.mercadopago.com/v1/payments', ...)
+    const mpPaymentId = `mp-${Math.random().toString(36).substr(2, 9)}`;
+    const mockQrCode = "00020126580014BR.GOV.BCB.PIX0136mock-key-123-456-789-000520400005303986540510.005802BR5913GASTOCERTO-FJ6005FEIJO62070503***6304E2B4";
+
     const { data: tx, error } = await context.supabase
       .from("pix_transactions")
       .insert({
@@ -58,7 +61,9 @@ export const createPixCharge = createServerFn({ method: "POST" })
         external_recipient_key: data.externalKey || null,
         external_recipient_name: data.externalName || null,
         status: 'pending',
-        pix_copy_paste: "00020126580014BR.GOV.BCB.PIX0136mock-key-123-456-789-000520400005303986540510.005802BR5913GASTOCERTO-FJ6005FEIJO62070503***6304E2B4",
+        mercadopago_payment_id: mpPaymentId,
+        pix_copy_paste: mockQrCode,
+        pix_qr_code_base64: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==" // Mock transparent pixel
       })
       .select()
       .single();

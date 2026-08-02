@@ -58,12 +58,12 @@ export const Route = createFileRoute('/api/public/mercadopago-pix')({
 
               // 4. Se houver um destinatário (criança), podemos disparar um alerta
               if (pix.recipient_id) {
-                await supabase.from("kids_access_audit").insert({
+                await supabase.from("kids_access_audit" as any).insert({
                   user_id: pix.user_id,
                   dependent_id: pix.recipient_id,
-                  action: 'access_granted', // Reutilizando para sinalizar "crédito recebido"
+                  action: 'access_granted',
                   details: { amount: pix.amount, type: 'pix_credit' }
-                })
+                } as any)
               }
               
               console.log(`[Webhook MP] Pagamento ${paymentId} processado com sucesso.`)
