@@ -1140,8 +1140,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
         <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center self-start">
 
 
-          <p className="flex items-center justify-center gap-1.5 text-[12px] font-bold">
-            <QrCode className="size-3.5 text-primary" aria-hidden /> QR de entrada
+          <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            <QrCode className="size-3 text-primary" aria-hidden /> Entrada
           </p>
           {qr ? (
             <>
