@@ -205,6 +205,7 @@ function ProfilePage() {
                   disabled={uploading}
                   className="absolute -bottom-1 -right-1 flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md transition-transform hover:scale-110 active:scale-95 disabled:opacity-50"
                   title="Alterar foto"
+                  aria-label="Alterar foto de perfil"
                 >
                   {uploading ? (
                     <Loader2 className="size-3.5 animate-spin" />
@@ -245,7 +246,7 @@ function ProfilePage() {
           </aside>
 
           {/* Coluna direita: dados, plano e licenças */}
-          <div className="min-w-0">
+          <div className="min-w-0" id="perfil-conteudo">
             <nav aria-label="Atalhos do painel do cliente" className="mb-3">
               <ul className="flex flex-wrap gap-2">
                 {SHORTCUTS.map((shortcut) => (
