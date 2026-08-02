@@ -659,7 +659,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       </header>
       <div className="p-4 sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
-        <div className="space-y-4">
+          <div className="space-y-4">
+
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
               <Label htmlFor={`code-${dependent.id}`} className="text-[12px]">
