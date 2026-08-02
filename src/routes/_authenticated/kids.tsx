@@ -799,3 +799,271 @@ function SessionManager({ dependentId }: { dependentId: string }) {
     </div>
   );
 }
+
+function ExternalCodeCreator() {
+  const queryClient = useQueryClient();
+  const create = useServerFn(createExternalCode);
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  
+  const [label, setLabel] = useState("");
+  const [password, setPassword] = useState("");
+  const [days, setDays] = useState(7);
+  const [perms, setPerms] = useState({
+    totals: true,
+    charts: true,
+    categories: true,
+    transactions: false,
+  });
+
+  async function handleCreate() {
+    if (!label || !password) {
+      toast.error("Preencha o nome e a senha.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await create({ data: { label, password, expiresDays: days, permissions: perms } });
+      toast.success("Acesso externo criado!");
+      queryClient.invalidateQueries({ queryKey: ["external-codes"] });
+      setOpen(false);
+      setLabel("");
+      setPassword("");
+    } catch (err: any) {
+      toast.error("Erro ao criar acesso: " + err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="h-8 text-[11px] gap-1">
+          <Plus className="size-3.5" /> Novo Código
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Novo Acesso Externo</DialogTitle>
+          <DialogDescription>
+            Crie um link temporário para que terceiros vejam seu painel.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="space-y-2">
+            <Label htmlFor="ext-label">Nome/Identificação (ex: Contador)</Label>
+            <Input 
+              id="ext-label" 
+              value={label} 
+              onChange={e => setLabel(e.target.value)}
+              placeholder="Ex: Consultoria Mensal"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="ext-pass">Senha de Acesso</Label>
+            <Input 
+              id="ext-pass" 
+              type="password" 
+              value={password} 
+              onChange={e => setPassword(e.target.value)}
+              placeholder="Crie uma senha para este link"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Validade (Dias: {days})</Label>
+            <input 
+              type="range" 
+              min="1" 
+              max="90" 
+              value={days} 
+              onChange={e => setDays(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </div>
+          <div className="space-y-3">
+            <Label>Permissões de Visualização</Label>
+            <div className="grid grid-cols-2 gap-2">
+              <label className="flex items-center gap-2 text-xs font-medium cursor-pointer">
+                <Checkbox checked={perms.totals} onCheckedChange={v => setPerms(p => ({...p, totals: !!v}))} />
+                Ver Totais
+              </label>
+              <label className="flex items-center gap-2 text-xs font-medium cursor-pointer">
+                <Checkbox checked={perms.charts} onCheckedChange={v => setPerms(p => ({...p, charts: !!v}))} />
+                Ver Gráficos
+              </label>
+              <label className="flex items-center gap-2 text-xs font-medium cursor-pointer">
+                <Checkbox checked={perms.categories} onCheckedChange={v => setPerms(p => ({...p, categories: !!v}))} />
+                Ver Categorias
+              </label>
+              <label className="flex items-center gap-2 text-xs font-medium cursor-pointer">
+                <Checkbox checked={perms.transactions} onCheckedChange={v => setPerms(p => ({...p, transactions: !!v}))} />
+                Ver Detalhes
+              </label>
+            </div>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={handleCreate} disabled={busy} className="w-full">
+            {busy ? <Loader2 className="size-4 animate-spin" /> : "Gerar Código e Link"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ExternalCodesList() {
+  const fetchCodes = useServerFn(listExternalCodes);
+  const { data: codes, isLoading, refetch } = useQuery({
+    queryKey: ["external-codes"],
+    queryFn: () => fetchCodes({ data: undefined }),
+  });
+
+  if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="size-6 animate-spin text-primary" /></div>;
+  if (!codes || codes.length === 0) return (
+    <div className="rounded-2xl border border-dashed border-border p-8 text-center text-[12px] text-muted-foreground bg-muted/5">
+      Você ainda não criou nenhum acesso externo para adultos.
+    </div>
+  );
+
+  return (
+    <div className="space-y-3">
+      {codes.map((code: any) => (
+        <ExternalCodeCard key={code.id} code={code} onUpdate={refetch} />
+      ))}
+    </div>
+  );
+}
+
+function ExternalCodeCard({ code, onUpdate }: { code: any, onUpdate: () => void }) {
+  const revoke = useServerFn(revokeExternalCode);
+  const updateExpiry = useServerFn(updateExternalCodeExpiry);
+  const [busy, setBusy] = useState(false);
+  const [showLogs, setShowLogs] = useState(false);
+
+  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/auth?external=${code.access_code}` : "";
+  const isExpired = new Date(code.expires_at) < new Date();
+
+  async function handleRevoke() {
+    if (!confirm("Deseja realmente revogar este acesso? Ele será invalidado imediatamente.")) return;
+    setBusy(true);
+    try {
+      await revoke({ data: { id: code.id } });
+      toast.success("Acesso revogado com sucesso.");
+      onUpdate();
+    } catch (err: any) {
+      toast.error("Erro ao revogar: " + err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleExtend() {
+    const days = prompt("Deseja estender por quantos dias? (1-90)", "7");
+    if (!days) return;
+    const num = parseInt(days);
+    if (isNaN(num) || num < 1 || num > 90) {
+      toast.error("Número de dias inválido.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await updateExpiry({ data: { id: code.id, expiresDays: num } });
+      toast.success("Validade atualizada!");
+      onUpdate();
+    } catch (err: any) {
+      toast.error("Erro ao estender: " + err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <article className="rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/30">
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="font-bold text-sm truncate">{code.label}</h3>
+            {isExpired ? (
+              <Badge variant="destructive" className="h-4 text-[9px] uppercase">Expirado</Badge>
+            ) : (
+              <Badge variant="outline" className="h-4 text-[9px] uppercase border-emerald-500/50 text-emerald-600">Ativo</Badge>
+            )}
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+            <code className="bg-muted px-1.5 py-0.5 rounded font-mono text-primary font-bold">{code.access_code}</code>
+            <span>·</span>
+            <span>Vence em: {new Date(code.expires_at).toLocaleDateString("pt-BR")}</span>
+          </div>
+        </div>
+        <div className="flex gap-1">
+          <Button variant="ghost" size="icon" className="size-8 text-muted-foreground" onClick={() => {
+            navigator.clipboard.writeText(shareUrl);
+            toast.success("Link copiado!");
+          }}>
+            <Copy className="size-4" />
+          </Button>
+          <Button variant="ghost" size="icon" className="size-8 text-muted-foreground" onClick={() => setShowLogs(!showLogs)}>
+            <History className="size-4" />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="size-8 text-destructive hover:bg-destructive/10" 
+            onClick={handleRevoke}
+            disabled={busy}
+          >
+            {busy ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5 mb-3">
+        {Object.entries(code.permissions || {}).map(([key, val]) => (
+          <Badge key={key} variant={val ? "secondary" : "outline"} className="text-[10px] h-5 opacity-80">
+            {key === 'totals' ? 'Totais' : key === 'charts' ? 'Gráficos' : key === 'categories' ? 'Categorias' : 'Transações'}
+          </Badge>
+        ))}
+      </div>
+
+      {isExpired && (
+        <Button variant="outline" size="sm" className="w-full h-8 text-[11px] border-emerald-500/30 text-emerald-600 hover:bg-emerald-50/50" onClick={handleExtend}>
+          <RefreshCw className="size-3 mr-1.5" /> Estender Validade
+        </Button>
+      )}
+
+      {showLogs && <ExternalAccessAuditList codeId={code.id} />}
+    </article>
+  );
+}
+
+function ExternalAccessAuditList({ codeId }: { codeId: string }) {
+  const fetchLogs = useServerFn(getExternalAccessLogs);
+  const { data: logs, isLoading } = useQuery({
+    queryKey: ["external-logs", codeId],
+    queryFn: () => fetchLogs({ data: { codeId } }),
+  });
+
+  if (isLoading) return <div className="flex justify-center p-4"><Loader2 className="size-4 animate-spin" /></div>;
+
+  return (
+    <div className="mt-4 pt-4 border-t border-border space-y-2">
+      <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2 flex items-center gap-1.5">
+        <ShieldAlert className="size-3" /> Auditoria de Acessos
+      </p>
+      {!logs || logs.length === 0 ? (
+        <p className="text-[10px] text-muted-foreground text-center py-2">Nenhum acesso registrado.</p>
+      ) : (
+        <div className="max-h-[150px] overflow-y-auto space-y-1 pr-1">
+          {logs.map((log: any) => (
+            <div key={log.id} className="flex items-center justify-between text-[10px] bg-muted/30 p-1.5 rounded-lg">
+              <span className="font-medium text-foreground capitalize">{log.action === 'login' ? 'Entrada' : log.action}</span>
+              <span className="text-muted-foreground">{new Date(log.created_at).toLocaleString("pt-BR")}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
