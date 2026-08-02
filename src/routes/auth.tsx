@@ -266,31 +266,34 @@ function AuthPage() {
           ) : mode === "external" ? (
             <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
           ) : (
-            <Tabs 
-              value={mode} 
+            <Tabs
+              value={mode}
               onValueChange={(value) => setMode(value as Mode)}
               className="relative"
             >
-              <div className="absolute -inset-x-2 -inset-y-1 z-0 bg-primary/5 rounded-2xl blur-lg opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-100" />
-              <TabsList className="relative z-10 grid h-10 w-full grid-cols-2 bg-muted/50 p-1 backdrop-blur-sm">
-              <TabsTrigger 
-                value="login" 
-                className="group relative text-xs font-bold transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg active:scale-95 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-data-[state=active]:translate-y-0" />
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <KeyRound className="size-3" /> Entrar
-                </span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="signup" 
-                className="group relative text-xs font-bold transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg active:scale-95 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-data-[state=active]:translate-y-0" />
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <UserPlus className="size-3" /> Criar conta
-                </span>
-              </TabsTrigger>
+              <TabsList className="grid h-11 w-full grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner">
+                <TabsTrigger
+                  value="login"
+                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98]"
+                >
+                  <KeyRound className="size-3.5" aria-hidden />
+                  Entrar
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-3 bottom-0.5 h-0.5 rounded-full bg-primary-foreground/70 opacity-0 transition-opacity group-data-[state=active]:opacity-100"
+                  />
+                </TabsTrigger>
+                <TabsTrigger
+                  value="signup"
+                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98]"
+                >
+                  <UserPlus className="size-3.5" aria-hidden />
+                  Criar conta
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-3 bottom-0.5 h-0.5 rounded-full bg-primary-foreground/70 opacity-0 transition-opacity group-data-[state=active]:opacity-100"
+                  />
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="login" className="mt-4">
