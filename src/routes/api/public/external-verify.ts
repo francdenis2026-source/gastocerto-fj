@@ -7,7 +7,7 @@ export const Route = createFileRoute('/api/public/external-verify')({
       POST: async ({ request }) => {
         const { code, password } = await request.json()
         
-        // Use any cast on supabaseAdmin itself to bypass strict table name checking if it's stale
+        // Use any cast on supabaseAdmin to bypass strict table name checking
         const admin = supabaseAdmin as any
         
         const { data: codeData, error } = await admin.rpc('verify_external_access', { p_code: code.toUpperCase() })
