@@ -243,7 +243,7 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-3 text-xl xl:text-2xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              <h2 className="font-display mt-3 text-lg sm:text-xl xl:text-2xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                 {mode === "login"
                   ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
@@ -252,7 +252,7 @@ function AuthPage() {
                       ? "Não se preocupe, vamos te ajudar a voltar."
                       : "Área de administração técnica e suporte."}
               </h2>
-              <p className="mt-3 text-[12px] leading-relaxed text-white font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              <p className="mt-3 text-[11px] sm:text-[12px] leading-relaxed text-white font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                 {mode === "login"
                   ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta."
                   : mode === "signup"
