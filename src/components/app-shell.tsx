@@ -50,7 +50,7 @@ import { cn } from "@/lib/utils";
 
 
 type Kind = "expense" | "income";
-type NavChild = { key: string; label: string; to: string };
+type NavChild = { key: string; label: string; to: string; highlight?: boolean };
 type NavGroup = {
   key: string;
   label: string;
@@ -126,7 +126,12 @@ export const navGroups: NavGroup[] = [
     icon: HelpCircle,
     children: [
       { key: "support.help", label: "Central de Ajuda", to: "/ajuda" },
-      { key: "support.kids", label: "Espaço Kids (acessos)", to: "/kids" },
+      {
+        key: "support.kids",
+        label: "Espaço Kids — códigos e acessos",
+        to: "/kids",
+        highlight: true,
+      },
       { key: "support.kidsaudit", label: "Auditoria Kids", to: "/kids-auditoria" },
       { key: "support.calendar", label: "Agenda e Alertas", to: "/calendario" },
     ],
@@ -358,13 +363,17 @@ export function AppShell({ children }: { children: ReactNode }) {
                         to={child.to as never}
                         aria-current={pathname === child.to ? "page" : undefined}
                         className={cn(
-                          "block truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+                          "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
                           pathname === child.to
                             ? "bg-secondary text-foreground"
-                            : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                            : child.highlight
+                              ? "bg-brand/10 text-brand hover:bg-brand/20"
+                              : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                          child.highlight && "font-semibold",
                         )}
                       >
-                        {child.label}
+                        {child.highlight ? <Baby className="size-3.5 shrink-0" aria-hidden /> : null}
+                        <span className="truncate">{child.label}</span>
                       </Link>
                     ))}
                   </div>
@@ -376,6 +385,26 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         {!isAdminArea && (
           <div className="mb-4 space-y-2">
+            {/* Atalho fixo: onde o responsável gerencia códigos e PINs das crianças. */}
+            <Link
+              to={"/kids" as never}
+              title="Painel do responsável — códigos das crianças"
+              className={cn(
+                "mx-2 flex items-center gap-2 rounded-xl border border-brand/30 bg-brand/10 p-2.5 text-brand transition-colors hover:bg-brand/20",
+                railCollapsed && "justify-center px-0",
+              )}
+            >
+              <Baby className="size-4 shrink-0" aria-hidden />
+              {!railCollapsed && (
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-bold leading-tight">Painel do responsável</span>
+                  <span className="block truncate text-[10px] text-brand/80">
+                    Códigos e PINs do Espaço Kids
+                  </span>
+                </span>
+              )}
+            </Link>
+
             <EnergySidebarWidget collapsed={railCollapsed} />
             
             {activeMetrics.length > 0 && !railCollapsed && (
