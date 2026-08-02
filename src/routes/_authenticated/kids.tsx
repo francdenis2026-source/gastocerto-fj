@@ -1120,7 +1120,7 @@ export function ExternalCodeCreator() {
   );
 }
 
-function ExternalCodesList() {
+export function ExternalCodesList() {
   const fetchCodes = useServerFn(listExternalCodes);
   const { data: codes, isLoading, refetch } = useQuery({
     queryKey: ["external-codes"],
