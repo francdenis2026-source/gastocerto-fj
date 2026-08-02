@@ -17,7 +17,7 @@ const HIGHLIGHTS = [
  */
 export function KidsLoginScreen({ children }: { children: ReactNode }) {
   return (
-    <main className="relative isolate h-dvh w-full overflow-hidden bg-[oklch(0.15_0.05_260)] font-sans flex items-center justify-center p-4">
+    <main className="relative isolate min-h-dvh w-full overflow-y-auto bg-[oklch(0.15_0.05_260)] font-sans flex items-center justify-center p-2 sm:p-4">
       {/* Background decorativo - mais imersivo e profundo */}
       <div
         aria-hidden="true"
