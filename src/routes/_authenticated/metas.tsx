@@ -71,6 +71,8 @@ function GoalsPage() {
   const [open, setOpen] = useState(false);
   const [contributingTo, setContributingTo] = useState<Goal | null>(null);
   const deleteGoal = useDeleteGoal();
+  const { confirm, ConfirmDialog } = useConfirm();
+
 
   const summary = useMemo(() => {
     const list = goals ?? [];
