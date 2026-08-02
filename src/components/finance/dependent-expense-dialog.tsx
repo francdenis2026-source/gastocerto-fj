@@ -371,23 +371,18 @@ export function DependentExpenseDialog({
                     const isLimitReached = item.monthly_limit && spent >= Number(item.monthly_limit);
                     
                     return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => {
-                          setSelected(item);
-                          if ((item as any).pin_code) {
-                            setPinOpen(true);
-                          }
-                        }}
                         className={cn(
-                          "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          isLimitReached && "border-destructive/30 bg-destructive/5"
+                          "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group",
+                          isLimitReached && "border-destructive/30 bg-destructive/5",
+                          !(item as any).pin_code && "opacity-80"
                         )}
                       >
                         <div className="relative">
                           <span
-                            className="flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                            className={cn(
+                              "flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-transform group-hover:scale-110",
+                              !(item as any).pin_code && "grayscale-[0.5]"
+                            )}
                             style={{
                               backgroundColor: `${item.color ?? "#64748b"}22`,
                               color: item.color ?? undefined,
@@ -400,7 +395,7 @@ export function DependentExpenseDialog({
                               <ShieldCheck className="size-2 text-primary-foreground" />
                             </div>
                           ) : (
-                            <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-background shadow-sm border border-border">
+                            <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-muted shadow-sm border border-border">
                               <Lock className="size-2 text-muted-foreground" />
                             </div>
                           )}
@@ -416,8 +411,11 @@ export function DependentExpenseDialog({
                             {relationLabel(item.relation)}
                             {age !== null ? ` · ${age} anos` : ""}
                           </span>
-                          <span className="block text-[10px] font-bold text-primary mt-0.5">
-                            {(item as any).pin_code ? "PIN Configurado ✓" : "Sem PIN (Modo Kids desativado)"}
+                          <span className={cn(
+                            "block text-[10px] font-bold mt-0.5",
+                            (item as any).pin_code ? "text-primary" : "text-muted-foreground"
+                          )}>
+                            {(item as any).pin_code ? "PIN Configurado ✓" : "Modo Kids: definir PIN no cadastro"}
                           </span>
                         </span>
                       </button>
