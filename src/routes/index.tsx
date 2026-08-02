@@ -56,18 +56,18 @@ function LandingPage() {
       }
     };
 
-    document.addEventListener("copy", prevent);
-    document.addEventListener("cut", prevent);
-    document.addEventListener("contextmenu", prevent);
-    document.addEventListener("dragstart", prevent);
-    document.addEventListener("keydown", preventCopyShortcut);
+    document.addEventListener("copy", prevent, true);
+    document.addEventListener("cut", prevent, true);
+    document.addEventListener("contextmenu", prevent, true);
+    document.addEventListener("dragstart", prevent, true);
+    document.addEventListener("keydown", preventCopyShortcut, true);
 
     return () => {
-      document.removeEventListener("copy", prevent);
-      document.removeEventListener("cut", prevent);
-      document.removeEventListener("contextmenu", prevent);
-      document.removeEventListener("dragstart", prevent);
-      document.removeEventListener("keydown", preventCopyShortcut);
+      document.removeEventListener("copy", prevent, true);
+      document.removeEventListener("cut", prevent, true);
+      document.removeEventListener("contextmenu", prevent, true);
+      document.removeEventListener("dragstart", prevent, true);
+      document.removeEventListener("keydown", preventCopyShortcut, true);
     };
   }, []);
 
