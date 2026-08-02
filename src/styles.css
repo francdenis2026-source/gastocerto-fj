@@ -302,29 +302,30 @@
   }
 }
 
-/* Grades fluidas: os cartões se reorganizam sozinhos conforme a largura. */
+/* Grades fluidas: os cartões se reorganizam sozinhos conforme a largura. 
+   Otimizado para manter visibilidade sem quebras bruscas. */
 @utility auto-cards-sm {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
 }
 
 @utility auto-cards-md {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
 }
 
 @utility auto-cards-lg {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
 }
 
-/* Altura de gráfico que acompanha o tamanho da tela. */
+/* Altura de gráfico que acompanha o tamanho da tela, garantindo que não suma em telas pequenas. */
 @utility chart-frame {
   width: 100%;
-  height: clamp(150px, 34vw, 230px);
+  height: clamp(180px, 30vh, 320px);
 }
 
 /* Área de conteúdo do app com altura mínima estável entre navegações,
@@ -434,14 +435,14 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
-    /* Garante altura total estável em mobile (resolvendo o problema de barras do navegador que ocultam conteúdo) */
+    /* Garante altura total estável em mobile */
     height: 100%;
     min-height: -webkit-fill-available;
-    /* Um único scroller: a página rola pelo html. */
     overflow-y: auto;
     overflow-x: hidden;
-    /* Evita apenas o encadeamento horizontal; a rolagem vertical fica livre. */
     overscroll-behavior-x: none;
+    /* Evita quebras de texto agressivas em telas muito estreitas */
+    word-break: break-word;
   }
 
   body {
