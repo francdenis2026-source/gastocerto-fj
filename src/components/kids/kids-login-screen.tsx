@@ -75,16 +75,18 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
         </section>
 
         {/* Lado direito: formulário */}
-        <section className="flex max-h-full flex-col overflow-y-auto bg-card px-5 py-5 sm:px-6">
+        <section className="flex max-h-full flex-col bg-card px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
             <Link to="/" className="w-fit">
               <Logo />
             </Link>
           </div>
 
-          {children}
+          <div className="flex-1 overflow-y-auto pr-1">
+            {children}
+          </div>
 
-          <div className="mt-auto pt-4 space-y-3">
+          <div className="mt-4 pt-4 shrink-0 space-y-3 border-t border-border/50">
             <p className="rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-center text-[10px] font-semibold leading-snug text-primary">
               Precisa de ajuda? Peça seu código ao seu responsável.
             </p>
