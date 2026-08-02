@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Baby, ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User } from "lucide-react";
+import { Baby, ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User, Bell } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -25,6 +25,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAvatarUrl, useInvalidateProfile, useProfile, useRoles } from "@/lib/queries";
 import { profileSchema, validateAvatarFile } from "@/lib/validation";
 import { ExternalCodesList, ExternalCodeCreator } from "./kids";
+import { NotificationCenter } from "@/components/notifications/notification-center";
+
 
 
 export const Route = createFileRoute("/_authenticated/perfil")({
@@ -442,7 +444,22 @@ function ProfilePage() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="notifications" className="mt-0 space-y-4">
+                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
+                  <div className="border-b border-border/40 pb-2.5">
+                    <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
+                      <Bell className="size-4 text-primary" aria-hidden /> Central de Avisos e Notificações
+                    </h2>
+                    <p className="mt-1 text-[12px] text-muted-foreground">
+                      Acompanhe alertas importantes sobre seu plano, segurança e status do Espaço Kids.
+                    </p>
+                  </div>
+                  <NotificationCenter />
+                </div>
+              </TabsContent>
+
               <TabsContent value="audit" className="mt-0 space-y-4">
+
 
 
                 <div
