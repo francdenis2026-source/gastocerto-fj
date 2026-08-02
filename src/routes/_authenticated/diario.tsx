@@ -422,11 +422,11 @@ function DebtOverdueNotice() {
   const { data: entries } = useCommitmentEntries();
   
   const summaries = useMemo(() => summarizeAll(commitments ?? [], entries ?? []), [commitments, entries]);
-  const overdueItems = summaries.filter(s => s.overdue && s.commitment.status === 'open');
+  const overdueItems = summaries.filter((s: any) => s.overdue && s.commitment.status === 'open');
   
   if (overdueItems.length === 0) return null;
   
-  const totalOverdue = overdueItems.reduce((sum, s) => sum + s.outstanding, 0);
+  const totalOverdue = overdueItems.reduce((sum: number, s: any) => sum + s.outstanding, 0);
 
   return (
     <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-4 mb-4">

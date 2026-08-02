@@ -108,7 +108,7 @@ function HelpPage() {
           </div>
           <h1 className="page-title text-3xl">Central de Ajuda GastoCerto</h1>
           <p className="page-subtitle max-w-lg mx-auto">
-            Tudo o que você precisa saber para dominar suas finanças e tirar o máximo proveito da nossa plataforma.
+            Tudo o que você precisa saber para dominar suas finanças com passos simples, ilustrações e dicas profissionais.
           </p>
         </header>
 

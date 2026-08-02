@@ -73,13 +73,13 @@ export const navGroups: NavGroup[] = [
     children: [
       { key: "entries.expenses", label: "Despesas", to: "/lancamentos" },
       { key: "entries.incomes", label: "Receitas", to: "/receitas" },
-      { key: "entries.recurring", label: "Gastos Recorrentes", to: "/recorrencia" },
+      { key: "entries.recurring", label: "Recargas e Assinaturas", to: "/recorrencia" },
       { key: "entries.receipts", label: "Comprovantes", to: "/comprovantes" },
     ],
   },
   {
     key: "consumption",
-    label: "Consumo e Utilidades",
+    label: "Utilidades e Consumo",
     to: "/gas",
     icon: Zap,
     children: [
@@ -95,7 +95,7 @@ export const navGroups: NavGroup[] = [
     icon: PiggyBank,
     children: [
       { key: "planning.budgets", label: "Orçamentos", to: "/orcamentos" },
-      { key: "planning.commitments", label: "Compromissos e Dívidas", to: "/compromissos" },
+      { key: "planning.commitments", label: "Dívidas e Compromissos", to: "/compromissos" },
       { key: "planning.goals", label: "Metas de Poupança", to: "/metas" },
       { key: "planning.categories", label: "Minhas Categorias", to: "/categorias" },
       { key: "planning.closing", label: "Fechamento Mensal", to: "/fechamento" },
@@ -115,7 +115,7 @@ export const navGroups: NavGroup[] = [
   },
   {
     key: "support",
-    label: "Suporte e Apoio",
+    label: "Ajuda e Kids",
     to: "/ajuda",
     icon: HelpCircle,
     children: [
