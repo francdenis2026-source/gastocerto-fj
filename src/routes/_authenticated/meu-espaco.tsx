@@ -157,37 +157,47 @@ function KidSpacePage() {
 
       <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
         <section className="rounded-3xl border border-primary/20 bg-card p-6 text-center shadow-sm">
-          <p className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-wide text-primary">
-            <Sparkles className="size-4" /> Saldo mágico
-          </p>
-          <p
-            className={cn(
-              "mt-2 text-4xl font-black tabular-nums",
-              balance < 0 ? "text-destructive" : "text-foreground",
-            )}
-          >
-            {formatCurrency(balance)}
-          </p>
-          <div className="mt-4 grid grid-cols-2 gap-3 text-left">
-            <div className="rounded-2xl bg-emerald-500/10 p-3">
-              <p className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-600">
-                <TrendingUp className="size-3.5" /> Ganhei
+          {visibility.balance ? (
+            <>
+              <p className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-wide text-primary">
+                <Sparkles className="size-4" /> Saldo mágico
               </p>
-              <p className="text-base font-bold tabular-nums">{formatCurrency(income)}</p>
-            </div>
-            <div className="rounded-2xl bg-destructive/10 p-3">
-              <p className="flex items-center gap-1.5 text-[11px] font-bold text-destructive">
-                <TrendingDown className="size-3.5" /> Gastei
+              <p
+                className={cn(
+                  "mt-2 text-4xl font-black tabular-nums",
+                  balance < 0 ? "text-destructive" : "text-foreground",
+                )}
+              >
+                {formatCurrency(balance)}
               </p>
-              <p className="text-base font-bold tabular-nums">{formatCurrency(expense)}</p>
+            </>
+          ) : (
+            <p className="text-[13px] font-semibold text-muted-foreground">
+              Seu responsável escolheu não mostrar o saldo aqui.
+            </p>
+          )}
+          {visibility.income ? (
+            <div className="mt-4 grid grid-cols-2 gap-3 text-left">
+              <div className="rounded-2xl bg-emerald-500/10 p-3">
+                <p className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-600">
+                  <TrendingUp className="size-3.5" /> Ganhei
+                </p>
+                <p className="text-base font-bold tabular-nums">{formatCurrency(income)}</p>
+              </div>
+              <div className="rounded-2xl bg-destructive/10 p-3">
+                <p className="flex items-center gap-1.5 text-[11px] font-bold text-destructive">
+                  <TrendingDown className="size-3.5" /> Gastei
+                </p>
+                <p className="text-base font-bold tabular-nums">{formatCurrency(expense)}</p>
+              </div>
             </div>
-          </div>
+          ) : null}
           <Button className="mt-4 h-12 w-full rounded-2xl text-base" onClick={() => setEntryOpen(true)}>
             <PiggyBank className="mr-2 size-5" /> Registrar agora
           </Button>
         </section>
 
-        {(goals.data ?? []).length > 0 && (
+        {visibility.goals && (goals.data ?? []).length > 0 && (
           <section className="space-y-3">
             <h2 className="flex items-center gap-2 text-sm font-bold">
               <Target className="size-4 text-primary" /> Minhas metas
@@ -215,10 +225,11 @@ function KidSpacePage() {
           </section>
         )}
 
+        {visibility.history ? (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold">Meu histórico</h2>
-            <KidSiblingAvatars dependentId={dependent.id} />
+            {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
           </div>
           {rows.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
