@@ -131,9 +131,23 @@ function CreditCardsPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="transactions" className="mt-6">
-             <div className="rounded-2xl border bg-card p-6 text-center text-muted-foreground">
-                <p className="text-sm">Selecione um cartão para ver as transações detalhadas.</p>
+          <TabsContent value="transactions" className="mt-6 space-y-6">
+             <div className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-4 rounded-2xl">
+                <div className="relative flex-1 min-w-[240px]">
+                  <Input placeholder="Buscar na descrição ou valor..." className="pl-9 h-9 text-xs" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                </div>
+                <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.info("Exportação de transações por cartão em desenvolvimento.")}>
+                  <FileDown className="size-4" /> PDF/CSV do Cartão
+                </Button>
+             </div>
+             
+             <div className="rounded-2xl border bg-card p-8 text-center text-muted-foreground">
+                <History className="size-10 mx-auto mb-3 opacity-20" />
+                <p className="text-sm font-medium">Auditoria e Histórico Detalhado</p>
+                <p className="text-xs mt-1 max-w-[280px] mx-auto opacity-70">
+                  Aqui você poderá ver quem inseriu, editou ou removeu cada compra, com data e IP.
+                </p>
              </div>
           </TabsContent>
         </Tabs>
