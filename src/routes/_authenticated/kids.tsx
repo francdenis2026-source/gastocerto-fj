@@ -712,7 +712,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                   {days === "never" ? "Com expiração" : "Nunca expira"}
                 </Button>
               </div>
-              />
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <Button 
