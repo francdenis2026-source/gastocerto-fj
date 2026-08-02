@@ -1273,3 +1273,44 @@ function ExternalAccessAuditList({ codeId }: { codeId: string }) {
     </div>
   );
 }
+
+function KidTransactionsList({ dependentId }: { dependentId: string }) {
+  const fetchTxns = useServerFn(getKidTransactions);
+  const { data: txns, isLoading } = useQuery({
+    queryKey: ["kid-transactions-parent", dependentId],
+    queryFn: () => fetchTxns({ data: { dependentId } }),
+  });
+
+  if (isLoading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
+
+  if (!txns || txns.length === 0) {
+    return <p className="py-2 text-center text-[10px] text-muted-foreground">Nenhuma movimentação registrada.</p>;
+  }
+
+  return (
+    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+      {txns.map((t: any) => (
+        <div key={t.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 p-2 text-[11px] border border-border/20">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-semibold text-foreground">{t.description}</p>
+            <p className="text-[9px] text-muted-foreground">
+              {new Date(`${t.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className={cn(
+              "font-bold tabular-nums",
+              t.transaction_type === "income" ? "text-emerald-600" : "text-destructive"
+            )}>
+              {t.transaction_type === "income" ? "+" : "-"} {formatCurrency(Number(t.amount))}
+            </p>
+            <Badge variant="outline" className="text-[8px] h-3 px-1 uppercase opacity-70">
+              {t.status === "received" || t.status === "paid" ? "Confirmado" : "Pendente"}
+            </Badge>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
