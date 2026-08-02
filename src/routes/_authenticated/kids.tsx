@@ -28,7 +28,6 @@ import {
   Tv,
   AlertCircle,
   BellRing,
-  TrendingUp,
   FileText,
   Trash,
 } from "lucide-react";
