@@ -555,23 +555,27 @@ function ManageUserDialog({
                   variant="destructive"
                   disabled={pending !== null || isSelf}
                   onClick={() => {
-                    const typed = window.prompt(
-                      'Excluir a conta e TODOS os dados deste usuário? Digite EXCLUIR para confirmar.',
-                    );
-                    if (typed !== "EXCLUIR") return;
-                    void run(
-                      "delete",
-                      () =>
-                        adminDeleteUser({
-                          data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
-                        }),
-                      "Conta excluída",
-                    ).then(onClose);
+                    confirm({
+                      title: "Excluir Conta",
+                      description: `Excluir a conta e TODOS os dados do usuário "${profile.full_name || profile.contact_email}"? Esta ação é definitiva e não pode ser desfeita.`,
+                      type: "warning",
+                      onConfirm: () => {
+                        void run(
+                          "delete",
+                          () =>
+                            adminDeleteUser({
+                              data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
+                            }),
+                          "Conta excluída",
+                        ).then(onClose);
+                      }
+                    });
                   }}
                 >
                   {pending === "delete" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
                   Excluir conta
                 </Button>
+
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 O cancelamento revoga licenças ativas. A exclusão é definitiva e fica registrada nos
