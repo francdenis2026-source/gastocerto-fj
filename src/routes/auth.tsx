@@ -279,10 +279,7 @@ function AuthPage() {
                 >
                   <KeyRound className="size-3.5" aria-hidden />
                   Entrar
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-3 bottom-0.5 h-0.5 rounded-full bg-primary-foreground/70 opacity-0 transition-opacity group-data-[state=active]:opacity-100"
-                  />
+                
                 </TabsTrigger>
                 <TabsTrigger
                   value="signup"
@@ -291,10 +288,7 @@ function AuthPage() {
                 >
                   <UserPlus className="size-3.5" aria-hidden />
                   Criar conta
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-3 bottom-0.5 h-0.5 rounded-full bg-primary-foreground/70 opacity-0 transition-opacity group-data-[state=active]:opacity-100"
-                  />
+                
                 </TabsTrigger>
               </TabsList>
 
