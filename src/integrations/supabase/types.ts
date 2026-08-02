@@ -306,6 +306,60 @@ export type Database = {
           },
         ]
       }
+      card_transactions: {
+        Row: {
+          amount: number
+          card_id: string
+          category_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          installment_current: number | null
+          installments_total: number | null
+          transaction_date: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          card_id: string
+          category_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          installment_current?: number | null
+          installments_total?: number | null
+          transaction_date?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          card_id?: string
+          category_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          installment_current?: number | null
+          installments_total?: number | null
+          transaction_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_transactions_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "credit_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "card_transactions_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           active: boolean
@@ -693,6 +747,7 @@ export type Database = {
           name: string
           next_due_date: string | null
           notes: string | null
+          paid_amount: number | null
           payment_method: string | null
           start_date: string
           status: string
@@ -719,6 +774,7 @@ export type Database = {
           name: string
           next_due_date?: string | null
           notes?: string | null
+          paid_amount?: number | null
           payment_method?: string | null
           start_date?: string
           status?: string
@@ -745,6 +801,7 @@ export type Database = {
           name?: string
           next_due_date?: string | null
           notes?: string | null
+          paid_amount?: number | null
           payment_method?: string | null
           start_date?: string
           status?: string
@@ -768,6 +825,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      credit_cards: {
+        Row: {
+          active: boolean | null
+          closing_day: number | null
+          color: string | null
+          created_at: string | null
+          current_balance: number | null
+          due_day: number | null
+          icon: string | null
+          id: string
+          institution: string | null
+          last_digits: string | null
+          limit_amount: number | null
+          name: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          active?: boolean | null
+          closing_day?: number | null
+          color?: string | null
+          created_at?: string | null
+          current_balance?: number | null
+          due_day?: number | null
+          icon?: string | null
+          id?: string
+          institution?: string | null
+          last_digits?: string | null
+          limit_amount?: number | null
+          name: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          active?: boolean | null
+          closing_day?: number | null
+          color?: string | null
+          created_at?: string | null
+          current_balance?: number | null
+          due_day?: number | null
+          icon?: string | null
+          id?: string
+          institution?: string | null
+          last_digits?: string | null
+          limit_amount?: number | null
+          name?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       dependents: {
         Row: {

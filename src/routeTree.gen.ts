@@ -21,6 +21,7 @@ import { Route as AuthenticatedAjudaRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedBalancoAnualRouteImport } from './routes/_authenticated/balanco-anual'
 import { Route as AuthenticatedCadastrosRouteImport } from './routes/_authenticated/cadastros'
 import { Route as AuthenticatedCalendarioRouteImport } from './routes/_authenticated/calendario'
+import { Route as AuthenticatedCartoesRouteImport } from './routes/_authenticated/cartoes'
 import { Route as AuthenticatedCategoriasRouteImport } from './routes/_authenticated/categorias'
 import { Route as AuthenticatedCompromissosRouteImport } from './routes/_authenticated/compromissos'
 import { Route as AuthenticatedComprovantesRouteImport } from './routes/_authenticated/comprovantes'
@@ -110,6 +111,11 @@ const AuthenticatedCadastrosRoute = AuthenticatedCadastrosRouteImport.update({
 const AuthenticatedCalendarioRoute = AuthenticatedCalendarioRouteImport.update({
   id: '/calendario',
   path: '/calendario',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCartoesRoute = AuthenticatedCartoesRouteImport.update({
+  id: '/cartoes',
+  path: '/cartoes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCategoriasRoute = AuthenticatedCategoriasRouteImport.update({
@@ -285,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/cadastros': typeof AuthenticatedCadastrosRoute
   '/calendario': typeof AuthenticatedCalendarioRoute
+  '/cartoes': typeof AuthenticatedCartoesRoute
   '/categorias': typeof AuthenticatedCategoriasRoute
   '/compromissos': typeof AuthenticatedCompromissosRoute
   '/comprovantes': typeof AuthenticatedComprovantesRoute
@@ -328,6 +335,7 @@ export interface FileRoutesByTo {
   '/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/cadastros': typeof AuthenticatedCadastrosRoute
   '/calendario': typeof AuthenticatedCalendarioRoute
+  '/cartoes': typeof AuthenticatedCartoesRoute
   '/categorias': typeof AuthenticatedCategoriasRoute
   '/compromissos': typeof AuthenticatedCompromissosRoute
   '/comprovantes': typeof AuthenticatedComprovantesRoute
@@ -373,6 +381,7 @@ export interface FileRoutesById {
   '/_authenticated/balanco-anual': typeof AuthenticatedBalancoAnualRoute
   '/_authenticated/cadastros': typeof AuthenticatedCadastrosRoute
   '/_authenticated/calendario': typeof AuthenticatedCalendarioRoute
+  '/_authenticated/cartoes': typeof AuthenticatedCartoesRoute
   '/_authenticated/categorias': typeof AuthenticatedCategoriasRoute
   '/_authenticated/compromissos': typeof AuthenticatedCompromissosRoute
   '/_authenticated/comprovantes': typeof AuthenticatedComprovantesRoute
@@ -418,6 +427,7 @@ export interface FileRouteTypes {
     | '/balanco-anual'
     | '/cadastros'
     | '/calendario'
+    | '/cartoes'
     | '/categorias'
     | '/compromissos'
     | '/comprovantes'
@@ -461,6 +471,7 @@ export interface FileRouteTypes {
     | '/balanco-anual'
     | '/cadastros'
     | '/calendario'
+    | '/cartoes'
     | '/categorias'
     | '/compromissos'
     | '/comprovantes'
@@ -505,6 +516,7 @@ export interface FileRouteTypes {
     | '/_authenticated/balanco-anual'
     | '/_authenticated/cadastros'
     | '/_authenticated/calendario'
+    | '/_authenticated/cartoes'
     | '/_authenticated/categorias'
     | '/_authenticated/compromissos'
     | '/_authenticated/comprovantes'
@@ -635,6 +647,13 @@ declare module '@tanstack/react-router' {
       path: '/calendario'
       fullPath: '/calendario'
       preLoaderRoute: typeof AuthenticatedCalendarioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cartoes': {
+      id: '/_authenticated/cartoes'
+      path: '/cartoes'
+      fullPath: '/cartoes'
+      preLoaderRoute: typeof AuthenticatedCartoesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/categorias': {
@@ -856,6 +875,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBalancoAnualRoute: typeof AuthenticatedBalancoAnualRoute
   AuthenticatedCadastrosRoute: typeof AuthenticatedCadastrosRoute
   AuthenticatedCalendarioRoute: typeof AuthenticatedCalendarioRoute
+  AuthenticatedCartoesRoute: typeof AuthenticatedCartoesRoute
   AuthenticatedCategoriasRoute: typeof AuthenticatedCategoriasRoute
   AuthenticatedCompromissosRoute: typeof AuthenticatedCompromissosRoute
   AuthenticatedComprovantesRoute: typeof AuthenticatedComprovantesRoute
@@ -890,6 +910,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBalancoAnualRoute: AuthenticatedBalancoAnualRoute,
   AuthenticatedCadastrosRoute: AuthenticatedCadastrosRoute,
   AuthenticatedCalendarioRoute: AuthenticatedCalendarioRoute,
+  AuthenticatedCartoesRoute: AuthenticatedCartoesRoute,
   AuthenticatedCategoriasRoute: AuthenticatedCategoriasRoute,
   AuthenticatedCompromissosRoute: AuthenticatedCompromissosRoute,
   AuthenticatedComprovantesRoute: AuthenticatedComprovantesRoute,

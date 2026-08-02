@@ -58,18 +58,24 @@ export const KID_UPGRADE_OPTIONS = [
   { value: 730, label: "2 anos" },
 ];
 
-/** Rótulo amigável para a validade do código. */
+/** Rótulo amigável para a validade do código com alerta. */
 export function describeKidCodeExpiry(expiresAt: string | null | undefined): {
   label: string;
   expired: boolean;
+  nearExpiry: boolean;
 } {
-  if (!expiresAt) return { label: "Sem validade definida", expired: false };
+  if (!expiresAt) return { label: "Sem validade definida", expired: false, nearExpiry: false };
   const date = new Date(expiresAt);
-  const expired = date.getTime() < Date.now();
+  const now = Date.now();
+  const diffDays = (date.getTime() - now) / 86_400_000;
+  const expired = date.getTime() < now;
+  const nearExpiry = !expired && diffDays <= 7; // Alerta com 7 dias de antecedência
+
   return {
     label: expired
       ? `Expirado em ${date.toLocaleDateString("pt-BR")}`
       : `Válido até ${date.toLocaleDateString("pt-BR")} ${date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`,
     expired,
+    nearExpiry,
   };
 }

@@ -1,4 +1,6 @@
+import { useProfile, useRoles } from "./queries";
 /**
+
  * Regras de plano do GastoCerto — função pura, testável e compartilhada entre
  * cliente e servidor.
  *
@@ -28,7 +30,9 @@ export type FeatureKey =
   | "receipts"
   | "notifications"
   | "ai_advisor"
-  | "unlimited_transactions";
+  | "unlimited_transactions"
+  | "debt_advisor"
+  | "credit_cards";
 
 /** Recursos liberados no plano gratuito (o resto fica visível, mas bloqueado). */
 export const FREE_FEATURES: FeatureKey[] = [
@@ -55,6 +59,8 @@ export const ALL_FEATURES: FeatureKey[] = [
   "notifications",
   "ai_advisor",
   "unlimited_transactions",
+  "debt_advisor",
+  "credit_cards",
 ];
 
 export const FEATURE_LABEL: Record<FeatureKey, string> = {
@@ -74,6 +80,8 @@ export const FEATURE_LABEL: Record<FeatureKey, string> = {
   notifications: "Alertas e notificações",
   ai_advisor: "Consultor de IA",
   unlimited_transactions: "Lançamentos ilimitados",
+  debt_advisor: "Consultor de dívidas",
+  credit_cards: "Gestão de cartões",
 };
 
 /**
@@ -317,3 +325,20 @@ export function hasFeature(access: PlanAccess | null | undefined, feature: Featu
   if (!access) return false;
   return access.features.includes(feature);
 }
+
+export function usePlanAccess() {
+  const { data: profile } = useProfile();
+  const { data: roles } = useRoles();
+
+  return resolvePlanAccess({
+    planSlug: (profile as any)?.plan_slug,
+    planTier: (profile as any)?.plan_tier,
+    planPrice: (profile as any)?.plan_price,
+    trialEndsAt: (profile as any)?.trial_ends_at,
+    trialPlanSlug: (profile as any)?.trial_plan_slug,
+    hasPaidLicense: (profile as any)?.has_paid_license,
+    paidPlanSlug: (profile as any)?.paid_plan_slug,
+    isAdmin: (roles ?? []).includes("admin"),
+  });
+}
+

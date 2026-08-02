@@ -1,5 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame } from "lucide-react";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed } from "lucide-react";
+
+
 import { cn } from "@/lib/utils";
 import {
   AlertTriangle,
@@ -57,6 +59,12 @@ import { usePeriodStore } from "@/lib/period-store";
 import { InteractiveCalendar } from "@/components/finance/interactive-calendar";
 import { StatTile } from "@/components/finance/stat-tile";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
+import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
+import { hasFeature, usePlanAccess } from "@/lib/plan-features";
+
+
+
+
 
 
 
@@ -77,6 +85,8 @@ import { formatCurrency, formatDate } from "@/lib/format";
 import { MONTH_NAMES, isoDate, monthRange, periodDefaultDate } from "@/lib/finance";
 import { useCategories, useProfile } from "@/lib/queries";
 import { useBudgets, useTransactions, type Transaction } from "@/lib/transactions";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useAutoRecurring } from "@/lib/recurring";
 import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
 import { vehicleSpendBreakdown } from "@/lib/vehicle-spend";
@@ -102,6 +112,9 @@ export const Route = createFileRoute("/_authenticated/painel")({
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const search = useSearch({ from: "/_authenticated/painel" });
+  const queryClient = useQueryClient();
+
   const today = new Date();
   const { year: storedYear, month: storedMonth, setPeriod: setStoredPeriod, reset } = usePeriodStore();
   const [period, setPeriod] = useState({ year: storedYear, month: storedMonth });
@@ -122,8 +135,11 @@ function DashboardPage() {
   const [taxOpen, setTaxOpen] = useState(false);
 
   const { data: profile, isLoading } = useProfile();
+  const access = usePlanAccess();
   const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
+
+
   const range = monthRange(period.year, period.month);
   const { data: transactions, isLoading: loadingTransactions } = useTransactions(range);
   const { data: budgets } = useBudgets(period.year, period.month);
@@ -478,23 +494,25 @@ function DashboardPage() {
         {/* Ferramentas rápidas e Insights */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-5 shadow-sm">
-             <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2">
                <div className="flex items-center gap-2">
                  <div className="size-8 rounded-xl bg-orange-500/20 flex items-center justify-center">
-                   <Flame className="size-4 text-orange-600" />
+                   <UtensilsCrossed className="size-4 text-orange-600" />
                  </div>
-                 <h3 className="text-sm font-bold text-orange-950 dark:text-orange-200">Fim de Semana</h3>
+                 <h3 className="text-sm font-bold text-orange-950 dark:text-orange-200">Churrasco & Fim de Semana</h3>
                </div>
                <Badge variant="outline" className="bg-orange-100 dark:bg-orange-900/30 border-orange-200 text-orange-700 dark:text-orange-300 text-[10px] scale-90">
-                 NOVO
+                 Destaque
                </Badge>
              </div>
+
              <p className="text-[11px] text-orange-800/70 dark:text-orange-300/70 leading-relaxed mb-4">
                Acompanhe os gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> de domingo. 
              </p>
              <div className="flex items-center justify-between">
                 <div>
                    <span className="block text-[10px] uppercase font-bold text-orange-600/50">Gasto no mês</span>
+
                    <span className="text-lg font-black text-orange-700 dark:text-orange-400">
                      {formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}
                    </span>
@@ -514,6 +532,13 @@ function DashboardPage() {
              </div>
           </div>
         </section>
+
+        {hasFeature(access, "debt_advisor") && (
+          <div className="mb-6">
+            <DebtAdvisorPanel />
+          </div>
+        )}
+
 
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
           <div className="min-w-0">
@@ -943,6 +968,7 @@ function DashboardPage() {
                 </ResponsiveContainer>
               </ChartCard>
             </section>
+
 
             <InsightsPanel year={period.year} month={period.month} />
 
