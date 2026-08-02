@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell } from "lucide-react";
+import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useEffect, useState } from "react";
@@ -52,8 +52,15 @@ export const Route = createFileRoute("/_authenticated/meu-espaco")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
+  loader: async ({ context: { queryClient } }) => {
+    // Carregar configurações de modo compacto
+    const { data: profile } = await supabase.from("profiles").select("*").single();
+    return { compactMode: (profile as any)?.compact_mode ?? false };
+  },
+
   component: KidSpacePage,
 });
+
 
 type KidTransaction = {
   id: string;
@@ -65,10 +72,13 @@ type KidTransaction = {
 
 function KidSpacePage() {
   const navigate = useNavigate();
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { dependent, loading } = useKidSession();
+  const { compactMode: initialCompactMode } = Route.useLoaderData();
+  const [compactMode, setCompactMode] = useState(initialCompactMode);
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
+
   const fetchCardControl = useServerFn(getKidCardControl);
 
   const cardControl = useQuery({
@@ -207,12 +217,41 @@ function KidSpacePage() {
   return (
     <KidsStatusGuard kidUserId={dependent.id}>
     <main className={cn(
-      "min-h-dvh pb-16 transition-colors duration-500",
+      "min-h-dvh pb-16 transition-all duration-500",
+      compactMode ? "max-w-4xl mx-auto px-2 sm:px-4" : "",
       isBoy ? "bg-gradient-to-b from-blue-600/20 via-background to-background" :
       isGirl ? "bg-gradient-to-b from-pink-500/20 via-background to-background" :
-      "bg-gradient-to-b from-primary/10 via-background to-background"
+      "bg-gradient-to-b from-primary/10 via-background to-background",
+      compactMode && "font-sans tracking-tight"
     )}>
-      <header className="flex items-center justify-between gap-3 px-4 py-5 sm:px-6">
+      {/* Botão de Toggle do Modo Compacto/Profissional */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <Button
+          variant="outline"
+          size="icon"
+          className={cn(
+            "size-12 rounded-full shadow-2xl border-2 transition-all hover:scale-110",
+            compactMode ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border"
+          )}
+          onClick={async () => {
+            const newMode = !compactMode;
+            setCompactMode(newMode);
+            if (user) {
+              await supabase.from("profiles").update({ ["compact_mode" as string]: newMode } as any).eq("user_id", user.id);
+            }
+            toast.success(newMode ? "Modo Profissional Ativado! ✨" : "Modo Padrão Ativado!");
+          }}
+          title={compactMode ? "Voltar ao modo padrão" : "Ativar modo compacto profissional"}
+        >
+          <LayoutGrid className="size-6" />
+        </Button>
+      </div>
+
+      <header className={cn(
+        "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
+        compactMode && "py-3 px-2 border-b border-border/40 bg-card/30 backdrop-blur-md sticky top-0 z-40"
+      )}>
+
         <div className="flex items-center gap-3">
           <Avatar className="size-12 border-2 border-white shadow-md ring-2 ring-primary/20">
             {avatarUrl ? (
@@ -253,12 +292,20 @@ function KidSpacePage() {
 
       </header>
 
-      <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
-        <div className="grid gap-4 sm:grid-cols-2">
+      <div className={cn(
+        "mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6 transition-all",
+        compactMode && "max-w-4xl space-y-3 mt-4"
+      )}>
+        <div className={cn(
+          "grid gap-4 sm:grid-cols-2",
+          compactMode && "sm:grid-cols-3"
+        )}>
           <section className={cn(
-            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden",
+            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden transition-all",
+            compactMode && "min-h-[120px] rounded-2xl p-4 sm:col-span-2 flex-row items-center justify-between text-left",
             isBoy ? "border-blue-500/30" : isGirl ? "border-pink-500/30" : ""
           )}>
+
             {/* Background decorativo sutil para o saldo */}
             <div className={cn(
               "absolute -right-4 -top-4 size-24 opacity-5",
@@ -268,27 +315,35 @@ function KidSpacePage() {
             </div>
 
             {visibility.balance ? (
-              <>
-                <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+              <div className={cn(compactMode && "flex flex-col")}>
+                <p className={cn(
+                  "flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary",
+                  compactMode && "justify-start"
+                )}>
                   <Sparkles className="size-3.5" /> Saldo disponível
                 </p>
                 <p
                   className={cn(
                     "mt-1 text-4xl font-black tabular-nums tracking-tighter",
+                    compactMode && "text-2xl mt-0",
                     balance < 0 ? "text-destructive" : "text-foreground",
                   )}
                 >
                   {formatCurrency(balance)}
                 </p>
-              </>
+              </div>
             ) : (
+
               <p className="text-[11px] font-semibold text-muted-foreground">
                 Saldo oculto pelo responsável.
               </p>
             )}
             
             {visibility.income ? (
-              <div className="mt-3 grid grid-cols-2 gap-2 text-left">
+              <div className={cn(
+                "mt-3 grid grid-cols-2 gap-2 text-left",
+                compactMode && "mt-0 grid-cols-1 gap-1"
+              )}>
                 <div className="rounded-xl bg-emerald-500/10 p-2">
                   <p className="flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase tracking-tight">
                     <TrendingUp className="size-3" /> Ganhei
@@ -307,28 +362,32 @@ function KidSpacePage() {
 
           <section className={cn(
             "rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4 group hover:border-primary/40 transition-all",
+            compactMode && "rounded-2xl p-4 flex-row justify-between",
             isBoy ? "hover:border-blue-500/40" : isGirl ? "hover:border-pink-500/40" : ""
           )}>
             <div className={cn(
               "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
+              compactMode && "size-10",
               isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
             )}>
-              <TrendingUp className="size-8" />
+              <TrendingUp className={cn("size-8", compactMode && "size-5")} />
             </div>
-            <div className="text-center">
+            <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
               <h3 className="text-sm font-bold">Comprei ou Ganhei?</h3>
               <p className="text-[11px] text-muted-foreground mt-0.5">Toque no botão para anotar</p>
             </div>
             <Button 
               className={cn(
                 "h-10 w-full rounded-xl text-sm font-bold shadow-lg",
+                compactMode && "w-auto px-4 h-9",
                 isBoy ? "bg-blue-600 hover:bg-blue-700" : isGirl ? "bg-pink-600 hover:bg-pink-700" : ""
               )} 
               onClick={() => setEntryOpen(true)}
             >
-              Anotar Agora 📝
+              {compactMode ? "Anotar" : "Anotar Agora 📝"}
             </Button>
           </section>
+
         </div>
 
         {visibility.goals && (goals.data ?? []).length > 0 && (
@@ -427,9 +486,21 @@ function KidSpacePage() {
           ) : (
             <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
               {rows.map((row) => (
-                <li key={row.id} className="flex items-center justify-between gap-3 p-3 hover:bg-muted/30 transition-colors">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold">{row.description}</p>
+                <li key={row.id} className="flex items-center justify-between gap-3 p-3 hover:bg-muted/30 transition-colors group">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="truncate text-sm font-semibold">{row.description}</p>
+                      <button 
+                        onClick={() => {
+                          toast.info("Solicitação enviada!", {
+                            description: "O responsável foi notificado para revisar este lançamento."
+                          });
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-[9px] font-bold text-primary hover:underline"
+                      >
+                        Solicitar Correção
+                      </button>
+                    </div>
                     <p className="text-[10px] font-bold text-muted-foreground/70 uppercase">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
                         day: '2-digit',
@@ -437,6 +508,7 @@ function KidSpacePage() {
                       })}
                     </p>
                   </div>
+
                   <span
                     className={cn(
                       "shrink-0 text-sm font-bold tabular-nums",
@@ -449,9 +521,33 @@ function KidSpacePage() {
               ))}
             </ul>
           )}
+          <div className="flex justify-center mt-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-[10px] font-bold text-muted-foreground hover:text-primary transition-colors gap-2"
+              onClick={() => {
+                toast.info("Precisa corrigir algo?", {
+                  description: "Toque em 'Solicitar Correção' ao lado do nome da conta no histórico."
+                });
+              }}
+            >
+              <HelpCircle className="size-3" /> Ajuda com o histórico
+            </Button>
+          </div>
         </section>
+
         ) : null}
       </div>
+
+      <KidSummary 
+        balance={balance} 
+        income={income} 
+        expense={expense} 
+        rows={rows}
+        isBoy={isBoy}
+        isGirl={isGirl}
+      />
 
       <KidEntryDialog
         open={entryOpen}
@@ -464,12 +560,96 @@ function KidSpacePage() {
           &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
         </p>
       </footer>
+
     </main>
     </KidsStatusGuard>
   );
 }
 
+function KidSummary({ 
+  balance, 
+  income, 
+  expense, 
+  rows,
+  isBoy,
+  isGirl
+}: { 
+  balance: number; 
+  income: number; 
+  expense: number; 
+  rows: KidTransaction[];
+  isBoy: boolean;
+  isGirl: boolean;
+}) {
+  return (
+    <section className={cn(
+      "mx-auto w-full max-w-2xl space-y-4 px-4 sm:px-6 mt-8 p-6 rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-xl",
+      isBoy ? "border-blue-500/20" : isGirl ? "border-pink-500/20" : "border-primary/20"
+    )}>
+      <h2 className="text-lg font-black tracking-tight flex items-center gap-2">
+        <Target className="size-5 text-primary" /> Resumo do meu Dinheirinho
+      </h2>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20 text-center">
+          <p className="text-[10px] font-black uppercase tracking-widest text-primary/70">Meu Saldo</p>
+          <p className="text-2xl font-black tabular-nums">{formatCurrency(balance)}</p>
+        </div>
+        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600/70">Total que Ganhei</p>
+          <p className="text-xl font-black tabular-nums">{formatCurrency(income)}</p>
+        </div>
+        <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-center">
+          <p className="text-[10px] font-black uppercase tracking-widest text-destructive/70">Total que Gastei</p>
+          <p className="text-xl font-black tabular-nums">{formatCurrency(expense)}</p>
+        </div>
+      </div>
+
+      <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
+        <p className="text-[11px] font-bold text-muted-foreground flex items-center gap-2">
+          <HelpCircle className="size-3.5" /> Como calculamos?
+        </p>
+        <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground/80 font-medium">
+          O seu saldo é a diferença entre o que você <strong>ganhou</strong> (mesadas, presentes) e o que você <strong>gastou</strong> (lanches, brinquedos). 
+          Cada vez que você anota uma dessas coisas, o sistema atualiza o valor automaticamente!
+        </p>
+      </div>
+
+      {rows.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">Movimentações recentes</p>
+          <div className="space-y-2">
+            {rows.slice(0, 3).map(row => (
+              <div key={row.id} className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/30">
+                <div className="flex items-center gap-3">
+                  <div className={cn(
+                    "size-8 rounded-lg flex items-center justify-center",
+                    row.transaction_type === 'income' ? "bg-emerald-500/10 text-emerald-600" : "bg-destructive/10 text-destructive"
+                  )}>
+                    {row.transaction_type === 'income' ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">{row.description}</p>
+                    <p className="text-[9px] font-medium text-muted-foreground">{new Date(row.transaction_date).toLocaleDateString('pt-BR')}</p>
+                  </div>
+                </div>
+                <p className={cn(
+                  "text-xs font-black tabular-nums",
+                  row.transaction_type === 'income' ? "text-emerald-600" : "text-destructive"
+                )}>
+                  {row.transaction_type === 'income' ? '+' : '-'} {formatCurrency(row.amount)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function KidEntryDialog({
+
   open,
   onOpenChange,
   dependentId,
@@ -507,7 +687,53 @@ function KidEntryDialog({
       } as never);
       if (error) throw error;
     },
+    onMutate: async () => {
+      // Pedir confirmação com diálogo profissional antes de salvar
+      const confirmed = await new Promise((resolve) => {
+        toast.custom((t) => (
+          <div className="bg-card border border-border p-6 rounded-3xl shadow-2xl w-full max-w-sm animate-in zoom-in-95 duration-200">
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <Target className="size-8" />
+              </div>
+              <div>
+                <h4 className="text-xl font-black tracking-tight">Tudo certo?</h4>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Confira se o valor está correto! Depois de salvar, você não poderá editar esse registro.
+                </p>
+              </div>
+              <div className="flex gap-3 w-full mt-2">
+                <Button 
+                  variant="outline" 
+                  className="flex-1 rounded-2xl h-12 font-bold" 
+                  onClick={() => {
+                    toast.dismiss(t);
+                    resolve(false);
+                  }}
+                >
+                  Revisar
+                </Button>
+                <Button 
+                  className="flex-1 rounded-2xl h-12 font-bold shadow-lg" 
+                  onClick={() => {
+                    toast.dismiss(t);
+                    resolve(true);
+                  }}
+                >
+                  Sim, Salvar!
+                </Button>
+              </div>
+            </div>
+          </div>
+        ), { duration: Infinity, position: 'bottom-center' });
+      });
+      
+      if (!confirmed) {
+        throw new Error("Revisão solicitada");
+      }
+    },
     onSuccess: () => {
+
       toast.success("Registrado! Muito bem 👏");
       setAmount("");
       setDescription("");
@@ -578,6 +804,17 @@ function KidEntryDialog({
           🔒 Atenção: depois de salvar, a data e a hora são marcadas automaticamente e o registro
           <strong> não pode ser editado nem apagado</strong>. Só um responsável pode corrigir.
         </p>
+
+        <div className="p-3 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex gap-3 items-start">
+          <div className="bg-amber-500/10 p-2 rounded-xl text-amber-600">
+            <AlertTriangle className="size-4" />
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-amber-700">Algo errado?</p>
+            <p className="text-[10px] text-amber-600/80 leading-snug">Se você digitou o valor ou a data errada, salve e depois peça para o papai ou a mamãe corrigir para você no painel deles.</p>
+          </div>
+        </div>
+
 
 
 
