@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { KeyRound, ShieldAlert, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { KeyRound, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { useServerFn } from "@tanstack/react-start";
 import { adminAccessByCode } from "@/lib/admin-code.functions";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 /** Chave guardada até o login para ser ativada automaticamente na conta. */
 export const PENDING_LICENSE_KEY = "gastocerto:pending-license";
@@ -43,29 +44,66 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
     setMessage("Validando código nos servidores...");
 
     try {
-      // Tenta validar como admin primeiro
+      // 1. Tenta validar como acesso administrativo direto (sem auth necessária)
       const res = await checkAdmin({ data: { code: key } });
       if (res.success) {
         setStatus("valid");
-        setMessage("Acesso administrativo confirmado! Redirecionando...");
+        setMessage(`Bem-vindo, ${res.label || "Administrador"}. Acesso confirmado! Redirecionando...`);
         setTimeout(() => {
           setOpen(false);
           window.location.href = "/admin";
         }, 1500);
         return;
       }
-    } catch (e) {
-      // Não é admin, segue fluxo de licença normal
+    } catch (e: any) {
+      // Se deu erro mas é um erro de limite ou expiração, mostramos
+      if (e.message && (e.message.includes("expirado") || e.message.includes("limite"))) {
+        setStatus("invalid");
+        setMessage(e.message);
+        return;
+      }
     }
 
-    // Simulação de validação de licença (integrar com banco depois)
-    const isPlanCode = key.startsWith("VIP") || key.startsWith("PLAN") || key.startsWith("OFF") || key.includes("PROMO");
-    
-    if (key.length >= 6) {
+    // 2. Se não é admin, verifica no banco se é uma licença válida
+    try {
+      const { data: license, error } = await supabase
+        .from("licenses")
+        .select("status, activated_at, expires_at, plans(name, slug)")
+        .eq("license_key", key)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!license) {
+        setStatus("invalid");
+        setMessage("Este código não foi encontrado. Verifique e tente novamente.");
+        return;
+      }
+
+      if (license.status === "revoked") {
+        setStatus("invalid");
+        setMessage("Esta licença foi bloqueada/revogada pelo administrador.");
+        return;
+      }
+
+      if (license.status === "expired" || (license.expires_at && new Date(license.expires_at).getTime() < Date.now())) {
+        setStatus("invalid");
+        setMessage("Esta licença já expirou.");
+        return;
+      }
+
+      if (license.activated_at) {
+        setStatus("invalid");
+        setMessage("Este código já foi utilizado em outra conta.");
+        return;
+      }
+
+      // Licença válida!
       setStatus("valid");
-      setMessage(isPlanCode 
-        ? "Código promocional identificado! Você será redirecionado para o cadastro com o desconto aplicado."
-        : "Código de licença válido! Registrando acesso..."
+      const planName = (license.plans as any)?.name;
+      setMessage(planName 
+        ? `Licença para o plano "${planName}" identificada! Redirecionando para o cadastro...`
+        : "Código de licença válido! Você será redirecionado para o cadastro."
       );
 
       try {
@@ -76,9 +114,11 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
         setOpen(false);
         void navigate({ to: "/auth", search: { mode: "signup" } });
       }, 2000);
-    } else {
+
+    } catch (err) {
+      console.error("[code-access] erro na validação:", err);
       setStatus("invalid");
-      setMessage("Este código não foi encontrado ou está expirado. Verifique e tente novamente.");
+      setMessage("Erro ao validar código. Tente novamente mais tarde.");
     }
   };
 
@@ -99,7 +139,7 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
             Acesso Profissional por Código
           </DialogTitle>
           <DialogDescription>
-            Insira seu código de acesso, cupom ou licença administrativa para desbloquear recursos.
+            Insira seu código de acesso, cupom ou licença para desbloquear sua conta.
           </DialogDescription>
         </DialogHeader>
 
