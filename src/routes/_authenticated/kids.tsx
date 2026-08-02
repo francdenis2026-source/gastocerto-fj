@@ -157,14 +157,22 @@ function KidsAccessPage() {
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
       <header className="space-y-3">
-        <div className="space-y-1">
-          <h1 className="flex items-center gap-2 text-xl font-extrabold text-foreground">
-            <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
-          </h1>
-          <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-            Aqui você cria e controla o código e a senha de cada criança. Os gastos, as entradas e o
-            resumo financeiro de cada uma ficam em <strong className="font-semibold text-foreground">Meu perfil</strong>.
-          </p>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="flex items-center gap-2 text-xl font-extrabold text-foreground">
+              <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
+            </h1>
+            <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
+              Aqui você cria e controla o código e a senha de cada criança. Os gastos, as entradas e o
+              resumo financeiro de cada uma ficam em <strong className="font-semibold text-foreground">Meu perfil</strong>.
+            </p>
+          </div>
+          <Button asChild size="sm" variant="ghost" className="h-9 gap-2 text-xs hover:bg-secondary/80">
+            <Link to="/painel">
+              <LayoutGrid className="size-4" aria-hidden />
+              Ir para Área do Cliente
+            </Link>
+          </Button>
         </div>
         <Button asChild size="sm" variant="outline" className="h-9 gap-2 text-xs">
           <Link to="/perfil">

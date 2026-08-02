@@ -180,7 +180,7 @@ function AuthPage() {
             Acesse com CPF e senha de 6 dígitos. Cadastro gratuito, sem necessidade de cartão.
           </p>
         </div>
-        <p className="text-[11px] text-white/90">Dev. Franc D&apos;nis · Feijó-AC</p>
+        <p className="text-[10px] font-medium uppercase tracking-widest text-white/60">&lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE</p>
       </section>
 
       <section className="relative flex w-full items-center justify-center px-4 py-8 lg:bg-secondary/30">

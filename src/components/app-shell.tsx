@@ -563,8 +563,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           {children}
         </main>
 
-        <footer className="hidden border-t border-border px-4 py-2 text-center text-[11px] text-muted-foreground lg:block">
-          Dev. Franc D&apos;nis · Feijó-AC
+        <footer className="mt-auto border-t border-border py-6 text-center lg:px-8">
+          <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60">
+            &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+          </p>
         </footer>
       </div>
 
@@ -793,6 +795,13 @@ function MobileTabBar({
           </button>
         </div>
       </nav>
+      
+      {/* Rodapé mobile discreto acima da tab bar */}
+      <footer className="pb-[calc(4rem+env(safe-area-inset-bottom))] pt-2 text-center lg:hidden">
+        <p className="text-[9px] font-medium uppercase tracking-widest text-muted-foreground/40">
+          &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+        </p>
+      </footer>
     </>
   );
 }
