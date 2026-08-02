@@ -25,7 +25,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
       />
       
       {/* Container principal - Grid Split Screen para Desktop, Empilhado para Mobile, mas sempre fixo */}
-      <div className="relative z-10 w-full max-w-5xl h-full max-h-[850px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden shadow-[0_32px_120px_-20px_rgba(0,0,0,0.6)] flex flex-col lg:flex-row">
+      <div className="relative z-10 w-full max-w-5xl h-full lg:max-h-[850px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-[1.5rem] lg:rounded-[2.5rem] overflow-hidden shadow-[0_32px_120px_-20px_rgba(0,0,0,0.6)] flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
         
         {/* Lado Esquerdo: Hero & Branding (Visível em Desktop, Compacto em Mobile) */}
         <section className="relative flex-1 bg-gradient-to-br from-emerald-600/20 to-blue-600/10 p-8 flex flex-col justify-between overflow-hidden">
