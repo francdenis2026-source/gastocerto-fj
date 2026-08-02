@@ -1551,9 +1551,9 @@ function KidTransactionsList({ dependentId }: { dependentId: string }) {
   }
 
   return (
-    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+    <div className="space-y-1.5 max-h-[160px] overflow-y-auto pr-1 custom-scrollbar">
       {txns.map((t: any) => (
-        <div key={t.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 p-2 text-[11px] border border-border/20">
+        <div key={t.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/20 p-1.5 text-[10px]">
           <div className="min-w-0 flex-1">
             <p className="truncate font-semibold text-foreground">{t.description}</p>
             <p className="text-[9px] text-muted-foreground">
