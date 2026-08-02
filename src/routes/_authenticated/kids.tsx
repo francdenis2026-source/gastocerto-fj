@@ -412,15 +412,15 @@ function KidsAccessPage() {
                           {tx.status === 'approved' ? 'Aprovado' : tx.status === 'pending' ? 'Pendente' : 'Falhou'}
                         </Badge>
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-3 py-1.5 text-right">
                         {tx.status !== 'approved' && (
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            className="h-7 px-2 text-[10px] gap-1 hover:bg-primary/10 hover:text-primary"
+                            className="h-6 px-2 text-[9px] gap-1 hover:bg-primary/10 hover:text-primary"
                             onClick={() => handleRegeneratePix(tx.id)}
                           >
-                            <RefreshCw className="size-3" /> Reenviar
+                            <RefreshCw className="size-2.5" /> Reenviar
                           </Button>
                         )}
                       </td>
