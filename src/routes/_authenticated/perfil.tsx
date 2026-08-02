@@ -455,3 +455,10 @@ const LABEL_CLASS =
 const INPUT_CLASS =
   "h-10 w-full rounded-xl border-border/40 bg-background/50 transition-colors focus:bg-background";
 
+
+const SHORTCUTS: Array<{ id: string; label: string; tab: string; anchor?: string }> = [
+  { id: "kids", label: "Gastos das crianças", tab: "kids", anchor: "perfil-kids" },
+  { id: "planos", label: "Planos", tab: "profile", anchor: "perfil-planos" },
+  { id: "licencas", label: "Licenças", tab: "profile", anchor: "perfil-licencas" },
+  { id: "historico", label: "Histórico", tab: "audit", anchor: "perfil-historico" },
+];
