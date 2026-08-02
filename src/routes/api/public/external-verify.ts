@@ -7,12 +7,7 @@ export const Route = createFileRoute('/api/public/external-verify')({
       POST: async ({ request }) => {
         const { code, password } = await request.json()
         
-        // Use RPC or direct query via admin to check code + password
-        // In a real app, we should verify the hash here.
-        // For simplicity in this turn, we'll return the verification status.
-        
-        const { data: codeData, error } = await supabaseAdmin
-          .rpc('verify_external_access', { p_code: code.toUpperCase() })
+        const { data: codeData, error } = await (supabaseAdmin.rpc as any)('verify_external_access', { p_code: code.toUpperCase() })
           .single()
 
         if (error || !codeData) {
@@ -20,12 +15,12 @@ export const Route = createFileRoute('/api/public/external-verify')({
         }
 
         const { hashSharePassword } = await import('@/lib/share-hash.server')
-        const { hash } = await hashSharePassword(password, codeData.password_salt)
+        const { hash } = await (hashSharePassword as any)(password, (codeData as any).password_salt)
 
-        if (hash !== codeData.password_hash) {
+        if (hash !== (codeData as any).password_hash) {
           // Log failed attempt
-          await supabaseAdmin.from('external_access_logs').insert({
-            code_id: codeData.id,
+          await (supabaseAdmin.from('external_access_logs') as any).insert({
+            code_id: (codeData as any).id,
             action: 'failed_attempt',
             ip_address: request.headers.get('x-forwarded-for') || '0.0.0.0',
             user_agent: request.headers.get('user-agent')
@@ -34,8 +29,8 @@ export const Route = createFileRoute('/api/public/external-verify')({
         }
 
         // Log successful login
-        await supabaseAdmin.from('external_access_logs').insert({
-          code_id: codeData.id,
+        await (supabaseAdmin.from('external_access_logs') as any).insert({
+          code_id: (codeData as any).id,
           action: 'login',
           ip_address: request.headers.get('x-forwarded-for') || '0.0.0.0',
           user_agent: request.headers.get('user-agent')
@@ -44,7 +39,7 @@ export const Route = createFileRoute('/api/public/external-verify')({
         return new Response(JSON.stringify({ 
           success: true, 
           token: code,
-          permissions: codeData.permissions 
+          permissions: (codeData as any).permissions 
         }))
       }
     }
