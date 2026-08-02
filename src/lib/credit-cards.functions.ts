@@ -98,8 +98,8 @@ export const saveCardTransaction = createServerFn({ method: "POST" })
     
     if (error) throw error;
 
-    // Atualiza o saldo do cartão
-    await supabaseAdmin.rpc("increment_card_balance", { 
+    // Atualiza o saldo do cartão via raw query para evitar erros de tipo temporários
+    await (supabaseAdmin as any).rpc("increment_card_balance", { 
       card_id_param: data.card_id, 
       amount_param: data.amount 
     });
