@@ -40,7 +40,7 @@ describe("limites configuráveis da IA", () => {
 describe("IA durante o período de teste", () => {
   it("libera a IA enquanto o teste está vigente", () => {
     const result = evaluateAiEntitlement({
-      plan: { slug: "trial_7", monthly_price: 0, annual_price: 0 },
+      plan: { slug: "trial_14", monthly_price: 0, annual_price: 0 },
       trialEndsAt: new Date(now.getTime() + 3 * 86_400_000),
       now,
     });
@@ -50,7 +50,7 @@ describe("IA durante o período de teste", () => {
 
   it("bloqueia quando o teste expirou", () => {
     const result = evaluateAiEntitlement({
-      plan: { slug: "trial_7", monthly_price: 0, annual_price: 0 },
+      plan: { slug: "trial_14", monthly_price: 0, annual_price: 0 },
       trialEndsAt: new Date(now.getTime() - 86_400_000),
       now,
     });
@@ -91,7 +91,7 @@ describe("planos e recursos", () => {
 
   it("teste expirado volta para o gratuito", () => {
     const access = resolvePlanAccess({
-      planSlug: "trial_7",
+      planSlug: "trial_14",
       planTier: "trial",
       trialEndsAt: new Date(now.getTime() - 60_000),
       now,
@@ -143,7 +143,7 @@ describe("planos e recursos", () => {
   });
 
   it("mapeia a duração de cada teste", () => {
-    expect(trialDaysForSlug("trial_7")).toBe(7);
+    expect(trialDaysForSlug("trial_14")).toBe(7);
     expect(trialDaysForSlug("trial_30")).toBe(30);
     expect(trialDaysForSlug("premium")).toBeNull();
   });

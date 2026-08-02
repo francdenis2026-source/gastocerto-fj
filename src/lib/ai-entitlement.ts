@@ -30,7 +30,7 @@ export const AI_PLAN_SLUGS = ["premium_ia", "premium-ia", "premium_ai", "ia", "a
  * Testes de cortesia distribuídos pelo administrador (licenças de 7 dias):
  * recursos limitados e IA SEMPRE bloqueada, pois cada análise consome créditos.
  */
-export const AI_BLOCKED_TRIAL_SLUGS = ["trial_7_basic", "trial_gift", "trial_7_gift"];
+export const AI_BLOCKED_TRIAL_SLUGS = ["trial_14_basic", "trial_gift", "trial_14_gift"];
 
 /** Falso quando o período de teste em vigor é um teste de cortesia sem IA. */
 export function trialIncludesAi(trialPlanSlug?: string | null): boolean {

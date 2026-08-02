@@ -7,12 +7,12 @@ import { loadPlanAccess } from "@/lib/plan-access.server";
 import { trialDaysForSlug } from "@/lib/plan-features";
 
 const trialSchema = z.object({
-  slug: z.enum(["trial_7", "trial_15", "trial_30"]),
+  slug: z.enum(["trial_14", "trial_15", "trial_30"]),
 });
 
 const adminTrialSchema = z.object({
   targetUserId: z.string().uuid(),
-  slug: z.enum(["trial_7", "trial_15", "trial_30"]),
+  slug: z.enum(["trial_14", "trial_15", "trial_30"]),
   restart: z.boolean().optional(),
 });
 
