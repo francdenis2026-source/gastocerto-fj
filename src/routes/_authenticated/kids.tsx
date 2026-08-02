@@ -67,8 +67,10 @@ import {
   updateKidsSecuritySettings,
   updateKidUpgradeConfig,
   updateKidNotificationPrefs,
+  deleteKidAccount,
 } from "@/lib/kids-account.functions";
 import { getKidTransactions } from "@/lib/kids-transactions.functions";
+
 import {
   createExternalCode,
   listExternalCodes,
