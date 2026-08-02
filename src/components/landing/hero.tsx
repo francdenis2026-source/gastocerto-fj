@@ -71,7 +71,7 @@ export function Hero() {
       {/* véu único e sólido: garante contraste AA sem excesso de brilho */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.024_252/0.92),oklch(0.14_0.024_252/0.8)_55%,oklch(0.14_0.024_252/0.97))] sm:bg-[linear-gradient(100deg,oklch(0.13_0.022_252/0.97)_0%,oklch(0.14_0.024_252/0.88)_48%,oklch(0.15_0.026_252/0.55)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.12_0.02_252/0.95),oklch(0.12_0.02_252/0.85)_55%,oklch(0.12_0.02_252/0.98))] sm:bg-[linear-gradient(100deg,oklch(0.12_0.02_252/0.98)_0%,oklch(0.12_0.02_252/0.92)_48%,oklch(0.13_0.02_252/0.75)_100%)]"
       />
       <div
         aria-hidden="true"

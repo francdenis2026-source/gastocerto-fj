@@ -384,7 +384,7 @@ function KidSpacePage() {
               )} 
               onClick={() => setEntryOpen(true)}
             >
-              {compactMode ? "Anotar" : "Anotar Agora 📝"}
+              {compactMode ? "Anotar" : "Lançar agora 📝"}
             </Button>
           </section>
 

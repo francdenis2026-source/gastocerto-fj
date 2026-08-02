@@ -92,7 +92,7 @@ export function Pricing() {
         <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
          <div className="min-w-0">
           <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
-            Planos
+            Planos de Assinatura
           </p>
           <h2 className="section-title mt-1.5">
             Planos para cada nível de controle
