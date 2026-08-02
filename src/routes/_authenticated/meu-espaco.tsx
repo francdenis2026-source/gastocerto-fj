@@ -374,3 +374,25 @@ function KidEntryDialog({
     </Dialog>
   );
 }
+
+function KidSiblingAvatars({ dependentId }: { dependentId: string }) {
+  const { data: dependents } = useDependents();
+  const siblings = (dependents ?? []).filter((d) => d.id !== dependentId && d.active !== false);
+
+  if (siblings.length === 0) return null;
+
+  return (
+    <div className="flex -space-x-2 overflow-hidden">
+      {siblings.map((sibling) => (
+        <div
+          key={sibling.id}
+          title={sibling.name}
+          className="inline-flex size-7 items-center justify-center rounded-full border-2 border-card text-[10px] font-bold text-white shadow-sm"
+          style={{ backgroundColor: sibling.color ?? "#94a3b8" }}
+        >
+          {sibling.name.charAt(0).toUpperCase()}
+        </div>
+      ))}
+    </div>
+  );
+}
