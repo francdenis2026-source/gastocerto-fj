@@ -377,7 +377,7 @@ function KidEntryDialog({
 
 function KidSiblingAvatars({ dependentId }: { dependentId: string }) {
   const { data: dependents } = useDependents();
-  const siblings = (dependents ?? []).filter((d) => d.id !== dependentId && d.active !== false);
+  const siblings = (dependents ?? []).filter((d: Dependent) => d.id !== dependentId && d.active !== false);
 
   if (siblings.length === 0) return null;
 
