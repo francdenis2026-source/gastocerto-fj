@@ -90,14 +90,15 @@ const HELP_SECTIONS = [
     id: "kids",
     title: "Educação Financeira (Kids)",
     icon: Baby,
-    content: "Uma área lúdica para ensinar finanças aos filhos. Para usar: \n1. Vá em 'Meus Cadastros' e adicione uma criança, definindo um PIN de 4 dígitos e um limite de gastos.\n2. No menu 'Espaço Kids', clique no nome da criança e digite o PIN para entrar no Modo Criança.\n3. Lá, a criança pode ver seu 'Saldo Mágico', guardar 'moedinhas' em metas e registrar seus próprios ganhos e gastos de forma simplificada.",
+    content: "O Espaço Kids é uma área lúdica integrada à sua conta, projetada para ensinar finanças na prática. Não é necessário criar uma conta separada para a criança; ela utiliza o seu acesso de forma restrita e segura por meio de um PIN de 4 dígitos. \n\nComo funciona: \n1. Você cadastra o perfil da criança em 'Meus Cadastros' e define um PIN.\n2. No menu 'Espaço Kids', a criança seleciona o nome dela e digita o PIN para entrar no 'Modo Criança'.\n3. Nesse modo, a interface muda para um visual lúdico onde ela só vê o seu próprio 'Saldo Mágico' e metas, sem acesso aos seus gastos pessoais.",
     steps: [
-      "Cadastre a criança em 'Meus Cadastros' definindo um PIN de 4 dígitos",
-      "No 'Espaço Kids', selecione a criança e digite o PIN para o Modo Criança",
-      "Ajude a criança a criar 'Metas Mágicas' para juntar dinheiro para brinquedos ou passeios",
-      "Acompanhe tudo (mesada, gastos e metas) no seu painel de responsável"
+      "Acesse 'Meus Cadastros' e adicione o perfil da criança com um PIN de 4 dígitos",
+      "No 'Espaço Kids', peça para a criança selecionar o perfil dela",
+      "Ela deve digitar o PIN para destravar o Modo Criança exclusivo",
+      "A criança registra ganhos (como mesada) e gastos de forma simples",
+      "Você acompanha e aprova as 'Metas Mágicas' pelo seu painel principal"
     ],
-    tips: ["Defina recompensas reais por metas atingidas", "Use os alertas para monitorar gastos excessivos", "A mesada pode ser agendada para cair automaticamente todo mês"]
+    tips: ["A criança não precisa de e-mail ou senha, apenas do PIN", "O Modo Criança esconde todos os dados financeiros do responsável", "Você define o limite de gastos mensal para evitar surpresas"]
   }
 ];
 
