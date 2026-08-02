@@ -1,9 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowDownRight, ArrowUpRight, Baby, Loader2, Wallet } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Baby,
+  FileDown,
+  FileText,
+  Loader2,
+  Wallet,
+} from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -16,7 +26,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatCurrency } from "@/lib/format";
 import { useDependents } from "@/lib/dependents";
 import { getKidTransactions } from "@/lib/kids-transactions.functions";
+import {
+  exportKidsSummaryCsv,
+  exportKidsSummaryPdf,
+  type KidExportRow,
+} from "@/lib/kids-export";
 import { cn } from "@/lib/utils";
+
 
 type PeriodKey = "30" | "90" | "365" | "all";
 
