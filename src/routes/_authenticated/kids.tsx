@@ -48,6 +48,7 @@ import {
   getKidSessions,
   blockKidSession,
   updateKidsSecuritySettings,
+  updateKidUpgradeConfig,
 } from "@/lib/kids-account.functions";
 import {
   createExternalCode,
@@ -75,6 +76,7 @@ import {
   describeKidCodeExpiry,
   parseKidVisibility,
   type KidVisibility,
+  KID_UPGRADE_OPTIONS,
 } from "@/lib/kids-access";
 import { KID_LOCK_MINUTES, KID_MAX_ATTEMPTS } from "@/lib/kids-login-guard";
 
@@ -190,7 +192,8 @@ function KidsAccessPage() {
           Após {KID_MAX_ATTEMPTS} tentativas erradas de código ou senha, o acesso fica bloqueado por{" "}
           {KID_LOCK_MINUTES} minutos automaticamente. 
           <strong> Novidade:</strong> Ao atingir 14 anos, o sistema permitirá o upgrade automático 
-          para uma conta independente, sem intervenção manual.
+          para uma conta independente. Você pode definir tempos personalizados de expiração do código
+          até o limite de upgrade automático (30 dias a 1 ano ou mais).
         </p>
       </section>
 
@@ -352,10 +355,11 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const saveVisibility = useServerFn(saveKidVisibility);
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
+  const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
-  const [days, setDays] = useState(30);
+  const [days, setDays] = useState(dependent.kid_auto_upgrade_days ?? 365);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
   const [qrNonce, setQrNonce] = useState(0);
@@ -407,6 +411,18 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     setQrNonce((value) => value + 1);
     void refresh();
     toast.success("QR atualizado na tela.");
+  }
+
+  async function handleUpdateUpgrade(newDays: number) {
+    setDays(newDays);
+    try {
+      await updateUpgradeConfig({ data: { dependentId: dependent.id, days: newDays } });
+      toast.success("Tempo de upgrade atualizado!");
+      void refresh();
+      void refreshAudit();
+    } catch (error) {
+      toast.error("Erro ao atualizar tempo de upgrade.");
+    }
   }
 
 
@@ -660,6 +676,51 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                   }}
                 />
               </label>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-border p-3">
+            <div className="flex items-center justify-between mb-2">
+              <p className="flex items-center gap-2 text-[12px] font-bold">
+                <CalendarClock className="size-3.5 text-primary" aria-hidden /> Expiração e Upgrade Automático
+              </p>
+              <Badge variant="outline" className="text-[10px] bg-primary/5">
+                Limite: 14 anos
+              </Badge>
+            </div>
+            <div className="grid gap-3">
+              <div className="rounded-lg bg-muted/40 p-2.5">
+                <Label className="text-[11px] font-semibold block mb-1.5">
+                  Tempo para Upgrade / Expiração Personalizada
+                </Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {KID_UPGRADE_OPTIONS.map((opt) => (
+                    <Button
+                      key={opt.value}
+                      variant={days === opt.value ? "default" : "outline"}
+                      size="sm"
+                      className="h-7 text-[10px] px-2.5"
+                      onClick={() => handleUpdateUpgrade(opt.value)}
+                    >
+                      {opt.label}
+                    </Button>
+                  ))}
+                  <div className="flex items-center gap-1.5 ml-auto">
+                    <Input
+                      type="number"
+                      className="h-7 w-16 text-[10px] px-2"
+                      value={days}
+                      onChange={(e) => setDays(Number(e.target.value))}
+                      onBlur={() => handleUpdateUpgrade(days)}
+                    />
+                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">dias</span>
+                  </div>
+                </div>
+                <p className="mt-2 text-[10px] text-muted-foreground italic leading-relaxed">
+                  Os pais podem definir tempos personalizados até o limite de upgrade automático (14 anos). 
+                  Pode ser de 30, 60, 90, 360 dias ou personalizado.
+                </p>
+              </div>
             </div>
           </div>
 
