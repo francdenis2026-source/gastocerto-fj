@@ -64,7 +64,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
         mercadopago_payment_id: mpPaymentId,
         pix_copy_paste: mockQrCode,
         pix_qr_code_base64: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==" // Mock transparent pixel
-      })
+      } as any)
       .select()
       .single();
 
