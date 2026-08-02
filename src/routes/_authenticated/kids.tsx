@@ -1165,9 +1165,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   );
 }
 
-  );
-}
-
 function SessionManager({ dependentId }: { dependentId: string }) {
   const getSessions = useServerFn(getKidSessions);
   const block = useServerFn(blockKidSession);
