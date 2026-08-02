@@ -1,8 +1,8 @@
-import workspaceBg from "@/assets/hero-desk-night.jpg";
+import workspaceBg from "@/assets/hero-bg-2026.jpg";
 
 /**
- * Plano de fundo realista aplicado a toda a homepage.
- * Fica fixo atrás do conteúdo, com máscara suave para não competir com o texto.
+ * Plano de fundo discreto da homepage: textura fixa com véu sólido,
+ * sem brilhos fortes, para preservar contraste do texto.
  */
 export function PageBackground() {
   return (
@@ -11,13 +11,12 @@ export function PageBackground() {
         src={workspaceBg}
         alt=""
         width={1920}
-        height={1088}
+        height={1080}
         loading="lazy"
         decoding="async"
-        className="size-full object-cover opacity-[0.10] dark:opacity-[0.22]"
+        className="size-full object-cover opacity-[0.05] dark:opacity-[0.16]"
       />
-      <div className="absolute inset-0 bg-background/85 dark:bg-background/80" />
-      <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_80%_0%,color-mix(in_oklab,var(--brand)_16%,transparent),transparent_60%)]" />
+      <div className="absolute inset-0 bg-background/90 dark:bg-background/85" />
     </div>
   );
 }
