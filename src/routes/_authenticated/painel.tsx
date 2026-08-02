@@ -429,6 +429,37 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="space-y-4">
+        {kidsOnboarding.visible && !kidsOnboarding.complete && (
+          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Baby className="size-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold">Ativar Espaço Kids</h3>
+                <p className="text-[11px] text-muted-foreground">Complete os passos para liberar o Modo Criança seguro.</p>
+              </div>
+            </div>
+            
+            <div className="grid gap-3 sm:grid-cols-4">
+              {[
+                { label: "Cadastrar Criança", done: kidsOnboarding.hasKid },
+                { label: "Definir PIN de 4 dígitos", done: kidsOnboarding.hasPin },
+                { label: "Configurar Limites", done: kidsOnboarding.hasLimit },
+                { label: "Agendar Mesada", done: kidsOnboarding.hasAllowance }
+              ].map((step, idx) => (
+                <div key={idx} className={cn(
+                  "flex items-center gap-2 p-2 rounded-xl border transition",
+                  step.done ? "bg-primary/10 border-primary/20 text-primary" : "bg-background border-border text-muted-foreground"
+                )}>
+                  {step.done ? <CheckSquare className="size-4" /> : <Circle className="size-4" />}
+                  <span className="text-[10px] font-bold">{step.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
           <div className="min-w-0">
             <h1 className="page-title truncate">
