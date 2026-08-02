@@ -164,12 +164,13 @@ function KidsAccessPage() {
     
     const headers = ['Data', 'Destinatário', 'Valor', 'Status', 'Descrição'];
     const rows = pixHistory.data.map(tx => [
-      String(new Date(tx.created_at).toLocaleString('pt-BR')),
+      String(new Date(tx.created_at || new Date()).toLocaleString('pt-BR')),
       String(tx.recipient?.name || tx.external_recipient_name || 'N/A'),
-      String(formatCurrency(tx.amount)),
+      String(formatCurrency(tx.amount || 0)),
       String(tx.status === 'approved' ? 'Aprovado' : tx.status === 'pending' ? 'Pendente' : 'Falhou'),
       String(tx.description || '')
     ]);
+
 
 
     if (format === 'csv') {
@@ -437,8 +438,9 @@ function KidsAccessPage() {
                   pixHistory.data.map((tx) => (
                     <tr key={tx.id} className="hover:bg-muted/30 transition-colors">
                       <td className="px-4 py-3 whitespace-nowrap">
-                        {new Date(tx.created_at).toLocaleString('pt-BR')}
+                        {new Date(tx.created_at || new Date()).toLocaleString('pt-BR')}
                       </td>
+
                       <td className="px-4 py-3 font-semibold">
                         {tx.recipient?.name || tx.external_recipient_name || 'N/A'}
                       </td>
