@@ -26,8 +26,10 @@ import {
   Tv,
   AlertCircle,
   BellRing,
+  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { formatCurrency } from "@/lib/format";
 import { useProfile } from "@/lib/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -64,6 +66,7 @@ import {
   updateKidUpgradeConfig,
   updateKidNotificationPrefs,
 } from "@/lib/kids-account.functions";
+import { getKidTransactions } from "@/lib/kids-transactions.functions";
 import {
   createExternalCode,
   listExternalCodes,
@@ -154,8 +157,7 @@ function KidsAccessPage() {
           <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
         </h1>
         <p className="text-[13px] text-muted-foreground">
-          Aqui você cria o código e a senha de cada criança, escolhe o que ela pode ver e acompanha o
-          histórico. Todo acesso fica vinculado à sua conta: ninguém entra sem o código que você criou.
+          OS PAIS DEVEM SER CAPAZES DE VER AS INFORMAÇÕES DE SEUS FILHOS QUANDO GERENCIADOS NO ESPAÇO KIDS, FALTOU OPÇÕES PROS PAIS SABEREM OS GASTOS DO SEUS FILHOS. Aqui você cria o código, a senha e agora acompanha todas as movimentações financeiras em tempo real.
         </p>
       </header>
 
@@ -205,17 +207,25 @@ function KidsAccessPage() {
       </section>
 
 
-      <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
-        <p className="flex items-center gap-2 font-bold text-foreground">
-          <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção e Futuro do Login Infantil
-        </p>
-        <p className="mt-1">
-          Após {KID_MAX_ATTEMPTS} tentativas erradas de código ou senha, o acesso fica bloqueado por{" "}
-          {KID_LOCK_MINUTES} minutos automaticamente. 
-          <strong> Novidade:</strong> Ao atingir 14 anos, o sistema permitirá o upgrade automático 
-          para uma conta independente. Você pode definir tempos personalizados de expiração do código
-          até o limite de upgrade automático (30 dias a 1 ano ou mais).
-        </p>
+      <section className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
+          <p className="flex items-center gap-2 font-bold text-foreground">
+            <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção e Futuro do Login
+          </p>
+          <p className="mt-1">
+            Após {KID_MAX_ATTEMPTS} tentativas erradas, o acesso trava por {KID_LOCK_MINUTES} min.
+            <strong> Upgrade:</strong> Aos 14 anos, a conta torna-se independente automaticamente.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-[12px] text-emerald-700 dark:text-emerald-400">
+          <p className="flex items-center gap-2 font-bold">
+            <TrendingUp className="size-4" aria-hidden /> Monitoramento Parental
+          </p>
+          <p className="mt-1">
+            Agora você pode ver todos os gastos e ganhos de cada criança diretamente nos cards abaixo.
+            Controle total sobre a educação financeira dos seus filhos.
+          </p>
+        </div>
       </section>
 
 
@@ -649,7 +659,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       </header>
       <div className="p-4 sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
-        <div className="space-y-4">
+          <div className="space-y-4">
+
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
               <Label htmlFor={`code-${dependent.id}`} className="text-[12px]">
@@ -864,9 +875,19 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </p>
             <SessionManager dependentId={dependent.id} />
           </div>
-        </div>
 
-        <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
+          <div className="rounded-xl border border-border p-3">
+            <p className="flex items-center gap-2 text-[12px] font-bold mb-3">
+              <History className="size-3.5 text-primary" aria-hidden /> Gastos e Movimentações da Criança
+            </p>
+            <KidTransactionsList dependentId={dependent.id} />
+        </div>
+      </div>
+
+
+        <aside className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center self-start">
+
+
           <p className="flex items-center justify-center gap-1.5 text-[12px] font-bold">
             <QrCode className="size-3.5 text-primary" aria-hidden /> QR de entrada
           </p>
@@ -941,6 +962,13 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
         </aside>
         </div>
       </div>
+
+
+
+
+
+
+
     </article>
   );
 }
@@ -1265,3 +1293,44 @@ function ExternalAccessAuditList({ codeId }: { codeId: string }) {
     </div>
   );
 }
+
+function KidTransactionsList({ dependentId }: { dependentId: string }) {
+  const fetchTxns = useServerFn(getKidTransactions);
+  const { data: txns, isLoading } = useQuery({
+    queryKey: ["kid-transactions-parent", dependentId],
+    queryFn: () => fetchTxns({ data: { dependentId } }),
+  });
+
+  if (isLoading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
+
+  if (!txns || txns.length === 0) {
+    return <p className="py-2 text-center text-[10px] text-muted-foreground">Nenhuma movimentação registrada.</p>;
+  }
+
+  return (
+    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+      {txns.map((t: any) => (
+        <div key={t.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 p-2 text-[11px] border border-border/20">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-semibold text-foreground">{t.description}</p>
+            <p className="text-[9px] text-muted-foreground">
+              {new Date(`${t.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className={cn(
+              "font-bold tabular-nums",
+              t.transaction_type === "income" ? "text-emerald-600" : "text-destructive"
+            )}>
+              {t.transaction_type === "income" ? "+" : "-"} {formatCurrency(Number(t.amount))}
+            </p>
+            <Badge variant="outline" className="text-[8px] h-3 px-1 uppercase opacity-70">
+              {t.status === "received" || t.status === "paid" ? "Confirmado" : "Pendente"}
+            </Badge>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
