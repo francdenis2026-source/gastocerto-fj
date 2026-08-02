@@ -14,8 +14,8 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-import heroBg from "@/assets/hero-bg-2026.jpg";
-import heroMobileBg from "@/assets/hero-bg-2026-mobile.jpg";
+import heroBg from "@/assets/hero-bg-pro.jpg";
+import heroMobileBg from "@/assets/hero-bg-pro-mobile.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
 import { RingChart, Sparkline } from "@/components/landing/decor";
@@ -71,7 +71,7 @@ export function Hero() {
       {/* véu único e sólido: garante contraste AA sem excesso de brilho */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.15_0.026_252/0.88),oklch(0.15_0.026_252/0.72)_55%,oklch(0.15_0.026_252/0.95))] sm:bg-[linear-gradient(100deg,oklch(0.15_0.026_252/0.96)_0%,oklch(0.15_0.026_252/0.86)_46%,oklch(0.15_0.026_252/0.45)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.024_252/0.92),oklch(0.14_0.024_252/0.8)_55%,oklch(0.14_0.024_252/0.97))] sm:bg-[linear-gradient(100deg,oklch(0.13_0.022_252/0.97)_0%,oklch(0.14_0.024_252/0.88)_48%,oklch(0.15_0.026_252/0.55)_100%)]"
       />
       <div
         aria-hidden="true"
@@ -85,13 +85,13 @@ export function Hero() {
             Controle hoje, tranquilidade sempre
           </span>
 
-          <h1 className="font-display mt-3 text-[2rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[2.5rem] lg:text-[2.9rem]">
+          <h1 className="font-display mt-3 text-[2.15rem] font-extrabold leading-[1.03] tracking-[-0.032em] text-white [text-wrap:balance] sm:text-[2.7rem] lg:text-[3.15rem]">
             Todo o seu dinheiro
             <br className="hidden sm:block" />{" "}
             <span className="text-[oklch(0.88_0.11_165)]">em um só painel.</span>
           </h1>
 
-          <p className="mt-3 max-w-[46ch] text-[14px] leading-relaxed text-white/85 sm:text-[15px]">
+          <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-white/90 sm:text-base">
             Despesas, veículos, gás, cartões, PIX para os filhos e um consultor com IA — organizados
             em módulos simples, rápidos de usar todos os dias.
           </p>
@@ -121,7 +121,7 @@ export function Hero() {
             {modules.map((mod) => (
               <li
                 key={mod.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-medium text-white/90"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-semibold text-white"
               >
                 <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
                 {mod.label}
@@ -133,7 +133,7 @@ export function Hero() {
           <div className="mt-5 rounded-2xl border border-white/12 bg-[oklch(0.2_0.03_252/0.7)] p-3.5 backdrop-blur-sm lg:hidden">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
                   Mês atual
                 </p>
                 <p className="tabular mt-0.5 text-xl font-bold text-white">
@@ -170,7 +170,7 @@ export function Hero() {
                 <dd className="tabular mt-0.5 truncate text-sm font-bold text-white sm:text-base">
                   {stat.value}
                 </dd>
-                <p className="truncate text-[12.5px] text-white/65">{stat.hint}</p>
+                <p className="truncate text-[12.5px] text-white/75">{stat.hint}</p>
               </div>
             ))}
           </dl>
