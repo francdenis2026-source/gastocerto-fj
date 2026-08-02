@@ -91,33 +91,34 @@ function KidsAccessPage() {
   });
 
   const summary = useMemo(() => {
-    // ... rest of useMemo content
+    const withCode = kids.filter((kid) => Boolean(kid.kid_login_code));
+    const active = withCode.filter((kid) => {
+      const expires = kid.kid_code_expires_at ? new Date(kid.kid_code_expires_at).getTime() : null;
+      return expires === null || expires > Date.now();
+    });
+    const nextExpiry = withCode
+      .map((kid) => kid.kid_code_expires_at)
+      .filter((value): value is string => Boolean(value))
+      .sort()[0] ?? null;
+    const lastLogin = withCode
+      .map((kid) => (kid.kid_last_login_at ? { at: kid.kid_last_login_at, name: kid.name } : null))
+      .filter((value): value is { at: string; name: string } => Boolean(value))
+      .sort((a, b) => (a.at < b.at ? 1 : -1))[0] ?? null;
+    return { total: withCode.length, active: active.length, nextExpiry, lastLogin };
+  }, [kids]);
 
+  return (
+    <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
+      <header className="space-y-1">
+        <h1 className="flex items-center gap-2 text-xl font-extrabold">
+          <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
+        </h1>
+        <p className="text-[13px] text-muted-foreground">
+          Aqui você cria o código e a senha de cada criança, escolhe o que ela pode ver e acompanha o
+          histórico. Todo acesso fica vinculado à sua conta: ninguém entra sem o código que você criou.
+        </p>
+      </header>
 
-      <section className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-            <KeyRound className="size-3.5 text-primary" aria-hidden /> Códigos ativos
-          </p>
-          <p className="mt-1 text-2xl font-extrabold">{summary.active}</p>
-          <p className="text-[11px] text-muted-foreground">
-            {summary.total === 0
-              ? "Nenhum acesso liberado ainda."
-              : `${summary.total} código(s) criado(s) no total.`}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-            <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
-          </p>
-          <p className="mt-1 text-[13px] font-bold">
-            {describeKidCodeExpiry(summary.nextExpiry).label}
-          </p>
-          <p className="text-[11px] text-muted-foreground">
-            {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-border bg-card p-4">
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
             <LogIn className="size-3.5 text-primary" aria-hidden /> Último login da criança
           </p>
@@ -265,9 +266,11 @@ function KidsAccessPage() {
           Novidade: Agora você pode acompanhar gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> na categoria "Churrasco & Fim de Semana".
           Perfeito para monitorar aquele almoço especial de domingo!
         </p>
+      </section>
     </div>
   );
 }
+
 
 
 function KidAccessCard({ dependent }: { dependent: Dependent }) {
