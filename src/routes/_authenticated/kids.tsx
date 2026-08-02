@@ -478,13 +478,32 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <Button
                 type="button"
                 size="sm"
+                variant="secondary"
+                className="mt-2 w-full text-[11px]"
+                onClick={() => void copyLoginUrl()}
+              >
+                <Copy className="mr-1.5 size-3.5" /> Copiar link do QR
+              </Button>
+              <Button
+                type="button"
+                size="sm"
                 variant="outline"
+                className="mt-2 w-full text-[11px]"
+                onClick={reloadQr}
+              >
+                <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR atualizado
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
                 className="mt-2 w-full text-[11px]"
                 disabled={busy}
                 onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
               >
-                <RefreshCw className="mr-1.5 size-3.5" /> Atualizar QR
+                <KeyRound className="mr-1.5 size-3.5" /> Gerar novo código
               </Button>
+
             </>
           ) : (
             <p className="mt-3 text-[11px] text-muted-foreground">
