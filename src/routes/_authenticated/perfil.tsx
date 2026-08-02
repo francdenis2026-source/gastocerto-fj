@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useAvatarUrl, useInvalidateProfile, useProfile, useRoles } from "@/lib/queries";
 import { profileSchema, validateAvatarFile } from "@/lib/validation";
+import { ExternalCodesList, ExternalCodeCreator } from "./kids";
 
 
 export const Route = createFileRoute("/_authenticated/perfil")({
