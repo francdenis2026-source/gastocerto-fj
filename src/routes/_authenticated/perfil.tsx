@@ -58,6 +58,21 @@ function ProfilePage() {
   const [pending, setPending] = useState<File | null>(null);
   const [accountOpen, setAccountOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [tab, setTab] = useState("profile");
+
+  /** Ativa a aba do atalho e rola até a seção correspondente. */
+  function jumpTo(nextTab: string, anchor?: string) {
+    setTab(nextTab);
+    requestAnimationFrame(() => {
+      const target = anchor ? document.getElementById(anchor) : null;
+      (target ?? document.getElementById("perfil-conteudo"))?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      if (target instanceof HTMLElement) target.focus({ preventScroll: true });
+    });
+  }
+
 
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
