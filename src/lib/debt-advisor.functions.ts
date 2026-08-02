@@ -7,58 +7,65 @@ export const getDebtAdvisorInsights = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { userId } = data;
 
-    // 1. Busca transações e compromissos (tabelas que sabemos que existem)
-    const [transactionsRes, commitmentsRes] = await Promise.all([
+    // 1. Busca transações, compromissos e cartões
+    const [transactionsRes, commitmentsRes, cardsRes] = await Promise.all([
       supabaseAdmin.from("transactions").select("*").eq("user_id", userId).is("deleted_at", null),
       supabaseAdmin.from("commitments").select("*").eq("user_id", userId).eq("status", "open"),
+      supabaseAdmin.from("credit_cards").select("*").eq("user_id", userId).eq("active", true),
     ]);
 
     const txs = transactionsRes.data || [];
     const commitments = (commitmentsRes.data || []) as any[];
-
-    // Tenta buscar cartões (se a migração já refletiu nos tipos, senão usamos consulta crua ou ignoramos erro de tipo)
-    // Para evitar erros de build se os tipos não atualizaram, usamos 'any'
-    const cardsRes = await (supabaseAdmin.from("credit_cards") as any).select("*").eq("user_id", userId);
     const cards = (cardsRes.data || []) as any[];
 
-    // Cálculo básico de saúde financeira
+    // Cálculo básico de saúde financeira (últimos 30 dias para base de renda/gasto)
     const totalIncome = txs.filter(t => t.transaction_type === 'income').reduce((s, t) => s + Number(t.amount), 0);
     const totalExpense = txs.filter(t => t.transaction_type === 'expense').reduce((s, t) => s + Number(t.amount), 0);
     
-    // Compromissos pendentes
+    // Compromissos pendentes (parcelas, fiados, etc)
     const totalDebt = commitments.reduce((s, c) => s + (Number(c.total_amount) - Number(c.paid_amount || 0)), 0);
     
-    // Análise de cartões
+    // Dívida de cartões
     const cardDebt = cards.reduce((s, c) => s + Number(c.current_balance || 0), 0);
+    const combinedDebt = totalDebt + cardDebt;
 
     const plans = [];
 
-    // Lógica de sugestão
-    if (totalDebt > 0 || cardDebt > 0) {
-      const combinedDebt = totalDebt + cardDebt;
+    // Lógica de sugestão baseada no perfil de dívida
+    if (combinedDebt > 0) {
       const surplus = totalIncome - totalExpense;
-      const monthsToPay = surplus > 0 ? Math.ceil(combinedDebt / surplus) : 99;
+      const monthsToPay = surplus > 200 ? Math.ceil(combinedDebt / (surplus * 0.7)) : 99; // Usando 70% da sobra
       
       plans.push({
         title: "Plano de Quitação GastoCerto",
         description: surplus > 0 
-          ? `Com sua sobra de ${surplus.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}, você quita tudo em aprox. ${monthsToPay} meses.`
-          : "Seu orçamento está apertado. Precisamos reduzir gastos para gerar sobra e pagar as dívidas.",
+          ? `Com sua sobra média de ${surplus.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}, estimamos que você possa quitar tudo em aprox. ${monthsToPay} meses focando 70% da sobra mensal para amortização.`
+          : "Seu orçamento atual não possui sobra para pagar dívidas. Precisamos gerar um 'superávit' cortando gastos não essenciais.",
         steps: [
-          "Elimine gastos não essenciais (Lazer, Assinaturas) imediatamente.",
-          "Priorize o pagamento do rotativo do Cartão de Crédito (Juros mais altos).",
-          "Tente renegociar prazos de empréstimos e financiamentos.",
-          `Objetivo: Economizar R$ ${Math.max(200, combinedDebt * 0.05).toFixed(2)} extras por mês.`
+          "Elimine gastos não essenciais (Lazer, Streaming não usado) por 3 meses.",
+          "Ataque a dívida com maior taxa de juros primeiro (Cartão de Crédito Rotativo).",
+          "Tente renegociar o valor total da dívida para pagamento à vista ou parcelas fixas menores.",
+          `Objetivo mensal: Destinar R$ ${Math.max(200, surplus * 0.7 || 200).toFixed(2)} exclusivamente para amortizar dívidas.`
+        ]
+      });
+    } else {
+      plans.push({
+        title: "Sua Saúde Financeira está Excelente!",
+        description: "Não identificamos dívidas pendentes ou saldos devedores significativos nos cartões.",
+        steps: [
+          "Continue mantendo sua reserva de emergência.",
+          "Comece a planejar investimentos de longo prazo.",
+          "Mantenha o controle rigoroso dos seus gastos fixos."
         ]
       });
     }
 
     return {
       summary: {
-        totalDebt: totalDebt + cardDebt,
+        totalDebt: combinedDebt,
         cardDebt,
-        debtToIncomeRatio: totalIncome > 0 ? ((totalDebt + cardDebt) / totalIncome) * 100 : 0,
-        healthScore: (totalDebt + cardDebt) === 0 ? 100 : Math.max(0, 100 - ((totalDebt + cardDebt) / (Math.max(1, totalIncome) * 12)) * 100)
+        debtToIncomeRatio: totalIncome > 0 ? (combinedDebt / totalIncome) * 100 : 0,
+        healthScore: combinedDebt === 0 ? 100 : Math.max(0, 100 - (combinedDebt / (Math.max(1, totalIncome) * 12)) * 100)
       },
       plans
     };
