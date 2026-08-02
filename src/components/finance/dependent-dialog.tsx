@@ -120,8 +120,10 @@ export function DependentDialog({
         <DialogHeader>
           <DialogTitle>{dependent ? "Editar dependente" : "Novo filho / dependente"}</DialogTitle>
           <DialogDescription>
-            Cadastre cada filho para acompanhar os gastos extras. Defina um PIN de 4 dígitos para que a criança possa entrar no Modo Criança sozinha.
+            Cadastre cada filho para acompanhar os gastos extras. Defina um PIN de 4 dígitos para que a criança possa entrar no Modo Criança sozinha. 
+            Contas Kids podem ser migradas para contas independentes automaticamente ao atingirem 14 anos.
           </DialogDescription>
+
         </DialogHeader>
 
         <div className="space-y-3">
@@ -234,7 +236,16 @@ export function DependentDialog({
             </div>
           </div>
 
+          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-[11px] text-emerald-700 dark:text-emerald-400">
+            <p className="font-bold flex items-center gap-1.5 mb-1">
+              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              Migração Automática (Futuro)
+            </p>
+            Ao completar 14 anos, este dependente poderá migrar seus dados para uma conta GastoCerto independente de forma automática, preservando todo o histórico financeiro.
+          </div>
+
           <div>
+
             <Label htmlFor="dep-limit">Limite de Alerta de Gastos</Label>
             <MoneyInput
               id="dep-limit"
