@@ -91,7 +91,6 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
           </div>
         </section>
       </div>
-      </div>
     </main>
   );
 }

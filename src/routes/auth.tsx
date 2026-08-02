@@ -254,7 +254,7 @@ function AuthPage() {
         {/* Painel do formulário rolável */}
         <section className="flex flex-col overflow-y-auto px-5 py-5 sm:px-6">
           <div className="mb-4 flex justify-center lg:hidden">
-            <Link to="/">
+            <Link to="/" className="w-fit">
               <Logo />
             </Link>
           </div>
