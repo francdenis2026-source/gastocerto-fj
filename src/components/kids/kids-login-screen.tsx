@@ -60,23 +60,9 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             className="mx-auto mt-6 w-full max-w-xs rounded-3xl border border-white/20 shadow-2xl sm:max-w-sm lg:mt-8"
           />
 
-          <ul className="mt-6 grid gap-2 sm:grid-cols-3">
-            {HIGHLIGHTS.map((item) => (
-              <li
-                key={item.title}
-                className="rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm"
-              >
-                <p className="flex items-center gap-1.5 text-[12px] font-bold text-white">
-                  <item.icon className="size-4 shrink-0 text-[oklch(0.88_0.16_160)]" aria-hidden />
-                  {item.title}
-                </p>
-                <p className="mt-0.5 text-[11px] leading-snug text-white/90">{item.text}</p>
-              </li>
-            ))}
-          </ul>
         </section>
 
-        <section className="min-w-0">
+        <section className="order-first min-w-0 lg:order-none">
           <div className="rounded-3xl border border-white/25 bg-card p-5 shadow-2xl sm:p-6">
             <p className="mb-3 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
               <Rocket className="size-3.5" aria-hidden /> Entrada da criança
@@ -87,6 +73,20 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             Não sabe seu código? Peça para o seu responsável abrir o Espaço Kids no painel dele.
           </p>
         </section>
+        <ul className="order-last grid gap-2 sm:grid-cols-3 lg:hidden">
+            {HIGHLIGHTS.map((item) => (
+          <li
+                key={item.title}
+                className="rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm"
+              >
+            <p className="flex items-center gap-1.5 text-[12px] font-bold text-white">
+            <item.icon className="size-4 shrink-0 text-[oklch(0.88_0.16_160)]" aria-hidden />
+                  {item.title}
+            </p>
+            <p className="mt-0.5 text-[11px] leading-snug text-white/90">{item.text}</p>
+          </li>
+            ))}
+        </ul>
       </div>
     </main>
   );
