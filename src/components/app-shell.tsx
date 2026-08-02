@@ -245,8 +245,11 @@ export function AppShell({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
     // Não deixa preferências/rascunhos deste usuário no navegador compartilhado.
     clearBrowserCredentials();
+    // Forçar limpeza total para evitar carregamento de lixo do histórico
+    window.localStorage.clear();
+    window.sessionStorage.clear();
     // Após sair, o destino é sempre a homepage pública (não a área do cliente).
-    navigate({ to: "/", replace: true });
+    window.location.replace("/");
   }
 
   return (
