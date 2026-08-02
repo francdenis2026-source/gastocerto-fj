@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
+import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
+
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -24,6 +25,10 @@ import { formatCurrency } from "@/lib/format";
 import { useKidSession } from "@/lib/kids-session";
 import { parseKidVisibility } from "@/lib/kids-access";
 import { cn } from "@/lib/utils";
+import { getKidCardControl } from "@/lib/kids-cards.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { Progress } from "@/components/ui/progress";
+
 
 export const Route = createFileRoute("/_authenticated/meu-espaco")({
   head: () => ({
@@ -58,6 +63,16 @@ function KidSpacePage() {
   const { signOut } = useAuth();
   const { dependent, loading } = useKidSession();
   const [entryOpen, setEntryOpen] = useState(false);
+  const fetchCardControl = useServerFn(getKidCardControl);
+
+  const cardControl = useQuery({
+    queryKey: ["kid_card_control", dependent?.id],
+    enabled: Boolean(dependent?.id),
+    queryFn: async () => {
+      return await fetchCardControl({ data: { kidUserId: dependent!.id } });
+    },
+  });
+
 
   const transactions = useQuery({
     queryKey: ["kid_transactions", dependent?.id],
@@ -224,6 +239,60 @@ function KidSpacePage() {
             })}
           </section>
         )}
+
+        {cardControl.data?.cards && cardControl.data.cards.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="flex items-center gap-2 text-sm font-bold">
+              <CreditCard className="size-4 text-primary" /> Meu cartão
+            </h2>
+            {cardControl.data.cards.map((card: any) => (
+              <div key={card.id} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-xl bg-primary/10 p-2 text-primary">
+                      <CreditCard className="size-5" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Disponível para uso</p>
+                      <p className="text-xl font-black text-foreground">
+                        {formatCurrency(card.limit_amount - card.current_balance)}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-medium text-muted-foreground border rounded-full px-2 py-0.5">
+                    Final {card.card_number_suffix}
+                  </span>
+                </div>
+                
+                <div className="space-y-2">
+                  <Progress 
+                    value={(card.current_balance / card.limit_amount) * 100} 
+                    className="h-2"
+                  />
+                  <div className="flex justify-between text-[11px] font-bold">
+                    <span className="text-muted-foreground">Gasto: {formatCurrency(card.current_balance)}</span>
+                    <span className="text-primary">Total: {formatCurrency(card.limit_amount)}</span>
+                  </div>
+                </div>
+
+                {cardControl.data.recentTransactions.filter((t: any) => t.card_id === card.id).length > 0 && (
+                  <div className="mt-5 space-y-2 pt-4 border-t border-border">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Compras recentes</p>
+                    {cardControl.data.recentTransactions
+                      .filter((t: any) => t.card_id === card.id)
+                      .slice(0, 2)
+                      .map((t: any) => (
+                        <div key={t.id} className="flex items-center justify-between py-1.5">
+                          <span className="text-xs font-semibold truncate max-w-[150px]">{t.description}</span>
+                          <span className="text-xs font-bold">{formatCurrency(t.amount)}</span>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </section>
+
 
         {visibility.history ? (
         <section className="space-y-4">
