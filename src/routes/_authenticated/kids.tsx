@@ -44,7 +44,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
