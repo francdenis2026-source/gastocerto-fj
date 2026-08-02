@@ -14,8 +14,8 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-import heroBg from "@/assets/hero-bg-pro.jpg";
-import heroMobileBg from "@/assets/hero-bg-pro-mobile.jpg";
+import heroBg from "@/assets/hero-bg-2027.jpg";
+import heroMobileBg from "@/assets/hero-bg-2027-mobile.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
 import { RingChart, Sparkline } from "@/components/landing/decor";
@@ -71,7 +71,7 @@ export function Hero() {
       {/* véu único e sólido: garante contraste AA sem excesso de brilho */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.12_0.02_252/0.95),oklch(0.12_0.02_252/0.85)_55%,oklch(0.12_0.02_252/0.98))] sm:bg-[linear-gradient(100deg,oklch(0.12_0.02_252/0.98)_0%,oklch(0.12_0.02_252/0.92)_48%,oklch(0.13_0.02_252/0.75)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.86),oklch(0.14_0.02_252/0.62)_55%,oklch(0.14_0.02_252/0.9))] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.94)_0%,oklch(0.13_0.02_252/0.72)_46%,oklch(0.14_0.02_252/0.28)_100%)]"
       />
       <div
         aria-hidden="true"

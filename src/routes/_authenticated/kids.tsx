@@ -28,7 +28,6 @@ import {
   Tv,
   AlertCircle,
   BellRing,
-  TrendingUp,
   FileText,
   Trash,
 } from "lucide-react";
@@ -242,9 +241,6 @@ function KidsAccessPage() {
         <div className="flex items-center gap-2">
           <Button asChild size="sm" variant="outline" className="h-8 gap-2 text-[10px]">
             <Link to="/painel"><LayoutGrid className="size-3.5" /> Área do Cliente</Link>
-          </Button>
-          <Button asChild size="sm" variant="ghost" className="h-8 gap-2 text-[10px]">
-            <Link to="/perfil"><TrendingUp className="size-3.5" /> Planos e Licenças</Link>
           </Button>
         </div>
       </header>

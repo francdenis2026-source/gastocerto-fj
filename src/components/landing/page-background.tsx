@@ -1,4 +1,4 @@
-import workspaceBg from "@/assets/hero-bg-pro.jpg";
+import workspaceBg from "@/assets/hero-bg-2027.jpg";
 
 /**
  * Plano de fundo discreto da homepage: textura fixa com véu sólido,
