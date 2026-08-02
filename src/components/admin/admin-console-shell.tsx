@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText } from "lucide-react";
+import { useState } from "react";
 
 import consoleBg from "@/assets/admin-console-bg.jpg";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export type AdminSection = {
   id: string;
@@ -43,9 +45,17 @@ export function AdminConsoleShell({
 }) {
   const { theme, toggleTheme } = useTheme();
   const current = sections.find((section) => section.id === active);
+  const { confirm, ConfirmDialog } = useConfirm();
 
   function handleLogout() {
-    window.location.href = "/painel";
+    confirm({
+      title: "Deseja sair da administração?",
+      description: "Você voltará para o painel de cliente. Suas alterações salvas não serão perdidas.",
+      type: "question",
+      onConfirm: () => {
+        window.location.href = "/painel";
+      }
+    });
   }
 
   const exportSearchPdf = () => {
@@ -181,6 +191,7 @@ export function AdminConsoleShell({
           </main>
         </div>
       </div>
+      <ConfirmDialog />
     </div>
   );
 }
