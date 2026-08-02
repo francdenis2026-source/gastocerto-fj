@@ -271,10 +271,11 @@ function AuthPage() {
               onValueChange={(value) => setMode(value as Mode)}
               className="relative"
             >
-              <TabsList className="grid h-11 w-full grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner">
+              <TabsList className="grid h-11 w-full grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
                 <TabsTrigger
                   value="login"
-                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98]"
+                  aria-label="Acessar conta existente"
+                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
                 >
                   <KeyRound className="size-3.5" aria-hidden />
                   Entrar
@@ -285,7 +286,8 @@ function AuthPage() {
                 </TabsTrigger>
                 <TabsTrigger
                   value="signup"
-                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98]"
+                  aria-label="Criar nova conta"
+                  className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:ring-2 data-[state=active]:ring-primary/25 active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:ring-brand/40"
                 >
                   <UserPlus className="size-3.5" aria-hidden />
                   Criar conta
