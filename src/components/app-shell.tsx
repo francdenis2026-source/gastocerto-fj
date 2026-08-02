@@ -22,6 +22,7 @@ import {
   X,
   TrendingUp,
   TrendingDown,
+  Flame,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
