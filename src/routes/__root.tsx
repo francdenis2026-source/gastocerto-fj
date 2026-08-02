@@ -182,6 +182,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        ola
         {/* Ajustar os botões de alternância (Entrar/Criar conta) para ficarem acessíveis com foco visível, rótulos ARIA e navegação pelo teclado. 
 
 Incluir o mesmo destaque do alternar entre “Criar conta” e “Entrar” também no modo escuro, mantendo contraste e legibilidade. 
