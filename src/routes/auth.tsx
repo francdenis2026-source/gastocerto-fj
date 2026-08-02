@@ -160,7 +160,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative isolate grid h-dvh max-h-dvh w-full place-items-center overflow-hidden p-3 sm:p-4">
+    <main className="relative isolate grid min-h-dvh w-full place-items-center overflow-x-hidden p-3 sm:p-4 lg:h-dvh lg:min-h-0 lg:overflow-hidden">
       {/* Imagem de fundo global para o layout */}
       <img
         src={authHero}
@@ -175,7 +175,7 @@ function AuthPage() {
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid h-full max-h-[85dvh] w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:min-h-[420px] lg:grid-cols-[1.1fr_minmax(0,19rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
         {/* Painel lateral dinâmico (Hero) */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           {/* Imagem Hero específica para cada modo */}
@@ -272,14 +272,14 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex max-h-full flex-col px-5 py-5 sm:px-6">
-          <div className="mb-4 flex justify-center lg:hidden">
+        <section className="flex min-h-0 flex-col px-4 py-4 sm:px-5 lg:h-full">
+          <div className="mb-3 flex justify-center lg:hidden">
             <Link to="/" className="w-fit">
               <Logo />
             </Link>
           </div>
 
-          <div ref={formAreaRef} className="flex-1 overflow-y-auto pr-1">
+          <div ref={formAreaRef} className="min-h-0 flex-1 overflow-y-auto pr-1">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
@@ -290,7 +290,7 @@ function AuthPage() {
               <Tabs
                 value={mode}
                 onValueChange={(value) => setMode(value as Mode)}
-                className="relative flex flex-col min-h-[340px]"
+                className="relative flex min-h-0 flex-col"
               >
                 <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
                   <TabsTrigger
@@ -311,7 +311,7 @@ function AuthPage() {
                   </TabsTrigger>
                 </TabsList>
 
-                <div className="flex-1 mt-4">
+                <div className="mt-3 flex-1">
 
                   <TabsContent value="login" className="m-0 focus-visible:outline-none">
                     <CpfSignInForm
@@ -327,11 +327,6 @@ function AuthPage() {
                       Sou criança — entrar com meu código
                     </button>
                     <CodeAccessInline onContinue={() => setMode("signup")} />
-                    <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
-                      <p className="text-[11px] font-medium text-muted-foreground">
-                        Alterne entre <strong>Entrar</strong> e <strong>Criar conta</strong> acima para ver as opções disponíveis.
-                      </p>
-                    </div>
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
@@ -351,7 +346,7 @@ function AuthPage() {
             )}
           </div>
 
-          <div className="mt-4 shrink-0 pt-4 border-t border-border/50">
+          <div className="mt-3 shrink-0 border-t border-border/50 pt-3">
             <p className="text-center text-[10px] text-muted-foreground">
               <button
                 type="button"

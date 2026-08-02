@@ -33,7 +33,7 @@ export function CodeAccessInline({ onContinue }: { onContinue?: () => void }) {
   return (
     <section
       aria-labelledby="code-access-title"
-      className="mt-3 rounded-2xl border border-border bg-card/80 p-4 shadow-sm backdrop-blur"
+      className="mt-2 rounded-xl border border-border bg-card/80 p-3 shadow-sm backdrop-blur"
     >
       <h2
         id="code-access-title"
@@ -42,12 +42,11 @@ export function CodeAccessInline({ onContinue }: { onContinue?: () => void }) {
         <KeyRound className="size-4 text-primary" aria-hidden />
         Recebeu um código de teste?
       </h2>
-      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
-        Informe a chave liberada pela equipe. O teste libera os recursos essenciais; o Consultor de
-        IA permanece exclusivo dos planos pagos.
+      <p className="mt-1 text-[11px] leading-snug text-muted-foreground">
+        Informe a chave recebida para liberar seu período de teste.
       </p>
 
-      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end">
+      <div className="mt-2 flex items-end gap-2">
         <div className="flex-1">
           <Label htmlFor="inline-access-code" className="text-[13px]">
             Código de acesso
@@ -63,11 +62,11 @@ export function CodeAccessInline({ onContinue }: { onContinue?: () => void }) {
             onKeyDown={(event) => {
               if (event.key === "Enter") submit();
             }}
-            className="mt-1.5 h-11 font-mono text-[13px] tracking-wide"
+            className="mt-1 h-9 font-mono text-[12px] tracking-wide"
           />
         </div>
-        <Button type="button" onClick={submit} className="h-11 sm:w-auto">
-          Validar código
+        <Button type="button" onClick={submit} className="h-9 shrink-0 px-3 text-xs">
+          Validar
         </Button>
       </div>
     </section>
