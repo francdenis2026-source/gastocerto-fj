@@ -136,115 +136,98 @@ function AuthPage() {
   }
 
   return (
-
-    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
+    <main className="relative isolate grid h-dvh max-h-dvh w-full place-items-center overflow-hidden p-3 sm:p-4">
       <img
         src={authHero}
         alt=""
         aria-hidden="true"
-        width={1536}
-        height={1024}
         decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover lg:hidden"
+        className="absolute inset-0 -z-20 size-full object-cover"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(175deg,oklch(0.16_0.03_258/0.9)_0%,oklch(0.16_0.03_258/0.75)_45%,oklch(0.16_0.03_258/0.95)_100%)] lg:hidden"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.94)_0%,oklch(0.16_0.03_258/0.82)_50%,oklch(0.16_0.03_258/0.96)_100%)]"
       />
 
-      <section className="relative isolate hidden overflow-hidden bg-[oklch(0.16_0.03_258)] text-white lg:flex lg:flex-col lg:justify-between lg:p-10">
-        <img
-          src={authHero}
-          alt=""
-          aria-hidden="true"
-          width={1536}
-          height={1024}
-          decoding="async"
-          className="absolute inset-0 -z-20 size-full object-cover"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[linear-gradient(160deg,oklch(0.16_0.03_258/0.9)_10%,oklch(0.16_0.03_258/0.62)_58%,oklch(0.16_0.03_258/0.94)_100%)]"
-        />
-        <Link to="/" className="inline-flex w-fit rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
-          <Logo onDark />
-        </Link>
-        <div className="max-w-md">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/90">
-            Acesso à plataforma
+      <div className="grid max-h-full w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:grid-cols-[1fr_minmax(0,22rem)]">
+        {/* Painel institucional (desktop) */}
+        <section className="relative hidden flex-col justify-between overflow-hidden bg-[oklch(0.16_0.03_258)] p-7 text-white lg:flex">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,oklch(0.6_0.14_165/0.28),transparent_60%)]"
+          />
+          <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
+            <Logo onDark />
+          </Link>
+          <div className="relative z-10 max-w-xs">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
+              Acesso à plataforma
+            </p>
+            <h2 className="font-display mt-2 text-2xl font-extrabold leading-tight tracking-[-0.02em]">
+              Suas finanças organizadas em um só sistema.
+            </h2>
+            <p className="mt-2 text-[13px] leading-relaxed text-white/75">
+              Entre com CPF e senha de 6 dígitos. Cadastro gratuito, sem cartão.
+            </p>
+          </div>
+          <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/45">
+            &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
           </p>
-          <h2 className="font-display mt-2 text-3xl font-extrabold leading-tight tracking-[-0.02em] xl:text-4xl">
-            Suas finanças organizadas em um só sistema.
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-white/90">
-            Acesse com CPF e senha de 6 dígitos. Cadastro gratuito, sem necessidade de cartão.
-          </p>
-        </div>
-        <p className="text-[10px] font-medium uppercase tracking-widest text-white/60">&lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE</p>
-      </section>
+        </section>
 
-      <section className="relative flex w-full items-center justify-center px-4 py-8 lg:bg-secondary/30">
-        <div className="w-full max-w-sm">
-          <div className="mb-5 flex justify-center lg:hidden">
+        {/* Painel do formulário — rola internamente, nunca a janela */}
+        <section className="flex max-h-[calc(100dvh-1.5rem)] min-h-0 w-full flex-col overflow-y-auto px-5 py-5 sm:px-6">
+          <div className="mb-4 flex justify-center lg:hidden">
             <Link to="/">
-              <Logo onDark />
+              <Logo />
             </Link>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card/95 p-5 shadow-lifted backdrop-blur-md sm:p-6 lg:bg-card lg:shadow-sm">
-            {mode === "forgot" ? (
-              <ForgotPasswordForm onBack={() => setMode("login")} />
-            ) : mode === "admin" ? (
-              <AdminSignInForm onBack={() => setMode("login")} />
-            ) : mode === "external" ? (
+          {mode === "forgot" ? (
+            <ForgotPasswordForm onBack={() => setMode("login")} />
+          ) : mode === "admin" ? (
+            <AdminSignInForm onBack={() => setMode("login")} />
+          ) : mode === "external" ? (
+            <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
+          ) : (
+            <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
+              <TabsList className="grid h-9 w-full grid-cols-2">
+                <TabsTrigger value="login" className="text-xs">Entrar</TabsTrigger>
+                <TabsTrigger value="signup" className="text-xs">Criar conta</TabsTrigger>
+              </TabsList>
 
-              <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
-            ) : (
-
-              <Tabs 
-                value={mode} 
-                onValueChange={(value) => setMode(value as Mode)}
-                className="transition-all duration-300 ease-in-out"
-              >
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="login" className="transition-all">Entrar</TabsTrigger>
-                  <TabsTrigger value="signup" className="transition-all">Criar conta</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="login" className="mt-5">
-                  <CpfSignInForm
-                    onForgot={() => setMode("forgot")}
-                    onAdmin={() => setMode("admin")}
-                  />
+              <TabsContent value="login" className="mt-4">
+                <CpfSignInForm
+                  onForgot={() => setMode("forgot")}
+                  onAdmin={() => setMode("admin")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setMode("kid")}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-[12px] font-bold text-primary transition hover:bg-primary/10"
+                >
+                  <Baby className="size-4" aria-hidden />
+                  Sou criança — entrar com meu código
+                </button>
+                <CodeAccessInline onContinue={() => setMode("signup")} />
+              </TabsContent>
+              <TabsContent value="signup" className="mt-4">
+                <CpfSignUpForm onDone={() => setMode("login")} />
+                <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] text-muted-foreground">
+                  Já tem conta?{" "}
                   <button
                     type="button"
-                    onClick={() => setMode("kid")}
-                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2.5 text-[12px] font-bold text-primary transition hover:bg-primary/10"
+                    onClick={() => setMode("login")}
+                    className="font-semibold text-primary underline underline-offset-2"
                   >
-                    <Baby className="size-4" aria-hidden />
-                    Sou criança — entrar com meu código
+                    Voltar para Entrar
                   </button>
-                </TabsContent>
-                <TabsContent value="signup" className="mt-5">
-                  <CpfSignUpForm onDone={() => setMode("login")} />
-                  <p className="mt-4 border-t border-border pt-3 text-center text-xs text-muted-foreground">
-                    Já tem conta?{" "}
-                    <button
-                      type="button"
-                      onClick={() => setMode("login")}
-                      className="font-semibold text-primary underline underline-offset-2"
-                    >
-                      Voltar para Entrar
-                    </button>
-                  </p>
-                </TabsContent>
-              </Tabs>
-            )}
-          </div>
+                </p>
+              </TabsContent>
+            </Tabs>
+          )}
 
-          {mode === "login" ? <CodeAccessInline onContinue={() => setMode("signup")} /> : null}
-
-          <p className="mt-4 text-center text-xs text-white/80 lg:text-muted-foreground">
+          <p className="mt-4 text-center text-[10px] text-muted-foreground">
             <button
               type="button"
               onClick={async () => {
@@ -252,13 +235,13 @@ function AuthPage() {
                 clearBrowserCredentials();
                 window.location.replace("/auth");
               }}
-              className="underline underline-offset-2 hover:text-white lg:hover:text-foreground"
+              className="underline underline-offset-2 hover:text-foreground"
             >
               Limpar acesso salvo neste navegador
             </button>
           </p>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }
