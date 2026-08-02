@@ -12,89 +12,107 @@ const HIGHLIGHTS = [
 ];
 
 /**
- * Tela dedicada ao login independente da criança: hero ilustrado, fundo
- * temático e o formulário de entrada em destaque.
+ * Tela dedicada ao login independente da criança: design ultra-compacto
+ * para caber em uma única tela sem rolagem, com estética moderna e lúdica.
  */
 export function KidsLoginScreen({ children }: { children: ReactNode }) {
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[oklch(0.18_0.05_255)]">
+    <main className="relative isolate h-dvh w-full overflow-hidden bg-[oklch(0.15_0.05_260)] font-sans flex items-center justify-center p-4">
+      {/* Background decorativo - mais imersivo e profundo */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_15%_20%,oklch(0.42_0.13_190/0.55),transparent_55%),radial-gradient(circle_at_85%_10%,oklch(0.45_0.16_150/0.45),transparent_50%),radial-gradient(circle_at_50%_100%,oklch(0.3_0.1_280/0.5),transparent_60%)]"
+        className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_20%_20%,oklch(0.4_0.15_200/0.4),transparent_60%),radial-gradient(circle_at_80%_80%,oklch(0.45_0.18_160/0.3),transparent_50%)]"
       />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.14] [background-image:radial-gradient(oklch(1_0_0)_1px,transparent_1px)] [background-size:22px_22px]"
-      />
-
-      <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-4 py-10 lg:min-h-dvh">
-        <section className="w-full max-w-md text-center text-white">
-          <div className="flex justify-center">
-            <Link
-              to="/"
-              className="inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-            >
+      
+      {/* Container principal - Grid Split Screen para Desktop, Empilhado para Mobile, mas sempre fixo */}
+      <div className="relative z-10 w-full max-w-5xl h-full max-h-[850px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden shadow-[0_32px_120px_-20px_rgba(0,0,0,0.6)] flex flex-col lg:flex-row">
+        
+        {/* Lado Esquerdo: Hero & Branding (Visível em Desktop, Compacto em Mobile) */}
+        <section className="relative flex-1 bg-gradient-to-br from-emerald-600/20 to-blue-600/10 p-8 flex flex-col justify-between overflow-hidden">
+          {/* Logo fixo no topo */}
+          <div className="relative z-10">
+            <Link to="/" className="inline-block transition-transform hover:scale-105 active:scale-95">
               <Logo onDark />
             </Link>
           </div>
 
-          <div className="mt-8 flex justify-center">
-            <p className="flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
-              <Sparkles className="size-3.5" aria-hidden /> Espaço Kids
-            </p>
-          </div>
-          
-          <h1 className="font-display mt-4 text-3xl font-extrabold leading-tight tracking-[-0.02em] sm:text-4xl">
-            Seu dinheiro, suas metas,
-            <span className="block text-[oklch(0.86_0.16_160)]">do seu jeito.</span>
-          </h1>
-          
-          <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/90">
-            Entre com o seu código e a sua senha de números. É rapidinho — sem e-mail, sem CPF e sem
-            precisar chamar o adulto.
-          </p>
-
-          <img
-            src={kidsHero}
-            alt="Cofrinho, moedas e foguete representando o Espaço Kids do GastoCerto"
-            width={1280}
-            height={1280}
-            loading="lazy"
-            decoding="async"
-            className="mx-auto mt-8 w-full max-w-[280px] rounded-3xl border border-white/20 shadow-2xl sm:max-w-[320px]"
-          />
-
-        </section>
-
-        <section className="mt-8 w-full max-w-md min-w-0">
-          <div className="rounded-3xl border border-white/25 bg-card p-5 shadow-2xl sm:p-7">
-            <p className="mb-4 flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.14em] text-primary">
-              <Rocket className="size-4" aria-hidden /> Entrada da criança
-            </p>
-            {children}
-          </div>
-          <p className="mt-4 text-center text-[11px] leading-relaxed text-white/90">
-            Não sabe seu código? Peça para o seu responsável abrir o Espaço Kids no painel dele.
-          </p>
-        </section>
-
-        <ul className="mt-10 grid w-full max-w-3xl gap-3 sm:grid-cols-3">
-            {HIGHLIGHTS.map((item) => (
-          <li
-                key={item.title}
-                className="flex flex-col items-center text-center rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm"
-              >
-            <div className="mb-2 rounded-full bg-white/10 p-2">
-              <item.icon className="size-5 text-[oklch(0.88_0.16_160)]" aria-hidden />
+          {/* Conteúdo central lúdico */}
+          <div className="relative z-10 space-y-6">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30">
+                <Sparkles className="size-3.5" /> Espaço Kids
+              </div>
+              <h1 className="font-display text-3xl font-black leading-tight text-white sm:text-4xl lg:text-5xl tracking-tight">
+                Seu dinheiro,<br />
+                <span className="text-emerald-400">seu mundo.</span>
+              </h1>
+              <p className="max-w-xs text-sm leading-relaxed text-white/70">
+                Entre agora e comece a construir seu futuro com diversão e inteligência.
+              </p>
             </div>
-            <p className="text-[13px] font-bold text-white">
-                  {item.title}
-            </p>
-            <p className="mt-1 text-[11px] leading-snug text-white/80">{item.text}</p>
-          </li>
+
+            {/* Imagem Hero menor e com efeito flutuante */}
+            <div className="relative flex justify-center lg:justify-start">
+              <div className="absolute inset-0 bg-emerald-500/20 blur-[60px] rounded-full" />
+              <img
+                src={kidsHero}
+                alt="Finanças para crianças"
+                className="relative z-10 w-48 h-48 object-cover rounded-3xl border border-white/20 shadow-2xl animate-bounce-slow"
+                style={{ animationDuration: '4s' }}
+              />
+            </div>
+          </div>
+
+          {/* Highlights compactos no rodapé da seção */}
+          <div className="relative z-10 hidden lg:grid grid-cols-3 gap-3">
+            {HIGHLIGHTS.map((item) => (
+              <div key={item.title} className="bg-white/5 p-3 rounded-2xl border border-white/5">
+                <item.icon className="size-4 text-emerald-400 mb-1" />
+                <p className="text-[10px] font-bold text-white leading-tight">{item.title}</p>
+              </div>
             ))}
-        </ul>
+          </div>
+        </section>
+
+        {/* Lado Direito: Formulário de Login */}
+        <section className="w-full lg:w-[420px] bg-card p-8 sm:p-12 flex flex-col justify-center relative">
+          <div className="space-y-8">
+            <div className="text-center lg:text-left space-y-1">
+              <p className="flex items-center justify-center lg:justify-start gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                <Rocket className="size-4" /> Acesso Seguro
+              </p>
+              <h2 className="text-xl font-bold text-foreground">Entrada da Criança</h2>
+            </div>
+
+            <div className="bg-secondary/20 p-6 rounded-[2rem] border border-border/50">
+              {children}
+            </div>
+
+            <div className="text-center lg:text-left">
+              <p className="text-[10px] text-muted-foreground leading-relaxed">
+                Precisa de ajuda? Peça seu código para o seu responsável no painel principal.
+              </p>
+            </div>
+          </div>
+
+          {/* Assinatura discreta no canto */}
+          <div className="absolute bottom-6 left-0 right-0 text-center lg:text-left lg:left-8">
+            <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground/30">
+              &lt;Dev. Franc D&apos;nis&gt; · ACRE
+            </p>
+          </div>
+        </section>
       </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-15px); }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow infinite ease-in-out;
+        }
+      `}} />
     </main>
   );
 }
