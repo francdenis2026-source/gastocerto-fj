@@ -203,7 +203,7 @@ function KidsAccessPage() {
 
 
   const [search, setSearch] = useState("");
-  const kids = (dependents.data ?? []).filter((item) => item.active !== false);
+  const kids = (dependents.data ?? []).filter((item) => item.active !== false && !item.name.toLowerCase().includes("kessia"));
   const filteredKids = kids.filter((kid) => {
     if (!search) return true;
     const term = search.toLowerCase();
