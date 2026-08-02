@@ -371,6 +371,15 @@ export function DependentExpenseDialog({
                     const isLimitReached = item.monthly_limit && spent >= Number(item.monthly_limit);
                     
                     return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => {
+                          setSelected(item);
+                          if ((item as any).pin_code) {
+                            setPinOpen(true);
+                          }
+                        }}
                         className={cn(
                           "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group",
                           isLimitReached && "border-destructive/30 bg-destructive/5",
