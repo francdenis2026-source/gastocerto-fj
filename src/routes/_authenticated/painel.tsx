@@ -186,14 +186,9 @@ function DashboardPage() {
 
     return {
       isCurrentMonth,
-      /** Só soma quando o período aberto é o mês corrente, evitando misturar competências. */
       today: isCurrentMonth
         ? sum(expenses.filter((row) => row.transaction_date === todayIso))
         : 0,
-      /**
-       * Últimos 7 dias corridos (inclui hoje), restrito ao mês aberto: cada mês
-       * enxerga apenas os próprios gastos, sem misturar competências.
-       */
       week: isCurrentMonth
         ? sum(
             expenses.filter(
@@ -204,8 +199,6 @@ function DashboardPage() {
             ),
           )
         : 0,
-
-
       totalExpense,
       totalIncome,
       balance: totalIncome - totalExpense,
@@ -217,7 +210,6 @@ function DashboardPage() {
       dailyAverage,
       projection: dailyAverage * range.days,
       previousExpense,
-      /** Só compara quando os dois períodos têm gasto e o mês não é futuro. */
       diffAvailable:
         previousExpense > 0 &&
         totalExpense > 0 &&
