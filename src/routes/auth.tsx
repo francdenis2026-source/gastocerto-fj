@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { AlertCircle, Baby, KeyRound, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -25,6 +26,8 @@ import {
   kidPassword,
   normalizeKidCode,
 } from "@/lib/kids-account";
+import { checkKidLock, registerKidAttempt } from "@/lib/kids-account.functions";
+import { kidLockMessage, kidRemainingMessage } from "@/lib/kids-login-guard";
 import {
   cpfSignInSchema,
   cpfSignUpSchema,
