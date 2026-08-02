@@ -1,4 +1,4 @@
-import workspaceBg from "@/assets/hero-bg-2026.jpg";
+import workspaceBg from "@/assets/hero-bg-pro.jpg";
 
 /**
  * Plano de fundo discreto da homepage: textura fixa com véu sólido,
@@ -14,9 +14,9 @@ export function PageBackground() {
         height={1080}
         loading="lazy"
         decoding="async"
-        className="size-full object-cover opacity-[0.05] dark:opacity-[0.16]"
+        className="size-full object-cover opacity-[0.035] dark:opacity-[0.14]"
       />
-      <div className="absolute inset-0 bg-background/90 dark:bg-background/85" />
+      <div className="absolute inset-0 bg-background/94 dark:bg-background/88" />
     </div>
   );
 }
