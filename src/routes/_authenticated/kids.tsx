@@ -363,14 +363,14 @@ function KidsAccessPage() {
 
         <div className="rounded-2xl border border-border bg-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-[12px]">
+            <table className="w-full text-left text-[10px]">
               <thead className="bg-muted/50 border-b border-border">
                 <tr>
-                  <th className="px-4 py-3 font-bold">Data</th>
-                  <th className="px-4 py-3 font-bold">Destinatário</th>
-                  <th className="px-4 py-3 font-bold">Valor</th>
-                  <th className="px-4 py-3 font-bold">Status</th>
-                  <th className="px-4 py-3 font-bold text-right">Ações</th>
+                  <th className="px-3 py-2 font-bold">Data</th>
+                  <th className="px-3 py-2 font-bold">Para</th>
+                  <th className="px-3 py-2 font-bold">Valor</th>
+                  <th className="px-3 py-2 font-bold">Status</th>
+                  <th className="px-3 py-2 font-bold text-right">Ação</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
