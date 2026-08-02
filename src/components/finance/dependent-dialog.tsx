@@ -101,6 +101,7 @@ export function DependentDialog({
         setShowUpgradeModal(true);
         return;
       }
+
     }
 
     try {
