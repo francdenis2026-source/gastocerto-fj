@@ -292,9 +292,10 @@ function KidSpacePage() {
               </div>
             ))}
           </section>
-
+        )}
 
         {visibility.history ? (
+
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold">Meu histórico</h2>
