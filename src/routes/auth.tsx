@@ -506,12 +506,22 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
  * Entrada independente da criança: código definido pelo responsável + senha
  * numérica. Não pede CPF nem e-mail e vai direto para o painel infantil.
  */
-function KidSignInForm({ onBack }: { onBack: () => void }) {
+function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initialCode?: string }) {
   const navigate = useNavigate();
-  const [code, setCode] = useState("");
+  const checkLock = useServerFn(checkKidLock);
+  const registerAttempt = useServerFn(registerKidAttempt);
+  const [code, setCode] = useState(normalizeKidCode(initialCode));
   const [pin, setPin] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [lockSeconds, setLockSeconds] = useState(0);
+
+  // Conta o tempo restante do bloqueio temporário.
+  useEffect(() => {
+    if (lockSeconds <= 0) return;
+    const timer = setInterval(() => setLockSeconds((value) => Math.max(0, value - 1)), 1000);
+    return () => clearInterval(timer);
+  }, [lockSeconds]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -523,14 +533,37 @@ function KidSignInForm({ onBack }: { onBack: () => void }) {
 
     setFormError(null);
     setLoading(true);
+
+    try {
+      const lock = await checkLock({ data: { code: cleanCode } });
+      if (lock.locked) {
+        setLockSeconds(lock.secondsLeft);
+        setFormError(kidLockMessage(lock.secondsLeft));
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // Se a checagem falhar, seguimos com o login normal.
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email: kidCodeToEmail(cleanCode),
       password: kidPassword(cleanCode, pin),
     });
+
+    let status: { locked: boolean; secondsLeft: number; remaining: number } | null = null;
+    try {
+      status = await registerAttempt({ data: { code: cleanCode, success: !error } });
+    } catch {
+      status = null;
+    }
     setLoading(false);
 
     if (error) {
-      const message = "Código ou senha incorretos. Peça ajuda ao seu responsável.";
+      const message = status?.locked
+        ? kidLockMessage(status.secondsLeft)
+        : kidRemainingMessage(status?.remaining ?? 0);
+      if (status?.locked) setLockSeconds(status.secondsLeft);
       setFormError(message);
       toast.error(message);
       return;
