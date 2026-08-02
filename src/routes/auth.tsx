@@ -118,7 +118,16 @@ function AuthPage() {
     };
   }, [loading, session, navigate]);
 
+  if (mode === "kid") {
+    return (
+      <KidsLoginScreen>
+        <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
+      </KidsLoginScreen>
+    );
+  }
+
   return (
+
     <main className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
       <img
         src={authHero}
