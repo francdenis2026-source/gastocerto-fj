@@ -153,7 +153,9 @@ export function TransactionDialog({
   const [suggestion, setSuggestion] = useState<{ id: string; name: string; subCategoryId?: string | null } | null>(null);
   const [subCategoryId, setSubCategoryId] = useState((transaction as any)?.sub_category_id ?? "");
   const saveFeedback = useSaveCategoryFeedback();
+  const { confirm: professionalConfirm, ConfirmDialog } = useConfirm();
   const [revenueSuggestion, setRevenueSuggestion] = useState<{ message: string; date: string } | null>(null);
+
 
   const selectedCategory = useMemo(
     () => (categories ?? []).find((c) => c.id === (subCategoryId || categoryId)),
