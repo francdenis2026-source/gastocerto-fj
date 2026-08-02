@@ -691,6 +691,49 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       <div className="p-4 sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
           <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 rounded-xl border border-border/60 bg-primary/5 p-4">
+              <div className="space-y-2">
+                <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Identidade Visual</Label>
+                <div className="flex items-center gap-3">
+                  <Select
+                    value={(dependent as any).gender || 'other'}
+                    onValueChange={(val) => {
+                      void supabase.from('dependents').update({ gender: val }).eq('id', dependent.id).then(() => refresh());
+                    }}
+                  >
+                    <SelectTrigger className="h-9 text-xs">
+                      <SelectValue placeholder="Gênero" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="boy">Menino 👦</SelectItem>
+                      <SelectItem value="girl">Menina 👧</SelectItem>
+                      <SelectItem value="other">Outro 🌈</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  <div className="relative">
+                    <Button variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => (dependent as any)._fileRef?.click()}>
+                      <Upload className="size-4" />
+                    </Button>
+                    <input 
+                      type="file" 
+                      className="hidden" 
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const path = `dependents/${dependent.id}/${Date.now()}-${file.name}`;
+                        const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file);
+                        if (uploadErr) return toast.error("Erro ao subir imagem");
+                        await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
+                        toast.success("Foto atualizada!");
+                        refresh();
+                      }}
+                      ref={(el) => (dependent as any)._fileRef = el}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
