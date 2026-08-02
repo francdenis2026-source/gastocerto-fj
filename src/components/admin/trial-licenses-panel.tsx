@@ -77,7 +77,7 @@ export function TrialLicensesPanel() {
   );
 
   const mutation = useMutation({
-    mutationFn: (input: { quantity: number; days: 7 | 15 | 30 }) =>
+    mutationFn: (input: { quantity: number; days: 14 | 15 | 30 }) =>
       create({
         data: {
           quantity: input.quantity,
