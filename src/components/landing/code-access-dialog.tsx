@@ -160,13 +160,13 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
                 }}
                 className={cn(
                   "font-mono transition-all duration-200 pr-10",
-                  status === "valid" && "border-emerald-500 bg-emerald-50/30",
+                  status === "valid" && "border-success bg-success/10",
                   status === "invalid" && "border-destructive bg-destructive/5"
                 )}
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
                 {status === "verifying" && <Loader2 className="size-4 animate-spin text-muted-foreground" />}
-                {status === "valid" && <CheckCircle2 className="size-4 text-emerald-500" />}
+                {status === "valid" && <CheckCircle2 className="size-4 text-success" />}
                 {status === "invalid" && <XCircle className="size-4 text-destructive" />}
               </div>
             </div>
@@ -175,7 +175,7 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
           {message && (
             <div className={cn(
               "rounded-lg border p-3 text-xs leading-relaxed transition-all animate-in fade-in slide-in-from-top-1",
-              status === "valid" && "border-emerald-200 bg-emerald-50 text-emerald-800",
+              status === "valid" && "border-success/40 bg-success/10 text-success",
               status === "invalid" && "border-destructive/20 bg-destructive/10 text-destructive",
               status === "verifying" && "border-border bg-secondary/50 text-muted-foreground"
             )}>

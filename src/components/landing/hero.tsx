@@ -18,6 +18,7 @@ import heroBg from "@/assets/hero-bg-2027.jpg";
 import heroMobileBg from "@/assets/hero-bg-2027-mobile.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 import { RingChart, Sparkline } from "@/components/landing/decor";
 import { formatCurrency } from "@/lib/format";
 
@@ -27,13 +28,41 @@ const DashboardPreview = lazy(() =>
 
 /** módulos reais do sistema, resumidos em pílulas legíveis */
 const modules = [
-  { label: "Lançamentos", icon: BarChart3 },
-  { label: "Combustível", icon: Fuel },
-  { label: "Gás", icon: Flame },
-  { label: "Cartões", icon: CreditCard },
-  { label: "Espaço Kids", icon: Baby },
-  { label: "PIX Kids", icon: Send },
-  { label: "Consultor IA", icon: Sparkles },
+  {
+    label: "Lançamentos",
+    icon: BarChart3,
+    text: "Despesa ou receita com categoria, anexo, parcelas e data retroativa.",
+  },
+  {
+    label: "Combustível",
+    icon: Fuel,
+    text: "Litros, preço por litro, odômetro validado e custo por km por veículo.",
+  },
+  {
+    label: "Gás",
+    icon: Flame,
+    text: "Histórico de botijões, duração média e aviso quando estiver acabando.",
+  },
+  {
+    label: "Cartões",
+    icon: CreditCard,
+    text: "Faturas, limites, vencimentos e parcelas em aberto de cada cartão.",
+  },
+  {
+    label: "Espaço Kids",
+    icon: Baby,
+    text: "Painel simplificado por criança, com PIN, avatar e tema próprio.",
+  },
+  {
+    label: "PIX Kids",
+    icon: Send,
+    text: "Envie mesada por PIX, com histórico, comprovante e aviso na hora.",
+  },
+  {
+    label: "Consultor IA",
+    icon: Sparkles,
+    text: "Diagnóstico do mês, plano de saída de dívidas e dicas sob medida.",
+  },
 ] as const;
 
 const stats = [
@@ -119,12 +148,18 @@ export function Hero() {
 
           <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Módulos disponíveis">
             {modules.map((mod) => (
-              <li
-                key={mod.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-semibold text-white"
-              >
-                <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
-                {mod.label}
+              <li key={mod.label}>
+                <FeatureDetailDialog
+                  feature={{ title: mod.label, text: mod.text, tag: "Módulo" }}
+                >
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-semibold text-white transition-colors hover:border-white/35 hover:bg-white/[0.16] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
+                    {mod.label}
+                  </button>
+                </FeatureDetailDialog>
               </li>
             ))}
           </ul>
