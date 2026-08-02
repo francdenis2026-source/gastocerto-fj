@@ -164,6 +164,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   // Avisos e conquistas do Espaço Kids chegam sem recarregar a tela.
   useKidsRealtimeAlerts();
 
+  // Conta de criança nunca vê o painel do responsável.
+  const { isKid } = useKidSession();
+  useEffect(() => {
+    if (isKid && pathname !== "/meu-espaco") {
+      navigate({ to: "/meu-espaco", replace: true });
+    }
+  }, [isKid, pathname, navigate]);
+
   const { data: recurrents } = useQuery({
     queryKey: ["recurrent-expenses-sidebar"],
     queryFn: () => getRecurrentExpenses()
