@@ -131,9 +131,9 @@ function KidsAuditPage() {
               <Baby className="size-5 text-primary" /> Espaço Kids — histórico e relatórios
             </h1>
             <p className="text-xs text-muted-foreground">
-              Tudo que aconteceu com cada criança: mesada automática, conquistas, resgates de
-              recompensa e alertas enviados a você.
-            </p>
+                Tudo o que aconteceu no Espaço Kids: mesadas, metas e alertas. 
+                <Link to="/ajuda" className="font-bold text-primary underline ml-1">Como funciona o PIN e o Modo Kids?</Link>
+              </p>
           </div>
           <Button asChild variant="ghost" size="sm">
             <Link to="/painel">

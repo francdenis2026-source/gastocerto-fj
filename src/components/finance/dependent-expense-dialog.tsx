@@ -395,7 +395,11 @@ export function DependentExpenseDialog({
                           >
                             {(item.nickname?.trim() || item.name).slice(0, 2).toUpperCase()}
                           </span>
-                          {(item as any).pin_code && (
+                          {(item as any).pin_code ? (
+                            <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary shadow-sm border border-background">
+                              <ShieldCheck className="size-2 text-primary-foreground" />
+                            </div>
+                          ) : (
                             <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-background shadow-sm border border-border">
                               <Lock className="size-2 text-muted-foreground" />
                             </div>
@@ -412,8 +416,8 @@ export function DependentExpenseDialog({
                             {relationLabel(item.relation)}
                             {age !== null ? ` · ${age} anos` : ""}
                           </span>
-                          <span className="block text-[11px] text-muted-foreground">
-                            No mês: {formatCurrency(spent)}
+                          <span className="block text-[10px] font-bold text-primary mt-0.5">
+                            {(item as any).pin_code ? "PIN Configurado ✓" : "Sem PIN (Modo Kids desativado)"}
                           </span>
                         </span>
                       </button>
