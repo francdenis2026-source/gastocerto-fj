@@ -1237,7 +1237,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
 function SessionManager({ dependentId }: { dependentId: string }) {
   const getSessions = useServerFn(getKidSessions);
   const block = useServerFn(blockKidSession);
-  const { data: sessions = [], isLoading } = useQuery({
+  const { data: sessions = [], isLoading } = useQuery<any[]>({
     queryKey: ["kid-sessions", dependentId],
     queryFn: async () => {
       const res = await getSessions({ data: { dependentId } });
