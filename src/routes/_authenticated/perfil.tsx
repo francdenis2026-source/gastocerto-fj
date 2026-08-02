@@ -243,11 +243,16 @@ function ProfilePage() {
                   <ExternalLink className="size-3.5" />
                   Acessos Externos
                 </TabsTrigger>
+                <TabsTrigger value="kids" className="rounded-lg text-xs gap-2">
+                  <Baby className="size-3.5" />
+                  Gastos das crianças
+                </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
                   <History className="size-3.5" />
                   Histórico
                 </TabsTrigger>
               </TabsList>
+
 
 
               <TabsContent value="profile" className="space-y-4 mt-0">
