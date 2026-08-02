@@ -266,10 +266,25 @@ function AuthPage() {
           ) : mode === "external" ? (
             <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
           ) : (
-            <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
-              <TabsList className="grid h-9 w-full grid-cols-2">
-                <TabsTrigger value="login" className="text-xs">Entrar</TabsTrigger>
-                <TabsTrigger value="signup" className="text-xs">Criar conta</TabsTrigger>
+            <Tabs 
+              value={mode} 
+              onValueChange={(value) => setMode(value as Mode)}
+              className="relative"
+            >
+              <div className="absolute -inset-x-2 -inset-y-1 z-0 bg-primary/5 rounded-2xl blur-lg opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-100" />
+              <TabsList className="relative z-10 grid h-10 w-full grid-cols-2 bg-muted/50 p-1 backdrop-blur-sm">
+                <TabsTrigger 
+                  value="login" 
+                  className="text-xs font-bold transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg active:scale-95"
+                >
+                  Entrar
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="signup" 
+                  className="text-xs font-bold transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg active:scale-95"
+                >
+                  Criar conta
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="login" className="mt-4">
