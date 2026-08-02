@@ -156,8 +156,7 @@ function KidsAccessPage() {
           <Baby className="size-5 text-primary" aria-hidden /> Espaço Kids — acessos
         </h1>
         <p className="text-[13px] text-muted-foreground">
-          Aqui você cria o código e a senha de cada criança, escolhe o que ela pode ver e acompanha o
-          histórico. Todo acesso fica vinculado à sua conta: ninguém entra sem o código que você criou.
+          OS PAIS DEVEM SER CAPAZES DE VER AS INFORMAÇÕES DE SEUS FILHOS QUANDO GERENCIADOS NO ESPAÇO KIDS, FALTOU OPÇÕES PROS PAIS SABEREM OS GASTOS DO SEUS FILHOS. Aqui você cria o código, a senha e agora acompanha todas as movimentações financeiras em tempo real.
         </p>
       </header>
 
