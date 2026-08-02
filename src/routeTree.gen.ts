@@ -52,6 +52,7 @@ import { Route as CompartilhadoTokenRouteImport } from './routes/compartilhado.$
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
 import { Route as ApiPublicExternalVerifyRouteImport } from './routes/api/public/external-verify'
 import { Route as ApiPublicMercadopagoRouteImport } from './routes/api/public/mercadopago'
+import { Route as ApiPublicMercadopagoPixRouteImport } from './routes/api/public/mercadopago-pix'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -278,6 +279,11 @@ const ApiPublicMercadopagoRoute = ApiPublicMercadopagoRouteImport.update({
   path: '/api/public/mercadopago',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMercadopagoPixRoute = ApiPublicMercadopagoPixRouteImport.update({
+  id: '/api/public/mercadopago-pix',
+  path: '/api/public/mercadopago-pix',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -322,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/pedido/$id': typeof PedidoIdRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
+  '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -366,6 +373,7 @@ export interface FileRoutesByTo {
   '/pedido/$id': typeof PedidoIdRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
+  '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -412,6 +420,7 @@ export interface FileRoutesById {
   '/pedido/$id': typeof PedidoIdRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
+  '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -458,6 +467,7 @@ export interface FileRouteTypes {
     | '/pedido/$id'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
+    | '/api/public/mercadopago-pix'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -502,6 +512,7 @@ export interface FileRouteTypes {
     | '/pedido/$id'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
+    | '/api/public/mercadopago-pix'
   id:
     | '__root__'
     | '/'
@@ -547,6 +558,7 @@ export interface FileRouteTypes {
     | '/pedido/$id'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
+    | '/api/public/mercadopago-pix'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -561,6 +573,7 @@ export interface RootRouteChildren {
   PedidoIdRoute: typeof PedidoIdRoute
   ApiPublicExternalVerifyRoute: typeof ApiPublicExternalVerifyRoute
   ApiPublicMercadopagoRoute: typeof ApiPublicMercadopagoRoute
+  ApiPublicMercadopagoPixRoute: typeof ApiPublicMercadopagoPixRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -866,6 +879,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMercadopagoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/mercadopago-pix': {
+      id: '/api/public/mercadopago-pix'
+      path: '/api/public/mercadopago-pix'
+      fullPath: '/api/public/mercadopago-pix'
+      preLoaderRoute: typeof ApiPublicMercadopagoPixRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -955,6 +975,7 @@ const rootRouteChildren: RootRouteChildren = {
   PedidoIdRoute: PedidoIdRoute,
   ApiPublicExternalVerifyRoute: ApiPublicExternalVerifyRoute,
   ApiPublicMercadopagoRoute: ApiPublicMercadopagoRoute,
+  ApiPublicMercadopagoPixRoute: ApiPublicMercadopagoPixRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

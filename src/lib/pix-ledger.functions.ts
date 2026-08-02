@@ -1,10 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export const getPixHistory = createServerFn({ method: "GET" })
-  .handler(async () => {
-    const { data, error } = await supabase
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
       .from("pix_transactions")
       .select(`
         *,
@@ -17,9 +19,10 @@ export const getPixHistory = createServerFn({ method: "GET" })
   });
 
 export const getLedgerEntries = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ dependentId: z.string().optional() }).parse(data))
-  .handler(async ({ data }) => {
-    let query = supabase
+  .handler(async ({ data, context }) => {
+    let query = context.supabase
       .from("ledger_entries")
       .select("*")
       .order("created_at", { ascending: false });
@@ -34,6 +37,7 @@ export const getLedgerEntries = createServerFn({ method: "GET" })
   });
 
 export const createPixCharge = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({
     amount: z.number().positive(),
     description: z.string().optional(),
@@ -41,12 +45,13 @@ export const createPixCharge = createServerFn({ method: "POST" })
     externalKey: z.string().optional(),
     externalName: z.string().optional()
   }).parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     // Aqui seria a integração real com Mercado Pago via Server
     // Por enquanto, simulamos a criação e registramos no banco
-    const { data: tx, error } = await supabase
+    const { data: tx, error } = await context.supabase
       .from("pix_transactions")
       .insert({
+        user_id: context.userId,
         amount: data.amount,
         description: data.description || "Transferência PIX",
         recipient_id: data.recipientId || null,
