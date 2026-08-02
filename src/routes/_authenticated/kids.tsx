@@ -331,10 +331,12 @@ function KidsAccessPage() {
             link.click();
             document.body.removeChild(link);
           }}>
-            <FileDown className="size-3" />
+            <FileDown className="size-3.5" />
             Exportar CSV
           </Button>
+          </div>
         </div>
+
         {(audit.data ?? []).length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-6 text-center text-[13px] text-muted-foreground">
             Nenhuma alteração registrada ainda.
