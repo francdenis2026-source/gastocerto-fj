@@ -310,10 +310,12 @@ function KidAccessSection({
   dependentId,
   name,
   currentCode,
+  expiresAt,
 }: {
   dependentId: string;
   name: string;
   currentCode: string | null;
+  expiresAt?: string | null;
 }) {
   const queryClient = useQueryClient();
   const saveAccess = useServerFn(saveKidAccess);
