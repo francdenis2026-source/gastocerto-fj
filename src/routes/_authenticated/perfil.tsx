@@ -11,6 +11,8 @@ import { LicenseCard } from "@/components/finance/license-card";
 import { LicenseDetailPanel } from "@/components/finance/license-detail-panel";
 import { TrialCard } from "@/components/finance/trial-card";
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
+import { KidsSpendingSummary } from "@/components/finance/kids-spending-summary";
+
 import { SidebarConfig } from "@/components/settings/sidebar-config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
