@@ -22,6 +22,7 @@ import { DEPENDENT_REASONS, dependentTag, reasonTag, useDependents, type Depende
 import { parseAmount } from "@/lib/finance";
 import { formatCurrency } from "@/lib/format";
 import { useKidSession } from "@/lib/kids-session";
+import { parseKidVisibility } from "@/lib/kids-access";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/meu-espaco")({
