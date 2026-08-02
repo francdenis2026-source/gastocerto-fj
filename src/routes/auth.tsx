@@ -6,7 +6,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import authHero from "@/assets/auth-hero.jpg";
+import { KidsLoginScreen } from "@/components/kids/kids-login-screen";
 import { PENDING_LICENSE_KEY } from "@/components/landing/code-access-dialog";
+
 import { CodeAccessInline } from "@/components/landing/code-access-inline";
 import { activateLicense } from "@/lib/licenses.functions";
 import { Logo } from "@/components/logo";
@@ -36,7 +38,7 @@ import {
 } from "@/lib/validation";
 
 const searchSchema = z.object({
-  mode: z.enum(["login", "signup"]).optional(),
+  mode: z.enum(["login", "signup", "forgot", "admin", "kid", "external"]).optional(),
   kid: z.string().optional(),
   external: z.string().optional(),
 });
@@ -70,7 +72,14 @@ function AuthPage() {
   const navigate = useNavigate();
   const { session, loading } = useAuth();
   const [mode, setMode] = useState<Mode>(
-    search.external ? "external" : search.kid ? "kid" : search.mode === "signup" ? "signup" : "login",
+    search.external
+      ? "external"
+      : search.kid || search.mode === "kid"
+        ? "kid"
+        : search.mode
+          ? search.mode
+          : "login",
+
   );
 
   const [pendingCode, setPendingCode] = useState<string | null>(null);
@@ -118,7 +127,16 @@ function AuthPage() {
     };
   }, [loading, session, navigate]);
 
+  if (mode === "kid") {
+    return (
+      <KidsLoginScreen>
+        <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
+      </KidsLoginScreen>
+    );
+  }
+
   return (
+
     <main className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
       <img
         src={authHero}
@@ -178,9 +196,8 @@ function AuthPage() {
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
-            ) : mode === "kid" ? (
-              <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
             ) : mode === "external" ? (
+
               <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
             ) : (
 
@@ -602,10 +619,11 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
-      <div className="flex items-center gap-2">
-        <Baby className="size-5 text-primary" aria-hidden />
-        <h3 className="text-base font-bold text-foreground">Entrada da criança</h3>
+      <div className="flex items-center justify-center gap-2">
+        <Baby className="size-5 shrink-0 text-primary" aria-hidden />
+        <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>
       </div>
+
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="kid-code">Meu código</Label>

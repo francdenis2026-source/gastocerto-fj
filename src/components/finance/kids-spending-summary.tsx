@@ -1,9 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowDownRight, ArrowUpRight, Baby, Loader2, Wallet } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Baby,
+  FileDown,
+  FileText,
+  Loader2,
+  Wallet,
+} from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -16,7 +26,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatCurrency } from "@/lib/format";
 import { useDependents } from "@/lib/dependents";
 import { getKidTransactions } from "@/lib/kids-transactions.functions";
+import {
+  exportKidsSummaryCsv,
+  exportKidsSummaryPdf,
+  type KidExportRow,
+} from "@/lib/kids-export";
 import { cn } from "@/lib/utils";
+
 
 type PeriodKey = "30" | "90" | "365" | "all";
 
@@ -26,6 +42,13 @@ const PERIOD_LABELS: Record<PeriodKey, string> = {
   "365": "Últimos 12 meses",
   all: "Todo o período",
 };
+
+const TYPE_LABELS: Record<"all" | "expense" | "income", string> = {
+  all: "Gastos e entradas",
+  expense: "Somente gastos",
+  income: "Somente entradas",
+};
+
 
 /**
  * Resumo de gastos e movimentações por criança, com filtros e atualização
@@ -91,6 +114,42 @@ export function KidsSpendingSummary() {
   }, [rows]);
 
   const selectedKid = kids.find((kid) => kid.id === kidId);
+  const [exporting, setExporting] = useState(false);
+
+  const exportRows: KidExportRow[] = useMemo(
+    () =>
+      rows.map((row) => ({
+        date: String(row["transaction_date"]),
+        description: String(row["description"] ?? "Movimentação"),
+        type: row["transaction_type"] === "income" ? "income" : "expense",
+        amount: Number(row["amount"] ?? 0),
+      })),
+    [rows],
+  );
+
+  const exportFilters = {
+    kidName: selectedKid?.name ?? "Criança",
+    periodLabel: PERIOD_LABELS[period],
+    typeLabel: TYPE_LABELS[type],
+  };
+
+  function handleCsv() {
+    exportKidsSummaryCsv(exportRows, totals, exportFilters);
+    toast.success("CSV gerado com os filtros aplicados.");
+  }
+
+  async function handlePdf() {
+    setExporting(true);
+    try {
+      await exportKidsSummaryPdf(exportRows, totals, exportFilters);
+      toast.success("PDF gerado com os filtros aplicados.");
+    } catch {
+      toast.error("Não foi possível gerar o PDF agora.");
+    } finally {
+      setExporting(false);
+    }
+  }
+
 
   if (dependents.isLoading) {
     return (
@@ -191,16 +250,51 @@ export function KidsSpendingSummary() {
         </div>
       </div>
 
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:justify-between">
+        <p className="min-w-0 text-[12px] text-muted-foreground">
+          As exportações usam exatamente os filtros selecionados acima.
+        </p>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[11px] font-semibold"
+            onClick={handleCsv}
+            aria-label={`Exportar resumo de ${exportFilters.kidName} em CSV`}
+          >
+            <FileDown className="size-3.5" aria-hidden /> CSV
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[11px] font-semibold"
+            onClick={handlePdf}
+            disabled={exporting}
+            aria-label={`Exportar resumo de ${exportFilters.kidName} em PDF`}
+          >
+            {exporting ? (
+              <Loader2 className="size-3.5 animate-spin" aria-hidden />
+            ) : (
+              <FileText className="size-3.5" aria-hidden />
+            )}
+            PDF
+          </Button>
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-border bg-card">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border p-3">
-          <p className="flex items-center gap-1.5 text-[13px] font-bold text-foreground">
-            <Baby className="size-4 text-primary" aria-hidden />
-            {selectedKid?.name ?? "Criança"} · movimentações
-          </p>
-          <Badge variant="outline" className="text-[10px]">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-border p-3 sm:flex sm:justify-between">
+          <h3 className="flex min-w-0 items-center gap-1.5 text-[13px] font-bold text-foreground">
+            <Baby className="size-4 shrink-0 text-primary" aria-hidden />
+            <span className="truncate">{selectedKid?.name ?? "Criança"} · movimentações</span>
+          </h3>
+          <Badge variant="outline" className="shrink-0 text-[11px] text-foreground">
             {totals.count} registro(s)
           </Badge>
         </div>
+
         {isLoading ? (
           <div className="flex justify-center p-6" role="status" aria-live="polite">
             <Loader2 className="size-4 animate-spin text-muted-foreground" />

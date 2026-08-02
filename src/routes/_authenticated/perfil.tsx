@@ -58,6 +58,21 @@ function ProfilePage() {
   const [pending, setPending] = useState<File | null>(null);
   const [accountOpen, setAccountOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [tab, setTab] = useState("profile");
+
+  /** Ativa a aba do atalho e rola até a seção correspondente. */
+  function jumpTo(nextTab: string, anchor?: string) {
+    setTab(nextTab);
+    requestAnimationFrame(() => {
+      const target = anchor ? document.getElementById(anchor) : null;
+      (target ?? document.getElementById("perfil-conteudo"))?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      if (target instanceof HTMLElement) target.focus({ preventScroll: true });
+    });
+  }
+
 
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -190,6 +205,7 @@ function ProfilePage() {
                   disabled={uploading}
                   className="absolute -bottom-1 -right-1 flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md transition-transform hover:scale-110 active:scale-95 disabled:opacity-50"
                   title="Alterar foto"
+                  aria-label="Alterar foto de perfil"
                 >
                   {uploading ? (
                     <Loader2 className="size-3.5 animate-spin" />
@@ -230,30 +246,49 @@ function ProfilePage() {
           </aside>
 
           {/* Coluna direita: dados, plano e licenças */}
-          <div className="min-w-0">
-            <Tabs defaultValue="profile" className="w-full space-y-4">
+          <div className="min-w-0" id="perfil-conteudo">
+            <nav aria-label="Atalhos do painel do cliente" className="mb-3">
+              <ul className="flex flex-wrap gap-2">
+                {SHORTCUTS.map((shortcut) => (
+                  <li key={shortcut.id}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 rounded-xl text-[11px] font-semibold"
+                      onClick={() => jumpTo(shortcut.tab, shortcut.anchor)}
+                    >
+                      {shortcut.label}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <Tabs value={tab} onValueChange={setTab} className="w-full space-y-4">
               <TabsList className="bg-card border border-border rounded-xl p-1 h-11 w-full justify-start overflow-x-auto no-scrollbar">
                 <TabsTrigger value="profile" className="rounded-lg text-xs gap-2">
-                  <User className="size-3.5" />
+                  <User className="size-3.5" aria-hidden />
                   Perfil
                 </TabsTrigger>
                 <TabsTrigger value="settings" className="rounded-lg text-xs gap-2">
-                  <Settings2 className="size-3.5" />
+                  <Settings2 className="size-3.5" aria-hidden />
                   Configurações
                 </TabsTrigger>
                 <TabsTrigger value="external" className="rounded-lg text-xs gap-2">
-                  <ExternalLink className="size-3.5" />
-                  Acessos Externos
+                  <ExternalLink className="size-3.5" aria-hidden />
+                  Acessos externos
                 </TabsTrigger>
                 <TabsTrigger value="kids" className="rounded-lg text-xs gap-2">
-                  <Baby className="size-3.5" />
+                  <Baby className="size-3.5" aria-hidden />
                   Gastos das crianças
                 </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
-                  <History className="size-3.5" />
+                  <History className="size-3.5" aria-hidden />
                   Histórico
                 </TabsTrigger>
               </TabsList>
+
 
 
 
@@ -348,8 +383,13 @@ function ProfilePage() {
               </div>
                 </form>
 
-                <LicenseDetailPanel />
-                <LicenseCard />
+                <div id="perfil-licencas" tabIndex={-1}>
+                  <LicenseDetailPanel />
+                </div>
+                <div id="perfil-planos" tabIndex={-1}>
+                  <LicenseCard />
+                </div>
+
               </TabsContent>
 
               <TabsContent value="settings" className="mt-0">
@@ -377,7 +417,12 @@ function ProfilePage() {
               </TabsContent>
 
               <TabsContent value="kids" className="mt-0 space-y-4">
-                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
+                <div
+                  id="perfil-kids"
+                  tabIndex={-1}
+                  className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4"
+                >
+
                   <div className="border-b border-border/40 pb-2.5">
                     <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
                       <Baby className="size-4 text-primary" aria-hidden /> Gastos e movimentações das crianças
@@ -395,10 +440,15 @@ function ProfilePage() {
               <TabsContent value="audit" className="mt-0 space-y-4">
 
 
-                <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+                <div
+                  id="perfil-historico"
+                  tabIndex={-1}
+                  className="grid gap-3 sm:gap-4 md:grid-cols-2"
+                >
                   <ProfileAuditPanel />
                   <RedemptionHistoryPanel />
                 </div>
+
               </TabsContent>
             </Tabs>
           </div>
@@ -421,3 +471,10 @@ const LABEL_CLASS =
 const INPUT_CLASS =
   "h-10 w-full rounded-xl border-border/40 bg-background/50 transition-colors focus:bg-background";
 
+
+const SHORTCUTS: Array<{ id: string; label: string; tab: string; anchor?: string }> = [
+  { id: "kids", label: "Gastos das crianças", tab: "kids", anchor: "perfil-kids" },
+  { id: "planos", label: "Planos", tab: "profile", anchor: "perfil-planos" },
+  { id: "licencas", label: "Licenças", tab: "profile", anchor: "perfil-licencas" },
+  { id: "historico", label: "Histórico", tab: "audit", anchor: "perfil-historico" },
+];
