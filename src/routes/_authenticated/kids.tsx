@@ -1237,8 +1237,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </p>
           )}
         </aside>
-        </div>
-      </div>
     </article>
   );
 }
