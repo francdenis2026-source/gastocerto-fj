@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell, HelpCircle, AlertTriangle } from "lucide-react";
+import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useEffect, useState } from "react";
@@ -54,9 +54,10 @@ export const Route = createFileRoute("/_authenticated/meu-espaco")({
   }),
   loader: async ({ context: { queryClient } }) => {
     // Carregar configurações de modo compacto
-    const { data: profile } = await supabase.from("profiles").select("compact_mode").single();
-    return { compactMode: profile?.compact_mode ?? false };
+    const { data: profile } = await supabase.from("profiles").select("*").single();
+    return { compactMode: (profile as any)?.compact_mode ?? false };
   },
+
   component: KidSpacePage,
 });
 
@@ -236,7 +237,7 @@ function KidSpacePage() {
             const newMode = !compactMode;
             setCompactMode(newMode);
             if (user) {
-              await supabase.from("profiles").update({ compact_mode: newMode }).eq("user_id", user.id);
+              await supabase.from("profiles").update({ ["compact_mode" as any]: newMode }).eq("user_id", user.id);
             }
             toast.success(newMode ? "Modo Profissional Ativado! ✨" : "Modo Padrão Ativado!");
           }}
@@ -291,12 +292,20 @@ function KidSpacePage() {
 
       </header>
 
-      <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
-        <div className="grid gap-4 sm:grid-cols-2">
+      <div className={cn(
+        "mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6 transition-all",
+        compactMode && "max-w-4xl space-y-3 mt-4"
+      )}>
+        <div className={cn(
+          "grid gap-4 sm:grid-cols-2",
+          compactMode && "sm:grid-cols-3"
+        )}>
           <section className={cn(
-            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden",
+            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden transition-all",
+            compactMode && "min-h-[120px] rounded-2xl p-4 sm:col-span-2 flex-row items-center justify-between text-left",
             isBoy ? "border-blue-500/30" : isGirl ? "border-pink-500/30" : ""
           )}>
+
             {/* Background decorativo sutil para o saldo */}
             <div className={cn(
               "absolute -right-4 -top-4 size-24 opacity-5",
