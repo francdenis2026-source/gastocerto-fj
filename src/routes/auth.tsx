@@ -189,9 +189,8 @@ function AuthPage() {
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
-            ) : mode === "kid" ? (
-              <KidSignInForm onBack={() => setMode("login")} initialCode={search.kid ?? ""} />
             ) : mode === "external" ? (
+
               <ExternalSignInForm onBack={() => setMode("login")} initialCode={search.external ?? ""} />
             ) : (
 
