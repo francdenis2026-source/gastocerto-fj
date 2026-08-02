@@ -32,7 +32,8 @@ export type FeatureKey =
   | "ai_advisor"
   | "unlimited_transactions"
   | "debt_advisor"
-  | "credit_cards";
+  | "credit_cards"
+  | "financial_help";
 
 /** Recursos liberados no plano gratuito (o resto fica visível, mas bloqueado). */
 export const FREE_FEATURES: FeatureKey[] = [
@@ -61,6 +62,7 @@ export const ALL_FEATURES: FeatureKey[] = [
   "unlimited_transactions",
   "debt_advisor",
   "credit_cards",
+  "financial_help",
 ];
 
 export const FEATURE_LABEL: Record<FeatureKey, string> = {
@@ -82,6 +84,7 @@ export const FEATURE_LABEL: Record<FeatureKey, string> = {
   unlimited_transactions: "Lançamentos ilimitados",
   debt_advisor: "Consultor de dívidas",
   credit_cards: "Gestão de cartões",
+  financial_help: "Ajuda Financeira Estratégica",
 };
 
 /**

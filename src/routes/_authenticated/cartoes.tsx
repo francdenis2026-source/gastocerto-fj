@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid } from "lucide-react";
+import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid, FileDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -42,9 +42,14 @@ function CreditCardsPage() {
             <h1 className="text-2xl font-bold tracking-tight">Meus Cartões</h1>
             <p className="text-muted-foreground text-sm">Gerencie limites, faturas e gastos por cartão.</p>
           </div>
-          <Button className="gap-2">
-            <Plus className="size-4" /> Novo Cartão
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="gap-2 h-9 text-xs" onClick={() => toast.info("Funcionalidade de exportação em desenvolvimento.")}>
+              <FileDown className="size-4" /> Exportar Relatório
+            </Button>
+            <Button className="gap-2 h-9 text-xs">
+              <Plus className="size-4" /> Novo Cartão
+            </Button>
+          </div>
         </header>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

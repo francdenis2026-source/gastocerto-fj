@@ -533,7 +533,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {hasFeature(access, "debt_advisor") && (
+        {hasFeature(access, "financial_help") && (
           <div className="mb-6">
             <DebtAdvisorPanel />
           </div>
