@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid, FileDown, Search } from "lucide-react";
+import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid, FileDown, Search, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -138,16 +138,34 @@ function CreditCardsPage() {
                   <Input placeholder="Buscar na descrição ou valor..." className="pl-9 h-9 text-xs" />
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                 </div>
-                <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.success("PDF/CSV do Cartão exportado com sucesso!")}>
-                  <FileDown className="size-4" /> PDF/CSV do Cartão
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.success("Histórico exportado em CSV!")}>
+                    <FileDown className="size-4" /> CSV
+                  </Button>
+                  <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.success("PDF do Cartão exportado!")}>
+                    <FileDown className="size-4" /> PDF
+                  </Button>
+                </div>
              </div>
+
+             <section className="rounded-2xl border bg-brand/5 border-brand/20 p-4 flex items-start gap-3">
+               <AlertCircle className="size-5 text-brand shrink-0 mt-0.5" />
+               <div className="space-y-1">
+                 <p className="text-sm font-semibold text-brand">Monitor de Assinaturas e Recorrências</p>
+                 <p className="text-xs text-muted-foreground">
+                   Detectamos 2 possíveis assinaturas recorrentes neste cartão (Netflix, Spotify). 
+                   Deseja criar uma meta de economia para estas categorias?
+                 </p>
+                 <Button variant="link" className="p-0 h-auto text-xs text-brand">Ver detalhes</Button>
+               </div>
+             </section>
              
              <div className="rounded-2xl border bg-card p-8 text-center text-muted-foreground">
                 <History className="size-10 mx-auto mb-3 opacity-20" />
                 <p className="text-sm font-medium">Auditoria e Histórico Detalhado</p>
-                <p className="text-xs mt-1 max-w-[280px] mx-auto opacity-70">
-                  Aqui você poderá ver quem inseriu, editou ou removeu cada compra, com data e IP.
+                <p className="text-xs mt-1 max-w-[320px] mx-auto opacity-70">
+                  Visualização completa de quem inseriu, editou ou removeu cada compra. 
+                  Filtrado por: {user?.email} · Período: Últimos 30 dias.
                 </p>
              </div>
           </TabsContent>

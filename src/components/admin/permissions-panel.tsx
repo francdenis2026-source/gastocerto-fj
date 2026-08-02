@@ -8,21 +8,27 @@ import { Label } from "@/components/ui/label";
 import { Shield, ShieldAlert, ShieldCheck, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 const PERMISSION_KEYS = [
   { key: "clear_audit", label: "Limpar Auditoria", icon: ShieldAlert },
   { key: "manage_integrations", label: "Gerenciar Integrações", icon: Shield },
   { key: "edit_plans", label: "Editar Planos e Preços", icon: ShieldCheck },
+  { key: "financial_help", label: "Área de Ajuda Financeira", icon: ShieldCheck },
 ];
 
 export function PermissionsPanel({ targetUserId, currentPermissions = {} }: { targetUserId: string, currentPermissions?: Record<string, boolean> }) {
   const updatePermissions = useServerFn(adminUpdateStaffPermissions);
   const [perms, setPerms] = useState<Record<string, boolean>>(currentPermissions);
+  const [reason, setReason] = useState("");
 
   const mutation = useMutation({
-    mutationFn: (newPerms: Record<string, boolean>) => 
-      updatePermissions({ data: { targetUserId, permissions: newPerms } }),
-    onSuccess: () => toast.success("Permissões atualizadas com sucesso."),
+    mutationFn: (data: { perms: Record<string, boolean>, reason: string }) => 
+      updatePermissions({ data: { targetUserId, permissions: data.perms, reason: data.reason } }),
+    onSuccess: () => {
+      toast.success("Permissões atualizadas com sucesso.");
+      setReason("");
+    },
     onError: () => toast.error("Falha ao atualizar permissões.")
   });
 
@@ -57,11 +63,21 @@ export function PermissionsPanel({ targetUserId, currentPermissions = {} }: { ta
             );
           })}
         </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="grant-reason" className="text-[10px] uppercase font-bold text-muted-foreground">Motivo da liberação</Label>
+          <Textarea 
+            id="grant-reason"
+            placeholder="Ex: Usuário VIP, teste especial, suporte técnico..."
+            className="text-xs min-h-[60px]"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          />
+        </div>
         <Button 
           size="sm" 
           className="w-full h-8" 
-          onClick={() => mutation.mutate(perms)}
-          disabled={mutation.isPending}
+          onClick={() => mutation.mutate({ perms, reason })}
+          disabled={mutation.isPending || (perms.financial_help && !reason)}
         >
           {mutation.isPending ? <Loader2 className="size-3 animate-spin mr-2" /> : null}
           Salvar Permissões

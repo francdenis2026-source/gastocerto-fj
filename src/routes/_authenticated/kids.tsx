@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import QRCode from "qrcode";
 import {
@@ -25,8 +25,18 @@ import {
   Trash2,
   Tv,
   AlertCircle,
+  BellRing,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useProfile } from "@/lib/queries";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -52,6 +62,7 @@ import {
   blockKidSession,
   updateKidsSecuritySettings,
   updateKidUpgradeConfig,
+  updateKidNotificationPrefs,
 } from "@/lib/kids-account.functions";
 import {
   createExternalCode,
@@ -60,7 +71,7 @@ import {
   updateExternalCodeExpiry,
   getExternalAccessLogs,
 } from "@/lib/external-access.functions";
-import { useQuery } from "@tanstack/react-query";
+
 import {
   Dialog,
   DialogContent,
@@ -348,7 +359,10 @@ function KidsAccessPage() {
           suas finanças sem precisar criar conta. Você controla a expiração e o que eles podem ver.
         </div>
         
-        <ExternalCodesList />
+        <div className="grid gap-4 md:grid-cols-2">
+          <ExternalCodesList />
+          <NotificationPreferences userId={kids[0]?.user_id || ""} />
+        </div>
       </section>
 
     </div>
@@ -357,6 +371,102 @@ function KidsAccessPage() {
 }
 
 
+
+function NotificationPreferences({ userId }: { userId: string }) {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const updatePrefs = useServerFn(updateKidNotificationPrefs);
+  const { data: profile } = useProfile();
+  
+  const initialPrefs = (profile as any)?.kid_notification_prefs || {
+    channels: { email: true, push: true, whatsapp: false },
+    frequency: "instant",
+    expiryWarningDays: 7
+  };
+
+  const [prefs, setPrefs] = useState(initialPrefs);
+  const [saving, setSaving] = useState(false);
+
+  async function handleSave() {
+    setSaving(true);
+    try {
+      await updatePrefs({ data: prefs });
+      toast.success("Preferências de notificação atualizadas!");
+    } catch (error) {
+      toast.error("Erro ao salvar preferências.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!hydrated) return null;
+
+  return (
+    <Card className="border-border/40 shadow-sm">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <BellRing className="size-4 text-primary" /> Alertas de Expiração
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <Label className="text-xs">Frequência</Label>
+            <Select 
+              value={prefs.frequency} 
+              onValueChange={(v: any) => setPrefs({ ...prefs, frequency: v })}
+            >
+              <SelectTrigger className="w-32 h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="instant">Imediato</SelectItem>
+                <SelectItem value="daily">Diário</SelectItem>
+                <SelectItem value="weekly">Semanal</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs">Canais de envio</Label>
+            <div className="grid grid-cols-3 gap-2">
+              {Object.entries(prefs.channels).map(([key, val]) => (
+                <div key={key} className="flex items-center gap-2">
+                  <Checkbox 
+                    id={`channel-${key}`} 
+                    checked={val as boolean} 
+                    onCheckedChange={(c) => setPrefs({ 
+                      ...prefs, 
+                      channels: { ...prefs.channels, [key]: !!c } 
+                    })}
+                  />
+                  <Label htmlFor={`channel-${key}`} className="text-[10px] capitalize">{key}</Label>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <div className="flex justify-between">
+              <Label className="text-xs">Antecedência do aviso</Label>
+              <span className="text-[10px] font-bold">{prefs.expiryWarningDays} dias</span>
+            </div>
+            <Input 
+              type="range" 
+              min={1} 
+              max={30} 
+              value={prefs.expiryWarningDays}
+              onChange={(e) => setPrefs({ ...prefs, expiryWarningDays: Number(e.target.value) })}
+              className="h-4 accent-primary"
+            />
+          </div>
+        </div>
+        <Button size="sm" className="w-full h-8" onClick={handleSave} disabled={saving}>
+          {saving && <Loader2 className="size-3 animate-spin mr-2" />}
+          Salvar Configurações
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
 
 function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const queryClient = useQueryClient();
