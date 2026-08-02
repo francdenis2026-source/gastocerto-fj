@@ -501,16 +501,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               {!isAdminArea ? (
                 <>
-                  <Link to="/calendario" aria-label="Notificações" className="relative">
-                    <span className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:size-9">
-                      <Bell className="size-[18px]" />
-                    </span>
-                    {unreadCount > 0 ? (
-                      <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] font-semibold text-destructive-foreground">
-                        {unreadCount > 9 ? "9+" : unreadCount}
-                      </span>
-                    ) : null}
-                  </Link>
+                  <NotificationCenter />
+
                   <button
                     type="button"
                     onClick={() => setQuickEntry("expense")}
