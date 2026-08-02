@@ -7,7 +7,7 @@ export const getRecurrentExpenses = createServerFn({ method: "GET" })
     const { data, error } = await supabase
       .from("transactions")
       .select("amount, category:categories(name)")
-      .eq("recurrent", true);
+      .eq("is_recurring", true);
     
     if (error) throw error;
     return data || [];
