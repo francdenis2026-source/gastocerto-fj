@@ -617,38 +617,39 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
   return (
-    <article className="rounded-2xl border border-border bg-card p-4 sm:p-5">
-      <header className="flex flex-wrap items-center justify-between gap-2">
+    <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:border-primary/20">
+      <header className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-3 px-4 sm:p-4 border-b border-border/50">
         <div className="flex items-center gap-3">
           <div
-            className="flex size-10 items-center justify-center rounded-xl text-sm font-black text-white"
+            className="flex size-9 items-center justify-center rounded-lg text-xs font-black text-white shadow-inner"
             style={{ backgroundColor: dependent.color ?? "#f97316" }}
             aria-hidden
           >
             {dependent.name.charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="text-sm font-bold">{dependent.name}</p>
-            <p className="text-[11px] text-muted-foreground">
+            <h3 className="text-sm font-bold leading-none">{dependent.name}</h3>
+            <p className="mt-1 text-[10px] font-medium text-muted-foreground">
               {dependent.kid_login_code ? expiry.label : "Sem acesso liberado"}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {dependent.kid_login_code ? (
-            <Badge variant={expiry.expired ? "destructive" : "secondary"} className="text-[10px]">
-              {expiry.expired ? "Código expirado" : "Acesso ativo"}
+          {dependent.kid_login_code && (
+            <Badge variant={expiry.nearExpiry ? "outline" : "secondary"} className={cn("h-5 text-[9px] uppercase tracking-wider", expiry.nearExpiry && "border-orange-500 text-orange-600 bg-orange-50 animate-pulse")}>
+              {expiry.expired ? "Expirado" : expiry.nearExpiry ? "Vencendo" : "Ativo"}
             </Badge>
-          ) : null}
+          )}
           {(dependent as any).pin_code && (
-            <Badge variant="outline" className="border-primary/30 text-primary text-[10px] gap-1">
-              <ShieldCheck className="size-3" /> PIN Personalizado
+            <Badge variant="outline" className="h-5 border-emerald-500/30 text-emerald-600 bg-emerald-50 text-[9px] gap-1 uppercase tracking-wider">
+              <ShieldCheck className="size-2.5" /> PIN OK
             </Badge>
           )}
         </div>
       </header>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_240px]">
+      <div className="p-4 sm:p-5">
+        <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
         <div className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">
