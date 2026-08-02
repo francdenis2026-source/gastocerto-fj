@@ -85,7 +85,9 @@ export const regeneratePixCharge = createServerFn({ method: "POST" })
 
     if (fetchError || !oldTx) throw new Error("Transação não encontrada.");
 
-    // Atualiza a expiração e gera novo ID simulado do MP
+    // Em uma app real, cancelaríamos o pagamento anterior no Mercado Pago primeiro
+    
+    // Gera novo ID simulado do MP e atualiza data
     const mpPaymentId = `mp-new-${Math.random().toString(36).substr(2, 9)}`;
     
     const { data: updated, error: updateError } = await context.supabase
@@ -102,12 +104,12 @@ export const regeneratePixCharge = createServerFn({ method: "POST" })
 
     if (updateError) throw updateError;
 
-    // Registrar auditoria para o administrador
+    // Registrar auditoria
     await context.supabase.from("kid_access_audit" as any).insert({
       user_id: context.userId,
       dependent_id: oldTx.recipient_id,
-      action: "access_granted", // Reusing this for PIX updates
-      details: { amount: oldTx.amount, type: 'pix_regenerated', tx_id: oldTx.id }
+      action: "visibility", // Action names are limited by RLS/types usually, choosing one that fits
+      detail: { amount: oldTx.amount, type: 'pix_regenerated', tx_id: oldTx.id }
     } as any);
 
     return updated;

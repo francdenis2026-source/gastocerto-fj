@@ -93,6 +93,38 @@ function KidSpacePage() {
     },
   });
 
+  const pixAlerts = useQuery({
+    queryKey: ["kid_pix_alerts", dependent?.id],
+    enabled: Boolean(dependent?.id),
+    refetchInterval: 10000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("ledger_entries")
+        .select("*")
+        .eq("dependent_id", dependent!.id)
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(1);
+      
+      if (error) throw error;
+      return data?.[0];
+    }
+  });
+
+  useEffect(() => {
+    if (pixAlerts.data) {
+      const lastSeen = localStorage.getItem(`last_pix_alert_${dependent?.id}`);
+      if (lastSeen !== pixAlerts.data.id) {
+        toast.success(`🎉 Oba! Você recebeu ${formatCurrency(pixAlerts.data.amount)} do seu responsável!`, {
+          description: pixAlerts.data.description,
+          duration: 10000,
+        });
+        localStorage.setItem(`last_pix_alert_${dependent?.id}`, pixAlerts.data.id);
+      }
+    }
+  }, [pixAlerts.data, dependent?.id]);
+
+
   const goals = useQuery({
     queryKey: ["kid_goals", dependent?.id],
     enabled: Boolean(dependent?.id),
