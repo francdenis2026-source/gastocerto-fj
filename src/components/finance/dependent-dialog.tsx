@@ -341,32 +341,32 @@ export function DependentDialog({
               <Sparkles className="size-5 text-primary" /> Sugestão de Upgrade
             </DialogTitle>
             <DialogDescription className="text-foreground">
-              Detectamos que <strong>{name}</strong> já atingiu 14 anos, que é o limite para ser acompanhado como dependente infantil. 
+              Detectamos que <strong>{name}</strong> já atingiu 14 anos, que é o limite para ser acompanhado como dependente infantil no Espaço Kids.
               <br /><br />
-              Nesta idade, o ideal é que ele(a) tenha uma <strong>conta independente</strong> para começar a gerir as próprias finanças de forma completa, mas ainda sob sua orientação se desejar.
+              Nesta idade, o ideal é que ele(a) tenha uma <strong>conta independente</strong> para começar a gerir as próprias finanças de forma completa e profissional.
             </DialogDescription>
           </DialogHeader>
           <div className="rounded-xl bg-primary/5 p-4 border border-primary/10">
             <p className="text-sm font-bold text-primary mb-1">Deseja cadastrar uma conta independente agora?</p>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Toda conta criada inicia automaticamente no <strong>Plano Gratuito</strong>. Se você tiver um plano pago, poderá vincular as contas futuramente.
+              A nova conta iniciará no <strong>Plano Gratuito</strong>. O histórico atual poderá ser migrado manualmente ou via suporte futuramente.
             </p>
           </div>
           <DialogFooter className="flex-col sm:flex-row gap-2">
             <Button variant="outline" onClick={() => setShowUpgradeModal(false)} className="flex-1">
-              Agora não, manter como dependente
+              Manter como dependente
             </Button>
             <Button onClick={() => {
               setShowUpgradeModal(false);
               onOpenChange(false);
-              // Redireciona para o cadastro (auth?mode=signup) ou abre modal de cadastro
               window.location.href = "/auth?mode=signup";
             }} className="flex-1">
-              Sim, criar conta independente
+              Sim, criar conta agora
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
     </Dialog>
   );
 }
