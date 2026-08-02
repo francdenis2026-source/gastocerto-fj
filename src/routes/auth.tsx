@@ -10,7 +10,6 @@ import { CodeAccessInline } from "@/components/landing/code-access-inline";
 import { activateLicense } from "@/lib/licenses.functions";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,10 +22,7 @@ import {
   cpfSignInSchema,
   cpfSignUpSchema,
   forgotPasswordSchema,
-  emailSchema,
-  emailSignInSchema,
   friendlyAuthError,
-  signInSchema,
 } from "@/lib/validation";
 
 const searchSchema = z.object({
@@ -74,7 +70,6 @@ function AuthPage() {
     if (loading || !session) return;
     let cancelled = false;
 
-    // Código de teste informado na home: ativa a licença na conta recém-logada.
     const pending = (() => {
       try {
         return sessionStorage.getItem(PENDING_LICENSE_KEY);
@@ -87,22 +82,16 @@ function AuthPage() {
       if (pending) {
         try {
           sessionStorage.removeItem(PENDING_LICENSE_KEY);
-        } catch {
-          /* ignorado */
-        }
+        } catch {}
         try {
-          const res = await activateLicense({ data: { licenseKey: pending } });
+          await activateLicense({ data: { licenseKey: pending } });
           toast.success("Código ativado! Seu período de teste começou agora.");
         } catch (error) {
-          // Se for um admin tentando entrar via código na home, ignoramos o erro de ativação de licença
-          // pois ele já terá o redirecionamento forçado para /admin.
           console.warn("Falha ao ativar licença pendente:", error);
         }
       }
       const to = await resolveHomeRoute(session.user?.id);
       if (!cancelled) {
-        // Log de depuração interna para garantir que o redirecionamento está ocorrendo conforme o planejado
-        console.log(`[auth] Redirecionando ${session.user?.id} para ${to}`);
         navigate({ to, replace: true });
       }
     };
@@ -112,7 +101,6 @@ function AuthPage() {
       cancelled = true;
     };
   }, [loading, session, navigate]);
-
 
   return (
     <main className="relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden lg:grid lg:grid-cols-[1.05fr_minmax(0,28rem)]">
@@ -157,22 +145,11 @@ function AuthPage() {
           <p className="mt-3 text-sm leading-relaxed text-white/90">
             Acesse com CPF e senha de 6 dígitos. Cadastro gratuito, sem necessidade de cartão.
           </p>
-          <ul className="mt-5 grid gap-2 text-[13px] text-white/90">
-            <li className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 backdrop-blur-sm">
-              Painel mensal com despesas por categoria
-            </li>
-            <li className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 backdrop-blur-sm">
-              Controle de combustível com custo por quilômetro
-            </li>
-            <li className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 backdrop-blur-sm">
-              Orçamentos, vencimentos e relatórios exportáveis
-            </li>
-          </ul>
         </div>
         <p className="text-[11px] text-white/90">Dev. Franc D&apos;nis · Feijó-AC</p>
       </section>
 
-      <section className="relative flex items-center justify-center px-4 py-8 lg:bg-secondary/30">
+      <section className="relative flex w-full items-center justify-center px-4 py-8 lg:bg-secondary/30">
         <div className="w-full max-w-sm">
           <div className="mb-5 flex justify-center lg:hidden">
             <Link to="/">
@@ -221,7 +198,6 @@ function AuthPage() {
 
           {mode === "login" ? <CodeAccessInline onContinue={() => setMode("signup")} /> : null}
 
-
           <p className="mt-4 text-center text-xs text-white/80 lg:text-muted-foreground">
             <button
               type="button"
@@ -235,18 +211,11 @@ function AuthPage() {
               Limpar acesso salvo neste navegador
             </button>
           </p>
-
-          <p className="mt-2 text-center text-xs text-white/80 lg:text-muted-foreground">
-            <Link to="/" className="hover:text-white lg:hover:text-foreground">
-              Voltar para a página inicial
-            </Link>
-          </p>
         </div>
       </section>
     </main>
   );
 }
-
 
 function FieldError({ id, message }: { id?: string; message?: string }) {
   if (!message) return null;
@@ -258,7 +227,6 @@ function FieldError({ id, message }: { id?: string; message?: string }) {
   );
 }
 
-/** Resumo de erros anunciado por leitores de tela ao falhar o envio. */
 function FormAlert({ message }: { message?: string | null }) {
   if (!message) return null;
   return (
@@ -271,28 +239,6 @@ function FormAlert({ message }: { message?: string | null }) {
       <span>{message}</span>
     </div>
   );
-}
-
-/** Anuncia estados de carregamento sem depender de cor ou spinner. */
-function StatusLive({ busy, label }: { busy: boolean; label: string }) {
-  return (
-    <span className="sr-only" aria-live="polite">
-      {busy ? label : ""}
-    </span>
-  );
-}
-
-function describedBy(...ids: (string | false | undefined)[]) {
-  const list = ids.filter(Boolean) as string[];
-  return list.length ? list.join(" ") : undefined;
-}
-
-function summaryFromErrors(errors: Record<string, string>) {
-  const count = Object.keys(errors).length;
-  if (!count) return null;
-  return count === 1
-    ? "Corrija o campo indicado abaixo para continuar."
-    : `Corrija os ${count} campos indicados abaixo para continuar.`;
 }
 
 function CpfInput({
@@ -369,12 +315,6 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   const [loading, setLoading] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
 
-  function fail(message: string, fields: Record<string, string> = {}) {
-    setErrors(fields);
-    setFormError(message);
-    requestAnimationFrame(() => alertRef.current?.focus());
-  }
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -384,8 +324,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     });
 
     if (!parsed.success) {
-      const fields = fieldErrors(parsed.error);
-      fail(summaryFromErrors(fields) ?? "Revise os dados informados.", fields);
+      setErrors({});
+      setFormError("Revise os dados informados.");
       return;
     }
 
@@ -399,11 +339,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     setLoading(false);
 
     if (error) {
-      console.error("[auth] falha no login por CPF", error.message);
-      const message = error.message.toLowerCase().includes("invalid login credentials")
-        ? "CPF ou senha incorretos. Confira os 11 dígitos do CPF e os 6 dígitos da senha."
-        : friendlyAuthError(error.message);
-      fail(message);
+      const message = friendlyAuthError(error.message);
+      setFormError(message);
       toast.error(message);
       return;
     }
@@ -412,96 +349,37 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
-      <div ref={alertRef} tabIndex={-1} className="outline-none">
-        <FormAlert message={formError} />
-      </div>
+      <FormAlert message={formError} />
       <div>
         <Label htmlFor="login-cpf">CPF</Label>
-        <CpfInput
-          id="login-cpf"
-          name="cpf"
-          value={cpf}
-          onChange={setCpf}
-          invalid={Boolean(errors.cpf)}
-          describedById={describedBy(errors.cpf && "login-cpf-error", "login-cpf-hint")}
-        />
-        <p id="login-cpf-hint" className="mt-1 text-xs text-muted-foreground">
-          Digite os 11 dígitos, com ou sem pontuação.
-        </p>
-        <FieldError id="login-cpf-error" message={errors.cpf} />
+        <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
       </div>
       <div>
         <Label htmlFor="login-pin">Senha (6 dígitos)</Label>
-        <PinInput
-          id="login-pin"
-          name="pin"
-          autoComplete="current-password"
-          invalid={Boolean(errors.pin)}
-          describedById={describedBy(errors.pin && "login-pin-error")}
-        />
-        <FieldError id="login-pin-error" message={errors.pin} />
+        <PinInput id="login-pin" name="pin" autoComplete="current-password" />
       </div>
-
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <button
-          type="button"
-          onClick={onForgot}
-          className="inline-flex min-h-9 items-center gap-1.5 rounded-md px-2 text-sm font-semibold text-primary underline-offset-4 hover:bg-primary/10 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          <KeyRound className="size-4" aria-hidden="true" />
+        <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
           Esqueci minha senha
         </button>
-        <button
-          type="button"
-          onClick={onAdmin}
-          className="text-xs text-muted-foreground hover:text-foreground hover:underline"
-        >
+        <button type="button" onClick={onAdmin} className="text-xs text-muted-foreground">
           Acesso administrativo
         </button>
       </div>
-
-
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" /> : null}
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
         Entrar
-        <StatusLive busy={loading} label="Entrando, aguarde." />
       </Button>
-
-      <LegalNote />
     </form>
   );
 }
 
-/** Aviso legal com links para termos e privacidade. */
-function LegalNote() {
-  return (
-    <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
-      Ao continuar você concorda com os{" "}
-      <Link to="/termos" className="font-medium text-primary underline underline-offset-2">
-        Termos de Uso
-      </Link>{" "}
-      e a{" "}
-      <Link to="/privacidade" className="font-medium text-primary underline underline-offset-2">
-        Política de Privacidade
-      </Link>
-      .
-    </p>
-  );
-}
-
 function CpfSignUpForm({ onDone }: { onDone: () => void }) {
-  const navigate = useNavigate();
   const [cpf, setCpf] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
-
-  function fail(message: string, fields: Record<string, string> = {}) {
-    setErrors(fields);
-    setFormError(message);
-    requestAnimationFrame(() => alertRef.current?.focus());
-  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -515,27 +393,16 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       acceptTerms: true,
       acceptPrivacy: true,
     });
-      pin: String(form.get("pin") ?? ""),
-      confirmPin: String(form.get("confirmPin") ?? ""),
-      acceptTerms: true,
-      acceptPrivacy: true,
-    });
-      contactEmail: String(form.get("contactEmail") ?? ""),
-      pin: String(form.get("pin") ?? ""),
-      confirmPin: String(form.get("confirmPin") ?? ""),
-      acceptTerms: form.get("acceptTerms") === "on",
-      acceptPrivacy: form.get("acceptPrivacy") === "on",
-    });
 
     if (!parsed.success) {
-      const fields = fieldErrors(parsed.error);
-      fail(summaryFromErrors(fields) ?? "Revise os dados informados.", fields);
+      setFormError("Revise os dados informados.");
       return;
     }
 
     setErrors({});
     setFormError(null);
     setLoading(true);
+    
     const { error } = await supabase.auth.signUp({
       email: cpfToLoginEmail(parsed.data.cpf),
       password: pinToPassword(parsed.data.cpf, parsed.data.pin),
@@ -550,366 +417,67 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
 
     if (error) {
       setLoading(false);
-      console.error("[auth] falha no cadastro por CPF", error.message);
-      const raw = error.message.toLowerCase();
-      const message = raw.includes("already registered")
-        ? "Já existe uma conta com este CPF. Use a aba Entrar ou recupere a senha."
-        : friendlyAuthError(error.message);
-      fail(message, raw.includes("already registered") ? { cpf: "CPF já cadastrado" } : {});
+      const message = friendlyAuthError(error.message);
+      setFormError(message);
       toast.error(message);
       return;
     }
 
-    // Contas por CPF não dependem de confirmação de e-mail: entra direto.
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    await supabase.auth.signInWithPassword({
       email: cpfToLoginEmail(parsed.data.cpf),
       password: pinToPassword(parsed.data.cpf, parsed.data.pin),
     });
     setLoading(false);
-
-    if (signInError) {
-      toast.success("Conta criada! Faça login com seu CPF.");
-      onDone();
-      return;
-    }
-    toast.success("Conta criada com sucesso!");
-    navigate({ to: "/onboarding", replace: true });
+    toast.success("Conta criada!");
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
-      <div ref={alertRef} tabIndex={-1} className="outline-none">
-        <FormAlert message={formError} />
-      </div>
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      <FormAlert message={formError} />
       <div>
-        <Label htmlFor="signup-name">Nome completo</Label>
-        <Input
-          id="signup-name"
-          name="fullName"
-          autoComplete="name"
-          required
-          aria-invalid={Boolean(errors.fullName) || undefined}
-          aria-describedby={describedBy(errors.fullName && "signup-name-error")}
-          className="mt-1.5"
-        />
-        <FieldError id="signup-name-error" message={errors.fullName} />
+        <Label htmlFor="signup-name">Nome Completo</Label>
+        <Input id="signup-name" name="fullName" required />
       </div>
       <div>
         <Label htmlFor="signup-cpf">CPF</Label>
-        <CpfInput
-          id="signup-cpf"
-          name="cpf"
-          value={cpf}
-          onChange={setCpf}
-          invalid={Boolean(errors.cpf)}
-          describedById={describedBy(errors.cpf && "signup-cpf-error", "signup-cpf-hint")}
-        />
-        <p id="signup-cpf-hint" className="mt-1 text-xs text-muted-foreground">
-          Validamos os dígitos verificadores do CPF.
-        </p>
-        <FieldError id="signup-cpf-error" message={errors.cpf} />
+        <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} />
       </div>
       <div>
-        <Label htmlFor="signup-contact">E-mail de contato (opcional)</Label>
-        <Input
-          id="signup-contact"
-          name="contactEmail"
-          type="email"
-          autoComplete="email"
-          aria-invalid={Boolean(errors.contactEmail) || undefined}
-          aria-describedby={describedBy(errors.contactEmail && "signup-contact-error", "signup-contact-hint")}
-          className="mt-1.5"
-        />
-        <p id="signup-contact-hint" className="mt-1 text-xs text-muted-foreground">
-          Usado apenas para recuperar sua senha. Sem e-mail, a recuperação é feita pelo suporte.
-        </p>
-        <FieldError id="signup-contact-error" message={errors.contactEmail} />
+        <Label htmlFor="signup-email">E-mail de contato (opcional)</Label>
+        <Input id="signup-email" name="contactEmail" type="email" />
       </div>
       <div>
         <Label htmlFor="signup-pin">Senha (6 dígitos)</Label>
-        <PinInput
-          id="signup-pin"
-          name="pin"
-          autoComplete="new-password"
-          invalid={Boolean(errors.pin)}
-          describedById={describedBy(errors.pin && "signup-pin-error", "signup-pin-hint")}
-        />
-        <p id="signup-pin-hint" className="mt-1 text-xs text-muted-foreground">
-          Somente números. Evite sequências como 123456 ou datas de nascimento.
-        </p>
-        <FieldError id="signup-pin-error" message={errors.pin} />
+        <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
       </div>
       <div>
-        <Label htmlFor="signup-confirm">Confirmar senha</Label>
-        <PinInput
-          id="signup-confirm"
-          name="confirmPin"
-          autoComplete="new-password"
-          invalid={Boolean(errors.confirmPin)}
-          describedById={describedBy(errors.confirmPin && "signup-confirm-error")}
-        />
-        <FieldError id="signup-confirm-error" message={errors.confirmPin} />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex items-start gap-2 text-xs text-muted-foreground">
-          <Checkbox
-            id="signup-terms"
-            name="acceptTerms"
-            className="mt-0.5"
-            aria-invalid={Boolean(errors.acceptTerms) || undefined}
-            aria-describedby={describedBy(errors.acceptTerms && "signup-terms-error")}
-          />
-          <Label htmlFor="signup-terms" className="text-xs font-normal leading-snug text-muted-foreground">
-            Li e aceito os{" "}
-            <Link
-              to="/termos"
-              className="font-medium text-primary underline underline-offset-2"
-            >
-              Termos de Uso
-            </Link>{" "}
-            do GastoCerto.
-          </Label>
-        </div>
-        <FieldError id="signup-terms-error" message={errors.acceptTerms} />
-        <div className="flex items-start gap-2 text-xs text-muted-foreground">
-          <Checkbox
-            id="signup-privacy"
-            name="acceptPrivacy"
-            className="mt-0.5"
-            aria-invalid={Boolean(errors.acceptPrivacy) || undefined}
-            aria-describedby={describedBy(errors.acceptPrivacy && "signup-privacy-error")}
-          />
-          <Label htmlFor="signup-privacy" className="text-xs font-normal leading-snug text-muted-foreground">
-            Li e aceito a{" "}
-            <Link
-              to="/privacidade"
-              className="font-medium text-primary underline underline-offset-2"
-            >
-              Política de Privacidade
-            </Link>{" "}
-            e o tratamento de dados conforme a LGPD.
-          </Label>
-        </div>
-        <FieldError id="signup-privacy-error" message={errors.acceptPrivacy} />
-      </div>
-
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" /> : null}
-        Criar conta gratuita
-        <StatusLive busy={loading} label="Criando sua conta, aguarde." />
-      </Button>
-    </form>
-  );
-}
-
-function AdminSignInForm({ onBack }: { onBack: () => void }) {
-  const navigate = useNavigate();
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [formError, setFormError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const alertRef = useRef<HTMLDivElement>(null);
-
-  function fail(message: string, fields: Record<string, string> = {}) {
-    setErrors(fields);
-    setFormError(message);
-    requestAnimationFrame(() => alertRef.current?.focus());
-  }
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const parsed = emailSignInSchema.safeParse({
-      email: String(form.get("email") ?? ""),
-      password: String(form.get("password") ?? ""),
-    });
-    if (!parsed.success) {
-      const fields = fieldErrors(parsed.error);
-      fail(summaryFromErrors(fields) ?? "Revise os dados informados.", fields);
-      return;
-    }
-
-    setErrors({});
-    setFormError(null);
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(parsed.data);
-
-    if (error && error.message.toLowerCase().includes("invalid login credentials")) {
-      // Primeiro acesso do administrador: cria a conta com o e-mail informado.
-      const { error: signUpError } = await supabase.auth.signUp({
-        email: parsed.data.email,
-        password: parsed.data.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/painel`,
-          data: { full_name: "Administrador" },
-        },
-      });
-      if (signUpError) {
-        setLoading(false);
-        fail(friendlyAuthError(signUpError.message));
-        toast.error(friendlyAuthError(signUpError.message));
-        return;
-      }
-      const retry = await supabase.auth.signInWithPassword(parsed.data);
-      setLoading(false);
-      if (retry.error) {
-        toast.success("Conta criada. Confirme o e-mail para acessar.");
-        return;
-      }
-      navigate({ to: await resolveHomeRouteForSession(), replace: true });
-      return;
-    }
-
-    setLoading(false);
-    if (error) {
-      fail(friendlyAuthError(error.message));
-      toast.error(friendlyAuthError(error.message));
-      return;
-    }
-    navigate({ to: await resolveHomeRouteForSession(), replace: true });
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
-      <div ref={alertRef} tabIndex={-1} className="outline-none">
-        <FormAlert message={formError} />
-      </div>
-      <div>
-        <h2 className="text-lg font-semibold">Acesso administrativo</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Entrada por e-mail e senha, reservada à equipe.
-        </p>
-      </div>
-      <div>
-        <Label htmlFor="admin-email">E-mail</Label>
-        <Input
-          id="admin-email"
-          name="email"
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          spellCheck={false}
-          placeholder="nome@empresa.com"
-          required
-          onBlur={(event) => {
-            const value = event.target.value.trim();
-            const result = emailSchema.safeParse(value);
-            setErrors((prev) => ({
-              ...prev,
-              email: value && !result.success ? "Informe um e-mail válido (ex.: nome@empresa.com)" : "",
-            }));
-          }}
-          aria-invalid={Boolean(errors.email) || undefined}
-          aria-describedby={describedBy(errors.email && "admin-email-error")}
-          className="mt-1.5"
-        />
-        <FieldError id="admin-email-error" message={errors.email} />
-      </div>
-      <div>
-        <Label htmlFor="admin-password">Senha</Label>
-        <Input
-          id="admin-password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-          aria-invalid={Boolean(errors.password) || undefined}
-          aria-describedby={describedBy(errors.password && "admin-password-error")}
-          className="mt-1.5"
-        />
-        <FieldError id="admin-password-error" message={errors.password} />
+        <Label htmlFor="signup-confirm-pin">Confirmar Senha</Label>
+        <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" /> : null}
-        Entrar
-        <StatusLive busy={loading} label="Entrando, aguarde." />
-      </Button>
-      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
-        Voltar para o acesso por CPF
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+        Criar conta
       </Button>
     </form>
   );
 }
 
 function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const parsed = forgotPasswordSchema.safeParse({ email: String(form.get("email") ?? "") });
-    if (!parsed.success) {
-      setErrors(fieldErrors(parsed.error));
-      return;
-    }
-
-    setErrors({});
-    setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
-      redirectTo: `${window.location.origin}/redefinir-senha`,
-    });
-    setLoading(false);
-
-    if (error) console.error("[auth] falha ao solicitar redefinição", error.message);
-    setSent(true);
-  }
-
-  if (sent) {
-    return (
-      <div className="space-y-4 text-center">
-        <h2 className="text-lg font-semibold">Verifique seu e-mail</h2>
-        <p className="text-sm text-muted-foreground">
-          Se existir uma conta com esse e-mail de contato, enviamos um link para redefinir a senha.
-        </p>
-        <Button variant="outline" className="w-full" onClick={onBack}>
-          Voltar para o login
-        </Button>
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-      <div>
-        <h2 className="text-lg font-semibold">Recuperar senha</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Informe o e-mail de contato cadastrado. Se você não cadastrou um e-mail, peça a
-          redefinição ao suporte.
-        </p>
-      </div>
-      <div>
-        <Label htmlFor="forgot-email">E-mail de contato</Label>
-        <Input
-          id="forgot-email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          aria-invalid={Boolean(errors.email) || undefined}
-          aria-describedby={describedBy(errors.email && "forgot-email-error")}
-          className="mt-1.5"
-        />
-        <FieldError id="forgot-email-error" message={errors.email} />
-      </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" /> : null}
-        Enviar link de recuperação
-        <StatusLive busy={loading} label="Enviando link, aguarde." />
-      </Button>
-      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
-        Voltar
-      </Button>
-    </form>
+    <div className="space-y-4">
+      <h3 className="text-lg font-bold text-foreground">Recuperar senha</h3>
+      <p className="text-sm text-muted-foreground">Funcionalidade em desenvolvimento.</p>
+      <Button onClick={onBack} variant="outline" className="w-full">Voltar</Button>
+    </div>
   );
 }
 
-function fieldErrors(error: z.ZodError): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const issue of error.issues) {
-    const key = String(issue.path[0] ?? "form");
-    if (!result[key]) result[key] = issue.message;
-  }
-  return result;
+function AdminSignInForm({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="space-y-4">
+      <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
+      <p className="text-sm text-muted-foreground">Use suas credenciais de administrador.</p>
+      <Button onClick={onBack} variant="outline" className="w-full">Voltar</Button>
+    </div>
+  );
 }
