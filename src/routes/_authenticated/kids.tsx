@@ -67,8 +67,10 @@ import {
   updateKidsSecuritySettings,
   updateKidUpgradeConfig,
   updateKidNotificationPrefs,
+  deleteKidAccount,
 } from "@/lib/kids-account.functions";
 import { getKidTransactions } from "@/lib/kids-transactions.functions";
+
 import {
   createExternalCode,
   listExternalCodes,
@@ -307,10 +309,11 @@ function KidsAccessPage() {
           <div className="flex items-center gap-2">
           <ClearHistoryButton
             table="kid_access_audit"
-            label="histórico do Espaço Kids"
+            label="auditoria do Espaço Kids"
             invalidateKeys={["kid_access_audit"]}
             onCleared={() => audit.refetch()}
           />
+
           <Button variant="outline" size="sm" className="h-8 text-[11px] gap-1.5" onClick={() => {
 
             const data = (audit.data ?? []).map(row => ({
@@ -379,7 +382,9 @@ function NotificationPreferences({ userId }: { userId: string }) {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
   const updatePrefs = useServerFn(updateKidNotificationPrefs);
+  const deleteKid = useServerFn(deleteKidAccount);
   const { data: profile } = useProfile();
+
   
   const initialPrefs = (profile as any)?.kid_notification_prefs || {
     channels: { email: true, push: true, whatsapp: false },
@@ -479,6 +484,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
   const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
+  const deleteKid = useServerFn(deleteKidAccount);
+
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
@@ -745,14 +752,25 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     variant="ghost"
                     className="text-destructive hover:bg-destructive/10"
                     disabled={busy}
-                    onClick={() => {
-                      if (confirm(`Tem certeza que deseja bloquear e excluir o acesso de ${dependent.name}? Isso removerá o código e senha atuais.`)) {
-                        handleRevoke();
+                    onClick={async () => {
+                      if (confirm(`Tem certeza que deseja bloquear e excluir a conta de ${dependent.name}? Isso removerá todos os dados e acessos dela permanentemente.`)) {
+                        setBusy(true);
+                        try {
+                          await deleteKid({ data: { dependentId: dependent.id } });
+                          toast.success("Conta excluída com sucesso.");
+                          void refresh();
+                          void refreshAudit();
+                        } catch (error) {
+                          toast.error("Erro ao excluir conta.");
+                        } finally {
+                          setBusy(false);
+                        }
                       }
                     }}
                   >
                     <Trash2 className="mr-1.5 size-3.5" /> Bloquear e Excluir
                   </Button>
+
                 </>
               ) : null}
             </div>

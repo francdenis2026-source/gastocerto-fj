@@ -30,7 +30,9 @@ import {
 import { useState, type ReactNode, useEffect, useMemo } from "react";
 
 import { Logo } from "@/components/logo";
+import { NotificationCenter } from "@/components/notifications/notification-center";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
+
 import { useKidSession } from "@/lib/kids-session";
 import { useKidsRealtimeAlerts } from "@/lib/kids-realtime";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -499,16 +501,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               {!isAdminArea ? (
                 <>
-                  <Link to="/calendario" aria-label="Notificações" className="relative">
-                    <span className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:size-9">
-                      <Bell className="size-[18px]" />
-                    </span>
-                    {unreadCount > 0 ? (
-                      <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] font-semibold text-destructive-foreground">
-                        {unreadCount > 9 ? "9+" : unreadCount}
-                      </span>
-                    ) : null}
-                  </Link>
+                  <NotificationCenter />
+
                   <button
                     type="button"
                     onClick={() => setQuickEntry("expense")}

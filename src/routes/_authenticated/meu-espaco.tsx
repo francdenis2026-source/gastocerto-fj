@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
+import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell } from "lucide-react";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -29,6 +29,8 @@ import { getKidCardControl } from "@/lib/kids-cards.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Progress } from "@/components/ui/progress";
 import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
+import { NotificationCenter } from "@/components/notifications/notification-center";
+
 
 
 export const Route = createFileRoute("/_authenticated/meu-espaco")({
@@ -160,16 +162,21 @@ function KidSpacePage() {
             <h1 className="text-lg font-extrabold leading-tight">Oi, {firstName}!</h1>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={async () => {
-            await signOut();
-            navigate({ to: "/auth", replace: true });
-          }}
-        >
-          <LogOut className="mr-1.5 size-4" /> Sair
-        </Button>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <NotificationCenter isKid />
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 px-2 sm:px-3 text-xs"
+            onClick={async () => {
+              await signOut();
+              navigate({ to: "/auth", replace: true });
+            }}
+          >
+            <LogOut className="mr-1.5 size-4" /> Sair
+          </Button>
+        </div>
+
       </header>
 
       <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
