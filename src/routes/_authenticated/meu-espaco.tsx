@@ -114,11 +114,33 @@ function KidSpacePage() {
   useEffect(() => {
     if (pixAlerts.data) {
       const lastSeen = localStorage.getItem(`last_pix_alert_${dependent?.id}`);
-      if (lastSeen !== pixAlerts.data.id) {
-        toast.success(`🎉 Oba! Você recebeu ${formatCurrency(pixAlerts.data.amount)} do seu responsável!`, {
-          description: pixAlerts.data.description,
-          duration: 10000,
-        });
+      if (lastSeen !== pixAlerts.data.id && (pixAlerts.data as any).type === 'income') {
+        toast.custom((t) => (
+          <div className={cn(
+            "flex w-full max-w-sm flex-col gap-2 rounded-2xl border p-4 shadow-2xl animate-in slide-in-from-right-5",
+            isBoy ? "bg-blue-600 border-blue-400 text-white" : 
+            isGirl ? "bg-pink-600 border-pink-400 text-white" : 
+            "bg-emerald-600 border-emerald-400 text-white"
+          )}>
+            <div className="flex items-start gap-3">
+              <div className="bg-white/20 p-2 rounded-xl">
+                <TrendingUp className="size-6" />
+              </div>
+              <div className="flex-1">
+                <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Recebimento Aprovado! 🚀</p>
+                <h4 className="text-xl font-black">{formatCurrency(pixAlerts.data.amount)}</h4>
+                <p className="text-[11px] font-medium opacity-90 mt-1">{pixAlerts.data.description}</p>
+                <p className="text-[9px] mt-2 font-bold opacity-70">
+                  {new Date(pixAlerts.data.created_at || '').toLocaleString('pt-BR')}
+                </p>
+              </div>
+              <button onClick={() => toast.dismiss(t)} className="opacity-70 hover:opacity-100">
+                <span className="sr-only">Fechar</span>
+                <Sparkles className="size-4" />
+              </button>
+            </div>
+          </div>
+        ), { duration: 15000 });
         localStorage.setItem(`last_pix_alert_${dependent?.id}`, pixAlerts.data.id);
       }
     }
