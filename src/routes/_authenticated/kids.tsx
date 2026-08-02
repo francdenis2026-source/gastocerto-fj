@@ -73,6 +73,23 @@ function KidsAccessPage() {
   const audit = useKidAccessAudit(60);
   const kids = (dependents.data ?? []).filter((item) => item.active !== false);
 
+  const summary = useMemo(() => {
+    const withCode = kids.filter((kid) => Boolean(kid.kid_login_code));
+    const active = withCode.filter((kid) => {
+      const expires = kid.kid_code_expires_at ? new Date(kid.kid_code_expires_at).getTime() : null;
+      return expires === null || expires > Date.now();
+    });
+    const nextExpiry = withCode
+      .map((kid) => kid.kid_code_expires_at)
+      .filter((value): value is string => Boolean(value))
+      .sort()[0] ?? null;
+    const lastLogin = withCode
+      .map((kid) => (kid.kid_last_login_at ? { at: kid.kid_last_login_at, name: kid.name } : null))
+      .filter((value): value is { at: string; name: string } => Boolean(value))
+      .sort((a, b) => (a.at < b.at ? 1 : -1))[0] ?? null;
+    return { total: withCode.length, active: active.length, nextExpiry, lastLogin };
+  }, [kids]);
+
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6">
       <header className="space-y-1">
@@ -85,6 +102,44 @@ function KidsAccessPage() {
         </p>
       </header>
 
+      <section className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <KeyRound className="size-3.5 text-primary" aria-hidden /> Códigos ativos
+          </p>
+          <p className="mt-1 text-2xl font-extrabold">{summary.active}</p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.total === 0
+              ? "Nenhum acesso liberado ainda."
+              : `${summary.total} código(s) criado(s) no total.`}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
+          </p>
+          <p className="mt-1 text-[13px] font-bold">
+            {describeKidCodeExpiry(summary.nextExpiry).label}
+          </p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+            <LogIn className="size-3.5 text-primary" aria-hidden /> Último login da criança
+          </p>
+          <p className="mt-1 text-[13px] font-bold">
+            {summary.lastLogin
+              ? new Date(summary.lastLogin.at).toLocaleString("pt-BR")
+              : "Ainda sem acesso registrado"}
+          </p>
+          <p className="text-[11px] text-muted-foreground">
+            {summary.lastLogin ? summary.lastLogin.name : "O registro aparece após a primeira entrada."}
+          </p>
+        </div>
+      </section>
+
       <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
         <p className="flex items-center gap-2 font-bold text-foreground">
           <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção do login infantil
@@ -95,6 +150,7 @@ function KidsAccessPage() {
           validade definida por você.
         </p>
       </section>
+
 
       {dependents.isLoading ? (
         <div className="flex justify-center py-10">
