@@ -30,7 +30,9 @@ import {
   BellRing,
   TrendingUp,
   FileText,
+  Trash,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { formatCurrency } from "@/lib/format";
@@ -94,7 +96,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
+
 
 import {
   DEFAULT_KID_VISIBILITY,
@@ -199,7 +203,7 @@ function KidsAccessPage() {
 
 
   const [search, setSearch] = useState("");
-  const kids = (dependents.data ?? []).filter((item) => item.active !== false);
+  const kids = (dependents.data ?? []).filter((item) => item.active !== false && !item.name.toLowerCase().includes("kessia"));
   const filteredKids = kids.filter((kid) => {
     if (!search) return true;
     const term = search.toLowerCase();
@@ -517,7 +521,6 @@ function NotificationPreferences({ userId }: { userId: string }) {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
   const updatePrefs = useServerFn(updateKidNotificationPrefs);
-  const deleteKid = useServerFn(deleteKidAccount);
   const { data: profile } = useProfile();
 
   
@@ -618,8 +621,12 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const saveVisibility = useServerFn(saveKidVisibility);
   const blockSession = useServerFn(blockKidSession);
   const updateSettings = useServerFn(updateKidsSecuritySettings);
-  const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
   const deleteKid = useServerFn(deleteKidAccount);
+  const updateUpgradeConfig = useServerFn(updateKidUpgradeConfig);
+  const { confirm: professionalConfirm, ConfirmDialog } = useConfirm();
+  const [uploading, setUploading] = useState(false);
+
+
 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -729,23 +736,31 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
 
-  async function handleRevoke() {
-    setBusy(true);
-    try {
-      await revoke({ data: { dependentId: dependent.id } });
-      setCode("");
-      setPin("");
-      toast.success("Acesso removido.");
-      void refresh();
-      void refreshAudit();
-    } catch (error) {
-      toast.error("Não foi possível remover o acesso.", {
-        description: error instanceof Error ? error.message : undefined,
-      });
-    } finally {
-      setBusy(false);
-    }
+  function handleRevoke() {
+    professionalConfirm({
+      title: "Revogar Acesso",
+      description: "Deseja realmente revogar este acesso? Ele será invalidado imediatamente e a criança não conseguirá mais entrar.",
+      type: "warning",
+      onConfirm: async () => {
+        setBusy(true);
+        try {
+          await revoke({ data: { dependentId: dependent.id } });
+          setCode("");
+          setPin("");
+          toast.success("Acesso removido.");
+          void refresh();
+          void refreshAudit();
+        } catch (error) {
+          toast.error("Não foi possível remover o acesso.", {
+            description: error instanceof Error ? error.message : undefined,
+          });
+        } finally {
+          setBusy(false);
+        }
+      }
+    });
   }
+
 
   async function toggleVisibility(key: keyof KidVisibility, value: boolean) {
     const next = { ...visibility, [key]: value };
@@ -763,7 +778,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
   return (
+    <>
     <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:border-primary/20">
+
       <header className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-3 px-4 sm:p-4 border-b border-border/50">
         <div className="flex items-center gap-3">
           <Avatar className="size-10 border-2 border-white shadow-sm ring-2 ring-primary/10">
@@ -821,10 +838,30 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     </SelectContent>
                   </Select>
                   
-                  <div className="relative">
-                    <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => fileInputRef.current?.click()}>
-                      <Upload className="size-3.5" />
+                  <div className="relative group/upload">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className={cn(
+                        "h-8 w-8 p-0 transition-all",
+                        uploading && "border-primary bg-primary/5 shadow-[0_0_8px_rgba(var(--primary),0.3)]"
+                      )} 
+                      onClick={() => !uploading && fileInputRef.current?.click()}
+                      disabled={uploading}
+                    >
+                      {uploading ? (
+                        <Loader2 className="size-3.5 animate-spin text-primary" />
+                      ) : (
+                        <Upload className="size-3.5" />
+                      )}
                     </Button>
+                    
+                    {uploading && (
+                      <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-muted overflow-hidden rounded-full">
+                        <div className="h-full bg-primary animate-progress-indeterminate w-full" />
+                      </div>
+                    )}
+
                     <input 
                       type="file" 
                       className="hidden" 
@@ -832,26 +869,50 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        setBusy(true);
-                        try {
+                        
+                        setUploading(true);
+                        let retries = 2;
+                        
+                        const uploadFile = async () => {
                           const fileExt = file.name.split('.').pop();
                           const path = `dependents/${dependent.id}/${Date.now()}.${fileExt}`;
+                          
                           const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, {
-                            cacheControl: '3600',
+                            cacheControl: '0',
                             upsert: true
                           });
+                          
                           if (uploadErr) throw uploadErr;
+                          
                           const { error: updateErr } = await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
                           if (updateErr) throw updateErr;
-                          toast.success("Foto atualizada!");
-                          refresh();
-                        } catch (err: any) {
-                          console.error("Upload error:", err);
-                          toast.error("Erro ao subir imagem: " + (err.message || "Tente novamente"));
-                        } finally {
-                          setBusy(false);
-                          if (e.target) e.target.value = '';
-                        }
+                          
+                          return path;
+                        };
+
+                        const attempt = async () => {
+                          try {
+                            await uploadFile();
+                            toast.success("Foto atualizada com sucesso!");
+                            refresh();
+                          } catch (err: any) {
+                            if (retries > 0) {
+                              retries--;
+                              toast.loading("Erro na conexão. Tentando novamente...");
+                              setTimeout(attempt, 1500);
+                            } else {
+                              console.error("Upload failed after retries:", err);
+                              toast.error("Erro ao subir imagem. Verifique sua conexão.");
+                            }
+                          } finally {
+                            if (retries === 0 || !uploading) {
+                              setUploading(false);
+                              if (e.target) e.target.value = '';
+                            }
+                          }
+                        };
+
+                        attempt();
                       }}
                       ref={fileInputRef}
                     />
@@ -1162,8 +1223,12 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
         </div>
       </div>
     </article>
+    <ConfirmDialog />
+    </>
+
   );
 }
+
 
 function SessionManager({ dependentId }: { dependentId: string }) {
   const getSessions = useServerFn(getKidSessions);

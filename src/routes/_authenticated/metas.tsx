@@ -41,6 +41,8 @@ import {
   useSaveGoal,
   type Goal,
 } from "@/lib/goals";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+
 
 export const Route = createFileRoute("/_authenticated/metas")({
   head: () => ({
@@ -69,6 +71,8 @@ function GoalsPage() {
   const [open, setOpen] = useState(false);
   const [contributingTo, setContributingTo] = useState<Goal | null>(null);
   const deleteGoal = useDeleteGoal();
+  const { confirm, ConfirmDialog } = useConfirm();
+
 
   const summary = useMemo(() => {
     const list = goals ?? [];
@@ -139,16 +143,23 @@ function GoalsPage() {
                   setOpen(true);
                 }}
                 onContribute={() => setContributingTo(goal)}
-                onDelete={async () => {
-                  if (!window.confirm(`Excluir a meta "${goal.name}"?`)) return;
-                  try {
-                    await deleteGoal.mutateAsync(goal.id);
-                    toast.success("Meta excluída");
-                  } catch (error) {
-                    console.error("[metas] falha ao excluir", error);
-                    toast.error("Não foi possível excluir a meta");
-                  }
+                onDelete={() => {
+                  confirm({
+                    title: "Excluir Meta",
+                    description: `Tem certeza que deseja excluir a meta "${goal.name}"? Esta ação não pode ser desfeita.`,
+                    type: "warning",
+                    onConfirm: async () => {
+                      try {
+                        await deleteGoal.mutateAsync(goal.id);
+                        toast.success("Meta excluída");
+                      } catch (error) {
+                        console.error("[metas] falha ao excluir", error);
+                        toast.error("Não foi possível excluir a meta");
+                      }
+                    }
+                  });
                 }}
+
               />
             ))}
           </div>
@@ -157,7 +168,9 @@ function GoalsPage() {
 
       <GoalDialog open={open} onOpenChange={setOpen} goal={editing} />
       <ContributionDialog goal={contributingTo} onClose={() => setContributingTo(null)} />
+      <ConfirmDialog />
     </FeatureGate>
+
     </AppShell>
   );
 }

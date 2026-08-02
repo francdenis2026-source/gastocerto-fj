@@ -50,6 +50,8 @@ import { useClosingPolicy } from "@/lib/use-closing-policy";
 import { PAST_EDIT_UNLOCK_MINUTES, usePastEditUnlock } from "@/lib/past-edit-unlock";
 import { useAuth } from "@/hooks/use-auth";
 import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+
 
 import { formatDate } from "@/lib/format";
 import { amountToInput, maskAmountInput } from "@/lib/money-input";
@@ -152,6 +154,7 @@ export function TransactionDialog({
   const [subCategoryId, setSubCategoryId] = useState((transaction as any)?.sub_category_id ?? "");
   const saveFeedback = useSaveCategoryFeedback();
   const [revenueSuggestion, setRevenueSuggestion] = useState<{ message: string; date: string } | null>(null);
+
 
   const selectedCategory = useMemo(
     () => (categories ?? []).find((c) => c.id === (subCategoryId || categoryId)),
@@ -274,7 +277,11 @@ export function TransactionDialog({
 
 
 
+  const { confirm: professionalConfirm, ConfirmDialog } = useConfirm();
+
+
   function shiftDate(kindOfShift: "today" | "yesterday" | "lastMonth") {
+
     const base = new Date();
     if (kindOfShift === "yesterday") base.setDate(base.getDate() - 1);
     if (kindOfShift === "lastMonth") base.setMonth(base.getMonth() - 1);
@@ -414,18 +421,27 @@ export function TransactionDialog({
                           selectedDate.getFullYear() !== now.getFullYear();
     
     if (!editing && isDifferentDay) {
-      const typeLabel = kind === "income" ? "receita" : "gasto";
-      let msg = `Você selecionou a data ${formatDate(date)}, que é diferente de hoje.`;
+      const msg = `Você selecionou a data ${formatDate(date)}, que é diferente de hoje.${isPast ? " Isso afetará o saldo de meses anteriores." : isFuture ? " Isso ficará pendente no saldo futuro." : ""}`;
       
-      if (isPast) msg += ` Isso afetará o saldo de meses anteriores.`;
-      if (isFuture) msg += ` Isso ficará pendente no saldo futuro.`;
-      
-      if (!confirm(`${msg} Confirmar lançamento para este dia?`)) {
-        return;
-      }
+      professionalConfirm({
+        title: "Confirmar Data",
+        description: `${msg} Deseja prosseguir com o lançamento para este dia?`,
+        type: isPast ? "warning" : "question",
+        onConfirm: () => void executeSubmit(value, cleanDescription)
+      });
+      return;
     }
 
+
+    await executeSubmit(value, cleanDescription);
+  }
+
+  async function executeSubmit(value: number, cleanDescription: string) {
+    const itemsCheck = validatePurchaseItems(items, value);
+    const nextErrors: Record<string, string> = {};
+
     if (itemsCheck.issues.length > 0) {
+
       nextErrors.items = "Corrija os itens destacados da compra.";
     } else if (itemsCheck.totalMismatch) {
       nextErrors.items = `A soma dos itens (${itemsCheck.total
@@ -513,7 +529,9 @@ export function TransactionDialog({
   }
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
+
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
@@ -1059,7 +1077,10 @@ export function TransactionDialog({
         />
 
       </DialogContent>
-    </Dialog>
+      </Dialog>
+      <ConfirmDialog />
+    </>
+
   );
 }
 
