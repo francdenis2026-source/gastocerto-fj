@@ -1017,7 +1017,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter className="gap-2 sm:gap-0">
-                          <Button variant="outline" className="h-9 text-xs" onClick={() => {}}>Cancelar</Button>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" className="h-9 text-xs">Cancelar</Button>
+                          </DialogTrigger>
                           <Button 
                             variant="destructive" 
                             className="h-9 text-xs"
@@ -1235,18 +1237,29 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
 function SessionManager({ dependentId }: { dependentId: string }) {
   const getSessions = useServerFn(getKidSessions);
   const block = useServerFn(blockKidSession);
-  const [sessions, setSessions] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { data: sessions = [], isLoading } = useQuery({
+    queryKey: ["kid-sessions", dependentId],
+    queryFn: async () => {
+      const res = await getSessions({ data: { dependentId } });
+      return res || [];
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutos
+    gcTime: 1000 * 60 * 10,
+  });
 
-  useEffect(() => {
-    setLoading(true);
-    void getSessions({ data: { dependentId } }).then((res) => {
-      setSessions(res);
-      setLoading(false);
-    });
-  }, [dependentId]);
+  const queryClient = useQueryClient();
 
-  if (loading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
+  async function handleBlock(sessionId: string) {
+    try {
+      await block({ data: { sessionId } });
+      toast.success("Acesso bloqueado!");
+      queryClient.invalidateQueries({ queryKey: ["kid-sessions", dependentId] });
+    } catch (error) {
+      toast.error("Erro ao bloquear acesso.");
+    }
+  }
+
+  if (isLoading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
 
   return (
     <div className="mt-1 space-y-1">
@@ -1268,12 +1281,7 @@ function SessionManager({ dependentId }: { dependentId: string }) {
                 variant="ghost"
                 size="sm"
                 className="h-6 text-[9px] text-destructive hover:bg-destructive/10"
-                onClick={() => {
-                  void block({ data: { sessionId: s.id } }).then(() => {
-                    toast.success("Acesso bloqueado!");
-                    setSessions(sessions.map(sess => sess.id === s.id ? { ...sess, status: 'blocked' } : sess));
-                  });
-                }}
+                onClick={() => handleBlock(s.id)}
               >
                 Bloquear
               </Button>
