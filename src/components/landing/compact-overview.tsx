@@ -119,10 +119,10 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
         tag: "Objetivos",
       },
       {
-        icon: Wallet,
-        title: "Contas e cartões",
-        text: "Saldos, faturas, formas de pagamento e conciliação simples.",
-        tag: "Carteira",
+        icon: CreditCard,
+        title: "Cartões de crédito e débito",
+        text: "Faturas, limites, vencimentos e parcelas em aberto de cada cartão.",
+        tag: "Cartões",
       },
       {
         icon: Tv,
@@ -133,36 +133,67 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
     ],
   },
   {
-    group: "Inteligência",
-    caption: "Relatórios, alertas e comprovantes",
+    group: "Família e Kids",
+    caption: "Mesada, PIX e educação financeira",
     items: [
       {
+        icon: Baby,
+        title: "Espaço Kids",
+        text: "Painel simplificado por criança, com PIN, avatar e tema próprio.",
+        tag: "Kids",
+      },
+      {
+        icon: Send,
+        title: "PIX para os filhos",
+        text: "Envie mesada por PIX, com histórico, comprovante e aviso na hora.",
+        tag: "PIX",
+      },
+      {
+        icon: Target,
+        title: "Metas e recompensas",
+        text: "Objetivos de poupança da criança com progresso visual e conquistas.",
+        tag: "Metas",
+      },
+      {
+        icon: Repeat,
+        title: "Mesada automática",
+        text: "Recorrência semanal ou mensal lançada sozinha no orçamento da casa.",
+        tag: "Automático",
+      },
+    ],
+  },
+  {
+    group: "Inteligência e relatórios",
+    caption: "IA, análises e compartilhamento",
+    items: [
+      {
+        icon: Sparkles,
+        title: "Consultor financeiro com IA",
+        text: "Diagnóstico do mês, plano de saída de dívidas e dicas sob medida.",
+        tag: "IA",
+      },
+      {
         icon: BarChart3,
-        title: "Relatórios avançados",
-        text: "Filtros por período, categoria e conta, com exportação em CSV e PDF.",
+        title: "Balanço anual e relatórios",
+        text: "Tendências, comparativos e exportação em CSV, Excel e PDF.",
         tag: "Análise",
       },
       {
         icon: CalendarClock,
-        title: "Calendário financeiro",
-        text: "Vencimentos, recorrências e pendências em uma única linha do tempo.",
-        tag: "Agenda",
+        title: "Fechamento e conciliação",
+        text: "Feche o mês, bloqueie períodos com senha e confira saldo por conta.",
+        tag: "Fechamento",
       },
       {
         icon: Bell,
-        title: "Alertas inteligentes",
-        text: "Conta a vencer, atraso, orçamento estourado e consumo fora do padrão.",
-        tag: "Avisos",
-      },
-      {
-        icon: CreditCard,
-        title: "Comprovantes",
-        text: "Anexe notas, visualize, baixe em lote e mantenha tudo auditável.",
-        tag: "Arquivo",
+        title: "Compartilhamento seguro",
+        text: "Link com senha e validade para alguém ver seus gastos sem cadastro.",
+        tag: "Link",
       },
     ],
   },
 ];
+
 
 const highlights = [
   { icon: Droplets, value: "20+", label: "categorias prontas", hint: "gás, combustível, água, roupas…" },
