@@ -199,9 +199,9 @@ function HelpPage() {
             
             <div className="space-y-3">
               {[
-                { title: "Primeiros Passos no Dashboard", time: "2:15", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { title: "Como criar seu primeiro Orçamento", time: "1:45", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { title: "Configurando o Espaço Kids", time: "3:30", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+                { title: "Primeiros Passos no Dashboard", time: "2:15", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" },
+                { title: "Como criar seu primeiro Orçamento", time: "1:45", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" },
+                { title: "Configurando o Espaço Kids", time: "3:30", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" }
               ].map((video, idx) => (
                 <div key={idx} className="space-y-2">
                   <button 
