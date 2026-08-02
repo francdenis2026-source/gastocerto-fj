@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type CreditCard = {
   id: string;
@@ -133,4 +134,30 @@ export const getCardTransactions = createServerFn({ method: "GET" })
     
     if (error) throw error;
     return txs as CardTransaction[];
+  });
+
+export const exportCardAuditLogs = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(z.object({ 
+    cardId: z.string().optional(),
+    from: z.string().optional(),
+    to: z.string().optional()
+  }))
+  .handler(async ({ data, context }) => {
+    // Busca logs de auditoria relacionados a cartões
+    let query = supabaseAdmin
+      .from("admin_logs" as any)
+      .select("*")
+      .eq("user_id", context.userId) // Filtro por usuário dono dos cartões
+      .ilike("action", "%card%");
+
+    if (data.cardId) {
+      query = query.filter("details->>card_id", "eq", data.cardId);
+    }
+    if (data.from) query = query.gte("created_at", data.from);
+    if (data.to) query = query.lte("created_at", data.to);
+
+    const { data: logs, error } = await query.order("created_at", { ascending: false });
+    if (error) throw error;
+    return logs;
   });

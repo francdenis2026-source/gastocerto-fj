@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { kidCodeToEmail, kidPassword, normalizeKidCode } from "@/lib/kids-account";
@@ -319,5 +320,27 @@ export const updateKidsSecuritySettings = createServerFn({ method: "POST" })
       .update({ kids_security_notifications: data.notifications } as any)
       .eq("id", context.userId);
     if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const updateKidNotificationPrefs = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({
+    channels: z.object({
+      email: z.boolean(),
+      push: z.boolean(),
+      whatsapp: z.boolean(),
+    }),
+    frequency: z.enum(["daily", "weekly", "instant"]),
+    expiryWarningDays: z.number().min(1).max(30),
+  }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("profiles")
+      .update({ 
+        kid_notification_prefs: data 
+      } as any)
+      .eq("id", context.userId);
+    if (error) throw error;
     return { ok: true };
   });
