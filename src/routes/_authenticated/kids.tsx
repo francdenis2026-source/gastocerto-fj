@@ -206,17 +206,25 @@ function KidsAccessPage() {
       </section>
 
 
-      <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
-        <p className="flex items-center gap-2 font-bold text-foreground">
-          <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção e Futuro do Login Infantil
-        </p>
-        <p className="mt-1">
-          Após {KID_MAX_ATTEMPTS} tentativas erradas de código ou senha, o acesso fica bloqueado por{" "}
-          {KID_LOCK_MINUTES} minutos automaticamente. 
-          <strong> Novidade:</strong> Ao atingir 14 anos, o sistema permitirá o upgrade automático 
-          para uma conta independente. Você pode definir tempos personalizados de expiração do código
-          até o limite de upgrade automático (30 dias a 1 ano ou mais).
-        </p>
+      <section className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
+          <p className="flex items-center gap-2 font-bold text-foreground">
+            <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção e Futuro do Login
+          </p>
+          <p className="mt-1">
+            Após {KID_MAX_ATTEMPTS} tentativas erradas, o acesso trava por {KID_LOCK_MINUTES} min.
+            <strong> Upgrade:</strong> Aos 14 anos, a conta torna-se independente automaticamente.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-[12px] text-emerald-700 dark:text-emerald-400">
+          <p className="flex items-center gap-2 font-bold">
+            <TrendingUp className="size-4" aria-hidden /> Monitoramento Parental
+          </p>
+          <p className="mt-1">
+            Agora você pode ver todos os gastos e ganhos de cada criança diretamente nos cards abaixo.
+            Controle total sobre a educação financeira dos seus filhos.
+          </p>
+        </div>
       </section>
 
 
