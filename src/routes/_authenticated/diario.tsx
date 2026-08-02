@@ -160,6 +160,9 @@ function DailyPage() {
   return (
     <AppShell>
       <div className="space-y-4">
+        {/* Aviso de Dívidas em Atraso */}
+        <DebtOverdueNotice />
+
         <header className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="page-title">Gastos em detalhes</h1>

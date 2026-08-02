@@ -36,38 +36,63 @@ export const Route = createFileRoute("/_authenticated/ajuda")({
 const HELP_SECTIONS = [
   {
     id: "dashboard",
-    title: "Dashboard e Visão Geral",
+    title: "Dashboard e Inteligência",
     icon: LayoutDashboard,
-    content: "O Dashboard é o coração do GastoCerto. Aqui você vê seu saldo consolidado, receitas e despesas do mês, e os principais indicadores financeiros. O gráfico de evolução mostra se você está gastando mais do que ganha em tempo real.",
+    content: "O Dashboard é o coração do GastoCerto. Aqui você vê seu saldo consolidado, receitas e despesas. O gráfico de evolução mostra sua saúde financeira em tempo real. Use o Mentor de IA para dicas personalizadas baseadas no seu perfil de gastos.",
+    steps: [
+      "Monitore o saldo total e variação mensal",
+      "Analise os gráficos de categorias para ver onde economizar",
+      "Consulte a IA para previsões e ajustes automáticos"
+    ],
     tips: ["Clique nos cards para ver detalhes", "Acompanhe a barra de progresso do seu orçamento"]
   },
   {
     id: "transactions",
     title: "Lançamentos e Categorias",
     icon: ArrowLeftRight,
-    content: "Registre cada centavo que entra e sai. Você pode classificar em categorias e subcategorias para saber exatamente para onde vai seu dinheiro. Use o 'Lançamento Rápido' para agilizar seu dia a dia.",
-    tips: ["Anexe comprovantes para não esquecer", "Crie categorias personalizadas no menu Planejamento"]
+    content: "Registre cada centavo. Classifique em categorias e subcategorias para um controle total. Use o Lançamento Rápido ou anexe comprovantes para manter tudo organizado e fácil de encontrar depois.",
+    steps: [
+      "Clique em '+ Lançar' no topo da tela",
+      "Preencha descrição, valor e escolha a categoria",
+      "Se for recorrente, ative o interruptor de repetição"
+    ],
+    tips: ["Anexe comprovantes para não esquecer", "Crie categorias personalizadas no menu Estratégia"]
+  },
+  {
+    id: "commitments",
+    title: "Dívidas e Compromissos",
+    icon: PiggyBank,
+    content: "Gerencie financiamentos, fiados, empréstimos e compras parceladas. O sistema calcula o saldo devedor restante e alerta sobre vencimentos próximos para você nunca mais pagar juros.",
+    steps: [
+      "Cadastre o valor total da dívida e número de parcelas",
+      "Ao pagar uma parcela, registre-a para abater do saldo",
+      "Acompanhe o 'Impacto Mensal' para saber quanto da sua renda está comprometida"
+    ],
+    tips: ["Pague a dívida registrando um lançamento vinculado", "Dívidas em atraso aparecem em vermelho no histórico"]
   },
   {
     id: "consumption",
-    title: "Consumo e Utilidades (Gás e Energia)",
+    title: "Consumo (Gás e Energia)",
     icon: Zap,
-    content: "Módulos exclusivos para monitorar o botijão de gás e sua conta de luz. O sistema prevê quando o gás vai acabar e analisa se sua conta de energia está acima da média histórica.",
-    tips: ["Registre a leitura do medidor para maior precisão", "Acompanhe o custo por kWh"]
-  },
-  {
-    id: "planning",
-    title: "Planejamento e Compromissos",
-    icon: PiggyBank,
-    content: "Defina orçamentos mensais por categoria. Se você tem dívidas, financiamentos ou parcelamentos, use o módulo de 'Compromissos' para gerenciar o saldo devedor e os vencimentos.",
-    tips: ["Ative alertas de vencimento no seu perfil", "Feche o mês para garantir a segurança dos dados"]
+    content: "Módulos exclusivos para monitorar utilidades. O sistema prevê quando o gás vai acabar com base no seu uso histórico e analisa se sua conta de energia está acima da média, emitindo alertas de atenção.",
+    steps: [
+      "Registre a troca do botijão para iniciar a contagem",
+      "Insira o valor e consumo (kWh) da sua conta de luz mensalmente",
+      "Observe o status (Ok/Atenção) no widget lateral"
+    ],
+    tips: ["Registre a leitura do medidor para maior precisão", "Acompanhe o custo por kWh para ver reajustes tarifários"]
   },
   {
     id: "kids",
-    title: "Espaço Kids",
+    title: "Educação Financeira (Kids)",
     icon: Baby,
-    content: "Uma área lúdica para educar financeiramente seus filhos. Eles podem registrar a mesada, criar metas de poupança (como um brinquedo novo) e você acompanha tudo pelo seu painel.",
-    tips: ["Defina uma recompensa por metas atingidas", "A mesada pode ser automatizada mensalmente"]
+    content: "Uma área lúdica para ensinar finanças aos filhos. Eles registram mesada e criam metas de poupança. Você acompanha, define limites e aprova recompensas, criando hábitos saudáveis desde cedo.",
+    steps: [
+      "Configure o perfil do dependente com um PIN de acesso",
+      "Defina o valor e dia da mesada automática",
+      "Acompanhe o histórico de gastos do seu filho no seu painel"
+    ],
+    tips: ["Defina recompensas reais por metas atingidas", "Use os alertas para monitorar gastos excessivos"]
   }
 ];
 
@@ -109,6 +134,16 @@ function HelpPage() {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground leading-relaxed space-y-3 pt-1">
                     <p>{section.content}</p>
+                    {section.steps && (
+                      <div className="space-y-2 py-1">
+                        <p className="font-semibold text-foreground text-[11px] uppercase tracking-wider">Como fazer:</p>
+                        <ol className="list-decimal list-inside space-y-1">
+                          {section.steps.map((step, idx) => (
+                            <li key={idx} className="pl-1">{step}</li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
                     <div className="bg-muted/50 rounded-lg p-3 space-y-2">
                       <p className="font-semibold text-foreground flex items-center gap-1.5">
                         <Lightbulb className="size-3 text-yellow-500" />

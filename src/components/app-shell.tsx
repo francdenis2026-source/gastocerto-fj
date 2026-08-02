@@ -39,6 +39,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAvatarUrl, useProfile, useRoles } from "@/lib/queries";
 import { clearBrowserCredentials } from "@/lib/local-session";
 import { useNotifications } from "@/lib/notifications";
+import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
 import { cn } from "@/lib/utils";
 
 
@@ -55,92 +56,74 @@ type NavGroup = {
 export const navGroups: NavGroup[] = [
   {
     key: "overview",
-    label: "Visão geral",
+    label: "Visão Geral",
     to: "/painel",
     icon: LayoutDashboard,
     children: [
-      { key: "overview.panel", label: "Painel", to: "/painel" },
-      { key: "overview.daily", label: "Gastos em detalhes", to: "/diario" },
-      { key: "overview.registrations", label: "Meus cadastros", to: "/cadastros" },
+      { key: "overview.panel", label: "Painel de Controle", to: "/painel" },
+      { key: "overview.daily", label: "Histórico Detalhado", to: "/diario" },
+      { key: "overview.registrations", label: "Meus Cadastros", to: "/cadastros" },
     ],
   },
   {
     key: "entries",
-    label: "Lançamentos",
+    label: "Movimentações",
     to: "/lancamentos",
     icon: ArrowLeftRight,
     children: [
       { key: "entries.expenses", label: "Despesas", to: "/lancamentos" },
       { key: "entries.incomes", label: "Receitas", to: "/receitas" },
-      { key: "entries.recurring", label: "Recorrentes", to: "/recorrencia" },
+      { key: "entries.recurring", label: "Gastos Recorrentes", to: "/recorrencia" },
       { key: "entries.receipts", label: "Comprovantes", to: "/comprovantes" },
     ],
   },
   {
-    key: "vehicles",
-    label: "Veículos e consumo",
-    to: "/veiculos",
-    icon: Car,
-    children: [
-      { key: "vehicles.fuel", label: "Abastecimentos", to: "/veiculos" },
-      { key: "vehicles.report", label: "Relatório de gastos", to: "/veiculos-relatorio" },
-      { key: "vehicles.audit", label: "Auditoria", to: "/veiculos-auditoria" },
-    ],
-  },
-  {
-    key: "utility",
-    label: "Utilidades e Consumo",
+    key: "consumption",
+    label: "Consumo e Utilidades",
     to: "/gas",
     icon: Zap,
     children: [
-      { key: "utility.gas", label: "Botijão de gás", to: "/gas" },
-      { key: "utility.energy", label: "Energia Elétrica", to: "/energia" },
+      { key: "consumption.gas", label: "Botijão de Gás", to: "/gas" },
+      { key: "consumption.energy", label: "Energia Elétrica", to: "/energia" },
+      { key: "consumption.vehicles", label: "Veículos e Combustível", to: "/veiculos" },
     ],
   },
   {
     key: "planning",
-    label: "Planejamento",
+    label: "Estratégia e Metas",
     to: "/orcamentos",
     icon: PiggyBank,
     children: [
       { key: "planning.budgets", label: "Orçamentos", to: "/orcamentos" },
-      { key: "planning.commitments", label: "Compromissos", to: "/compromissos" },
-      { key: "planning.goals", label: "Metas", to: "/metas" },
-      { key: "planning.categories", label: "Categorias", to: "/categorias" },
-      { key: "planning.closing", label: "Fechamento mensal", to: "/fechamento" },
-      { key: "planning.annual", label: "Balanço anual", to: "/balanco-anual" },
+      { key: "planning.commitments", label: "Compromissos e Dívidas", to: "/compromissos" },
+      { key: "planning.goals", label: "Metas de Poupança", to: "/metas" },
+      { key: "planning.categories", label: "Minhas Categorias", to: "/categorias" },
+      { key: "planning.closing", label: "Fechamento Mensal", to: "/fechamento" },
+      { key: "planning.annual", label: "Balanço Anual", to: "/balanco-anual" },
     ],
   },
   {
     key: "analytics",
-    label: "Análises",
+    label: "Inteligência",
     to: "/relatorios",
     icon: BarChart3,
     children: [
-      { key: "analytics.reports", label: "Relatórios", to: "/relatorios" },
-      { key: "analytics.advisor", label: "Consultor de IA", to: "/consultor" },
-      { key: "analytics.reconciliation", label: "Reconciliação", to: "/reconciliacao" },
+      { key: "analytics.reports", label: "Relatórios Avançados", to: "/relatorios" },
+      { key: "analytics.advisor", label: "Mentor de IA", to: "/consultor" },
+      { key: "analytics.reconciliation", label: "Reconciliação Bancária", to: "/reconciliacao" },
     ],
   },
   {
-    key: "help",
-    label: "Ajuda",
+    key: "support",
+    label: "Suporte e Apoio",
     to: "/ajuda",
     icon: HelpCircle,
     children: [
-      { key: "help.center", label: "Central de Ajuda", to: "/ajuda" },
+      { key: "support.help", label: "Central de Ajuda", to: "/ajuda" },
+      { key: "support.kids", label: "Espaço Kids", to: "/kids-auditoria" },
+      { key: "support.calendar", label: "Agenda e Alertas", to: "/calendario" },
     ],
   },
-  {
-    key: "kids",
-    label: "Espaço Kids",
-    to: "/kids-auditoria",
-    icon: Baby,
-    children: [
-      { key: "kids.audit", label: "Histórico e relatórios", to: "/kids-auditoria" },
-    ],
-  },
-  { key: "alerts", label: "Calendário e alertas", to: "/calendario", icon: CalendarClock },
 ];
 
 // Navegação exclusiva da área administrativa: nada de funções de cliente aqui.
@@ -343,6 +326,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
+
+        {!isAdminArea && (
+          <EnergySidebarWidget collapsed={railCollapsed} />
+        )}
 
         <div className="border-t border-border p-2">
           <Link
