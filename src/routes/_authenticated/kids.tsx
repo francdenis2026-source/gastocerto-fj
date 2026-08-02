@@ -184,14 +184,16 @@ function KidsAccessPage() {
 
       <section className="rounded-2xl border border-border bg-muted/30 p-4 text-[12px] text-muted-foreground">
         <p className="flex items-center gap-2 font-bold text-foreground">
-          <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção do login infantil
+          <ShieldCheck className="size-4 text-primary" aria-hidden /> Proteção e Futuro do Login Infantil
         </p>
         <p className="mt-1">
           Após {KID_MAX_ATTEMPTS} tentativas erradas de código ou senha, o acesso fica bloqueado por{" "}
-          {KID_LOCK_MINUTES} minutos automaticamente. Cada código pertence só a esta conta e pode ter
-          validade definida por você.
+          {KID_LOCK_MINUTES} minutos automaticamente. 
+          <strong> Novidade:</strong> Ao atingir 14 anos, o sistema permitirá o upgrade automático 
+          para uma conta independente, sem intervenção manual.
         </p>
       </section>
+
 
 
 
