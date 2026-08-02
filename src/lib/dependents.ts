@@ -10,6 +10,8 @@ export type Dependent = Tables<"dependents"> & {
   monthly_limit?: number | null;
   recurring_allowance_day?: number | null;
   last_allowance_month?: string | null;
+  kid_login_code?: string | null;
+  kid_user_id?: string | null;
 };
 
 

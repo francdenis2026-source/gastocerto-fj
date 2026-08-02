@@ -1,3 +1,6 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { KeyRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -23,6 +26,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { amountToInput } from "@/lib/money-input";
 import { parseAmount } from "@/lib/finance";
+import {
+  isValidKidCode,
+  isValidKidPin,
+  normalizeKidCode,
+  suggestKidCode,
+} from "@/lib/kids-account";
+import { revokeKidAccess, saveKidAccess } from "@/lib/kids-account.functions";
 import {
   DEPENDENT_RELATIONS,
   useSaveDependent,
@@ -289,5 +299,138 @@ export function DependentDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+/**
+ * Acesso próprio da criança: código + senha numérica usados na tela inicial.
+ * Assim ela abre o painel dela sem depender da conta do responsável.
+ */
+function KidAccessSection({
+  dependentId,
+  name,
+  currentCode,
+}: {
+  dependentId: string;
+  name: string;
+  currentCode: string | null;
+}) {
+  const queryClient = useQueryClient();
+  const saveAccess = useServerFn(saveKidAccess);
+  const revokeAccess = useServerFn(revokeKidAccess);
+  const [code, setCode] = useState(currentCode ?? "");
+  const [pin, setPin] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const refresh = () => queryClient.invalidateQueries({ queryKey: ["dependents"] });
+
+  const handleSave = async () => {
+    const clean = normalizeKidCode(code);
+    if (!isValidKidCode(clean)) {
+      toast.error("Escolha um código com pelo menos 4 caracteres (letras, números ou hífen).");
+      return;
+    }
+    if (!isValidKidPin(pin)) {
+      toast.error("A senha da criança deve ter de 4 a 6 números.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await saveAccess({ data: { dependentId, code: clean, pin } });
+      toast.success("Acesso da criança liberado!", {
+        description: `Código ${clean} — ela entra pela tela inicial em “Sou criança”.`,
+      });
+      setPin("");
+      void refresh();
+    } catch (error) {
+      toast.error("Não foi possível salvar o acesso.", {
+        description: error instanceof Error ? error.message : undefined,
+      });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleRevoke = async () => {
+    setBusy(true);
+    try {
+      await revokeAccess({ data: { dependentId } });
+      toast.success("Acesso independente removido.");
+      setCode("");
+      setPin("");
+      void refresh();
+    } catch (error) {
+      toast.error("Não foi possível remover o acesso.", {
+        description: error instanceof Error ? error.message : undefined,
+      });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <section className="rounded-2xl border border-primary/25 bg-primary/5 p-4">
+      <h3 className="flex items-center gap-2 text-[13px] font-bold text-foreground">
+        <KeyRound className="size-4 text-primary" aria-hidden />
+        Acesso próprio da criança
+      </h3>
+      <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+        Com o código e a senha abaixo, ela entra direto no espaço dela pela tela inicial, sem usar sua
+        conta. Ela só vê o saldo, as metas e os lançamentos dela.
+      </p>
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div>
+          <Label htmlFor="kid-access-code" className="text-[12px]">
+            Código da criança
+          </Label>
+          <div className="mt-1 flex gap-2">
+            <Input
+              id="kid-access-code"
+              value={code}
+              onChange={(event) => setCode(normalizeKidCode(event.target.value))}
+              placeholder="EX: JOAO-A1B"
+              className="font-mono uppercase tracking-wide"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setCode(suggestKidCode(name || "KID"))}
+            >
+              Gerar
+            </Button>
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="kid-access-pin" className="text-[12px]">
+            Senha (4 a 6 números)
+          </Label>
+          <Input
+            id="kid-access-pin"
+            inputMode="numeric"
+            value={pin}
+            onChange={(event) => setPin(event.target.value.replace(/\D/g, "").slice(0, 6))}
+            placeholder="••••"
+            className="mt-1 tracking-[0.3em]"
+          />
+        </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <Button type="button" onClick={handleSave} disabled={busy} size="sm">
+          {currentCode ? "Atualizar acesso" : "Liberar acesso"}
+        </Button>
+        {currentCode ? (
+          <Button type="button" variant="ghost" size="sm" onClick={handleRevoke} disabled={busy}>
+            Remover acesso
+          </Button>
+        ) : null}
+      </div>
+      {currentCode ? (
+        <p className="mt-2 text-[11px] font-semibold text-primary">
+          Código ativo: <span className="font-mono">{currentCode}</span>
+        </p>
+      ) : null}
+    </section>
   );
 }
