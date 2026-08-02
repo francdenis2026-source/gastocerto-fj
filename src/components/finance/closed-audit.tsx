@@ -1,3 +1,4 @@
+import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { useQuery } from "@tanstack/react-query";
 import { ShieldAlert } from "lucide-react";
 
@@ -45,14 +46,22 @@ export function ClosedPeriodAuditPanel() {
 
   return (
     <section className="rounded-2xl border border-border bg-card p-4">
-      <h2 className="flex items-center gap-2 text-sm font-semibold">
-        <ShieldAlert className="size-4 text-[oklch(0.7_0.16_25)]" />
-        Auditoria de meses fechados
-      </h2>
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <h2 className="flex items-center gap-2 text-sm font-semibold">
+          <ShieldAlert className="size-4 text-[oklch(0.7_0.16_25)]" />
+          Auditoria de meses fechados
+        </h2>
+        <ClearHistoryButton
+          table="closed_period_audit"
+          label="a auditoria de meses fechados"
+          invalidateKeys={["closed-period-audit"]}
+        />
+      </div>
       <p className="mt-1 text-xs text-muted-foreground">
         Toda inclusão, edição ou exclusão em competências fechadas fica registrada aqui, com o antes
         e o depois.
       </p>
+
 
       {isLoading ? (
         <p className="mt-3 text-xs text-muted-foreground">Carregando histórico…</p>

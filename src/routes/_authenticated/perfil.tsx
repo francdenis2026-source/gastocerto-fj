@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User } from "lucide-react";
+import { Baby, ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -11,6 +11,8 @@ import { LicenseCard } from "@/components/finance/license-card";
 import { LicenseDetailPanel } from "@/components/finance/license-detail-panel";
 import { TrialCard } from "@/components/finance/trial-card";
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
+import { KidsSpendingSummary } from "@/components/finance/kids-spending-summary";
+
 import { SidebarConfig } from "@/components/settings/sidebar-config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -243,11 +245,16 @@ function ProfilePage() {
                   <ExternalLink className="size-3.5" />
                   Acessos Externos
                 </TabsTrigger>
+                <TabsTrigger value="kids" className="rounded-lg text-xs gap-2">
+                  <Baby className="size-3.5" />
+                  Gastos das crianças
+                </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
                   <History className="size-3.5" />
                   Histórico
                 </TabsTrigger>
               </TabsList>
+
 
 
               <TabsContent value="profile" className="space-y-4 mt-0">
@@ -369,7 +376,24 @@ function ProfilePage() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="kids" className="mt-0 space-y-4">
+                <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
+                  <div className="border-b border-border/40 pb-2.5">
+                    <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
+                      <Baby className="size-4 text-primary" aria-hidden /> Gastos e movimentações das crianças
+                    </h2>
+                    <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+                      Acompanhe, em tempo real, o resumo financeiro de cada criança cadastrada no
+                      Espaço Kids. Use os filtros para escolher a criança, o período e o tipo de
+                      movimentação.
+                    </p>
+                  </div>
+                  <KidsSpendingSummary />
+                </div>
+              </TabsContent>
+
               <TabsContent value="audit" className="mt-0 space-y-4">
+
 
                 <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
                   <ProfileAuditPanel />
