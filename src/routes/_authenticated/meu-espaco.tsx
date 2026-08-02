@@ -388,26 +388,6 @@ function KidSpacePage() {
             </Button>
           </section>
 
-            <div className={cn(
-              "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
-              isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
-            )}>
-              <TrendingUp className="size-8" />
-            </div>
-            <div className="text-center">
-              <h3 className="text-sm font-bold">Comprei ou Ganhei?</h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Toque no botão para anotar</p>
-            </div>
-            <Button 
-              className={cn(
-                "h-10 w-full rounded-xl text-sm font-bold shadow-lg",
-                isBoy ? "bg-blue-600 hover:bg-blue-700" : isGirl ? "bg-pink-600 hover:bg-pink-700" : ""
-              )} 
-              onClick={() => setEntryOpen(true)}
-            >
-              Anotar Agora 📝
-            </Button>
-          </section>
         </div>
 
         {visibility.goals && (goals.data ?? []).length > 0 && (
@@ -521,7 +501,6 @@ function KidSpacePage() {
                         Solicitar Correção
                       </button>
                     </div>
-
                     <p className="text-[10px] font-bold text-muted-foreground/70 uppercase">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
                         day: '2-digit',
@@ -529,6 +508,7 @@ function KidSpacePage() {
                       })}
                     </p>
                   </div>
+
                   <span
                     className={cn(
                       "shrink-0 text-sm font-bold tabular-nums",
