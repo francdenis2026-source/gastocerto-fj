@@ -1145,16 +1145,16 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
           </p>
           {qr ? (
             <>
-              <div id={`qr-container-${dependent.id}`} className="mx-auto mt-2 bg-white p-2 rounded-lg inline-block">
+              <div id={`qr-container-${dependent.id}`} className="mx-auto mt-2 bg-white p-1 rounded-lg inline-block border border-border/50">
                 <img
                   src={qr}
-                  alt={`QR code de acesso do painel Kids de ${dependent.name}`}
-                  className="w-40"
+                  alt={`QR code access ${dependent.name}`}
+                  className="w-32"
                 />
               </div>
-              <p className="mt-2 text-[11px] text-muted-foreground">{expiry.label}</p>
-              <p className="mt-1 text-[11px] text-muted-foreground">
-                A criança escaneia, o código já vem preenchido e ela digita só a senha.
+              <p className="mt-1 text-[9px] font-bold text-muted-foreground">{expiry.label}</p>
+              <p className="mt-0.5 text-[9px] text-muted-foreground leading-tight">
+                Escaneie para entrar sem digitar código.
               </p>
               
               <div className="grid grid-cols-2 gap-2 mt-3">
