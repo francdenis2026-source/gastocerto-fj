@@ -161,8 +161,9 @@ function KidsAccessPage() {
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
             <CalendarClock className="size-3.5 text-primary" aria-hidden /> Validade do código
           </p>
-          <p className="mt-1 text-[13px] font-bold">
+          <p className={cn("mt-1 text-[13px] font-bold", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
             {describeKidCodeExpiry(summary.nextExpiry).label}
+            {describeKidCodeExpiry(summary.nextExpiry).nearExpiry && " ⚠️"}
           </p>
           <p className="text-[11px] text-muted-foreground">
             {summary.nextExpiry ? "Primeiro código a vencer." : "Defina uma validade ao liberar o acesso."}
