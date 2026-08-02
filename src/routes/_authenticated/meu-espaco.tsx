@@ -212,8 +212,11 @@ function KidSpacePage() {
           </section>
         )}
 
-        <section className="space-y-2">
-          <h2 className="text-sm font-bold">Meu histórico</h2>
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold">Meu histórico</h2>
+            <KidSiblingAvatars dependentId={dependent.id} />
+          </div>
           {rows.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
               Nada registrado ainda. Toque em “Registrar agora” para começar.
