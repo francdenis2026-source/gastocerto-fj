@@ -315,21 +315,21 @@ function KidsAccessPage() {
             link.click();
           }}
         >
-          <FileDown className="size-4" />
-          Exportar Acessos
+          <FileDown className="size-3.5" />
+          Acessos
         </Button>
       </div>
 
       {dependents.isLoading ? (
-        <div className="flex justify-center py-10">
-          <Loader2 className="size-5 animate-spin text-primary" />
+        <div className="flex justify-center py-6">
+          <Loader2 className="size-4 animate-spin text-primary" />
         </div>
       ) : filteredKids.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-          {search ? "Nenhum acesso encontrado para esta busca." : "Cadastre uma criança em “Meus Cadastros” para liberar o acesso dela."}
+        <p className="rounded-xl border border-dashed border-border p-4 text-center text-[11px] text-muted-foreground">
+          {search ? "Busca sem resultados." : "Cadastre uma criança em “Meus Cadastros”."}
         </p>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-3">
           {filteredKids.map((kid) => (
             <KidAccessCard key={kid.id} dependent={kid} />
           ))}
