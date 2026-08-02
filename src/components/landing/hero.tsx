@@ -147,12 +147,18 @@ export function Hero() {
 
           <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Módulos disponíveis">
             {modules.map((mod) => (
-              <li
-                key={mod.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-semibold text-white"
-              >
-                <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
-                {mod.label}
+              <li key={mod.label}>
+                <FeatureDetailDialog
+                  feature={{ title: mod.label, text: mod.text, tag: "Módulo" }}
+                >
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-semibold text-white transition-colors hover:border-white/35 hover:bg-white/[0.16] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
+                    {mod.label}
+                  </button>
+                </FeatureDetailDialog>
               </li>
             ))}
           </ul>
