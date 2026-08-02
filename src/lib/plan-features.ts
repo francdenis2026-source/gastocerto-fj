@@ -78,6 +78,8 @@ export const FEATURE_LABEL: Record<FeatureKey, string> = {
   notifications: "Alertas e notificações",
   ai_advisor: "Consultor de IA",
   unlimited_transactions: "Lançamentos ilimitados",
+  debt_advisor: "Consultor de dívidas",
+  credit_cards: "Gestão de cartões",
 };
 
 /**
