@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { History, Loader2, Settings2, Upload, User } from "lucide-react";
+import { ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -238,11 +238,16 @@ function ProfilePage() {
                   <Settings2 className="size-3.5" />
                   Configurações
                 </TabsTrigger>
+                <TabsTrigger value="external" className="rounded-lg text-xs gap-2">
+                  <ExternalLink className="size-3.5" />
+                  Acessos Externos
+                </TabsTrigger>
                 <TabsTrigger value="audit" className="rounded-lg text-xs gap-2">
                   <History className="size-3.5" />
                   Histórico
                 </TabsTrigger>
               </TabsList>
+
 
               <TabsContent value="profile" className="space-y-4 mt-0">
                 <form
