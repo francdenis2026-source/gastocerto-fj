@@ -92,7 +92,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-white/90 sm:text-base">
-            Despesas, veículos, gás, cartões, PIX para os filhos e um consultor com IA — organizados
+            Despesas, veículos, gás, cartões, Espaço Kids e um consultor com IA — organizados
             em módulos simples, rápidos de usar todos os dias.
           </p>
 
