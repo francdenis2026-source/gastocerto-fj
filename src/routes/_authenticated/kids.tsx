@@ -24,6 +24,7 @@ import {
   Trash2,
   Tv,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
