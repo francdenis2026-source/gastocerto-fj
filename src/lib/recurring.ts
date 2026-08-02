@@ -285,9 +285,7 @@ export function useGenerateRecurring() {
             expense_type: rule.transaction_type === "expense" ? "recorrente" : null,
             // Classificação inteligente baseada na descrição e categoria da regra
             is_essential: rule.is_essential || 
-              rule.description.toLowerCase().includes("aluguel") || 
-              rule.description.toLowerCase().includes("energia") || 
-              rule.description.toLowerCase().includes("água"),
+              rule.description.toLowerCase().match(/aluguel|energia|água|condomínio|internet|escola|plano de saúde|seguro|mensalidade|assinatura|recarga|açougue/) !== null,
             transaction_date: dueDate,
             due_date: dueDate,
             is_recurring: true,

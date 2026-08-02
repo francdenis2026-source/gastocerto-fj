@@ -325,14 +325,16 @@ export function AppShell({ children }: { children: ReactNode }) {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        setExpanded(isOpen ? "" : item.key);
+                        // O estado expanded agora é independente da navegação do item pai
+                        // para garantir que clicar na seta sempre funcione sem mudar de tela
+                        setExpanded((prev) => (prev === item.key ? "" : item.key));
                       }}
                       aria-expanded={isOpen}
                       aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                      className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground hover:bg-secondary"
+                      className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground hover:bg-secondary active:scale-95 transition-transform"
                     >
                       <ChevronDown
-                        className={cn("size-4 transition-transform", isOpen && "rotate-180")}
+                        className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
                       />
                     </button>
                   ) : null}
