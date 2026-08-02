@@ -565,7 +565,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <footer className="mt-auto border-t border-border py-6 text-center lg:px-8">
           <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60">
-            &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+          &lt;Dev. Franc D&apos;nis&gt; · Acre
           </p>
         </footer>
       </div>

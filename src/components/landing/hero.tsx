@@ -142,10 +142,10 @@ export function Hero() {
                 <p className="text-[12.5px] text-white/70">despesas consolidadas</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.06] px-2.5 py-2">
-                <RingChart className="size-9 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
+                <RingChart className="size-9 shrink-0 text-[oklch(0.82_0.11_165)]" value={45} />
                 <div className="min-w-0">
                   <p className="text-[10px] text-white/70">Orçamento</p>
-                  <p className="tabular text-[13px] font-bold text-white">68%</p>
+                  <p className="tabular text-[13px] font-bold text-white">45%</p>
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@ export function Hero() {
               </span>
               <span className="inline-flex items-center gap-2">
                 <Sparkline className="h-6 w-16 text-success" />
-                <span className="tabular text-[12.5px] font-semibold text-success">-8,2%</span>
+                <span className="tabular text-[12.5px] font-semibold text-success">-12,4%</span>
               </span>
             </div>
           </div>
@@ -189,16 +189,16 @@ export function Hero() {
                 <TrendingDown className="size-3.5 text-success" aria-hidden="true" />
                 Despesas
               </span>
-              <span className="font-semibold text-success">-8,2%</span>
+              <span className="font-semibold text-success">-12,4%</span>
             </div>
             <Sparkline className="mt-2 h-12 w-full text-success" />
           </div>
 
           <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
-            <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={68} />
+            <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={45} />
             <div className="min-w-0">
               <p className="text-[12.5px] text-white/70">Orçamento</p>
-              <p className="tabular text-sm font-bold text-white">68% usado</p>
+              <p className="tabular text-sm font-bold text-white">45% usado</p>
             </div>
           </div>
         </div>
