@@ -9,7 +9,7 @@ export const getDebtAdvisorInsights = createServerFn({ method: "GET" })
 
     // 1. Busca transações (gastos vs receitas), dívidas (compromissos) e cartões
     const [transactionsRes, commitmentsRes, cardsRes] = await Promise.all([
-      supabaseAdmin.from("transactions").select("*").eq("user_id", userId).eq("status", "confirmed").is("deleted_at", null),
+      supabaseAdmin.from("transactions").select("*").eq("user_id", userId).eq("status", "pending").is("deleted_at", null),
       supabaseAdmin.from("commitments").select("*").eq("user_id", userId).eq("status", "open"),
       supabaseAdmin.from("credit_cards").select("*").eq("user_id", userId),
     ]);
