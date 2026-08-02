@@ -396,7 +396,17 @@ function DashboardPage() {
 
 
   if (isLoading) {
+    return (
+      <AppShell>
+        <div className="flex min-h-[40vh] items-center justify-center">
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+        </div>
+      </AppShell>
+    );
+  }
+
   const { data: dependents } = useDependents();
+
   
   const kidsOnboarding = useMemo(() => {
     const active = (dependents ?? []).filter(d => d.active !== false);
