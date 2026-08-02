@@ -605,7 +605,16 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           className="mt-1.5 tracking-[0.4em]"
         />
       </div>
-      <Button type="submit" className="w-full h-12 text-base font-bold shadow-soft" disabled={loading}>
+      {lockSeconds > 0 ? (
+        <p className="rounded-xl bg-destructive/10 p-2.5 text-center text-[12px] font-semibold text-destructive">
+          Bloqueado por {Math.floor(lockSeconds / 60)}:{String(lockSeconds % 60).padStart(2, "0")}
+        </p>
+      ) : null}
+      <Button
+        type="submit"
+        className="w-full h-12 text-base font-bold shadow-soft"
+        disabled={loading || lockSeconds > 0}
+      >
         {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
         Entrar no meu espaço
       </Button>
