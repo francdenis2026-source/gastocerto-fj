@@ -182,7 +182,11 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {/* as telas de login e cadastros nao tem nenhum hero para combinar ao site */}
+        {/* Ajustar os botões de alternância (Entrar/Criar conta) para ficarem acessíveis com foco visível, rótulos ARIA e navegação pelo teclado. 
+
+Incluir o mesmo destaque do alternar entre “Criar conta” e “Entrar” também no modo escuro, mantendo contraste e legibilidade. 
+
+Verificar e reforçar a proteção das rotas para que, após o logout, eu não consiga acessar páginas autenticadas nem pelo histórico. Adicionar uma confirmação ao clicar em “Sair” no painel administrativo para evitar deslogar por acidente. */}
         {children}
         <Scripts />
       </body>
