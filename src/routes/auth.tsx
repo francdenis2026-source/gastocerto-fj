@@ -330,19 +330,21 @@ function AuthPage() {
             )}
           </div>
 
-          <p className="mt-4 text-center text-[10px] text-muted-foreground">
-            <button
-              type="button"
-              onClick={async () => {
-                await supabase.auth.signOut().catch(() => undefined);
-                clearBrowserCredentials();
-                window.location.replace("/auth");
-              }}
-              className="underline underline-offset-2 hover:text-foreground"
-            >
-              Limpar acesso salvo neste navegador
-            </button>
-          </p>
+          <div className="mt-4 shrink-0 pt-4 border-t border-border/50">
+            <p className="text-center text-[10px] text-muted-foreground">
+              <button
+                type="button"
+                onClick={async () => {
+                  await supabase.auth.signOut().catch(() => undefined);
+                  clearBrowserCredentials();
+                  window.location.replace("/auth");
+                }}
+                className="underline underline-offset-2 hover:text-foreground"
+              >
+                Limpar acesso salvo neste navegador
+              </button>
+            </p>
+          </div>
         </section>
       </div>
     </main>
