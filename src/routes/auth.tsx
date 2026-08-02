@@ -297,7 +297,7 @@ function CpfInput({
       required
       aria-invalid={invalid || undefined}
       aria-describedby={describedById}
-      className="mt-1.5"
+      className="mt-1 h-10"
       onChange={(event) => onChange(maskCpf(event.target.value))}
     />
   );
@@ -377,7 +377,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="login-cpf">CPF</Label>
@@ -461,7 +461,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="signup-name">Nome Completo</Label>
@@ -629,7 +629,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate aria-busy={loading}>
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
       <div className="flex items-center justify-center gap-2">
         <Baby className="size-5 shrink-0 text-primary" aria-hidden />
         <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>
@@ -667,14 +667,14 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       ) : null}
       <Button
         type="submit"
-        className="w-full h-12 text-base font-bold shadow-soft"
+        className="h-11 w-full text-sm font-bold shadow-soft"
         disabled={loading || lockSeconds > 0}
       >
         {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
         Entrar no meu espaço
       </Button>
       
-      <div className="flex flex-col gap-2 pt-2 border-t border-border mt-2">
+      <div className="mt-2 flex gap-2 border-t border-border pt-2">
         <Button 
           type="button" 
           variant="outline" 
