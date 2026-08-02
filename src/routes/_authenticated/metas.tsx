@@ -143,16 +143,23 @@ function GoalsPage() {
                   setOpen(true);
                 }}
                 onContribute={() => setContributingTo(goal)}
-                onDelete={async () => {
-                  if (!window.confirm(`Excluir a meta "${goal.name}"?`)) return;
-                  try {
-                    await deleteGoal.mutateAsync(goal.id);
-                    toast.success("Meta excluída");
-                  } catch (error) {
-                    console.error("[metas] falha ao excluir", error);
-                    toast.error("Não foi possível excluir a meta");
-                  }
+                onDelete={() => {
+                  confirm({
+                    title: "Excluir Meta",
+                    description: `Tem certeza que deseja excluir a meta "${goal.name}"? Esta ação não pode ser desfeita.`,
+                    type: "warning",
+                    onConfirm: async () => {
+                      try {
+                        await deleteGoal.mutateAsync(goal.id);
+                        toast.success("Meta excluída");
+                      } catch (error) {
+                        console.error("[metas] falha ao excluir", error);
+                        toast.error("Não foi possível excluir a meta");
+                      }
+                    }
+                  });
                 }}
+
               />
             ))}
           </div>
