@@ -255,15 +255,26 @@ function KidSpacePage() {
 
       <div className="mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6">
         <div className="grid gap-4 sm:grid-cols-2">
-          <section className="rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px]">
+          <section className={cn(
+            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden",
+            isBoy ? "border-blue-500/30" : isGirl ? "border-pink-500/30" : ""
+          )}>
+            {/* Background decorativo sutil para o saldo */}
+            <div className={cn(
+              "absolute -right-4 -top-4 size-24 opacity-5",
+              isBoy ? "text-blue-500" : isGirl ? "text-pink-500" : "text-primary"
+            )}>
+              <PiggyBank className="size-full" />
+            </div>
+
             {visibility.balance ? (
               <>
                 <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
-                  <Sparkles className="size-3.5" /> Saldo mágico
+                  <Sparkles className="size-3.5" /> Saldo disponível
                 </p>
                 <p
                   className={cn(
-                    "mt-1 text-3xl font-black tabular-nums",
+                    "mt-1 text-4xl font-black tabular-nums tracking-tighter",
                     balance < 0 ? "text-destructive" : "text-foreground",
                   )}
                 >
@@ -294,16 +305,28 @@ function KidSpacePage() {
             ) : null}
           </section>
 
-          <section className="rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4">
-            <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center">
-              <PiggyBank className="size-8 text-primary" />
+          <section className={cn(
+            "rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4 group hover:border-primary/40 transition-all",
+            isBoy ? "hover:border-blue-500/40" : isGirl ? "hover:border-pink-500/40" : ""
+          )}>
+            <div className={cn(
+              "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
+              isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
+            )}>
+              <TrendingUp className="size-8" />
             </div>
             <div className="text-center">
-              <h3 className="text-sm font-bold">Novo registro</h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Clique abaixo para lançar</p>
+              <h3 className="text-sm font-bold">Comprei ou Ganhei?</h3>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Toque no botão para anotar</p>
             </div>
-            <Button className="h-10 w-full rounded-xl text-sm font-bold" onClick={() => setEntryOpen(true)}>
-              Registrar agora
+            <Button 
+              className={cn(
+                "h-10 w-full rounded-xl text-sm font-bold shadow-lg",
+                isBoy ? "bg-blue-600 hover:bg-blue-700" : isGirl ? "bg-pink-600 hover:bg-pink-700" : ""
+              )} 
+              onClick={() => setEntryOpen(true)}
+            >
+              Anotar Agora 📝
             </Button>
           </section>
         </div>
@@ -404,11 +427,14 @@ function KidSpacePage() {
           ) : (
             <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
               {rows.map((row) => (
-                <li key={row.id} className="flex items-center justify-between gap-3 p-3">
+                <li key={row.id} className="flex items-center justify-between gap-3 p-3 hover:bg-muted/30 transition-colors">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold">{row.description}</p>
-                    <p className="text-[11px] text-muted-foreground">
-                      {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
+                    <p className="text-[10px] font-bold text-muted-foreground/70 uppercase">
+                      {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
+                        day: '2-digit',
+                        month: 'long'
+                      })}
                     </p>
                   </div>
                   <span
@@ -465,11 +491,13 @@ function KidEntryDialog({
     mutationFn: async () => {
       const value = parseAmount(amount);
       if (!value || value <= 0) throw new Error("Informe um valor maior que zero.");
-      const today = new Date();
-      const isoDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
-        today.getDate(),
-      ).padStart(2, "0")}`;
-
+      
+      const now = new Date();
+      // transaction_date é YYYY-MM-DD
+      const isoDate = now.toISOString().split('T')[0];
+      // Salva a hora exata na descrição ou metadados se necessário, 
+      // mas aqui vamos garantir que o registro seja cronológico
+      
       const { error } = await supabase.from("transactions").insert({
         user_id: ownerId,
         description: description.trim() || selected.label,
@@ -478,6 +506,7 @@ function KidEntryDialog({
         transaction_date: isoDate,
         status: selected.type === "income" ? "received" : "paid",
         tags: [dependentTag(dependentId), reasonTag(selected.value)],
+        // created_at no banco já lida com o timestamp exato para ordenação técnica
       } as never);
       if (error) throw error;
     },
