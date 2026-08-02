@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { Upload } from "lucide-react";
 import QRCode from "qrcode";
 import {
   Baby,
@@ -42,10 +44,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -125,6 +128,22 @@ export const Route = createFileRoute("/_authenticated/kids")({
 function KidsAccessPage() {
   const dependents = useDependents();
   const audit = useKidAccessAudit(60);
+  
+  const pixHistory = useQuery({
+    queryKey: ["pix_history"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("pix_transactions")
+        .select(`
+          *,
+          recipient:recipient_id (name, nickname)
+        `)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    }
+  });
+
   const [search, setSearch] = useState("");
   const kids = (dependents.data ?? []).filter((item) => item.active !== false);
   const filteredKids = kids.filter((kid) => {
@@ -495,6 +514,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const deleteKid = useServerFn(deleteKidAccount);
 
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
   const [days, setDays] = useState<number | string>(dependent.kid_auto_upgrade_days ?? 365);
@@ -638,17 +658,22 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
     <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:border-primary/20">
       <header className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-3 px-4 sm:p-4 border-b border-border/50">
         <div className="flex items-center gap-3">
-          <div
-            className="flex size-9 items-center justify-center rounded-lg text-xs font-black text-white shadow-inner"
-            style={{ backgroundColor: dependent.color ?? "#f97316" }}
-            aria-hidden
-          >
-            {dependent.name.charAt(0).toUpperCase()}
-          </div>
+          <Avatar className="size-10 border-2 border-white shadow-sm ring-2 ring-primary/10">
+            {dependent.avatar_url ? (
+              <AvatarImage src={supabase.storage.from('avatars').getPublicUrl(dependent.avatar_url).data.publicUrl} />
+            ) : null}
+            <AvatarFallback 
+              className="text-xs font-black text-white"
+              style={{ backgroundColor: dependent.color ?? "#f97316" }}
+            >
+              {dependent.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <div>
             <h3 className="text-sm font-bold leading-none">{dependent.name}</h3>
-            <p className="mt-1 text-[10px] font-medium text-muted-foreground">
-              {dependent.kid_login_code ? expiry.label : "Sem acesso liberado"}
+            <p className="mt-1 text-[10px] font-medium text-muted-foreground flex items-center gap-1">
+              {(dependent as any).gender === 'boy' ? 'Menino' : (dependent as any).gender === 'girl' ? 'Menina' : 'Criança'} 
+              · {dependent.kid_login_code ? expiry.label : "Sem acesso liberado"}
             </p>
           </div>
         </div>
@@ -668,6 +693,49 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       <div className="p-4 sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_260px]">
           <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 rounded-xl border border-border/60 bg-primary/5 p-4">
+              <div className="space-y-2">
+                <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Identidade Visual</Label>
+                <div className="flex items-center gap-3">
+                  <Select
+                    value={(dependent as any).gender || 'other'}
+                    onValueChange={(val) => {
+                      void supabase.from('dependents').update({ gender: val }).eq('id', dependent.id).then(() => refresh());
+                    }}
+                  >
+                    <SelectTrigger className="h-9 text-xs">
+                      <SelectValue placeholder="Gênero" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="boy">Menino 👦</SelectItem>
+                      <SelectItem value="girl">Menina 👧</SelectItem>
+                      <SelectItem value="other">Outro 🌈</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                <div className="relative">
+                  <Button variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => fileInputRef.current?.click()}>
+                    <Upload className="size-4" />
+                  </Button>
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const path = `dependents/${dependent.id}/${Date.now()}-${file.name}`;
+                      const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file);
+                      if (uploadErr) return toast.error("Erro ao subir imagem");
+                      await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
+                      toast.success("Foto atualizada!");
+                      refresh();
+                    }}
+                    ref={fileInputRef}
+                  />
+                </div>
+                </div>
+              </div>
+            </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="sm:col-span-2">

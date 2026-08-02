@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -144,22 +145,39 @@ function KidSpacePage() {
   // O responsável escolhe o que aparece aqui (painel /kids).
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
+  const isBoy = (dependent as any).gender === 'boy';
+  const isGirl = (dependent as any).gender === 'girl';
+
   return (
     <KidsStatusGuard kidUserId={dependent.id}>
-    <main className="min-h-dvh bg-gradient-to-b from-primary/10 via-background to-background pb-16">
+    <main className={cn(
+      "min-h-dvh pb-16 transition-colors duration-500",
+      isBoy ? "bg-gradient-to-b from-blue-600/20 via-background to-background" :
+      isGirl ? "bg-gradient-to-b from-pink-500/20 via-background to-background" :
+      "bg-gradient-to-b from-primary/10 via-background to-background"
+    )}>
       <header className="flex items-center justify-between gap-3 px-4 py-5 sm:px-6">
         <div className="flex items-center gap-3">
-          <div
-            className="flex size-11 items-center justify-center rounded-2xl text-lg font-black text-white"
-            style={{ backgroundColor: dependent.color ?? "#f97316" }}
-          >
-            {firstName.charAt(0).toUpperCase()}
-          </div>
+          <Avatar className="size-12 border-2 border-white shadow-md ring-2 ring-primary/20">
+            {dependent.avatar_url ? (
+              <AvatarImage src={supabase.storage.from('avatars').getPublicUrl(dependent.avatar_url).data.publicUrl} />
+            ) : null}
+            <AvatarFallback 
+              className="text-lg font-black text-white"
+              style={{ backgroundColor: dependent.color ?? "#f97316" }}
+            >
+              {firstName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Meu espaço
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+              Meu universo financeiro
             </p>
-            <h1 className="text-lg font-extrabold leading-tight">Oi, {firstName}!</h1>
+            <h1 className="text-xl font-black leading-tight tracking-tight">
+              E aí, <span className={cn(
+                isBoy ? "text-blue-600" : isGirl ? "text-pink-600" : "text-primary"
+              )}>{firstName}</span>! 🚀
+            </h1>
           </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2">

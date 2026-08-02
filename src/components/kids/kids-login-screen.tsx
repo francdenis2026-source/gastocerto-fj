@@ -88,17 +88,17 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
               {children}
             </div>
 
-            <div className="text-center lg:text-left">
-              <p className="text-[10px] text-muted-foreground leading-relaxed">
+            <div className="text-center lg:text-left mt-2">
+              <p className="text-[11px] font-bold text-primary bg-primary/10 py-2 px-3 rounded-lg border border-primary/20 leading-relaxed shadow-sm">
                 Precisa de ajuda? Peça seu código para o seu responsável no painel principal.
               </p>
             </div>
           </div>
 
-          {/* Assinatura discreta no canto */}
-          <div className="absolute bottom-6 left-0 right-0 text-center lg:text-left lg:left-8">
-            <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground/30">
-              &lt;Dev. Franc D&apos;nis&gt; · ACRE
+          {/* Assinatura discreta e bem posicionada */}
+          <div className="mt-auto pt-8 flex justify-center lg:justify-start">
+            <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground/40 hover:text-primary/50 transition-colors cursor-default select-none border-t border-border/50 pt-3">
+              &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
             </p>
           </div>
         </section>
