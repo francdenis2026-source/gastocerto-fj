@@ -301,6 +301,11 @@ function AuthPage() {
                   Sou criança — entrar com meu código
                 </button>
                 <CodeAccessInline onContinue={() => setMode("signup")} />
+                <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
+                  <p className="text-[11px] font-medium text-muted-foreground">
+                    Alterne entre <strong>Entrar</strong> e <strong>Criar conta</strong> acima para ver as opções disponíveis.
+                  </p>
+                </div>
               </TabsContent>
               <TabsContent value="signup" className="mt-4">
                 <CpfSignUpForm onDone={() => setMode("login")} />
