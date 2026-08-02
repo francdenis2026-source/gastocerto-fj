@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { Upload } from "lucide-react";
 import QRCode from "qrcode";
 import {
   Baby,
@@ -513,6 +514,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const deleteKid = useServerFn(deleteKidAccount);
 
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
   const [days, setDays] = useState<number | string>(dependent.kid_auto_upgrade_days ?? 365);
@@ -711,26 +713,26 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                     </SelectContent>
                   </Select>
                   
-                  <div className="relative">
-                    <Button variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => (dependent as any)._fileRef?.click()}>
-                      <Upload className="size-4" />
-                    </Button>
-                    <input 
-                      type="file" 
-                      className="hidden" 
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        const path = `dependents/${dependent.id}/${Date.now()}-${file.name}`;
-                        const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file);
-                        if (uploadErr) return toast.error("Erro ao subir imagem");
-                        await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
-                        toast.success("Foto atualizada!");
-                        refresh();
-                      }}
-                      ref={(el) => (dependent as any)._fileRef = el}
-                    />
-                  </div>
+                <div className="relative">
+                  <Button variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => fileInputRef.current?.click()}>
+                    <Upload className="size-4" />
+                  </Button>
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const path = `dependents/${dependent.id}/${Date.now()}-${file.name}`;
+                      const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file);
+                      if (uploadErr) return toast.error("Erro ao subir imagem");
+                      await supabase.from('dependents').update({ avatar_url: path }).eq('id', dependent.id);
+                      toast.success("Foto atualizada!");
+                      refresh();
+                    }}
+                    ref={fileInputRef}
+                  />
+                </div>
                 </div>
               </div>
             </div>
