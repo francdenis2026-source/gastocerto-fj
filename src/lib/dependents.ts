@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables, TablesInsert } from "@/integrations/supabase/types";
 
 export type Dependent = Tables<"dependents"> & {
-  pin_code?: string | null;
   kids_mode_enabled?: boolean;
   monthly_limit?: number | null;
   recurring_allowance_day?: number | null;
@@ -15,6 +14,8 @@ export type Dependent = Tables<"dependents"> & {
   kid_code_expires_at?: string | null;
   kid_visibility?: unknown;
   kid_last_login_at?: string | null;
+  pin_code?: string | null;
+  kids_security_notifications?: unknown;
 };
 
 

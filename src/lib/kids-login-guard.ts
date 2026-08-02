@@ -7,6 +7,7 @@
 export const KID_MAX_ATTEMPTS = 5;
 export const KID_LOCK_MINUTES = 10;
 
+
 export function kidLockMessage(secondsLeft: number): string {
   const minutes = Math.max(1, Math.ceil(secondsLeft / 60));
   return `Muitas tentativas erradas. Espere ${minutes} minuto${minutes > 1 ? "s" : ""} e tente de novo, ou peça ajuda ao responsável.`;

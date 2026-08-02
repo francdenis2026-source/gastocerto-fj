@@ -6,15 +6,20 @@ import {
   Baby,
   CalendarClock,
   Copy,
+  Download,
   Eye,
+  FileDown,
   History,
+  Info,
   KeyRound,
   Loader2,
   LogIn,
   QrCode,
   RefreshCw,
+  ShieldAlert,
   ShieldCheck,
   Trash2,
+  Tv,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -36,6 +41,9 @@ import {
   revokeKidAccess,
   saveKidAccess,
   saveKidVisibility,
+  getKidSessions,
+  blockKidSession,
+  updateKidsSecuritySettings,
 } from "@/lib/kids-account.functions";
 import {
   DEFAULT_KID_VISIBILITY,
@@ -169,9 +177,35 @@ function KidsAccessPage() {
       )}
 
       <section className="space-y-3">
-        <h2 className="flex items-center gap-2 text-sm font-bold">
-          <History className="size-4 text-primary" aria-hidden /> Histórico de acessos
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-sm font-bold">
+            <History className="size-4 text-primary" aria-hidden /> Histórico de acessos
+          </h2>
+          <Button variant="outline" size="sm" className="h-7 text-[10px] gap-1" onClick={() => {
+            const data = (audit.data ?? []).map(row => ({
+              Data: new Date(row.created_at).toLocaleString('pt-BR'),
+              Acao: KID_ACCESS_ACTION_LABELS[row.action] || row.action,
+              Dependente: row.dependent_name || '-',
+              Codigo: row.code || '-'
+            }));
+            const csv = [
+              ['Data', 'Ação', 'Dependente', 'Código'],
+              ...data.map(r => [r.Data, r.Acao, r.Dependente, r.Codigo])
+            ].map(e => e.join(",")).join("\n");
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `auditoria-kids-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}>
+            <FileDown className="size-3" />
+            Exportar CSV
+          </Button>
+        </div>
         {(audit.data ?? []).length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-6 text-center text-[13px] text-muted-foreground">
             Nenhuma alteração registrada ainda.
@@ -198,6 +232,16 @@ function KidsAccessPage() {
           </ul>
         )}
       </section>
+
+      <section className="rounded-2xl border border-orange-500/20 bg-orange-500/5 p-4 text-[12px]">
+        <p className="flex items-center gap-2 font-bold text-orange-600 dark:text-orange-400">
+          <Tv className="size-4" aria-hidden /> Controle de Fim de Semana
+        </p>
+        <p className="mt-1 text-muted-foreground">
+          Novidade: Agora você pode acompanhar gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> na categoria "Churrasco & Fim de Semana".
+          Perfeito para monitorar aquele almoço especial de domingo!
+        </p>
+      </section>
     </div>
   );
 }
@@ -207,6 +251,8 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const save = useServerFn(saveKidAccess);
   const revoke = useServerFn(revokeKidAccess);
   const saveVisibility = useServerFn(saveKidVisibility);
+  const blockSession = useServerFn(blockKidSession);
+  const updateSettings = useServerFn(updateKidsSecuritySettings);
 
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
@@ -265,7 +311,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
 
-  async function persist(nextCode: string, reason: "created" | "updated" | "rotated") {
+  async function persist(nextCode: string, reason: "created" | "updated" | "rotated" | "pin_customized") {
     const clean = normalizeKidCode(nextCode);
     if (!isValidKidCode(clean)) {
       toast.error("Escolha um código com pelo menos 4 caracteres.");
@@ -280,7 +326,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       const result = await save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays: days, reason } });
       setCode(clean);
       setPin("");
-      toast.success(reason === "rotated" ? "Novo código gerado!" : "Acesso salvo!", {
+      toast.success(reason === "rotated" ? "Novo código gerado!" : reason === "pin_customized" ? "PIN personalizado salvo!" : "Acesso salvo!", {
         description: `Código ${result.code} — validade de ${days} dia(s).`,
       });
       void refresh();
@@ -345,11 +391,18 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </p>
           </div>
         </div>
-        {dependent.kid_login_code ? (
-          <Badge variant={expiry.expired ? "destructive" : "secondary"} className="text-[10px]">
-            {expiry.expired ? "Código expirado" : "Acesso ativo"}
-          </Badge>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {dependent.kid_login_code ? (
+            <Badge variant={expiry.expired ? "destructive" : "secondary"} className="text-[10px]">
+              {expiry.expired ? "Código expirado" : "Acesso ativo"}
+            </Badge>
+          ) : null}
+          {(dependent as any).pin_code && (
+            <Badge variant="outline" className="border-primary/30 text-primary text-[10px] gap-1">
+              <ShieldCheck className="size-3" /> PIN Personalizado
+            </Badge>
+          )}
+        </div>
       </header>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_240px]">
@@ -406,9 +459,9 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 className="mt-1 w-24"
               />
             </div>
-            <Button type="button" size="sm" disabled={busy} onClick={() => persist(code, "updated")}>
+            <Button type="button" size="sm" disabled={busy} onClick={() => persist(code, dependent.kid_login_code ? "pin_customized" : "created")}>
               <KeyRound className="mr-1.5 size-3.5" />
-              {dependent.kid_login_code ? "Atualizar acesso" : "Liberar acesso"}
+              {dependent.kid_login_code ? "Salvar PIN personalizado" : "Liberar acesso"}
             </Button>
             {dependent.kid_login_code ? (
               <>
@@ -457,6 +510,47 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 </label>
               ))}
             </div>
+          </div>
+
+          <div className="rounded-xl border border-border p-3">
+            <p className="flex items-center gap-2 text-[12px] font-bold">
+              <ShieldAlert className="size-3.5 text-primary" aria-hidden /> Segurança e Notificações
+            </p>
+            <div className="mt-2 space-y-2">
+              <label className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2.5">
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-semibold">Notificar tentativas falhas</span>
+                  <span className="block text-[10px] text-muted-foreground">E-mail/push ao errar senha.</span>
+                </span>
+                <Switch 
+                  checked={Boolean((dependent as any).kids_security_notifications?.failed_login)}
+                  onCheckedChange={(val) => {
+                    const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
+                    void updateSettings({ data: { notifications: { ...current, failed_login: val } } }).then(() => refresh());
+                  }}
+                />
+              </label>
+              <label className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2.5">
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-semibold">Novo dispositivo/IP</span>
+                  <span className="block text-[10px] text-muted-foreground">Aviso ao entrar de outro lugar.</span>
+                </span>
+                <Switch 
+                  checked={Boolean((dependent as any).kids_security_notifications?.new_session)}
+                  onCheckedChange={(val) => {
+                    const current = (dependent as any).kids_security_notifications || { failed_login: true, code_revoked: true, new_session: false };
+                    void updateSettings({ data: { notifications: { ...current, new_session: val } } }).then(() => refresh());
+                  }}
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-border p-3">
+            <p className="flex items-center gap-2 text-[12px] font-bold">
+              <Tv className="size-3.5 text-primary" aria-hidden /> Dispositivos e Sessões
+            </p>
+            <SessionManager dependentId={dependent.id} />
           </div>
         </div>
 
@@ -513,5 +607,58 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
         </aside>
       </div>
     </article>
+  );
+}
+
+function SessionManager({ dependentId }: { dependentId: string }) {
+  const getSessions = useServerFn(getKidSessions);
+  const block = useServerFn(blockKidSession);
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    void getSessions({ data: { dependentId } }).then((res) => {
+      setSessions(res);
+      setLoading(false);
+    });
+  }, [dependentId]);
+
+  if (loading) return <Loader2 className="mx-auto size-4 animate-spin text-muted-foreground" />;
+
+  return (
+    <div className="mt-2 space-y-2">
+      {sessions.length === 0 ? (
+        <p className="py-2 text-center text-[10px] text-muted-foreground">Nenhuma sessão ativa.</p>
+      ) : (
+        sessions.map((s) => (
+          <div key={s.id} className="flex items-center justify-between gap-2 rounded-lg bg-muted/40 p-2 text-[11px]">
+            <div className="min-w-0">
+              <p className="truncate font-semibold text-foreground">
+                {s.ip_address || "IP oculto"} {s.status === "blocked" && <Badge variant="destructive" className="ml-1 scale-75 h-4 px-1">Bloqueado</Badge>}
+              </p>
+              <p className="truncate text-[10px] text-muted-foreground">
+                {new Date(s.created_at).toLocaleDateString("pt-BR")} · {s.user_agent?.split(" ")[0] || "Desconhecido"}
+              </p>
+            </div>
+            {s.status !== "blocked" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 text-[10px] text-destructive hover:bg-destructive/10"
+                onClick={() => {
+                  void block({ data: { sessionId: s.id } }).then(() => {
+                    toast.success("Acesso bloqueado!");
+                    setSessions(sessions.map(sess => sess.id === s.id ? { ...sess, status: 'blocked' } : sess));
+                  });
+                }}
+              >
+                Bloquear
+              </Button>
+            )}
+          </div>
+        ))
+      )}
+    </div>
   );
 }
