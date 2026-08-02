@@ -556,10 +556,11 @@ function KidSpacePage() {
         onOpenChange={setEntryOpen}
         dependentId={dependent.id}
         ownerId={dependent.user_id}
+        syncTx={syncTx}
       />
       <footer className="mt-auto border-t border-border/50 py-6 text-center">
         <p className="text-[10px] font-medium text-muted-foreground/60 uppercase tracking-widest">
-          &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+          &lt;Dev. Franc D&apos;nis&gt; · Acre
         </p>
       </footer>
 
