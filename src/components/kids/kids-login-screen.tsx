@@ -62,7 +62,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
 
         </section>
 
-        <section className="order-first min-w-0 lg:order-none">
+        <section className="min-w-0">
           <div className="rounded-3xl border border-white/25 bg-card p-5 shadow-2xl sm:p-6">
             <p className="mb-3 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
               <Rocket className="size-3.5" aria-hidden /> Entrada da criança
@@ -73,7 +73,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             Não sabe seu código? Peça para o seu responsável abrir o Espaço Kids no painel dele.
           </p>
         </section>
-        <ul className="order-last grid gap-2 sm:grid-cols-3 lg:hidden">
+        <ul className="grid gap-2 sm:grid-cols-3 lg:col-span-2">
             {HIGHLIGHTS.map((item) => (
           <li
                 key={item.title}
