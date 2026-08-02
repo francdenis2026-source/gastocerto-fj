@@ -47,7 +47,6 @@ export const createPixCharge = createServerFn({ method: "POST" })
   }).parse(data))
   .handler(async ({ data, context }) => {
     // Simulação de chamada ao Mercado Pago
-    // Em produção, usaríamos fetch('https://api.mercadopago.com/v1/payments', ...)
     const mpPaymentId = `mp-${Math.random().toString(36).substr(2, 9)}`;
     const mockQrCode = "00020126580014BR.GOV.BCB.PIX0136mock-key-123-456-789-000520400005303986540510.005802BR5913GASTOCERTO-FJ6005FEIJO62070503***6304E2B4";
 
@@ -63,11 +62,44 @@ export const createPixCharge = createServerFn({ method: "POST" })
         status: 'pending',
         mercadopago_payment_id: mpPaymentId,
         pix_copy_paste: mockQrCode,
-        pix_qr_code_base64: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==" // Mock transparent pixel
+        pix_qr_code_base64: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==" 
       } as any)
       .select()
       .single();
 
     if (error) throw error;
     return tx;
+  });
+
+export const regeneratePixCharge = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({
+    transactionId: z.string().uuid()
+  }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { data: oldTx, error: fetchError } = await context.supabase
+      .from("pix_transactions")
+      .select("*")
+      .eq("id", data.transactionId)
+      .single();
+
+    if (fetchError || !oldTx) throw new Error("Transação não encontrada.");
+
+    // Atualiza a expiração e gera novo ID simulado do MP
+    const mpPaymentId = `mp-new-${Math.random().toString(36).substr(2, 9)}`;
+    
+    const { data: updated, error: updateError } = await context.supabase
+      .from("pix_transactions")
+      .update({
+        status: 'pending',
+        mercadopago_payment_id: mpPaymentId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      } as any)
+      .eq("id", data.transactionId)
+      .select()
+      .single();
+
+    if (updateError) throw updateError;
+    return updated;
   });
