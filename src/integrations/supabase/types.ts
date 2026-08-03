@@ -1354,6 +1354,47 @@ export type Database = {
           },
         ]
       }
+      kid_goals: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          dependent_id: string
+          id: string
+          period: string
+          target_amount: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          dependent_id: string
+          id?: string
+          period: string
+          target_amount: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          dependent_id?: string
+          id?: string
+          period?: string
+          target_amount?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kid_goals_dependent_id_fkey"
+            columns: ["dependent_id"]
+            isOneToOne: false
+            referencedRelation: "dependents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kid_login_attempts: {
         Row: {
           attempts: number
