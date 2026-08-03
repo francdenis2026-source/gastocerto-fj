@@ -110,9 +110,10 @@ export function KidsManagementPanel() {
   const [lastDeleted, setLastDeleted] = useState<any>(null);
 
   const deleteMutation = useMutation({
-    mutationFn: useServerFn(deleteKidManagementTransaction),
+    mutationFn: (vars: { data: { transactionId: string } }) => useServerFn(deleteKidManagementTransaction)(vars),
     onSuccess: (_, variables) => {
-      const deletedTx = metrics.data?.find(t => t.id === variables.data.transactionId);
+      const deletedId = variables.data.transactionId;
+      const deletedTx = metrics.data?.find(t => t.id === deletedId);
       if (deletedTx) setLastDeleted(deletedTx);
       
       toast.success("Lançamento removido.", {

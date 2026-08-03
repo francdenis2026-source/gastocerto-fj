@@ -1,5 +1,8 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, Sparkles, Calendar as CalendarIcon, Search } from "lucide-react";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { cleanupJulyData } from "@/lib/data-cleanup.functions";
 
 
 import { cn } from "@/lib/utils";
@@ -493,7 +496,7 @@ function DashboardPage() {
            </div>
         </div>
 
-        {!hasFeature(access, "financial_advisor") && (
+        {!hasFeature(access, "financial_help") && (
           <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
             <div className="flex items-center gap-3">
               <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
@@ -511,6 +514,7 @@ function DashboardPage() {
             </Button>
           </div>
         )}
+
 
 
 
