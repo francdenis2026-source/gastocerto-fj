@@ -461,7 +461,7 @@ function KidSpacePage() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               Espaço financeiro
             </p>
-            <h1 className="truncate text-xl font-semibold leading-tight tracking-tight">
+            <h1 className="truncate text-lg sm:text-xl font-semibold leading-tight tracking-tight">
               Olá, <span className={accent.text}>{firstName}</span>
             </h1>
           </div>
