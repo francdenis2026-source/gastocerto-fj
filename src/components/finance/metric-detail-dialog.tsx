@@ -152,11 +152,24 @@ function TransactionPanel({
         )}
       </div>
 
-      {onEdit ? (
-        <Button size="sm" className="mt-3 w-full sm:w-auto" onClick={() => onEdit(transaction)}>
-          <Pencil className="mr-2 size-3.5" /> Editar este lançamento
-        </Button>
-      ) : null}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {onEdit ? (
+          <Button size="sm" onClick={() => onEdit(transaction)}>
+            <Pencil className="mr-2 size-3.5" /> Editar este lançamento
+          </Button>
+        ) : null}
+        {onRequestDelete ? (
+          <Button
+            size="sm"
+            variant="outline"
+            className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            onClick={() => onRequestDelete(transaction)}
+          >
+            <Trash2 className="mr-2 size-3.5" /> Excluir
+          </Button>
+        ) : null}
+      </div>
+
     </div>
   );
 }
