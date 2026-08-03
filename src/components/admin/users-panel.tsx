@@ -82,8 +82,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
       const { data, error } = await supabase
         .from("profiles")
         .select("*, kid_accounts:kid_accounts(count)")
-        .order("created_at", { ascending: false })
-        .limit(200);
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];
     },
