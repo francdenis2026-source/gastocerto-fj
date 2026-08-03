@@ -1055,11 +1055,12 @@ function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids:
   const queryClient = useQueryClient();
   const saveGoal = useServerFn(saveKidGoal);
   const deleteGoal = useServerFn(deleteKidGoal);
-  const updateSettings = useServerFn(updateSettingsFn);
+  const updateSettings = useServerFn(updateKidSettings);
 
   const { data: goals, isLoading } = useQuery({
     queryKey: ["kid-goals", selectedKidId],
-    queryFn: () => getKidGoals({ kidId: selectedKidId === "all" ? undefined : selectedKidId }),
+    queryFn: () => getKidGoals({ dependentId: selectedKidId === "all" ? kids[0]?.id : selectedKidId }),
+    enabled: !!(selectedKidId === "all" ? kids[0]?.id : selectedKidId)
   });
 
   const saveMutation = useMutation({
@@ -1104,8 +1105,8 @@ function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids:
                     value={amountToInput(currentKid.monthly_limit || 0)}
                     onValueChange={(v) => {
                       updateSettingsMutation.mutate({ 
-                        kidId: currentKid.id, 
-                        settings: { lowBalanceAlert: parseAmount(v) } 
+                        dependentId: currentKid.id, 
+                        lowBalanceAlertThreshold: parseAmount(v) 
                       });
                     }}
                     className="h-8 text-xs"
@@ -1147,10 +1148,10 @@ function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids:
               return;
             }
             saveMutation.mutate({
-              kidId: selectedKidId,
+              dependentId: selectedKidId,
               title: "Nova Meta",
               targetAmount: 100,
-              icon: "target"
+              period: "monthly"
             });
           }}>
             <Plus className="size-3 mr-1" /> Nova Meta
@@ -1183,9 +1184,9 @@ function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids:
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-[9px] font-bold uppercase">
                   <span className="text-muted-foreground">Progresso</span>
-                  <span className="text-primary">{Math.round((goal.current_amount / goal.target_amount) * 100)}%</span>
+                  <span className="text-primary">{Math.round(((goal.current_amount || 0) / goal.target_amount) * 100)}%</span>
                 </div>
-                <Progress value={(goal.current_amount / goal.target_amount) * 100} className="h-1.5" />
+                <Progress value={((goal.current_amount || 0) / goal.target_amount) * 100} className="h-1.5" />
               </div>
             </div>
           ))}
