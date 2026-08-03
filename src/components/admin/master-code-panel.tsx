@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { KeyRound, Loader2, ShieldCheck } from "lucide-react";
+import { Copy, Eye, EyeOff, KeyRound, Loader2, RefreshCw, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -8,7 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatDateTime } from "@/lib/format";
-import { getMasterCodeStatus, resetMasterCode } from "@/lib/master-code.functions";
+import {
+  generateMasterCode,
+  getMasterCodeStatus,
+  resetMasterCode,
+  revealMasterCode,
+} from "@/lib/master-code.functions";
 
 /** Redefinição segura do código mestre usado nas ações críticas do painel. */
 export function MasterCodePanel() {
@@ -18,12 +23,34 @@ export function MasterCodePanel() {
     queryFn: () => getMasterCodeStatus(),
   });
   const reset = useServerFn(resetMasterCode);
+  const reveal = useServerFn(revealMasterCode);
+  const generate = useServerFn(generateMasterCode);
 
   const [currentCode, setCurrentCode] = useState("");
   const [newCode, setNewCode] = useState("");
   const [confirmCode, setConfirmCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
+  const [visibleCode, setVisibleCode] = useState<string | null>(null);
+
+  const revealMutation = useMutation({
+    mutationFn: () => reveal({ data: {} }),
+    onSuccess: (result) => {
+      if (result.code) setVisibleCode(result.code);
+      else toast.info("Este código foi salvo apenas como hash. Gere um novo para poder visualizá-lo.");
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível exibir o código."),
+  });
+
+  const generateMutation = useMutation({
+    mutationFn: () => generate({ data: {} }),
+    onSuccess: (result) => {
+      setVisibleCode(result.code);
+      toast.success("Novo código mestre gerado e salvo.");
+      void queryClient.invalidateQueries({ queryKey: ["admin", "master-code-status"] });
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível gerar o código."),
+  });
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -41,6 +68,7 @@ export function MasterCodePanel() {
     },
     onError: (error: Error) => toast.error(error.message || "Não foi possível redefinir o código."),
   });
+
 
   return (
     <section className="rounded-2xl border border-border bg-card p-4">
