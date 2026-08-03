@@ -272,18 +272,13 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                       <div className="flex items-center gap-1.5">
                         {profile.full_name ?? "—"}
                         {((profile as any).plan_slug === "premium_ia" || (profile as any).plan_slug === "premium") && (
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div className="flex size-4 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
-                                  <Sparkles className="size-2.5" />
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="text-[10px] font-bold">Assinante PRO</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
+                          <Badge 
+                            variant="outline" 
+                            className="h-5 px-1.5 text-[9px] font-black uppercase tracking-tighter bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                          >
+                            <Sparkles className="mr-1 size-2.5" />
+                            PRO
+                          </Badge>
                         )}
                       </div>
                       <TooltipProvider>
@@ -757,7 +752,7 @@ function ManageUserDialog({
                             adminPromoteToPaid({
                               data: { targetUserId: profile.user_id, planSlug: "premium_ia" },
                             }),
-                          "Usuário promovido para Premium IA",
+                          "Conta atualizada com sucesso! O usuário agora é PRO e tem acesso total aos recursos Premium IA.",
                         );
                       },
                     });

@@ -24,6 +24,7 @@ import { useState, type ReactNode, useEffect, useMemo } from "react";
 
 import { Logo } from "@/components/logo";
 import { NotificationCenter } from "@/components/notifications/notification-center";
+import { Badge } from "@/components/ui/badge";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
 
 import { useKidSession } from "@/lib/kids-session";
@@ -421,10 +422,13 @@ export function AppShell({ children }: { children: ReactNode }) {
                   {profile?.full_name ?? "Minha conta"}
                 </span>
                 {(access.planSlug === "premium_ia" || access.planSlug === "premium") && (
-                  <span className="mt-0.5 flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    <ShieldCheck className="size-2.5" />
+                  <Badge 
+                    variant="outline" 
+                    className="mt-0.5 h-4 px-1 text-[8px] font-black uppercase tracking-tighter bg-emerald-500/10 text-emerald-600 border-emerald-500/20 w-fit"
+                  >
+                    <ShieldCheck className="mr-0.5 size-2" />
                     Conta PRO
-                  </span>
+                  </Badge>
                 )}
                 <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
                   Meu perfil e plano
