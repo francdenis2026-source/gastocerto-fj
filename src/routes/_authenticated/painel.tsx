@@ -836,10 +836,10 @@ function DashboardPage() {
               </section>
             ) : null}
 
-            <section className="auto-cards-lg">
+            <section className="grid gap-4 md:grid-cols-2">
               <ChartCard
-                title="Gastos por dia"
-                summary={`Maior gasto diário: ${formatCurrency(Math.max(0, ...byDay.map((item) => item.gasto)))}. Clique em uma barra para ver o dia.`}
+                title="Evolução Diária"
+                summary={`Maior pico: ${formatCurrency(Math.max(0, ...byDay.map((item) => item.gasto)))}. Toque na barra para ver os lançamentos do dia.`}
               >
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -851,7 +851,7 @@ function DashboardPage() {
                   >
                     <CartesianGrid {...gridProps} />
                     <XAxis dataKey="day" {...axisProps} />
-                    <YAxis {...axisProps} width={44} />
+                    <YAxis {...axisProps} width={40} />
                     <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
                     <Bar
                       dataKey="gasto"
@@ -865,11 +865,11 @@ function DashboardPage() {
               </ChartCard>
 
               <ChartCard
-                title="Gastos por categoria"
+                title="Categorias"
                 summary={
                   byCategory.length > 0
-                    ? `Maior categoria: ${byCategory[0].name} com ${formatCurrency(byCategory[0].value)}. Clique na fatia para detalhar.`
-                    : "Sem gastos categorizados neste período."
+                    ? `Foco em: ${byCategory[0].name}. Toque na fatia para filtrar.`
+                    : "Sem gastos neste período."
                 }
               >
                 <ResponsiveContainer width="100%" height="100%">
@@ -878,8 +878,8 @@ function DashboardPage() {
                       data={byCategory}
                       dataKey="value"
                       nameKey="name"
-                      innerRadius={42}
-                      outerRadius={72}
+                      innerRadius={45}
+                      outerRadius={75}
                       className="cursor-pointer"
                       onClick={(entry: { id?: string; name?: string }) => {
                         if (entry?.id) openCategoryDetail(entry.id, entry.name ?? "Categoria");
@@ -894,10 +894,18 @@ function DashboardPage() {
                         />
                       ))}
                     </Pie>
-                    <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
+                    <Tooltip 
+                      {...tooltipProps} 
+                      formatter={(value: number, name: string, props: any) => {
+                        const total = byCategory.reduce((a, b) => a + b.value, 0);
+                        const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                        return [formatCurrency(value), `${name} (${percent}%)`];
+                      }} 
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </ChartCard>
+            </section>
 
               <ChartCard
                 title="Receitas x despesas"
