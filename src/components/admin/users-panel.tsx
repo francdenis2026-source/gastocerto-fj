@@ -619,7 +619,7 @@ function ManageUserDialog({
                   {pending === "delete" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
                   Excluir conta
                 </Button>
-
+                <SyncLicenseButton profile={profile} onChanged={onChanged} />
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 O cancelamento revoga licenças ativas. A exclusão é definitiva e fica registrada nos
