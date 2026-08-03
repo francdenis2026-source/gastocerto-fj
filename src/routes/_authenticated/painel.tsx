@@ -450,17 +450,21 @@ function DashboardPage() {
     <AppShell>
       <div className="space-y-6">
         {!hasFeature(access, "financial_help") && (
-          <div className="rounded-2xl border border-banner-amber-border bg-banner-amber-bg/50 p-4 mb-2 flex items-start gap-3 backdrop-blur-sm shadow-sm">
-            <ShieldAlert className="size-5 text-banner-amber-icon shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <p className="text-sm font-bold text-banner-amber-text">Ajuda Financeira</p>
-              <p className="text-xs text-banner-amber-text/80 leading-relaxed">
-                Acesse estratégias exclusivas para sair das dívidas e investir com nosso consultor IA no plano Premium.
-              </p>
-              <Link to="/perfil">
-                <Button variant="link" className="p-0 h-auto text-xs text-banner-amber-icon hover:text-banner-amber-icon/80">Ver Planos e Fazer Upgrade</Button>
-              </Link>
+          <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
+                <ShieldAlert className="size-5 text-banner-amber-icon" />
+              </div>
+              <div className="space-y-0.5">
+                <p className="text-xs font-black uppercase tracking-widest text-banner-amber-text">Consultoria IA</p>
+                <p className="text-[10px] text-banner-amber-text/70 font-bold leading-tight max-w-[280px]">
+                  Estratégias exclusivas para investir e sair das dívidas no plano Premium.
+                </p>
+              </div>
             </div>
+            <Button asChild variant="outline" size="sm" className="border-banner-amber-border/50 text-banner-amber-text hover:bg-banner-amber-bg rounded-xl h-9 px-4 text-[10px] font-black uppercase tracking-wider">
+              <Link to="/perfil">Upgrade</Link>
+            </Button>
           </div>
         )}
 
