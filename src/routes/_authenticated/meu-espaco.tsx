@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
+import { CreditCard, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useKidTheme } from "@/lib/kids-theme";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -71,6 +72,59 @@ type KidTransaction = {
   transaction_date: string;
 };
 
+/**
+ * Paleta de acento do Espaço Kids.
+ *
+ * Cada variante declara explicitamente o par claro/escuro para garantir contraste
+ * AA nos dois temas — evitamos usar apenas `text-blue-600`, que fica ilegível no
+ * modo escuro, e apenas `text-blue-300`, que falha no modo claro.
+ */
+type KidAccent = {
+  surface: string;
+  border: string;
+  borderHover: string;
+  text: string;
+  iconBg: string;
+  button: string;
+  ring: string;
+};
+
+const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
+  boy: {
+    surface: "bg-sky-500/8 dark:bg-sky-400/10",
+    border: "border-sky-600/25 dark:border-sky-400/25",
+    borderHover: "hover:border-sky-600/50 dark:hover:border-sky-400/50",
+    text: "text-sky-700 dark:text-sky-300",
+    iconBg: "bg-sky-600/12 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300",
+    button: "bg-sky-700 text-white hover:bg-sky-800 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-sky-950",
+    ring: "ring-sky-600/20 dark:ring-sky-400/25",
+  },
+  girl: {
+    surface: "bg-fuchsia-500/8 dark:bg-fuchsia-400/10",
+    border: "border-fuchsia-600/25 dark:border-fuchsia-400/25",
+    borderHover: "hover:border-fuchsia-600/50 dark:hover:border-fuchsia-400/50",
+    text: "text-fuchsia-700 dark:text-fuchsia-300",
+    iconBg: "bg-fuchsia-600/12 text-fuchsia-700 dark:bg-fuchsia-400/15 dark:text-fuchsia-300",
+    button: "bg-fuchsia-700 text-white hover:bg-fuchsia-800 dark:bg-fuchsia-500 dark:hover:bg-fuchsia-400 dark:text-fuchsia-950",
+    ring: "ring-fuchsia-600/20 dark:ring-fuchsia-400/25",
+  },
+  neutral: {
+    surface: "bg-primary/8",
+    border: "border-primary/25",
+    borderHover: "hover:border-primary/50",
+    text: "text-primary",
+    iconBg: "bg-primary/12 text-primary",
+    button: "",
+    ring: "ring-primary/20",
+  },
+};
+
+/** Valores positivos e negativos com contraste garantido nos dois temas. */
+const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-300";
+const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
+const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-300";
+const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/10";
+
 function KidSpacePage() {
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
@@ -80,6 +134,14 @@ function KidSpacePage() {
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
+
+  // Preferência de tema exclusiva da criança (não altera a do responsável).
+  const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
+
+  const gender = (dependent as { gender?: string } | null | undefined)?.gender;
+  const isBoy = gender === "boy";
+  const isGirl = gender === "girl";
+  const accent = KID_ACCENTS[isBoy ? "boy" : isGirl ? "girl" : "neutral"];
 
   const fetchCardControl = useServerFn(getKidCardControl);
 
@@ -132,18 +194,17 @@ function KidSpacePage() {
         toast.custom((t) => (
           <div className={cn(
             "flex w-full max-w-sm flex-col gap-2 rounded-2xl border p-4 shadow-2xl animate-in slide-in-from-right-5",
-            isBoy ? "bg-blue-600 border-blue-400 text-white" : 
-            isGirl ? "bg-pink-600 border-pink-400 text-white" : 
-            "bg-emerald-600 border-emerald-400 text-white"
+            "border-white/20 text-white",
+            isBoy ? "bg-sky-700" : isGirl ? "bg-fuchsia-700" : "bg-emerald-700",
           )}>
             <div className="flex items-start gap-3">
               <div className="bg-white/20 p-2 rounded-xl">
                 <TrendingUp className="size-6" />
               </div>
               <div className="flex-1">
-                <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Recebimento Aprovado! 🚀</p>
-                <h4 className="text-xl font-black">{formatCurrency(pixAlerts.data.amount)}</h4>
-                <p className="text-[11px] font-medium opacity-90 mt-1">{pixAlerts.data.description}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">Transferência confirmada</p>
+                <h4 className="text-xl font-bold tracking-tight">{formatCurrency(pixAlerts.data.amount)}</h4>
+                <p className="text-[11px] font-medium text-white/90 mt-1">{pixAlerts.data.description}</p>
                 <p className="text-[9px] mt-2 font-bold opacity-70">
                   {new Date(pixAlerts.data.created_at || '').toLocaleString('pt-BR')}
                 </p>
@@ -213,27 +274,24 @@ function KidSpacePage() {
   // O responsável escolhe o que aparece aqui (painel /kids).
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
-  const isBoy = (dependent as any).gender === 'boy';
-  const isGirl = (dependent as any).gender === 'girl';
-
   return (
     <KidsStatusGuard kidUserId={dependent.id}>
     <main className={cn(
-      "min-h-dvh pb-16 transition-all duration-500",
+      "min-h-dvh pb-20 text-foreground antialiased transition-colors duration-300",
       compactMode ? "max-w-4xl mx-auto px-2 sm:px-4" : "",
-      isBoy ? "bg-gradient-to-b from-blue-600/20 via-background to-background" :
-      isGirl ? "bg-gradient-to-b from-pink-500/20 via-background to-background" :
-      "bg-gradient-to-b from-primary/10 via-background to-background",
-      compactMode && "font-sans tracking-tight"
+      isBoy ? "bg-gradient-to-b from-sky-600/12 via-background to-background" :
+      isGirl ? "bg-gradient-to-b from-fuchsia-600/12 via-background to-background" :
+      "bg-gradient-to-b from-primary/8 via-background to-background",
+      compactMode && "tracking-tight"
     )}>
-      {/* Botão de Toggle do Modo Compacto/Profissional */}
+      {/* Densidade da interface: modo padrão (confortável) ou compacto (objetivo) */}
       <div className="fixed bottom-4 right-4 z-50">
         <Button
           variant="outline"
           size="icon"
           className={cn(
-            "size-12 rounded-full shadow-2xl border-2 transition-all hover:scale-110",
-            compactMode ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border"
+            "size-12 rounded-full border shadow-lg transition-transform hover:scale-105",
+            compactMode ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border text-foreground"
           )}
           onClick={async () => {
             const newMode = !compactMode;
@@ -241,54 +299,67 @@ function KidSpacePage() {
             if (user) {
               await supabase.from("profiles").update({ ["compact_mode" as string]: newMode } as any).eq("user_id", user.id);
             }
-            toast.success(newMode ? "Modo Profissional Ativado! ✨" : "Modo Padrão Ativado!");
+            toast.success(newMode ? "Visualização compacta ativada." : "Visualização confortável ativada.");
           }}
-          title={compactMode ? "Voltar ao modo padrão" : "Ativar modo compacto profissional"}
+          title={compactMode ? "Usar visualização confortável" : "Usar visualização compacta"}
+          aria-label={compactMode ? "Usar visualização confortável" : "Usar visualização compacta"}
         >
-          <LayoutGrid className="size-6" />
+          <LayoutGrid className="size-5" />
         </Button>
       </div>
 
       <header className={cn(
         "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
-        compactMode && "py-3 px-2 border-b border-border/40 bg-card/30 backdrop-blur-md sticky top-0 z-40"
+        compactMode && "py-3 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
 
-        <div className="flex items-center gap-3">
-          <Avatar className="size-12 border-2 border-white shadow-md ring-2 ring-primary/20">
+        <div className="flex min-w-0 items-center gap-3">
+          <Avatar className={cn("size-12 border border-border shadow-sm ring-2", accent.ring)}>
             {avatarUrl ? (
               <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
             ) : null}
-            <AvatarFallback 
-              className="text-lg font-black text-white"
-              style={{ backgroundColor: dependent.color ?? "#f97316" }}
+            <AvatarFallback
+              className="text-lg font-semibold text-white"
+              style={{ backgroundColor: dependent.color ?? "#0f766e" }}
             >
               {firstName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
-              Meu universo financeiro
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              Espaço financeiro
             </p>
-            <h1 className="text-xl font-black leading-tight tracking-tight">
-              E aí, <span className={cn(
-                isBoy ? "text-blue-600" : isGirl ? "text-pink-600" : "text-primary"
-              )}>{firstName}</span>! 🚀
+            <h1 className="truncate text-xl font-semibold leading-tight tracking-tight">
+              Olá, <span className={accent.text}>{firstName}</span>
             </h1>
           </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-9 text-muted-foreground hover:text-foreground"
+            onClick={toggleKidTheme}
+            title={kidTheme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+            aria-label={kidTheme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+          >
+            {kidTheme === "dark" ? (
+              <Sun className="size-[18px]" aria-hidden="true" />
+            ) : (
+              <Moon className="size-[18px]" aria-hidden="true" />
+            )}
+          </Button>
           <NotificationCenter isKid />
           <Button
             variant="ghost"
             size="sm"
-            className="h-9 px-2 sm:px-3 text-xs"
+            className="h-9 px-2 text-xs font-medium text-muted-foreground hover:text-foreground sm:px-3"
             onClick={async () => {
               await signOut();
               navigate({ to: "/auth", replace: true });
             }}
           >
-            <LogOut className="mr-1.5 size-4" /> Sair
+            <LogOut className="mr-1.5 size-4" aria-hidden="true" /> Sair
           </Button>
         </div>
 
@@ -303,122 +374,136 @@ function KidSpacePage() {
           compactMode && "sm:grid-cols-3"
         )}>
           <section className={cn(
-            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden transition-all",
-            compactMode && "min-h-[120px] rounded-2xl p-4 sm:col-span-2 flex-row items-center justify-between text-left",
-            isBoy ? "border-blue-500/30" : isGirl ? "border-pink-500/30" : ""
+            "relative flex min-h-[160px] flex-col justify-center overflow-hidden rounded-2xl border bg-card p-5 text-center shadow-sm transition-colors",
+            accent.border,
+            compactMode && "min-h-[120px] p-4 sm:col-span-2 flex-row items-center justify-between text-left",
           )}>
 
-            {/* Background decorativo sutil para o saldo */}
+            {/* Emblema SVG decorativo — opacidade calibrada para os dois temas */}
             <div className={cn(
-              "absolute -right-4 -top-4 size-24 opacity-5",
-              isBoy ? "text-blue-500" : isGirl ? "text-pink-500" : "text-primary"
-            )}>
+              "pointer-events-none absolute -right-5 -top-5 size-24 opacity-[0.07] dark:opacity-[0.12]",
+              accent.text,
+            )} aria-hidden="true">
               <PiggyBank className="size-full" />
             </div>
 
             {visibility.balance ? (
               <div className={cn(compactMode && "flex flex-col")}>
                 <p className={cn(
-                  "flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary",
+                  "flex items-center justify-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em]",
+                  accent.text,
                   compactMode && "justify-start"
                 )}>
-                  <Sparkles className="size-3.5" /> Saldo disponível
+                  <Sparkles className="size-3.5" aria-hidden="true" /> Saldo disponível
                 </p>
                 <p
                   className={cn(
-                    "mt-1 text-4xl font-black tabular-nums tracking-tighter",
+                    "mt-1.5 text-4xl font-semibold tabular-nums tracking-tight",
                     compactMode && "text-2xl mt-0",
-                    balance < 0 ? "text-destructive" : "text-foreground",
+                    balance < 0 ? NEGATIVE_TEXT : "text-foreground",
                   )}
                 >
                   {formatCurrency(balance)}
                 </p>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  Atualizado a cada novo registro
+                </p>
               </div>
             ) : (
-
-              <p className="text-[11px] font-semibold text-muted-foreground">
-                Saldo oculto pelo responsável.
+              <p className="text-[12px] font-medium text-muted-foreground">
+                Seu saldo está oculto por escolha do responsável.
               </p>
             )}
-            
+
             {visibility.income ? (
               <div className={cn(
-                "mt-3 grid grid-cols-2 gap-2 text-left",
+                "mt-4 grid grid-cols-2 gap-2 text-left",
                 compactMode && "mt-0 grid-cols-1 gap-1"
               )}>
-                <div className="rounded-xl bg-emerald-500/10 p-2">
-                  <p className="flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase tracking-tight">
-                    <TrendingUp className="size-3" /> Ganhei
+                <div className={cn("rounded-xl p-2.5", POSITIVE_SURFACE)}>
+                  <p className={cn("flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide", POSITIVE_TEXT)}>
+                    <TrendingUp className="size-3" aria-hidden="true" /> Entradas
                   </p>
-                  <p className="text-sm font-bold tabular-nums">{formatCurrency(income)}</p>
+                  <p className="mt-0.5 text-sm font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
                 </div>
-                <div className="rounded-xl bg-destructive/10 p-2">
-                  <p className="flex items-center gap-1 text-[9px] font-bold text-destructive uppercase tracking-tight">
-                    <TrendingDown className="size-3" /> Gastei
+                <div className={cn("rounded-xl p-2.5", NEGATIVE_SURFACE)}>
+                  <p className={cn("flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide", NEGATIVE_TEXT)}>
+                    <TrendingDown className="size-3" aria-hidden="true" /> Saídas
                   </p>
-                  <p className="text-sm font-bold tabular-nums">{formatCurrency(expense)}</p>
+                  <p className="mt-0.5 text-sm font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
                 </div>
               </div>
             ) : null}
           </section>
 
           <section className={cn(
-            "rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4 group hover:border-primary/40 transition-all",
+            "group flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-colors",
+            accent.borderHover,
             compactMode && "rounded-2xl p-4 flex-row justify-between",
-            isBoy ? "hover:border-blue-500/40" : isGirl ? "hover:border-pink-500/40" : ""
           )}>
             <div className={cn(
-              "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
+              "flex size-14 items-center justify-center rounded-full transition-transform group-hover:scale-105",
+              accent.iconBg,
               compactMode && "size-10",
-              isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
             )}>
-              <TrendingUp className={cn("size-8", compactMode && "size-5")} />
+              <TrendingUp className={cn("size-7", compactMode && "size-5")} aria-hidden="true" />
             </div>
             <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
-              <h3 className="text-sm font-bold">Comprei ou Ganhei?</h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Toque no botão para anotar</p>
+              <h2 className="text-sm font-semibold tracking-tight">Registrar movimentação</h2>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+                Anote o que você recebeu ou gastou.
+              </p>
             </div>
-            <Button 
+            <Button
               className={cn(
-                "h-10 w-full rounded-xl text-sm font-bold shadow-lg",
+                "h-10 w-full rounded-xl text-sm font-semibold shadow-sm",
                 compactMode && "w-auto px-4 h-9",
-                isBoy ? "bg-blue-600 hover:bg-blue-700" : isGirl ? "bg-pink-600 hover:bg-pink-700" : ""
-              )} 
+                accent.button,
+              )}
               onClick={() => setEntryOpen(true)}
             >
-              {compactMode ? "Anotar" : "Lançar agora 📝"}
+              {compactMode ? "Registrar" : "Novo registro"}
             </Button>
           </section>
+
 
         </div>
 
         {visibility.goals && (goals.data ?? []).length > 0 && (
           <section className="space-y-3">
-            <h2 className="flex items-center gap-2 text-sm font-bold">
-              <Target className="size-4 text-primary" /> Minhas metas
+            <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
+              <Target className={cn("size-4", accent.text)} aria-hidden="true" /> Minhas metas
             </h2>
             {(goals.data ?? []).map((goal) => {
               const progress = goal.target_amount
                 ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))
                 : 0;
               return (
-                <div key={goal.id} className="rounded-2xl border border-border bg-card p-4">
+                <div key={goal.id} className="rounded-2xl border border-border bg-card p-4 shadow-sm">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-bold">{goal.title}</p>
-                    <span className="text-[11px] font-bold text-primary">{progress}%</span>
+                    <p className="text-sm font-semibold tracking-tight">{goal.title}</p>
+                    <span className={cn("text-[11px] font-semibold tabular-nums", accent.text)}>{progress}%</span>
                   </div>
-                  <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="mt-2.5 h-2 overflow-hidden rounded-full bg-muted"
+                    role="progressbar"
+                    aria-valuenow={progress}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`Progresso da meta ${goal.title}`}
+                  >
                     <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
                   </div>
-                  <p className="mt-2 text-[11px] text-muted-foreground">
+                  <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
                     {formatCurrency(Number(goal.current_amount))} de {formatCurrency(Number(goal.target_amount))}
-                    {goal.reward ? ` · Prêmio: ${goal.reward}` : ""}
+                    {goal.reward ? ` · Recompensa: ${goal.reward}` : ""}
                   </p>
                 </div>
               );
             })}
           </section>
         )}
+
 
         {cardControl.data?.cards && cardControl.data.cards.length > 0 && (
           <section className="space-y-3">
@@ -434,7 +519,7 @@ function KidSpacePage() {
                     </div>
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Disponível para uso</p>
-                      <p className="text-xl font-black text-foreground">
+                      <p className="text-xl font-semibold text-foreground">
                         {formatCurrency(card.limit_amount - card.current_balance)}
                       </p>
                     </div>
@@ -478,43 +563,48 @@ function KidSpacePage() {
 
         <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold">Meu histórico</h2>
+            <h2 className="text-sm font-semibold tracking-tight">Histórico de movimentações</h2>
             {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
           </div>
           {rows.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-              Nada registrado ainda. Toque em “Registrar agora” para começar.
+            <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm leading-relaxed text-muted-foreground">
+              Nenhuma movimentação registrada até agora. Use “Novo registro” para começar.
             </p>
           ) : (
             <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
               {rows.map((row) => (
-                <li key={row.id} className="flex items-center justify-between gap-3 p-3 hover:bg-muted/30 transition-colors group">
+                <li key={row.id} className="group flex items-center justify-between gap-3 p-3.5 transition-colors hover:bg-muted/40">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-semibold">{row.description}</p>
-                      <button 
+                      <p className="truncate text-sm font-medium">{row.description}</p>
+                      <button
+                        type="button"
                         onClick={() => {
-                          toast.info("Solicitação enviada!", {
-                            description: "O responsável foi notificado para revisar este lançamento."
+                          toast.info("Solicitação registrada", {
+                            description: "Seu responsável foi avisado e vai revisar este lançamento.",
                           });
                         }}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-[9px] font-bold text-primary hover:underline"
+                        className={cn(
+                          "shrink-0 rounded-md px-1 text-[10px] font-semibold underline-offset-2 transition-opacity hover:underline focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          "opacity-0 group-hover:opacity-100",
+                          accent.text,
+                        )}
                       >
-                        Solicitar Correção
+                        Solicitar correção
                       </button>
                     </div>
-                    <p className="text-[10px] font-bold text-muted-foreground/70 uppercase">
+                    <p className="mt-0.5 text-[11px] font-medium capitalize text-muted-foreground">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
-                        day: '2-digit',
-                        month: 'long'
+                        day: "2-digit",
+                        month: "long",
                       })}
                     </p>
                   </div>
 
                   <span
                     className={cn(
-                      "shrink-0 text-sm font-bold tabular-nums",
-                      row.transaction_type === "income" ? "text-emerald-600" : "text-destructive",
+                      "shrink-0 text-sm font-semibold tabular-nums",
+                      row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
                     )}
                   >
                     {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(Number(row.amount))}
@@ -523,18 +613,18 @@ function KidSpacePage() {
               ))}
             </ul>
           )}
-          <div className="flex justify-center mt-2">
+          <div className="mt-2 flex justify-center">
             <Button
               variant="ghost"
               size="sm"
-              className="text-[10px] font-bold text-muted-foreground hover:text-primary transition-colors gap-2"
+              className="gap-2 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => {
-                toast.info("Precisa corrigir algo?", {
-                  description: "Toque em 'Solicitar Correção' ao lado do nome da conta no histórico."
+                toast.info("Encontrou uma informação errada?", {
+                  description: "Passe o cursor sobre o lançamento e toque em “Solicitar correção”.",
                 });
               }}
             >
-              <HelpCircle className="size-3" /> Ajuda com o histórico
+              <HelpCircle className="size-3.5" aria-hidden="true" /> Como corrigir um lançamento
             </Button>
           </div>
         </section>
@@ -542,13 +632,12 @@ function KidSpacePage() {
         ) : null}
       </div>
 
-      <KidSummary 
-        balance={balance} 
-        income={income} 
-        expense={expense} 
+      <KidSummary
+        balance={balance}
+        income={income}
+        expense={expense}
         rows={rows}
-        isBoy={isBoy}
-        isGirl={isGirl}
+        accent={accent}
       />
 
       <KidEntryDialog
@@ -558,89 +647,94 @@ function KidSpacePage() {
         ownerId={dependent.user_id}
         syncTx={syncTx}
       />
-      <footer className="mt-auto border-t border-border/50 py-6 text-center">
-        <p className="text-[10px] font-medium text-muted-foreground/60 uppercase tracking-widest">
+      <footer className="mt-auto border-t border-border py-6 text-center">
+        <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
           &lt;Dev. Franc D&apos;nis&gt; · Acre
         </p>
       </footer>
+
 
     </main>
     </KidsStatusGuard>
   );
 }
 
-function KidSummary({ 
-  balance, 
-  income, 
-  expense, 
+function KidSummary({
+  balance,
+  income,
+  expense,
   rows,
-  isBoy,
-  isGirl
-}: { 
-  balance: number; 
-  income: number; 
-  expense: number; 
+  accent,
+}: {
+  balance: number;
+  income: number;
+  expense: number;
   rows: KidTransaction[];
-  isBoy: boolean;
-  isGirl: boolean;
+  accent: KidAccent;
 }) {
   return (
     <section className={cn(
-      "mx-auto w-full max-w-2xl space-y-4 px-4 sm:px-6 mt-8 p-6 rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-xl",
-      isBoy ? "border-blue-500/20" : isGirl ? "border-pink-500/20" : "border-primary/20"
+      "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm",
+      accent.border,
     )}>
-      <h2 className="text-lg font-black tracking-tight flex items-center gap-2">
-        <Target className="size-5 text-primary" /> Resumo do meu Dinheirinho
+      <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+        <Target className={cn("size-5", accent.text)} aria-hidden="true" /> Resumo do período
       </h2>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20 text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-primary/70">Meu Saldo</p>
-          <p className="text-2xl font-black tabular-nums">{formatCurrency(balance)}</p>
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className={cn("rounded-xl border p-4 text-center", accent.surface, accent.border)}>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", accent.text)}>Saldo atual</p>
+          <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">{formatCurrency(balance)}</p>
         </div>
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600/70">Total que Ganhei</p>
-          <p className="text-xl font-black tabular-nums">{formatCurrency(income)}</p>
+        <div className={cn("rounded-xl border border-emerald-600/20 p-4 text-center dark:border-emerald-400/20", POSITIVE_SURFACE)}>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", POSITIVE_TEXT)}>Total recebido</p>
+          <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
         </div>
-        <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-destructive/70">Total que Gastei</p>
-          <p className="text-xl font-black tabular-nums">{formatCurrency(expense)}</p>
+        <div className={cn("rounded-xl border border-rose-600/20 p-4 text-center dark:border-rose-400/20", NEGATIVE_SURFACE)}>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", NEGATIVE_TEXT)}>Total gasto</p>
+          <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
         </div>
       </div>
 
-      <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
-        <p className="text-[11px] font-bold text-muted-foreground flex items-center gap-2">
-          <HelpCircle className="size-3.5" /> Como calculamos?
+      <div className="rounded-xl border border-border bg-muted/40 p-4">
+        <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-foreground">
+          <HelpCircle className="size-3.5" aria-hidden="true" /> Como o saldo é calculado
         </p>
-        <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground/80 font-medium">
-          O seu saldo é a diferença entre o que você <strong>ganhou</strong> (mesadas, presentes) e o que você <strong>gastou</strong> (lanches, brinquedos). 
-          Cada vez que você anota uma dessas coisas, o sistema atualiza o valor automaticamente!
+        <p className="mt-1.5 text-[12px] font-medium leading-relaxed text-muted-foreground">
+          O saldo é a diferença entre tudo o que você <strong className="text-foreground">recebeu</strong> (mesada, presentes)
+          e tudo o que você <strong className="text-foreground">gastou</strong>. Cada novo registro atualiza o valor na hora.
         </p>
       </div>
 
       {rows.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">Movimentações recentes</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Últimos registros</p>
           <div className="space-y-2">
-            {rows.slice(0, 3).map(row => (
-              <div key={row.id} className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/30">
+            {rows.slice(0, 3).map((row) => (
+              <div key={row.id} className="flex items-center justify-between rounded-xl border border-border bg-background p-3">
                 <div className="flex items-center gap-3">
                   <div className={cn(
-                    "size-8 rounded-lg flex items-center justify-center",
-                    row.transaction_type === 'income' ? "bg-emerald-500/10 text-emerald-600" : "bg-destructive/10 text-destructive"
+                    "flex size-8 items-center justify-center rounded-lg",
+                    row.transaction_type === "income"
+                      ? cn(POSITIVE_SURFACE, POSITIVE_TEXT)
+                      : cn(NEGATIVE_SURFACE, NEGATIVE_TEXT),
                   )}>
-                    {row.transaction_type === 'income' ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                    {row.transaction_type === "income"
+                      ? <TrendingUp className="size-4" aria-hidden="true" />
+                      : <TrendingDown className="size-4" aria-hidden="true" />}
                   </div>
                   <div>
-                    <p className="text-xs font-bold">{row.description}</p>
-                    <p className="text-[9px] font-medium text-muted-foreground">{new Date(row.transaction_date).toLocaleDateString('pt-BR')}</p>
+                    <p className="text-xs font-medium">{row.description}</p>
+                    <p className="text-[10px] font-medium text-muted-foreground">
+                      {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
+                    </p>
                   </div>
                 </div>
                 <p className={cn(
-                  "text-xs font-black tabular-nums",
-                  row.transaction_type === 'income' ? "text-emerald-600" : "text-destructive"
+                  "text-xs font-semibold tabular-nums",
+                  row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
                 )}>
-                  {row.transaction_type === 'income' ? '+' : '-'} {formatCurrency(row.amount)}
+                  {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(row.amount)}
                 </p>
               </div>
             ))}
@@ -650,6 +744,7 @@ function KidSummary({
     </section>
   );
 }
+
 
 function KidEntryDialog({
 
@@ -719,9 +814,9 @@ function KidEntryDialog({
                 <Target className="size-8" />
               </div>
               <div>
-                <h4 className="text-xl font-black tracking-tight">Tudo certo?</h4>
+                <h4 className="text-xl font-semibold tracking-tight">Confirmar registro</h4>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Confira se o valor está correto! Depois de salvar, você não poderá editar esse registro.
+                  Confira o valor antes de continuar. Depois de salvar, este lançamento não poderá ser editado.
                 </p>
               </div>
               <div className="flex gap-3 w-full mt-2">
@@ -742,7 +837,7 @@ function KidEntryDialog({
                     resolve(true);
                   }}
                 >
-                  Sim, Salvar!
+                  Confirmar
                 </Button>
               </div>
             </div>
@@ -756,7 +851,7 @@ function KidEntryDialog({
     },
     onSuccess: () => {
 
-      toast.success("Registrado! Muito bem 👏");
+      toast.success("Lançamento registrado com sucesso.");
       setAmount("");
       setDescription("");
       onOpenChange(false);
@@ -773,8 +868,8 @@ function KidEntryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-3xl sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>O que aconteceu?</DialogTitle>
-          <DialogDescription>Escolha o motivo e digite o valor.</DialogDescription>
+          <DialogTitle className="tracking-tight">Registrar movimentação</DialogTitle>
+          <DialogDescription>Selecione o motivo e informe o valor.</DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-2">
@@ -782,17 +877,18 @@ function KidEntryDialog({
             <button
               key={item.value}
               type="button"
+              aria-pressed={reason === item.value}
               onClick={() => setReason(item.value)}
               className={cn(
-                "rounded-2xl border p-3 text-left text-[12px] font-bold transition",
+                "rounded-xl border p-3 text-left text-[12px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 reason === item.value
                   ? "border-primary bg-primary/10 text-primary"
-                  : "border-border bg-card text-muted-foreground",
+                  : "border-border bg-card text-foreground hover:bg-muted/50",
               )}
             >
               {item.label}
-              <span className="mt-0.5 block text-[10px] font-medium opacity-70">
-                {item.type === "income" ? "Entrou dinheiro" : "Saiu dinheiro"}
+              <span className="mt-0.5 block text-[10px] font-medium text-muted-foreground">
+                {item.type === "income" ? "Entrada de dinheiro" : "Saída de dinheiro"}
               </span>
             </button>
           ))}
@@ -822,20 +918,23 @@ function KidEntryDialog({
           </div>
         </div>
 
-        <p className="rounded-xl bg-muted/50 px-3 py-2 text-[11px] font-medium text-muted-foreground">
-          🔒 Atenção: depois de salvar, a data e a hora são marcadas automaticamente e o registro
-          <strong> não pode ser editado nem apagado</strong>. Só um responsável pode corrigir.
+        <p className="rounded-xl border border-border bg-muted/40 px-3 py-2.5 text-[11px] font-medium leading-relaxed text-muted-foreground">
+          A data e a hora são registradas automaticamente. Depois de salvar, o lançamento
+          <strong className="text-foreground"> não pode ser editado nem excluído</strong> — apenas o responsável pode corrigi-lo.
         </p>
 
-        <div className="p-3 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex gap-3 items-start">
-          <div className="bg-amber-500/10 p-2 rounded-xl text-amber-600">
-            <AlertTriangle className="size-4" />
+        <div className="flex items-start gap-3 rounded-xl border border-amber-600/25 bg-amber-500/8 p-3 dark:border-amber-400/25 dark:bg-amber-400/10">
+          <div className="rounded-lg bg-amber-600/12 p-2 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300">
+            <AlertTriangle className="size-4" aria-hidden="true" />
           </div>
           <div>
-            <p className="text-[11px] font-bold text-amber-700">Algo errado?</p>
-            <p className="text-[10px] text-amber-600/80 leading-snug">Se você digitou o valor ou a data errada, salve e depois peça para o papai ou a mamãe corrigir para você no painel deles.</p>
+            <p className="text-[11px] font-semibold text-amber-800 dark:text-amber-200">Digitou algo errado?</p>
+            <p className="mt-0.5 text-[11px] leading-relaxed text-amber-800/80 dark:text-amber-200/80">
+              Salve normalmente e solicite a correção ao seu responsável — ele ajusta o lançamento no painel dele.
+            </p>
           </div>
         </div>
+
 
 
 
