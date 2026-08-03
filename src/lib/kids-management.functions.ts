@@ -109,7 +109,7 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     // Filter in JS to simplify complex tag logic for both auto_kids and kids_management
     const filtered = (transactions || []).filter(tx => {
       const tags = tx.tags || [];
-      const isKidTx = tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("kid_self_expense");
+      const isKidTx = tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("kid_self_expense") || tags.includes("from_parent");
       if (!isKidTx) return false;
       
       // Gastos da própria criança (kid_self_expense) são informativos para o pai
