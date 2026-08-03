@@ -48,7 +48,18 @@ import { formatCurrency } from "@/lib/format";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
 import { useQuery } from "@tanstack/react-query";
 import type { SidebarMetric } from "./settings/sidebar-config";
+import { CommandPalette } from "@/components/nav/command-palette";
+import {
+  adminNavGroups,
+  flattenGroups,
+  mobilePrimary,
+  navSections,
+  staffNavGroup,
+  type NavGroup,
+  type NavSection,
+} from "@/lib/nav-model";
 import { cn } from "@/lib/utils";
+
 
 
 type Kind = "expense" | "income";
