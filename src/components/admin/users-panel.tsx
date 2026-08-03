@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { PermissionsPanel } from "./permissions-panel";
+import { syncUserLicense } from "@/lib/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -619,7 +620,7 @@ function ManageUserDialog({
                   {pending === "delete" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
                   Excluir conta
                 </Button>
-
+                <SyncLicenseButton profile={profile} onChanged={onChanged} />
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 O cancelamento revoga licenças ativas. A exclusão é definitiva e fica registrada nos
@@ -667,5 +668,39 @@ function ManageUserDialog({
       </DialogContent>
 
     </Dialog>
+  );
+}
+
+function SyncLicenseButton({ profile, onChanged }: { profile: Profile; onChanged: () => Promise<void> }) {
+  const [loading, setLoading] = useState(false);
+
+  async function handleSync() {
+    setLoading(true);
+    try {
+      const result = await syncUserLicense({ data: { userId: profile.user_id } });
+      if (result.success) {
+        toast.success(`Licença sincronizada: ${result.licenseKey}`);
+        await onChanged();
+      } else {
+        toast.error(result.message || "Nenhuma licença ativa para sincronizar.");
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Erro ao sincronizar licença");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <Button
+      size="sm"
+      variant="outline"
+      disabled={loading}
+      onClick={handleSync}
+      className="gap-2"
+    >
+      {loading ? <Loader2 className="size-4 animate-spin" /> : <ShieldCheck className="size-4" />}
+      Sincronizar Licença
+    </Button>
   );
 }
