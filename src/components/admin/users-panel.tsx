@@ -119,12 +119,19 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
   }, [profiles.data, search, statusFilter]);
 
   async function exportCsv() {
-    const headers = ["Nome", "CPF", "E-mail Contato", "Status", "Cadastro", "Papéis"];
+    const ok = await confirm({
+      title: "Confirmar Exportação",
+      description: "Você deseja exportar a lista atual de usuários para um arquivo CSV? Este arquivo contém dados sensíveis.",
+    });
+    if (!ok) return;
+
+    const headers = ["Nome", "CPF", "E-mail Contato", "Status", "Plano", "Cadastro", "Papéis"];
     const rows = filtered.map(p => [
       p.full_name || "—",
       p.cpf || "—",
       p.contact_email || "—",
       STATUS_LABELS[p.status] || p.status,
+      (p as any).plan_slug || "free",
       formatDateTime(p.created_at),
       (rolesByUser.data?.get(p.user_id) ?? ["user"]).join(", ")
     ]);
@@ -404,16 +411,23 @@ function ManageUserDialog({
                     size="sm"
                     variant={profile.status === status ? "default" : "outline"}
                     disabled={pending !== null}
-                    onClick={() =>
-                      run(
+                    onClick={async () => {
+                      const label = STATUS_LABELS[status];
+                      const ok = await confirm({
+                        title: "Alterar Situação",
+                        description: `Tem certeza que deseja alterar o status de ${profile.full_name || 'este usuário'} para ${label.toUpperCase()}?`,
+                      });
+                      if (!ok) return;
+
+                      void run(
                         `status-${status}`,
                         () =>
                           adminSetUserStatus({
                             data: { targetUserId: profile.user_id, status },
                           }),
-                        "Situação atualizada",
-                      )
-                    }
+                        `Usuário agora está ${label}`,
+                      );
+                    }}
                   >
                     {pending === `status-${status}` ? (
                       <Loader2 className="mr-2 size-4 animate-spin" />
