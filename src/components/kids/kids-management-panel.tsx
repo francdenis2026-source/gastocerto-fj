@@ -100,7 +100,9 @@ export function KidsManagementPanel() {
   const { user } = useAuth();
 
   // Gastos feitos pela criança aparecem aqui em tempo real.
-  useParentKidsRealtime(user?.id);
+  // Monitoramos o pai e todos os filhos vinculados.
+  const kidUserIds = useMemo(() => kids.map(k => k.kid_user_id), [kids]);
+  useParentKidsRealtime(user?.id, kidUserIds);
 
   const metrics = useQuery({
     queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
@@ -111,10 +113,8 @@ export function KidsManagementPanel() {
         year: new Date().getFullYear()
       } 
     }),
-    // Gastos lançados pela própria criança ficam na conta dela: revalidamos com
-    // frequência para o responsável ver quase em tempo real.
-    refetchInterval: 15_000,
     refetchOnWindowFocus: true,
+    staleTime: 5000,
   });
 
   const giveMoneyMutation = useMutation({
