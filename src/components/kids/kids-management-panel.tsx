@@ -429,6 +429,22 @@ export function KidsManagementPanel() {
         </div>
       </CardHeader>
 
+      {/* Barra de Status Unificada */}
+      <div className="px-4 py-2 border-y bg-muted/20 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Monitoramento Realtime Ativo</span>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-1.5">
+            <div className="size-1.5 rounded-full bg-primary" />
+            <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-tight">
+              {dependents?.filter(d => d.kid_user_id).length || 0} Filhos Conectados
+            </span>
+          </div>
+        </div>
+      </div>
+
       {isExpanded && (
         <CardContent className="p-0 animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border/50">
