@@ -92,6 +92,7 @@ export function KidsManagementPanel() {
   const [detailedKid, setDetailedKid] = useState<Dependent | null>(null);
   const [giveMoneyOpen, setGiveMoneyOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [details, setDetails] = useState<any | null>(null);
 
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
