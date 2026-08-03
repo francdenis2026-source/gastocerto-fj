@@ -20,6 +20,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { maskCpf } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format";
 import { adminGrantTrial } from "@/lib/plan.functions";
+import { verifyMasterCode } from "@/lib/master-code.functions";
+
 import { TRIAL_OPTIONS, type TrialSlug } from "@/lib/plan-features";
 
 type Row = {
