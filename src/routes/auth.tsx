@@ -185,16 +185,22 @@ function AuthPage() {
   return (
     <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-2 sm:p-4 lg:grid lg:place-items-center">
       {/* Imagem de fundo global para o layout - Visível em todas as resoluções */}
-      <img
-        src={authHero}
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover lg:object-center"
-      />
+      <div className="absolute inset-0 -z-20">
+        <img
+          src={authHero}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+          className="size-full object-cover blur-[2px] transition-all duration-700 brightness-[0.7] contrast-[1.1]"
+        />
+        <div 
+          className="absolute inset-0 bg-gradient-to-tr from-brand/20 to-transparent mix-blend-overlay" 
+          aria-hidden="true"
+        />
+      </div>
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.95)_0%,oklch(0.16_0.03_258/0.88)_50%,oklch(0.16_0.03_258/0.97)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.92)_0%,oklch(0.16_0.03_258/0.85)_50%,oklch(0.16_0.03_258/0.95)_100%)]"
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
