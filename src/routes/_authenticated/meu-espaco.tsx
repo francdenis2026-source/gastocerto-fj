@@ -321,58 +321,8 @@ function KidSpacePage() {
       "bg-gradient-to-b from-primary/8 via-background to-background",
       compactMode && "tracking-tight"
     )}>
-      {/* Seletor de período (mês/ano) — movido para a faixa superior com tipografia legível */}
-      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-wrap items-center justify-end gap-2 px-4">
-          {!viewYearly && (
-            <Select 
-              value={selectedMonth.toString()} 
-              onValueChange={(v) => setSelectedMonth(parseInt(v))}
-            >
-              <SelectTrigger className="h-10 w-40 text-sm font-bold capitalize bg-card border-border shadow-sm">
-                <SelectValue placeholder="Mês" />
-              </SelectTrigger>
-              <SelectContent>
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <SelectItem key={i} value={i.toString()} className="text-sm font-semibold capitalize">
-                    {new Date(0, i).toLocaleDateString("pt-BR", { month: "long" })}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-          <Select 
-            value={selectedYear.toString()} 
-            onValueChange={(v) => setSelectedYear(parseInt(v))}
-          >
-            <SelectTrigger className="h-10 w-28 text-sm font-bold bg-card border-border shadow-sm">
-              <SelectValue placeholder="Ano" />
-            </SelectTrigger>
-            <SelectContent>
-              {[2024, 2025, 2026].map((y) => (
-                <SelectItem key={y} value={y.toString()} className="text-sm font-semibold">{y}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          
-          <div className="inline-flex rounded-xl bg-muted p-1 shadow-sm">
-            <Button 
-              variant={!viewYearly ? "secondary" : "ghost"} 
-              size="sm" 
-              className="h-8 px-4 text-sm font-bold"
-              onClick={() => setViewYearly(false)}
-            >
-              Mês
-            </Button>
-            <Button 
-              variant={viewYearly ? "secondary" : "ghost"} 
-              size="sm" 
-              className="h-8 px-4 text-sm font-bold"
-              onClick={() => setViewYearly(true)}
-            >
-              Anual
-            </Button>
-          </div>
-      </div>
+
+
 
 
 
