@@ -1078,6 +1078,11 @@ function KidSummary({
         </div>
       )}
     </section>
+    <KidEntryDetailsDialog
+      entry={entryDetails}
+      open={entryDetails !== null}
+      onOpenChange={(value: boolean) => !value && setEntryDetails(null)}
+    />
     </>
   );
 }
