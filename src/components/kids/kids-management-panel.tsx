@@ -66,6 +66,13 @@ import { KidEntryDetailsDialog } from "@/components/kids/kid-entry-details-dialo
 import { kidEntryKind, kidEntryLabel, kidEntryTone, syncStatusFor } from "@/lib/kids-labels";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
+import { getKidGoals, saveKidGoal, deleteKidGoal, updateKidSettings } from "@/lib/kids-goals.functions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from "recharts";
+import { cn } from "@/lib/utils";
+import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
+import { useParentKidsRealtime } from "@/lib/kids-space-realtime";
 import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
 import { UNDO_WINDOW_MS, useDeletePermission } from "@/lib/undo-delete";
 import { cn } from "@/lib/utils";
