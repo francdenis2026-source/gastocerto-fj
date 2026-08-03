@@ -1173,3 +1173,128 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
     </div>
   );
 }
+
+function YearlyBalanceSection({ year }: { year: number }) {
+  const fetchYearly = useServerFn(getYearlyBalance);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["yearly_balance", year],
+    queryFn: () => fetchYearly({ data: { year } }),
+  });
+
+  if (isLoading) return <Skeleton className="h-48 w-full rounded-2xl" />;
+  if (!data) return null;
+
+  return (
+    <section className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+      <div 
+        className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/30 transition-colors"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-primary/10 rounded-lg text-primary">
+            <BarChart3 className="size-5" />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold">Balanço Anual {year}</h2>
+            <p className="text-[10px] text-muted-foreground">Visão consolidada de receitas e despesas do ano</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+           <div className="hidden sm:flex items-center gap-3 text-xs">
+             <div className="text-right">
+               <p className="text-[9px] font-bold text-muted-foreground uppercase">Receita Anual</p>
+               <p className="font-black text-emerald-600">{formatCurrency(data.totalIncome)}</p>
+             </div>
+             <div className="text-right border-l pl-3">
+               <p className="text-[9px] font-bold text-muted-foreground uppercase">Despesa Anual</p>
+               <p className="font-black text-rose-600">{formatCurrency(data.totalExpense)}</p>
+             </div>
+           </div>
+           {isExpanded ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="p-4 pt-0 border-t border-border/50 animate-in fade-in slide-in-from-top-2">
+          <div className="h-[250px] w-full mt-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
+                <XAxis 
+                  dataKey="month" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fontSize: 10, fontWeight: 600}}
+                  tickFormatter={(m) => MONTH_NAMES[m-1].slice(0,3)}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fontSize: 10}} 
+                  tickFormatter={(v) => `R$ ${v > 1000 ? (v/1000).toFixed(0)+'k' : v}`}
+                />
+                <Tooltip 
+                  cursor={{fill: 'hsl(var(--muted))', opacity: 0.4}}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const m = payload[0].payload;
+                      return (
+                        <div className="bg-card border border-border p-3 rounded-xl shadow-xl">
+                          <p className="text-xs font-bold mb-2">{MONTH_NAMES[m.month-1]}</p>
+                          <div className="space-y-1">
+                            <div className="flex justify-between gap-4">
+                              <span className="text-[10px] text-muted-foreground">Receita:</span>
+                              <span className="text-[10px] font-bold text-emerald-600">{formatCurrency(m.income)}</span>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                              <span className="text-[10px] text-muted-foreground">Despesa:</span>
+                              <span className="text-[10px] font-bold text-rose-600">{formatCurrency(m.expense)}</span>
+                            </div>
+                            <div className="flex justify-between gap-4 border-t pt-1 mt-1">
+                              <span className="text-[10px] text-muted-foreground font-bold">Saldo:</span>
+                              <span className={cn("text-[10px] font-black", m.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                                {formatCurrency(m.balance)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend iconType="circle" wrapperStyle={{fontSize: 10, fontWeight: 600, paddingTop: 10}} />
+                <Bar name="Receita" dataKey="income" fill={CHART_TOKENS.income} radius={[4, 4, 0, 0]} />
+                <Bar name="Despesa" dataKey="expense" fill={CHART_TOKENS.expense} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+            {data.monthlyData.slice(-4).map((m) => (
+              <div 
+                key={m.month} 
+                className="p-3 rounded-xl border bg-muted/20 hover:bg-muted/40 transition-colors cursor-pointer group"
+                onClick={() => {
+                  toast.info(`Detalhes de ${MONTH_NAMES[m.month-1]}`, {
+                    description: `Balanço de ${formatCurrency(m.balance)} no mês.`
+                  });
+                }}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-bold uppercase text-muted-foreground">{MONTH_NAMES[m.month-1]}</span>
+                  <ChevronRight className="size-3 text-muted-foreground group-hover:text-foreground transition-colors" />
+                </div>
+                <p className={cn("text-sm font-black", m.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                  {formatCurrency(m.balance)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
