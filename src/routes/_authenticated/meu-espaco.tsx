@@ -274,27 +274,24 @@ function KidSpacePage() {
   // O responsável escolhe o que aparece aqui (painel /kids).
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
-  const isBoy = (dependent as any).gender === 'boy';
-  const isGirl = (dependent as any).gender === 'girl';
-
   return (
     <KidsStatusGuard kidUserId={dependent.id}>
     <main className={cn(
-      "min-h-dvh pb-16 transition-all duration-500",
+      "min-h-dvh pb-20 text-foreground antialiased transition-colors duration-300",
       compactMode ? "max-w-4xl mx-auto px-2 sm:px-4" : "",
-      isBoy ? "bg-gradient-to-b from-blue-600/20 via-background to-background" :
-      isGirl ? "bg-gradient-to-b from-pink-500/20 via-background to-background" :
-      "bg-gradient-to-b from-primary/10 via-background to-background",
-      compactMode && "font-sans tracking-tight"
+      isBoy ? "bg-gradient-to-b from-sky-600/12 via-background to-background" :
+      isGirl ? "bg-gradient-to-b from-fuchsia-600/12 via-background to-background" :
+      "bg-gradient-to-b from-primary/8 via-background to-background",
+      compactMode && "tracking-tight"
     )}>
-      {/* Botão de Toggle do Modo Compacto/Profissional */}
+      {/* Densidade da interface: modo padrão (confortável) ou compacto (objetivo) */}
       <div className="fixed bottom-4 right-4 z-50">
         <Button
           variant="outline"
           size="icon"
           className={cn(
-            "size-12 rounded-full shadow-2xl border-2 transition-all hover:scale-110",
-            compactMode ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border"
+            "size-12 rounded-full border shadow-lg transition-transform hover:scale-105",
+            compactMode ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border text-foreground"
           )}
           onClick={async () => {
             const newMode = !compactMode;
@@ -302,54 +299,67 @@ function KidSpacePage() {
             if (user) {
               await supabase.from("profiles").update({ ["compact_mode" as string]: newMode } as any).eq("user_id", user.id);
             }
-            toast.success(newMode ? "Modo Profissional Ativado! ✨" : "Modo Padrão Ativado!");
+            toast.success(newMode ? "Visualização compacta ativada." : "Visualização confortável ativada.");
           }}
-          title={compactMode ? "Voltar ao modo padrão" : "Ativar modo compacto profissional"}
+          title={compactMode ? "Usar visualização confortável" : "Usar visualização compacta"}
+          aria-label={compactMode ? "Usar visualização confortável" : "Usar visualização compacta"}
         >
-          <LayoutGrid className="size-6" />
+          <LayoutGrid className="size-5" />
         </Button>
       </div>
 
       <header className={cn(
         "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
-        compactMode && "py-3 px-2 border-b border-border/40 bg-card/30 backdrop-blur-md sticky top-0 z-40"
+        compactMode && "py-3 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
 
-        <div className="flex items-center gap-3">
-          <Avatar className="size-12 border-2 border-white shadow-md ring-2 ring-primary/20">
+        <div className="flex min-w-0 items-center gap-3">
+          <Avatar className={cn("size-12 border border-border shadow-sm ring-2", accent.ring)}>
             {avatarUrl ? (
               <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
             ) : null}
-            <AvatarFallback 
-              className="text-lg font-black text-white"
-              style={{ backgroundColor: dependent.color ?? "#f97316" }}
+            <AvatarFallback
+              className="text-lg font-semibold text-white"
+              style={{ backgroundColor: dependent.color ?? "#0f766e" }}
             >
               {firstName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
-              Meu universo financeiro
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              Espaço financeiro
             </p>
-            <h1 className="text-xl font-black leading-tight tracking-tight">
-              E aí, <span className={cn(
-                isBoy ? "text-blue-600" : isGirl ? "text-pink-600" : "text-primary"
-              )}>{firstName}</span>! 🚀
+            <h1 className="truncate text-xl font-semibold leading-tight tracking-tight">
+              Olá, <span className={accent.text}>{firstName}</span>
             </h1>
           </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-9 text-muted-foreground hover:text-foreground"
+            onClick={toggleKidTheme}
+            title={kidTheme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+            aria-label={kidTheme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+          >
+            {kidTheme === "dark" ? (
+              <Sun className="size-[18px]" aria-hidden="true" />
+            ) : (
+              <Moon className="size-[18px]" aria-hidden="true" />
+            )}
+          </Button>
           <NotificationCenter isKid />
           <Button
             variant="ghost"
             size="sm"
-            className="h-9 px-2 sm:px-3 text-xs"
+            className="h-9 px-2 text-xs font-medium text-muted-foreground hover:text-foreground sm:px-3"
             onClick={async () => {
               await signOut();
               navigate({ to: "/auth", replace: true });
             }}
           >
-            <LogOut className="mr-1.5 size-4" /> Sair
+            <LogOut className="mr-1.5 size-4" aria-hidden="true" /> Sair
           </Button>
         </div>
 
