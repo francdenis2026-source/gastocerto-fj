@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -73,7 +73,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     queryFn: async (): Promise<Profile[]> => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*")
+        .select("*, kid_accounts:kid_accounts(count)")
         .order("created_at", { ascending: false })
         .limit(200);
       if (error) throw error;
@@ -215,6 +215,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
               <TableHead>Contato</TableHead>
               <TableHead>Papéis</TableHead>
               <TableHead>Situação</TableHead>
+              <TableHead>Kids</TableHead>
               <TableHead>Cadastro</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
@@ -257,6 +258,16 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                     <Badge variant={profile.status === "active" ? "secondary" : "destructive"}>
                       {STATUS_LABELS[profile.status] ?? profile.status}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {((profile as any).kid_accounts?.[0]?.count ?? 0) > 0 ? (
+                      <Badge variant="outline" className="gap-1 border-brand/30 bg-brand/5 text-brand">
+                        <Baby className="size-3" />
+                        {(profile as any).kid_accounts[0].count}
+                      </Badge>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">—</span>
+                    )}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatDateTime(profile.created_at)}

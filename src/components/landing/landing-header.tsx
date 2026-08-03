@@ -152,7 +152,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background lg:hidden">
+        <div className="border-t border-border bg-background/95 backdrop-blur-md lg:hidden">
           <nav aria-label="Navegação móvel" className="section-shell flex flex-col py-3">
             {navItems.map((item) => (
               <a
@@ -183,16 +183,18 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                     Começar
                   </a>
                 </Button>
-                <ThemeToggle />
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-border bg-accent/30 p-2">
+                <span className="text-xs font-medium text-muted-foreground">Alternar tema</span>
+                <ThemeToggle className="h-9 w-9" />
               </div>
               <CodeAccessDialog>
-                <Button variant="ghost" className="w-full justify-center">
-                  <KeyRound className="size-4" aria-hidden />
+                <Button variant="ghost" className="w-full justify-center text-xs">
+                  <KeyRound className="size-3.5" aria-hidden />
                   Código de acesso
                 </Button>
               </CodeAccessDialog>
             </div>
-
           </nav>
         </div>
       )}
