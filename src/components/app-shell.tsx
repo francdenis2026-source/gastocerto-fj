@@ -326,25 +326,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         {!isAdminArea && (
           <div className="mb-4 space-y-2">
-            {/* Atalho fixo: onde o responsável gerencia códigos e PINs das crianças. */}
-            <Link
-              to={"/kids" as never}
-              title="Painel do responsável — códigos das crianças"
-              className={cn(
-                "mx-2 flex items-center gap-2 rounded-xl border border-brand/30 bg-brand/10 p-2.5 text-brand transition-colors hover:bg-brand/20",
-                railCollapsed && "justify-center px-0",
-              )}
-            >
-              <Baby className="size-4 shrink-0" aria-hidden />
-              {!railCollapsed && (
-                <span className="min-w-0">
-                  <span className="block text-[11px] font-bold leading-tight">Painel do responsável</span>
-                  <span className="block truncate text-[10px] text-brand/80">
-                    Códigos e PINs do Espaço Kids
-                  </span>
-                </span>
-              )}
-            </Link>
+            {/* Atalho do Espaço Kids saiu daqui: agora é um grupo próprio no menu. */}
+
 
             <EnergySidebarWidget collapsed={railCollapsed} />
             
