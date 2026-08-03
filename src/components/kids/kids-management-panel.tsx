@@ -567,7 +567,7 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
         </div>
         <div className="flex gap-2 pt-2">
           <Button variant="outline" className="flex-1" onClick={() => setShowDeleteConfirm(false)}>Cancelar</Button>
-          <Button variant="destructive" className="flex-1" onClick={onDelete} disabled={isPending}>
+          <Button variant="destructive" className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold" onClick={onDelete} disabled={isPending}>
             {isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : <Trash2 className="size-4 mr-2" />}
             Confirmar Exclusão
           </Button>
