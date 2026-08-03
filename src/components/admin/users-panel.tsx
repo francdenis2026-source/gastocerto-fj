@@ -670,3 +670,37 @@ function ManageUserDialog({
     </Dialog>
   );
 }
+
+function SyncLicenseButton({ profile, onChanged }: { profile: Profile; onChanged: () => Promise<void> }) {
+  const [loading, setLoading] = useState(false);
+
+  async function handleSync() {
+    setLoading(true);
+    try {
+      const result = await syncUserLicense({ userId: profile.user_id });
+      if (result.success) {
+        toast.success(`Licença sincronizada: ${result.licenseKey}`);
+        await onChanged();
+      } else {
+        toast.error(result.message || "Nenhuma licença ativa para sincronizar.");
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Erro ao sincronizar licença");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <Button
+      size="sm"
+      variant="outline"
+      disabled={loading}
+      onClick={handleSync}
+      className="gap-2"
+    >
+      {loading ? <Loader2 className="size-4 animate-spin" /> : <ShieldCheck className="size-4" />}
+      Sincronizar Licença
+    </Button>
+  );
+}
