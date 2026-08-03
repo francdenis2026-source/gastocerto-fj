@@ -48,7 +48,7 @@ export function Logo({
         <span
           className={cn(
             "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block",
-            onDark ? "text-hero-fg-soft" : "text-muted-foreground",
+            onDark ? "text-hero-fg-soft" : "text-muted-foreground dark:text-white/60",
           )}
         >
           Controle hoje, tranquilidade sempre

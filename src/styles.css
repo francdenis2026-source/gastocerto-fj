@@ -113,7 +113,7 @@
   --card-foreground: oklch(0.08 0.03 259);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.08 0.03 259);
-  --primary: oklch(0.25 0.06 259); /* Navy Profundo da Logo (#001640) */
+  --primary: oklch(0.18 0.04 259); /* Navy Ajustado para Contraste */
   --primary-foreground: oklch(0.99 0.005 0);
   --brand: oklch(0.55 0.16 155); /* Esmeralda da Logo (#17A45F) */
   --brand-foreground: oklch(0.99 0.004 0);
@@ -139,7 +139,7 @@
 
   --border: oklch(0.89 0.02 259);
   --input: oklch(0.91 0.02 259);
-  --ring: oklch(0.25 0.06 259);
+  --ring: oklch(0.18 0.04 259);
   --chart-1: oklch(0.25 0.06 259);
   --chart-2: oklch(0.55 0.16 155);
   --chart-3: oklch(0.7 0.12 78);
