@@ -159,6 +159,7 @@ function KidSpacePage() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
+  const [entryDetails, setEntryDetails] = useState<any | null>(null);
   const syncTx = useServerFn(syncKidTransaction);
   const createTx = useServerFn(createKidTransaction);
   const fetchGoals = useServerFn(getKidGoals);
