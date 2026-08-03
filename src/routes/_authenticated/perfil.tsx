@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User, Users, Bell } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
