@@ -37,7 +37,7 @@ export function CodeAccessInline({ onContinue }: { onContinue?: () => void }) {
     >
       <h2
         id="code-access-title"
-        className="flex items-center gap-1.5 text-[11.5px] font-semibold text-foreground"
+        className="flex items-center gap-1.5 text-[11.5px] font-bold text-[oklch(0.25_0.04_259)] dark:text-foreground"
       >
         <KeyRound className="size-3.5 shrink-0 text-primary" aria-hidden />
         Recebeu um código de teste?
