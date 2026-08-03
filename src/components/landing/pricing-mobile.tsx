@@ -63,6 +63,13 @@ export function PricingMobile() {
       </div>
 
       <div className="mt-3 rounded-2xl border border-border bg-card/85 p-3 shadow-soft backdrop-blur-sm">
+        <div className="mb-2.5 px-1">
+          <p className="text-[10px] font-medium leading-tight text-muted-foreground/80">
+            {slug === "free" && "Recursos básicos para controle essencial."}
+            {slug === "premium" && "Tudo liberado, veículos e suporte prioritário."}
+            {slug === "premium_ia" && "Consultor financeiro com IA para análise avançada."}
+          </p>
+        </div>
         <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-xl bg-muted/50 p-1">
           {plans.map((item) => (
             <button

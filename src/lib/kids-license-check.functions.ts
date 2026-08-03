@@ -14,7 +14,7 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
   .handler(async ({ data }): Promise<KidAccountStatus> => {
     const { data: kid, error: kidErr } = await supabaseAdmin
       .from("dependents")
-      .select("user_id, name")
+      .select("user_id, name, id")
       .eq("kid_user_id", data.kidUserId)
       .maybeSingle();
 
@@ -24,7 +24,7 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     const { data: profile, error: profErr } = await supabaseAdmin
       .from("profiles")
-      .select("id, plan_id, trial_ends_at, status")
+      .select("id, user_id, plan_id, trial_ends_at, status, trial_plan_slug")
       .eq("user_id", kid.user_id)
       .maybeSingle();
 
@@ -41,17 +41,33 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
       };
     }
 
-    const trialExpired = profile.trial_ends_at ? new Date(profile.trial_ends_at) < new Date() : false;
+    // Integração com o resolvePlanAccess para garantir consistência total com o app principal.
+    // Usamos imports dinâmicos e cast para contornar limitações de tipos nas colunas estendidas.
+    const { resolvePlanAccess } = await import("./plan-features");
     
-    if (!profile.plan_id && trialExpired) {
+    // Buscar licenças pagas ativas para o responsável
+    const { data: licenses } = await supabaseAdmin
+      .from("licenses")
+      .select("id, status, expires_at, source, amount, plan_id")
+      .eq("user_id", profile.user_id as any)
+      .eq("status", "active");
+
+    const access = resolvePlanAccess({
+      planSlug: profile.plan_id,
+      trialEndsAt: profile.trial_ends_at,
+      hasPaidLicense: (licenses ?? []).length > 0,
+      trialPlanSlug: profile.trial_plan_slug,
+      isAdmin: false,
+    });
+
+    if (access.readOnly) {
       return { 
         active: true, 
         readOnly: true, 
         reason: "parent_expired",
-        message: "A assinatura do seu responsável expirou. Você ainda pode ver seus dados, mas para fazer novos lançamentos o responsável precisa renovar o plano."
+        message: access.readOnlyReason || "A assinatura do seu responsável expirou. Você ainda pode ver seus dados, mas para fazer novos lançamentos o responsável precisa renovar o plano."
       };
     }
 
     return { active: true, readOnly: false };
   });
-

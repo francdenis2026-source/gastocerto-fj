@@ -47,6 +47,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut: async () => {
         await supabase.auth.signOut();
         clearBrowserCredentials();
+        // Limpeza completa do estado do navegador para evitar vazamento de dados sensíveis.
+        window.localStorage.clear();
+        window.sessionStorage.clear();
+        // Redireciona e força recarga total para resetar qualquer estado em memória.
+        window.location.href = "/auth";
       },
     }),
     [session, loading],

@@ -95,7 +95,7 @@ export function Hero() {
         height={1472}
         fetchPriority="high"
         decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover object-[50%_38%] sm:hidden"
+        className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%] sm:hidden"
       />
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
