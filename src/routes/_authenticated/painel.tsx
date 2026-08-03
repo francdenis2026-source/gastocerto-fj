@@ -905,7 +905,6 @@ function DashboardPage() {
               
               <RecurringAlerts />
             </div>
-          </div>
         )}
 
         {/* Bloco de métricas secundárias */}
