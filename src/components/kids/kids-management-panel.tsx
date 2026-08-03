@@ -352,25 +352,40 @@ export function KidsManagementPanel() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-[10px] font-bold uppercase text-muted-foreground">Movimentações em tempo real</Label>
-                      <div className="divide-y border rounded-xl overflow-hidden">
-                        {metrics.data?.map((tx: any) => (
+                      <div className="flex items-center justify-between">
+                        <Label className="text-[10px] font-bold uppercase text-muted-foreground">Monitoramento em Tempo Real</Label>
+                        {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
+                      </div>
+                      <div className="divide-y border rounded-xl overflow-hidden bg-background/50">
+                        {metrics.data?.length === 0 && (
+                          <div className="p-8 text-center text-muted-foreground">
+                            <p className="text-xs">Nenhum registro encontrado para este período.</p>
+                          </div>
+                        )}
+                        {metrics.data?.map((tx: any) => {
+                          const kind = kidEntryKind(tx);
+                          return (
                           <div key={tx.id} className="p-3 flex items-center justify-between hover:bg-muted/30 transition-colors">
                             <div className="flex items-center gap-3">
                               <div className={cn(
                                 "size-8 rounded-lg flex items-center justify-center",
-                                tx.transaction_type === 'income' ? "bg-emerald-500/10 text-emerald-600" : "bg-rose-500/10 text-rose-600"
+                                kind === "kidExpense" ? "bg-rose-500/10 text-rose-600" : "bg-emerald-500/10 text-emerald-600"
                               )}>
-                                {tx.transaction_type === 'income' ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                                {kind === "kidExpense" ? <TrendingDown className="size-4" /> : <TrendingUp className="size-4" />}
                               </div>
                               <div>
-                                <p className="text-xs font-bold leading-tight">{tx.description}</p>
-                                <p className="text-[9px] text-muted-foreground">{new Date(tx.transaction_date).toLocaleDateString()}</p>
+                                <p className="text-xs font-bold leading-tight">
+                                  {kind === "kidExpense" ? "🛍️ Gasto do Filho" : "💰 Recebido"}
+                                  <span className="text-muted-foreground font-normal ml-2">
+                                    {tx.description.replace(/\[.*\]\s*/, "")}
+                                  </span>
+                                </p>
+                                <p className="text-[9px] text-muted-foreground">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
-                              <span className={cn("text-xs font-black", tx.transaction_type === 'income' ? "text-emerald-600" : "text-rose-600")}>
-                                {tx.transaction_type === 'income' ? "+" : "-"} {formatCurrency(tx.amount)}
+                              <span className={cn("text-xs font-black", kind === "kidExpense" ? "text-rose-600" : "text-emerald-600")}>
+                                {tx.transaction_type === 'income' ? "+" : "−"} {formatCurrency(tx.amount)}
                               </span>
                               <div className="flex gap-1">
                                 <Dialog>
