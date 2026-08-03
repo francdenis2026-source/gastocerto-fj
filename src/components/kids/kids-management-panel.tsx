@@ -57,6 +57,8 @@ import { MoneyInput } from "@/components/ui/money-input";
 import { toast } from "sonner";
 import { useDependents, type Dependent } from "@/lib/dependents";
 import { formatCurrency } from "@/lib/format";
+import { KidEntryDetailsDialog } from "@/components/kids/kid-entry-details-dialog";
+import { kidEntryKind, kidEntryLabel, kidEntryTone, syncStatusFor } from "@/lib/kids-labels";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
 import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
