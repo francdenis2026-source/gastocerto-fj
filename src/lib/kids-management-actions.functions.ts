@@ -14,7 +14,6 @@ export const deleteKidManagementTransaction = createServerFn({ method: "POST" })
     const { transactionId } = data;
     const userId = context.userId;
 
-    // 1. Verificar se a transação pertence ao pai e tem a tag kids_management
     const { data: parentTx, error: fetchError } = await supabaseAdmin
       .from("transactions")
       .select("id, amount, tags")
@@ -26,8 +25,6 @@ export const deleteKidManagementTransaction = createServerFn({ method: "POST" })
       throw new Error("Transação não encontrada ou não é permitida a exclusão.");
     }
 
-    // 2. Tentar encontrar a transação correspondente da criança
-    // A transação do pai tem a tag dependente:{id}
     const dependentIdTag = parentTx.tags.find(t => t.startsWith("dependente:"));
     const dependentId = dependentIdTag?.split(":")[1];
 
@@ -39,8 +36,6 @@ export const deleteKidManagementTransaction = createServerFn({ method: "POST" })
         .single();
 
       if (dependent?.kid_user_id) {
-        // Deletar a transação espelhada da criança (mesmo valor, data e descrição similar)
-        // Como não temos um ID direto, usamos critérios
         await supabaseAdmin
           .from("transactions")
           .delete()
@@ -50,7 +45,6 @@ export const deleteKidManagementTransaction = createServerFn({ method: "POST" })
       }
     }
 
-    // 3. Deletar a transação do pai
     const { error: deleteError } = await supabaseAdmin
       .from("transactions")
       .delete()
@@ -85,13 +79,11 @@ export const updateKidManagementTransaction = createServerFn({ method: "POST" })
       throw new Error("Transação não encontrada.");
     }
 
-    // Atualizar pai
     await supabaseAdmin
       .from("transactions")
       .update({ amount, description: `[Envio] ${description}` })
       .eq("id", transactionId);
 
-    // Tentar atualizar criança
     const dependentIdTag = parentTx.tags.find(t => t.startsWith("dependente:"));
     const dependentId = dependentIdTag?.split(":")[1];
 
