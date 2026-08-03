@@ -85,6 +85,7 @@ type KidTransaction = {
   amount: number;
   transaction_type: "income" | "expense" | "transfer";
   transaction_date: string;
+  tags?: string[];
 };
 
 /**
@@ -179,10 +180,15 @@ function KidSpacePage() {
     queryKey: ["kid_transactions", dependent?.id],
     enabled: Boolean(dependent?.id),
     queryFn: async (): Promise<KidTransaction[]> => {
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
       const { data, error } = await supabase
         .from("transactions")
-        .select("id, description, amount, transaction_type, transaction_date")
+        .select("id, description, amount, transaction_type, transaction_date, tags")
         .is("deleted_at", null)
+        .gte("transaction_date", startOfMonth.toISOString())
         .order("transaction_date", { ascending: false })
         .limit(60);
       if (error) throw error;

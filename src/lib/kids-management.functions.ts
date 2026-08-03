@@ -39,7 +39,7 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
       transaction_type: "expense",
       transaction_date: transactionDate,
       category_id: null, 
-      tags: [parentTag, "kids_management", `type:${type}`],
+      tags: [parentTag, "kids_management", `type:${type}`, `parent_desc:${description}`],
       status: "paid",
     });
 
