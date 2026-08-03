@@ -415,12 +415,18 @@ export function KidsManagementPanel() {
                               <div>
                                 <p className="text-xs font-bold leading-tight">
                                   {kind === "kidExpense" ? "🛍️ Gasto do Filho" : "💰 Recebido"}
+                                  {tx.kidName ? (
+                                    <Badge variant="secondary" className="ml-2 h-4 px-1.5 text-[9px] font-bold">
+                                      {kind === "kidExpense" ? tx.kidName : `Para ${tx.kidName}`}
+                                    </Badge>
+                                  ) : null}
                                   <span className="text-muted-foreground font-normal ml-2">
-                                    {tx.description.replace(/\[.*\]\s*/, "")}
+                                    {String(tx.description || "").replace(/^\[.*?\]\s*/, "")}
                                   </span>
                                 </p>
                                 <p className="text-[9px] text-muted-foreground">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</p>
                               </div>
+
                             </div>
                             <div className="flex items-center gap-3">
                               <span className={cn("text-xs font-black", kind === "kidExpense" ? "text-rose-600" : "text-emerald-600")}>
