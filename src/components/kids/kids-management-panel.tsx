@@ -572,7 +572,9 @@ export function KidsManagementPanel() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-[11px] font-bold leading-tight truncate">
-                          <span className={cn(kidEntryTone(kind))}>{kidEntryLabel(tx)}</span>
+                          <span className={cn(kidEntryTone(kind))}>
+                            {kind === "kidExpense" ? "🛍️ Registrado pelo Filho" : "💰 Enviado por Mim"}
+                          </span>
                           <span className="text-muted-foreground font-semibold">
                             {" · "}
                             {kind === "kidExpense"
