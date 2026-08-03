@@ -22,8 +22,10 @@ import { formatDateTime } from "@/lib/format";
 import { remainingTime } from "@/lib/audit-log";
 import { useNow } from "@/lib/use-now";
 import { toast } from "sonner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export function ClientCodesPanel({ globalSearch = "" }: { globalSearch?: string }) {
+  const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const listLicenses = useServerFn(adminListLicenses);
   const deleteLicense = useServerFn(adminDeleteLicense);
@@ -160,9 +162,13 @@ export function ClientCodesPanel({ globalSearch = "" }: { globalSearch?: string 
                           className="size-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
                           disabled={deleteMutation.isPending}
                           onClick={() => {
-                            if (window.confirm("Excluir este código definitivamente?")) {
-                              deleteMutation.mutate(license.id);
-                            }
+                            confirm({
+                              title: "Excluir código do cliente",
+                              description: "O código será removido definitivamente e deixará de liberar acesso.",
+                              type: "warning",
+                              confirmLabel: "Excluir",
+                              onConfirm: () => deleteMutation.mutate(license.id),
+                            });
                           }}
                         >
                           {deleteMutation.isPending ? (
@@ -180,6 +186,7 @@ export function ClientCodesPanel({ globalSearch = "" }: { globalSearch?: string 
           </div>
         )}
       </CardContent>
+      <ConfirmDialog />
     </Card>
   );
 }

@@ -52,8 +52,10 @@ import {
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export function AdminAccessPanel() {
+  const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const listCodes = useServerFn(listAdminAccessCodes);
   const createCode = useServerFn(createAdminAccessCode);
@@ -266,9 +268,13 @@ export function AdminAccessPanel() {
                               size="icon" 
                               className="size-8 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
                               onClick={() => {
-                                if (window.confirm("Excluir este código administrativo?")) {
-                                  deleteMutation.mutate(code.id);
-                                }
+                                confirm({
+                                  title: "Excluir código administrativo",
+                                  description: "O código deixará de conceder acesso imediatamente.",
+                                  type: "warning",
+                                  confirmLabel: "Excluir",
+                                  onConfirm: () => deleteMutation.mutate(code.id),
+                                });
                               }}
                               disabled={deleteMutation.isPending}
                             >
@@ -359,6 +365,7 @@ function LogsDialog({ codeId, label }: { codeId: string; label: string }) {
           )}
         </ScrollArea>
       </DialogContent>
+      <ConfirmDialog />
     </Dialog>
   );
 }

@@ -56,6 +56,8 @@ import {
 import {
   adminCancelSubscription,
   adminDeleteUser,
+  adminPromoteToPaid,
+  adminSetAccessLimit,
   adminSetUserPassword,
   adminUpdateUser,
 } from "@/lib/admin-users.functions";
@@ -628,12 +630,20 @@ function ManageUserDialog({
                   variant="outline"
                   disabled={pending !== null}
                   onClick={() => {
-                    if (!window.confirm("Cancelar a assinatura e voltar este usuário ao plano gratuito?")) return;
-                    void run(
-                      "cancel",
-                      () => adminCancelSubscription({ data: { targetUserId: profile.user_id } }),
-                      "Assinatura cancelada",
-                    );
+                    confirm({
+                      title: "Cancelar assinatura",
+                      description:
+                        "As licenças ativas serão revogadas e o usuário voltará ao plano gratuito.",
+                      type: "warning",
+                      confirmLabel: "Cancelar assinatura",
+                      onConfirm: () => {
+                        void run(
+                          "cancel",
+                          () => adminCancelSubscription({ data: { targetUserId: profile.user_id } }),
+                          "Assinatura cancelada",
+                        );
+                      },
+                    });
                   }}
                 >
                   {pending === "cancel" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
@@ -644,16 +654,23 @@ function ManageUserDialog({
                   variant="destructive"
                   disabled={pending !== null || isSelf}
                   onClick={() => {
-                    const confirmText = prompt(`Excluir a conta de "${profile.full_name || profile.contact_email}"? Digite EXCLUIR para confirmar:`);
-                    if (confirmText !== "EXCLUIR") return;
-                    void run(
-                      "delete",
-                      () =>
-                        adminDeleteUser({
-                          data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
-                        }),
-                      "Conta excluída",
-                    ).then(onClose);
+                    confirm({
+                      title: "Excluir conta definitivamente",
+                      description: `Todos os dados de ${profile.full_name || profile.contact_email || "este usuário"} serão apagados. Esta ação não pode ser desfeita.`,
+                      type: "warning",
+                      confirmLabel: "Excluir",
+                      input: { label: "Digite EXCLUIR para confirmar", expected: "EXCLUIR", placeholder: "EXCLUIR" },
+                      onConfirm: () => {
+                        void run(
+                          "delete",
+                          () =>
+                            adminDeleteUser({
+                              data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
+                            }),
+                          "Conta excluída",
+                        ).then(onClose);
+                      },
+                    });
                   }}
                 >
                   {pending === "delete" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
@@ -666,25 +683,30 @@ function ManageUserDialog({
                   className="gap-2 border-amber-500/30 text-amber-600 hover:bg-amber-50"
                   disabled={pending !== null}
                   onClick={() => {
-                    const days = prompt("Limitar acesso por quantos dias a partir de hoje? (0 para remover limite)");
-                    if (days === null) return;
-                    const numDays = parseInt(days);
-                    if (isNaN(numDays)) return;
-
-                    void run(
-                      "limit-time",
-                      async () => {
-                         const endsAt = new Date();
-                         endsAt.setDate(endsAt.getDate() + numDays);
-                         
-                         const { error } = await supabase.from("profiles").update({
-                            trial_ends_at: numDays > 0 ? endsAt.toISOString() : null,
-                            trial_plan_slug: numDays > 0 ? (profile.plan_id || 'premium_ia') : null
-                         } as any).eq("user_id", profile.user_id);
-                         if (error) throw error;
+                    confirm({
+                      title: "Limitar tempo de acesso",
+                      description:
+                        "Defina por quantos dias, a partir de hoje, esta conta continuará com acesso. Use 0 para remover o limite.",
+                      confirmLabel: "Aplicar limite",
+                      input: { label: "Dias de acesso", type: "number", defaultValue: "30" },
+                      onConfirm: (value) => {
+                        const numDays = Number.parseInt(value, 10);
+                        if (Number.isNaN(numDays) || numDays < 0) {
+                          toast.error("Informe um número de dias válido.");
+                          return;
+                        }
+                        void run(
+                          "limit-time",
+                          () =>
+                            adminSetAccessLimit({
+                              data: { targetUserId: profile.user_id, days: numDays },
+                            }),
+                          numDays > 0
+                            ? `Acesso limitado por ${numDays} dias`
+                            : "Limites de tempo removidos",
+                        );
                       },
-                      numDays > 0 ? `Acesso limitado por ${numDays} dias` : "Limites de tempo removidos"
-                    );
+                    });
                   }}
                 >
                   <KeyRound className="size-4" />
@@ -696,20 +718,23 @@ function ManageUserDialog({
                   className="gap-2 border-primary/30 text-primary hover:bg-primary/5"
                   disabled={pending !== null}
                   onClick={() => {
-                    const ok = window.confirm("Promover este usuário para a versão PAGA (Premium IA) agora?");
-                    if (!ok) return;
-                    void run(
-                      "promote",
-                      async () => {
-                         const { data: plans } = await supabase.from("plans").select("id").eq("slug", "premium_ia").maybeSingle();
-                         const { error } = await supabase.from("profiles").update({
-                            plan_id: plans?.id,
-                            status: 'active'
-                         } as any).eq("user_id", profile.user_id);
-                         if (error) throw error;
+                    confirm({
+                      title: "Promover para versão paga",
+                      description:
+                        "A conta passará para o plano Premium IA com status ativo e receberá um aviso na plataforma.",
+                      type: "success",
+                      confirmLabel: "Promover agora",
+                      onConfirm: () => {
+                        void run(
+                          "promote",
+                          () =>
+                            adminPromoteToPaid({
+                              data: { targetUserId: profile.user_id, planSlug: "premium_ia" },
+                            }),
+                          "Usuário promovido para Premium IA",
+                        );
                       },
-                      "Usuário promovido para Premium IA"
-                    );
+                    });
                   }}
                 >
                   <TrendingUp className="size-4" />
@@ -721,13 +746,23 @@ function ManageUserDialog({
                   className="gap-2 border-rose-500/30 text-rose-600 hover:bg-rose-50"
                   disabled={pending !== null}
                   onClick={() => {
-                    const ok = window.confirm("Bloquear este usuário imediatamente?");
-                    if (!ok) return;
-                    void run(
-                      "block",
-                      () => adminSetUserStatus({ data: { targetUserId: profile.user_id, status: 'suspended' } }),
-                      "Usuário bloqueado"
-                    );
+                    confirm({
+                      title: "Bloquear acesso",
+                      description:
+                        "O usuário perderá o acesso imediatamente e receberá uma notificação crítica.",
+                      type: "warning",
+                      confirmLabel: "Bloquear",
+                      onConfirm: () => {
+                        void run(
+                          "block",
+                          () =>
+                            adminSetUserStatus({
+                              data: { targetUserId: profile.user_id, status: "suspended" },
+                            }),
+                          "Usuário bloqueado",
+                        );
+                      },
+                    });
                   }}
                 >
                   <Shield className="size-4" />

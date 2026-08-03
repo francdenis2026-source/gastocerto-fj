@@ -37,11 +37,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { MercadoPagoPanel } from "@/components/admin/mercadopago-panel";
 import { formatDateTime } from "@/lib/format";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 type PixKeyType = "cpf" | "cnpj" | "email" | "telefone" | "aleatoria";
 
 /** Integrações ativas: recebimento manual via Pix, IA e e-mail. */
 export function IntegrationsPanel() {
+  const { confirm, ConfirmDialog } = useConfirm();
   const getSettings = useServerFn(adminGetIntegrationSettings);
   const saveManual = useServerFn(adminSaveManualPaymentSettings);
   const logAction = useServerFn(adminLogIntegrationAction);
@@ -290,8 +292,13 @@ export function IntegrationsPanel() {
               size="sm"
               variant="outline"
               className="h-8 w-full text-xs"
-              onClick={async () => {
-                const email = window.prompt("E-mail de destino para o teste:");
+              onClick={() => {
+                confirm({
+                  title: "Enviar e-mail de teste",
+                  description: "Informe o endereço que receberá a mensagem de verificação.",
+                  confirmLabel: "Enviar",
+                  input: { label: "E-mail de destino", placeholder: "nome@dominio.com" },
+                  onConfirm: async (email) => {
                 if (!email) return;
                 const toastId = toast.loading("Enviando e-mail de teste...");
                 try {
@@ -312,7 +319,9 @@ export function IntegrationsPanel() {
                     id: toastId,
                     description: error instanceof Error ? error.message : undefined,
                   });
-                }
+                    }
+                  },
+                });
               }}
             >
               <Sparkles className="mr-2 size-3" /> Testar envio
@@ -331,6 +340,7 @@ export function IntegrationsPanel() {
           </CardContent>
         </Card>
       </div>
+      <ConfirmDialog />
     </div>
   );
 }

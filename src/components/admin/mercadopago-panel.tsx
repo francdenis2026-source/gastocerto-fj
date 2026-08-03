@@ -27,6 +27,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatDateTime } from "@/lib/format";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 type TestState = {
   ok: boolean;
@@ -37,6 +38,7 @@ type TestState = {
 
 /** Credenciais do Mercado Pago com teste de Access Token e de Client ID/Secret. */
 export function MercadoPagoPanel() {
+  const { confirm, ConfirmDialog } = useConfirm();
   const getStatus = useServerFn(adminGetMercadoPagoStatus);
   const saveCredentials = useServerFn(adminSaveMercadoPagoCredentials);
   const testToken = useServerFn(adminTestMercadoPago);
@@ -213,7 +215,13 @@ export function MercadoPagoPanel() {
                 className="h-9 gap-2 text-xs text-destructive"
                 disabled={wipe.isPending}
                 onClick={() => {
-                  if (window.confirm("Remover as chaves salvas no banco de dados?")) wipe.mutate();
+                  confirm({
+                    title: "Remover chaves salvas",
+                    description: "As credenciais armazenadas no banco serão apagadas e a integração deixará de funcionar.",
+                    type: "warning",
+                    confirmLabel: "Remover",
+                    onConfirm: () => wipe.mutate(),
+                  });
                 }}
               >
                 <Trash2 className="size-3" /> Remover chaves
@@ -300,6 +308,7 @@ function ResultBox({ title, result }: { title: string; result: TestState }) {
       <p className="mt-1">{result.message}</p>
       {result.detail ? <p className="mt-1 break-words opacity-80">{result.detail}</p> : null}
       {result.instructions ? <p className="mt-1 opacity-80">{result.instructions}</p> : null}
+      <ConfirmDialog />
     </div>
   );
 }
