@@ -104,7 +104,7 @@ export function TrialGrantPanel() {
         <ul className="text-[11px] text-muted-foreground space-y-1 list-disc pl-4">
           <li>Busque o usuário pelo <strong>nome ou CPF</strong> abaixo.</li>
           <li>Escolha a <strong>duração</strong> desejada (7, 15 ou 30 dias).</li>
-          <li>Clique em <strong>"Liberar teste"</strong> para ativar instantaneamente.</li>
+          <li>Clique em <strong>"Liberar teste"</strong> para ativar instantaneamente. A mensagem "nunca usou" indica que o usuário ainda não recebeu um período de cortesia administrativa.</li>
           <li>O usuário terá acesso a <strong>todos os recursos</strong>, inclusive a IA.</li>
         </ul>
       </div>
@@ -179,12 +179,11 @@ export function TrialGrantPanel() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="h-8 border-rose-500/30 text-rose-600 hover:bg-rose-50"
+                  className="h-8 border-brand-light/30 text-brand-light hover:bg-brand-light/5"
                   disabled={mutation.isPending}
                   onClick={async () => {
                     if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato e enviará uma notificação crítica. Continuar?")) return;
                     
-                    // Validação extra de segurança
                     const pin = window.prompt("Digite o código mestre para confirmar a suspensão:");
                     if (pin !== 'ADMIN123456') {
                        toast.error("Código incorreto.");
@@ -210,6 +209,36 @@ export function TrialGrantPanel() {
                   }}
                 >
                   Liberar teste
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-8 text-rose-500 hover:text-rose-600 hover:bg-rose-50 px-2"
+                  onClick={async () => {
+                    if (!window.confirm(`TEM CERTEZA? Esta ação excluirá PERMANENTEMENTE a conta de ${row.full_name || 'este usuário'} e todos os seus dados. Esta ação não pode ser desfeita.`)) return;
+                    
+                    const pin = window.prompt("Digite o código mestre para confirmar a EXCLUSÃO DEFINITIVA:");
+                    if (pin !== 'ADMIN123456') {
+                       toast.error("Código incorreto.");
+                       return;
+                    }
+
+                    try {
+                      const { adminDeleteUser } = await import("@/lib/admin-users.functions");
+                      // We need to call the server function since profiles are protected by RLS and auth users need admin client
+                      const result = await queryClient.fetchQuery({
+                        queryKey: ['admin', 'delete-user', row.user_id],
+                        queryFn: () => adminDeleteUser({ data: { targetUserId: row.user_id, confirmation: "EXCLUIR" } })
+                      });
+                      
+                      toast.success("Conta excluída definitivamente.");
+                      void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
+                    } catch (err) {
+                      toast.error("Erro ao excluir conta.");
+                    }
+                  }}
+                >
+                  Excluir
                 </Button>
               </div>
             </li>

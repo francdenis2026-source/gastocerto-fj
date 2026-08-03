@@ -77,24 +77,37 @@ export function AdminOverviewPanel({
       </div>
 
       <div className="grid gap-3 auto-cards-sm">
-        <StatTile tone="brand" label="Usuários" value={String(overview.data?.totalUsers ?? 0)} icon={Users} />
+        <StatTile 
+          tone="brand" 
+          label="Usuários" 
+          value={String(overview.data?.totalUsers ?? 0)} 
+          icon={Users} 
+          onClick={() => onNavigate("users")}
+          className="cursor-pointer hover:scale-[1.02] transition-transform"
+        />
         <StatTile
           tone="success"
           label="Contas ativas"
           value={String(overview.data?.activeUsers ?? 0)}
           icon={ShieldCheck}
+          onClick={() => onNavigate("users")}
+          className="cursor-pointer hover:scale-[1.02] transition-transform"
         />
         <StatTile
           tone="warning"
           label="Novos (30 dias)"
           value={String(overview.data?.newUsers30d ?? 0)}
           icon={TrendingUp}
+          onClick={() => onNavigate("business")}
+          className="cursor-pointer hover:scale-[1.02] transition-transform"
         />
         <StatTile
           tone="neutral"
           label="Lançamentos"
           value={String(overview.data?.totalTransactions ?? 0)}
           icon={Database}
+          onClick={() => onNavigate("business")}
+          className="cursor-pointer hover:scale-[1.02] transition-transform"
         />
       </div>
 
