@@ -624,10 +624,15 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
         <Button variant="ghost" className="text-destructive hover:text-destructive hover:bg-destructive/5" onClick={() => setShowDeleteConfirm(true)}>
           Excluir
         </Button>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-1 sm:flex-initial">
           <Button variant="outline" className="flex-1" onClick={() => window.location.reload()}>Cancelar</Button>
-          <Button onClick={() => onUpdate(formData)} disabled={isPending}>
-            {isPending && <Loader2 className="size-4 animate-spin mr-2" />} Salvar
+          <Button 
+            onClick={() => onUpdate(formData)} 
+            disabled={isPending}
+            className="flex-1"
+          >
+            {isPending && <Loader2 className="size-4 animate-spin mr-2" />} 
+            Salvar Alterações
           </Button>
         </div>
       </DialogFooter>
