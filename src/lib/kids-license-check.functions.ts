@@ -24,7 +24,7 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     const { data: profile, error: profErr } = await supabaseAdmin
       .from("profiles")
-      .select("id, plan_id, trial_ends_at, status, trial_plan_slug")
+      .select("id, user_id, plan_id, trial_ends_at, status, trial_plan_slug")
       .eq("user_id", kid.user_id)
       .maybeSingle();
 
