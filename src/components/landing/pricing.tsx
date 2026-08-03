@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 type Cycle = "monthly" | "yearly";
 
-const basePlans = [
+export const basePlans = [
   {
     slug: "free",
     name: "Gratuito",

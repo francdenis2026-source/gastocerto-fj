@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-import heroBg from "@/assets/hero-bg-2027.jpg";
+import heroBg from "@/assets/hero-bg-desk.jpg";
+import heroMobileBg from "@/assets/hero-mobile-pro-2027.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
 import { CtaBanner } from "@/components/landing/cta-banner";
@@ -10,6 +11,7 @@ import { LandingFooter } from "@/components/landing/landing-footer";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
+import { PricingMobile } from "@/components/landing/pricing-mobile";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
@@ -40,7 +42,8 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: `${siteUrl}/` },
-      { rel: "preload", as: "image", href: heroBg, fetchPriority: "high" },
+      { rel: "preload", as: "image", href: heroBg, fetchPriority: "high", media: "(min-width: 640px)" },
+      { rel: "preload", as: "image", href: heroMobileBg, fetchPriority: "high", media: "(max-width: 639px)" },
     ],
   }),
 
@@ -89,7 +92,26 @@ function LandingPage() {
           <Benefits />
           <CompactOverview />
         </div>
-        <Pricing />
+        <div className="hidden md:block">
+          <Pricing />
+        </div>
+        <PricingMobile />
+        <section className="px-4 pb-8 md:hidden" aria-label="Segurança e privacidade">
+          <ul className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card/70 p-3 text-center backdrop-blur-sm">
+            <li className="min-w-0">
+              <p className="text-[13px] font-extrabold">14 dias</p>
+              <p className="text-[10px] font-medium text-muted-foreground">teste completo</p>
+            </li>
+            <li className="min-w-0 border-x border-border/60">
+              <p className="text-[13px] font-extrabold">Dados seus</p>
+              <p className="text-[10px] font-medium text-muted-foreground">exporte ou exclua</p>
+            </li>
+            <li className="min-w-0">
+              <p className="text-[13px] font-extrabold">Sem cartão</p>
+              <p className="text-[10px] font-medium text-muted-foreground">no plano grátis</p>
+            </li>
+          </ul>
+        </section>
         <div className="hidden sm:block">
           <CtaBanner />
         </div>
