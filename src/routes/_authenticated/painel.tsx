@@ -419,15 +419,18 @@ function DashboardPage() {
     const hasLimit = active.some(d => (d as any).monthly_limit);
     const hasAllowance = active.some(d => d.monthly_allowance || (d as any).recurring_allowance_day);
 
+    const isResolvingFixedError = profile?.tags?.includes("fixed_enzo_error");
+    
     return {
       hasKid,
       hasPin,
       hasLimit,
       hasAllowance,
       complete: hasKid && hasPin && hasLimit,
-      visible: hasKid // Só mostra se já começou a cadastrar ou se queremos incentivar
+      visible: hasKid,
+      isResolvingFixedError
     };
-  }, [dependents]);
+  }, [dependents, profile?.tags]);
 
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
 
