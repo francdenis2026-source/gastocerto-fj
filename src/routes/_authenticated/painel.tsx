@@ -1139,10 +1139,6 @@ function DashboardPage() {
           </div>
         )}
       </div>
-    </AppShell>
-  );
-}
-
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
@@ -1193,7 +1189,6 @@ function DashboardPage() {
       <DependentExpenseDialog open={dependentOpen} onOpenChange={setDependentOpen} />
       <TaxQuickDialog open={taxOpen} onOpenChange={setTaxOpen} />
     </AppShell>
-
   );
 }
 
