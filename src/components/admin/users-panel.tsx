@@ -226,6 +226,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
           </SelectContent>
         </Select>
         <div className="flex gap-2">
+          {isAdmin ? <CreateUserDialog /> : null}
           <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0} className="h-10">
             <Download className="size-4 mr-2" />
             CSV
@@ -235,6 +236,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
             PDF
           </Button>
         </div>
+
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-border bg-card">
