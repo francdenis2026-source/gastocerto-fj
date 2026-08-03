@@ -17,6 +17,8 @@ import {
   Loader2,
   AlertCircle
 } from "lucide-react";
+import { amountToInput } from "@/lib/money-input";
+import { parseAmount } from "@/lib/finance";
 import { 
   Card, 
   CardContent, 
@@ -344,8 +346,8 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
           <div className="space-y-2">
             <Label htmlFor="amount">Valor</Label>
             <MoneyInput 
-              value={formData.amount} 
-              onValueChange={(v) => setFormData({...formData, amount: v ? Number(v) : 0})}
+              value={amountToInput(formData.amount)} 
+              onValueChange={(v) => setFormData({...formData, amount: parseAmount(v)})}
               placeholder="R$ 0,00"
             />
           </div>

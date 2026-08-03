@@ -60,8 +60,8 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
       user_id: userId,
       dependent_id: dependentId,
       action: "give_money" as any,
-      details: { amount, type, description } as any
-    });
+      details: { amount, type, description }
+    } as any);
     if (auditError) console.error("Erro ao registrar auditoria:", auditError.message);
 
     return { success: true };
