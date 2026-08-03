@@ -516,7 +516,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-const MOBILE_PRIMARY = ["/painel", "/lancamentos", "/veiculos", "/relatorios"];
+const MOBILE_PRIMARY = mobilePrimary;
 
 function MobileTabBar({
   items,
