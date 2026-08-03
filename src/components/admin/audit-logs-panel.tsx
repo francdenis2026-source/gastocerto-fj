@@ -14,11 +14,15 @@ export function AuditLogsPanel({ globalSearch = "" }: { globalSearch?: string })
     queryFn: async () => {
       const { data, error } = await supabase
         .from("admin_logs")
-        .select("*, actor:profiles!admin_logs_actor_id_fkey(full_name), target:profiles!admin_logs_target_user_id_fkey(full_name)")
+        .select("`
+          *,
+          actor:profiles!admin_logs_actor_id_fkey(full_name),
+          target:profiles!admin_logs_target_user_id_fkey(full_name)
+        `")
         .order("created_at", { ascending: false })
         .limit(200);
       if (error) throw error;
-      return data ?? [];
+      return (data || []) as any[];
     },
   });
 
