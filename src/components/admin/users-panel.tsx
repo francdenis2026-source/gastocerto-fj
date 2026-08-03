@@ -42,7 +42,9 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { PermissionsPanel } from "./permissions-panel";
+import { CreateUserDialog } from "./create-user-dialog";
 import { UserAuditTimeline } from "./user-audit-timeline";
+
 import { usePlanAccess } from "@/lib/plan-features";
 import { syncUserLicense } from "@/lib/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
@@ -226,6 +228,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
           </SelectContent>
         </Select>
         <div className="flex gap-2">
+          {isAdmin ? <CreateUserDialog /> : null}
           <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0} className="h-10">
             <Download className="size-4 mr-2" />
             CSV
@@ -235,6 +238,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
             PDF
           </Button>
         </div>
+
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-border bg-card">

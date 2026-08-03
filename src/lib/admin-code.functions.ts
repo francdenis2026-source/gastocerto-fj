@@ -100,21 +100,28 @@ export const createAdminAccessCode = createServerFn({ method: "POST" })
         label: data.label,
         expires_at: expiresAt.toISOString(),
         max_uses: data.maxUses,
+        created_by: context.userId,
       })
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) throw new Error(error.message || "Não foi possível gerar o código.");
 
-    await auditLog(context, "admin_code_created", {
-      code,
-      label: data.label,
-      expires_at: expiresAt.toISOString(),
-      max_uses: data.maxUses,
-    });
+    // A trilha de auditoria não pode derrubar a geração do código.
+    try {
+      await auditLog(context, "admin_code_created", {
+        code,
+        label: data.label,
+        expires_at: expiresAt.toISOString(),
+        max_uses: data.maxUses,
+      });
+    } catch (auditError) {
+      console.error("[admin-code] falha ao auditar", auditError);
+    }
 
     return newCode;
   });
+
 
 /**
  * Revoga um código.

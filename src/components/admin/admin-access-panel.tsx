@@ -75,14 +75,16 @@ export function AdminAccessPanel() {
   const createMutation = useMutation({
     mutationFn: (data: { label: string; expiresInDays: number; maxUses: number }) => 
       createCode({ data }),
-    onSuccess: () => {
+    onSuccess: (created: any) => {
       queryClient.invalidateQueries({ queryKey: ["admin-access-codes"] });
       setIsCreateOpen(false);
       setNewLabel("");
-      toast.success("Código de acesso gerado com sucesso!");
+      if (created?.code) navigator.clipboard?.writeText(created.code).catch(() => undefined);
+      toast.success(`Código ${created?.code ?? ""} gerado e copiado!`);
     },
-    onError: () => toast.error("Falha ao gerar código."),
+    onError: (err: any) => toast.error(err?.message || "Falha ao gerar código."),
   });
+
 
   const revokeMutation = useMutation({
     mutationFn: (id: string) => revokeCode({ data: { id } }),
@@ -148,8 +150,13 @@ export function AdminAccessPanel() {
                   <Input 
                     id="days" 
                     type="number" 
+                    min={1}
+                    max={365}
                     value={newDays}
-                    onChange={(e) => setNewDays(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setNewDays(Number.isFinite(value) ? Math.min(365, Math.max(1, value)) : 1);
+                    }}
                   />
                 </div>
                 <div className="grid gap-2">
@@ -157,12 +164,19 @@ export function AdminAccessPanel() {
                   <Input 
                     id="uses" 
                     type="number" 
+                    min={1}
+                    max={1000}
                     value={newMaxUses}
-                    onChange={(e) => setNewMaxUses(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setNewMaxUses(Number.isFinite(value) ? Math.min(1000, Math.max(1, value)) : 1);
+                    }}
                   />
                 </div>
               </div>
             </div>
+
+
             <DialogFooter>
               <Button 
                 onClick={() => createMutation.mutate({ 
