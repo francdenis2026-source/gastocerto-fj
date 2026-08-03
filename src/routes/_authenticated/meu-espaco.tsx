@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
 import { useKidsAppMode } from "@/lib/kids-pwa";
 import { useAppUpdate } from "@/lib/pwa";
+import { Badge } from "@/components/ui/badge";
 
 
 import { useEffect, useMemo, useState } from "react";
