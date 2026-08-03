@@ -35,12 +35,13 @@ export function PageHeader({
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--brand)_55%,transparent),transparent)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--brand)_55%,transparent),transparent)] opacity-50 dark:opacity-100"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 -top-20 size-48 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--brand)_18%,transparent),transparent_70%)]"
+        className="pointer-events-none absolute -right-16 -top-20 size-48 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--brand)_18%,transparent),transparent_70%)] opacity-40 dark:opacity-100"
       />
+
       <div className="relative grid gap-3 xl:grid-cols-[minmax(18rem,1fr)_auto] xl:items-center">
         <div className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-3">
           {Icon ? (
