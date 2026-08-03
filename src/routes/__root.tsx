@@ -142,7 +142,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 width: 512,
                 height: 512,
               },
-              image: `${SITE_URL}/og-gastocerto.jpg`,
+              image: `${SITE_URL}/og-gastocerto-v2.jpg`,
               description:
                 "Plataforma brasileira de controle de gastos pessoais: combustível, gás, mercado, contas e assinaturas em um painel só.",
               founder: { "@type": "Person", name: "Franc D'nis" },
