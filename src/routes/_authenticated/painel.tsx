@@ -448,13 +448,18 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="space-y-4">
+      <div className="space-y-6">
         {!hasFeature(access, "financial_help") && (
-          <div className="rounded-2xl border border-banner-amber-border bg-banner-amber-bg p-4 mb-4 flex items-start gap-3 backdrop-blur-sm shadow-sm">
+          <div className="rounded-2xl border border-banner-amber-border bg-banner-amber-bg/50 p-4 mb-2 flex items-start gap-3 backdrop-blur-sm shadow-sm">
             <ShieldAlert className="size-5 text-banner-amber-icon shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <p className="text-sm font-semibold text-banner-amber-text">Área de Ajuda Financeira Restrita</p>
+              <p className="text-sm font-bold text-banner-amber-text">Ajuda Financeira</p>
               <p className="text-xs text-banner-amber-text/80 leading-relaxed">
+                Acesse estratégias exclusivas para sair das dívidas e investir com nosso consultor IA no plano Premium.
+              </p>
+            </div>
+          </div>
+        )}
                 Esta funcionalidade está disponível apenas para planos Premium ativos ou contas com permissão especial do administrador. 
                 Fique atento: o Consultor de Dívidas analisa cartões e financiamentos para criar metas reais de quitação.
               </p>
