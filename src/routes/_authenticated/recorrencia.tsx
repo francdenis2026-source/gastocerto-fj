@@ -265,23 +265,24 @@ function RecurringPage() {
         </header>
 
         <section className="grid grid-cols-3 gap-2 sm:grid-cols-3">
-          <div className="flex flex-col rounded-2xl border border-income-border bg-income-surface p-3 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-income">Receitas</p>
+          <div className="flex flex-col rounded-xl border bg-card p-3 text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Receitas</p>
             <p className="mt-0.5 text-sm font-bold text-income">
               {formatCurrency(rows.filter(r => r.transaction_type === "income").reduce((s, r) => s + Number(r.amount), 0))}
             </p>
           </div>
-          <div className="flex flex-col rounded-2xl border border-expense-border bg-expense-surface p-3 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-expense">Despesas</p>
+          <div className="flex flex-col rounded-xl border bg-card p-3 text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Despesas</p>
             <p className="mt-0.5 text-sm font-bold text-expense">
               {formatCurrency(rows.filter(r => r.transaction_type === "expense").reduce((s, r) => s + Number(r.amount), 0))}
             </p>
           </div>
-          <div className="flex flex-col rounded-2xl border border-brand/20 bg-brand/5 p-3 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-brand">Pendente</p>
-            <p className="mt-0.5 text-sm font-bold text-expense">{formatCurrency(pendingTotal)}</p>
+          <div className="flex flex-col rounded-xl border bg-card p-3 text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Pendente</p>
+            <p className="mt-0.5 text-sm font-bold text-foreground">{formatCurrency(pendingTotal)}</p>
           </div>
         </section>
+
 
 
         <section className={cn("rounded-2xl border border-border bg-card transition-all duration-300", isLoading && "opacity-50 blur-[1px]")}>
