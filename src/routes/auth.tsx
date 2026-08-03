@@ -313,7 +313,6 @@ function AuthPage() {
               <Tabs
                 value={mode}
                 onValueChange={(value) => setMode(value as Mode)}
-                autoComplete="off"
                 className="relative flex min-h-0 flex-col"
               >
                 <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-input bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
