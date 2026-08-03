@@ -735,8 +735,26 @@ function KidSpacePage() {
               {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
             </div>
             {rows.length === 0 ? (
-              <div className="rounded-[2rem] border border-dashed border-border p-8 text-center bg-muted/20">
-                 <p className="text-[11px] font-bold text-muted-foreground opacity-60">Nenhum registro</p>
+              <div className="flex flex-col items-center gap-3 rounded-[2rem] border border-dashed border-border bg-muted/20 px-5 py-8 text-center">
+                <div className={cn("flex size-12 items-center justify-center rounded-2xl shadow-inner", accent.iconBg)}>
+                  <Wallet className="size-5" aria-hidden="true" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-black tracking-tight">Nada por aqui ainda</p>
+                  <p className="text-[11px] font-medium text-muted-foreground">
+                    Anote seu primeiro gasto ou ganho para começar.
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={!online}
+                  onClick={() => setEntryOpen(true)}
+                  className="h-10 rounded-xl px-4 text-[12px] font-black uppercase tracking-tight shadow-md"
+                >
+                  <Plus className="size-4" aria-hidden="true" />
+                  Novo Registro
+                </Button>
               </div>
             ) : (
               <div className="space-y-2">
