@@ -442,7 +442,7 @@ function KidSpacePage() {
 
       <header className={cn(
         "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
-        compactMode && "py-3 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
+        compactMode && "py-2 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
 
         <div className="flex min-w-0 items-center gap-3">
