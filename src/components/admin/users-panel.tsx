@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
