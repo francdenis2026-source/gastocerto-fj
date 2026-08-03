@@ -764,7 +764,7 @@ export function KidsManagementPanel() {
                   variant="outline" 
                   size="sm" 
                   className="h-7 text-[10px] font-bold gap-1.5"
-                  onClick={() => exportPDF(metrics.data, kids.find(k => k.id === selectedKidId))}
+                  onClick={() => exportPDF(metrics.data?.transactions, kids.find(k => k.id === selectedKidId))}
                 >
                   <Download className="size-3" /> Exportar PDF
                 </Button>
@@ -775,7 +775,7 @@ export function KidsManagementPanel() {
           </div>
 
           {/* List of recent actions for management */}
-          {metrics.data && metrics.data.length > 0 && (
+          {metrics.data?.transactions && metrics.data.transactions.length > 0 && (
             <div className="border-t border-border/50">
               <div className="px-4 py-2 bg-muted/5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -785,7 +785,7 @@ export function KidsManagementPanel() {
                 {metrics.isFetching && <Loader2 className="size-2 animate-spin text-muted-foreground" />}
               </div>
               <div className="max-h-[200px] overflow-y-auto divide-y divide-border/30">
-                {metrics.data.slice(0, 5).map((tx: any) => {
+                {metrics.data.transactions.slice(0, 5).map((tx: any) => {
                   const kind = kidEntryKind(tx);
                   const sync = syncStatusFor(tx);
                   return (
