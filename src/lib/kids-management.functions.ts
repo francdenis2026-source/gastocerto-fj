@@ -66,8 +66,8 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
         severity: "info",
         notification_type: "kid_income",
         dedupe_key: dedupeKey,
-        metadata: { amount, type, description } as any
-      });
+        metadata: { amount, type, description }
+      } as any);
     }
 
     const { error: auditError } = await supabaseAdmin.from("kid_access_audit").insert({
