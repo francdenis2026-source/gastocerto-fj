@@ -337,18 +337,30 @@ export function KidsManagementPanel() {
                       </DialogDescription>
                     </DialogHeader>
 
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                        <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
                          <p className="text-[9px] font-bold uppercase text-emerald-600 mb-1">Recebido</p>
                          <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos do Filho</p>
+                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos</p>
                          <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
-                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo Filho</p>
-                         <p className="text-lg font-black">{formatCurrency((metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) - (metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0))}</p>
+                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo Atual</p>
+                         <p className="text-lg font-black text-primary">
+                           {formatCurrency(
+                             (metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) - 
+                             (metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)
+                           )}
+                         </p>
+                       </div>
+                       <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                         <p className="text-[9px] font-bold uppercase text-amber-600 mb-1">Uso do Saldo</p>
+                         <p className="text-lg font-black text-amber-600">
+                           {Math.min(100, Math.round(((metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) / 
+                            (Math.max(1, metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0))) * 100))}%
+                         </p>
                        </div>
                     </div>
 
@@ -451,20 +463,50 @@ export function KidsManagementPanel() {
           <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border/50">
             {/* Form & Stats */}
             <div className="p-4 space-y-4">
-              <div className="grid grid-cols-2 gap-2">
-                <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 opacity-10">
+                    <TrendingUp className="size-8" />
+                  </div>
                   <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mb-1">Saldo Real Enviado</p>
                   <p className="text-lg font-black text-emerald-600">{formatCurrency(stats.totalSent)}</p>
-                  <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none font-bold">Afeta seu saldo real</p>
+                  <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none font-bold">Total que saiu do seu bolso</p>
                 </div>
-                <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600 mb-1">Resumo Informativo</p>
-                  <div className="flex items-center justify-between">
-                    <p className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</p>
-                    <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
+                <div className="p-3 rounded-xl bg-primary/5 border border-primary/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 opacity-10">
+                    <PiggyBank className="size-8" />
                   </div>
-                  <p className="text-[8px] text-rose-600/60 mt-0.5 leading-none italic">Não afeta seu saldo</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-primary mb-1">Saldo em Mãos (Filhos)</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-lg font-black text-primary">
+                      {formatCurrency(
+                        metrics.data?.reduce((acc: number, tx: any) => {
+                          const isKidSelf = tx.tags?.includes("kid_self_expense");
+                          if (isKidSelf) return acc - (tx.transaction_type === 'expense' ? tx.amount : -tx.amount);
+                          return acc + tx.amount;
+                        }, 0) || 0
+                      )}
+                    </p>
+                    <Badge variant="outline" className="h-4 text-[7px] bg-primary/10 text-primary border-primary/20 font-bold px-1 uppercase">REALTIME</Badge>
+                  </div>
+                  <p className="text-[8px] text-muted-foreground mt-0.5 leading-none italic">O que eles ainda têm para usar</p>
                 </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Consumo dos Filhos</p>
+                  <span className="text-[10px] font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
+                </div>
+                <div className="w-full bg-rose-500/10 rounded-full h-1.5 overflow-hidden">
+                  <div 
+                    className="bg-rose-500 h-full transition-all duration-1000" 
+                    style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
+                  />
+                </div>
+                <p className="text-[8px] text-rose-600/60 mt-1.5 leading-none font-bold">
+                  Eles já gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}% do valor enviado
+                </p>
               </div>
 
               <div className="space-y-2">
