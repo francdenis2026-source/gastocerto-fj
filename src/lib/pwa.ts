@@ -84,6 +84,7 @@ export function useAppUpdate() {
 
     let cancelled = false;
     let reloading = false;
+    let cleanupTimer: (() => void) | null = null;
 
     const onControllerChange = () => {
       if (reloading) return;
@@ -118,7 +119,6 @@ export function useAppUpdate() {
       }
     })();
 
-    let cleanupTimer: (() => void) | null = null;
     navigator.serviceWorker.addEventListener("controllerchange", onControllerChange);
 
     return () => {
