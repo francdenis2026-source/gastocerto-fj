@@ -42,7 +42,7 @@ export function AdminOverviewPanel({
         .from("admin_logs")
         .select("id, action, created_at, details")
         .order("created_at", { ascending: false })
-        .limit(8);
+        .limit(12);
       if (error) throw error;
       return data ?? [];
     },

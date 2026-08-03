@@ -82,8 +82,9 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     queryFn: async (): Promise<Profile[]> => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*, plan:plans(slug), kid_accounts:kid_accounts(count)")
-        .order("created_at", { ascending: false });
+        .select("*, plan:plans(slug), kid_accounts:kid_accounts(count)");
+      // Note: Omitted .order if it's causing issues, but usually it shouldn't.
+      // If we want all, we just don't limit.
       if (error) throw error;
       return (data || []).map(p => ({ ...p, plan_slug: (p as any).plan?.slug })) as any;
     },

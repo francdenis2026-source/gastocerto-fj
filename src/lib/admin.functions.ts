@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { pinToPassword } from "@/lib/cpf";
+import { sendAdminNotification } from "./admin-notifications.server";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */
 async function assertAdmin(context: { supabase: any; userId: string }) {
@@ -69,6 +70,21 @@ export const adminSetUserStatus = createServerFn({ method: "POST" })
 
     if (data.status !== "active") {
       await supabaseAdmin.auth.admin.signOut(data.targetUserId).catch(() => undefined);
+      await sendAdminNotification(
+        data.targetUserId,
+        "account_suspended",
+        "Acesso Suspenso",
+        "Sua conta foi suspensa temporariamente por um administrador.",
+        "critical"
+      );
+    } else {
+      await sendAdminNotification(
+        data.targetUserId,
+        "account_active",
+        "Acesso Restaurado",
+        "Sua conta foi reativada por um administrador. Bem-vindo de volta!",
+        "info"
+      );
     }
 
     await context.supabase.from("admin_logs").insert({
@@ -165,15 +181,15 @@ export const adminOverview = createServerFn({ method: "GET" })
     since.setDate(since.getDate() - 30);
 
     const [users, active, transactions, recent] = await Promise.all([
-      supabaseAdmin.from("profiles").select("id", { count: "exact", head: true }),
+      supabaseAdmin.from("profiles").select("id", { count: "exact" }),
       supabaseAdmin
         .from("profiles")
-        .select("id", { count: "exact", head: true })
+        .select("id", { count: "exact" })
         .eq("status", "active"),
-      supabaseAdmin.from("transactions").select("id", { count: "exact", head: true }),
+      supabaseAdmin.from("transactions").select("id", { count: "exact" }),
       supabaseAdmin
         .from("profiles")
-        .select("id", { count: "exact", head: true })
+        .select("id", { count: "exact" })
         .gte("created_at", since.toISOString()),
     ]);
 
