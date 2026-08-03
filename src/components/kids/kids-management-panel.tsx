@@ -353,26 +353,26 @@ export function KidsManagementPanel() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                        <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
                          <p className="text-[9px] font-bold uppercase text-emerald-600 mb-1">Recebido</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
                          <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
                          <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo Atual</p>
                          <p className="text-lg font-black text-primary">
                            {formatCurrency(
-                             (metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) - 
-                             (metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)
+                             (metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0) - 
+                             (metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0)
                            )}
                          </p>
                        </div>
                        <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
                          <p className="text-[9px] font-bold uppercase text-amber-600 mb-1">Uso do Saldo</p>
                          <p className="text-lg font-black text-amber-600">
-                           {Math.min(100, Math.round(((metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) / 
-                            (Math.max(1, metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0))) * 100))}%
+                           {Math.min(100, Math.round(((metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0) / 
+                            (Math.max(1, metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0))) * 100))}%
                          </p>
                        </div>
                     </div>
@@ -383,12 +383,12 @@ export function KidsManagementPanel() {
                         {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
                       </div>
                       <div className="divide-y border rounded-xl overflow-hidden bg-background/50">
-                        {metrics.data?.length === 0 && (
+                        {metrics.data?.transactions?.length === 0 && (
                           <div className="p-8 text-center text-muted-foreground">
                             <p className="text-xs">Nenhum registro encontrado para este período.</p>
                           </div>
                         )}
-                        {metrics.data?.map((tx: any) => {
+                        {metrics.data?.transactions?.map((tx: any) => {
                           const kind = kidEntryKind(tx);
                           return (
                           <div key={tx.id} className="p-3 flex items-center justify-between hover:bg-muted/30 transition-colors">
