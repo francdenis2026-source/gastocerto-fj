@@ -147,6 +147,7 @@ function KidSpacePage() {
   const { dependent, loading } = useKidSession();
   const { compactMode: initialCompactMode } = Route.useLoaderData();
   const [compactMode, setCompactMode] = useState(initialCompactMode);
+  const [viewYearly, setViewYearly] = useState(false);
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
@@ -160,7 +161,6 @@ function KidSpacePage() {
   const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
 
 
-  const [viewYearly, setViewYearly] = useState(false);
 
   const gender = (dependent as { gender?: string } | null | undefined)?.gender;
   const isBoy = gender === "boy";
@@ -203,7 +203,7 @@ function KidSpacePage() {
       if (error) throw error;
       return (data ?? []) as unknown as KidTransaction[];
     },
-  }, [viewYearly]); // Depend on viewYearly to refetch
+  });
 
   const pixAlerts = useQuery({
     queryKey: ["kid_pix_alerts", dependent?.id],
@@ -314,7 +314,6 @@ function KidSpacePage() {
   // O responsável escolhe o que aparece aqui (painel /kids).
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
-  const [viewYearly, setViewYearly] = useState(false);
 
   return (
     <KidsStatusGuard kidUserId={dependent.id}>
