@@ -5,6 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/admin-guard";
 import { loadPlanAccess } from "@/lib/plan-access.server";
 import { trialDaysForSlug } from "@/lib/plan-features";
+import { sendAdminNotification } from "./admin-notifications.server";
 
 const trialSchema = z.object({
   slug: z.enum(["trial_14", "trial_15", "trial_30", "trial_1h", "trial_6h", "trial_12h", "trial_custom"]),
@@ -130,6 +131,14 @@ export const adminGrantTrial = createServerFn({ method: "POST" })
       action: "grant_trial",
       details: { slug: data.slug, days, ends_at: ends.toISOString() },
     });
+
+    await sendAdminNotification(
+      data.targetUserId,
+      "trial_granted",
+      "Período de Teste Liberado",
+      `Um administrador concedeu a você um período de teste de ${days > 0 ? days + " dias" : "acesso temporário"}. Aproveite!`,
+      "info"
+    );
 
     return { ok: true, days, endsAt: ends.toISOString() };
   });

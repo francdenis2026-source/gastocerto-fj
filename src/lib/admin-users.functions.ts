@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { sendAdminNotification } from "./admin-notifications.server";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */
 async function assertAdmin(context: { supabase: any; userId: string }) {
@@ -138,6 +139,14 @@ export const adminCancelSubscription = createServerFn({ method: "POST" })
       action: "cancel_subscription",
       details: { revoked: revoked?.length ?? 0, reason: data.reason ?? null },
     });
+
+    await sendAdminNotification(
+      data.targetUserId,
+      "subscription_canceled",
+      "Assinatura Cancelada",
+      data.reason || "Sua assinatura foi encerrada por um administrador.",
+      "warning"
+    );
 
     return { ok: true, revoked: revoked?.length ?? 0 };
   });

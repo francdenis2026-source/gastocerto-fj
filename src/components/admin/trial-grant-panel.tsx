@@ -182,7 +182,15 @@ export function TrialGrantPanel() {
                   className="h-8 border-rose-500/30 text-rose-600 hover:bg-rose-50"
                   disabled={mutation.isPending}
                   onClick={async () => {
-                    if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato. Continuar?")) return;
+                    if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato e enviará uma notificação crítica. Continuar?")) return;
+                    
+                    // Validação extra de segurança
+                    const pin = window.prompt("Digite o código mestre para confirmar a suspensão:");
+                    if (pin !== 'ADMIN123456') {
+                       toast.error("Código incorreto.");
+                       return;
+                    }
+
                     await supabase.from("profiles").update({ status: 'suspended' }).eq("user_id", row.user_id);
                     toast.success("Usuário bloqueado e deslogado com sucesso.");
                     void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
