@@ -174,6 +174,8 @@ export function AdminAccessPanel() {
                   />
                 </div>
               </div>
+            </div>
+
 
             <DialogFooter>
               <Button 
