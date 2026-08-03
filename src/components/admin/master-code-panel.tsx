@@ -34,7 +34,7 @@ export function MasterCodePanel() {
   const [visibleCode, setVisibleCode] = useState<string | null>(null);
 
   const revealMutation = useMutation({
-    mutationFn: () => reveal({ data: {} }),
+    mutationFn: () => reveal(),
     onSuccess: (result) => {
       if (result.code) setVisibleCode(result.code);
       else toast.info("Este código foi salvo apenas como hash. Gere um novo para poder visualizá-lo.");
@@ -43,7 +43,7 @@ export function MasterCodePanel() {
   });
 
   const generateMutation = useMutation({
-    mutationFn: () => generate({ data: {} }),
+    mutationFn: () => generate(),
     onSuccess: (result) => {
       setVisibleCode(result.code);
       toast.success("Novo código mestre gerado e salvo.");
