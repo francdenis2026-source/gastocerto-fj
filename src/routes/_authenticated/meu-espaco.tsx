@@ -575,26 +575,37 @@ function KidSpacePage() {
             ) : null}
           </section>
 
-          <section className={cn(
-            "group flex flex-col items-center justify-center gap-4 rounded-[2.5rem] border border-border bg-gradient-to-br from-card to-muted/50 p-6 shadow-md transition-all hover:shadow-lg active:scale-[0.98]",
-            accent.borderHover,
-            compactMode && "p-4 flex-row justify-between",
-          )}
-          onClick={() => setEntryOpen(true)}>
+          <section
+            role="button"
+            tabIndex={0}
+            aria-label="Criar novo registro"
+            className={cn(
+              "group flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-sm transition-all hover:shadow-md active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              accent.borderHover,
+            )}
+            onClick={() => setEntryOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setEntryOpen(true);
+              }
+            }}
+          >
             <div className={cn(
-              "flex size-16 items-center justify-center rounded-[2rem] shadow-inner transition-transform group-hover:scale-110",
+              "flex size-9 shrink-0 items-center justify-center rounded-xl shadow-inner transition-transform group-hover:scale-105",
               accent.iconBg,
-              compactMode && "size-10 rounded-xl",
             )}>
-              <Plus className={cn("size-8", compactMode && "size-5")} />
+              <Plus className="size-4" />
             </div>
-            <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
-              <h2 className="text-sm font-black tracking-tight uppercase">Novo Registro</h2>
-              <p className="mt-0.5 text-[10px] font-medium leading-tight text-muted-foreground max-w-[140px]">
-                {online ? "Toque para anotar seus gastos ou ganhos" : "Offline agora"}
+            <div className="min-w-0 flex-1">
+              <h2 className="truncate text-[12px] font-black uppercase tracking-tight">Novo Registro</h2>
+              <p className="truncate text-[10px] font-medium text-muted-foreground">
+                {online ? "Anotar gasto ou ganho" : "Offline agora"}
               </p>
             </div>
+            <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           </section>
+
 
 
         </div>
