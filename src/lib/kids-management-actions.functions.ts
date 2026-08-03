@@ -36,9 +36,13 @@ async function findMirrorIds(params: {
   return (legacy ?? []).map((row) => row.id);
 }
 
+function dependentIdFromTags(tags: string[] | null): string | null {
+  const tag = (tags ?? []).find((t) => t.startsWith("dependente:"));
+  return tag?.split(":")[1] ?? null;
+}
+
 async function resolveKidUserId(tags: string[] | null): Promise<string | null> {
-  const dependentIdTag = (tags ?? []).find((t) => t.startsWith("dependente:"));
-  const dependentId = dependentIdTag?.split(":")[1];
+  const dependentId = dependentIdFromTags(tags);
   if (!dependentId) return null;
 
   const { data: dependent } = await supabaseAdmin
@@ -50,51 +54,114 @@ async function resolveKidUserId(tags: string[] | null): Promise<string | null> {
   return dependent?.kid_user_id ?? null;
 }
 
+type ManagedRow = {
+  id: string;
+  amount: number;
+  tags: string[] | null;
+  user_id: string;
+  description: string;
+  transaction_date: string;
+  /** true quando o registro pertence à criança (gasto lançado por ela). */
+  kidOwned: boolean;
+};
+
+/**
+ * Carrega um lançamento do Espaço Kids garantindo permissão:
+ * o registro precisa ser do próprio responsável (tag `kids_management`) ou de
+ * um filho vinculado à conta dele (`kid_self_expense`).
+ */
+async function loadManagedRow(transactionId: string, parentUserId: string): Promise<ManagedRow> {
+  const { data: row } = await supabaseAdmin
+    .from("transactions")
+    .select("id, amount, tags, user_id, description, transaction_date")
+    .eq("id", transactionId)
+    .maybeSingle();
+
+  if (!row) throw new Error("Lançamento não encontrado.");
+
+  const tags = row.tags ?? [];
+
+  if (row.user_id === parentUserId) {
+    if (!tags.includes("kids_management")) {
+      throw new Error("Você não tem permissão para alterar este lançamento por aqui.");
+    }
+    return { ...row, amount: Number(row.amount), kidOwned: false } as ManagedRow;
+  }
+
+  // Registro da criança: confirma que ela é filha deste responsável.
+  const { data: dependent } = await supabaseAdmin
+    .from("dependents")
+    .select("id")
+    .eq("kid_user_id", row.user_id)
+    .eq("user_id", parentUserId)
+    .maybeSingle();
+
+  if (!dependent) {
+    throw new Error("Sem permissão: este lançamento não pertence à sua família.");
+  }
+
+  return { ...row, amount: Number(row.amount), kidOwned: true } as ManagedRow;
+}
+
+/**
+ * Exclusão reversível (soft delete). Mantemos `deleted_at` para permitir o
+ * "Desfazer" por até 10 minutos, tanto no painel do responsável quanto no
+ * espelho da criança.
+ */
 export const deleteKidManagementTransaction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) =>
-    z
-      .object({
-        transactionId: z.string().uuid(),
-      })
-      .parse(data),
+    z.object({ transactionId: z.string().uuid() }).parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { transactionId } = data;
-    const userId = context.userId;
+    const row = await loadManagedRow(data.transactionId, context.userId);
+    const now = new Date().toISOString();
 
-    const { data: parentTx, error: fetchError } = await supabaseAdmin
-      .from("transactions")
-      .select("id, amount, tags")
-      .eq("id", transactionId)
-      .eq("user_id", userId)
-      .single();
-
-    if (fetchError || !parentTx || !parentTx.tags?.includes("kids_management")) {
-      throw new Error("Transação não encontrada ou não é permitida a exclusão.");
-    }
-
-    const kidUserId = await resolveKidUserId(parentTx.tags);
-
-    if (kidUserId) {
-      const mirrorIds = await findMirrorIds({
-        parentTxId: parentTx.id,
-        kidUserId,
-        amount: Number(parentTx.amount),
-      });
-      if (mirrorIds.length > 0) {
-        await supabaseAdmin.from("transactions").delete().in("id", mirrorIds);
+    const mirrorIds: string[] = [];
+    if (!row.kidOwned) {
+      const kidUserId = await resolveKidUserId(row.tags);
+      if (kidUserId) {
+        mirrorIds.push(
+          ...(await findMirrorIds({
+            parentTxId: row.id,
+            kidUserId,
+            amount: row.amount,
+          })),
+        );
       }
     }
 
-    const { error: deleteError } = await supabaseAdmin
+    if (mirrorIds.length > 0) {
+      await supabaseAdmin.from("transactions").update({ deleted_at: now }).in("id", mirrorIds);
+    }
+
+    const { error } = await supabaseAdmin
       .from("transactions")
-      .delete()
-      .eq("id", transactionId);
+      .update({ deleted_at: now })
+      .eq("id", row.id);
 
-    if (deleteError) throw deleteError;
+    if (error) throw new Error(error.message);
 
-    return { success: true, mirrorRemoved: Boolean(kidUserId) };
+    return { success: true, ids: [row.id, ...mirrorIds], deletedAt: now };
+  });
+
+/** Restaura o lançamento (e o espelho) apagado nos últimos 10 minutos. */
+export const restoreKidManagementTransaction = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ ids: z.array(z.string().uuid()).min(1) }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    // Confirma permissão pelo registro principal.
+    await loadManagedRow(data.ids[0]!, context.userId);
+
+    const { error } = await supabaseAdmin
+      .from("transactions")
+      .update({ deleted_at: null })
+      .in("id", data.ids);
+
+    if (error) throw new Error(error.message);
+    return { success: true };
   });
 
 export const updateKidManagementTransaction = createServerFn({ method: "POST" })
@@ -105,31 +172,36 @@ export const updateKidManagementTransaction = createServerFn({ method: "POST" })
         transactionId: z.string().uuid(),
         amount: z.number().positive(),
         description: z.string().min(1),
+        transactionDate: z.string().optional(),
       })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    const { transactionId, amount, description } = data;
-    const userId = context.userId;
+    const { transactionId, amount, description, transactionDate } = data;
+    const row = await loadManagedRow(transactionId, context.userId);
 
-    const { data: parentTx, error: fetchError } = await supabaseAdmin
-      .from("transactions")
-      .select("id, amount, tags")
-      .eq("id", transactionId)
-      .eq("user_id", userId)
-      .single();
-
-    if (fetchError || !parentTx || !parentTx.tags?.includes("kids_management")) {
-      throw new Error("Transação não encontrada.");
+    // Gasto lançado pelo filho: o responsável pode corrigir valor, descrição e data.
+    if (row.kidOwned) {
+      const { error } = await supabaseAdmin
+        .from("transactions")
+        .update({
+          amount,
+          description,
+          ...(transactionDate ? { transaction_date: transactionDate } : {}),
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", row.id);
+      if (error) throw new Error(error.message);
+      return { success: true };
     }
 
-    const kidUserId = await resolveKidUserId(parentTx.tags);
+    const kidUserId = await resolveKidUserId(row.tags);
 
     if (kidUserId) {
       const mirrorIds = await findMirrorIds({
-        parentTxId: parentTx.id,
+        parentTxId: row.id,
         kidUserId,
-        amount: Number(parentTx.amount),
+        amount: row.amount,
       });
       if (mirrorIds.length > 0) {
         // A criança nunca vê a descrição interna do responsável.
@@ -140,14 +212,20 @@ export const updateKidManagementTransaction = createServerFn({ method: "POST" })
       }
     }
 
-    const nextTags = (parentTx.tags ?? [])
+    const nextTags = (row.tags ?? [])
       .filter((tag) => !tag.startsWith("parent_desc:"))
       .concat(`parent_desc:${description}`);
 
-    await supabaseAdmin
+    const { error } = await supabaseAdmin
       .from("transactions")
-      .update({ amount, description: `[Envio] ${description}`, tags: nextTags })
-      .eq("id", transactionId);
+      .update({
+        amount,
+        description: `[Envio] ${description}`,
+        tags: nextTags,
+        ...(transactionDate ? { transaction_date: transactionDate } : {}),
+      })
+      .eq("id", row.id);
+    if (error) throw new Error(error.message);
 
     return { success: true };
   });
