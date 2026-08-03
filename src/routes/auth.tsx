@@ -296,7 +296,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="login"
                     aria-label="Acessar conta existente"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-[oklch(0.25_0.04_259)] no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:text-muted-foreground dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
                   >
                     <KeyRound className="size-3.5" aria-hidden />
                     Entrar
@@ -304,7 +304,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="signup"
                     aria-label="Criar nova conta"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:font-extrabold"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-[oklch(0.25_0.04_259)] no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:text-muted-foreground dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:font-extrabold"
                   >
                     <UserPlus className="size-3.5" aria-hidden />
                     Criar conta
@@ -323,17 +323,17 @@ function AuthPage() {
                         <div className="w-full border-t border-border"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-bold dark:text-muted-foreground/70">Acesso Infantil</span>
+                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-extrabold dark:text-muted-foreground/60">Acesso Infantil</span>
                       </div>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => setMode("kid")}
-                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-input bg-secondary px-3 py-2.5 text-foreground transition-all duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99]"
+                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-input bg-secondary px-3 py-2.5 text-foreground transition-all duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99] dark:bg-secondary/40"
                     >
                       <Baby className="size-4 animate-soft-pulse shrink-0 text-primary transition-transform duration-300 group-hover:scale-105" aria-hidden />
-                      <span className="text-[12px] font-semibold leading-tight tracking-tight sm:text-[13px]">
+                      <span className="text-[12px] font-bold leading-tight tracking-tight sm:text-[13px] text-[oklch(0.25_0.04_259)] dark:text-foreground">
                         Sou criança — entrar com meu código
                       </span>
                     </button>
@@ -382,7 +382,7 @@ function AuthPage() {
 function FieldError({ id, message }: { id?: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-xs text-destructive">
+    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-xs text-destructive dark:text-destructive-foreground font-semibold">
       <AlertCircle className="mt-px size-3.5 shrink-0" aria-hidden="true" />
       <span>{message}</span>
     </p>
@@ -395,7 +395,7 @@ function FormAlert({ message }: { message?: string | null }) {
     <div
       role="alert"
       tabIndex={-1}
-      className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive"
+      className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive dark:text-destructive-foreground font-semibold"
     >
       <AlertCircle className="mt-px size-4 shrink-0" aria-hidden="true" />
       <span>{message}</span>
@@ -513,12 +513,16 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="login-cpf">CPF</Label>
-        <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
+        <div className="mt-1">
+          <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        </div>
       </div>
       <div>
-        <Label htmlFor="login-pin">Senha (6 dígitos)</Label>
-        <PinInput id="login-pin" name="pin" autoComplete="current-password" />
+        <Label htmlFor="login-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
+        <div className="mt-1">
+          <PinInput id="login-pin" name="pin" autoComplete="current-password" />
+        </div>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
@@ -597,24 +601,30 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
     <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="signup-name">Nome Completo</Label>
-        <Input id="signup-name" name="fullName" required />
+        <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
+        <Input id="signup-name" name="fullName" required className="mt-1" />
       </div>
       <div>
-        <Label htmlFor="signup-cpf">CPF</Label>
-        <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        <Label htmlFor="signup-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
+        <div className="mt-1">
+          <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        </div>
       </div>
       <div>
-        <Label htmlFor="signup-email">E-mail de contato (opcional)</Label>
-        <Input id="signup-email" name="contactEmail" type="email" />
+        <Label htmlFor="signup-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail de contato (opcional)</Label>
+        <Input id="signup-email" name="contactEmail" type="email" className="mt-1" />
       </div>
       <div>
-        <Label htmlFor="signup-pin">Senha (6 dígitos)</Label>
-        <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
+        <Label htmlFor="signup-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
+        <div className="mt-1">
+          <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
+        </div>
       </div>
       <div>
-        <Label htmlFor="signup-confirm-pin">Confirmar Senha</Label>
-        <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
+        <Label htmlFor="signup-confirm-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Confirmar Senha</Label>
+        <div className="mt-1">
+          <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
+        </div>
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
@@ -678,7 +688,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
 
       <div className="space-y-3">
         <div>
-          <Label htmlFor="admin-email">E-mail</Label>
+          <Label htmlFor="admin-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail</Label>
           <Input 
             id="admin-email" 
             name="email" 
@@ -689,7 +699,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
           />
         </div>
         <div>
-          <Label htmlFor="admin-password">Senha</Label>
+          <Label htmlFor="admin-password" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha</Label>
           <Input 
             id="admin-password" 
             name="password" 
@@ -839,18 +849,18 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
 
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="kid-code">Meu código</Label>
+        <Label htmlFor="kid-code" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Meu código</Label>
         <Input
           id="kid-code"
           value={code}
           onChange={(event) => setCode(normalizeKidCode(event.target.value))}
           placeholder="EX: JOAO-A1B"
           autoComplete="username"
-          className="mt-1.5 font-mono tracking-wide uppercase"
+          className="mt-1 font-mono tracking-wide uppercase"
         />
       </div>
       <div>
-        <Label htmlFor="kid-pin">Minha senha (4 a 6 números)</Label>
+        <Label htmlFor="kid-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Minha senha (4 a 6 números)</Label>
         <Input
           id="kid-pin"
           type="password"
@@ -859,7 +869,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           onChange={(event) => setPin(onlyDigits(event.target.value).slice(0, 6))}
           placeholder="••••"
           autoComplete="current-password"
-          className="mt-1.5 tracking-[0.4em]"
+          className="mt-1 tracking-[0.4em]"
         />
       </div>
       {lockSeconds > 0 ? (
@@ -935,7 +945,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
       </div>
       <FormAlert message={error} />
       <div>
-        <Label htmlFor="ext-code">Código de Acesso</Label>
+        <Label htmlFor="ext-code" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Código de Acesso</Label>
         <Input
           id="ext-code"
           value={code}
@@ -946,7 +956,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
         />
       </div>
       <div>
-        <Label htmlFor="ext-pass">Senha</Label>
+        <Label htmlFor="ext-pass" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha</Label>
         <Input
           id="ext-pass"
           type="password"

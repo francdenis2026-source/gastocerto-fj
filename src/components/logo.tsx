@@ -31,7 +31,7 @@ export function Logo({
         <span
           className={cn(
             "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
-            onDark ? "text-hero-fg" : "text-[oklch(0.28_0.06_255)] dark:text-white",
+            onDark ? "text-hero-fg" : "text-[oklch(0.25_0.04_259)] dark:text-white",
           )}
         >
           Gasto
