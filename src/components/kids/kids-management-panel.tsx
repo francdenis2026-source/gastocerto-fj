@@ -638,8 +638,40 @@ export function KidsManagementPanel() {
             </TabsContent>
 
             <TabsContent value="history" className="m-0 focus-visible:outline-none">
+              <div className="p-4 bg-muted/5 border-b border-border/50">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <Label className="text-[10px] font-bold uppercase text-muted-foreground">Comparação (Este mês vs Mês passado)</Label>
+                    <Info className="size-3 text-muted-foreground" />
+                  </div>
+                  {metrics.data?.summary && (
+                    <div className="flex gap-4">
+                      <div className="text-right">
+                        <p className="text-[8px] font-bold uppercase text-muted-foreground">Variação Enviada</p>
+                        <p className={cn(
+                          "text-[10px] font-black tabular-nums",
+                          (metrics.data.summary.current.sent - metrics.data.summary.previous.sent) >= 0 ? "text-emerald-600" : "text-rose-600"
+                        )}>
+                          {(metrics.data.summary.current.sent - metrics.data.summary.previous.sent) >= 0 ? "+" : ""}
+                          {formatCurrency(metrics.data.summary.current.sent - metrics.data.summary.previous.sent)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[8px] font-bold uppercase text-muted-foreground">Variação Gasto</p>
+                        <p className={cn(
+                          "text-[10px] font-black tabular-nums",
+                          (metrics.data.summary.current.spent - metrics.data.summary.previous.spent) >= 0 ? "text-rose-600" : "text-emerald-600"
+                        )}>
+                          {(metrics.data.summary.current.spent - metrics.data.summary.previous.spent) >= 0 ? "+" : ""}
+                          {formatCurrency(metrics.data.summary.current.spent - metrics.data.summary.previous.spent)}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
               <div className="divide-y divide-border/30">
-                {metrics.data?.map((tx: any) => {
+                {metrics.data?.transactions?.map((tx: any) => {
                   const kind = kidEntryKind(tx);
                   const sync = syncStatusFor(tx);
                   return (
@@ -682,6 +714,33 @@ export function KidsManagementPanel() {
                   );
                 })}
               </div>
+              
+              {/* Pagination Controls */}
+              {metrics.data && metrics.data.totalCount > PAGE_SIZE && (
+                <div className="px-6 py-3 border-t bg-muted/5 flex items-center justify-between">
+                  <p className="text-[10px] text-muted-foreground">Mostrando {metrics.data.transactions.length} de {metrics.data.totalCount} registros</p>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-7 text-[10px]" 
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >
+                      Anterior
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-7 text-[10px]" 
+                      onClick={() => setPage(p => p + 1)}
+                      disabled={page * PAGE_SIZE >= metrics.data.totalCount}
+                    >
+                      Próximo
+                    </Button>
+                  </div>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
 
