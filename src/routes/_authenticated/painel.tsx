@@ -640,8 +640,6 @@ function DashboardPage() {
 
         </header>
 
-        <KidsManagementPanel />
-
         <GlobalAnnouncementsBanner />
 
         {loadingTransactions ? (
@@ -651,10 +649,8 @@ function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
-            <div className="space-y-4">
-              <InteractiveCalendar onDayClick={openDayDetail} />
-              
+          <div className="grid gap-6 lg:grid-cols-[1fr_380px] mt-6">
+            <div className="space-y-6">
               <div className="grid gap-3 auto-cards-sm">
                 <StatTile
                   tone="brand"
