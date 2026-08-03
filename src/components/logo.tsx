@@ -54,8 +54,7 @@ export function Logo({
           Controle hoje, tranquilidade sempre
         </span>
       </span>
-
-      </span>
     </span>
+
   );
 }
