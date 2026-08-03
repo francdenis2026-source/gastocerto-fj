@@ -319,15 +319,16 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    {((profile as any).kid_accounts?.[0]?.count ?? 0) > 0 ? (
+                    {(kidsCount.data?.get(profile.user_id) ?? 0) > 0 ? (
                       <Badge variant="outline" className="gap-1 border-brand/30 bg-brand/5 text-brand">
                         <Baby className="size-3" />
-                        {(profile as any).kid_accounts[0].count}
+                        {kidsCount.data?.get(profile.user_id)}
                       </Badge>
                     ) : (
                       <span className="text-xs text-muted-foreground">—</span>
                     )}
                   </TableCell>
+
                   <TableCell className="text-muted-foreground">
                     {formatDateTime(profile.created_at)}
                   </TableCell>
