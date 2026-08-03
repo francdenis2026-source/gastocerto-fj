@@ -14,14 +14,29 @@ export function useProfile() {
   return useQuery({
     queryKey: ["profile", user?.id],
     enabled: Boolean(user?.id),
-    queryFn: async (): Promise<Profile | null> => {
+    queryFn: async (): Promise<any | null> => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*")
+        .select(`
+          *,
+          plan:plans(id, name, slug, monthly_price, annual_price, tier),
+          license:licenses!licenses_user_id_fkey(id, status, license_key, expires_at, source, amount)
+        `)
         .eq("user_id", user!.id)
         .maybeSingle();
       if (error) throw error;
-      return data;
+      
+      const p = data as any;
+      const activeLicense = (p.license ?? []).find((l: any) => l.status === 'active');
+      
+      return {
+        ...p,
+        plan_slug: p.plan?.slug,
+        plan_tier: p.plan?.tier,
+        plan_price: p.plan?.monthly_price,
+        has_paid_license: Boolean(activeLicense),
+        paid_plan_slug: activeLicense ? p.plan?.slug : null
+      };
     },
   });
 }
