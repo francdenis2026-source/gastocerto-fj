@@ -330,10 +330,10 @@ function AuthPage() {
                     <button
                       type="button"
                       onClick={() => setMode("kid")}
-                      className="group relative mt-4 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/40 bg-primary/5 px-4 py-3 text-[13px] font-extrabold text-primary transition-all duration-300 hover:bg-primary/10 hover:shadow-[0_0_20px_-5px_oklch(var(--primary)/0.3)] active:scale-[0.98]"
+                      className="group relative mt-4 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-amber-500/40 bg-amber-500/5 px-4 py-3 text-[13px] font-extrabold text-amber-600 transition-all duration-500 hover:bg-amber-500/15 hover:shadow-[0_0_25px_-5px_oklch(var(--warning)/0.4)] active:scale-[0.98] dark:text-amber-400 dark:hover:bg-amber-500/20"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                      <Baby className="size-4.5 transition-transform group-hover:scale-110" aria-hidden />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <Baby className="size-4.5 animate-pulse transition-transform duration-500 group-hover:scale-110" aria-hidden />
                       <span className="relative">Sou criança — entrar com meu código</span>
                     </button>
                     <CodeAccessInline onContinue={() => setMode("signup")} />
