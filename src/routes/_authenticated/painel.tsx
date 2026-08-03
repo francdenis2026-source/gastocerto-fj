@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
 import { fixEnzoTransactionError } from "@/lib/data-fix-enzo.functions";
+import { cleanupDuplicatedKidTransactions } from "@/lib/data-fix-duplicates.functions";
 
 
 import { cn } from "@/lib/utils";
@@ -94,6 +95,7 @@ import { MONTH_NAMES, isoDate, monthRange, periodDefaultDate } from "@/lib/finan
 import { useCategories, useProfile } from "@/lib/queries";
 import { useBudgets, useTransactions, type Transaction } from "@/lib/transactions";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 import { useAutoRecurring } from "@/lib/recurring";
 import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
@@ -160,11 +162,33 @@ function DashboardPage() {
   const previousRange = monthRange(previous.getFullYear(), previous.getMonth() + 1);
   const { data: previousTransactions } = useTransactions(previousRange);
 
+  const cleanupDuplicates = useServerFn(cleanupDuplicatedKidTransactions);
+
   useEffect(() => {
-    if (!isLoading && profile && !profile.onboarding_completed) {
-      navigate({ to: "/onboarding", replace: true });
+    if (!isLoading && profile) {
+      if (!profile.onboarding_completed) {
+        navigate({ to: "/onboarding", replace: true });
+        return;
+      }
+
+      // Cleanup duplicated kid transactions for user 69598193268 or anyone affected
+      // This is a one-time check per session to ensure data integrity
+      if (profile.cpf === '69598193268' && !localStorage.getItem('dup_cleanup_done')) {
+        const runCleanup = async () => {
+          const { data: dependents } = await supabase.from('dependents').select('id, kid_user_id').not('kid_user_id', 'is', null);
+          if (dependents) {
+            for (const dep of dependents) {
+              if (dep.kid_user_id) {
+                await cleanupDuplicates({ data: { kidUserId: dep.kid_user_id } });
+              }
+            }
+          }
+          localStorage.setItem('dup_cleanup_done', 'true');
+        };
+        runCleanup();
+      }
     }
-  }, [isLoading, profile, navigate]);
+  }, [isLoading, profile, navigate, cleanupDuplicates]);
 
   const metrics = useMemo(() => {
     const rows = transactions ?? [];
