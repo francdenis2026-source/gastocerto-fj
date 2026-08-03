@@ -29,6 +29,8 @@ import { NotificationCenter } from "@/components/notifications/notification-cent
 
 
 
+import { usePlanAccess } from "@/lib/plan-features";
+
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({
     meta: [

@@ -35,6 +35,7 @@ export function TrialGrantPanel() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [slug, setSlug] = useState<TrialSlug>("trial_14");
+  const [customDays, setCustomDays] = useState(1);
 
   const users = useQuery({
     queryKey: ["admin", "trial-users"],
@@ -63,7 +64,7 @@ export function TrialGrantPanel() {
   }, [users.data, search]);
 
   const mutation = useMutation({
-    mutationFn: (targetUserId: string) => grant({ data: { targetUserId, slug, restart: true } }),
+    mutationFn: (targetUserId: string) => grant({ data: { targetUserId, slug, customDays, restart: true } }),
     onSuccess: (result) => {
       toast.success(`Teste de ${result.days} dias liberado até ${formatDateTime(result.endsAt)}.`);
       void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
@@ -128,14 +129,31 @@ export function TrialGrantPanel() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {TRIAL_OPTIONS.map((option) => (
-                <SelectItem key={option.slug} value={option.slug}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+               {TRIAL_OPTIONS.map((option) => (
+                 <SelectItem key={option.slug} value={option.slug}>
+                   {option.label}
+                 </SelectItem>
+               ))}
+               <SelectItem value="trial_1h">1 Hora</SelectItem>
+               <SelectItem value="trial_6h">6 Horas</SelectItem>
+               <SelectItem value="trial_12h">12 Horas</SelectItem>
+               <SelectItem value="trial_custom">Dias Específicos</SelectItem>
+             </SelectContent>
+           </Select>
+         </div>
+         {slug === "trial_custom" && (
+           <div className="w-24 space-y-1">
+             <Label className="text-xs">Dias</Label>
+             <Input
+               type="number"
+               min={1}
+               max={365}
+               value={customDays}
+               onChange={(e) => setCustomDays(Number(e.target.value))}
+               className="h-9"
+             />
+           </div>
+         )}
         <Button variant="outline" size="sm" onClick={exportPdf} className="h-9">
             <FileText className="size-4 mr-2" />
             PDF
