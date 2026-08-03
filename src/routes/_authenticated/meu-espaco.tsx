@@ -868,8 +868,8 @@ function KidEntryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-3xl sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>O que aconteceu?</DialogTitle>
-          <DialogDescription>Escolha o motivo e digite o valor.</DialogDescription>
+          <DialogTitle className="tracking-tight">Registrar movimentação</DialogTitle>
+          <DialogDescription>Selecione o motivo e informe o valor.</DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-2">
@@ -877,17 +877,18 @@ function KidEntryDialog({
             <button
               key={item.value}
               type="button"
+              aria-pressed={reason === item.value}
               onClick={() => setReason(item.value)}
               className={cn(
-                "rounded-2xl border p-3 text-left text-[12px] font-bold transition",
+                "rounded-xl border p-3 text-left text-[12px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 reason === item.value
                   ? "border-primary bg-primary/10 text-primary"
-                  : "border-border bg-card text-muted-foreground",
+                  : "border-border bg-card text-foreground hover:bg-muted/50",
               )}
             >
               {item.label}
-              <span className="mt-0.5 block text-[10px] font-medium opacity-70">
-                {item.type === "income" ? "Entrou dinheiro" : "Saiu dinheiro"}
+              <span className="mt-0.5 block text-[10px] font-medium text-muted-foreground">
+                {item.type === "income" ? "Entrada de dinheiro" : "Saída de dinheiro"}
               </span>
             </button>
           ))}
@@ -917,20 +918,23 @@ function KidEntryDialog({
           </div>
         </div>
 
-        <p className="rounded-xl bg-muted/50 px-3 py-2 text-[11px] font-medium text-muted-foreground">
-          🔒 Atenção: depois de salvar, a data e a hora são marcadas automaticamente e o registro
-          <strong> não pode ser editado nem apagado</strong>. Só um responsável pode corrigir.
+        <p className="rounded-xl border border-border bg-muted/40 px-3 py-2.5 text-[11px] font-medium leading-relaxed text-muted-foreground">
+          A data e a hora são registradas automaticamente. Depois de salvar, o lançamento
+          <strong className="text-foreground"> não pode ser editado nem excluído</strong> — apenas o responsável pode corrigi-lo.
         </p>
 
-        <div className="p-3 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex gap-3 items-start">
-          <div className="bg-amber-500/10 p-2 rounded-xl text-amber-600">
-            <AlertTriangle className="size-4" />
+        <div className="flex items-start gap-3 rounded-xl border border-amber-600/25 bg-amber-500/8 p-3 dark:border-amber-400/25 dark:bg-amber-400/10">
+          <div className="rounded-lg bg-amber-600/12 p-2 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300">
+            <AlertTriangle className="size-4" aria-hidden="true" />
           </div>
           <div>
-            <p className="text-[11px] font-bold text-amber-700">Algo errado?</p>
-            <p className="text-[10px] text-amber-600/80 leading-snug">Se você digitou o valor ou a data errada, salve e depois peça para o papai ou a mamãe corrigir para você no painel deles.</p>
+            <p className="text-[11px] font-semibold text-amber-800 dark:text-amber-200">Digitou algo errado?</p>
+            <p className="mt-0.5 text-[11px] leading-relaxed text-amber-800/80 dark:text-amber-200/80">
+              Salve normalmente e solicite a correção ao seu responsável — ele ajusta o lançamento no painel dele.
+            </p>
           </div>
         </div>
+
 
 
 
