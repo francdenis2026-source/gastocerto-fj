@@ -30,8 +30,17 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className={cn("relative rounded-full", isKid ? "size-9" : "h-10 w-10")}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={unreadCount > 0 ? `Avisos (${unreadCount} não lidos)` : "Avisos"}
+          className={cn(
+            "relative rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            isKid ? "size-10" : "h-10 w-10",
+          )}
+        >
           <Bell className={isKid ? "size-4" : "size-5"} />
+
           {unreadCount > 0 && (
             <Badge className={cn(
               "absolute justify-center rounded-full bg-destructive p-0 text-destructive-foreground ring-2 ring-background",
