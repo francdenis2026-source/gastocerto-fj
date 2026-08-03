@@ -141,10 +141,10 @@ const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
 };
 
 /** Valores positivos e negativos com contraste garantido nos dois temas. */
-const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-300";
+const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-400";
 const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
-const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-300";
-const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/10";
+const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-400 font-bold";
+const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/15";
 
 function KidSpacePage() {
   const navigate = useNavigate();
@@ -315,16 +315,7 @@ function KidSpacePage() {
     )}>
       {/* Selector for period view and Goals Panel */}
       <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col gap-4 px-4">
-        {/* Goals / Budget Alert */}
-        {(balance / (dependent.monthly_limit || 100)) < 0.2 && (
-          <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-3 flex items-center gap-3 animate-pulse">
-            <AlertTriangle className="size-5 text-rose-500 shrink-0" />
-            <div className="flex-1">
-              <p className="text-xs font-bold text-rose-700 dark:text-rose-400">Atenção! Seu saldo está baixo.</p>
-              <p className="text-[10px] text-rose-600/80 dark:text-rose-400/80">Que tal economizar um pouquinho para sua meta?</p>
-            </div>
-          </div>
-        )}
+        {/* Goals / Budget Alert - Removed as requested to gain space */}
 
         <div className="flex items-center justify-between">
           <div className="relative flex-1 max-w-xs">
@@ -963,8 +954,14 @@ function KidSummary({
         "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm transition-all duration-300",
         accent.border,
       )}>
-      <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="flex items-center gap-2 text-xl font-black tracking-tighter uppercase text-foreground">
+          <CalendarIcon className="size-4" />
+          {viewYearly ? selectedYear : `${MONTH_NAMES[selectedMonth]} ${selectedYear}`}
+        </h2>
         <Target className={cn("size-5", accent.text)} aria-hidden="true" /> 
+      </div>
+      <h2 className="sr-only">
         Resumo {viewYearly ? `de ${selectedYear}` : `de ${new Date(0, selectedMonth).toLocaleDateString("pt-BR", { month: "long" })}`}
       </h2>
 
@@ -987,17 +984,7 @@ function KidSummary({
         </div>
       </div>
 
-      {balance <= 0 && (
-        <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-xl border border-rose-600/20 bg-rose-500/5 p-4">
-          <AlertTriangle className="size-5 text-rose-600 shrink-0" />
-          <div className="space-y-0.5">
-            <p className="text-[12px] font-bold text-rose-950 dark:text-rose-200">Saldo zerado ou baixo!</p>
-            <p className="text-[11px] font-medium text-rose-800/80 dark:text-rose-300/80">
-              Pense bem antes de gastar. Que tal poupar um pouco para um objetivo maior?
-            </p>
-          </div>
-        </div>
-      )}
+      {/* Mensagem de saldo baixo removida para ganhar espaço útil conforme solicitado */}
 
       <div className="rounded-xl border border-border bg-muted/20 p-4">
         <div className="flex items-center justify-between mb-2">
