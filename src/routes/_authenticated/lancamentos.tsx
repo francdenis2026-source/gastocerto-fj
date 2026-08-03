@@ -35,6 +35,7 @@ import { PeriodPdfPreview } from "@/components/finance/period-pdf-preview";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { InlineNotes } from "@/components/finance/inline-notes";
 import { TransactionDetailsDialog } from "@/components/finance/transaction-details-dialog";
+import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
 import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-notice";
 import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
@@ -434,7 +435,10 @@ function TransactionsPage() {
       toast.success(ids.length > 1 ? "Lançamentos excluídos." : "Lançamento excluído.");
     } catch (error) {
       console.error("[lancamentos] falha ao excluir", error);
-      toast.error("Não foi possível excluir.");
+      const message =
+        (error as { message?: string })?.message ??
+        "Verifique sua conexão e tente novamente.";
+      toast.error("Não foi possível excluir", { description: message });
     }
   }
 
@@ -1354,22 +1358,20 @@ function TransactionsPage() {
 
 
 
-      <AlertDialog open={confirmDelete !== null} onOpenChange={() => setConfirmDelete(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Excluir lançamento?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Esta ação remove o registro do seu histórico e atualiza métricas e orçamentos.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => confirmDelete && handleDelete(confirmDelete)}>
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteConfirmDialog
+        open={confirmDelete !== null}
+        onOpenChange={(value: boolean) => !value && setConfirmDelete(null)}
+        title={confirmDelete && confirmDelete.length > 1 ? "Excluir lançamentos?" : "Excluir lançamento?"}
+        description="O registro sai do seu histórico e as métricas, orçamentos e relatórios são recalculados imediatamente. Esta ação não pode ser desfeita."
+        itemLabel={
+          confirmDelete && confirmDelete.length > 1
+            ? `${confirmDelete.length} lançamentos selecionados`
+            : (filtered.find((row) => row.id === confirmDelete?.[0])?.description ?? null)
+        }
+        pending={remove.isPending}
+        onConfirm={() => confirmDelete && handleDelete(confirmDelete)}
+      />
+
     </AppShell>
   );
 }

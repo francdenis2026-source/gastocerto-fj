@@ -18,16 +18,7 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { RecurringDialog } from "@/components/finance/recurring-dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -562,31 +553,29 @@ function RecurringPage() {
       ) : null}
 
 
-      <AlertDialog open={confirm !== null} onOpenChange={() => setConfirm(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Excluir recorrência?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Os lançamentos já gerados continuam no histórico; apenas novas gerações são
-              interrompidas.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={async () => {
-                if (!confirm) return;
-                await remove.mutateAsync(confirm.id).catch(() => {
-                  toast.error("Não foi possível excluir.");
-                });
-                setConfirm(null);
-              }}
-            >
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteConfirmDialog
+        open={confirm !== null}
+        onOpenChange={(value: boolean) => !value && setConfirm(null)}
+        title="Excluir despesa recorrente?"
+        description="A regra deixa de gerar novos lançamentos. Os lançamentos já gerados permanecem no histórico e podem ser excluídos individualmente."
+        itemLabel={confirm?.description ?? null}
+        amountLabel={confirm ? formatCurrency(Number(confirm.amount)) : null}
+        confirmLabel="Excluir recorrência"
+        pending={remove.isPending}
+        onConfirm={async () => {
+          if (!confirm) return;
+          try {
+            await remove.mutateAsync(confirm.id);
+            toast.success("Recorrência excluída.");
+            setConfirm(null);
+          } catch (error) {
+            toast.error("Não foi possível excluir", {
+              description:
+                (error as { message?: string })?.message ?? "Tente novamente em instantes.",
+            });
+          }
+        }}
+      />
     </AppShell>
   );
 }

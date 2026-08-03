@@ -57,6 +57,8 @@ import { MoneyInput } from "@/components/ui/money-input";
 import { toast } from "sonner";
 import { useDependents, type Dependent } from "@/lib/dependents";
 import { formatCurrency } from "@/lib/format";
+import { KidEntryDetailsDialog } from "@/components/kids/kid-entry-details-dialog";
+import { kidEntryKind, kidEntryLabel, kidEntryTone, syncStatusFor } from "@/lib/kids-labels";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
 import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
@@ -90,6 +92,7 @@ export function KidsManagementPanel() {
   const [detailedKid, setDetailedKid] = useState<Dependent | null>(null);
   const [giveMoneyOpen, setGiveMoneyOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [details, setDetails] = useState<any | null>(null);
 
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
@@ -485,29 +488,46 @@ export function KidsManagementPanel() {
                 <Label className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">Lançamentos Recentes</Label>
               </div>
               <div className="max-h-[200px] overflow-y-auto divide-y divide-border/30">
-                {metrics.data.slice(0, 5).map((tx: any) => (
+                {metrics.data.slice(0, 5).map((tx: any) => {
+                  const kind = kidEntryKind(tx);
+                  const sync = syncStatusFor(tx);
+                  return (
                   <div key={tx.id} className="px-4 py-2.5 flex items-center justify-between hover:bg-muted/30 transition-colors">
-                    <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setDetails(tx)}
+                      className="flex flex-1 items-center gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
+                      aria-label={`Ver detalhes de ${tx.description}`}
+                    >
                       <div className={cn(
                         "size-8 rounded-lg flex items-center justify-center",
-                        tx.tags?.includes("kid_self_expense") ? "bg-rose-500/10 text-rose-600" :
-                        tx.tags?.includes("type:pix") ? "bg-emerald-500/10 text-emerald-600" :
-                        tx.tags?.includes("type:cash") ? "bg-sky-500/10 text-sky-600" :
-                        "bg-amber-500/10 text-amber-600"
+                        kind === "kidExpense" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" :
+                        tx.tags?.includes("type:pix") ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" :
+                        tx.tags?.includes("type:cash") ? "bg-sky-500/10 text-sky-600 dark:text-sky-400" :
+                        "bg-amber-500/10 text-amber-600 dark:text-amber-400"
                       )}>
-                        {tx.tags?.includes("kid_self_expense") ? <TrendingDown className="size-4" /> : 
+                        {kind === "kidExpense" ? <TrendingDown className="size-4" /> :
                          tx.tags?.includes("type:gift") ? <Gift className="size-4" /> : <Coins className="size-4" />}
                       </div>
-                      <div>
-                        <p className="text-[11px] font-bold leading-tight">
-                          {tx.tags?.includes("kid_self_expense") ? `[Gasto do Filho] ${tx.description}` : 
-                           (tx.description.replace("[Envio para ", "").split("]")[1]?.trim() || tx.description)}
+                      <div className="min-w-0">
+                        <p className="text-[11px] font-bold leading-tight truncate">
+                          <span className={cn(kidEntryTone(kind))}>{kidEntryLabel(tx)}</span>
+                          <span className="text-muted-foreground font-semibold">
+                            {" · "}
+                            {kind === "kidExpense"
+                              ? tx.description
+                              : (tx.description.replace("[Envio para ", "").split("]")[1]?.trim() || tx.description)}
+                          </span>
                         </p>
-                        <p className="text-[9px] text-muted-foreground">{new Date(tx.transaction_date).toLocaleDateString()}</p>
+                        <p className="text-[9px] text-muted-foreground">
+                          {new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")} · {sync.label}
+                        </p>
                       </div>
-                    </div>
+                    </button>
                     <div className="flex items-center gap-3">
-                      <span className="text-[11px] font-black">{formatCurrency(tx.amount)}</span>
+                      <span className={cn("text-[11px] font-black tabular-nums", kidEntryTone(kind))}>
+                        {formatCurrency(tx.amount)}
+                      </span>
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button variant="ghost" size="icon" className="size-7">
@@ -525,12 +545,19 @@ export function KidsManagementPanel() {
                       </Dialog>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
         </CardContent>
       )}
+      <KidEntryDetailsDialog
+        entry={details}
+        kidName={kids.find((k) => k.id === selectedKidId)?.name ?? null}
+        open={details !== null}
+        onOpenChange={(value: boolean) => !value && setDetails(null)}
+      />
     </Card>
   );
 }
