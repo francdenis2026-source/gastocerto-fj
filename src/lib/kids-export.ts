@@ -6,7 +6,7 @@ export interface KidExportRow {
   date: string;
   description: string;
   type: "income" | "expense";
-  amount: number | string;
+  amount: number;
 }
 
 export interface KidExportMetrics {
