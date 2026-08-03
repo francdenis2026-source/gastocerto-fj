@@ -101,6 +101,10 @@ export function KidsManagementPanel() {
   const [giveMoneyOpen, setGiveMoneyOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [details, setDetails] = useState<any | null>(null);
+  
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
 
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
@@ -112,12 +116,14 @@ export function KidsManagementPanel() {
   useParentKidsRealtime(user?.id, kidUserIds);
 
   const metrics = useQuery({
-    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
+    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear(), page],
     queryFn: () => fetchMetrics({ 
       data: { 
         dependentId: selectedKidId === "all" ? undefined : selectedKidId,
         month: new Date().getMonth() + 1,
-        year: new Date().getFullYear()
+        year: new Date().getFullYear(),
+        page,
+        pageSize: PAGE_SIZE
       } 
     }),
     refetchOnWindowFocus: true,
