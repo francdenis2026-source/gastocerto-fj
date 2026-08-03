@@ -563,43 +563,48 @@ function KidSpacePage() {
 
         <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold">Meu histórico</h2>
+            <h2 className="text-sm font-semibold tracking-tight">Histórico de movimentações</h2>
             {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
           </div>
           {rows.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-              Nada registrado ainda. Toque em “Registrar agora” para começar.
+            <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm leading-relaxed text-muted-foreground">
+              Nenhuma movimentação registrada até agora. Use “Novo registro” para começar.
             </p>
           ) : (
             <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
               {rows.map((row) => (
-                <li key={row.id} className="flex items-center justify-between gap-3 p-3 hover:bg-muted/30 transition-colors group">
+                <li key={row.id} className="group flex items-center justify-between gap-3 p-3.5 transition-colors hover:bg-muted/40">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-semibold">{row.description}</p>
-                      <button 
+                      <p className="truncate text-sm font-medium">{row.description}</p>
+                      <button
+                        type="button"
                         onClick={() => {
-                          toast.info("Solicitação enviada!", {
-                            description: "O responsável foi notificado para revisar este lançamento."
+                          toast.info("Solicitação registrada", {
+                            description: "Seu responsável foi avisado e vai revisar este lançamento.",
                           });
                         }}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-[9px] font-bold text-primary hover:underline"
+                        className={cn(
+                          "shrink-0 rounded-md px-1 text-[10px] font-semibold underline-offset-2 transition-opacity hover:underline focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          "opacity-0 group-hover:opacity-100",
+                          accent.text,
+                        )}
                       >
-                        Solicitar Correção
+                        Solicitar correção
                       </button>
                     </div>
-                    <p className="text-[10px] font-bold text-muted-foreground/70 uppercase">
+                    <p className="mt-0.5 text-[11px] font-medium capitalize text-muted-foreground">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
-                        day: '2-digit',
-                        month: 'long'
+                        day: "2-digit",
+                        month: "long",
                       })}
                     </p>
                   </div>
 
                   <span
                     className={cn(
-                      "shrink-0 text-sm font-bold tabular-nums",
-                      row.transaction_type === "income" ? "text-emerald-600" : "text-destructive",
+                      "shrink-0 text-sm font-semibold tabular-nums",
+                      row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
                     )}
                   >
                     {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(Number(row.amount))}
@@ -608,18 +613,18 @@ function KidSpacePage() {
               ))}
             </ul>
           )}
-          <div className="flex justify-center mt-2">
+          <div className="mt-2 flex justify-center">
             <Button
               variant="ghost"
               size="sm"
-              className="text-[10px] font-bold text-muted-foreground hover:text-primary transition-colors gap-2"
+              className="gap-2 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => {
-                toast.info("Precisa corrigir algo?", {
-                  description: "Toque em 'Solicitar Correção' ao lado do nome da conta no histórico."
+                toast.info("Encontrou uma informação errada?", {
+                  description: "Passe o cursor sobre o lançamento e toque em “Solicitar correção”.",
                 });
               }}
             >
-              <HelpCircle className="size-3" /> Ajuda com o histórico
+              <HelpCircle className="size-3.5" aria-hidden="true" /> Como corrigir um lançamento
             </Button>
           </div>
         </section>
