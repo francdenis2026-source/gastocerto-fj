@@ -40,22 +40,33 @@ import { syncKidTransaction } from "@/lib/kids-sync.functions";
 
 
 export const Route = createFileRoute("/_authenticated/meu-espaco")({
-  head: () => ({
-    meta: [
-      { title: "Meu Espaço — GastoCerto Kids" },
-      {
-        name: "description",
-        content: "Painel da criança: saldo mágico, metas de poupança e registro de ganhos e gastos.",
-      },
-      { property: "og:title", content: "Meu Espaço — GastoCerto Kids" },
-      {
-        property: "og:description",
-        content: "Painel da criança: saldo mágico, metas de poupança e registro de ganhos e gastos.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
+  head: () => {
+    const title = "Meu Espaço — GastoCerto Kids";
+    const description =
+      "O espaço da criança no GastoCerto: mesada, metas de poupança e registro de ganhos e gastos, com acompanhamento do responsável.";
+    const image = "https://gastocerto-fj.lovable.app/og-kids.jpg";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { name: "robots", content: "noindex" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://gastocerto-fj.lovable.app/meu-espaco" },
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "og:image:alt", content: "Espaço Kids do GastoCerto: cofrinho e meta de poupança" },
+        { property: "og:locale", content: "pt_BR" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+    };
+  },
+
   loader: async ({ context: { queryClient } }) => {
     // Carregar configurações de modo compacto
     const { data: profile } = await supabase.from("profiles").select("*").single();
