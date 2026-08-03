@@ -1210,7 +1210,7 @@ function DashboardPage() {
               </div>
             </section>
           </div>
-        ) }
+        )}
       </div>
       <MetricDetailDialog
         detail={detail}
