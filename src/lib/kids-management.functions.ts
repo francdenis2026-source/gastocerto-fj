@@ -56,12 +56,13 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
       if (kidError) console.error("Erro ao registrar entrada no painel da criança:", kidError.message);
     }
 
-    await supabaseAdmin.from("kid_access_audit").insert({
+    const { error: auditError } = await supabaseAdmin.from("kid_access_audit").insert({
       user_id: userId,
       dependent_id: dependentId,
       action: "give_money" as any,
       details: { amount, type, description } as any
     });
+    if (auditError) console.error("Erro ao registrar auditoria:", auditError.message);
 
     return { success: true };
   });

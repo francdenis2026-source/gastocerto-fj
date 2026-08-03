@@ -345,7 +345,7 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
             <Label htmlFor="amount">Valor</Label>
             <MoneyInput 
               value={formData.amount} 
-              onValueChange={(v) => setFormData({...formData, amount: v || 0})}
+              onValueChange={(v) => setFormData({...formData, amount: v ? Number(v) : 0})}
               placeholder="R$ 0,00"
             />
           </div>
