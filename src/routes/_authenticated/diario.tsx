@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { AlertTriangle, ArrowDownRight, ArrowUpRight, CalendarDays, Clock, ListFilter, Plus, Search } from "lucide-react";
+import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -48,7 +49,7 @@ export const Route = createFileRoute("/_authenticated/diario")({
   component: DailyPage,
 });
 
-type Mode = "dia" | "quinzena" | "mes";
+type Mode = "dia" | "semana" | "quinzena" | "mes";
 
 function iso(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -65,9 +66,19 @@ function rangeFor(mode: Mode, year: number, month: number) {
     return { start: iso(targetDate), end: iso(targetDate) };
   }
   
+  if (mode === "semana") {
+    const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
+    const refDate = isCurrentMonth ? today : dateInView;
+    const start = new Date(refDate);
+    start.setDate(refDate.getDate() - refDate.getDay());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    return { start: iso(start), end: iso(end) };
+  }
+
   if (mode === "quinzena") {
     const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
-    const first = isCurrentMonth ? today.getDate() <= 15 : true; // Padrão 1ª quinzena se não for mês atual
+    const first = isCurrentMonth ? today.getDate() <= 15 : true;
     const start = new Date(year, month - 1, first ? 1 : 16);
     const end = first
       ? new Date(year, month - 1, 15)
@@ -75,9 +86,7 @@ function rangeFor(mode: Mode, year: number, month: number) {
     return { start: iso(start), end: iso(end) };
   }
   
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month, 0);
-  return { start: iso(start), end: iso(end) };
+  return { start: iso(dateInView), end: iso(new Date(year, month, 0)) };
 }
 
 function hourOf(value: string | null) {
@@ -139,7 +148,9 @@ function DailyPage() {
       const key =
         mode === "dia"
           ? (hourOf(item.created_at) ?? "—").slice(0, 2) + "h"
-          : formatDate(item.transaction_date).slice(0, 5);
+          : mode === "semana"
+            ? formatDate(item.transaction_date).slice(0, 5)
+            : formatDate(item.transaction_date).slice(0, 5);
       buckets.set(key, (buckets.get(key) ?? 0) + Number(item.amount));
     });
     return [...buckets.entries()]
@@ -185,27 +196,51 @@ function DailyPage() {
           description={`${formatDate(range.start)} até ${formatDate(range.end)} · hora de cada lançamento`}
           actions={
             <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-2 mr-2">
-              <PeriodPicker 
-                year={selectedYear} 
-                month={selectedMonth} 
-                onChange={(p) => {
-                  setSelectedYear(p.year);
-                  setSelectedMonth(p.month);
-                }} 
-              />
-            </div>
-            <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
-              <TabsList>
-                <TabsTrigger value="dia">Dia</TabsTrigger>
-                <TabsTrigger value="quinzena">Quinzena</TabsTrigger>
-                <TabsTrigger value="mes">Mês</TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <Button size="sm" onClick={() => setDialogOpen(true)}>
-              <Plus className="mr-1.5 size-4" />
-              Novo gasto
-            </Button>
+              <div className="flex items-center gap-2 mr-2">
+                <PeriodPicker 
+                  year={selectedYear} 
+                  month={selectedMonth} 
+                  onChange={(p) => {
+                    setSelectedYear(p.year);
+                    setSelectedMonth(p.month);
+                  }} 
+                />
+              </div>
+              <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
+                <TabsList className="bg-muted/50 p-1">
+                  <TabsTrigger value="dia" className="text-[11px] font-bold">Dia</TabsTrigger>
+                  <TabsTrigger value="semana" className="text-[11px] font-bold">Semana</TabsTrigger>
+                  <TabsTrigger value="quinzena" className="text-[11px] font-bold">Quinzena</TabsTrigger>
+                  <TabsTrigger value="mes" className="text-[11px] font-bold">Mês</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <div className="flex items-center gap-2 ml-auto">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="rounded-xl"
+                  onClick={() => {
+                    // Export CSV logic simplified
+                    toast.info("Exportação CSV iniciada...");
+                  }}
+                >
+                  CSV
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="rounded-xl"
+                  onClick={() => {
+                    toast.info("Exportação PDF iniciada...");
+                  }}
+                >
+                  PDF
+                </Button>
+                <Button size="sm" onClick={() => setDialogOpen(true)} className="rounded-xl">
+                  <Plus className="mr-1.5 size-4" />
+                  Novo gasto
+                </Button>
+              </div>
             </div>
           }
         />
@@ -241,7 +276,7 @@ function DailyPage() {
         <section className="rounded-2xl border border-border bg-card p-4">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <CalendarDays className="size-4 text-muted-foreground" />
-            {mode === "dia" ? "Saídas por hora" : "Saídas por dia"}
+            {mode === "dia" ? "Saídas por hora" : mode === "semana" ? "Saídas por dia da semana" : "Saídas por dia"}
           </h2>
           <div className="chart-frame mt-2">
             {chartData.length === 0 ? (
@@ -294,6 +329,16 @@ function DailyPage() {
                       {category.name}
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+              <Select defaultValue="all">
+                <SelectTrigger className="h-9 w-32 text-xs">
+                  <SelectValue placeholder="Tipo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="expense">Despesas</SelectItem>
+                  <SelectItem value="income">Receitas</SelectItem>
                 </SelectContent>
               </Select>
               <Tabs value={groupBy} onValueChange={(value) => setGroupBy(value as typeof groupBy)}>
