@@ -34,7 +34,16 @@ export function Logo({
             onDark ? "text-white" : "text-[oklch(0.28_0.06_255)] dark:text-white",
           )}
         >
-          Gasto<span className="text-[oklch(0.58_0.14_150)]">Certo</span>
+          Gasto
+          <span
+            className={cn(
+              onDark
+                ? "text-[oklch(0.78_0.17_152)] drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]"
+                : "text-[oklch(0.52_0.15_150)] dark:text-[oklch(0.78_0.17_152)]",
+            )}
+          >
+            Certo
+          </span>
         </span>
         <span
           className={cn(
