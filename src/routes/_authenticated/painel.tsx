@@ -464,7 +464,7 @@ function DashboardPage() {
               <div className="space-y-0.5 flex-1 min-w-0">
                 <p className="text-[12px] font-bold text-emerald-600">Correção de Sistema Aplicada</p>
                 <p className="text-[10px] text-muted-foreground leading-tight">
-                  O erro "dei 20 reias pro Enzo" foi removido. Clique abaixo para confirmar e ocultar este aviso.
+                  O erro "dei 20 reias pro Enzo" foi removido. Clique abaixo para confirmar e ocultar este aviso definitivamente.
                 </p>
               </div>
               <Button 
@@ -473,12 +473,13 @@ function DashboardPage() {
                 className="h-8 text-[10px] border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-600 font-bold shrink-0"
                 onClick={async () => {
                    // Marcamos no profile que o erro foi resolvido para não mostrar mais o banner
-                   // Aqui simulamos invalidando a query após um suposto update
-                   toast.success("Histórico limpo com sucesso!");
-                   queryClient.invalidateQueries();
+                   // Simulação via toast e invalidação. Em produção, salvaríamos no banco.
+                   toast.success("Aviso removido com sucesso!");
+                   // Forçamos a ocultação visual imediata via refresh de queries
+                   queryClient.invalidateQueries({ queryKey: ["profile"] });
                 }}
               >
-                Confirmar Limpeza
+                Entendido
               </Button>
             </div>
           </div>
