@@ -1245,15 +1245,58 @@ function KidEntryDialog({
 
 
 
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancelar
-          </Button>
-          <Button onClick={() => save.mutate()} disabled={save.isPending}>
-            {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-            Salvar
-          </Button>
-        </DialogFooter>
+        {confirming ? (
+          <div className="rounded-2xl border border-primary/30 bg-primary/5 p-4">
+            <div className="flex items-start gap-3">
+              <div className="rounded-xl bg-primary/10 p-2 text-primary">
+                <Target className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold tracking-tight">Confirmar registro</p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+                  Confira o valor antes de continuar. Depois de salvar, este lançamento não poderá ser editado.
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-1 rounded-xl font-semibold"
+                onClick={() => setConfirming(false)}
+                disabled={save.isPending}
+              >
+                Revisar
+              </Button>
+              <Button
+                className="flex-1 rounded-xl font-semibold"
+                onClick={() => save.mutate()}
+                disabled={save.isPending}
+              >
+                {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+                Confirmar
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={() => {
+                const value = parseAmount(amount);
+                if (!value || value <= 0) {
+                  toast.error("Informe um valor maior que zero.");
+                  return;
+                }
+                setConfirming(true);
+              }}
+            >
+              Salvar
+            </Button>
+          </DialogFooter>
+        )}
+
       </DialogContent>
     </Dialog>
   );
