@@ -190,7 +190,7 @@ function DashboardPage() {
         runCleanup();
       }
     }
-  }, [isLoading, profile, navigate, cleanupDuplicates]);
+  }, [profile, navigate, cleanupDuplicates]);
 
   const metrics = useMemo(() => {
     const rows = transactions ?? [];
