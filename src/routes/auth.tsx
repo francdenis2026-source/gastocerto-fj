@@ -318,13 +318,23 @@ function AuthPage() {
                       onForgot={() => setMode("forgot")}
                       onAdmin={() => setMode("admin")}
                     />
+                    <div className="relative mt-5">
+                      <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                        <div className="w-full border-t border-border"></div>
+                      </div>
+                      <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
+                        <span className="bg-card px-2 text-muted-foreground/60">Acesso Infantil</span>
+                      </div>
+                    </div>
+
                     <button
                       type="button"
                       onClick={() => setMode("kid")}
-                      className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-[12px] font-bold text-primary transition hover:bg-primary/10"
+                      className="group relative mt-4 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/40 bg-primary/5 px-4 py-3 text-[13px] font-extrabold text-primary transition-all duration-300 hover:bg-primary/10 hover:shadow-[0_0_20px_-5px_oklch(var(--primary)/0.3)] active:scale-[0.98]"
                     >
-                      <Baby className="size-4" aria-hidden />
-                      Sou criança — entrar com meu código
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                      <Baby className="size-4.5 transition-transform group-hover:scale-110" aria-hidden />
+                      <span className="relative">Sou criança — entrar com meu código</span>
                     </button>
                     <CodeAccessInline onContinue={() => setMode("signup")} />
                   </TabsContent>
