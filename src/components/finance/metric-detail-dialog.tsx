@@ -61,11 +61,14 @@ function TransactionPanel({
   transaction,
   categoryName,
   onEdit,
+  onRequestDelete,
 }: {
   transaction: Transaction;
   categoryName?: string;
   onEdit?: (transaction: Transaction) => void;
+  onRequestDelete?: (transaction: Transaction) => void;
 }) {
+
   const { data: history } = useNoteHistory(transaction.id, true);
   const isIncome = transaction.transaction_type === "income";
 
