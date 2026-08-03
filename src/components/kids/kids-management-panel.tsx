@@ -106,6 +106,12 @@ export function KidsManagementPanel() {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 15;
 
+  // Filtros do histórico (criança, tipo de movimentação e intervalo de datas)
+  const [histKidId, setHistKidId] = useState<string>("all");
+  const [histKind, setHistKind] = useState<string>("all");
+  const [histStart, setHistStart] = useState<string>("");
+  const [histEnd, setHistEnd] = useState<string>("");
+
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -115,13 +121,19 @@ export function KidsManagementPanel() {
   const kidUserIds = useMemo(() => kids.map(k => k.kid_user_id), [kids]);
   useParentKidsRealtime(user?.id, kidUserIds);
 
+  const effectiveKidId = histKidId !== "all" ? histKidId : selectedKidId;
+  const useRange = Boolean(histStart && histEnd);
+
   const metrics = useQuery({
-    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear(), page],
+    queryKey: ["kids_financial_metrics", effectiveKidId, histKind, histStart, histEnd, new Date().getMonth(), new Date().getFullYear(), page],
     queryFn: () => fetchMetrics({ 
       data: { 
-        dependentId: selectedKidId === "all" ? undefined : selectedKidId,
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
+        dependentId: effectiveKidId === "all" ? undefined : effectiveKidId,
+        month: useRange ? undefined : new Date().getMonth() + 1,
+        year: useRange ? undefined : new Date().getFullYear(),
+        kind: histKind,
+        startDate: useRange ? histStart : undefined,
+        endDate: useRange ? histEnd : undefined,
         page,
         pageSize: PAGE_SIZE
       } 
@@ -129,6 +141,7 @@ export function KidsManagementPanel() {
     refetchOnWindowFocus: true,
     staleTime: 5000,
   });
+
 
   const giveMoneyMutation = useMutation({
     mutationFn: useServerFn(giveMoneyToKid),
@@ -402,12 +415,18 @@ export function KidsManagementPanel() {
                               <div>
                                 <p className="text-xs font-bold leading-tight">
                                   {kind === "kidExpense" ? "🛍️ Gasto do Filho" : "💰 Recebido"}
+                                  {tx.kidName ? (
+                                    <Badge variant="secondary" className="ml-2 h-4 px-1.5 text-[9px] font-bold">
+                                      {kind === "kidExpense" ? tx.kidName : `Para ${tx.kidName}`}
+                                    </Badge>
+                                  ) : null}
                                   <span className="text-muted-foreground font-normal ml-2">
-                                    {tx.description.replace(/\[.*\]\s*/, "")}
+                                    {String(tx.description || "").replace(/^\[.*?\]\s*/, "")}
                                   </span>
                                 </p>
                                 <p className="text-[9px] text-muted-foreground">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</p>
                               </div>
+
                             </div>
                             <div className="flex items-center gap-3">
                               <span className={cn("text-xs font-black", kind === "kidExpense" ? "text-rose-600" : "text-emerald-600")}>
@@ -672,6 +691,70 @@ export function KidsManagementPanel() {
                   )}
                 </div>
               </div>
+
+              {/* Filtros: criança, tipo de movimentação e intervalo de datas */}
+              <div className="flex flex-wrap items-end gap-3 border-b border-border/50 bg-background px-4 py-3">
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">Criança</Label>
+                  <Select value={histKidId} onValueChange={(v) => { setHistKidId(v); setPage(1); }}>
+                    <SelectTrigger className="h-8 w-40 text-xs font-semibold">
+                      <SelectValue placeholder="Todas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all" className="text-xs">Todas as crianças</SelectItem>
+                      {kids.map((k) => (
+                        <SelectItem key={k.id} value={k.id} className="text-xs">{k.nickname || k.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">Movimentação</Label>
+                  <Select value={histKind} onValueChange={(v) => { setHistKind(v); setPage(1); }}>
+                    <SelectTrigger className="h-8 w-44 text-xs font-semibold">
+                      <SelectValue placeholder="Todas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all" className="text-xs">Todas</SelectItem>
+                      <SelectItem value="sent" className="text-xs">Ganho enviado pelos pais</SelectItem>
+                      <SelectItem value="kidIncome" className="text-xs">Ganho registrado pelo filho</SelectItem>
+                      <SelectItem value="kidExpense" className="text-xs">Gasto do filho</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">De</Label>
+                  <Input
+                    type="date"
+                    value={histStart}
+                    onChange={(e) => { setHistStart(e.target.value); setPage(1); }}
+                    className="h-8 w-36 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">Até</Label>
+                  <Input
+                    type="date"
+                    value={histEnd}
+                    onChange={(e) => { setHistEnd(e.target.value); setPage(1); }}
+                    className="h-8 w-36 text-xs"
+                  />
+                </div>
+
+                {(histKidId !== "all" || histKind !== "all" || histStart || histEnd) && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-[10px] font-bold uppercase"
+                    onClick={() => { setHistKidId("all"); setHistKind("all"); setHistStart(""); setHistEnd(""); setPage(1); }}
+                  >
+                    Limpar filtros
+                  </Button>
+                )}
+              </div>
+
               <div className="divide-y divide-border/30">
                 {metrics.data?.transactions?.map((tx: any) => {
                   const kind = kidEntryKind(tx);
@@ -686,11 +769,21 @@ export function KidsManagementPanel() {
                           {kind === "kidExpense" ? <TrendingDown className="size-5" /> : <TrendingUp className="size-5" />}
                         </div>
                         <div>
-                          <p className="text-xs font-black uppercase tracking-wider mb-0.5">
-                            {kind === "kidExpense" ? "Gasto do Filho" : "Envio de Saldo"}
-                          </p>
+                          <div className="mb-0.5 flex flex-wrap items-center gap-2">
+                            <p className="text-xs font-black uppercase tracking-wider">
+                              {kind === "kidExpense" ? "Gasto do Filho" : "Envio de Saldo"}
+                            </p>
+                            {tx.kidName ? (
+                              <Badge
+                                variant="secondary"
+                                className="h-4 px-1.5 text-[9px] font-bold tracking-wide"
+                              >
+                                {kind === "kidExpense" ? tx.kidName : `Para ${tx.kidName}`}
+                              </Badge>
+                            ) : null}
+                          </div>
                           <p className="text-[11px] text-muted-foreground font-medium">
-                            {tx.description}
+                            {String(tx.description || "").replace(/^\[.*?\]\s*/, "")}
                           </p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-[9px] text-muted-foreground/60">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
@@ -700,6 +793,7 @@ export function KidsManagementPanel() {
                             )}
                           </div>
                         </div>
+
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="text-right">

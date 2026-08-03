@@ -88,15 +88,25 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
       year: z.number().optional(),
       page: z.number().optional().default(1),
       pageSize: z.number().optional().default(20),
+      // Filtros do histórico do painel dos pais
+      kind: z.string().optional(), // "all" | "sent" | "kidExpense" | "kidIncome"
+      startDate: z.string().optional(),
+      endDate: z.string().optional(),
     }).parse(data)
   )
   .handler(async ({ data, context }) => {
     const userId = context.userId;
-    const { dependentId, month, year, page, pageSize } = data;
+    const { dependentId, month, year, page, pageSize, kind, startDate, endDate } = data;
 
-    const start = year && month ? `${year}-${String(month).padStart(2, "0")}-01` : null;
-    const end =
-      year && month
+    const useRange = Boolean(startDate && endDate);
+    const start = useRange
+      ? startDate!
+      : year && month
+        ? `${year}-${String(month).padStart(2, "0")}-01`
+        : null;
+    const end = useRange
+      ? `${endDate!}T23:59:59`
+      : year && month
         ? `${new Date(year, month, 0).toISOString().split("T")[0]}T23:59:59`
         : null;
 
@@ -110,6 +120,7 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     if (start && end) {
       query = query.gte("transaction_date", start).lte("transaction_date", end);
     }
+
 
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
@@ -242,11 +253,35 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
       }
     };
 
+    // Nome de cada filho por lançamento (para o painel dos pais exibir com clareza)
+    const { data: allDeps } = await supabaseAdmin
+      .from("dependents")
+      .select("id, name, nickname")
+      .eq("user_id", userId);
+    const nameById = new Map<string, string>();
+    for (const d of allDeps ?? []) nameById.set(d.id, (d.nickname || d.name) as string);
+
+    const withKid = [...parentRows, ...kidRows].map((tx) => {
+      const tags: string[] = (tx as any).tags ?? [];
+      const depTag = tags.find((t) => t.startsWith("dependente:"));
+      const depId = depTag ? depTag.split(":")[1] : null;
+      const isKidExpense = tags.includes("kid_self_expense");
+      return {
+        ...tx,
+        dependentId: depId,
+        kidName: depId ? nameById.get(depId) ?? null : null,
+        entryKind: isKidExpense
+          ? (tx.transaction_type === "income" ? "kidIncome" : "kidExpense")
+          : "sent",
+      };
+    });
+
+    const filtered = kind && kind !== "all" ? withKid.filter((tx) => tx.entryKind === kind) : withKid;
+
     return {
-      transactions: [...parentRows, ...kidRows].sort((a, b) =>
-        b.transaction_date.localeCompare(a.transaction_date)
-      ),
+      transactions: filtered.sort((a, b) => b.transaction_date.localeCompare(a.transaction_date)),
       totalCount: count || 0,
       summary
     };
   });
+
