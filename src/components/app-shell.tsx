@@ -199,112 +199,130 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
 
         {!isAdminArea ? (
-          <div className={cn("space-y-1.5 border-b border-border p-3", railCollapsed && "px-2")}>
-            <Button
-              onClick={() => setQuickEntry("expense")}
-              className="w-full gap-2 bg-brand text-brand-foreground hover:opacity-90"
-              size={railCollapsed ? "icon" : "default"}
-              aria-label="Nova despesa"
-            >
-              <Plus className="size-4" aria-hidden="true" />
-              {!railCollapsed ? <span>Nova despesa</span> : null}
-            </Button>
-            {!railCollapsed ? (
+          <div className={cn("space-y-2 border-b border-border p-3", railCollapsed && "px-2")}>
+            <div className={cn("grid gap-1.5", railCollapsed ? "grid-cols-1" : "grid-cols-2")}>
               <Button
-                variant="outline"
-                onClick={() => setQuickEntry("income")}
-                className="w-full gap-2 border-emerald-500/30 text-foreground"
+                onClick={() => setQuickEntry("expense")}
+                className="w-full gap-1.5 bg-brand text-brand-foreground hover:opacity-90"
+                size={railCollapsed ? "icon" : "sm"}
+                aria-label="Nova despesa"
+                title="Nova despesa"
               >
-                <TrendingUp className="size-4 text-emerald-500" aria-hidden="true" />
-                Nova receita
+                <TrendingDown className="size-4" aria-hidden="true" />
+                {!railCollapsed ? <span className="text-[12px]">Despesa</span> : null}
               </Button>
-            ) : null}
+              {!railCollapsed ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setQuickEntry("income")}
+                  className="w-full gap-1.5 border-success/35 text-foreground"
+                >
+                  <TrendingUp className="size-4 text-success" aria-hidden="true" />
+                  <span className="text-[12px]">Receita</span>
+                </Button>
+              ) : null}
+            </div>
+            {!railCollapsed ? <CommandPalette onQuickEntry={setQuickEntry} /> : null}
           </div>
         ) : null}
 
-        <nav aria-label="Menu principal" className="flex-1 space-y-1 overflow-y-auto p-2">
-          {items.map((item) => {
-            const isActive = activeGroup?.key === item.key;
-            const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
-            const hasChildren = Boolean(item.children && item.children.length > 0);
-            return (
-              <div key={item.to}>
-                <div
-                  className={cn(
-                    "group flex items-center gap-1 rounded-xl transition-colors",
-                    isActive ? "bg-brand/10" : "hover:bg-secondary/70",
-                  )}
-                >
-                  <Link
-                    to={item.to as never}
-                    aria-current={isActive ? "page" : undefined}
-                    title={item.label}
-                    className={cn(
-                      "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold",
-                      isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
-                      railCollapsed && "justify-center px-0",
-                    )}
-                  >
-                    <span
+        <nav aria-label="Menu principal" className="flex-1 space-y-3 overflow-y-auto p-2">
+          {sections.map((section) => (
+            <div key={section.key} className="space-y-1">
+              {!railCollapsed ? (
+                <p className="px-2.5 pt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground/70">
+                  {section.label}
+                </p>
+              ) : (
+                <div aria-hidden className="mx-auto h-px w-6 bg-border" />
+              )}
+              {section.groups.map((item) => {
+                const isActive = activeGroup?.key === item.key;
+                const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
+                const hasChildren = visibleChildren.length > 1;
+                const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
+                return (
+                  <div key={item.to}>
+                    <div
                       className={cn(
-                        "grid size-8 shrink-0 place-items-center rounded-lg border",
-                        isActive
-                          ? "border-brand/40 bg-brand/15 text-brand"
-                          : "border-border bg-secondary/60 text-brand",
+                        "group relative flex items-center gap-1 rounded-xl transition-colors",
+                        isActive ? "bg-brand/10" : "hover:bg-secondary/70",
                       )}
                     >
-                      <item.icon className="size-4" aria-hidden="true" />
-                    </span>
-                    {!railCollapsed ? <span className="truncate">{item.label}</span> : null}
-                  </Link>
-                  {hasChildren && !railCollapsed ? (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // O estado expanded agora é independente da navegação do item pai
-                        // para garantir que clicar na seta sempre funcione sem mudar de tela
-                        setExpanded((prev) => (prev === item.key ? "" : item.key));
-                      }}
-                      aria-expanded={isOpen}
-                      aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                      className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground hover:bg-secondary active:scale-95 transition-transform"
-                    >
-                      <ChevronDown
-                        className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
-                      />
-                    </button>
-                  ) : null}
-                </div>
-
-                {hasChildren && isOpen ? (
-                  <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border pl-2.5">
-                    {item.children!.map((child) => (
+                      {isActive ? (
+                        <span
+                          aria-hidden
+                          className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand"
+                        />
+                      ) : null}
                       <Link
-                        key={child.to}
-                        to={child.to as never}
-                        aria-current={pathname === child.to ? "page" : undefined}
+                        to={item.to as never}
+                        aria-current={isActive ? "page" : undefined}
+                        title={item.hint ? `${item.label} — ${item.hint}` : item.label}
                         className={cn(
-                          "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
-                          pathname === child.to
-                            ? "bg-secondary text-foreground"
-                            : child.highlight
-                              ? "bg-brand/10 text-brand hover:bg-brand/20"
-                              : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
-                          child.highlight && "font-semibold",
+                          "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold",
+                          isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
+                          railCollapsed && "justify-center px-0",
                         )}
                       >
-                        {child.highlight ? <Baby className="size-3.5 shrink-0" aria-hidden /> : null}
-                        <span className="truncate">{child.label}</span>
+                        <span
+                          className={cn(
+                            "grid size-8 shrink-0 place-items-center rounded-lg border transition-colors",
+                            isActive
+                              ? "border-brand/40 bg-brand/15 text-brand"
+                              : "border-border bg-secondary/60 text-brand",
+                          )}
+                        >
+                          <item.icon className="size-4" aria-hidden="true" />
+                        </span>
+                        {!railCollapsed ? <span className="truncate">{item.label}</span> : null}
                       </Link>
-                    ))}
+                      {hasChildren && !railCollapsed ? (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setExpanded((prev) => (prev === item.key ? "" : item.key));
+                          }}
+                          aria-expanded={isOpen}
+                          aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
+                          className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-transform hover:bg-secondary active:scale-95"
+                        >
+                          <ChevronDown
+                            className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
+                          />
+                        </button>
+                      ) : null}
+                    </div>
+
+                    {hasChildren && isOpen ? (
+                      <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border pl-2.5">
+                        {visibleChildren.map((child) => (
+                          <Link
+                            key={child.to}
+                            to={child.to as never}
+                            aria-current={pathname === child.to ? "page" : undefined}
+                            className={cn(
+                              "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+                              pathname === child.to
+                                ? "bg-secondary text-foreground"
+                                : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                            )}
+                          >
+                            <span className="truncate">{child.label}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          ))}
         </nav>
+
 
         {!isAdminArea && (
           <div className="mb-4 space-y-2">
