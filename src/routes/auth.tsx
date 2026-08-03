@@ -688,7 +688,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
 
       <div className="space-y-3">
         <div>
-          <Label htmlFor="admin-email">E-mail</Label>
+          <Label htmlFor="admin-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail</Label>
           <Input 
             id="admin-email" 
             name="email" 
@@ -699,7 +699,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
           />
         </div>
         <div>
-          <Label htmlFor="admin-password">Senha</Label>
+          <Label htmlFor="admin-password" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha</Label>
           <Input 
             id="admin-password" 
             name="password" 
@@ -849,18 +849,18 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
 
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="kid-code">Meu código</Label>
+        <Label htmlFor="kid-code" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Meu código</Label>
         <Input
           id="kid-code"
           value={code}
           onChange={(event) => setCode(normalizeKidCode(event.target.value))}
           placeholder="EX: JOAO-A1B"
           autoComplete="username"
-          className="mt-1.5 font-mono tracking-wide uppercase"
+          className="mt-1 font-mono tracking-wide uppercase"
         />
       </div>
       <div>
-        <Label htmlFor="kid-pin">Minha senha (4 a 6 números)</Label>
+        <Label htmlFor="kid-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Minha senha (4 a 6 números)</Label>
         <Input
           id="kid-pin"
           type="password"
@@ -869,7 +869,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           onChange={(event) => setPin(onlyDigits(event.target.value).slice(0, 6))}
           placeholder="••••"
           autoComplete="current-password"
-          className="mt-1.5 tracking-[0.4em]"
+          className="mt-1 tracking-[0.4em]"
         />
       </div>
       {lockSeconds > 0 ? (
@@ -945,7 +945,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
       </div>
       <FormAlert message={error} />
       <div>
-        <Label htmlFor="ext-code">Código de Acesso</Label>
+        <Label htmlFor="ext-code" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Código de Acesso</Label>
         <Input
           id="ext-code"
           value={code}
@@ -956,7 +956,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
         />
       </div>
       <div>
-        <Label htmlFor="ext-pass">Senha</Label>
+        <Label htmlFor="ext-pass" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha</Label>
         <Input
           id="ext-pass"
           type="password"
