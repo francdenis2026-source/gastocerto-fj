@@ -796,16 +796,11 @@ function DashboardPage() {
                           value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
                           tone={access.planSlug !== "free" ? "success" : "neutral"}
                           icon={ShieldCheck}
-                          trend={access.planSlug !== "free" ? {
-                            label: "CONTA PRO",
-                            value: "",
-                            isPositive: true,
-                            customBadge: (
-                              <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px] font-black">
-                                PRO
-                              </Badge>
-                            )
-                          } : undefined}
+                          badge={access.planSlug !== "free" ? (
+                            <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px] font-black uppercase tracking-tighter h-5 px-1.5">
+                              PRO
+                            </Badge>
+                          ) : undefined}
                           onClick={() => navigate({ to: "/perfil" })}
                         />
 
