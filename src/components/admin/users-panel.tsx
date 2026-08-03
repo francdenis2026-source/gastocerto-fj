@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -82,8 +82,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
       const { data, error } = await supabase
         .from("profiles")
         .select("*, kid_accounts:kid_accounts(count)")
-        .order("created_at", { ascending: false })
-        .limit(200);
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];
     },
@@ -600,27 +599,95 @@ function ManageUserDialog({
                   variant="destructive"
                   disabled={pending !== null || isSelf}
                   onClick={() => {
-                    confirm({
-                      title: "Excluir Conta",
-                      description: `Excluir a conta e TODOS os dados do usuário "${profile.full_name || profile.contact_email}"? Esta ação é definitiva e não pode ser desfeita.`,
-                      type: "warning",
-                      onConfirm: () => {
-                        void run(
-                          "delete",
-                          () =>
-                            adminDeleteUser({
-                              data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
-                            }),
-                          "Conta excluída",
-                        ).then(onClose);
-                      }
-                    });
+                    const confirmText = prompt(`Excluir a conta de "${profile.full_name || profile.contact_email}"? Digite EXCLUIR para confirmar:`);
+                    if (confirmText !== "EXCLUIR") return;
+                    void run(
+                      "delete",
+                      () =>
+                        adminDeleteUser({
+                          data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
+                        }),
+                      "Conta excluída",
+                    ).then(onClose);
                   }}
                 >
                   {pending === "delete" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
                   Excluir conta
                 </Button>
                 <SyncLicenseButton profile={profile} onChanged={onChanged} />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-amber-500/30 text-amber-600 hover:bg-amber-50"
+                  disabled={pending !== null}
+                  onClick={() => {
+                    const days = prompt("Limitar acesso por quantos dias a partir de hoje? (0 para remover limite)");
+                    if (days === null) return;
+                    const numDays = parseInt(days);
+                    if (isNaN(numDays)) return;
+
+                    void run(
+                      "limit-time",
+                      async () => {
+                         const endsAt = new Date();
+                         endsAt.setDate(endsAt.getDate() + numDays);
+                         
+                         const { error } = await supabase.from("profiles").update({
+                            trial_ends_at: numDays > 0 ? endsAt.toISOString() : null,
+                            trial_plan_slug: numDays > 0 ? (profile.plan_id || 'premium_ia') : null
+                         } as any).eq("user_id", profile.user_id);
+                         if (error) throw error;
+                      },
+                      numDays > 0 ? `Acesso limitado por ${numDays} dias` : "Limites de tempo removidos"
+                    );
+                  }}
+                >
+                  <KeyRound className="size-4" />
+                  Limitar Tempo
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-primary/30 text-primary hover:bg-primary/5"
+                  disabled={pending !== null}
+                  onClick={() => {
+                    const ok = window.confirm("Promover este usuário para a versão PAGA (Premium IA) agora?");
+                    if (!ok) return;
+                    void run(
+                      "promote",
+                      async () => {
+                         const { data: plans } = await supabase.from("plans").select("id").eq("slug", "premium_ia").maybeSingle();
+                         const { error } = await supabase.from("profiles").update({
+                            plan_id: plans?.id,
+                            status: 'active'
+                         } as any).eq("user_id", profile.user_id);
+                         if (error) throw error;
+                      },
+                      "Usuário promovido para Premium IA"
+                    );
+                  }}
+                >
+                  <TrendingUp className="size-4" />
+                  Promover para Pago
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-rose-500/30 text-rose-600 hover:bg-rose-50"
+                  disabled={pending !== null}
+                  onClick={() => {
+                    const ok = window.confirm("Bloquear este usuário imediatamente?");
+                    if (!ok) return;
+                    void run(
+                      "block",
+                      () => adminSetUserStatus({ data: { targetUserId: profile.user_id, status: 'suspended' } }),
+                      "Usuário bloqueado"
+                    );
+                  }}
+                >
+                  <Shield className="size-4" />
+                  Bloquear
+                </Button>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 O cancelamento revoga licenças ativas. A exclusão é definitiva e fica registrada nos

@@ -157,15 +157,31 @@ export function TrialGrantPanel() {
                     : " · nunca usou teste"}
                 </p>
               </div>
-              <Button
-                size="sm"
-                variant="outline"
-                className="h-8"
-                disabled={mutation.isPending}
-                onClick={() => mutation.mutate(row.user_id)}
-              >
-                Liberar teste
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-8 border-rose-500/30 text-rose-600 hover:bg-rose-50"
+                  disabled={mutation.isPending}
+                  onClick={async () => {
+                    if (!confirm("Tem certeza que deseja BLOQUEAR este usuário imediatamente?")) return;
+                    await supabase.from("profiles").update({ status: 'suspended' }).eq("user_id", row.user_id);
+                    toast.success("Usuário bloqueado.");
+                    void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
+                  }}
+                >
+                  Bloquear
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-8 border-emerald-500/30 text-emerald-600 hover:bg-emerald-50"
+                  disabled={mutation.isPending}
+                  onClick={() => mutation.mutate(row.user_id)}
+                >
+                  Liberar teste
+                </Button>
+              </div>
             </li>
           ))}
           {filtered.length === 0 ? (
