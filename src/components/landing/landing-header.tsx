@@ -58,12 +58,12 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           : "border-b border-white/10 bg-transparent text-white",
       )}
     >
-      <div className="section-shell flex h-16 items-center justify-between gap-4">
+      <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
         <a
           href="#inicio"
           onClick={(event) => handleAnchorClick(event, "#inicio")}
           className={cn(
-            "inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+            "inline-flex min-w-0 shrink rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
           )}
           aria-label="GastoCerto — início"
         >
@@ -94,7 +94,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <ThemeToggle className={cn("inline-flex", !scrolled && "text-white hover:bg-white/10 hover:text-white")} />
           <CodeAccessDialog>
             <Button
