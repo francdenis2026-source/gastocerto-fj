@@ -1039,6 +1039,7 @@ function KidSummary({
         </div>
       )}
     </section>
+    </>
   );
 }
 
