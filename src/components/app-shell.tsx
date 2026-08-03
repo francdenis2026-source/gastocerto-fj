@@ -117,15 +117,22 @@ export function AppShell({ children }: { children: ReactNode }) {
   const unreadCount = (notifications ?? []).filter((item) => !item.read_at).length;
   const isStaff = (roles ?? []).some((role) => role === "admin" || role === "support");
   const isAdminArea = pathname.startsWith("/admin");
-  const baseItems: NavGroup[] = isAdminArea
-    ? adminNavGroups
+  // Uma única fonte de verdade (src/lib/nav-model.ts) alimenta sidebar,
+  // menu mobile, abas do header e a busca rápida.
+  const sections: NavSection[] = isAdminArea
+    ? [{ key: "admin", label: "Equipe", groups: adminNavGroups }]
     : isStaff
-      ? [...navGroups, { key: "admin", label: "Administração", to: "/admin", icon: ShieldCheck }]
-      : [...navGroups];
-  const items: NavGroup[] = baseItems.map((group) => ({
-    ...group,
-    children: group.children && group.children.length > 0 ? group.children : undefined,
-  }));
+      ? [...navSections, { key: "staff", label: "Equipe", groups: [staffNavGroup] }]
+      : navSections;
+
+  const items: NavGroup[] = flattenGroups(sections);
+
+  const activeGroup = items.find(
+    (group) => group.to === pathname || group.children?.some((child) => child.to === pathname),
+  );
+  // Rotas de detalhe ficam fora das abas para não poluir o header.
+  const subTabs = (activeGroup?.children ?? []).filter((child) => !child.hidden);
+
 
 
 
