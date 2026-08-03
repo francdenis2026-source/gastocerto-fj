@@ -458,7 +458,7 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        {profile?.cpf === "69598193268" && !profile.tags?.includes("fixed_enzo_error") && (
+        {profile?.cpf === "69598193268" && !kidsOnboarding.isResolvingFixedError && (
           <div className="rounded-3xl border border-emerald-500/20 bg-emerald-500/5 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm animate-in fade-in slide-in-from-top-4">
             <div className="flex items-center gap-3 w-full">
               <div className="size-10 rounded-2xl bg-emerald-500/10 flex items-center justify-center shrink-0">
@@ -475,11 +475,13 @@ function DashboardPage() {
                 size="sm" 
                 className="h-8 text-[10px] border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-600 font-bold shrink-0"
                 onClick={async () => {
-                   // Marcamos no profile que o erro foi resolvido para não mostrar mais o banner
-                   // Simulação via toast e invalidação. Em produção, salvaríamos no banco.
+                   // Apenas um exemplo de como salvar no banco para persistir
+                   // supabaseAdmin.from('profiles').update({ tags: [...tags, 'fixed_enzo_error'] }).eq('user_id', profile.user_id)
                    toast.success("Aviso removido com sucesso!");
-                   // Forçamos a ocultação visual imediata via refresh de queries
-                   queryClient.invalidateQueries({ queryKey: ["profile"] });
+                   queryClient.setQueryData(["profile"], (old: any) => ({
+                     ...old,
+                     tags: [...(old?.tags || []), 'fixed_enzo_error']
+                   }));
                 }}
               >
                 Entendido
