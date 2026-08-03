@@ -1233,9 +1233,9 @@ function KidEntryDialog({
             <AlertTriangle className="size-4" aria-hidden="true" />
           </div>
           <div>
-            <p className="text-[11px] font-semibold text-amber-800 dark:text-amber-200">Digitou algo errado?</p>
+            <p className="text-[11px] font-semibold text-amber-800 dark:text-amber-200">Atenção</p>
             <p className="mt-0.5 text-[11px] leading-relaxed text-amber-800/80 dark:text-amber-200/80">
-              Salve normalmente e solicite a correção ao seu responsável — ele ajusta o lançamento no painel dele.
+              Confira bem os dados antes de salvar. Caso erre, apenas o responsável poderá corrigir depois no painel dele.
             </p>
           </div>
         </div>
@@ -1250,29 +1250,30 @@ function KidEntryDialog({
               <div className="rounded-xl bg-primary/10 p-2 text-primary">
                 <Target className="size-5" aria-hidden="true" />
               </div>
-              <div>
-                <p className="text-sm font-semibold tracking-tight">Confirmar registro</p>
-                <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+              <div className="flex-1">
+                <p className="text-sm font-semibold tracking-tight text-center sm:text-left">Confirmar registro</p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground text-center sm:text-left">
                   Confira o valor antes de continuar. Depois de salvar, este lançamento não poderá ser editado.
                 </p>
               </div>
             </div>
-            <div className="mt-3 flex gap-2">
+            {/* Botão de confirmação fixo no mobile e centralizado */}
+            <div className="mt-4 flex flex-col sm:flex-row gap-2">
               <Button
                 variant="outline"
-                className="flex-1 rounded-xl font-semibold"
+                className="order-2 sm:order-1 flex-1 rounded-xl font-semibold h-12 sm:h-10"
                 onClick={() => setConfirming(false)}
                 disabled={save.isPending}
               >
                 Revisar
               </Button>
               <Button
-                className="flex-1 rounded-xl font-semibold"
+                className="order-1 sm:order-2 flex-1 rounded-xl font-semibold h-12 sm:h-10 bg-primary shadow-lg shadow-primary/20"
                 onClick={() => save.mutate()}
                 disabled={save.isPending}
               >
-                {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-                Confirmar
+                {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Sparkles className="mr-2 size-4" />}
+                Confirmar agora
               </Button>
             </div>
           </div>
