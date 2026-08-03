@@ -499,45 +499,32 @@ function DashboardPage() {
           </div>
         )}
 
-        {/* Ferramentas rápidas e Insights */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-          <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-               <div className="flex items-center gap-2">
-                 <div className="size-8 rounded-xl bg-orange-500/20 flex items-center justify-center">
-                   <UtensilsCrossed className="size-4 text-orange-600" />
-                 </div>
-                 <h3 className="text-sm font-bold text-orange-950 dark:text-orange-200">Churrasco & Fim de Semana</h3>
-               </div>
-               <Badge variant="outline" className="bg-orange-100 dark:bg-orange-900/30 border-orange-200 text-orange-700 dark:text-orange-300 text-[10px] scale-90">
-                 Destaque
-               </Badge>
-             </div>
-
-             <p className="text-[11px] text-orange-800/70 dark:text-orange-300/70 leading-relaxed mb-4">
-               Acompanhe os gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> de domingo. 
-             </p>
-             <div className="flex items-center justify-between">
-                <div>
-                   <span className="block text-[10px] uppercase font-bold text-orange-600/50">Gasto no mês</span>
-
-                   <span className="text-lg font-black text-orange-700 dark:text-orange-400">
-                     {formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}
-                   </span>
+        {/* Churrasco & Fim de Semana - Card Refinado */}
+        <section className="mb-4">
+          <div className="rounded-3xl border border-orange-500/10 bg-orange-500/5 p-4 shadow-sm flex items-center justify-between">
+             <div className="flex items-center gap-3">
+                <div className="size-10 rounded-2xl bg-orange-500/20 flex items-center justify-center shrink-0">
+                  <UtensilsCrossed className="size-5 text-orange-600" />
                 </div>
-                <Button 
-                  size="sm" 
-                  className="bg-orange-600 hover:bg-orange-700 text-white rounded-xl h-8 text-[11px]"
-                  onClick={() => {
-                    setDialogKind("expense");
-                    const cat = categories?.find(c => c.name === 'Churrasco & Fim de Semana');
-                    if (cat) setPreset({ categoryId: cat.id, subCategoryId: null });
-                    setDialogOpen(true);
-                  }}
-                >
-                  Lançar Churrasco
-                </Button>
+                <div>
+                  <h3 className="text-xs font-black text-orange-950 dark:text-orange-200 uppercase tracking-widest">Churrasco & Fim de Semana</h3>
+                  <p className="text-[10px] text-orange-800/60 dark:text-orange-300/60 font-bold leading-tight">
+                    Gastos no mês: <span className="text-orange-700 dark:text-orange-400 font-black">{formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}</span>
+                  </p>
+                </div>
              </div>
+             <Button 
+               size="sm" 
+               className="bg-orange-600 hover:bg-orange-700 text-white rounded-xl h-9 px-4 text-[10px] font-black uppercase tracking-wider shadow-orange-500/20 shadow-lg"
+               onClick={() => {
+                 setDialogKind("expense");
+                 const cat = categories?.find(c => c.name === 'Churrasco & Fim de Semana');
+                 if (cat) setPreset({ categoryId: cat.id, subCategoryId: null });
+                 setDialogOpen(true);
+               }}
+             >
+               Lançar Gasto
+             </Button>
           </div>
         </section>
 
