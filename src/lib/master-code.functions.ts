@@ -29,6 +29,32 @@ export const getMasterCodeStatus = createServerFn({ method: "GET" })
     };
   });
 
+/** Revela o código mestre em texto (somente administradores). */
+export const revealMasterCode = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { revealMasterCodeValue } = await import("./master-code.server");
+    return await revealMasterCodeValue();
+  });
+
+/** Gera e salva um novo código mestre aleatório, devolvendo-o uma vez. */
+export const generateMasterCode = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { generateCodeValue, writeMasterCode } = await import("./master-code.server");
+    const code = generateCodeValue();
+    await writeMasterCode(code, context.userId);
+    await context.supabase.from("admin_logs").insert({
+      actor_id: context.userId,
+      target_user_id: context.userId,
+      action: "master_code_generated",
+      details: { method: "panel_generate" },
+    });
+    return { code, updatedAt: new Date().toISOString() };
+  });
+
 /** Confere o código mestre informado antes de uma ação crítica. */
 export const verifyMasterCode = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
