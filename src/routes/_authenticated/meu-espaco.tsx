@@ -632,13 +632,12 @@ function KidSpacePage() {
         ) : null}
       </div>
 
-      <KidSummary 
-        balance={balance} 
-        income={income} 
-        expense={expense} 
+      <KidSummary
+        balance={balance}
+        income={income}
+        expense={expense}
         rows={rows}
-        isBoy={isBoy}
-        isGirl={isGirl}
+        accent={accent}
       />
 
       <KidEntryDialog
@@ -648,11 +647,12 @@ function KidSpacePage() {
         ownerId={dependent.user_id}
         syncTx={syncTx}
       />
-      <footer className="mt-auto border-t border-border/50 py-6 text-center">
-        <p className="text-[10px] font-medium text-muted-foreground/60 uppercase tracking-widest">
+      <footer className="mt-auto border-t border-border py-6 text-center">
+        <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
           &lt;Dev. Franc D&apos;nis&gt; · Acre
         </p>
       </footer>
+
 
     </main>
     </KidsStatusGuard>
