@@ -17,20 +17,21 @@ const HIGHLIGHTS = [
  */
 export function KidsLoginScreen({ children }: { children: ReactNode }) {
   return (
-    <main className="relative isolate grid h-dvh max-h-dvh w-full place-items-center overflow-hidden bg-[oklch(0.15_0.05_260)] p-3 font-sans sm:p-4">
+    <main className="relative isolate grid min-h-dvh w-full place-items-center overflow-x-hidden bg-[oklch(0.15_0.05_260)] p-3 font-sans sm:p-4 lg:h-dvh lg:max-h-dvh lg:min-h-0 lg:overflow-hidden">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,oklch(0.45_0.15_200/0.38),transparent_58%),radial-gradient(circle_at_82%_85%,oklch(0.5_0.18_160/0.3),transparent_52%)]"
       />
 
-      <div className="grid h-full max-h-[85dvh] w-full max-w-4xl lg:min-h-[420px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:grid-cols-[1.1fr_minmax(0,19rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_24px_90px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl lg:h-full lg:max-h-[85dvh] lg:min-h-[420px] lg:grid-cols-[1.1fr_minmax(0,19rem)]">
         {/* Lado esquerdo: identidade visual Kids */}
         <section className="relative hidden flex-col justify-between overflow-hidden lg:flex">
           <img
             src={kidsHero}
             alt=""
-            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.6] transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.92] saturate-[1.05] transition-transform duration-700 group-hover:scale-105"
           />
+
           <div
             aria-hidden="true"
             className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-600/40 via-transparent to-blue-600/30"
