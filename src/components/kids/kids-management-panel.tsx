@@ -763,11 +763,21 @@ export function KidsManagementPanel() {
                           {kind === "kidExpense" ? <TrendingDown className="size-5" /> : <TrendingUp className="size-5" />}
                         </div>
                         <div>
-                          <p className="text-xs font-black uppercase tracking-wider mb-0.5">
-                            {kind === "kidExpense" ? "Gasto do Filho" : "Envio de Saldo"}
-                          </p>
+                          <div className="mb-0.5 flex flex-wrap items-center gap-2">
+                            <p className="text-xs font-black uppercase tracking-wider">
+                              {kind === "kidExpense" ? "Gasto do Filho" : "Envio de Saldo"}
+                            </p>
+                            {tx.kidName ? (
+                              <Badge
+                                variant="secondary"
+                                className="h-4 px-1.5 text-[9px] font-bold tracking-wide"
+                              >
+                                {kind === "kidExpense" ? tx.kidName : `Para ${tx.kidName}`}
+                              </Badge>
+                            ) : null}
+                          </div>
                           <p className="text-[11px] text-muted-foreground font-medium">
-                            {tx.description}
+                            {String(tx.description || "").replace(/^\[.*?\]\s*/, "")}
                           </p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-[9px] text-muted-foreground/60">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
@@ -777,6 +787,7 @@ export function KidsManagementPanel() {
                             )}
                           </div>
                         </div>
+
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="text-right">
