@@ -466,139 +466,217 @@ export function KidsManagementPanel() {
 
       {isExpanded && (
         <CardContent className="p-0 animate-in fade-in slide-in-from-top-2 duration-300">
-          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border/50">
-            {/* Form & Stats */}
-            <div className="p-4 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-2 opacity-10">
-                    <TrendingUp className="size-8" />
+          <Tabs defaultValue="overview" className="w-full">
+            <div className="px-4 border-b border-border/50 bg-muted/5">
+              <TabsList className="h-10 bg-transparent gap-4 p-0">
+                <TabsTrigger 
+                  value="overview" 
+                  className="h-full rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none text-[10px] font-black uppercase tracking-widest"
+                >
+                  <Activity className="size-3 mr-2" /> Visão Geral
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="goals" 
+                  className="h-full rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none text-[10px] font-black uppercase tracking-widest"
+                >
+                  <Target className="size-3 mr-2" /> Metas & Limites
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="history" 
+                  className="h-full rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none text-[10px] font-black uppercase tracking-widest"
+                >
+                  <FileText className="size-3 mr-2" /> Histórico Auditoria
+                </TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="overview" className="m-0 focus-visible:outline-none">
+              <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border/50">
+                {/* Form & Stats */}
+                <div className="p-4 space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 relative overflow-hidden">
+                      <div className="absolute top-0 right-0 p-2 opacity-10">
+                        <TrendingUp className="size-8" />
+                      </div>
+                      <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mb-1">Saldo Real Enviado</p>
+                      <p className="text-lg font-black text-emerald-600">{formatCurrency(stats.totalSent)}</p>
+                      <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none font-bold">Total que saiu do seu bolso</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-primary/5 border border-primary/10 relative overflow-hidden">
+                      <div className="absolute top-0 right-0 p-2 opacity-10">
+                        <PiggyBank className="size-8" />
+                      </div>
+                      <p className="text-[9px] font-bold uppercase tracking-wider text-primary mb-1">Saldo em Mãos (Filhos)</p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-lg font-black text-primary">
+                          {formatCurrency(
+                            metrics.data?.reduce((acc: number, tx: any) => {
+                              const isKidSelf = tx.tags?.includes("kid_self_expense");
+                              if (isKidSelf) return acc - (tx.transaction_type === 'expense' ? tx.amount : -tx.amount);
+                              return acc + tx.amount;
+                            }, 0) || 0
+                          )}
+                        </p>
+                        <Badge variant="outline" className="h-4 text-[7px] bg-primary/10 text-primary border-primary/20 font-bold px-1 uppercase">REALTIME</Badge>
+                      </div>
+                      <p className="text-[8px] text-muted-foreground mt-0.5 leading-none italic">O que eles ainda têm para usar</p>
+                    </div>
                   </div>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mb-1">Saldo Real Enviado</p>
-                  <p className="text-lg font-black text-emerald-600">{formatCurrency(stats.totalSent)}</p>
-                  <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none font-bold">Total que saiu do seu bolso</p>
-                </div>
-                <div className="p-3 rounded-xl bg-primary/5 border border-primary/10 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-2 opacity-10">
-                    <PiggyBank className="size-8" />
-                  </div>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-primary mb-1">Saldo em Mãos (Filhos)</p>
-                  <div className="flex items-center justify-between">
-                    <p className="text-lg font-black text-primary">
-                      {formatCurrency(
-                        metrics.data?.reduce((acc: number, tx: any) => {
-                          const isKidSelf = tx.tags?.includes("kid_self_expense");
-                          if (isKidSelf) return acc - (tx.transaction_type === 'expense' ? tx.amount : -tx.amount);
-                          return acc + tx.amount;
-                        }, 0) || 0
-                      )}
+
+                  <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-2 opacity-10">
+                      <TrendingDown className="size-8" />
+                    </div>
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Consumo dos Filhos</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
+                        <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
+                      </div>
+                    </div>
+                    <div className="w-full bg-rose-500/10 rounded-full h-1.5 overflow-hidden">
+                      <div 
+                        className="bg-rose-500 h-full transition-all duration-1000" 
+                        style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
+                      />
+                    </div>
+                    <p className="text-[8px] text-rose-600/60 mt-1.5 leading-none font-bold">
+                      Não afeta seu saldo real · Gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%
                     </p>
-                    <Badge variant="outline" className="h-4 text-[7px] bg-primary/10 text-primary border-primary/20 font-bold px-1 uppercase">REALTIME</Badge>
                   </div>
-                  <p className="text-[8px] text-muted-foreground mt-0.5 leading-none italic">O que eles ainda têm para usar</p>
-                </div>
-              </div>
 
-              <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-2 opacity-10">
-                  <TrendingDown className="size-8" />
-                </div>
-                <div className="flex items-center justify-between mb-1">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Consumo dos Filhos</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
-                    <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
-                  </div>
-                </div>
-                <div className="w-full bg-rose-500/10 rounded-full h-1.5 overflow-hidden">
-                  <div 
-                    className="bg-rose-500 h-full transition-all duration-1000" 
-                    style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
-                  />
-                </div>
-                <p className="text-[8px] text-rose-600/60 mt-1.5 leading-none font-bold">
-                  Não afeta seu saldo real · Gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase text-muted-foreground">Ações Rápidas</Label>
-                <div className="grid grid-cols-2 gap-2">
-                   <Dialog open={giveMoneyOpen} onOpenChange={setGiveMoneyOpen}>
-                    <DialogTrigger asChild>
-                      <Button className="h-10 text-[11px] font-bold gap-2 shadow-sm">
-                        <Plus className="size-3.5" /> Inserir Valor
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-bold uppercase text-muted-foreground">Ações Rápidas</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Dialog open={giveMoneyOpen} onOpenChange={setGiveMoneyOpen}>
+                        <DialogTrigger asChild>
+                          <Button className="h-10 text-[11px] font-bold gap-2 shadow-sm">
+                            <Plus className="size-3.5" /> Inserir Valor
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <GiveMoneyForm 
+                            kids={kids} 
+                            initialKidId={selectedKidId === "all" ? kids[0]?.id : selectedKidId} 
+                            onSubmit={(data) => giveMoneyMutation.mutate({ data })}
+                            isPending={giveMoneyMutation.isPending}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                      <Button variant="outline" className="h-10 text-[11px] font-bold gap-2" asChild>
+                        <a href="/kids">
+                          <Users className="size-3.5" /> Ver Espaços
+                        </a>
                       </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-md">
-                      <GiveMoneyForm 
-                        kids={kids} 
-                        initialKidId={selectedKidId === "all" ? kids[0]?.id : selectedKidId} 
-                        onSubmit={(data) => giveMoneyMutation.mutate({ data })}
-                        isPending={giveMoneyMutation.isPending}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                  <Button variant="outline" className="h-10 text-[11px] font-bold gap-2" asChild>
-                    <a href="/kids">
-                      <Users className="size-3.5" /> Ver Espaços
-                    </a>
-                  </Button>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/10 flex gap-3">
+                    <Info className="size-4 text-amber-600 shrink-0 mt-0.5" />
+                    <p className="text-[10px] leading-relaxed text-amber-800 dark:text-amber-200">
+                      Valores inseridos aqui aparecem no painel da criança e são registrados como <strong>Despesa</strong> no seu extrato principal automaticamente.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Main Chart */}
+                <div className="p-4 md:col-span-2 flex flex-col">
+                  <div className="flex items-center justify-between mb-4">
+                    <Label className="text-[10px] font-bold uppercase text-muted-foreground">Evolução: Enviado vs Gasto</Label>
+                    {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
+                  </div>
+                  
+                  <div className="flex-1 h-[250px] w-full min-h-[250px]">
+                    {chartData.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData}>
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
+                          <XAxis 
+                            dataKey="name" 
+                            axisLine={false} 
+                            tickLine={false} 
+                            tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
+                            dy={10}
+                          />
+                          <YAxis 
+                            axisLine={false} 
+                            tickLine={false} 
+                            tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
+                            tickFormatter={(v) => `R$ ${v}`}
+                          />
+                          <Tooltip 
+                            cursor={tooltipProps.cursor}
+                            contentStyle={tooltipProps.contentStyle}
+                            labelStyle={tooltipProps.labelStyle}
+                            itemStyle={tooltipProps.itemStyle}
+                            formatter={(value: number) => [formatCurrency(value), "Total"]}
+                          />
+                          <Bar dataKey="total" fill={CHART_TOKENS.expense} radius={[6, 6, 0, 0]} maxBarSize={26} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div className="h-full flex flex-col items-center justify-center text-muted-foreground opacity-50">
+                        <BarChart3 className="size-8 mb-2" />
+                        <p className="text-[11px]">Nenhum dado para exibir no período</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
+            </TabsContent>
 
-              <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/10 flex gap-3">
-                <Info className="size-4 text-amber-600 shrink-0 mt-0.5" />
-                <p className="text-[10px] leading-relaxed text-amber-800 dark:text-amber-200">
-                  Valores inseridos aqui aparecem no painel da criança e são registrados como <strong>Despesa</strong> no seu extrato principal automaticamente.
-                </p>
-              </div>
-            </div>
+            <TabsContent value="goals" className="m-0 focus-visible:outline-none p-6 space-y-6">
+              <KidGoalsSection selectedKidId={selectedKidId} kids={kids} />
+            </TabsContent>
 
-            {/* Main Chart */}
-            <div className="p-4 md:col-span-2 flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <Label className="text-[10px] font-bold uppercase text-muted-foreground">Histórico de Gastos com Filhos</Label>
-                {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
+            <TabsContent value="history" className="m-0 focus-visible:outline-none">
+              <div className="divide-y divide-border/30">
+                {metrics.data?.map((tx: any) => {
+                  const kind = kidEntryKind(tx);
+                  const sync = syncStatusFor(tx);
+                  return (
+                    <div key={tx.id} className="px-6 py-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className={cn(
+                          "size-10 rounded-xl flex items-center justify-center",
+                          kind === "kidExpense" ? "bg-rose-500/10 text-rose-600" : "bg-emerald-500/10 text-emerald-600"
+                        )}>
+                          {kind === "kidExpense" ? <TrendingDown className="size-5" /> : <TrendingUp className="size-5" />}
+                        </div>
+                        <div>
+                          <p className="text-xs font-black uppercase tracking-wider mb-0.5">
+                            {kind === "kidExpense" ? "Gasto do Filho" : "Envio de Saldo"}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground font-medium">
+                            {tx.description}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[9px] text-muted-foreground/60">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</span>
+                            <Badge variant="outline" className="h-3.5 text-[7px] font-black uppercase px-1">{sync.label}</Badge>
+                            {tx.tags?.includes("kid_self_expense") && (
+                              <Badge variant="outline" className="h-3.5 text-[7px] font-black uppercase px-1 text-rose-600 border-rose-600/20">Auditado</Badge>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="text-right">
+                          <p className={cn("text-sm font-black tabular-nums", kind === "kidExpense" ? "text-rose-600" : "text-emerald-600")}>
+                            {tx.transaction_type === 'income' ? "+" : "−"} {formatCurrency(tx.amount)}
+                          </p>
+                          <p className="text-[9px] text-muted-foreground/60 italic">Afeta Saldo: {tx.tags?.includes("kid_self_expense") ? "Não" : "Sim"}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="size-8" onClick={() => setDetails(tx)}>
+                          <Info className="size-4 text-muted-foreground" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              
-              <div className="flex-1 h-[200px] w-full min-h-[200px]">
-                {chartData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
-                      <XAxis 
-                        dataKey="name" 
-                        axisLine={false} 
-                        tickLine={false} 
-                        tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
-                        dy={10}
-                      />
-                      <YAxis 
-                        axisLine={false} 
-                        tickLine={false} 
-                        tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
-                        tickFormatter={(v) => `R$ ${v}`}
-                      />
-                      <Tooltip 
-                        cursor={tooltipProps.cursor}
-                        contentStyle={tooltipProps.contentStyle}
-                        labelStyle={tooltipProps.labelStyle}
-                        itemStyle={tooltipProps.itemStyle}
-                        formatter={(value: number) => [formatCurrency(value), "Total"]}
-                      />
-                      <Bar dataKey="total" fill={CHART_TOKENS.expense} radius={[6, 6, 0, 0]} maxBarSize={26} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-muted-foreground opacity-50">
-                    <BarChart3 className="size-8 mb-2" />
-                    <p className="text-[11px]">Nenhum dado para exibir no período</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+            </TabsContent>
+          </Tabs>
 
           <div className="px-4 py-3 bg-muted/10 border-t border-border/50 flex flex-wrap gap-4 items-center justify-between">
              <div className="flex items-center gap-3">
