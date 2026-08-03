@@ -26,6 +26,7 @@ import {
   Activity
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { amountToInput } from "@/lib/money-input";
 import { parseAmount } from "@/lib/finance";
 import { 

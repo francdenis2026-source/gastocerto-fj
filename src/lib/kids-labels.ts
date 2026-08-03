@@ -18,11 +18,16 @@ export function kidEntryKind(row: {
   transaction_type?: string | null;
 }): KidEntryKind {
   const tags = row.tags ?? [];
-  if (tags.includes("kid_self_expense")) return "kidExpense";
+  const isIncome = row.transaction_type === "income";
+
+  if (tags.includes("kid_self_expense")) {
+    return isIncome ? "received" : "kidExpense";
+  }
+  
   if (tags.some((t) => t.startsWith("from_parent") || t.startsWith("parent_desc:"))) {
     return "received";
   }
-  return row.transaction_type === "income" ? "received" : "parentExpense";
+  return isIncome ? "received" : "parentExpense";
 }
 
 export function kidEntryLabel(row: { tags?: string[] | null; transaction_type?: string | null }) {

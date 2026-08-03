@@ -145,8 +145,8 @@ const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
 /** Valores positivos e negativos com contraste garantido nos dois temas. */
 const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-400";
 const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
-const NEGATIVE_TEXT = "text-rose-600 dark:text-rose-500 font-bold";
-const NEGATIVE_SURFACE = "bg-rose-500/5 dark:bg-rose-500/10";
+const NEGATIVE_TEXT = "text-rose-600 dark:text-rose-400 font-extrabold";
+const NEGATIVE_SURFACE = "bg-rose-500/10 dark:bg-rose-500/20";
 
 function KidSpacePage() {
   const navigate = useNavigate();
