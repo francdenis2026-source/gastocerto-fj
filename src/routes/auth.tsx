@@ -318,25 +318,26 @@ function AuthPage() {
                       onForgot={() => setMode("forgot")}
                       onAdmin={() => setMode("admin")}
                     />
-                    <div className="relative mt-5">
+                    <div className="relative mt-4">
                       <div className="absolute inset-0 flex items-center" aria-hidden="true">
                         <div className="w-full border-t border-border"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-muted-foreground/60">Acesso Infantil</span>
+                        <span className="bg-card px-2 text-muted-foreground/70">Acesso Infantil</span>
                       </div>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => setMode("kid")}
-                      className="group relative mt-3.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/25 bg-primary/[0.06] px-3 py-2.5 text-primary transition-colors duration-300 hover:border-primary/40 hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99] dark:border-primary/30 dark:bg-primary/10 dark:text-primary-foreground dark:hover:bg-primary/20"
+                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-border bg-secondary px-3 py-2.5 text-foreground transition-colors duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99]"
                     >
-                      <Baby className="size-4 animate-soft-pulse shrink-0 transition-transform duration-300 group-hover:scale-105 dark:text-primary-foreground" aria-hidden />
+                      <Baby className="size-4 animate-soft-pulse shrink-0 text-primary transition-transform duration-300 group-hover:scale-105" aria-hidden />
                       <span className="text-[12px] font-semibold leading-tight tracking-tight sm:text-[13px]">
                         Sou criança — entrar com meu código
                       </span>
                     </button>
+
                     <CodeAccessInline onContinue={() => setMode("signup")} />
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
