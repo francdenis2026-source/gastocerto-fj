@@ -802,6 +802,9 @@ function KidSpacePage() {
         expense={expense}
         rows={rows}
         accent={accent}
+        viewYearly={viewYearly}
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
       />
 
       <KidEntryDialog
@@ -830,12 +833,18 @@ function KidSummary({
   expense,
   rows,
   accent,
+  viewYearly,
+  selectedMonth,
+  selectedYear,
 }: {
   balance: number;
   income: number;
   expense: number;
   rows: KidTransaction[];
   accent: KidAccent;
+  viewYearly: boolean;
+  selectedMonth: number;
+  selectedYear: number;
 }) {
   return (
     <section className={cn(
