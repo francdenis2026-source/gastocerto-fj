@@ -198,16 +198,26 @@ export function MetricDetailDialog({
 }) {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [removedIds, setRemovedIds] = useState<string[]>([]);
+  const [pendingDelete, setPendingDelete] = useState<Transaction | null>(null);
+  const deleteTransaction = useDeleteTransaction();
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     setSelectedId(null);
+    setRemovedIds([]);
+    setPendingDelete(null);
   }, [detail]);
 
+  /** Lançamentos visíveis: remove em tempo real os que acabaram de ser excluídos. */
+  const visibleRows = useMemo(
+    () => (detail?.rows ?? []).filter((row) => !removedIds.includes(row.id)),
+    [detail, removedIds],
+  );
+
   const byCategory = useMemo(() => {
-    if (!detail) return [];
     const map = new Map<string, { name: string; color?: string | null; icon?: string | null; total: number }>();
-    for (const row of detail.rows) {
+    for (const row of visibleRows) {
       const category = categories.find((item) => item.id === row.category_id);
       const key = category?.id ?? "none";
       const current = map.get(key) ?? {
@@ -220,18 +230,32 @@ export function MetricDetailDialog({
       map.set(key, current);
     }
     return [...map.values()].sort((a, b) => b.total - a.total);
-  }, [detail, categories]);
+  }, [visibleRows, categories]);
 
   const maxTotal = byCategory[0]?.total ?? 0;
 
   const rows = useMemo(
     () =>
-      (detail?.rows ?? [])
+      visibleRows
         .slice()
         .sort((a, b) => b.transaction_date.localeCompare(a.transaction_date))
         .slice(0, 40),
-    [detail],
+    [visibleRows],
   );
+
+  async function confirmDelete() {
+    if (!pendingDelete) return;
+    try {
+      await deleteTransaction.mutateAsync([pendingDelete.id]);
+      setRemovedIds((current) => [...current, pendingDelete.id]);
+      setSelectedId((current) => (current === pendingDelete.id ? null : current));
+      setPendingDelete(null);
+      toast.success("Lançamento excluído");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Não foi possível excluir");
+    }
+  }
+
 
   function moveFocus(delta: number, currentIndex: number) {
     const buttons = listRef.current?.querySelectorAll<HTMLButtonElement>("[data-row-button]");
