@@ -279,7 +279,7 @@ function AuthPage() {
             </Link>
           </div>
 
-          <div ref={formAreaRef} className="min-h-0 flex-1 overflow-y-auto pr-1">
+          <div ref={formAreaRef} className="min-h-0 flex-1 pr-1 lg:overflow-y-auto">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
@@ -864,22 +864,23 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
         Entrar no meu espaço
       </Button>
       
-      <div className="mt-2 flex gap-2 border-t border-border pt-2">
-        <Button 
-          type="button" 
-          variant="outline" 
-          className="w-full text-xs gap-2"
+      <div className="mt-2 flex flex-col gap-2 border-t border-border pt-2">
+        <Button
+          type="button"
+          variant="outline"
+          className="h-10 w-full justify-center gap-2 whitespace-nowrap px-3 text-xs font-semibold"
           onClick={() => {
             toast.info("Aponte a câmera para o QR Code no painel do seu responsável.");
           }}
         >
-          <KeyRound className="size-3.5" />
-          Acesso via QR Code
+          <KeyRound className="size-3.5 shrink-0" />
+          <span className="truncate">Acesso via QR Code</span>
         </Button>
-        <Button type="button" variant="ghost" className="w-full text-xs" onClick={onBack}>
+        <Button type="button" variant="ghost" className="h-9 w-full text-xs" onClick={onBack}>
           Voltar
         </Button>
       </div>
+
     </form>
   );
 }
