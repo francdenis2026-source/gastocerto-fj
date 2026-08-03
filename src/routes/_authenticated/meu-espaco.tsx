@@ -160,6 +160,8 @@ function KidSpacePage() {
   const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
 
 
+  const [viewYearly, setViewYearly] = useState(false);
+
   const gender = (dependent as { gender?: string } | null | undefined)?.gender;
   const isBoy = gender === "boy";
   const isGirl = gender === "girl";
@@ -174,7 +176,6 @@ function KidSpacePage() {
       return await fetchCardControl({ data: { kidUserId: dependent!.id } });
     },
   });
-
 
   const transactions = useQuery({
     queryKey: ["kid_transactions", dependent?.id, viewYearly],
@@ -297,13 +298,17 @@ function KidSpacePage() {
     );
   }
 
-  const rows = transactions.data ?? [];
-  const income = rows
-    .filter((row) => row.transaction_type === "income")
-    .reduce((sum, row) => sum + Number(row.amount), 0);
-  const expense = rows
-    .filter((row) => row.transaction_type === "expense")
-    .reduce((sum, row) => sum + Number(row.amount), 0);
+  const rows = (transactions.data ?? []) as KidTransaction[];
+  const income = Array.isArray(rows)
+    ? rows
+        .filter((row) => row.transaction_type === "income")
+        .reduce((sum, row) => sum + Number(row.amount), 0)
+    : 0;
+  const expense = Array.isArray(rows)
+    ? rows
+        .filter((row) => row.transaction_type === "expense")
+        .reduce((sum, row) => sum + Number(row.amount), 0)
+    : 0;
   const balance = income - expense;
   const firstName = (dependent.nickname || dependent.name).split(" ")[0];
   // O responsável escolhe o que aparece aqui (painel /kids).
