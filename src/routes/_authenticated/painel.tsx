@@ -70,6 +70,7 @@ import { DashboardTabs } from "@/components/finance/dashboard-tabs";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
 import { getYearlyBalance } from "@/lib/yearly-balance.functions";
 import { useServerFn } from "@tanstack/react-start";
+import { useAuth } from "@/hooks/use-auth";
 
 
 
