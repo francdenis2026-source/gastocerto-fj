@@ -76,11 +76,14 @@ function rangeFor(mode: Mode, year: number, month: number) {
   }
 
   if (mode === "quinzena") {
-  
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month, 0);
-  return { start: iso(start), end: iso(end) };
-}
+    const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
+    const first = isCurrentMonth ? today.getDate() <= 15 : true;
+    const start = new Date(year, month - 1, first ? 1 : 16);
+    const end = first
+      ? new Date(year, month - 1, 15)
+      : new Date(year, month, 0);
+    return { start: iso(start), end: iso(end) };
+  }
 
 function hourOf(value: string | null) {
   if (!value) return null;
