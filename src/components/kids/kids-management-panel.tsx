@@ -552,6 +552,12 @@ export function KidsManagementPanel() {
           )}
         </CardContent>
       )}
+      <KidEntryDetailsDialog
+        entry={details}
+        kidName={kids.find((k) => k.id === selectedKidId)?.name ?? null}
+        open={details !== null}
+        onOpenChange={(value: boolean) => !value && setDetails(null)}
+      />
     </Card>
   );
 }
