@@ -60,6 +60,8 @@ import { formatCurrency } from "@/lib/format";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
 import { cn } from "@/lib/utils";
+import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
+
 import { 
   BarChart, 
   Bar, 
