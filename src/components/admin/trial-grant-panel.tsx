@@ -230,11 +230,9 @@ export function TrialGrantPanel() {
                   onClick={async () => {
                     if (!window.confirm(`TEM CERTEZA? Esta ação excluirá PERMANENTEMENTE a conta de ${row.full_name || 'este usuário'} e todos os seus dados. Esta ação não pode ser desfeita.`)) return;
                     
-                    const pin = window.prompt("Digite o código mestre para confirmar a EXCLUSÃO DEFINITIVA:");
-                    if (pin !== 'ADMIN123456') {
-                       toast.error("Código incorreto.");
-                       return;
-                    }
+                    const code = window.prompt("Digite o código mestre para confirmar a EXCLUSÃO DEFINITIVA:");
+                    if (!code || !(await checkMasterCode(code))) return;
+
 
                     try {
                       const { adminDeleteUser } = await import("@/lib/admin-users.functions");
