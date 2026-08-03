@@ -420,11 +420,11 @@ export function KidsManagementPanel() {
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
                   <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Total Enviado</p>
-                  <p className="text-lg font-black text-primary">{formatCurrency(stats.total)}</p>
+                  <p className="text-lg font-black text-primary">{formatCurrency(stats.totalSent)}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-muted/30 border border-border/50">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Movimentações</p>
-                  <p className="text-lg font-black text-foreground">{stats.count}</p>
+                <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Gasto p/ Filhos</p>
+                  <p className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</p>
                 </div>
               </div>
 
