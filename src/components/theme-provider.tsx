@@ -28,6 +28,20 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     // Sync inicial do classList para evitar flashes se o estado mudou
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.style.colorScheme = theme;
+
+    /**
+     * A barra superior do navegador mobile (status/URL bar) é pintada pelo
+     * meta[name="theme-color"]. Se ficar fixa em navy, o topo continua escuro
+     * mesmo no tema claro. Aqui sincronizamos a cor com o tema ativo.
+     */
+    const color = theme === "dark" ? "#0d1b3e" : "#f6f8fb";
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "theme-color";
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute("content", color);
   }, [theme]);
 
   const setTheme = useCallback((next: Theme) => {
