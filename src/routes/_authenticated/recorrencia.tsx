@@ -3,11 +3,14 @@ import { cn } from "@/lib/utils";
 import {
   CalendarClock,
   Check,
+  Clock3,
   Copy,
   Pencil,
   Plus,
   RefreshCw,
   Trash2,
+  TrendingDown,
+  TrendingUp,
   Undo2,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -264,23 +267,62 @@ function RecurringPage() {
 
         </header>
 
-        <section className="grid grid-cols-3 gap-2 sm:grid-cols-3">
-          <div className="flex flex-col rounded-xl border bg-card p-3 text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Receitas</p>
-            <p className="mt-0.5 text-sm font-bold text-income">
-              {formatCurrency(rows.filter(r => r.transaction_type === "income").reduce((s, r) => s + Number(r.amount), 0))}
-            </p>
-          </div>
-          <div className="flex flex-col rounded-xl border bg-card p-3 text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Despesas</p>
-            <p className="mt-0.5 text-sm font-bold text-expense">
-              {formatCurrency(rows.filter(r => r.transaction_type === "expense").reduce((s, r) => s + Number(r.amount), 0))}
-            </p>
-          </div>
-          <div className="flex flex-col rounded-xl border bg-card p-3 text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Pendente</p>
-            <p className="mt-0.5 text-sm font-bold text-foreground">{formatCurrency(pendingTotal)}</p>
-          </div>
+        {/* Resumo dos fixos e assinaturas: superfícies neutras com apenas um
+            acento de cor por card, para manter o texto sempre legível. */}
+        <section className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {[
+            {
+              key: "income",
+              label: "Receitas fixas",
+              value: rows
+                .filter((r) => r.transaction_type === "income")
+                .reduce((sum, r) => sum + Number(r.amount), 0),
+              accent: "bg-income",
+              valueClass: "text-income",
+              icon: TrendingUp,
+              hint: "Entradas previstas no período",
+            },
+            {
+              key: "expense",
+              label: "Despesas fixas",
+              value: rows
+                .filter((r) => r.transaction_type === "expense")
+                .reduce((sum, r) => sum + Number(r.amount), 0),
+              accent: "bg-expense",
+              valueClass: "text-foreground",
+              icon: TrendingDown,
+              hint: "Assinaturas, parcelas e contas",
+            },
+            {
+              key: "pending",
+              label: "A pagar",
+              value: pendingTotal,
+              accent: "bg-brand",
+              valueClass: "text-foreground",
+              icon: Clock3,
+              hint: "Vencimentos ainda não quitados",
+            },
+          ].map((card) => (
+            <article
+              key={card.key}
+              className="relative flex min-w-0 items-start gap-3 overflow-hidden rounded-xl border border-border bg-card p-4"
+            >
+              <span className={cn("absolute inset-y-0 left-0 w-1", card.accent)} aria-hidden />
+              <card.icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-muted-foreground">{card.label}</p>
+                <p
+                  className={cn(
+                    "mt-1 truncate text-lg font-semibold tabular-nums sm:text-xl",
+                    card.valueClass,
+                  )}
+                >
+                  {formatCurrency(card.value)}
+                </p>
+                <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{card.hint}</p>
+              </div>
+            </article>
+          ))}
         </section>
 
 
