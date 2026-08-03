@@ -954,8 +954,14 @@ function KidSummary({
         "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm transition-all duration-300",
         accent.border,
       )}>
-      <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="flex items-center gap-2 text-base font-black tracking-tighter uppercase text-muted-foreground/80">
+          <CalendarIcon className="size-4" />
+          {viewYearly ? selectedYear : `${MONTH_NAMES[selectedMonth]} ${selectedYear}`}
+        </h2>
         <Target className={cn("size-5", accent.text)} aria-hidden="true" /> 
+      </div>
+      <h2 className="sr-only">
         Resumo {viewYearly ? `de ${selectedYear}` : `de ${new Date(0, selectedMonth).toLocaleDateString("pt-BR", { month: "long" })}`}
       </h2>
 
