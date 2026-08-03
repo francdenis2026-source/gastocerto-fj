@@ -533,7 +533,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
