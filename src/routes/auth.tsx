@@ -624,6 +624,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
 }
 
 function CpfSignUpForm({ onDone }: { onDone: () => void }) {
+  const navigate = useNavigate();
   const [cpf, setCpf] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -644,18 +645,31 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
     });
 
     if (!parsed.success) {
-      setFormError("Revise os dados informados.");
+      // Mostra exatamente qual campo precisa de correção.
+      const fieldErrors: Record<string, string> = {};
+      for (const issue of parsed.error.issues) {
+        const key = String(issue.path[0] ?? "form");
+        if (!fieldErrors[key]) fieldErrors[key] = issue.message;
+      }
+      setErrors(fieldErrors);
+      setFormError(
+        Object.values(fieldErrors)[0] ?? "Revise os dados informados.",
+      );
       return;
     }
 
     setErrors({});
     setFormError(null);
     setLoading(true);
-    
+
+    const loginEmail = cpfToLoginEmail(parsed.data.cpf);
+    const password = pinToPassword(parsed.data.cpf, parsed.data.pin);
+
     const { error } = await supabase.auth.signUp({
-      email: cpfToLoginEmail(parsed.data.cpf),
-      password: pinToPassword(parsed.data.cpf, parsed.data.pin),
+      email: loginEmail,
+      password,
       options: {
+        emailRedirectTo: `${window.location.origin}/auth`,
         data: {
           full_name: parsed.data.fullName,
           cpf: parsed.data.cpf,
@@ -672,13 +686,23 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       return;
     }
 
-    await supabase.auth.signInWithPassword({
-      email: cpfToLoginEmail(parsed.data.cpf),
-      password: pinToPassword(parsed.data.cpf, parsed.data.pin),
+    // Entra automaticamente e leva o cliente para dentro do sistema.
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: loginEmail,
+      password,
     });
     setLoading(false);
-    toast.success("Conta criada!");
+
+    if (signInError) {
+      toast.success("Conta criada! Faça o login para continuar.");
+      onDone();
+      return;
+    }
+
+    toast.success("Conta criada! Bem-vindo ao GastoCerto.");
+    navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2.5" noValidate autoComplete="off">
