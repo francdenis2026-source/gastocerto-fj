@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight, Plus, Gift } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 import { useKidTheme } from "@/lib/kids-theme";
 import { useKidsAppMode } from "@/lib/kids-pwa";
 import { useAppUpdate } from "@/lib/pwa";
