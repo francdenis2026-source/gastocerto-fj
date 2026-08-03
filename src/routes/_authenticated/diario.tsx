@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { PeriodPicker } from "@/components/finance/period-picker";
 import { AlertTriangle, ArrowDownRight, ArrowUpRight, CalendarDays, Clock, ListFilter, Plus, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
@@ -53,19 +54,29 @@ function iso(date: Date) {
   return date.toISOString().slice(0, 10);
 }
 
-function rangeFor(mode: Mode) {
+function rangeFor(mode: Mode, year: number, month: number) {
   const today = new Date();
-  if (mode === "dia") return { start: iso(today), end: iso(today) };
+  const dateInView = new Date(year, month - 1, 1);
+  
+  if (mode === "dia") {
+    // Se for o mês atual e ano atual, mostrar "Hoje", caso contrário mostrar o primeiro dia do mês em questão
+    const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
+    const targetDate = isCurrentMonth ? today : dateInView;
+    return { start: iso(targetDate), end: iso(targetDate) };
+  }
+  
   if (mode === "quinzena") {
-    const first = today.getDate() <= 15;
-    const start = new Date(today.getFullYear(), today.getMonth(), first ? 1 : 16);
+    const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
+    const first = isCurrentMonth ? today.getDate() <= 15 : true; // Padrão 1ª quinzena se não for mês atual
+    const start = new Date(year, month - 1, first ? 1 : 16);
     const end = first
-      ? new Date(today.getFullYear(), today.getMonth(), 15)
-      : new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      ? new Date(year, month - 1, 15)
+      : new Date(year, month, 0);
     return { start: iso(start), end: iso(end) };
   }
-  const start = new Date(today.getFullYear(), today.getMonth(), 1);
-  const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month, 0);
   return { start: iso(start), end: iso(end) };
 }
 
@@ -78,8 +89,10 @@ function hourOf(value: string | null) {
 
 function DailyPage() {
   const [mode, setMode] = useState<Mode>("dia");
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [dialogOpen, setDialogOpen] = useState(false);
-  const range = useMemo(() => rangeFor(mode), [mode]);
+  const range = useMemo(() => rangeFor(mode, selectedYear, selectedMonth), [mode, selectedYear, selectedMonth]);
   const { data: allTransactions, isLoading } = useTransactions(range);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -172,9 +185,19 @@ function DailyPage() {
           description={`${formatDate(range.start)} até ${formatDate(range.end)} · hora de cada lançamento`}
           actions={
             <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 mr-2">
+              <PeriodPicker 
+                year={selectedYear} 
+                month={selectedMonth} 
+                onChange={(p) => {
+                  setSelectedYear(p.year);
+                  setSelectedMonth(p.month);
+                }} 
+              />
+            </div>
             <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
               <TabsList>
-                <TabsTrigger value="dia">Hoje</TabsTrigger>
+                <TabsTrigger value="dia">Dia</TabsTrigger>
                 <TabsTrigger value="quinzena">Quinzena</TabsTrigger>
                 <TabsTrigger value="mes">Mês</TabsTrigger>
               </TabsList>
