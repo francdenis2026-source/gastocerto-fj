@@ -19,7 +19,7 @@ import { setupServiceWorker } from "@/lib/pwa";
 import { OfflineBanner } from "@/components/offline-banner";
 
 
-export const SITE_URL = "https://pagina-limpa-controle.lovable.app";
+export const SITE_URL = "https://gastocerto-fj.lovable.app";
 
 function NotFoundComponent() {
   return (

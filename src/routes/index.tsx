@@ -13,10 +13,10 @@ import { Pricing } from "@/components/landing/pricing";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
-  "Painel único para despesas, veículos, gás, cartões, mesada por PIX no Espaço Kids e consultor financeiro com IA. Comece grátis no GastoCerto.";
+  "Organize despesas, receitas, cartões, contas fixas, combustível e gás em um só painel. Metas, relatórios, mesada do Espaço Kids e consultor financeiro com IA. Comece grátis.";
 
-
-const ogImage = "https://pagina-limpa-controle.lovable.app/og-gastocerto.jpg";
+const siteUrl = "https://gastocerto-fj.lovable.app";
+const ogImage = `${siteUrl}/og-gastocerto-v2.jpg`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,23 +26,24 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://pagina-limpa-controle.lovable.app/" },
+      { property: "og:url", content: `${siteUrl}/` },
       { property: "og:image", content: ogImage },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Painel do GastoCerto com gráficos de gastos" },
+      { property: "og:image:alt", content: "Painel do GastoCerto com gráfico de gastos e saldo do mês" },
       { property: "og:locale", content: "pt_BR" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: ogImage },
-      { name: "twitter:image:alt", content: "Painel do GastoCerto com gráficos de gastos" },
+      { name: "twitter:image:alt", content: "Painel do GastoCerto com gráfico de gastos e saldo do mês" },
     ],
     links: [
-      { rel: "canonical", href: "https://pagina-limpa-controle.lovable.app/" },
+      { rel: "canonical", href: `${siteUrl}/` },
       { rel: "preload", as: "image", href: heroBg, fetchPriority: "high" },
     ],
   }),
+
 
   component: LandingPage,
 });
