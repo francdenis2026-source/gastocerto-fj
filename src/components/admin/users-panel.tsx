@@ -85,10 +85,14 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     queryFn: async (): Promise<Profile[]> => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*, plan:plans(slug)")
+        .select("*, plan:plans(slug), kids:dependents(count)")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data || []).map((p) => ({ ...p, plan_slug: (p as any).plan?.slug })) as any;
+      return (data || []).map((p) => ({ 
+        ...p, 
+        plan_slug: (p as any).plan?.slug,
+        kids_count: (p as any).kids?.[0]?.count || 0
+      })) as any;
     },
   });
 
