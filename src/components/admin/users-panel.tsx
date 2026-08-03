@@ -1,11 +1,17 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -236,7 +242,33 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
             ) : (
               filtered.map((profile) => (
                 <TableRow key={profile.id}>
-                  <TableCell className="font-medium">{profile.full_name ?? "—"}</TableCell>
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-2">
+                      {profile.full_name ?? "—"}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Badge
+                              variant={profile.kid_user_id ? "outline" : "default"}
+                              className={cn(
+                                "h-5 px-1.5 text-[10px] font-bold uppercase tracking-wider",
+                                profile.kid_user_id 
+                                  ? "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400" 
+                                  : "bg-brand/10 text-brand border-brand/20 hover:bg-brand/20"
+                              )}
+                            >
+                              {profile.kid_user_id ? "Filho" : "Pai/Mãe"}
+                            </Badge>
+                          </TooltipTrigger>
+                          <TooltipContent side="right" className="max-w-xs">
+                            {profile.kid_user_id 
+                              ? "Conta dependente vinculada a um responsável principal." 
+                              : "Conta principal com autonomia total e gestão de dependentes."}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableCell>
                   <TableCell>{profile.cpf ? maskCpf(profile.cpf) : "—"}</TableCell>
                   <TableCell className="text-muted-foreground">
                     {profile.contact_email ?? "—"}
