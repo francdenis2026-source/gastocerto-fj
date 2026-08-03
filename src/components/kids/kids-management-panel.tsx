@@ -21,8 +21,10 @@ import {
   FileText,
   Edit2,
   Trash2,
-  MoreVertical
+  MoreVertical,
+  Sparkles
 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { amountToInput } from "@/lib/money-input";
 import { parseAmount } from "@/lib/finance";
 import { 
