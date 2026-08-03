@@ -1135,8 +1135,7 @@ function KidEntryDialog({
         }
       });
       
-      // 2. Se for um registro que deve gerar notificação ou log para o pai
-      // Gastos manuais da criança são marcados como Informativos no painel do pai.
+      // 2. Notificação/log informativo para o pai
       try {
         await syncTx({
           data: {
@@ -1144,7 +1143,7 @@ function KidEntryDialog({
             amount: value,
             description: description.trim() || selected.label,
             transactionDate: isoDate,
-            type: selected.type
+            type: selected.type // Envia o tipo real (income/expense)
           }
         });
       } catch (syncErr) {
