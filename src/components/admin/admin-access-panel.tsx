@@ -294,6 +294,7 @@ export function AdminAccessPanel() {
           </div>
         )}
       </CardContent>
+      <ConfirmDialog />
     </Card>
   );
 }
@@ -365,7 +366,6 @@ function LogsDialog({ codeId, label }: { codeId: string; label: string }) {
           )}
         </ScrollArea>
       </DialogContent>
-      <ConfirmDialog />
     </Dialog>
   );
 }

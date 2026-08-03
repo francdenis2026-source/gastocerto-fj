@@ -416,6 +416,7 @@ export function LicensesPanel({ globalSearch = "" }: { globalSearch?: string }) 
           </TableBody>
         </Table>
       </div>
+      <ConfirmDialog />
     </div>
   );
 }
@@ -663,7 +664,6 @@ export function PaymentsPanel() {
           )}
         </TableBody>
       </Table>
-      <ConfirmDialog />
     </div>
   );
 }

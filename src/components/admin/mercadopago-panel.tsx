@@ -239,6 +239,7 @@ export function MercadoPagoPanel() {
           </>
         )}
       </CardContent>
+      <ConfirmDialog />
     </Card>
   );
 }
@@ -308,7 +309,6 @@ function ResultBox({ title, result }: { title: string; result: TestState }) {
       <p className="mt-1">{result.message}</p>
       {result.detail ? <p className="mt-1 break-words opacity-80">{result.detail}</p> : null}
       {result.instructions ? <p className="mt-1 opacity-80">{result.instructions}</p> : null}
-      <ConfirmDialog />
     </div>
   );
 }
