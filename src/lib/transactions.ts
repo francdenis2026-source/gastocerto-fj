@@ -30,6 +30,7 @@ export function useTransactions(range?: TransactionRange) {
         .order("created_at", { ascending: false });
 
       if (range) {
+        // Garantimos que a consulta busque exatamente dentro do intervalo, sem somar outros meses
         query = query.gte("transaction_date", range.start).lte("transaction_date", range.end);
       }
 

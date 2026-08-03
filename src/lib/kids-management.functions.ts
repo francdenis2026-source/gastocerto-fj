@@ -86,16 +86,24 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) =>
     z.object({
       dependentId: z.string().uuid().optional(),
+      month: z.number().optional(),
+      year: z.number().optional(),
     }).parse(data)
   )
   .handler(async ({ data, context }) => {
     const userId = context.userId;
-    const { dependentId } = data;
+    const { dependentId, month, year } = data;
 
     let query = supabaseAdmin
       .from("transactions")
       .select("id, amount, description, transaction_date, tags, transaction_type, status")
       .eq("user_id", userId);
+
+    if (year && month) {
+      const start = `${year}-${String(month).padStart(2, '0')}-01`;
+      const end = new Date(year, month, 0).toISOString().split('T')[0] + 'T23:59:59';
+      query = query.gte("transaction_date", start).lte("transaction_date", end);
+    }
 
     const { data: transactions, error } = await query;
     if (error) throw error;

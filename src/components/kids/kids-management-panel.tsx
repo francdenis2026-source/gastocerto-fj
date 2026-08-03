@@ -90,8 +90,14 @@ export function KidsManagementPanel() {
   const queryClient = useQueryClient();
 
   const metrics = useQuery({
-    queryKey: ["kids_financial_metrics", selectedKidId],
-    queryFn: () => fetchMetrics({ data: { dependentId: selectedKidId === "all" ? undefined : selectedKidId } }),
+    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
+    queryFn: () => fetchMetrics({ 
+      data: { 
+        dependentId: selectedKidId === "all" ? undefined : selectedKidId,
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear()
+      } 
+    }),
   });
 
   const giveMoneyMutation = useMutation({
@@ -281,11 +287,22 @@ export function KidsManagementPanel() {
                                 {tx.transaction_type === 'income' ? "+" : "-"} {formatCurrency(tx.amount)}
                               </span>
                               <div className="flex gap-1">
-                                <Button variant="ghost" size="icon" className="size-7" onClick={() => {
-                                  // Em um sistema real, aqui abriríamos outro Dialog ou trocaríamos o estado para editar
-                                }}>
-                                  <Edit2 className="size-3" />
-                                </Button>
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="size-7">
+                                      <Edit2 className="size-3" />
+                                    </Button>
+                                  </DialogTrigger>
+                                  <DialogContent>
+                                    <DialogHeader>
+                                      <DialogTitle>Editar Lançamento</DialogTitle>
+                                    </DialogHeader>
+                                    <EditTxForm 
+                                      tx={tx} 
+                                      onSave={(values) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })} 
+                                    />
+                                  </DialogContent>
+                                </Dialog>
                                 <Button variant="ghost" size="icon" className="size-7 text-destructive" onClick={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}>
                                   <Trash2 className="size-3" />
                                 </Button>
@@ -699,6 +716,27 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
           Confirmar Envio
         </Button>
       </DialogFooter>
+    </div>
+  );
+}
+
+function EditTxForm({ tx, onSave }: { tx: any, onSave: (values: any) => void }) {
+  const [description, setDescription] = useState(tx.description.replace(/^\[Envio\]\s*/, ""));
+  const [amount, setAmount] = useState(tx.amount.toString());
+
+  return (
+    <div className="space-y-4 py-4">
+      <div className="space-y-2">
+        <Label>Descrição</Label>
+        <Input value={description} onChange={(e) => setDescription(e.target.value)} />
+      </div>
+      <div className="space-y-2">
+        <Label>Valor</Label>
+        <MoneyInput value={amount} onValueChange={setAmount} />
+      </div>
+      <Button className="w-full" onClick={() => onSave({ description, amount: parseAmount(amount) })}>
+        Salvar Alterações
+      </Button>
     </div>
   );
 }
