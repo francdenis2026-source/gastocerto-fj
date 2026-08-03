@@ -59,7 +59,7 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
     const { error: auditError } = await supabaseAdmin.from("kid_access_audit").insert({
       user_id: userId,
       dependent_id: dependentId,
-      action: "give_money" as any,
+      action: "give_money",
       details: { amount, type, description }
     } as any);
     if (auditError) console.error("Erro ao registrar auditoria:", auditError.message);
