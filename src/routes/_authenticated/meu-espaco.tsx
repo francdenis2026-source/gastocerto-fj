@@ -352,7 +352,8 @@ function KidSpacePage() {
              <HelpCircle className="absolute left-2.5 top-2.5 size-3 text-muted-foreground" />
           </div>
         </div>
-
+        
+        <div className="flex items-center justify-end gap-2">
           {!viewYearly && (
             <Select 
               value={selectedMonth.toString()} 
@@ -404,6 +405,7 @@ function KidSpacePage() {
           </div>
         </div>
       </div>
+
 
       {/* Densidade da interface: modo padrão (confortável) ou compacto (objetivo) */}
       <div className="fixed bottom-4 right-4 z-50">
@@ -843,10 +845,11 @@ function KidSpacePage() {
       </footer>
 
 
-    </main>
+      </main>
     </KidsStatusGuard>
   );
 }
+
 
 function KidSummary({
   balance,
