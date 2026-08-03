@@ -253,11 +253,35 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
       }
     };
 
+    // Nome de cada filho por lançamento (para o painel dos pais exibir com clareza)
+    const { data: allDeps } = await supabaseAdmin
+      .from("dependents")
+      .select("id, name, nickname")
+      .eq("user_id", userId);
+    const nameById = new Map<string, string>();
+    for (const d of allDeps ?? []) nameById.set(d.id, (d.nickname || d.name) as string);
+
+    const withKid = [...parentRows, ...kidRows].map((tx) => {
+      const tags: string[] = (tx as any).tags ?? [];
+      const depTag = tags.find((t) => t.startsWith("dependente:"));
+      const depId = depTag ? depTag.split(":")[1] : null;
+      const isKidExpense = tags.includes("kid_self_expense");
+      return {
+        ...tx,
+        dependentId: depId,
+        kidName: depId ? nameById.get(depId) ?? null : null,
+        entryKind: isKidExpense
+          ? (tx.transaction_type === "income" ? "kidIncome" : "kidExpense")
+          : "sent",
+      };
+    });
+
+    const filtered = kind && kind !== "all" ? withKid.filter((tx) => tx.entryKind === kind) : withKid;
+
     return {
-      transactions: [...parentRows, ...kidRows].sort((a, b) =>
-        b.transaction_date.localeCompare(a.transaction_date)
-      ),
+      transactions: filtered.sort((a, b) => b.transaction_date.localeCompare(a.transaction_date)),
       totalCount: count || 0,
       summary
     };
   });
+
