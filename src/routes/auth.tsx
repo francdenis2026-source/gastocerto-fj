@@ -50,22 +50,45 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/auth")({
   validateSearch: searchSchema,
-  head: () => ({
-    meta: [
-      { title: "Acesse sua conta — GastoCerto" },
-      {
-        name: "description",
-        content: "Faça login no GastoCerto para controlar suas finanças pessoais.",
-      },
-      { property: "og:title", content: "Acesse sua conta — GastoCerto" },
-      {
-        property: "og:description",
-        content: "Faça login no GastoCerto para controlar suas finanças pessoais.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ match }) => {
+    // O link do Espaço Kids (/auth?kid=CODIGO) recebe prévia própria, com
+    // imagem e texto do universo da criança; o login do responsável mantém a
+    // identidade do produto. Ambas em 1200x630 — nada de imagem gigante.
+    const isKid = Boolean((match.search as { kid?: string } | undefined)?.kid);
+    const title = isKid
+      ? "Entrar no Meu Espaço — GastoCerto Kids"
+      : "Acesse sua conta — GastoCerto";
+    const description = isKid
+      ? "Acesso do Espaço Kids: a criança entra com o código do responsável para ver a mesada, as metas e os próprios gastos."
+      : "Entre no GastoCerto para acompanhar despesas, receitas, cartões, veículos e metas em um só painel.";
+    const image = `https://gastocerto-fj.lovable.app/${isKid ? "og-kids.jpg" : "og-gastocerto-v2.jpg"}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { name: "robots", content: "noindex" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://gastocerto-fj.lovable.app/auth" },
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        {
+          property: "og:image:alt",
+          content: isKid
+            ? "Espaço Kids do GastoCerto: cofrinho e meta de poupança"
+            : "Painel do GastoCerto com gráfico de gastos",
+        },
+        { property: "og:locale", content: "pt_BR" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+    };
+  },
+
   component: AuthPage,
 });
 

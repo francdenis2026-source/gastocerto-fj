@@ -19,7 +19,7 @@ import { setupServiceWorker } from "@/lib/pwa";
 import { OfflineBanner } from "@/components/offline-banner";
 
 
-export const SITE_URL = "https://pagina-limpa-controle.lovable.app";
+export const SITE_URL = "https://gastocerto-fj.lovable.app";
 
 function NotFoundComponent() {
   return (
@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-title", content: "GastoCerto" },
       { property: "og:site_name", content: "GastoCerto" },
       { property: "og:title", content: "GastoCerto — Controle de gastos pessoais" },
-      { property: "og:description", content: "Controle total dos seus gastos pessoais." },
+      { property: "og:description", content: "Despesas, receitas, cartões, contas fixas, combustível, gás, metas e relatórios em um único painel de finanças pessoais." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
@@ -142,7 +142,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 width: 512,
                 height: 512,
               },
-              image: `${SITE_URL}/og-gastocerto.jpg`,
+              image: `${SITE_URL}/og-gastocerto-v2.jpg`,
               description:
                 "Plataforma brasileira de controle de gastos pessoais: combustível, gás, mercado, contas e assinaturas em um painel só.",
               founder: { "@type": "Person", name: "Franc D'nis" },
@@ -160,7 +160,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               url: SITE_URL,
               name: "GastoCerto",
               inLanguage: "pt-BR",
-              description: "Controle total dos seus gastos pessoais.",
+              description: "Despesas, receitas, cartões, contas fixas, combustível, gás, metas e relatórios em um único painel de finanças pessoais.",
               publisher: { "@id": `${SITE_URL}/#organization` },
             },
           ],
