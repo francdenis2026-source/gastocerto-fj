@@ -22,7 +22,8 @@ import {
   Edit2,
   Trash2,
   MoreVertical,
-  Sparkles
+  Sparkles,
+  Activity
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { amountToInput } from "@/lib/money-input";
@@ -100,7 +101,9 @@ export function KidsManagementPanel() {
   const { user } = useAuth();
 
   // Gastos feitos pela criança aparecem aqui em tempo real.
-  useParentKidsRealtime(user?.id);
+  // Monitoramos o pai e todos os filhos vinculados.
+  const kidUserIds = useMemo(() => kids.map(k => k.kid_user_id), [kids]);
+  useParentKidsRealtime(user?.id, kidUserIds);
 
   const metrics = useQuery({
     queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
@@ -111,10 +114,8 @@ export function KidsManagementPanel() {
         year: new Date().getFullYear()
       } 
     }),
-    // Gastos lançados pela própria criança ficam na conta dela: revalidamos com
-    // frequência para o responsável ver quase em tempo real.
-    refetchInterval: 15_000,
     refetchOnWindowFocus: true,
+    staleTime: 5000,
   });
 
   const giveMoneyMutation = useMutation({
@@ -247,21 +248,29 @@ export function KidsManagementPanel() {
   }, [metrics.data]);
 
   const stats = useMemo(() => {
-    if (!metrics.data) return { total: 0, byType: { cash: 0, pix: 0, gift: 0, value: 0 }, count: 0 };
+    if (!metrics.data) return { totalSent: 0, totalKidSpent: 0, byType: { cash: 0, pix: 0, gift: 0, value: 0 }, count: 0 };
     
-    let total = 0;
+    let totalSent = 0;
+    let totalKidSpent = 0;
     const byType = { cash: 0, pix: 0, gift: 0, value: 0 };
     
     metrics.data.forEach(tx => {
-      total += tx.amount;
-      const typeTag = (tx.tags || []).find(t => t.startsWith("type:"));
-      if (typeTag) {
-        const type = typeTag.split(":")[1] as keyof typeof byType;
-        if (byType[type] !== undefined) byType[type] += tx.amount;
+      const isKidSelf = tx.tags?.includes("kid_self_expense");
+      
+      if (isKidSelf) {
+        if (tx.transaction_type === "expense") totalKidSpent += tx.amount;
+      } else {
+        // Envio do pai (sempre despesa para o pai, entrada para o filho)
+        totalSent += tx.amount;
+        const typeTag = (tx.tags || []).find(t => t.startsWith("type:"));
+        if (typeTag) {
+          const type = typeTag.split(":")[1] as keyof typeof byType;
+          if (byType[type] !== undefined) byType[type] += tx.amount;
+        }
       }
     });
 
-    return { total, byType, count: metrics.data.length };
+    return { totalSent, totalKidSpent, byType, count: metrics.data.length };
   }, [metrics.data]);
 
   if (loadingDeps) return <div className="h-32 flex items-center justify-center"><Loader2 className="animate-spin" /></div>;
@@ -330,38 +339,53 @@ export function KidsManagementPanel() {
                     <div className="grid grid-cols-3 gap-3">
                        <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
                          <p className="text-[9px] font-bold uppercase text-emerald-600 mb-1">Recebido</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income').reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense').reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos do Filho</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
-                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo</p>
-                         <p className="text-lg font-black">{formatCurrency((metrics.data?.filter(t => t.transaction_type === 'income').reduce((a, b) => a + b.amount, 0) || 0) - (metrics.data?.filter(t => t.transaction_type === 'expense').reduce((a, b) => a + b.amount, 0) || 0))}</p>
+                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo Filho</p>
+                         <p className="text-lg font-black">{formatCurrency((metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) - (metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0))}</p>
                        </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-[10px] font-bold uppercase text-muted-foreground">Movimentações em tempo real</Label>
-                      <div className="divide-y border rounded-xl overflow-hidden">
-                        {metrics.data?.map((tx: any) => (
+                      <div className="flex items-center justify-between">
+                        <Label className="text-[10px] font-bold uppercase text-muted-foreground">Monitoramento em Tempo Real</Label>
+                        {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
+                      </div>
+                      <div className="divide-y border rounded-xl overflow-hidden bg-background/50">
+                        {metrics.data?.length === 0 && (
+                          <div className="p-8 text-center text-muted-foreground">
+                            <p className="text-xs">Nenhum registro encontrado para este período.</p>
+                          </div>
+                        )}
+                        {metrics.data?.map((tx: any) => {
+                          const kind = kidEntryKind(tx);
+                          return (
                           <div key={tx.id} className="p-3 flex items-center justify-between hover:bg-muted/30 transition-colors">
                             <div className="flex items-center gap-3">
                               <div className={cn(
                                 "size-8 rounded-lg flex items-center justify-center",
-                                tx.transaction_type === 'income' ? "bg-emerald-500/10 text-emerald-600" : "bg-rose-500/10 text-rose-600"
+                                kind === "kidExpense" ? "bg-rose-500/10 text-rose-600" : "bg-emerald-500/10 text-emerald-600"
                               )}>
-                                {tx.transaction_type === 'income' ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                                {kind === "kidExpense" ? <TrendingDown className="size-4" /> : <TrendingUp className="size-4" />}
                               </div>
                               <div>
-                                <p className="text-xs font-bold leading-tight">{tx.description}</p>
-                                <p className="text-[9px] text-muted-foreground">{new Date(tx.transaction_date).toLocaleDateString()}</p>
+                                <p className="text-xs font-bold leading-tight">
+                                  {kind === "kidExpense" ? "🛍️ Gasto do Filho" : "💰 Recebido"}
+                                  <span className="text-muted-foreground font-normal ml-2">
+                                    {tx.description.replace(/\[.*\]\s*/, "")}
+                                  </span>
+                                </p>
+                                <p className="text-[9px] text-muted-foreground">{new Date(`${tx.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
-                              <span className={cn("text-xs font-black", tx.transaction_type === 'income' ? "text-emerald-600" : "text-rose-600")}>
-                                {tx.transaction_type === 'income' ? "+" : "-"} {formatCurrency(tx.amount)}
+                              <span className={cn("text-xs font-black", kind === "kidExpense" ? "text-rose-600" : "text-emerald-600")}>
+                                {tx.transaction_type === 'income' ? "+" : "−"} {formatCurrency(tx.amount)}
                               </span>
                               <div className="flex gap-1">
                                 <Dialog>
@@ -384,7 +408,8 @@ export function KidsManagementPanel() {
                               </div>
                             </div>
                           </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -404,6 +429,22 @@ export function KidsManagementPanel() {
         </div>
       </CardHeader>
 
+      {/* Barra de Status Unificada */}
+      <div className="px-4 py-2 border-y bg-muted/20 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Monitoramento Realtime Ativo</span>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-1.5">
+            <div className="size-1.5 rounded-full bg-primary" />
+            <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-tight">
+              {dependents?.filter(d => d.kid_user_id).length || 0} Filhos Conectados
+            </span>
+          </div>
+        </div>
+      </div>
+
       {isExpanded && (
         <CardContent className="p-0 animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border/50">
@@ -412,11 +453,11 @@ export function KidsManagementPanel() {
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
                   <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Total Enviado</p>
-                  <p className="text-lg font-black text-primary">{formatCurrency(stats.total)}</p>
+                  <p className="text-lg font-black text-primary">{formatCurrency(stats.totalSent)}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-muted/30 border border-border/50">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Movimentações</p>
-                  <p className="text-lg font-black text-foreground">{stats.count}</p>
+                <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Gasto p/ Filhos</p>
+                  <p className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</p>
                 </div>
               </div>
 
@@ -533,7 +574,11 @@ export function KidsManagementPanel() {
           {metrics.data && metrics.data.length > 0 && (
             <div className="border-t border-border/50">
               <div className="px-4 py-2 bg-muted/5 flex items-center justify-between">
-                <Label className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">Lançamentos Recentes</Label>
+                <div className="flex items-center gap-2">
+                  <Activity className="size-3 text-primary animate-pulse" />
+                  <Label className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">Monitoramento em Tempo Real</Label>
+                </div>
+                {metrics.isFetching && <Loader2 className="size-2 animate-spin text-muted-foreground" />}
               </div>
               <div className="max-h-[200px] overflow-y-auto divide-y divide-border/30">
                 {metrics.data.slice(0, 5).map((tx: any) => {
@@ -559,7 +604,9 @@ export function KidsManagementPanel() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-[11px] font-bold leading-tight truncate">
-                          <span className={cn(kidEntryTone(kind))}>{kidEntryLabel(tx)}</span>
+                          <span className={cn(kidEntryTone(kind))}>
+                            {kind === "kidExpense" ? "🛍️ Registrado pelo Filho" : "💰 Enviado por Mim"}
+                          </span>
                           <span className="text-muted-foreground font-semibold">
                             {" · "}
                             {kind === "kidExpense"

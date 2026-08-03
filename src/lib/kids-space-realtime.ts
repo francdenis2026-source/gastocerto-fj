@@ -42,32 +42,42 @@ export function useKidSpaceRealtime(kidUserId: string | undefined) {
   }, [kidUserId, queryClient]);
 }
 
-/** Mesma ideia no painel do responsável: reflete gastos feitos pela criança. */
-export function useParentKidsRealtime(parentUserId: string | undefined) {
+/** 
+ * Mesma ideia no painel do responsável: reflete gastos feitos pela criança.
+ * Agora aceita uma lista de IDs de usuários dos filhos para monitorar em tempo real.
+ */
+export function useParentKidsRealtime(parentUserId: string | undefined, kidUserIds: (string | null)[] = []) {
   const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!parentUserId) return;
 
-    const channel = supabase
-      .channel(`parent-kids-${parentUserId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "transactions",
-          filter: `user_id=eq.${parentUserId}`,
-        },
-        () => {
-          void queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
-          void queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
-        },
-      )
-      .subscribe();
+    // Remove nulls e garante IDs únicos
+    const validKidIds = kidUserIds.filter((id): id is string => !!id);
+    const allWatchedIds = [parentUserId, ...validKidIds];
+
+    const channels = allWatchedIds.map(userId => {
+      return supabase
+        .channel(`watch-${userId}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "transactions",
+            filter: `user_id=eq.${userId}`,
+          },
+          () => {
+            void queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+            void queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+            void queryClient.invalidateQueries({ queryKey: ["transactions"] });
+          },
+        )
+        .subscribe();
+    });
 
     return () => {
-      void supabase.removeChannel(channel);
+      channels.forEach(channel => void supabase.removeChannel(channel));
     };
-  }, [parentUserId, queryClient]);
+  }, [parentUserId, kidUserIds.join(','), queryClient]);
 }
