@@ -330,9 +330,30 @@ function KidSpacePage() {
       "bg-gradient-to-b from-primary/8 via-background to-background",
       compactMode && "tracking-tight"
     )}>
-      {/* Selector for period view */}
-      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col items-end gap-3 px-4">
-        <div className="flex items-center gap-2">
+      {/* Selector for period view and Goals Panel */}
+      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col gap-4 px-4">
+        {/* Goals / Budget Alert */}
+        {(balance / (dependent.monthly_limit || 100)) < 0.2 && (
+          <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-3 flex items-center gap-3 animate-pulse">
+            <AlertTriangle className="size-5 text-rose-500 shrink-0" />
+            <div className="flex-1">
+              <p className="text-xs font-bold text-rose-700 dark:text-rose-400">Atenção! Seu saldo está baixo.</p>
+              <p className="text-[10px] text-rose-600/80 dark:text-rose-400/80">Que tal economizar um pouquinho para sua meta?</p>
+            </div>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between">
+          <div className="relative flex-1 max-w-xs">
+             <Input 
+               placeholder="Buscar registros..." 
+               className="h-8 text-xs pl-8 bg-muted/50 border-none shadow-none"
+             />
+             <HelpCircle className="absolute left-2.5 top-2.5 size-3 text-muted-foreground" />
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-end gap-2">
           {!viewYearly && (
             <Select 
               value={selectedMonth.toString()} 
@@ -384,6 +405,7 @@ function KidSpacePage() {
           </div>
         </div>
       </div>
+
 
       {/* Densidade da interface: modo padrão (confortável) ou compacto (objetivo) */}
       <div className="fixed bottom-4 right-4 z-50">
@@ -823,10 +845,11 @@ function KidSpacePage() {
       </footer>
 
 
-    </main>
+      </main>
     </KidsStatusGuard>
   );
 }
+
 
 function KidSummary({
   balance,
