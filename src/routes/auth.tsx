@@ -200,7 +200,7 @@ function AuthPage() {
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
       <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
-        <section className="relative flex min-h-[160px] flex-col justify-between overflow-hidden lg:min-h-0">
+        <section className="relative flex min-h-[140px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
           {/* Imagem Hero específica para cada modo */}
           <img
             src={
@@ -302,7 +302,7 @@ function AuthPage() {
             </Link>
           </div>
 
-          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
+          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
