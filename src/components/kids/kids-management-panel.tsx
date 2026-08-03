@@ -557,8 +557,8 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
     return (
       <div className="space-y-4 py-4">
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="size-12 rounded-full bg-destructive/10 flex items-center justify-center">
-            <Trash2 className="size-6 text-destructive" />
+          <div className="size-12 rounded-full bg-rose-500/10 flex items-center justify-center">
+            <Trash2 className="size-6 text-rose-500" />
           </div>
           <div>
             <h3 className="text-lg font-bold">Excluir lançamento?</h3>
