@@ -2,6 +2,8 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
 import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
+import { Sparkles, ShieldCheck } from "lucide-react";
+import { usePlanAccess } from "@/lib/plan-features";
 import {
   ChevronDown,
   PanelLeftClose,
@@ -91,6 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { data: roles } = useRoles();
   const { data: notifications } = useNotifications();
   const avatarUrl = useAvatarUrl(profile?.avatar_url);
+  const access = usePlanAccess();
   usePlanRealtimeSync();
   // Avisos e conquistas do Espaço Kids chegam sem recarregar a tela.
   useKidsRealtimeAlerts();
@@ -416,6 +419,13 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-brand transition-colors">
                   {profile?.full_name ?? "Minha conta"}
+                </span>
+                {(access.planSlug === "premium_ia" || access.planSlug === "premium") && (
+                  <span className="mt-0.5 flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    <ShieldCheck className="size-2.5" />
+                    Conta PRO
+                  </span>
+                )}
                 </span>
                 <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
                   Meu perfil e plano

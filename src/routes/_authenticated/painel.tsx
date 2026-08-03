@@ -124,6 +124,9 @@ function DashboardPage() {
   const navigate = useNavigate();
   const search = useSearch({ from: "/_authenticated/painel" });
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const { data: profile } = useProfile();
+  const access = usePlanAccess();
 
   const today = new Date();
   const { year: storedYear, month: storedMonth, setPeriod: setStoredPeriod, reset } = usePeriodStore();
@@ -144,8 +147,6 @@ function DashboardPage() {
   const [dependentOpen, setDependentOpen] = useState(false);
   const [taxOpen, setTaxOpen] = useState(false);
 
-  const { data: profile, isLoading } = useProfile();
-  const access = usePlanAccess();
   const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
 
@@ -165,7 +166,7 @@ function DashboardPage() {
   const cleanupDuplicates = useServerFn(cleanupDuplicatedKidTransactions);
 
   useEffect(() => {
-    if (!isLoading && profile) {
+    if (profile) {
       if (!profile.onboarding_completed) {
         navigate({ to: "/onboarding", replace: true });
         return;
