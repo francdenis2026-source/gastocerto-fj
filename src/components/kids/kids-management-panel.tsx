@@ -1050,3 +1050,154 @@ function EditTxForm({ tx, onSave }: { tx: any, onSave: (values: any) => void }) 
     </div>
   );
 }
+
+function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids: any[] }) {
+  const queryClient = useQueryClient();
+  const saveGoal = useServerFn(saveKidGoal);
+  const deleteGoal = useServerFn(deleteKidGoal);
+  const updateSettings = useServerFn(updateSettingsFn);
+
+  const { data: goals, isLoading } = useQuery({
+    queryKey: ["kid-goals", selectedKidId],
+    queryFn: () => getKidGoals({ kidId: selectedKidId === "all" ? undefined : selectedKidId }),
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: (data: any) => saveGoal({ data }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["kid-goals"] }),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => deleteGoal({ data: { id } }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["kid-goals"] }),
+  });
+
+  const updateSettingsMutation = useMutation({
+    mutationFn: (data: any) => updateSettings({ data }),
+    onSuccess: () => {
+      toast.success("Configurações atualizadas");
+      queryClient.invalidateQueries({ queryKey: ["dependents"] });
+    }
+  });
+
+  if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
+
+  const currentKid = selectedKidId === "all" ? null : kids.find(k => k.id === selectedKidId);
+
+  return (
+    <div className="space-y-8">
+      {currentKid && (
+        <section className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Settings className="size-4 text-primary" />
+            <h3 className="text-sm font-black uppercase tracking-widest">Alertas & Limites</h3>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Card className="p-4 border-dashed">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label className="text-[10px] font-bold uppercase">Aviso de Saldo Baixo</Label>
+                  <Bell className="size-3 text-amber-500" />
+                </div>
+                <div className="flex gap-2">
+                  <MoneyInput 
+                    value={amountToInput(currentKid.monthly_limit || 0)}
+                    onValueChange={(v) => {
+                      updateSettingsMutation.mutate({ 
+                        kidId: currentKid.id, 
+                        settings: { lowBalanceAlert: parseAmount(v) } 
+                      });
+                    }}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <p className="text-[9px] text-muted-foreground italic">Você receberá um alerta quando o saldo ficar abaixo deste valor.</p>
+              </div>
+            </Card>
+
+            <Card className="p-4 border-dashed">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label className="text-[10px] font-bold uppercase">Limite Semanal Sugerido</Label>
+                  <TrendingDown className="size-3 text-rose-500" />
+                </div>
+                <div className="flex gap-2">
+                  <MoneyInput 
+                    value="0,00"
+                    disabled
+                    className="h-8 text-xs opacity-50"
+                  />
+                </div>
+                <Badge variant="secondary" className="text-[8px] uppercase">Em Breve</Badge>
+              </div>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Target className="size-4 text-primary" />
+            <h3 className="text-sm font-black uppercase tracking-widest">Metas Educativas</h3>
+          </div>
+          <Button size="sm" className="h-8 text-[10px] font-bold uppercase" onClick={() => {
+            if (selectedKidId === "all") {
+              toast.error("Selecione um filho específico para criar uma meta");
+              return;
+            }
+            saveMutation.mutate({
+              kidId: selectedKidId,
+              title: "Nova Meta",
+              targetAmount: 100,
+              icon: "target"
+            });
+          }}>
+            <Plus className="size-3 mr-1" /> Nova Meta
+          </Button>
+        </div>
+
+        <div className="grid gap-3">
+          {goals?.map((goal: any) => (
+            <div key={goal.id} className="p-4 rounded-2xl bg-muted/30 border border-border/50 group relative">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <Target className="size-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wider">{goal.title}</p>
+                    <p className="text-[10px] text-muted-foreground font-medium">Meta: {formatCurrency(goal.target_amount)}</p>
+                  </div>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="size-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => deleteMutation.mutate(goal.id)}
+                >
+                  <Trash2 className="size-4 text-rose-500" />
+                </Button>
+              </div>
+              
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-[9px] font-bold uppercase">
+                  <span className="text-muted-foreground">Progresso</span>
+                  <span className="text-primary">{Math.round((goal.current_amount / goal.target_amount) * 100)}%</span>
+                </div>
+                <Progress value={(goal.current_amount / goal.target_amount) * 100} className="h-1.5" />
+              </div>
+            </div>
+          ))}
+
+          {goals?.length === 0 && (
+            <div className="p-8 border-2 border-dashed rounded-3xl flex flex-col items-center justify-center text-muted-foreground">
+              <Sparkles className="size-8 mb-2 opacity-20" />
+              <p className="text-[11px] font-medium">Nenhuma meta ativa para este filho.</p>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
