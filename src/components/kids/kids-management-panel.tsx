@@ -23,7 +23,10 @@ import {
   Trash2,
   MoreVertical,
   Sparkles,
-  Activity
+  Activity,
+  Target,
+  Settings,
+  Bell
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
