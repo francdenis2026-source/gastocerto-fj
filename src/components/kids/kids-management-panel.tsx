@@ -156,6 +156,17 @@ export function KidsManagementPanel() {
     }
   });
 
+  const updateMutation = useMutation({
+    mutationFn: useServerFn(updateKidManagementTransaction),
+    onSuccess: () => {
+      toast.success("Lançamento atualizado.");
+      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      setKidDetailsOpen(false);
+    }
+  });
+
   const chartData = useMemo(() => {
     if (!metrics.data) return [];
     
