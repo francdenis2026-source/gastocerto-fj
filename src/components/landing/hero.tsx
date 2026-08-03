@@ -172,9 +172,10 @@ export function Hero() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
                   Mês atual
                 </p>
-                <p className="tabular mt-0.5 text-xl font-bold text-white">
+                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-bold text-white sm:text-xl">
                   {formatCurrency(3782.45)}
                 </p>
+
                 <p className="text-[12.5px] text-white/70">despesas consolidadas</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.06] px-2.5 py-2">

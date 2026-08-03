@@ -30,7 +30,7 @@ export function Logo({
       <span className="flex min-w-0 flex-col leading-none">
         <span
           className={cn(
-            "font-display text-[1.35rem] font-extrabold tracking-tight",
+            "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
             onDark ? "text-white" : "text-[oklch(0.28_0.06_255)] dark:text-white",
           )}
         >
@@ -47,12 +47,14 @@ export function Logo({
         </span>
         <span
           className={cn(
-            "mt-1 text-[8.5px] font-bold uppercase tracking-[0.16em]",
+            "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block",
             onDark ? "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" : "text-muted-foreground",
           )}
         >
           Controle hoje, tranquilidade sempre
         </span>
+      </span>
+
       </span>
     </span>
   );
