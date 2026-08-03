@@ -1,66 +1,78 @@
-const CACHE_NAME = "gastocerto-v1";
-const ASSETS_TO_CACHE = [
+/**
+ * Service worker do GastoCerto.
+ *
+ * Estratégia: network-first com fallback de cache. Navegações offline caem no
+ * app shell ("/") já cacheado, o que permite ao Espaço Kids abrir sem rede.
+ * Nada de cache-first em HTML — o app publicado nunca serve build obsoleto.
+ */
+
+const CACHE_NAME = "gastocerto-v3";
+
+// Somente arquivos que existem de fato: um 404 em addAll aborta toda a instalação
+// (era o motivo do modo offline nunca funcionar antes).
+const PRECACHE = [
   "/",
-  "/index.html",
   "/site.webmanifest",
-  "/favicon.ico",
+  "/kids.webmanifest",
+  "/favicon-32.png",
+  "/favicon-192.png",
+  "/favicon-512.png",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
-  "/icons/apple-touch-icon.png"
 ];
 
-// Instalação e caching de assets estáticos
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await Promise.allSettled(PRECACHE.map((url) => cache.add(new Request(url, { cache: "reload" }))));
+      await self.skipWaiting();
+    })(),
   );
-  self.skipWaiting();
 });
 
-// Limpeza de caches antigos
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
+    (async () => {
+      const names = await caches.keys();
+      await Promise.allSettled(
+        names.filter((name) => name.startsWith("gastocerto-") && name !== CACHE_NAME).map((name) => caches.delete(name)),
       );
-    })
+      await self.clients.claim();
+    })(),
   );
-  self.clients.claim();
 });
 
-// Estratégia de Fetch: Network First, falling back to cache
 self.addEventListener("fetch", (event) => {
-  // Ignorar requests de extensões ou esquemas não suportados
-  if (!event.request.url.startsWith("http")) return;
+  const request = event.request;
+  if (request.method !== "GET") return;
+  if (!request.url.startsWith("http")) return;
 
-  // Ignorar requests de API do Supabase (dinâmicos) para não quebrar auth
-  // No entanto, poderíamos fazer stale-while-revalidate para algumas leituras se necessário
-  if (event.request.url.includes("supabase.co")) {
-    return;
-  }
+  const url = new URL(request.url);
+
+  // Backend e autenticação nunca são cacheados.
+  if (url.hostname.includes("supabase.co") || url.pathname.startsWith("/api/")) return;
 
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // Clonar a resposta para guardar no cache se for um asset estático
-        if (event.request.method === "GET" && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      try {
+        const response = await fetch(request);
+        if (response && response.status === 200 && response.type !== "opaque") {
+          cache.put(request, response.clone()).catch(() => {});
         }
         return response;
-      })
-      .catch(() => {
-        // Se a rede falhar, tenta o cache
-        return caches.match(event.request);
-      })
+      } catch (error) {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+
+        // Offline em uma navegação: devolve o app shell para o app abrir.
+        if (request.mode === "navigate") {
+          const shell = await cache.match("/");
+          if (shell) return shell;
+        }
+        throw error;
+      }
+    })(),
   );
 });
