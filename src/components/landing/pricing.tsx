@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
@@ -90,106 +91,86 @@ export function Pricing() {
     <section id="planos" className="section-y">
       <div className="section-shell">
         <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-         <div className="min-w-0">
-          <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
-            Planos de Assinatura
-          </p>
-          <h2 className="section-title mt-1.5">
-            Planos para cada nível de controle
-          </h2>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            Sem fidelidade contratual. Exportação e exclusão de dados disponíveis a qualquer momento.
-          </p>
-         </div>
+          <div className="min-w-0">
+            <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
+              Planos de Assinatura
+            </p>
+            <h2 className="section-title mt-1.5">
+              Escolha seu nível de controle
+            </h2>
+            <p className="mt-1.5 text-sm text-muted-foreground sm:block hidden">
+              Sem fidelidade contratual. Exportação e exclusão de dados disponíveis a qualquer momento.
+            </p>
+          </div>
 
-        <div className="flex flex-col items-start gap-1 sm:items-end">
-          <div
-            role="group"
-            aria-label="Ciclo de cobrança"
-            className="inline-flex items-center rounded-full border border-border bg-card/80 p-1 shadow-soft backdrop-blur-sm"
-          >
-            {(
-              [
+          <div className="flex flex-col items-start gap-1 sm:items-end">
+            <div
+              role="group"
+              aria-label="Ciclo de cobrança"
+              className="inline-flex items-center rounded-full border border-border bg-card/80 p-1 shadow-soft backdrop-blur-sm"
+            >
+              {[
                 { key: "monthly" as const, label: "Mensal" },
                 { key: "yearly" as const, label: "Anual" },
-              ]
-            ).map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                aria-pressed={cycle === option.key}
-                aria-label={`Cobrança ${option.label.toLowerCase()}`}
-                onClick={() => setCycle(option.key)}
-                className={cn(
-                  "inline-flex min-h-9 items-center rounded-full px-3.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  cycle === option.key
-                    ? "bg-brand text-brand-foreground shadow-soft"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {option.label}
-                {option.key === "yearly" && (
-                  <span
-                    className={cn(
-                      "ml-1.5 rounded-full px-1.5 py-0.5 text-[10px]",
-                      cycle === "yearly"
-                        ? "bg-brand-foreground text-brand"
-                        : "bg-success/15 text-success",
-                    )}
-                  >
-                    -{savingsPercent}%
-                  </span>
-                )}
-              </button>
-            ))}
+              ].map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  aria-pressed={cycle === option.key}
+                  onClick={() => setCycle(option.key)}
+                  className={cn(
+                    "inline-flex min-h-8 items-center rounded-full px-3 text-[11px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    cycle === option.key
+                      ? "bg-brand text-brand-foreground shadow-soft"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {option.label}
+                  {option.key === "yearly" && (
+                    <span
+                      className={cn(
+                        "ml-1 rounded-full px-1 py-0.5 text-[9px]",
+                        cycle === "yearly"
+                          ? "bg-brand-foreground text-brand"
+                          : "bg-success/15 text-success",
+                      )}
+                    >
+                      -{savingsPercent}%
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
-          <p aria-live="polite" className="text-[12.5px] text-muted-foreground">
-            {isYearly
-              ? `Melhor economia: você poupa ${formatCurrency(savingsPerYear)} por ano no Premium.`
-              : `Mude para o anual e economize ${formatCurrency(savingsPerYear)} por ano.`}
-          </p>
         </div>
 
-        </div>
-
-        <div className="mx-auto mt-4 grid max-w-5xl gap-3 sm:grid-cols-2 md:grid-cols-3">
+        {/* Versão Desktop: Cards Expandidos */}
+        <div className="mx-auto mt-6 hidden max-w-5xl gap-3 md:grid md:grid-cols-3">
           {plans.map((plan) => {
             const price = isYearly ? plan.yearly : plan.monthly;
             return (
               <div
                 key={plan.slug}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-3.5 sm:p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted",
+                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted",
                   plan.highlighted && "border-brand/50 ring-1 ring-brand/30",
                 )}
               >
                 {plan.highlighted && (
                   <Badge className="absolute -top-2.5 right-5 gap-1 bg-brand text-brand-foreground">
                     <Sparkles className="size-3" aria-hidden="true" />
-                    {isYearly ? "Melhor economia" : "Mais completo"}
+                    Populares
                   </Badge>
                 )}
-
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="text-sm sm:text-base font-semibold">{plan.name}</h3>
-                  <p className="tabular text-xl sm:text-2xl font-extrabold tracking-tight">
-                    {price === 0 ? "R$ 0" : formatCurrency(price)}
+                  <h3 className="text-base font-semibold">{plan.name}</h3>
+                  <p className="tabular text-2xl font-extrabold tracking-tight">
+                    {price === 0 ? "Grátis" : formatCurrency(price)}
                     <span className="ml-1 text-xs font-medium text-muted-foreground">/mês</span>
                   </p>
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {plan.description}
-                  {plan.monthly > 0 && isYearly && (
-                    <>
-                      {" "}
-                      <span className="text-success">
-                        Cobrado {formatCurrency(plan.yearly * 12)} por ano.
-                      </span>
-                    </>
-                  )}
-                </p>
-
-                <ul className="mt-2.5 flex-1 space-y-0.5 sm:space-y-1">
+                <p className="mt-1 text-xs text-muted-foreground">{plan.description}</p>
+                <ul className="mt-4 flex-1 space-y-1.5">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2 text-[13px]">
                       <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true" />
@@ -197,22 +178,73 @@ export function Pricing() {
                     </li>
                   ))}
                 </ul>
-
-                <div className="mt-3">
+                <div className="mt-4">
                   <Button
-                    className="h-9 sm:h-10 w-full text-xs sm:text-sm"
+                    className="w-full"
                     variant={plan.highlighted ? "default" : "outline"}
-                    onClick={() => setCheckoutPlan(plan.slug as "free" | "premium" | "premium_ia")}
+                    onClick={() => setCheckoutPlan(plan.slug as any)}
                   >
                     {plan.cta}
-                    {plan.monthly > 0 && " · Pix"}
                   </Button>
-                  <p className="mt-1.5 text-center text-[12.5px] text-muted-foreground">
-                    {plan.monthly === 0
-                      ? "Sem cartão. Comece em menos de um minuto."
-                      : "Pagamento por Pix com liberação imediata da chave."}
-                  </p>
                 </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Versão Mobile: Cards Compactos (Click para ver detalhes) */}
+        <div className="mt-4 grid grid-cols-1 gap-2 md:hidden">
+          {plans.map((plan) => {
+            const price = isYearly ? plan.yearly : plan.monthly;
+            return (
+              <div key={plan.slug} className="flex flex-col gap-1.5">
+                <FeatureDetailDialog
+                  feature={{
+                    title: `Plano ${plan.name}`,
+                    text: plan.features.join(". "),
+                    tag: plan.highlighted ? "Destaque" : "Assinatura"
+                  }}
+                >
+                  <button
+                    type="button"
+                    className={cn(
+                      "group flex w-full flex-col rounded-xl border border-border bg-card/80 p-3 text-left transition-all active:scale-[0.98]",
+                      plan.highlighted && "border-brand/40 bg-brand/5 shadow-sm"
+                    )}
+                  >
+                    <div className="flex w-full items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-bold">{plan.name}</span>
+                          {plan.highlighted && (
+                            <span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-brand">
+                              IA
+                            </span>
+                          )}
+                        </div>
+                        <p className="truncate text-[11px] text-muted-foreground">{plan.description}</p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="text-base font-black text-foreground">
+                          {price === 0 ? "R$ 0" : formatCurrency(price)}
+                        </p>
+                        <p className="text-[9px] font-medium text-muted-foreground">/mês</p>
+                      </div>
+                    </div>
+                    <div className="mt-2 flex items-center justify-between border-t border-border/50 pt-2">
+                      <span className="text-[10px] font-semibold text-brand">Ver detalhes e benefícios</span>
+                      <Sparkles className={cn("size-3", plan.highlighted ? "text-brand" : "text-muted-foreground/40")} />
+                    </div>
+                  </button>
+                </FeatureDetailDialog>
+                
+                <Button
+                  className="h-9 w-full rounded-xl text-xs font-bold"
+                  variant={plan.highlighted ? "default" : "secondary"}
+                  onClick={() => setCheckoutPlan(plan.slug as any)}
+                >
+                  Selecionar {plan.name}
+                </Button>
               </div>
             );
           })}
