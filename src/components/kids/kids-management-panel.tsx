@@ -338,15 +338,15 @@ export function KidsManagementPanel() {
                     <div className="grid grid-cols-3 gap-3">
                        <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
                          <p className="text-[9px] font-bold uppercase text-emerald-600 mb-1">Recebido</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income').reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense').reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos do Filho</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
-                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo</p>
-                         <p className="text-lg font-black">{formatCurrency((metrics.data?.filter(t => t.transaction_type === 'income').reduce((a, b) => a + b.amount, 0) || 0) - (metrics.data?.filter(t => t.transaction_type === 'expense').reduce((a, b) => a + b.amount, 0) || 0))}</p>
+                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo Filho</p>
+                         <p className="text-lg font-black">{formatCurrency((metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) - (metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0))}</p>
                        </div>
                     </div>
 
