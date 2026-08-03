@@ -72,6 +72,9 @@ import { cn } from "@/lib/utils";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
 import { useAuth } from "@/hooks/use-auth";
 import { useParentKidsRealtime } from "@/lib/kids-space-realtime";
+import { getKidGoals, saveKidGoal, deleteKidGoal, updateKidSettings } from "@/lib/kids-goals.functions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
 
 import { 
   BarChart, 
