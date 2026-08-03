@@ -659,78 +659,82 @@ function KidSpacePage() {
   );
 }
 
-function KidSummary({ 
-  balance, 
-  income, 
-  expense, 
+function KidSummary({
+  balance,
+  income,
+  expense,
   rows,
-  isBoy,
-  isGirl
-}: { 
-  balance: number; 
-  income: number; 
-  expense: number; 
+  accent,
+}: {
+  balance: number;
+  income: number;
+  expense: number;
   rows: KidTransaction[];
-  isBoy: boolean;
-  isGirl: boolean;
+  accent: KidAccent;
 }) {
   return (
     <section className={cn(
-      "mx-auto w-full max-w-2xl space-y-4 px-4 sm:px-6 mt-8 p-6 rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-xl",
-      isBoy ? "border-blue-500/20" : isGirl ? "border-pink-500/20" : "border-primary/20"
+      "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm",
+      accent.border,
     )}>
-      <h2 className="text-lg font-black tracking-tight flex items-center gap-2">
-        <Target className="size-5 text-primary" /> Resumo do meu Dinheirinho
+      <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+        <Target className={cn("size-5", accent.text)} aria-hidden="true" /> Resumo do período
       </h2>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20 text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-primary/70">Meu Saldo</p>
-          <p className="text-2xl font-black tabular-nums">{formatCurrency(balance)}</p>
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className={cn("rounded-xl border p-4 text-center", accent.surface, accent.border)}>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", accent.text)}>Saldo atual</p>
+          <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">{formatCurrency(balance)}</p>
         </div>
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600/70">Total que Ganhei</p>
-          <p className="text-xl font-black tabular-nums">{formatCurrency(income)}</p>
+        <div className={cn("rounded-xl border border-emerald-600/20 p-4 text-center dark:border-emerald-400/20", POSITIVE_SURFACE)}>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", POSITIVE_TEXT)}>Total recebido</p>
+          <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
         </div>
-        <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-destructive/70">Total que Gastei</p>
-          <p className="text-xl font-black tabular-nums">{formatCurrency(expense)}</p>
+        <div className={cn("rounded-xl border border-rose-600/20 p-4 text-center dark:border-rose-400/20", NEGATIVE_SURFACE)}>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", NEGATIVE_TEXT)}>Total gasto</p>
+          <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
         </div>
       </div>
 
-      <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
-        <p className="text-[11px] font-bold text-muted-foreground flex items-center gap-2">
-          <HelpCircle className="size-3.5" /> Como calculamos?
+      <div className="rounded-xl border border-border bg-muted/40 p-4">
+        <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-foreground">
+          <HelpCircle className="size-3.5" aria-hidden="true" /> Como o saldo é calculado
         </p>
-        <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground/80 font-medium">
-          O seu saldo é a diferença entre o que você <strong>ganhou</strong> (mesadas, presentes) e o que você <strong>gastou</strong> (lanches, brinquedos). 
-          Cada vez que você anota uma dessas coisas, o sistema atualiza o valor automaticamente!
+        <p className="mt-1.5 text-[12px] font-medium leading-relaxed text-muted-foreground">
+          O saldo é a diferença entre tudo o que você <strong className="text-foreground">recebeu</strong> (mesada, presentes)
+          e tudo o que você <strong className="text-foreground">gastou</strong>. Cada novo registro atualiza o valor na hora.
         </p>
       </div>
 
       {rows.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">Movimentações recentes</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Últimos registros</p>
           <div className="space-y-2">
-            {rows.slice(0, 3).map(row => (
-              <div key={row.id} className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/30">
+            {rows.slice(0, 3).map((row) => (
+              <div key={row.id} className="flex items-center justify-between rounded-xl border border-border bg-background p-3">
                 <div className="flex items-center gap-3">
                   <div className={cn(
-                    "size-8 rounded-lg flex items-center justify-center",
-                    row.transaction_type === 'income' ? "bg-emerald-500/10 text-emerald-600" : "bg-destructive/10 text-destructive"
+                    "flex size-8 items-center justify-center rounded-lg",
+                    row.transaction_type === "income"
+                      ? cn(POSITIVE_SURFACE, POSITIVE_TEXT)
+                      : cn(NEGATIVE_SURFACE, NEGATIVE_TEXT),
                   )}>
-                    {row.transaction_type === 'income' ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                    {row.transaction_type === "income"
+                      ? <TrendingUp className="size-4" aria-hidden="true" />
+                      : <TrendingDown className="size-4" aria-hidden="true" />}
                   </div>
                   <div>
-                    <p className="text-xs font-bold">{row.description}</p>
-                    <p className="text-[9px] font-medium text-muted-foreground">{new Date(row.transaction_date).toLocaleDateString('pt-BR')}</p>
+                    <p className="text-xs font-medium">{row.description}</p>
+                    <p className="text-[10px] font-medium text-muted-foreground">
+                      {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
+                    </p>
                   </div>
                 </div>
                 <p className={cn(
-                  "text-xs font-black tabular-nums",
-                  row.transaction_type === 'income' ? "text-emerald-600" : "text-destructive"
+                  "text-xs font-semibold tabular-nums",
+                  row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
                 )}>
-                  {row.transaction_type === 'income' ? '+' : '-'} {formatCurrency(row.amount)}
+                  {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(row.amount)}
                 </p>
               </div>
             ))}
@@ -740,6 +744,7 @@ function KidSummary({
     </section>
   );
 }
+
 
 function KidEntryDialog({
 
