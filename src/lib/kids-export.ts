@@ -111,3 +111,39 @@ export async function exportKidsSummaryPdf(
 
   doc.save(`relatorio-kids-${meta.kidName.toLowerCase()}-${new Date().getTime()}.pdf`);
 }
+
+/** Exporta os dados para CSV (versão legada mantida para compatibilidade) */
+export function exportKidsSummaryCsv(
+  data: KidExportRow[],
+  metrics: KidExportMetrics,
+  meta: KidExportMeta
+) {
+  const headers = ["Data", "Descrição", "Tipo", "Valor"];
+  const csvRows = data.map((row) => [
+    new Date(row.date).toLocaleDateString("pt-BR"),
+    row.description,
+    row.type === "income" ? "Recebido" : "Gasto",
+    row.amount.toString(),
+  ]);
+
+  const csvContent = [
+    headers.join(","),
+    ...csvRows.map((r) => r.join(",")),
+    "",
+    `Resumo:,,,`,
+    `Total Recebido,,,${metrics.income}`,
+    `Total Gasto,,,${metrics.expense}`,
+    `Saldo,,,${metrics.balance}`,
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", `relatorio-kids-${meta.kidName.toLowerCase()}.csv`);
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
