@@ -497,23 +497,32 @@ function DashboardPage() {
               </div>
               <Button 
                 variant="outline" 
-                size="sm" 
-                className="h-8 text-[10px] border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-600 font-bold shrink-0"
-                onClick={async () => {
-                   // Apenas um exemplo de como salvar no banco para persistir
-                   // supabaseAdmin.from('profiles').update({ tags: [...tags, 'fixed_enzo_error'] }).eq('user_id', profile.user_id)
-                   toast.success("Aviso removido com sucesso!");
-                   queryClient.setQueryData(["profile"], (old: any) => ({
-                     ...old,
-                     tags: [...(old?.tags || []), 'fixed_enzo_error']
-                   }));
-                }}
-              >
-                Entendido
-              </Button>
-            </div>
-          </div>
-        )}
+                {profile?.tags?.includes('fixed_enzo_error') ? (
+                  <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 rounded-3xl border border-dashed border-emerald-500/30 bg-emerald-500/5 animate-in fade-in zoom-in duration-500">
+                    <div className="size-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <ShieldAlert className="size-6 text-emerald-600" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-black text-emerald-800">Correção de Sistema Aplicada</h3>
+                      <p className="text-xs text-emerald-700/80 max-w-xs leading-relaxed">
+                        O erro "dei 20 reias pro Enzo" foi removido. Clique abaixo para confirmar e ocultar este aviso definitivamente.
+                      </p>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      className="rounded-xl h-9 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg shadow-emerald-600/20 transition-all active:scale-95"
+                      onClick={async () => {
+                         toast.success("Aviso removido com sucesso!");
+                         queryClient.setQueryData(["profile"], (old: any) => ({
+                           ...old,
+                           tags: (old?.tags || []).filter((t: string) => t !== 'fixed_enzo_error').concat('enzo_error_hidden')
+                         }));
+                      }}
+                    >
+                      Confirmar e Ocultar
+                    </Button>
+                  </div>
+                ) : null}
         
         {/* Adiciona o gatilho de busca global no topo se necessário */}
         
@@ -588,11 +597,6 @@ function DashboardPage() {
         )}
 
 
-        {hasFeature(access, "financial_help") && (
-          <div className="mb-6">
-            <DebtAdvisorPanel />
-          </div>
-        )}
 
 
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
@@ -898,7 +902,8 @@ function DashboardPage() {
                    </div>
                  }
                  yearly={<YearlyBalanceSection year={period.year} />}
-                 insights={<InsightsPanel year={period.year} month={period.month} />}
+                  insights={<InsightsPanel year={period.year} month={period.month} />}
+                  recommendations={<DebtAdvisorPanel />}
                  kids={<KidsManagementPanel />}
                />
             </div>
