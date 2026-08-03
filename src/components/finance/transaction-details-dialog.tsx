@@ -20,7 +20,9 @@ import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/
 import { useCategories } from "@/lib/queries";
 import { exportTransactionPdf } from "@/lib/transaction-detail-export";
 import { NOTE_FIELD_LABEL, useNoteHistory, useRefreshNoteHistory } from "@/lib/transaction-notes";
-import { useDeleteTransaction, useSaveTransaction, type Transaction } from "@/lib/transactions";
+import { useSaveTransaction, type Transaction } from "@/lib/transactions";
+import { useUndoableDelete } from "@/lib/undo-delete";
+
 
 
 
