@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight } from "lucide-react";
+import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight, Plus, Gift } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
@@ -469,78 +469,52 @@ function KidSpacePage() {
       ) : null}
 
       <header className={cn(
-        "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
-        compactMode && "py-2 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
+        "px-4 pt-6 pb-2 sm:px-6 transition-all",
+        compactMode && "pt-2 px-3 pb-1 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="relative group cursor-pointer" onClick={toggleKidTheme}>
+              <Avatar className={cn("size-9 sm:size-10 border border-border shadow-md ring-2 transition-transform active:scale-90", accent.ring)}>
+                {avatarUrl ? (
+                  <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
+                ) : null}
+                <AvatarFallback
+                  className="text-base font-bold text-white"
+                  style={{ backgroundColor: dependent.color ?? "#0f766e" }}
+                >
+                  {firstName.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="absolute -bottom-1 -right-1 size-5 rounded-full bg-background border border-border flex items-center justify-center shadow-sm">
+                {kidTheme === "dark" ? <Moon className="size-3 text-primary" /> : <Sun className="size-3 text-amber-500" />}
+              </div>
+            </div>
+            <div>
+              <h1 className="text-base sm:text-lg font-bold leading-none tracking-tight">
+                Olá, <span className={accent.text}>{firstName}</span>
+              </h1>
+              <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-muted-foreground mt-0.5 opacity-70">
+                {online ? "Online" : "Offline"} · Espaço Kids
+              </p>
+            </div>
+          </div>
 
-        <div className="flex min-w-0 items-center gap-3">
-          <Avatar className={cn("size-10 sm:size-12 border border-border shadow-sm ring-2", accent.ring)}>
-            {avatarUrl ? (
-              <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
-            ) : null}
-            <AvatarFallback
-              className="text-lg font-semibold text-white"
-              style={{ backgroundColor: dependent.color ?? "#0f766e" }}
+          <div className="flex items-center gap-1.5">
+            <NotificationCenter isKid />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8 text-muted-foreground rounded-full"
+              onClick={async () => {
+                await signOut();
+                navigate({ to: "/auth", replace: true });
+              }}
             >
-              {firstName.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div className="min-w-0">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Espaço financeiro
-            </p>
-            <h1 className="truncate text-lg sm:text-xl font-semibold leading-tight tracking-tight">
-              Olá, <span className={accent.text}>{firstName}</span>
-            </h1>
+              <LogOut className="size-4" />
+            </Button>
           </div>
         </div>
-        <div className="flex items-center gap-1 sm:gap-2">
-          {!online ? (
-            <span className="hidden items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold text-amber-700 dark:text-amber-300 sm:inline-flex">
-              <WifiOff className="size-3" aria-hidden="true" /> Modo offline
-            </span>
-          ) : null}
-          {canInstall ? (
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 sm:h-9 px-2 text-[11px] sm:text-xs font-medium sm:px-3"
-              onClick={() => void install()}
-              title="Instalar o Meu Espaço como aplicativo"
-            >
-              <Download className="mr-1.5 size-3.5 sm:size-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Instalar app</span>
-            </Button>
-          ) : null}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-9 text-muted-foreground hover:text-foreground"
-            onClick={toggleKidTheme}
-            title={kidTheme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
-            aria-label={kidTheme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
-          >
-            {kidTheme === "dark" ? (
-              <Sun className="size-[18px]" aria-hidden="true" />
-            ) : (
-              <Moon className="size-[18px]" aria-hidden="true" />
-            )}
-          </Button>
-          <NotificationCenter isKid />
-
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-9 px-2 text-xs font-medium text-muted-foreground hover:text-foreground sm:px-3"
-            onClick={async () => {
-              await signOut();
-              navigate({ to: "/auth", replace: true });
-            }}
-          >
-            <LogOut className="mr-1.5 size-4" aria-hidden="true" /> Sair
-          </Button>
-        </div>
-
       </header>
 
       <div className={cn(
@@ -552,144 +526,129 @@ function KidSpacePage() {
           compactMode && "sm:grid-cols-3"
         )}>
           <section className={cn(
-            "relative flex min-h-[160px] flex-col justify-center overflow-hidden rounded-2xl border bg-card p-5 text-center shadow-sm transition-colors",
+            "relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] border bg-card p-6 shadow-xl transition-all hover:shadow-2xl",
             accent.border,
-            compactMode && "min-h-[120px] p-4 sm:col-span-2 flex-row items-center justify-between text-left",
+            compactMode && "min-h-[120px] p-4 sm:col-span-2 flex-row items-center text-left",
           )}>
-
-            {/* Emblema SVG decorativo — opacidade calibrada para os dois temas */}
             <div className={cn(
-              "pointer-events-none absolute -right-5 -top-5 size-24 opacity-[0.07] dark:opacity-[0.12]",
+              "pointer-events-none absolute -right-2 -top-2 size-28 opacity-[0.05] dark:opacity-[0.1]",
               accent.text,
             )} aria-hidden="true">
               <PiggyBank className="size-full" />
             </div>
 
             {visibility.balance ? (
-              <div className={cn(compactMode && "flex flex-col")}>
+              <div className="relative z-10">
+                <div className="flex items-center gap-1.5">
+                   <div className={cn("p-1.5 rounded-lg", accent.iconBg)}>
+                     <Sparkles className="size-3.5" />
+                   </div>
+                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-80">
+                    Saldo disponível
+                   </p>
+                </div>
                 <p className={cn(
-                  "flex items-center justify-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em]",
-                  accent.text,
-                  compactMode && "justify-start"
-                )}>
-                  <Sparkles className="size-3.5" aria-hidden="true" /> Saldo disponível
-                </p>
-                <p
-                  className={cn(
-                    "mt-1.5 text-4xl font-semibold tabular-nums tracking-tight",
-                    compactMode && "text-2xl mt-0",
+                    "mt-3 text-5xl font-black tabular-nums tracking-tighter",
+                    compactMode && "text-3xl mt-0",
                     balance < 0 ? NEGATIVE_TEXT : "text-foreground",
                   )}
                 >
                   {formatCurrency(balance)}
                 </p>
-                <p className="mt-1 text-[11px] text-muted-foreground">
-                  Atualizado a cada novo registro
-                </p>
               </div>
             ) : (
-              <p className="text-[12px] font-medium text-muted-foreground">
-                Seu saldo está oculto por escolha do responsável.
-              </p>
+              <div className="flex flex-col items-center justify-center py-6 text-center">
+                <HelpCircle className="size-8 text-muted-foreground mb-2 opacity-20" />
+                <p className="text-[11px] font-bold text-muted-foreground max-w-[150px]">
+                  Saldo oculto pelo responsável
+                </p>
+              </div>
             )}
 
             {visibility.income ? (
               <div className={cn(
-                "mt-4 grid grid-cols-2 gap-2 text-left",
-                compactMode && "mt-0 grid-cols-1 gap-1"
+                "mt-6 grid grid-cols-2 gap-3 relative z-10",
+                compactMode && "mt-0 grid-cols-1 gap-2"
               )}>
-                <div className={cn("rounded-xl p-2.5", POSITIVE_SURFACE)}>
-                  <p className={cn("flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide", POSITIVE_TEXT)}>
-                    <TrendingUp className="size-3" aria-hidden="true" /> Entradas
-                  </p>
-                  <p className="mt-0.5 text-sm font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
+                <div className={cn("rounded-2xl p-3 border border-emerald-500/10 transition-transform active:scale-95", POSITIVE_SURFACE)}>
+                  <p className={cn("text-[9px] font-black uppercase tracking-wide", POSITIVE_TEXT)}>Ganhos</p>
+                  <p className="mt-0.5 text-base font-black tabular-nums text-foreground">{formatCurrency(income)}</p>
                 </div>
-                <div className={cn("rounded-xl p-2.5", NEGATIVE_SURFACE)}>
-                  <p className={cn("flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide", NEGATIVE_TEXT)}>
-                    <TrendingDown className="size-3" aria-hidden="true" /> Saídas
-                  </p>
-                  <p className="mt-0.5 text-sm font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
+                <div className={cn("rounded-2xl p-3 border border-red-500/10 transition-transform active:scale-95", NEGATIVE_SURFACE)}>
+                  <p className={cn("text-[9px] font-black uppercase tracking-wide", NEGATIVE_TEXT)}>Gastos</p>
+                  <p className="mt-0.5 text-base font-black tabular-nums text-foreground">{formatCurrency(expense)}</p>
                 </div>
               </div>
             ) : null}
           </section>
 
           <section className={cn(
-            "group flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-colors",
+            "group flex flex-col items-center justify-center gap-4 rounded-[2.5rem] border border-border bg-gradient-to-br from-card to-muted/50 p-6 shadow-md transition-all hover:shadow-lg active:scale-[0.98]",
             accent.borderHover,
-            compactMode && "rounded-2xl p-4 flex-row justify-between",
-          )}>
+            compactMode && "p-4 flex-row justify-between",
+          )}
+          onClick={() => setEntryOpen(true)}>
             <div className={cn(
-              "flex size-14 items-center justify-center rounded-full transition-transform group-hover:scale-105",
+              "flex size-16 items-center justify-center rounded-[2rem] shadow-inner transition-transform group-hover:scale-110",
               accent.iconBg,
-              compactMode && "size-10",
+              compactMode && "size-10 rounded-xl",
             )}>
-              <TrendingUp className={cn("size-7", compactMode && "size-5")} aria-hidden="true" />
+              <Plus className={cn("size-8", compactMode && "size-5")} />
             </div>
             <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
-              <h2 className="text-sm font-semibold tracking-tight">Registrar movimentação</h2>
-              <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
-                {online
-                  ? "Anote o que você recebeu ou gastou."
-                  : "Sem internet agora: o registro precisa de conexão para ser salvo com segurança."}
+              <h2 className="text-sm font-black tracking-tight uppercase">Novo Registro</h2>
+              <p className="mt-0.5 text-[10px] font-medium leading-tight text-muted-foreground max-w-[140px]">
+                {online ? "Toque para anotar seus gastos ou ganhos" : "Offline agora"}
               </p>
             </div>
-            <Button
-              className={cn(
-                "h-10 w-full rounded-xl text-sm font-semibold shadow-sm",
-                compactMode && "w-auto px-4 h-9",
-                accent.button,
-              )}
-              onClick={() => setEntryOpen(true)}
-              disabled={!online}
-              title={online ? undefined : "Disponível quando a internet voltar"}
-            >
-              {compactMode ? "Registrar" : online ? "Novo registro" : "Sem internet"}
-            </Button>
           </section>
 
 
         </div>
 
         {visibility.goals && (
-          <section className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-                <Target className={cn("size-4", accent.text)} aria-hidden="true" /> Metas e Educação Financeira
+          <section className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                <Target className="size-3.5" /> Metas
               </h2>
             </div>
             {(goals.data ?? []).length === 0 && (
-              <div className="rounded-2xl border border-dashed border-border p-4 text-center">
-                 <p className="text-[10px] text-muted-foreground">Você ainda não tem metas. Peça ao seu responsável para criar uma!</p>
+              <div className="rounded-[2rem] border border-dashed border-border p-8 text-center bg-muted/20">
+                 <p className="text-[11px] font-bold text-muted-foreground opacity-60">Nenhuma meta ativa</p>
               </div>
             )}
-            {(goals.data ?? []).map((goal) => {
-              const progress = goal.target_amount
-                ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))
-                : 0;
-              return (
-                <div key={goal.id} className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold tracking-tight">{goal.title}</p>
-                    <span className={cn("text-[11px] font-semibold tabular-nums", accent.text)}>{progress}%</span>
+            <div className="grid gap-3">
+              {(goals.data ?? []).map((goal) => {
+                const progress = goal.target_amount
+                  ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))
+                  : 0;
+                return (
+                  <div key={goal.id} className="rounded-[2rem] border border-border bg-card p-4 shadow-sm group hover:border-primary/30 transition-all">
+                    <div className="flex items-center justify-between mb-3 px-1">
+                      <div>
+                        <p className="text-xs font-black tracking-tight">{goal.title}</p>
+                        <p className="text-[9px] font-bold text-muted-foreground mt-0.5">
+                          {formatCurrency(Number(goal.current_amount))} de {formatCurrency(Number(goal.target_amount))}
+                        </p>
+                      </div>
+                      <div className={cn("size-10 rounded-full flex items-center justify-center font-black text-xs border shadow-inner", accent.iconBg)}>
+                        {progress}%
+                      </div>
+                    </div>
+                    <div className="h-2.5 overflow-hidden rounded-full bg-muted/50 p-0.5 border border-border/50 shadow-inner">
+                      <div className="h-full rounded-full bg-primary shadow-[0_0_10px_rgba(var(--primary),0.3)] transition-all duration-1000" style={{ width: `${progress}%` }} />
+                    </div>
+                    {goal.reward && (
+                      <div className="mt-3 flex items-center gap-1.5 px-1">
+                        <Gift className="size-3 text-amber-500" />
+                        <p className="text-[9px] font-bold text-amber-600 dark:text-amber-400">Recompensa: {goal.reward}</p>
+                      </div>
+                    )}
                   </div>
-                  <div
-                    className="mt-2.5 h-2 overflow-hidden rounded-full bg-muted"
-                    role="progressbar"
-                    aria-valuenow={progress}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={`Progresso da meta ${goal.title}`}
-                  >
-                    <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
-                  </div>
-                  <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-                    {formatCurrency(Number(goal.current_amount))} de {formatCurrency(Number(goal.target_amount))}
-                    {goal.reward ? ` · Recompensa: ${goal.reward}` : ""}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </section>
         )}
 
@@ -749,86 +708,61 @@ function KidSpacePage() {
         )}
 
         {visibility.history ? (
-
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold tracking-tight">Histórico de movimentações</h2>
-            {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
-          </div>
-          {rows.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm leading-relaxed text-muted-foreground">
-              Nenhuma movimentação registrada até agora. Use “Novo registro” para começar.
-            </p>
-          ) : (
-            <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-              {rows.map((row) => (
-                <li key={row.id} className="group flex items-center justify-between gap-3 p-3.5 transition-colors hover:bg-muted/40">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-medium">
+          <section className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">Histórico</h2>
+              {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
+            </div>
+            {rows.length === 0 ? (
+              <div className="rounded-[2rem] border border-dashed border-border p-8 text-center bg-muted/20">
+                 <p className="text-[11px] font-bold text-muted-foreground opacity-60">Nenhum registro</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {rows.map((row) => (
+                  <div key={row.id} className="group flex items-center justify-between gap-3 p-4 rounded-[1.5rem] border border-border bg-card shadow-sm transition-all hover:border-primary/20">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-black tracking-tight">
                         {row.tags?.some(t => t.startsWith("from_parent") || t.startsWith("parent_desc:")) 
-                          ? "Recebido do responsável" 
-                          : row.description}
+                          ? "💰 Recebido do responsável" 
+                          : row.transaction_type === "income" ? "📈 Ganho" : "🛍️ " + row.description}
                       </p>
-                      <button
-                        type="button"
-                        disabled={!online}
-                        onClick={() => {
-                          if (!online) {
-                            toast.warning("Sem internet", {
-                              description: "O aviso ao responsável precisa de conexão. Tente novamente quando a rede voltar.",
-                            });
-                            return;
-                          }
-                          toast.info("Solicitação registrada", {
-                            description: "Seu responsável foi avisado e vai revisar este lançamento.",
-                          });
-                        }}
-                        className={cn(
-                          "shrink-0 rounded-md px-1 text-[10px] font-semibold underline-offset-2 transition-opacity hover:underline focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          "opacity-0 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-40",
-                          accent.text,
-                        )}
-                      >
-                        Solicitar correção
-                      </button>
+                      <p className="mt-0.5 text-[9px] font-bold uppercase text-muted-foreground opacity-60">
+                        {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "short",
+                        })}
+                      </p>
                     </div>
-                    <p className="mt-0.5 text-[11px] font-medium capitalize text-muted-foreground">
-                      {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
-                        day: "2-digit",
-                        month: "long",
-                      })}
-                    </p>
+
+                    <div className="text-right">
+                      <span className={cn(
+                        "text-sm font-black tabular-nums",
+                        row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
+                      )}>
+                        {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(Number(row.amount))}
+                      </span>
+                      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          disabled={!online}
+                          onClick={() => {
+                            if (!online) return;
+                            toast.info("Avisamos seu responsável!", {
+                              description: "Ele vai revisar este lançamento em breve.",
+                            });
+                          }}
+                          className={cn("text-[8px] font-black uppercase tracking-widest underline decoration-2 underline-offset-2", accent.text)}
+                        >
+                          Corrigir
+                        </button>
+                      </div>
+                    </div>
                   </div>
-
-                  <span
-                    className={cn(
-                      "shrink-0 text-sm font-semibold tabular-nums",
-                      row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
-                    )}
-                  >
-                    {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(Number(row.amount))}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="mt-2 flex justify-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-2 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
-              onClick={() => {
-                toast.info("Encontrou uma informação errada?", {
-                  description: "Passe o cursor sobre o lançamento e toque em “Solicitar correção”.",
-                });
-              }}
-            >
-              <HelpCircle className="size-3.5" aria-hidden="true" /> Como corrigir um lançamento
-            </Button>
-          </div>
-        </section>
-
+                ))}
+              </div>
+            )}
+          </section>
         ) : null}
       </div>
 
