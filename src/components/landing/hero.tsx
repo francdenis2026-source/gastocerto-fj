@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import heroBg from "@/assets/hero-bg-desk.jpg";
-import heroMobileBg from "@/assets/hero-bg-desk-mobile.jpg";
+import heroMobileBg from "@/assets/hero-mobile-pro-2027.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
@@ -95,7 +95,7 @@ export function Hero() {
         height={1472}
         fetchPriority="high"
         decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover object-[50%_28%] sm:hidden"
+        className="absolute inset-0 -z-20 size-full object-cover object-[50%_38%] sm:hidden"
       />
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
