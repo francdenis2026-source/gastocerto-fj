@@ -457,18 +457,11 @@ function DashboardPage() {
               <p className="text-xs text-banner-amber-text/80 leading-relaxed">
                 Acesse estratégias exclusivas para sair das dívidas e investir com nosso consultor IA no plano Premium.
               </p>
-            </div>
-          </div>
-        )}
-                Esta funcionalidade está disponível apenas para planos Premium ativos ou contas com permissão especial do administrador. 
-                Fique atento: o Consultor de Dívidas analisa cartões e financiamentos para criar metas reais de quitação.
-              </p>
               <Link to="/perfil">
                 <Button variant="link" className="p-0 h-auto text-xs text-banner-amber-icon hover:text-banner-amber-icon/80">Ver Planos e Fazer Upgrade</Button>
               </Link>
             </div>
           </div>
-
         )}
 
 
