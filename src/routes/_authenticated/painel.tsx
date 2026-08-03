@@ -887,6 +887,7 @@ function DashboardPage() {
               />
             </aside>
           </div>
+        )}
 
         {/* Bloco de métricas secundárias */}
         {!loadingTransactions && (
