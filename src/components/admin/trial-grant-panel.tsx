@@ -21,6 +21,12 @@ import { maskCpf } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format";
 import { adminGrantTrial } from "@/lib/plan.functions";
 import { verifyMasterCode } from "@/lib/master-code.functions";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+import { adminSetUserStatus } from "@/lib/admin.functions";
+import {
+  adminDeleteUser,
+  adminPromoteToPaid,
+} from "@/lib/admin-users.functions";
 
 import { TRIAL_OPTIONS, type TrialSlug } from "@/lib/plan-features";
 
@@ -35,6 +41,10 @@ type Row = {
 export function TrialGrantPanel() {
   const grant = useServerFn(adminGrantTrial);
   const verifyCode = useServerFn(verifyMasterCode);
+  const setStatus = useServerFn(adminSetUserStatus);
+  const promote = useServerFn(adminPromoteToPaid);
+  const removeUser = useServerFn(adminDeleteUser);
+  const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [slug, setSlug] = useState<TrialSlug>("trial_14");
@@ -196,17 +206,27 @@ export function TrialGrantPanel() {
                   variant="outline"
                   className="h-8 border-brand-light/30 text-brand-light hover:bg-brand-light/5"
                   disabled={mutation.isPending}
-                  onClick={async () => {
-                    if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato e enviará uma notificação crítica. Continuar?")) return;
-
-                    const code = window.prompt("Digite o código mestre para confirmar a suspensão:");
-                    if (!code || !(await checkMasterCode(code))) return;
-
-                    await supabase.from("profiles").update({ status: 'suspended' }).eq("user_id", row.user_id);
-                    toast.success("Usuário bloqueado e deslogado com sucesso.");
-                    void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
+                  onClick={() => {
+                    confirm({
+                      title: "Bloquear acesso",
+                      description: `${row.full_name || "Este usuário"} perderá o acesso imediatamente. Confirme com o código mestre.`,
+                      type: "warning",
+                      confirmLabel: "Bloquear",
+                      input: { label: "Código mestre", type: "password" },
+                      onConfirm: async (code) => {
+                        if (!(await checkMasterCode(code))) return;
+                        try {
+                          await setStatus({
+                            data: { targetUserId: row.user_id, status: "suspended" },
+                          });
+                          toast.success("Usuário bloqueado com sucesso.");
+                          void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
+                        } catch {
+                          toast.error("Não foi possível bloquear o usuário.");
+                        }
+                      },
+                    });
                   }}
-
                 >
                   Bloquear
                 </Button>
@@ -215,38 +235,68 @@ export function TrialGrantPanel() {
                   variant="outline"
                   className="h-8 border-emerald-500/30 text-emerald-600 hover:bg-emerald-50"
                   disabled={mutation.isPending}
-                  onClick={async () => {
-                    const ok = window.confirm(`Deseja conceder um período de teste de ${TRIAL_OPTIONS.find(o => o.slug === slug)?.label} para ${row.full_name || 'este usuário'}?`);
-                    if (!ok) return;
-                    mutation.mutate(row.user_id);
+                  onClick={() => {
+                    confirm({
+                      title: "Liberar período de teste",
+                      description: `Conceder ${TRIAL_OPTIONS.find((o) => o.slug === slug)?.label ?? "o período selecionado"} de cortesia para ${row.full_name || "este usuário"}?`,
+                      confirmLabel: "Liberar teste",
+                      onConfirm: () => mutation.mutate(row.user_id),
+                    });
                   }}
                 >
                   Liberar teste
                 </Button>
                 <Button
                   size="sm"
+                  variant="outline"
+                  className="h-8 gap-1 border-primary/30 text-primary hover:bg-primary/5"
+                  disabled={mutation.isPending}
+                  onClick={() => {
+                    confirm({
+                      title: "Promover para versão paga",
+                      description: `${row.full_name || "Este usuário"} passará para o plano Premium IA com status ativo.`,
+                      type: "success",
+                      confirmLabel: "Promover agora",
+                      onConfirm: async () => {
+                        try {
+                          await promote({
+                            data: { targetUserId: row.user_id, planSlug: "premium_ia" },
+                          });
+                          toast.success("Conta promovida para Premium IA.");
+                          void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
+                        } catch {
+                          toast.error("Não foi possível promover a conta.");
+                        }
+                      },
+                    });
+                  }}
+                >
+                  Promover para pago
+                </Button>
+                <Button
+                  size="sm"
                   variant="ghost"
                   className="h-8 text-rose-500 hover:text-rose-600 hover:bg-rose-50 px-2"
-                  onClick={async () => {
-                    if (!window.confirm(`TEM CERTEZA? Esta ação excluirá PERMANENTEMENTE a conta de ${row.full_name || 'este usuário'} e todos os seus dados. Esta ação não pode ser desfeita.`)) return;
-                    
-                    const code = window.prompt("Digite o código mestre para confirmar a EXCLUSÃO DEFINITIVA:");
-                    if (!code || !(await checkMasterCode(code))) return;
-
-
-                    try {
-                      const { adminDeleteUser } = await import("@/lib/admin-users.functions");
-                      // We need to call the server function since profiles are protected by RLS and auth users need admin client
-                      const result = await queryClient.fetchQuery({
-                        queryKey: ['admin', 'delete-user', row.user_id],
-                        queryFn: () => adminDeleteUser({ data: { targetUserId: row.user_id, confirmation: "EXCLUIR" } })
-                      });
-                      
-                      toast.success("Conta excluída definitivamente.");
-                      void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
-                    } catch (err) {
-                      toast.error("Erro ao excluir conta.");
-                    }
+                  onClick={() => {
+                    confirm({
+                      title: "Excluir conta definitivamente",
+                      description: `Todos os dados de ${row.full_name || "este usuário"} serão apagados. Confirme com o código mestre.`,
+                      type: "warning",
+                      confirmLabel: "Excluir",
+                      input: { label: "Código mestre", type: "password" },
+                      onConfirm: async (code) => {
+                        if (!(await checkMasterCode(code))) return;
+                        try {
+                          await removeUser({
+                            data: { targetUserId: row.user_id, confirmation: "EXCLUIR" },
+                          });
+                          toast.success("Conta excluída definitivamente.");
+                          void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
+                        } catch {
+                          toast.error("Erro ao excluir conta.");
+                        }
+                      },
+                    });
                   }}
                 >
                   Excluir
@@ -259,6 +309,7 @@ export function TrialGrantPanel() {
           ) : null}
         </ul>
       )}
+      <ConfirmDialog />
     </section>
   );
 }

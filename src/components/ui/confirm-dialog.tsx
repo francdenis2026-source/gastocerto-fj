@@ -106,29 +106,49 @@ const AlertDialogCancel = React.forwardRef<
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 
 /**
- * Hook e Componente para substituir confirm() nativo por um AlertDialog profissional com SVG.
+ * Hook e Componente para substituir confirm()/prompt() nativos por um
+ * AlertDialog profissional com ícones SVG e campo de confirmação opcional.
  */
+export type ConfirmInput = {
+  label: string;
+  placeholder?: string;
+  type?: "text" | "password" | "number";
+  defaultValue?: string;
+  /** Texto exato exigido para liberar o botão de confirmação. */
+  expected?: string;
+};
+
+type ConfirmState = {
+  open: boolean;
+  title: string;
+  description: string;
+  confirmLabel: string;
+  onConfirm: (value: string) => void;
+  type: "warning" | "question" | "success";
+  input?: ConfirmInput;
+};
+
 export function useConfirm() {
-  const [state, setState] = React.useState<{
-    open: boolean;
-    title: string;
-    description: string;
-    onConfirm: () => void;
-    type: "warning" | "question" | "success";
-  } | null>(null);
+  const [state, setState] = React.useState<ConfirmState | null>(null);
+  const [value, setValue] = React.useState("");
 
   const confirm = (options: {
     title: string;
     description: string;
-    onConfirm: () => void;
+    onConfirm: (value: string) => void;
     type?: "warning" | "question" | "success";
+    confirmLabel?: string;
+    input?: ConfirmInput;
   }) => {
+    setValue(options.input?.defaultValue ?? "");
     setState({
       open: true,
       title: options.title,
       description: options.description,
+      confirmLabel: options.confirmLabel ?? "Confirmar",
       onConfirm: options.onConfirm,
       type: options.type || "question",
+      input: options.input,
     });
   };
 
@@ -137,15 +157,19 @@ export function useConfirm() {
   const ConfirmDialog = () => {
     if (!state) return null;
 
-    const Icon = 
-      state.type === "warning" ? AlertCircle :
-      state.type === "success" ? CheckCircle2 :
-      HelpCircle;
+    const Icon =
+      state.type === "warning" ? AlertCircle : state.type === "success" ? CheckCircle2 : HelpCircle;
 
-    const iconColor = 
-      state.type === "warning" ? "text-destructive bg-destructive/10" :
-      state.type === "success" ? "text-emerald-500 bg-emerald-50" :
-      "text-primary bg-primary/10";
+    const iconColor =
+      state.type === "warning"
+        ? "text-destructive bg-destructive/10"
+        : state.type === "success"
+          ? "text-emerald-500 bg-emerald-500/10"
+          : "text-primary bg-primary/10";
+
+    const blocked = Boolean(
+      state.input && (state.input.expected ? value.trim() !== state.input.expected : !value.trim()),
+    );
 
     return (
       <AlertDialog open={state.open} onOpenChange={(open) => !open && close()}>
@@ -157,16 +181,40 @@ export function useConfirm() {
             <AlertDialogTitle>{state.title}</AlertDialogTitle>
             <AlertDialogDescription>{state.description}</AlertDialogDescription>
           </AlertDialogHeader>
+
+          {state.input ? (
+            <div className="space-y-1 text-left">
+              <label className="text-xs font-semibold text-muted-foreground">
+                {state.input.label}
+              </label>
+              <input
+                autoFocus
+                type={state.input.type ?? "text"}
+                autoComplete="off"
+                value={value}
+                placeholder={state.input.placeholder}
+                onChange={(event) => setValue(event.target.value)}
+                className="h-9 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
+            </div>
+          ) : null}
+
           <AlertDialogFooter>
             <AlertDialogCancel onClick={close}>Cancelar</AlertDialogCancel>
             <AlertDialogAction
+              disabled={blocked}
               className={cn(state.type === "warning" && "bg-destructive hover:bg-destructive/90")}
-              onClick={() => {
-                state.onConfirm();
+              onClick={(event) => {
+                if (blocked) {
+                  event.preventDefault();
+                  return;
+                }
+                const submitted = value;
+                state.onConfirm(submitted);
                 close();
               }}
             >
-              Confirmar
+              {state.confirmLabel}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

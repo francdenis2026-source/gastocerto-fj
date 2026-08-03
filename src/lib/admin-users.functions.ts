@@ -260,3 +260,91 @@ export const adminListBlockedIps = createServerFn({ method: "GET" })
       .limit(200);
     return data ?? [];
   });
+
+const promoteSchema = z.object({
+  targetUserId: z.string().uuid(),
+  planSlug: z.enum(["premium", "premium_ia"]).default("premium_ia"),
+});
+
+/**
+ * Promove qualquer conta para a versão paga usando o cliente administrativo
+ * (o update direto pelo navegador era bloqueado pelas políticas de acesso).
+ */
+export const adminPromoteToPaid = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => promoteSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: plan } = await supabaseAdmin
+      .from("plans")
+      .select("id, name")
+      .eq("slug", data.planSlug)
+      .maybeSingle();
+    if (!plan?.id) throw new Error("Plano pago não encontrado no catálogo");
+
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({
+        plan_id: plan.id,
+        status: "active",
+        trial_plan_slug: null,
+        trial_started_at: null,
+        trial_ends_at: null,
+      })
+      .eq("user_id", data.targetUserId);
+    if (error) throw new Error("Não foi possível promover a conta");
+
+    await context.supabase.from("admin_logs").insert({
+      actor_id: context.userId,
+      target_user_id: data.targetUserId,
+      action: "promote_paid",
+      details: { plan_slug: data.planSlug },
+    });
+
+    await sendAdminNotification(
+      data.targetUserId,
+      "plan_upgraded",
+      "Conta promovida",
+      `Sua conta agora está no plano ${plan.name ?? data.planSlug}. Aproveite todos os recursos.`,
+      "info",
+    );
+
+    return { ok: true, planSlug: data.planSlug };
+  });
+
+const limitSchema = z.object({
+  targetUserId: z.string().uuid(),
+  days: z.number().int().min(0).max(3650),
+});
+
+/** Limita (ou libera) o tempo de acesso da conta a partir de hoje. */
+export const adminSetAccessLimit = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => limitSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const endsAt = new Date();
+    endsAt.setDate(endsAt.getDate() + data.days);
+
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({
+        trial_ends_at: data.days > 0 ? endsAt.toISOString() : null,
+        trial_plan_slug: data.days > 0 ? "premium_ia" : null,
+      })
+      .eq("user_id", data.targetUserId);
+    if (error) throw new Error("Não foi possível ajustar o limite de tempo");
+
+    await context.supabase.from("admin_logs").insert({
+      actor_id: context.userId,
+      target_user_id: data.targetUserId,
+      action: "limit_access",
+      details: { days: data.days },
+    });
+
+    return { ok: true, days: data.days };
+  });

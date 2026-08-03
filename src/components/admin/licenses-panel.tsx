@@ -53,6 +53,7 @@ import {
 } from "@/lib/licenses.functions";
 import { describeLicense } from "@/lib/license-status";
 import { formatCurrency, formatDateTime } from "@/lib/format";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "Pendente",
@@ -186,6 +187,7 @@ function LicenseDetailDialog({ license }: { license: any }) {
 }
 
 export function LicensesPanel({ globalSearch = "" }: { globalSearch?: string }) {
+  const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -395,13 +397,13 @@ export function LicensesPanel({ globalSearch = "" }: { globalSearch?: string }) 
                         className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                         disabled={deleteLicense.isPending}
                         onClick={() => {
-                          if (
-                            window.confirm(
-                              "Excluir esta licença definitivamente? Esta ação não pode ser desfeita.",
-                            )
-                          ) {
-                            deleteLicense.mutate(license.id);
-                          }
+                          confirm({
+                            title: "Excluir licença",
+                            description: "A licença será removida definitivamente e esta ação não pode ser desfeita.",
+                            type: "warning",
+                            confirmLabel: "Excluir",
+                            onConfirm: () => deleteLicense.mutate(license.id),
+                          });
                         }}
                       >
                         <Trash2 className="size-4" />
@@ -414,6 +416,7 @@ export function LicensesPanel({ globalSearch = "" }: { globalSearch?: string }) 
           </TableBody>
         </Table>
       </div>
+      <ConfirmDialog />
     </div>
   );
 }

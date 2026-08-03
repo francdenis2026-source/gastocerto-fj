@@ -14,9 +14,11 @@ import {
   resetMasterCode,
   revealMasterCode,
 } from "@/lib/master-code.functions";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 /** Redefinição segura do código mestre usado nas ações críticas do painel. */
 export function MasterCodePanel() {
+  const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const status = useQuery({
     queryKey: ["admin", "master-code-status"],
@@ -145,8 +147,13 @@ export function MasterCodePanel() {
           className="h-9"
           disabled={generateMutation.isPending}
           onClick={() => {
-            if (!window.confirm("Gerar um novo código mestre? O código atual deixará de funcionar.")) return;
-            generateMutation.mutate();
+            confirm({
+              title: "Gerar novo código mestre",
+              description: "O código atual deixará de funcionar imediatamente. Guarde o novo código em local seguro.",
+              type: "warning",
+              confirmLabel: "Gerar novo código",
+              onConfirm: () => generateMutation.mutate(),
+            });
           }}
         >
           {generateMutation.isPending ? (
@@ -231,6 +238,7 @@ export function MasterCodePanel() {
           </Button>
         </div>
       </form>
+      <ConfirmDialog />
     </section>
   );
 }
