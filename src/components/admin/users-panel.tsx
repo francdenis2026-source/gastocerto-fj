@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
+import { cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -249,19 +250,19 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Badge
-                              variant={profile.kid_user_id ? "outline" : "default"}
+                              variant={(profile as any).kid_user_id ? "outline" : "default"}
                               className={cn(
                                 "h-5 px-1.5 text-[10px] font-bold uppercase tracking-wider",
-                                profile.kid_user_id 
+                                (profile as any).kid_user_id 
                                   ? "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400" 
                                   : "bg-brand/10 text-brand border-brand/20 hover:bg-brand/20"
                               )}
                             >
-                              {profile.kid_user_id ? "Filho" : "Pai/Mãe"}
+                              {(profile as any).kid_user_id ? "Filho" : "Pai/Mãe"}
                             </Badge>
                           </TooltipTrigger>
                           <TooltipContent side="right" className="max-w-xs">
-                            {profile.kid_user_id 
+                            {(profile as any).kid_user_id 
                               ? "Conta dependente vinculada a um responsável principal." 
                               : "Conta principal com autonomia total e gestão de dependentes."}
                           </TooltipContent>
