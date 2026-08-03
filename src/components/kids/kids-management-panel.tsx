@@ -15,7 +15,12 @@ import {
   ChevronRight,
   ChevronDown,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Download,
+  FileText,
+  Edit2,
+  Trash2,
+  MoreVertical
 } from "lucide-react";
 import { amountToInput } from "@/lib/money-input";
 import { parseAmount } from "@/lib/finance";
@@ -50,6 +55,7 @@ import { toast } from "sonner";
 import { useDependents, type Dependent } from "@/lib/dependents";
 import { formatCurrency } from "@/lib/format";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
+import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
 import { cn } from "@/lib/utils";
 import { 
   BarChart, 
@@ -91,10 +97,30 @@ export function KidsManagementPanel() {
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["kid_pix_alerts"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] }); // Invalidate notifications for kids
     },
     onError: (error) => {
       toast.error(error instanceof Error ? error.message : "Erro ao enviar valor.");
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: useServerFn(deleteKidManagementTransaction),
+    onSuccess: () => {
+      toast.success("Lançamento removido.");
+      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: useServerFn(updateKidManagementTransaction),
+    onSuccess: () => {
+      toast.success("Lançamento atualizado.");
+      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
     }
   });
 
@@ -289,13 +315,171 @@ export function KidsManagementPanel() {
                   <span className="text-[10px] font-medium">Presentes: {formatCurrency(stats.byType.gift)}</span>
                 </div>
              </div>
-             <Button variant="link" className="h-auto p-0 text-[10px] font-bold" asChild>
-                <a href="/dashboard">Ver extrato detalhado <ChevronRight className="size-3 ml-0.5" /></a>
-             </Button>
+             <div className="flex items-center gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-7 text-[10px] font-bold gap-1.5"
+                  onClick={() => exportPDF(metrics.data, kids.find(k => k.id === selectedKidId))}
+                >
+                  <Download className="size-3" /> Exportar PDF
+                </Button>
+                <Button variant="link" className="h-auto p-0 text-[10px] font-bold" asChild>
+                  <a href="/dashboard">Ver extrato <ChevronRight className="size-3 ml-0.5" /></a>
+                </Button>
+             </div>
           </div>
+
+          {/* List of recent actions for management */}
+          {metrics.data && metrics.data.length > 0 && (
+            <div className="border-t border-border/50">
+              <div className="px-4 py-2 bg-muted/5 flex items-center justify-between">
+                <Label className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">Lançamentos Recentes</Label>
+              </div>
+              <div className="max-h-[200px] overflow-y-auto divide-y divide-border/30">
+                {metrics.data.slice(0, 5).map((tx: any) => (
+                  <div key={tx.id} className="px-4 py-2.5 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className={cn(
+                        "size-8 rounded-lg flex items-center justify-center",
+                        tx.tags?.includes("type:pix") ? "bg-emerald-500/10 text-emerald-600" :
+                        tx.tags?.includes("type:cash") ? "bg-sky-500/10 text-sky-600" :
+                        "bg-amber-500/10 text-amber-600"
+                      )}>
+                        {tx.tags?.includes("type:gift") ? <Gift className="size-4" /> : <Coins className="size-4" />}
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-bold leading-tight">{tx.description.replace("[Envio para ", "").split("]")[1]?.trim() || tx.description}</p>
+                        <p className="text-[9px] text-muted-foreground">{new Date(tx.transaction_date).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[11px] font-black">{formatCurrency(tx.amount)}</span>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="size-7">
+                            <Edit2 className="size-3 text-muted-foreground" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <EditTransactionForm 
+                            transaction={tx} 
+                            onUpdate={(data: { amount: number, description: string }) => updateMutation.mutate({ data: { transactionId: tx.id, ...data } })}
+                            onDelete={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}
+                            isPending={updateMutation.isPending || deleteMutation.isPending}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </CardContent>
       )}
     </Card>
+  );
+}
+
+// PDF Export Helper (Placeholder - implementation logic)
+function exportPDF(data: any[] | undefined, selectedKid?: Dependent) {
+  if (!data) return;
+  toast.info("Gerando PDF...", { description: "Suas métricas estão sendo preparadas para download." });
+  
+  // Dynamic import to avoid heavy bundling if not used
+  import('jspdf').then(({ jsPDF }) => {
+    const doc = new jsPDF();
+    const title = selectedKid ? `Relatório Financeiro: ${selectedKid.name}` : "Relatório Geral: Espaço Kids";
+    
+    doc.setFontSize(20);
+    doc.text(title, 20, 20);
+    doc.setFontSize(10);
+    doc.text(`Gerado em: ${new Date().toLocaleString()}`, 20, 30);
+    
+    let y = 50;
+    doc.setFontSize(12);
+    doc.text("Resumo de Gastos:", 20, y);
+    y += 10;
+    
+    data.slice(0, 20).forEach(tx => {
+      doc.setFontSize(10);
+      doc.text(`${new Date(tx.transaction_date).toLocaleDateString()} - ${tx.description}: ${formatCurrency(tx.amount)}`, 20, y);
+      y += 8;
+    });
+    
+    doc.save(`relatorio-kids-${new Date().getTime()}.pdf`);
+    toast.success("PDF baixado com sucesso!");
+  }).catch(err => {
+    console.error("Erro ao gerar PDF:", err);
+    toast.error("Erro ao gerar PDF.");
+  });
+}
+
+function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any) {
+  const [formData, setFormData] = useState({
+    amount: transaction.amount,
+    description: transaction.description.replace(/\[.*\]\s*/, "")
+  });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  if (showDeleteConfirm) {
+    return (
+      <div className="space-y-4 py-4">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="size-12 rounded-full bg-destructive/10 flex items-center justify-center">
+            <Trash2 className="size-6 text-destructive" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold">Excluir lançamento?</h3>
+            <p className="text-sm text-muted-foreground">Esta ação removerá o gasto do seu extrato e a receita do saldo do seu filho.</p>
+          </div>
+        </div>
+        <div className="flex gap-2 pt-2">
+          <Button variant="outline" className="flex-1" onClick={() => setShowDeleteConfirm(false)}>Cancelar</Button>
+          <Button variant="destructive" className="flex-1" onClick={onDelete} disabled={isPending}>
+            {isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : <Trash2 className="size-4 mr-2" />}
+            Confirmar Exclusão
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <DialogHeader>
+        <DialogTitle>Editar Lançamento</DialogTitle>
+        <DialogDescription>Ajuste os valores ou a descrição do envio.</DialogDescription>
+      </DialogHeader>
+      <div className="space-y-4 py-2">
+        <div className="space-y-2">
+          <Label>Valor</Label>
+          <MoneyInput 
+            value={amountToInput(formData.amount)} 
+            onValueChange={(v) => setFormData({...formData, amount: parseAmount(v)})}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Descrição</Label>
+          <Input 
+            value={formData.description}
+            onChange={(e) => setFormData({...formData, description: e.target.value})}
+          />
+        </div>
+      </div>
+      <DialogFooter className="flex-col sm:flex-row gap-2">
+        <Button variant="ghost" className="text-destructive hover:text-destructive hover:bg-destructive/5" onClick={() => setShowDeleteConfirm(true)}>
+          Excluir
+        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" className="flex-1" onClick={() => window.location.reload()}>Cancelar</Button>
+          <Button onClick={() => onUpdate(formData)} disabled={isPending}>
+            {isPending && <Loader2 className="size-4 animate-spin mr-2" />} Salvar
+          </Button>
+        </div>
+      </DialogFooter>
+    </div>
   );
 }
 

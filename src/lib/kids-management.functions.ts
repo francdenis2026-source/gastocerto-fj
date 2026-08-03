@@ -30,6 +30,8 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
     if (depError || !dependent) throw new Error("Dependente não encontrado ou sem permissão.");
 
     const parentTag = `dependente:${dependentId}`;
+    const dedupeKey = `kid_money_${dependentId}_${Date.now()}`;
+    
     const { error: parentError } = await supabaseAdmin.from("transactions").insert({
       user_id: userId,
       description: `[Envio para ${dependent.name}] ${description} (${type.toUpperCase()})`,
@@ -44,6 +46,7 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
     if (parentError) throw new Error(`Erro ao registrar gasto do responsável: ${parentError.message}`);
 
     if (dependent.kid_user_id) {
+      // 1. Criar transação para a criança
       const { error: kidError } = await supabaseAdmin.from("transactions").insert({
         user_id: dependent.kid_user_id,
         description: `Recebido: ${description}`,
@@ -54,6 +57,17 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
         status: "paid",
       });
       if (kidError) console.error("Erro ao registrar entrada no painel da criança:", kidError.message);
+
+      // 2. Criar notificação persistente para a criança
+      await supabaseAdmin.from("notifications").insert({
+        user_id: dependent.kid_user_id,
+        title: "Dinheiro recebido! 💰",
+        message: `Você recebeu ${amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} via ${type.toUpperCase()}. (${description})`,
+        severity: "info",
+        notification_type: "kid_income",
+        dedupe_key: dedupeKey,
+        metadata: { amount, type, description }
+      } as any);
     }
 
     const { error: auditError } = await supabaseAdmin.from("kid_access_audit").insert({
@@ -80,7 +94,7 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
 
     let query = supabaseAdmin
       .from("transactions")
-      .select("amount, transaction_date, tags, transaction_type")
+      .select("id, amount, description, transaction_date, tags, transaction_type")
       .eq("user_id", userId)
       .eq("transaction_type", "expense");
 
