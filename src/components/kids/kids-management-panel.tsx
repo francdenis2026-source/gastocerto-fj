@@ -726,7 +726,7 @@ function EditTxForm({ tx, onSave }: { tx: any, onSave: (values: any) => void }) 
       </div>
       <div className="space-y-2">
         <Label>Valor</Label>
-        <MoneyInput value={amount} onChange={setAmount} />
+        <MoneyInput value={amount} onValueChange={setAmount} />
       </div>
       <Button className="w-full" onClick={() => onSave({ description, amount: parseAmount(amount) })}>
         Salvar Alterações
