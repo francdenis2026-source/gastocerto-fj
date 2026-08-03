@@ -51,64 +51,65 @@ export function InteractiveCalendar({ onDayClick }: InteractiveCalendarProps) {
   return (
     <div className="rounded-2xl border border-border bg-card p-4 shadow-soft lg:grid lg:grid-cols-[1fr_280px] lg:gap-6">
       <div className="space-y-4">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Calendar className="size-5 text-brand" />
-          <h2 className="text-sm font-bold uppercase tracking-wider">Calendário de Fluxo</h2>
-        </div>
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="size-8" onClick={() => shift(-1)}>
-            <ChevronLeft className="size-4" />
-          </Button>
-          <span className="text-xs font-bold min-w-[100px] text-center">
-            {MONTH_NAMES[month-1]} {year}
-          </span>
-          <Button variant="ghost" size="icon" className="size-8" onClick={() => shift(1)}>
-            <ChevronRight className="size-4" />
-          </Button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-7 gap-1">
-        {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(d => (
-          <div key={d} className="pb-2 text-center text-[10px] font-bold text-muted-foreground uppercase">
-            {d}
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calendar className="size-5 text-brand" />
+            <h2 className="text-sm font-bold uppercase tracking-wider">Calendário de Fluxo</h2>
           </div>
-        ))}
-        
-        {days.map(d => (
-          <button
-            key={d.day}
-            onClick={() => onDayClick(d.day)}
-            className={cn(
-              "group relative flex flex-col items-center justify-between rounded-xl border border-border/40 p-1.5 transition-all hover:border-brand/50 hover:bg-brand/5",
-              d.isToday && "border-brand bg-brand/5 ring-1 ring-brand/20",
-              d.count === 0 && "opacity-60"
-            )}
-          >
-            <span className={cn(
-              "text-[10px] font-bold",
-              d.isToday ? "text-brand" : "text-muted-foreground"
-            )}>
-              {d.day}
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="size-8" onClick={() => shift(-1)}>
+              <ChevronLeft className="size-4" />
+            </Button>
+            <span className="text-xs font-bold min-w-[100px] text-center">
+              {MONTH_NAMES[month-1]} {year}
             </span>
-            
-            <div className="mt-1 flex flex-col gap-0.5 w-full">
-              {d.income > 0 && (
-                <div className="h-1 w-full rounded-full bg-income" title={`Receita: ${formatCurrency(d.income)}`} />
-              )}
-              {d.expense > 0 && (
-                <div className="h-1 w-full rounded-full bg-expense" title={`Despesa: ${formatCurrency(d.expense)}`} />
-              )}
+            <Button variant="ghost" size="icon" className="size-8" onClick={() => shift(1)}>
+              <ChevronRight className="size-4" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-7 gap-1">
+          {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(d => (
+            <div key={d} className="pb-2 text-center text-[10px] font-bold text-muted-foreground uppercase">
+              {d}
             </div>
-            
-            {d.count > 0 && (
-              <div className="absolute -right-0.5 -top-0.5 flex size-3.5 items-center justify-center rounded-full bg-brand text-[8px] font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
-                {d.count}
+          ))}
+          
+          {days.map(d => (
+            <button
+              key={d.day}
+              onClick={() => onDayClick(d.day)}
+              className={cn(
+                "group relative flex flex-col items-center justify-between rounded-xl border border-border/40 p-1.5 transition-all hover:border-brand/50 hover:bg-brand/5",
+                d.isToday && "border-brand bg-brand/5 ring-1 ring-brand/20",
+                d.count === 0 && "opacity-60"
+              )}
+            >
+              <span className={cn(
+                "text-[10px] font-bold",
+                d.isToday ? "text-brand" : "text-muted-foreground"
+              )}>
+                {d.day}
+              </span>
+              
+              <div className="mt-1 flex flex-col gap-0.5 w-full">
+                {d.income > 0 && (
+                  <div className="h-1 w-full rounded-full bg-income" title={`Receita: ${formatCurrency(d.income)}`} />
+                )}
+                {d.expense > 0 && (
+                  <div className="h-1 w-full rounded-full bg-expense" title={`Despesa: ${formatCurrency(d.expense)}`} />
+                )}
               </div>
-            )}
-          </button>
-        ))}
+              
+              {d.count > 0 && (
+                <div className="absolute -right-0.5 -top-0.5 flex size-3.5 items-center justify-center rounded-full bg-brand text-[8px] font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                  {d.count}
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
       
       <div className="mt-6 lg:mt-0 border-t lg:border-t-0 lg:border-l border-border pt-6 lg:pt-0 lg:pl-6 space-y-6">
