@@ -408,7 +408,8 @@ export function KidsManagementPanel() {
                               </div>
                             </div>
                           </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
