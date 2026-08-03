@@ -847,6 +847,11 @@ function KidSummary({
   selectedMonth: number;
   selectedYear: number;
 }) {
+  const [onboarding, setOnboarding] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("kid_onboarding_done") !== "true";
+  });
+
   const weeklyStats = useMemo(() => {
     const today = new Date();
     const startOfWeek = new Date(today);
@@ -861,10 +866,66 @@ function KidSummary({
   }, [rows]);
 
   return (
-    <section className={cn(
-      "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm",
-      accent.border,
-    )}>
+    <>
+      <Dialog open={onboarding} onOpenChange={(v) => {
+        if (!v) {
+          localStorage.setItem("kid_onboarding_done", "true");
+          setOnboarding(false);
+        }
+      }}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="size-5 text-emerald-500" /> Bem-vindo ao seu Espaço!
+            </DialogTitle>
+            <DialogDescription className="text-xs">
+              Este é o seu lugar seguro para aprender sobre dinheiro.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="flex gap-3">
+              <div className="bg-emerald-500/10 p-2 rounded-lg shrink-0">
+                <TrendingUp className="size-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-xs font-bold">Ganhos</p>
+                <p className="text-[11px] text-muted-foreground">Aqui você vê o dinheiro que recebeu dos seus pais.</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="bg-rose-500/10 p-2 rounded-lg shrink-0">
+                <TrendingDown className="size-5 text-rose-600" />
+              </div>
+              <div>
+                <p className="text-xs font-bold">Gastos</p>
+                <p className="text-[11px] text-muted-foreground">Anote aqui sempre que usar seu dinheiro para comprar algo.</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="bg-sky-500/10 p-2 rounded-lg shrink-0">
+                <Target className="size-5 text-sky-600" />
+              </div>
+              <div>
+                <p className="text-xs font-bold">Metas</p>
+                <p className="text-[11px] text-muted-foreground">Crie objetivos para juntar dinheiro e ganhar recompensas!</p>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button className="w-full font-bold" onClick={() => {
+              localStorage.setItem("kid_onboarding_done", "true");
+              setOnboarding(false);
+            }}>
+              Começar agora!
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <section className={cn(
+        "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm transition-all duration-300",
+        accent.border,
+      )}>
       <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
         <Target className={cn("size-5", accent.text)} aria-hidden="true" /> 
         Resumo {viewYearly ? `de ${selectedYear}` : `de ${new Date(0, selectedMonth).toLocaleDateString("pt-BR", { month: "long" })}`}
