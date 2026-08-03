@@ -18,6 +18,7 @@ import {
   Users,
   Wallet,
   Settings,
+  Gift,
 } from "lucide-react";
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
@@ -122,7 +123,7 @@ const SECTIONS: AdminSection[] = [
   { id: "plans", label: "Planos e preços", hint: "Limites e valores por plano", icon: CreditCard, adminOnly: true },
   { id: "licenses", label: "Licenças", hint: "Emissão, validade e revogação", icon: ShieldCheck, adminOnly: true },
   { id: "codes", label: "Códigos de clientes", hint: "Validade e tempo restante", icon: KeyRound, adminOnly: true },
-  { id: "trials", label: "Testes e cortesias", hint: "Concessão e acompanhamento", icon: ClipboardList, adminOnly: true },
+  { id: "trials", label: "Testes e cortesias", hint: "Gerenciar contas em teste, bloquear e promover", icon: Gift, adminOnly: true },
   { id: "ai", label: "IA e limites", hint: "Cotas, rate limit e alertas", icon: BrainCircuit, adminOnly: true },
   { id: "tickets", label: "Suporte", hint: "Fila de atendimento", icon: LifeBuoy, adminOnly: true },
   { id: "announcements", label: "Avisos globais", hint: "Comunicados na plataforma", icon: BellRing, adminOnly: true },

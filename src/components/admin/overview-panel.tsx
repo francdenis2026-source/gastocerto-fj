@@ -8,7 +8,8 @@ import {
   Users,
   CreditCard,
   Target,
-  FileText
+  FileText,
+  Gift,
 } from "lucide-react";
 
 import { StatTile } from "@/components/finance/stat-tile";
@@ -48,12 +49,12 @@ export function AdminOverviewPanel({
   });
 
   const shortcuts = [
-    { id: "users", label: "Gerenciar contas", icon: Users },
+    { id: "users", label: "Contas e usuários", icon: Users },
     { id: "business", label: "Métricas de negócio", icon: TrendingUp },
+    { id: "trials", label: "Testes e cortesias", icon: Gift },
     { id: "licenses", label: "Licenças e códigos", icon: ShieldCheck },
     { id: "tickets", label: "Fila de suporte", icon: LifeBuoy },
     { id: "sales", label: "Vendas e pagamentos", icon: CreditCard },
-    { id: "business", label: "Dashboard de Negócio", icon: Target },
   ];
 
   return (
