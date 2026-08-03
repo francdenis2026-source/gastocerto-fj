@@ -342,7 +342,7 @@ function AuthPage() {
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
-                    <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] text-muted-foreground">
+                    <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] font-medium text-[oklch(0.25_0.04_259)] dark:text-muted-foreground">
                       Já tem conta?{" "}
                       <button
                         type="button"
