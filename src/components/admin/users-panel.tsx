@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -599,21 +599,16 @@ function ManageUserDialog({
                   variant="destructive"
                   disabled={pending !== null || isSelf}
                   onClick={() => {
-                    confirm({
-                      title: "Excluir Conta",
-                      description: `Excluir a conta e TODOS os dados do usuário "${profile.full_name || profile.contact_email}"? Esta ação é definitiva e não pode ser desfeita.`,
-                      type: "warning",
-                      onConfirm: () => {
-                        void run(
-                          "delete",
-                          () =>
-                            adminDeleteUser({
-                              data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
-                            }),
-                          "Conta excluída",
-                        ).then(onClose);
-                      }
-                    });
+                    const confirmText = prompt(`Excluir a conta de "${profile.full_name || profile.contact_email}"? Digite EXCLUIR para confirmar:`);
+                    if (confirmText !== "EXCLUIR") return;
+                    void run(
+                      "delete",
+                      () =>
+                        adminDeleteUser({
+                          data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
+                        }),
+                      "Conta excluída",
+                    ).then(onClose);
                   }}
                 >
                   {pending === "delete" ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
