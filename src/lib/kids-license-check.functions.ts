@@ -24,7 +24,7 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     const { data: profile, error: profErr } = await supabaseAdmin
       .from("profiles")
-      .select("id, plan_id, trial_ends_at, status, plan_tier, has_paid_license, trial_plan_slug, paid_plan_slug")
+      .select("id, plan_id, trial_ends_at, status, trial_plan_slug")
       .eq("user_id", kid.user_id)
       .maybeSingle();
 
@@ -42,14 +42,21 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
     }
 
     // Integração com o resolvePlanAccess para garantir consistência total com o app principal.
+    // Usamos imports dinâmicos e cast para contornar limitações de tipos nas colunas estendidas.
     const { resolvePlanAccess } = await import("./plan-features");
+    
+    // Buscar licenças pagas ativas para o responsável
+    const { data: licenses } = await supabaseAdmin
+      .from("licenses")
+      .select("id, status, expires_at, source, amount, plan_id")
+      .eq("user_id", profile.user_id as any)
+      .eq("status", "active");
+
     const access = resolvePlanAccess({
       planSlug: profile.plan_id,
-      planTier: (profile as any).plan_tier,
       trialEndsAt: profile.trial_ends_at,
-      hasPaidLicense: (profile as any).has_paid_license,
-      trialPlanSlug: (profile as any).trial_plan_slug,
-      paidPlanSlug: (profile as any).paid_plan_slug,
+      hasPaidLicense: (licenses ?? []).length > 0,
+      trialPlanSlug: profile.trial_plan_slug,
       isAdmin: false,
     });
 
@@ -64,4 +71,3 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     return { active: true, readOnly: false };
   });
-
