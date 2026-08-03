@@ -183,7 +183,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative isolate grid min-h-dvh w-full place-items-center overflow-x-hidden p-3 sm:p-4 lg:h-dvh lg:min-h-0 lg:overflow-hidden">
+    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-2 sm:p-4 lg:grid lg:place-items-center">
       {/* Imagem de fundo global para o layout - Visível em todas as resoluções */}
       <img
         src={authHero}
@@ -198,7 +198,7 @@ function AuthPage() {
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
         <section className="relative flex min-h-[160px] flex-col justify-between overflow-hidden lg:min-h-0">
           {/* Imagem Hero específica para cada modo */}
