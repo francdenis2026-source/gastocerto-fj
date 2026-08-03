@@ -685,6 +685,70 @@ export function KidsManagementPanel() {
                   )}
                 </div>
               </div>
+
+              {/* Filtros: criança, tipo de movimentação e intervalo de datas */}
+              <div className="flex flex-wrap items-end gap-3 border-b border-border/50 bg-background px-4 py-3">
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">Criança</Label>
+                  <Select value={histKidId} onValueChange={(v) => { setHistKidId(v); setPage(1); }}>
+                    <SelectTrigger className="h-8 w-40 text-xs font-semibold">
+                      <SelectValue placeholder="Todas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all" className="text-xs">Todas as crianças</SelectItem>
+                      {kids.map((k) => (
+                        <SelectItem key={k.id} value={k.id} className="text-xs">{k.nickname || k.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">Movimentação</Label>
+                  <Select value={histKind} onValueChange={(v) => { setHistKind(v); setPage(1); }}>
+                    <SelectTrigger className="h-8 w-44 text-xs font-semibold">
+                      <SelectValue placeholder="Todas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all" className="text-xs">Todas</SelectItem>
+                      <SelectItem value="sent" className="text-xs">Ganho enviado pelos pais</SelectItem>
+                      <SelectItem value="kidIncome" className="text-xs">Ganho registrado pelo filho</SelectItem>
+                      <SelectItem value="kidExpense" className="text-xs">Gasto do filho</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">De</Label>
+                  <Input
+                    type="date"
+                    value={histStart}
+                    onChange={(e) => { setHistStart(e.target.value); setPage(1); }}
+                    className="h-8 w-36 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-[9px] font-bold uppercase text-muted-foreground">Até</Label>
+                  <Input
+                    type="date"
+                    value={histEnd}
+                    onChange={(e) => { setHistEnd(e.target.value); setPage(1); }}
+                    className="h-8 w-36 text-xs"
+                  />
+                </div>
+
+                {(histKidId !== "all" || histKind !== "all" || histStart || histEnd) && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-[10px] font-bold uppercase"
+                    onClick={() => { setHistKidId("all"); setHistKind("all"); setHistStart(""); setHistEnd(""); setPage(1); }}
+                  >
+                    Limpar filtros
+                  </Button>
+                )}
+              </div>
+
               <div className="divide-y divide-border/30">
                 {metrics.data?.transactions?.map((tx: any) => {
                   const kind = kidEntryKind(tx);
