@@ -94,9 +94,8 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
 
     let query = supabaseAdmin
       .from("transactions")
-      .select("id, amount, description, transaction_date, tags, transaction_type")
-      .eq("user_id", userId)
-      .eq("transaction_type", "expense");
+      .select("id, amount, description, transaction_date, tags, transaction_type, status")
+      .eq("user_id", userId);
 
     const { data: transactions, error } = await query;
     if (error) throw error;
@@ -104,9 +103,14 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     // Filter in JS to simplify complex tag logic for both auto_kids and kids_management
     const filtered = (transactions || []).filter(tx => {
       const tags = tx.tags || [];
-      const isKidTx = tags.includes("auto_kids") || tags.includes("kids_management");
+      const isKidTx = tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("kid_self_expense");
       if (!isKidTx) return false;
-      if (dependentId) return tags.includes(`dependente:${dependentId}`);
+      
+      // Gastos da própria criança (kid_self_expense) são informativos para o pai
+      // Não entram nos cálculos de saldo do pai porque não têm user_id do pai diretamente impactando caixa
+      // A menos que explicitamente configurado.
+      
+      if (dependentId) return tags.includes(`dependente:${dependentId}`) || (tx as any).dependent_id === dependentId;
       return true;
     });
 

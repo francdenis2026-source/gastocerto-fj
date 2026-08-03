@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload } from "lucide-react";
+import { Upload, Share2 } from "lucide-react";
 import QRCode from "qrcode";
 import {
   Baby,
@@ -666,7 +666,31 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["dependents"] });
   const refreshAudit = () => queryClient.invalidateQueries({ queryKey: ["kid_access_audit"] });
-
+  
+  async function shareQr() {
+    if (!qr) return;
+    try {
+      const blob = await (await fetch(qr)).blob();
+      const file = new File([blob], `qr-espaco-kids-${dependent.name.toLowerCase()}.png`, { type: 'image/png' });
+      
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `QR Code - Espaço Kids de ${dependent.name}`,
+          text: `Use este QR Code para acessar o Espaço Kids de ${dependent.name}.`
+        });
+      } else {
+        const link = document.createElement('a');
+        link.href = qr;
+        link.download = `qr-espaco-kids-${dependent.name.toLowerCase()}.png`;
+        link.click();
+        toast.success("QR Code baixado com sucesso!");
+      }
+    } catch (error) {
+      toast.error("Não foi possível compartilhar o QR Code.");
+    }
+  }
+  
   async function copyLoginUrl() {
     if (!loginUrl) return;
     try {
@@ -1207,73 +1231,50 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <QrCode className="size-3 text-primary" aria-hidden /> Entrada
             </p>
             {qr ? (
-              <>
-                <div id={`qr-container-${dependent.id}`} className="mx-auto mt-2 inline-block rounded-lg border border-border/50 bg-white p-1.5">
+              <div className="flex flex-col items-center gap-3">
+                <div className="relative group overflow-hidden rounded-2xl border-4 border-white shadow-xl bg-white p-2">
                   <img
                     src={qr}
-                    alt={`QR code de acesso de ${dependent.name}`}
-                    width={128}
-                    height={128}
-                    className="size-32 max-w-full"
+                    alt={`QR Code de ${dependent.name}`}
+                    className="size-44 transition-transform group-hover:scale-[1.02]"
                   />
+                  <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                 </div>
-
-                <p className="mt-1 text-[9px] font-bold text-muted-foreground">{expiry.label}</p>
-                <p className="mt-0.5 text-[9px] text-muted-foreground leading-tight">
-                  Escaneie para entrar sem digitar código.
-                </p>
                 
-                <div className="grid grid-cols-2 gap-2 mt-3">
+                <div className="flex w-full gap-2">
                   <Button
-                    type="button"
+                    variant="outline"
                     size="sm"
-                    variant="secondary"
-                    className="w-full text-[10px] h-8 px-1"
-                    onClick={() => void copyLoginUrl()}
+                    className="flex-1 h-9 text-[10px] font-bold gap-1.5 rounded-xl border-primary/20 hover:bg-primary/5 hover:border-primary/40"
+                    onClick={copyLoginUrl}
                   >
-                    <Copy className="mr-1 size-3" /> Link
+                    <Copy className="size-3" /> Link
                   </Button>
                   <Button
-                    type="button"
+                    variant="default"
                     size="sm"
-                    variant="secondary"
-                    className="w-full text-[10px] h-8 px-1"
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = qr;
-                      link.download = `qr-acesso-${dependent.name.toLowerCase().replace(/\s+/g, '-')}.png`;
-                      link.click();
-                    }}
+                    className="flex-1 h-9 text-[10px] font-bold gap-1.5 rounded-xl shadow-md"
+                    onClick={shareQr}
                   >
-                    <Download className="mr-1 size-3" /> PNG
+                    <Share2 className="size-3" /> Compartilhar
                   </Button>
                 </div>
-
-                <Button
+                
+                <button
                   type="button"
-                  size="sm"
-                  variant="outline"
-                  className="mt-2 w-full text-[11px]"
                   onClick={reloadQr}
+                  className="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 mt-1"
                 >
-                  <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR
-                </Button>
-
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="ghost"
-                  className="mt-2 w-full text-[11px]"
-                  disabled={busy}
-                  onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
-                >
-                  <KeyRound className="mr-1.5 size-3.5" /> Novo código
-                </Button>
-              </>
+                  <RefreshCw className="size-2.5" /> Atualizar imagem
+                </button>
+              </div>
             ) : (
-              <p className="mt-3 text-[11px] text-muted-foreground">
-                Libere o acesso para gerar o QR code de entrada.
-              </p>
+              <div className="flex h-44 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border/60 bg-muted/20">
+                <QrCode className="size-8 text-muted-foreground/40" />
+                <p className="max-w-[120px] text-center text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">
+                  Escolha um código para gerar o QR
+                </p>
+              </div>
             )}
           </aside>
         </div>
