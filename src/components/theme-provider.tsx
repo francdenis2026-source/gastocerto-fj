@@ -17,17 +17,15 @@ const ThemeContext = createContext<ThemeContextValue>({
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
-
-  useEffect(() => {
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "dark";
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setThemeState(stored ?? (prefersDark ? "dark" : "light"));
-    document.documentElement.classList.remove("hc");
-    window.localStorage.removeItem("gastocerto-contrast");
-  }, []);
+    if (stored) return stored;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "dark"; // Default para dark no sistema
+  });
 
   useEffect(() => {
+    // Sync inicial do classList para evitar flashes se o estado mudou
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.style.colorScheme = theme;
   }, [theme]);
