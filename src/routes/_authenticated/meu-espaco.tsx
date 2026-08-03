@@ -735,24 +735,21 @@ function KidSpacePage() {
               {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
             </div>
             {rows.length === 0 ? (
-              <div className="flex flex-col items-center gap-3 rounded-[2rem] border border-dashed border-border bg-muted/20 px-5 py-8 text-center">
-                <div className={cn("flex size-12 items-center justify-center rounded-2xl shadow-inner", accent.iconBg)}>
-                  <Wallet className="size-5" aria-hidden="true" />
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 px-6 py-12 text-center shadow-sm">
+                <div className="flex size-16 items-center justify-center rounded-full bg-muted/30 text-muted-foreground/40">
+                  <FileText className="size-8" />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-black tracking-tight">Nada por aqui ainda</p>
-                  <p className="text-[11px] font-medium text-muted-foreground">
-                    Anote seu primeiro gasto ou ganho para começar.
-                  </p>
-                </div>
+                <h3 className="mt-4 text-sm font-bold text-foreground">Sem registros este mês</h3>
+                <p className="mt-1.5 max-w-[280px] text-xs leading-relaxed text-muted-foreground">
+                  Sua conta está em dia! Comece agora registrando sua primeira entrada ou gasto.
+                </p>
                 <Button
-                  type="button"
+                  onClick={() => setEntryOpen(true)}
                   size="sm"
                   disabled={!online}
-                  onClick={() => setEntryOpen(true)}
-                  className="h-10 rounded-xl px-4 text-[12px] font-black uppercase tracking-tight shadow-md"
+                  className="mt-6 h-10 w-full max-w-[180px] gap-2 rounded-xl text-xs font-bold shadow-soft transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <Plus className="size-4" aria-hidden="true" />
+                  <Plus className="size-4" />
                   Novo Registro
                 </Button>
               </div>
