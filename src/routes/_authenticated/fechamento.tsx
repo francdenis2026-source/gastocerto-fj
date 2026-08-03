@@ -27,6 +27,7 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/finance/page-header";
 import { QuickPurchaseDialog } from "@/components/finance/quick-purchase-dialog";
 import { ClosedPeriodAuditPanel } from "@/components/finance/closed-audit";
 import { Badge } from "@/components/ui/badge";
@@ -267,17 +268,13 @@ function FechamentoPage() {
   return (
     <AppShell>
       <div className="space-y-4">
-        <header className="flex flex-wrap items-end justify-between gap-3">
-          <div className="space-y-1">
-            <h1 className="page-title">Fechamento mensal</h1>
-            <p className="page-subtitle mt-1">
-              O balancete começa em {monthLabel(BALANCE_START.year, BALANCE_START.month)} (mês de
-              implantação, aceita lançamentos retroativos). A partir do mês seguinte, cada
-              competência conta do dia 1º ao último dia do mês, e o saldo final vira o saldo inicial
-              do próximo.
-            </p>
-          </div>
-          <div className="flex gap-2">
+        <PageHeader
+          icon={FileSpreadsheet}
+          eyebrow="Análise"
+          title="Fechamento mensal"
+          description={`O balancete começa em ${monthLabel(BALANCE_START.year, BALANCE_START.month)} (mês de implantação, aceita lançamentos retroativos). Depois, cada competência vai do dia 1º ao último dia do mês e o saldo final vira o saldo inicial do próximo.`}
+          actions={
+            <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" className="h-9" onClick={() => exportBalanceCsv(balance)}>
               <FileSpreadsheet className="mr-1.5 size-4" />
               CSV

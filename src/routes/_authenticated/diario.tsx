@@ -5,6 +5,7 @@ import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commit
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/finance/page-header";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
 import { TransactionDetailsDialog } from "@/components/finance/transaction-details-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -164,14 +165,13 @@ function DailyPage() {
         {/* Aviso de Dívidas em Atraso */}
         <DebtOverdueNotice />
 
-        <header className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h1 className="page-title">Gastos em detalhes</h1>
-            <p className="page-subtitle mt-1">
-              {formatDate(range.start)} até {formatDate(range.end)} · hora de cada lançamento
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
+        <PageHeader
+          icon={ListFilter}
+          eyebrow="Dia a dia"
+          title="Gastos em detalhes"
+          description={`${formatDate(range.start)} até ${formatDate(range.end)} · hora de cada lançamento`}
+          actions={
+            <div className="flex flex-wrap items-center gap-2">
             <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
               <TabsList>
                 <TabsTrigger value="dia">Hoje</TabsTrigger>
@@ -183,8 +183,9 @@ function DailyPage() {
               <Plus className="mr-1.5 size-4" />
               Novo gasto
             </Button>
-          </div>
-        </header>
+            </div>
+          }
+        />
 
         <section className="auto-cards-sm">
           <article className="rounded-2xl border border-border bg-card p-4">

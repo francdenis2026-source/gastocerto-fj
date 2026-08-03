@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AlertCircle, ArrowRight, CheckCircle2, Landmark, Wallet } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/finance/page-header";
 import { useAuth } from "@/hooks/use-auth";
 import { useTransactions } from "@/lib/transactions";
 import { formatCurrency, formatDate } from "@/lib/format";
@@ -46,12 +47,12 @@ function ReconciliationPage() {
   return (
     <AppShell>
       <div className="max-w-4xl mx-auto space-y-6">
-        <div>
-          <h1 className="page-title">Reconciliação Mensal</h1>
-          <p className="text-muted-foreground">
-            Acompanhe receitas transferidas e o impacto no saldo de {MONTH_NAMES[currentMonth - 1]}.
-          </p>
-        </div>
+        <PageHeader
+          icon={Scale}
+          eyebrow="Análise"
+          title="Reconciliação mensal"
+          description={`Acompanhe receitas transferidas e o impacto no saldo de ${MONTH_NAMES[currentMonth - 1]}.`}
+        />
 
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
