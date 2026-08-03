@@ -454,35 +454,7 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        {profile?.cpf === "69598193268" && (
-          <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
-                <ShieldAlert className="size-5 text-banner-amber-icon" />
-              </div>
-              <div className="space-y-0.5">
-                <p className="text-[12px] font-bold text-banner-amber-icon">Aviso de Sistema</p>
-                <p className="text-[10px] text-banner-amber-icon/80">
-                  Dados de Julho/2026 foram removidos conforme autorizado. O sistema agora inicia em Agosto.
-                </p>
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="h-8 text-[10px] border-banner-amber-border hover:bg-banner-amber-bg"
-                onClick={async () => {
-                  const cleanup = await cleanupJulyData();
-                  if (cleanup.success) {
-                    toast.success("Limpeza concluída com sucesso!");
-                    queryClient.invalidateQueries();
-                  }
-                }}
-              >
-                Executar Limpeza
-              </Button>
-            </div>
-          </div>
-        )}
+        {/* O aviso de remoção de dados foi removido conforme solicitação do usuário. */}
         
         {/* Adiciona o gatilho de busca global no topo se necessário */}
         
