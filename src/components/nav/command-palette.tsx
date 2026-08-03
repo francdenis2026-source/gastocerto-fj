@@ -23,7 +23,14 @@ type QuickAction = (kind: "expense" | "income") => void;
  * alcançáveis por link dentro de outra tela e (2) o custo de encontrar uma
  * seção específica em um menu com dezenas de páginas.
  */
-export function CommandPalette({ onQuickEntry }: { onQuickEntry?: QuickAction }) {
+export function CommandPalette({
+  onQuickEntry,
+  variant = "field",
+}: {
+  onQuickEntry?: QuickAction;
+  /** "field" = campo na sidebar; "icon" = botão compacto no header. */
+  variant?: "field" | "icon";
+}) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -56,20 +63,32 @@ export function CommandPalette({ onQuickEntry }: { onQuickEntry?: QuickAction })
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Buscar telas e ações"
-        className={cn(
-          "group flex h-9 w-full items-center gap-2 rounded-xl border border-border bg-secondary/50 px-2.5 text-left text-[12px] text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground",
-        )}
-      >
-        <Search className="size-3.5 shrink-0" aria-hidden="true" />
-        <span className="truncate">Buscar…</span>
-        <kbd className="ml-auto hidden shrink-0 rounded-md border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-semibold lg:inline">
-          ⌘K
-        </kbd>
-      </button>
+      {variant === "icon" ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Buscar telas e ações"
+          title="Buscar (Ctrl+K)"
+          className="grid size-8 shrink-0 place-items-center rounded-md border border-border bg-secondary/50 text-muted-foreground transition-colors hover:text-foreground sm:size-9"
+        >
+          <Search className="size-4" aria-hidden="true" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Buscar telas e ações"
+          className={cn(
+            "group flex h-9 w-full items-center gap-2 rounded-xl border border-border bg-secondary/50 px-2.5 text-left text-[12px] text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground",
+          )}
+        >
+          <Search className="size-3.5 shrink-0" aria-hidden="true" />
+          <span className="truncate">Buscar…</span>
+          <kbd className="ml-auto hidden shrink-0 rounded-md border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-semibold lg:inline">
+            ⌘K
+          </kbd>
+        </button>
+      )}
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Buscar tela, relatório ou ação…" />
