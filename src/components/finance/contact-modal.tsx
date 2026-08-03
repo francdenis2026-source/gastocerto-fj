@@ -88,7 +88,7 @@ export function ContactModal({
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+          <form autoComplete="off" data-1p-ignore onSubmit={handleSubmit} className="space-y-4 pt-2">
             {error && (
               <div className="rounded-md bg-destructive/10 p-2.5 text-xs text-destructive animate-in fade-in slide-in-from-top-1">
                 {error}
