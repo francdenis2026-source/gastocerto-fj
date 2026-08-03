@@ -135,6 +135,14 @@ function KidSpacePage() {
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
 
+  // Preferência de tema exclusiva da criança (não altera a do responsável).
+  const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
+
+  const gender = (dependent as { gender?: string } | null | undefined)?.gender;
+  const isBoy = gender === "boy";
+  const isGirl = gender === "girl";
+  const accent = KID_ACCENTS[isBoy ? "boy" : isGirl ? "girl" : "neutral"];
+
   const fetchCardControl = useServerFn(getKidCardControl);
 
   const cardControl = useQuery({
