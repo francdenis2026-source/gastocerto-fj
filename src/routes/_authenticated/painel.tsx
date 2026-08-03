@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, Sparkles, Calendar as CalendarIcon, Search } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -65,6 +65,8 @@ import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcem
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
+import { getYearlyBalance } from "@/lib/yearly-balance.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 
 
@@ -221,8 +223,8 @@ function DashboardPage() {
           new Date(today.getFullYear(), today.getMonth(), 1),
       diffPercent:
         previousExpense > 0 ? ((totalExpense - previousExpense) / previousExpense) * 100 : 0,
-      expenses,
-      incomes,
+      incomes: incomes,
+      expenses: expenses,
     };
   }, [transactions, previousTransactions, budgets, period, range.days, today]);
 
@@ -858,6 +860,8 @@ function DashboardPage() {
                 ))}
               </section>
             ) : null}
+
+            <YearlyBalanceSection year={period.year} />
 
             <section className="grid gap-4 md:grid-cols-2">
               <ChartCard
