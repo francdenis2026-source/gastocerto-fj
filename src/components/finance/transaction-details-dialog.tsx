@@ -287,10 +287,18 @@ export function TransactionDetailsDialog({
               size="sm"
               variant="outline"
               className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
-              onClick={() => setConfirmDelete(true)}
+              title={permission.reason ?? undefined}
+              onClick={() => {
+                if (!permission.allowed) {
+                  toast.error("Exclusão não permitida", { description: permission.reason ?? undefined });
+                  return;
+                }
+                setConfirmDelete(true);
+              }}
             >
               <Trash2 className="mr-2 size-3.5" /> Excluir
             </Button>
+
 
             {onEdit ? (
               <Button
