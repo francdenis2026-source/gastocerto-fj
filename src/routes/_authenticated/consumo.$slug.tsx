@@ -128,10 +128,7 @@ function ServiceAreaPage() {
           description={area.description}
           actions={
             <div className="flex flex-wrap items-center gap-2">
-              <PeriodPicker
-                value={{ year, month }}
-                onChange={(next) => setPeriod(next)}
-              />
+              <PeriodPicker year={year} month={month} onChange={(next) => setPeriod(next)} />
               <Button size="sm" onClick={() => setDialogOpen(true)} className="gap-1.5">
                 <Plus className="size-4" /> Lançar
               </Button>
