@@ -141,10 +141,10 @@ const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
 };
 
 /** Valores positivos e negativos com contraste garantido nos dois temas. */
-const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-300";
+const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-400";
 const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
-const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-300";
-const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/10";
+const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-400 font-bold";
+const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/15";
 
 function KidSpacePage() {
   const navigate = useNavigate();
