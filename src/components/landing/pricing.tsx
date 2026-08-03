@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
