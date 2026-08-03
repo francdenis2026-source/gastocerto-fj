@@ -75,7 +75,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex items-center overflow-hidden bg-[oklch(0.15_0.026_252)] pt-[4.75rem] pb-8 text-white sm:min-h-[48svh] sm:max-h-[560px] sm:pt-20 lg:pt-24"
+      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-[4.75rem] pb-8 text-hero-fg sm:min-h-[48svh] sm:max-h-[560px] sm:pt-20 lg:pt-24"
     >
       <img
         src={heroBg}
@@ -100,28 +100,28 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.92),oklch(0.14_0.02_252/0.78)_50%,oklch(0.14_0.02_252/0.95))] backdrop-blur-[6px] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.95)_0%,oklch(0.13_0.02_252/0.78)_46%,oklch(0.14_0.02_252/0.32)_100%)] sm:backdrop-blur-[3px]"
+        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[6px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[3px]"
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[linear-gradient(180deg,transparent,oklch(0.15_0.026_252))]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[image:var(--hero-fade)]"
       />
 
       <div className="section-shell relative grid w-full items-center gap-6 lg:grid-cols-[1.06fr_1fr] lg:gap-10">
         <div className="min-w-0">
-          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase leading-tight tracking-[0.12em] text-white sm:tracking-[0.16em] sm:text-[12.5px]">
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-hero-border bg-hero-surface-soft px-2.5 py-1 text-[10px] font-semibold uppercase leading-tight tracking-[0.12em] text-hero-fg sm:tracking-[0.16em] sm:text-[12.5px]">
             <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
             <span className="min-w-0">Controle financeiro e tranquilidade sempre</span>
           </span>
 
-          <h1 className="font-display mt-3 text-[clamp(1.85rem,7.5vw,2.35rem)] font-extrabold leading-[1.06] tracking-[-0.03em] text-white [text-wrap:balance] sm:text-[2.7rem] sm:leading-[1.03] lg:text-[3.15rem]">
+          <h1 className="font-display mt-3 text-[clamp(1.85rem,7.5vw,2.35rem)] font-extrabold leading-[1.06] tracking-[-0.03em] text-hero-fg [text-wrap:balance] sm:text-[2.7rem] sm:leading-[1.03] lg:text-[3.15rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="text-[oklch(0.88_0.11_165)]">organizado e simples.</span>
+            <span className="text-hero-accent">organizado e simples.</span>
           </h1>
 
-          <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-white/90 sm:text-base">
+          <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-hero-fg-muted sm:text-base">
             Despesas, veículos, gás, cartões, Espaço Kids e um consultor com IA — organizados
             em módulos simples, rápidos de usar todos os dias.
           </p>
@@ -139,7 +139,7 @@ export function Hero() {
             <CodeAccessDialog>
               <Button
                 variant="outline"
-                className="h-12 w-full justify-center border-white/25 bg-white/[0.08] px-5 text-sm text-white hover:bg-white/[0.16] hover:text-white sm:h-11 sm:w-auto sm:px-6"
+                className="h-12 w-full justify-center border-hero-border-strong bg-hero-surface-soft px-5 text-sm text-hero-fg hover:bg-hero-surface hover:text-hero-fg sm:h-11 sm:w-auto sm:px-6"
               >
                 <KeyRound className="size-4 shrink-0" aria-hidden="true" />
                 <span className="truncate">Código de acesso</span>
@@ -155,9 +155,9 @@ export function Hero() {
                 >
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12.5px] font-semibold text-white transition-colors hover:border-white/35 hover:bg-white/[0.16] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-hero-border bg-hero-surface-soft px-2.5 py-1 text-[12.5px] font-semibold text-hero-fg transition-colors hover:border-hero-border-strong hover:bg-hero-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong"
                   >
-                    <mod.icon className="size-3.5 shrink-0 text-[oklch(0.85_0.11_165)]" aria-hidden="true" />
+                    <mod.icon className="size-3.5 shrink-0 text-hero-accent" aria-hidden="true" />
                     {mod.label}
                   </button>
                 </FeatureDetailDialog>
@@ -166,28 +166,28 @@ export function Hero() {
           </ul>
 
           {/* resumo compacto: aparece no lugar da arte no celular */}
-          <div className="mt-5 rounded-2xl border border-white/12 bg-[oklch(0.2_0.03_252/0.7)] p-3.5 backdrop-blur-sm lg:hidden">
+          <div className="mt-5 rounded-2xl border border-hero-border bg-hero-surface p-3.5 backdrop-blur-sm lg:hidden">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-hero-fg-muted">
                   Mês atual
                 </p>
-                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-bold text-white sm:text-xl">
+                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-bold text-hero-fg sm:text-xl">
                   {formatCurrency(3782.45)}
                 </p>
 
-                <p className="text-[12.5px] text-white/70">despesas consolidadas</p>
+                <p className="text-[12.5px] text-hero-fg-soft">despesas consolidadas</p>
               </div>
-              <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.06] px-2.5 py-2">
-                <RingChart className="size-9 shrink-0 text-[oklch(0.82_0.11_165)]" value={45} />
+              <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-2.5 py-2">
+                <RingChart className="size-9 shrink-0 text-hero-accent" value={45} />
                 <div className="min-w-0">
-                  <p className="text-[10px] text-white/70">Orçamento</p>
-                  <p className="tabular text-[13px] font-bold text-white">45%</p>
+                  <p className="text-[10px] text-hero-fg-soft">Orçamento</p>
+                  <p className="tabular text-[13px] font-bold text-hero-fg">45%</p>
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-2.5 py-2">
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/85">
+            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-2.5 py-2">
+              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-hero-fg-muted">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Despesas vs. mês anterior
               </span>
@@ -198,16 +198,16 @@ export function Hero() {
             </div>
           </div>
 
-          <dl className="mt-5 hidden grid-cols-3 gap-3 border-t border-white/10 pt-3 sm:grid">
+          <dl className="mt-5 hidden grid-cols-3 gap-3 border-t border-hero-border pt-3 sm:grid">
             {stats.map((stat) => (
               <div key={stat.label} className="min-w-0">
-                <dt className="truncate text-[10px] uppercase tracking-wide text-white/70 sm:text-[12.5px]">
+                <dt className="truncate text-[10px] uppercase tracking-wide text-hero-fg-soft sm:text-[12.5px]">
                   {stat.label}
                 </dt>
-                <dd className="tabular mt-0.5 truncate text-sm font-bold text-white sm:text-base">
+                <dd className="tabular mt-0.5 truncate text-sm font-bold text-hero-fg sm:text-base">
                   {stat.value}
                 </dd>
-                <p className="truncate text-[12.5px] text-white/75">{stat.hint}</p>
+                <p className="truncate text-[12.5px] text-hero-fg-soft">{stat.hint}</p>
               </div>
             ))}
           </dl>
@@ -215,14 +215,14 @@ export function Hero() {
 
         <div className="relative hidden pt-8 lg:block">
           <div className="relative origin-top scale-[0.58] text-foreground -mb-[34%] xl:-mb-[30%] xl:scale-[0.63]">
-            <Suspense fallback={<div className="h-[420px] rounded-2xl bg-white/5" />}>
+            <Suspense fallback={<div className="h-[420px] rounded-2xl bg-hero-surface-soft" />}>
               <DashboardPreview />
             </Suspense>
           </div>
 
-          <div className="absolute -left-8 bottom-14 w-44 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
+          <div className="absolute -left-8 bottom-14 w-44 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm">
             <div className="flex items-center justify-between text-[12.5px]">
-              <span className="inline-flex items-center gap-1.5 font-medium text-white/85">
+              <span className="inline-flex items-center gap-1.5 font-medium text-hero-fg-muted">
                 <TrendingDown className="size-3.5 text-success" aria-hidden="true" />
                 Despesas
               </span>
@@ -231,11 +231,11 @@ export function Hero() {
             <Sparkline className="mt-2 h-12 w-full text-success" />
           </div>
 
-          <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-white/12 bg-[oklch(0.19_0.028_252/0.9)] p-3 backdrop-blur-sm">
-            <RingChart className="size-12 shrink-0 text-[oklch(0.82_0.11_165)]" value={45} />
+          <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm">
+            <RingChart className="size-12 shrink-0 text-hero-accent" value={45} />
             <div className="min-w-0">
-              <p className="text-[12.5px] text-white/70">Orçamento</p>
-              <p className="tabular text-sm font-bold text-white">45% usado</p>
+              <p className="text-[12.5px] text-hero-fg-soft">Orçamento</p>
+              <p className="tabular text-sm font-bold text-hero-fg">45% usado</p>
             </div>
           </div>
         </div>
