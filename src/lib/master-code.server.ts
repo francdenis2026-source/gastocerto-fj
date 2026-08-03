@@ -6,9 +6,33 @@ const SETTINGS_KEY = "admin_master_code";
 export type MasterCodeSettings = {
   hash?: string;
   salt?: string;
+  /** Cópia legível para exibição no painel do administrador. */
+  plain?: string;
   updated_at?: string;
   updated_by?: string;
 };
+
+/** Gera um código mestre aleatório e fácil de digitar. */
+export function generateCodeValue(): string {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = randomBytes(12);
+  let out = "";
+  for (let i = 0; i < 12; i += 1) {
+    if (i > 0 && i % 4 === 0) out += "-";
+    out += alphabet[bytes[i]! % alphabet.length];
+  }
+  return out;
+}
+
+/** Código mestre em texto para exibição (banco ou segredo de ambiente). */
+export async function revealMasterCodeValue(): Promise<{ code: string | null; source: "custom" | "env" | "none" }> {
+  const settings = await readMasterCodeSettings();
+  if (settings?.plain) return { code: settings.plain, source: "custom" };
+  if (settings?.hash) return { code: null, source: "custom" };
+  const envCode = (process.env["ADMIN_MASTER_CODE"] ?? "").trim();
+  if (envCode) return { code: envCode, source: "env" };
+  return { code: null, source: "none" };
+}
 
 function hashCode(code: string, salt: string) {
   return createHash("sha256").update(`${salt}:${code}`).digest("hex");
@@ -59,6 +83,7 @@ export async function writeMasterCode(newCode: string, actorId: string) {
   const payload: MasterCodeSettings = {
     hash: hashCode(newCode.trim(), salt),
     salt,
+    plain: newCode.trim(),
     updated_at: new Date().toISOString(),
     updated_by: actorId,
   };

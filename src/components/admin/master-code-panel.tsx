@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { KeyRound, Loader2, ShieldCheck } from "lucide-react";
+import { Copy, Eye, EyeOff, KeyRound, Loader2, RefreshCw, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -8,7 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatDateTime } from "@/lib/format";
-import { getMasterCodeStatus, resetMasterCode } from "@/lib/master-code.functions";
+import {
+  generateMasterCode,
+  getMasterCodeStatus,
+  resetMasterCode,
+  revealMasterCode,
+} from "@/lib/master-code.functions";
 
 /** Redefinição segura do código mestre usado nas ações críticas do painel. */
 export function MasterCodePanel() {
@@ -18,12 +23,34 @@ export function MasterCodePanel() {
     queryFn: () => getMasterCodeStatus(),
   });
   const reset = useServerFn(resetMasterCode);
+  const reveal = useServerFn(revealMasterCode);
+  const generate = useServerFn(generateMasterCode);
 
   const [currentCode, setCurrentCode] = useState("");
   const [newCode, setNewCode] = useState("");
   const [confirmCode, setConfirmCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
+  const [visibleCode, setVisibleCode] = useState<string | null>(null);
+
+  const revealMutation = useMutation({
+    mutationFn: () => reveal(),
+    onSuccess: (result) => {
+      if (result.code) setVisibleCode(result.code);
+      else toast.info("Este código foi salvo apenas como hash. Gere um novo para poder visualizá-lo.");
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível exibir o código."),
+  });
+
+  const generateMutation = useMutation({
+    mutationFn: () => generate(),
+    onSuccess: (result) => {
+      setVisibleCode(result.code);
+      toast.success("Novo código mestre gerado e salvo.");
+      void queryClient.invalidateQueries({ queryKey: ["admin", "master-code-status"] });
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível gerar o código."),
+  });
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -41,6 +68,7 @@ export function MasterCodePanel() {
     },
     onError: (error: Error) => toast.error(error.message || "Não foi possível redefinir o código."),
   });
+
 
   return (
     <section className="rounded-2xl border border-border bg-card p-4">
@@ -74,6 +102,63 @@ export function MasterCodePanel() {
           </span>
         )}
       </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-border/70 bg-background p-3">
+        <code className="min-w-[9rem] rounded-md bg-muted px-3 py-1.5 font-mono text-sm tracking-widest">
+          {visibleCode ?? "••••-••••-••••"}
+        </code>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          className="h-9"
+          disabled={revealMutation.isPending}
+          onClick={() => (visibleCode ? setVisibleCode(null) : revealMutation.mutate())}
+        >
+          {revealMutation.isPending ? (
+            <Loader2 className="size-4 animate-spin mr-2" />
+          ) : visibleCode ? (
+            <EyeOff className="size-4 mr-2" />
+          ) : (
+            <Eye className="size-4 mr-2" />
+          )}
+          {visibleCode ? "Ocultar" : "Mostrar código"}
+        </Button>
+        {visibleCode ? (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="h-9"
+            onClick={() => {
+              void navigator.clipboard.writeText(visibleCode);
+              toast.success("Código copiado.");
+            }}
+          >
+            <Copy className="size-4 mr-2" />
+            Copiar
+          </Button>
+        ) : null}
+        <Button
+          type="button"
+          size="sm"
+          className="h-9"
+          disabled={generateMutation.isPending}
+          onClick={() => {
+            if (!window.confirm("Gerar um novo código mestre? O código atual deixará de funcionar.")) return;
+            generateMutation.mutate();
+          }}
+        >
+          {generateMutation.isPending ? (
+            <Loader2 className="size-4 animate-spin mr-2" />
+          ) : (
+            <RefreshCw className="size-4 mr-2" />
+          )}
+          Gerar novo código
+        </Button>
+      </div>
+
+
 
       <form
         className="mt-3 grid gap-3 md:grid-cols-2"
