@@ -341,7 +341,7 @@ function KidSpacePage() {
                 { income, expense, balance, count: rows.length },
                 { 
                   kidName: dependent.name, 
-                  periodLabel: viewYearly ? `Ano ${selectedYear}` : `${MONTH_NAMES[selectedMonth].toUpperCase()} ${selectedYear}`,
+                  periodLabel: viewYearly ? `Ano ${selectedYear}` : `${MONTH_NAMES[selectedMonth]} ${selectedYear}`,
                   typeLabel: "Todos os registros"
                 }
               );
