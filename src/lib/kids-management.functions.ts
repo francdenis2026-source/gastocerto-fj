@@ -92,14 +92,19 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     const userId = context.userId;
     const { dependentId, month, year } = data;
 
+    const start = year && month ? `${year}-${String(month).padStart(2, "0")}-01` : null;
+    const end =
+      year && month
+        ? `${new Date(year, month, 0).toISOString().split("T")[0]}T23:59:59`
+        : null;
+
     let query = supabaseAdmin
       .from("transactions")
       .select("id, amount, description, transaction_date, tags, transaction_type, status")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .is("deleted_at", null);
 
-    if (year && month) {
-      const start = `${year}-${String(month).padStart(2, '0')}-01`;
-      const end = new Date(year, month, 0).toISOString().split('T')[0] + 'T23:59:59';
+    if (start && end) {
       query = query.gte("transaction_date", start).lte("transaction_date", end);
     }
 
@@ -107,18 +112,74 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     if (error) throw error;
 
     // Filter in JS to simplify complex tag logic for both auto_kids and kids_management
-    const filtered = (transactions || []).filter(tx => {
+    const parentRows = (transactions || []).filter(tx => {
       const tags = tx.tags || [];
       const isKidTx = tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("kid_self_expense") || tags.includes("from_parent");
       if (!isKidTx) return false;
-      
+
       // Gastos da própria criança (kid_self_expense) são informativos para o pai
       // Não entram nos cálculos de saldo do pai porque não têm user_id do pai diretamente impactando caixa
-      // A menos que explicitamente configurado.
-      
+
       if (dependentId) return tags.includes(`dependente:${dependentId}`) || (tx as any).dependent_id === dependentId;
       return true;
     });
 
-    return filtered;
+    /**
+     * Gastos lançados pela própria criança ficam na conta dela (user_id do
+     * filho), então precisamos buscá-los separadamente para o responsável ver
+     * em tempo real. São informativos: não entram no caixa do responsável.
+     */
+    let kidsQuery = supabaseAdmin
+      .from("dependents")
+      .select("id, name, kid_user_id")
+      .eq("user_id", userId)
+      .not("kid_user_id", "is", null);
+    if (dependentId) kidsQuery = kidsQuery.eq("id", dependentId);
+
+    const { data: kids } = await kidsQuery;
+    const kidMap = new Map<string, { dependentId: string; name: string }>();
+    for (const kid of kids ?? []) {
+      if (kid.kid_user_id) kidMap.set(kid.kid_user_id, { dependentId: kid.id, name: kid.name });
+    }
+
+    let kidRows: typeof parentRows = [];
+    if (kidMap.size > 0) {
+      let selfQuery = supabaseAdmin
+        .from("transactions")
+        .select("id, amount, description, transaction_date, tags, transaction_type, status, user_id")
+        .in("user_id", [...kidMap.keys()])
+        .is("deleted_at", null);
+
+      if (start && end) {
+        selfQuery = selfQuery.gte("transaction_date", start).lte("transaction_date", end);
+      }
+
+      const { data: selfRows } = await selfQuery;
+
+      kidRows = (selfRows ?? [])
+        .filter((tx) => {
+          const tags = tx.tags ?? [];
+          // Apenas o que a criança lançou por conta própria (espelhos ficam de fora).
+          return !tags.includes("from_parent") && !tags.some((t) => t.startsWith("origin:"));
+        })
+        .map((tx) => {
+          const kid = kidMap.get((tx as any).user_id as string);
+          const tags = new Set(tx.tags ?? []);
+          tags.add("kid_self_expense");
+          if (kid) tags.add(`dependente:${kid.dependentId}`);
+          return {
+            id: tx.id,
+            amount: Number(tx.amount),
+            description: tx.description,
+            transaction_date: tx.transaction_date,
+            transaction_type: tx.transaction_type,
+            status: tx.status,
+            tags: [...tags],
+          } as (typeof parentRows)[number];
+        });
+    }
+
+    return [...parentRows, ...kidRows].sort((a, b) =>
+      b.transaction_date.localeCompare(a.transaction_date),
+    );
   });

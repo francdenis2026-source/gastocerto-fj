@@ -86,11 +86,11 @@ import { PAYMENT_METHODS, TRANSACTION_STATUS, labelFor, monthRange, periodDefaul
 import { useCategories } from "@/lib/queries";
 import { useVehicles } from "@/lib/vehicles";
 import {
-  useDeleteTransaction,
   useSaveTransaction,
   useTransactions,
   type Transaction,
 } from "@/lib/transactions";
+import { useUndoableDelete } from "@/lib/undo-delete";
 
 export const Route = createFileRoute("/_authenticated/lancamentos")({
   head: () => ({
@@ -222,7 +222,7 @@ function TransactionsPage() {
   const { data: transactions, isLoading } = useTransactions(range);
   const { data: categories } = useCategories();
   const save = useSaveTransaction();
-  const remove = useDeleteTransaction();
+  const { requestDelete, pending: removePending } = useUndoableDelete();
 
   const [search, setSearch] = useState("");
   const [merchantFilter, setMerchantFilter] = useState("");
@@ -428,17 +428,10 @@ function TransactionsPage() {
   }
 
   async function handleDelete(ids: string[]) {
-    try {
-      await remove.mutateAsync(ids);
+    const done = await requestDelete(ids);
+    if (done) {
       setSelected([]);
       setConfirmDelete(null);
-      toast.success(ids.length > 1 ? "Lançamentos excluídos." : "Lançamento excluído.");
-    } catch (error) {
-      console.error("[lancamentos] falha ao excluir", error);
-      const message =
-        (error as { message?: string })?.message ??
-        "Verifique sua conexão e tente novamente.";
-      toast.error("Não foi possível excluir", { description: message });
     }
   }
 
@@ -1368,7 +1361,7 @@ function TransactionsPage() {
             ? `${confirmDelete.length} lançamentos selecionados`
             : (filtered.find((row) => row.id === confirmDelete?.[0])?.description ?? null)
         }
-        pending={remove.isPending}
+        pending={removePending}
         onConfirm={() => confirmDelete && handleDelete(confirmDelete)}
       />
 

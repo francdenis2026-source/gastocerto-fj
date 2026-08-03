@@ -16,7 +16,8 @@ import { categoryIcon } from "@/lib/category-icons";
 import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/lib/finance";
 import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
 import { NOTE_FIELD_LABEL, useNoteHistory } from "@/lib/transaction-notes";
-import { useDeleteTransaction, type Category, type Transaction } from "@/lib/transactions";
+import { type Category, type Transaction } from "@/lib/transactions";
+import { useUndoableDelete } from "@/lib/undo-delete";
 
 
 export type MetricDetail = {
@@ -200,7 +201,10 @@ export function MetricDetailDialog({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [removedIds, setRemovedIds] = useState<string[]>([]);
   const [pendingDelete, setPendingDelete] = useState<Transaction | null>(null);
-  const deleteTransaction = useDeleteTransaction();
+  const { requestDelete, pending: deletePending, permission } = useUndoableDelete({
+    onOptimisticRemove: (ids) => setRemovedIds((current) => [...new Set([...current, ...ids])]),
+    onRollback: (ids) => setRemovedIds((current) => current.filter((id) => !ids.includes(id))),
+  });
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -245,17 +249,12 @@ export function MetricDetailDialog({
 
   async function confirmDelete() {
     if (!pendingDelete) return;
-    try {
-      await deleteTransaction.mutateAsync([pendingDelete.id]);
-      setRemovedIds((current) => [...current, pendingDelete.id]);
-      setSelectedId((current) => (current === pendingDelete.id ? null : current));
-      setPendingDelete(null);
-      toast.success("Lançamento excluído");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível excluir");
-    }
+    const target = pendingDelete;
+    setPendingDelete(null);
+    setSelectedId((current) => (current === target.id ? null : current));
+    // A remoção otimista (e o rollback em caso de falha) fica com o hook.
+    await requestDelete([target.id], target.description);
   }
-
 
   function moveFocus(delta: number, currentIndex: number) {
     const buttons = listRef.current?.querySelectorAll<HTMLButtonElement>("[data-row-button]");
@@ -418,9 +417,17 @@ export function MetricDetailDialog({
                           <button
                             type="button"
                             aria-label={`Excluir ${row.description}`}
-                            title="Excluir lançamento"
                             className="shrink-0 px-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            onClick={() => setPendingDelete(row)}
+                            title={permission.reason ?? "Excluir lançamento"}
+                            onClick={() => {
+                              if (!permission.allowed) {
+                                toast.error("Exclusão não permitida", {
+                                  description: permission.reason ?? undefined,
+                                });
+                                return;
+                              }
+                              setPendingDelete(row);
+                            }}
                           >
                             <Trash2 className="size-3.5" />
                           </button>
@@ -431,7 +438,15 @@ export function MetricDetailDialog({
                               transaction={row}
                               categoryName={category?.name}
                               onEdit={onEditTransaction}
-                              onRequestDelete={setPendingDelete}
+                              onRequestDelete={(tx) => {
+                                if (!permission.allowed) {
+                                  toast.error("Exclusão não permitida", {
+                                    description: permission.reason ?? undefined,
+                                  });
+                                  return;
+                                }
+                                setPendingDelete(tx);
+                              }}
                             />
                           </div>
                         ) : null}
@@ -456,14 +471,14 @@ export function MetricDetailDialog({
           if (!value) setPendingDelete(null);
         }}
         title="Excluir este lançamento?"
-        description="O valor sai na hora deste detalhamento, dos gráficos, dos totais e do saldo do período."
+        description="O valor sai na hora deste detalhamento, dos gráficos, dos totais e do saldo do período. Você pode desfazer por até 10 minutos."
         itemLabel={pendingDelete?.description ?? null}
         amountLabel={
           pendingDelete
             ? `${pendingDelete.transaction_type === "income" ? "+" : "−"} ${formatCurrency(Number(pendingDelete.amount))}`
             : null
         }
-        pending={deleteTransaction.isPending}
+        pending={deletePending}
         onConfirm={confirmDelete}
       />
     </Dialog>
