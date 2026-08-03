@@ -649,7 +649,93 @@ function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[1fr_380px] mt-6">
+          <div className="grid gap-6 lg:grid-cols-[340px_1fr_360px] mt-6">
+            <aside className="hidden lg:block space-y-6">
+              <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="size-8 rounded-lg bg-brand/10 flex items-center justify-center">
+                    <Sparkles className="size-4 text-brand" />
+                  </div>
+                  <h2 className="text-sm font-black tracking-tight">Insights Rápidos</h2>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="p-3 rounded-xl bg-muted/30 border border-border/50">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Resumo do Mês</p>
+                    <div className="flex items-end justify-between">
+                      <p className={cn("text-lg font-black", metrics.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                        {formatCurrency(metrics.balance)}
+                      </p>
+                      <span className="text-[10px] text-muted-foreground font-medium">Líquido</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase px-1">Alertas do Mês</p>
+                    {metrics.usedPercent > 90 ? (
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                        <AlertTriangle className="size-4 text-rose-500 shrink-0 mt-0.5" />
+                        <p className="text-[10px] leading-tight text-rose-600 font-bold">
+                          Você atingiu {metrics.usedPercent.toFixed(1)}% do seu orçamento. Considere frear gastos não essenciais.
+                        </p>
+                      </div>
+                    ) : metrics.usedPercent > 75 ? (
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                        <AlertTriangle className="size-4 text-amber-600 shrink-0 mt-0.5" />
+                        <p className="text-[10px] leading-tight text-amber-700 font-bold">
+                          Atenção: Orçamento em {metrics.usedPercent.toFixed(1)}%. Mantenha o foco até o fechamento.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                        <CheckSquare className="size-4 text-emerald-500 shrink-0 mt-0.5" />
+                        <p className="text-[10px] leading-tight text-emerald-700 font-bold">
+                          Orçamento sob controle ({metrics.usedPercent.toFixed(1)}%). Ótimo trabalho!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-2">
+                    <StatTile
+                      tone="neutral"
+                      label="Projeção de Fim de Mês"
+                      value={formatCurrency(metrics.projection)}
+                      className="!p-3 border-none bg-muted/20 shadow-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Evolução do Saldo</h3>
+                <div className="h-[140px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={byDay}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.3} />
+                      <XAxis dataKey="day" hide />
+                      <YAxis hide domain={['auto', 'auto']} />
+                      <Tooltip content={() => null} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="receita" 
+                        stroke="var(--success)" 
+                        strokeWidth={2} 
+                        dot={false} 
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="gasto" 
+                        stroke="var(--expense)" 
+                        strokeWidth={2} 
+                        dot={false} 
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </aside>
+
             <div className="space-y-6">
               <div className="grid gap-3 auto-cards-sm">
                 <StatTile
