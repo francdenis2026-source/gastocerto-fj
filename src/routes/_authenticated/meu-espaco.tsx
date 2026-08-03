@@ -311,7 +311,6 @@ function KidSpacePage() {
     : 0;
   const balance = income - expense;
   const firstName = (dependent.nickname || dependent.name).split(" ")[0];
-  // O responsável escolhe o que aparece aqui (painel /kids).
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
 
