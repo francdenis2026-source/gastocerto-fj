@@ -60,7 +60,19 @@ export function AppShell({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return false;
     return localStorage.getItem("gc:sidebar-collapsed") === "true";
   });
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("gc:sidebar-expanded-group");
+  });
+
+  const handleSetExpanded = (val: string | null) => {
+    setExpanded(val);
+    if (val) {
+      localStorage.setItem("gc:sidebar-expanded-group", val);
+    } else {
+      localStorage.removeItem("gc:sidebar-expanded-group");
+    }
+  };
 
   const toggleRail = () => {
     setRailCollapsed((prev) => {
@@ -272,7 +284,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            setExpanded((prev) => (prev === item.key ? "" : item.key));
+                            handleSetExpanded(expanded === item.key ? null : item.key);
                           }}
                           aria-expanded={isOpen}
                           aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
