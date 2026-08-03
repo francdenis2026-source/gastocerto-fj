@@ -446,7 +446,7 @@ function KidSpacePage() {
       )}>
 
         <div className="flex min-w-0 items-center gap-3">
-          <Avatar className={cn("size-12 border border-border shadow-sm ring-2", accent.ring)}>
+          <Avatar className={cn("size-10 sm:size-12 border border-border shadow-sm ring-2", accent.ring)}>
             {avatarUrl ? (
               <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
             ) : null}
