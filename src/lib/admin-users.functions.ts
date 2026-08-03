@@ -298,7 +298,7 @@ export const adminPromoteToPaid = createServerFn({ method: "POST" })
       console.error("[admin] erro ao promover conta:", error);
       // Se for erro de permissão (42501), o service_role deveria ter resolvido, mas garantimos uma mensagem clara
       if (error.code === '42501') {
-        throw new Error("Erro de permissão: A ação foi negada pelo banco de dados. Verifique os GRANTs da tabela profiles.");
+        throw new Error("Erro de permissão: A ação foi negada pelo banco de dados. Verifique se as permissões (GRANT) na tabela profiles estão corretas para o papel service_role.");
       }
       throw new Error(`Erro no banco de dados: ${error.message} (Código: ${error.code})`);
     }
