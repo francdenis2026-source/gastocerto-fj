@@ -1,8 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
+import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
+import { useKidsAppMode } from "@/lib/kids-pwa";
+
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -135,8 +137,12 @@ function KidSpacePage() {
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
 
+  // Modo aplicativo/offline exclusivo do Espaço Kids.
+  const { canInstall, online, install } = useKidsAppMode();
+
   // Preferência de tema exclusiva da criança (não altera a do responsável).
   const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
+
 
   const gender = (dependent as { gender?: string } | null | undefined)?.gender;
   const isBoy = gender === "boy";
@@ -335,6 +341,23 @@ function KidSpacePage() {
           </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
+          {!online ? (
+            <span className="hidden items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold text-amber-700 dark:text-amber-300 sm:inline-flex">
+              <WifiOff className="size-3" aria-hidden="true" /> Modo offline
+            </span>
+          ) : null}
+          {canInstall ? (
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 px-2 text-xs font-medium sm:px-3"
+              onClick={() => void install()}
+              title="Instalar o Meu Espaço como aplicativo"
+            >
+              <Download className="mr-1.5 size-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Instalar app</span>
+            </Button>
+          ) : null}
           <Button
             variant="ghost"
             size="icon"
@@ -350,6 +373,7 @@ function KidSpacePage() {
             )}
           </Button>
           <NotificationCenter isKid />
+
           <Button
             variant="ghost"
             size="sm"
