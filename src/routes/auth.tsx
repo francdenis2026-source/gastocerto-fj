@@ -513,12 +513,16 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="login-cpf">CPF</Label>
-        <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
+        <div className="mt-1">
+          <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        </div>
       </div>
       <div>
-        <Label htmlFor="login-pin">Senha (6 dígitos)</Label>
-        <PinInput id="login-pin" name="pin" autoComplete="current-password" />
+        <Label htmlFor="login-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
+        <div className="mt-1">
+          <PinInput id="login-pin" name="pin" autoComplete="current-password" />
+        </div>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
