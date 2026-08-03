@@ -1,0 +1,151 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { KeyRound, Loader2, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { formatDateTime } from "@/lib/format";
+import { getMasterCodeStatus, resetMasterCode } from "@/lib/master-code.functions";
+
+/** Redefinição segura do código mestre usado nas ações críticas do painel. */
+export function MasterCodePanel() {
+  const queryClient = useQueryClient();
+  const status = useQuery({
+    queryKey: ["admin", "master-code-status"],
+    queryFn: () => getMasterCodeStatus(),
+  });
+  const reset = useServerFn(resetMasterCode);
+
+  const [currentCode, setCurrentCode] = useState("");
+  const [newCode, setNewCode] = useState("");
+  const [confirmCode, setConfirmCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmation, setConfirmation] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: () =>
+      reset({
+        data: { currentCode, newCode, confirmCode, password, confirmation },
+      }),
+    onSuccess: () => {
+      toast.success("Código mestre redefinido com segurança.");
+      setCurrentCode("");
+      setNewCode("");
+      setConfirmCode("");
+      setPassword("");
+      setConfirmation("");
+      void queryClient.invalidateQueries({ queryKey: ["admin", "master-code-status"] });
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível redefinir o código."),
+  });
+
+  return (
+    <section className="rounded-2xl border border-border bg-card p-4">
+      <header className="flex items-center gap-3">
+        <span className="flex size-9 items-center justify-center rounded-xl bg-brand-light/10">
+          <KeyRound className="size-4 text-brand-light" aria-hidden />
+        </span>
+        <div>
+          <h2 className="text-sm font-semibold">Código mestre administrativo</h2>
+          <p className="text-xs text-muted-foreground">
+            Exigido para bloquear, promover ou excluir contas. Guardado apenas como hash seguro.
+          </p>
+        </div>
+      </header>
+
+      <div className="mt-3 rounded-lg border border-border/70 bg-muted/40 p-3 text-xs text-muted-foreground">
+        {status.isLoading ? (
+          <span className="flex items-center gap-2">
+            <Loader2 className="size-3.5 animate-spin" /> Verificando…
+          </span>
+        ) : status.data?.isCustom ? (
+          <span className="flex items-center gap-2">
+            <ShieldCheck className="size-3.5 text-emerald-600" />
+            Código personalizado ativo
+            {status.data.updatedAt ? ` · atualizado em ${formatDateTime(status.data.updatedAt)}` : ""}
+          </span>
+        ) : (
+          <span>
+            Ainda usando o código padrão do ambiente (segredo <strong>ADMIN_MASTER_CODE</strong>).
+            Redefina abaixo para criar um código exclusivo seu.
+          </span>
+        )}
+      </div>
+
+      <form
+        className="mt-3 grid gap-3 md:grid-cols-2"
+        onSubmit={(event) => {
+          event.preventDefault();
+          mutation.mutate();
+        }}
+      >
+        <div className="space-y-1">
+          <Label htmlFor="mc-current" className="text-xs">Código mestre atual</Label>
+          <Input
+            id="mc-current"
+            type="password"
+            autoComplete="off"
+            value={currentCode}
+            onChange={(event) => setCurrentCode(event.target.value)}
+            className="h-9"
+          />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="mc-password" className="text-xs">Senha da sua conta de admin</Label>
+          <Input
+            id="mc-password"
+            type="password"
+            autoComplete="off"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            className="h-9"
+          />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="mc-new" className="text-xs">Novo código (mín. 8 caracteres)</Label>
+          <Input
+            id="mc-new"
+            type="password"
+            autoComplete="new-password"
+            value={newCode}
+            onChange={(event) => setNewCode(event.target.value)}
+            className="h-9"
+          />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="mc-confirm" className="text-xs">Confirmar novo código</Label>
+          <Input
+            id="mc-confirm"
+            type="password"
+            autoComplete="new-password"
+            value={confirmCode}
+            onChange={(event) => setConfirmCode(event.target.value)}
+            className="h-9"
+          />
+        </div>
+        <div className="space-y-1 md:col-span-2">
+          <Label htmlFor="mc-phrase" className="text-xs">
+            Digite <strong>REDEFINIR</strong> para confirmar
+          </Label>
+          <Input
+            id="mc-phrase"
+            autoComplete="off"
+            value={confirmation}
+            onChange={(event) => setConfirmation(event.target.value)}
+            className="h-9"
+            placeholder="REDEFINIR"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <Button type="submit" size="sm" disabled={mutation.isPending} className="h-9">
+            {mutation.isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : null}
+            Redefinir código mestre
+          </Button>
+        </div>
+      </form>
+    </section>
+  );
+}
