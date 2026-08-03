@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarDays, ChevronRight, History, NotebookPen, Pencil, Plus } from "lucide-react";
+import { CalendarDays, ChevronRight, History, NotebookPen, Pencil, Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
+import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +16,8 @@ import { categoryIcon } from "@/lib/category-icons";
 import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/lib/finance";
 import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
 import { NOTE_FIELD_LABEL, useNoteHistory } from "@/lib/transaction-notes";
-import type { Category, Transaction } from "@/lib/transactions";
+import { useDeleteTransaction, type Category, type Transaction } from "@/lib/transactions";
+
 
 export type MetricDetail = {
   label: string;
@@ -58,11 +61,14 @@ function TransactionPanel({
   transaction,
   categoryName,
   onEdit,
+  onRequestDelete,
 }: {
   transaction: Transaction;
   categoryName?: string;
   onEdit?: (transaction: Transaction) => void;
+  onRequestDelete?: (transaction: Transaction) => void;
 }) {
+
   const { data: history } = useNoteHistory(transaction.id, true);
   const isIncome = transaction.transaction_type === "income";
 
@@ -146,11 +152,24 @@ function TransactionPanel({
         )}
       </div>
 
-      {onEdit ? (
-        <Button size="sm" className="mt-3 w-full sm:w-auto" onClick={() => onEdit(transaction)}>
-          <Pencil className="mr-2 size-3.5" /> Editar este lançamento
-        </Button>
-      ) : null}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {onEdit ? (
+          <Button size="sm" onClick={() => onEdit(transaction)}>
+            <Pencil className="mr-2 size-3.5" /> Editar este lançamento
+          </Button>
+        ) : null}
+        {onRequestDelete ? (
+          <Button
+            size="sm"
+            variant="outline"
+            className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            onClick={() => onRequestDelete(transaction)}
+          >
+            <Trash2 className="mr-2 size-3.5" /> Excluir
+          </Button>
+        ) : null}
+      </div>
+
     </div>
   );
 }
@@ -179,16 +198,26 @@ export function MetricDetailDialog({
 }) {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [removedIds, setRemovedIds] = useState<string[]>([]);
+  const [pendingDelete, setPendingDelete] = useState<Transaction | null>(null);
+  const deleteTransaction = useDeleteTransaction();
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     setSelectedId(null);
+    setRemovedIds([]);
+    setPendingDelete(null);
   }, [detail]);
 
+  /** Lançamentos visíveis: remove em tempo real os que acabaram de ser excluídos. */
+  const visibleRows = useMemo(
+    () => (detail?.rows ?? []).filter((row) => !removedIds.includes(row.id)),
+    [detail, removedIds],
+  );
+
   const byCategory = useMemo(() => {
-    if (!detail) return [];
     const map = new Map<string, { name: string; color?: string | null; icon?: string | null; total: number }>();
-    for (const row of detail.rows) {
+    for (const row of visibleRows) {
       const category = categories.find((item) => item.id === row.category_id);
       const key = category?.id ?? "none";
       const current = map.get(key) ?? {
@@ -201,18 +230,32 @@ export function MetricDetailDialog({
       map.set(key, current);
     }
     return [...map.values()].sort((a, b) => b.total - a.total);
-  }, [detail, categories]);
+  }, [visibleRows, categories]);
 
   const maxTotal = byCategory[0]?.total ?? 0;
 
   const rows = useMemo(
     () =>
-      (detail?.rows ?? [])
+      visibleRows
         .slice()
         .sort((a, b) => b.transaction_date.localeCompare(a.transaction_date))
         .slice(0, 40),
-    [detail],
+    [visibleRows],
   );
+
+  async function confirmDelete() {
+    if (!pendingDelete) return;
+    try {
+      await deleteTransaction.mutateAsync([pendingDelete.id]);
+      setRemovedIds((current) => [...current, pendingDelete.id]);
+      setSelectedId((current) => (current === pendingDelete.id ? null : current));
+      setPendingDelete(null);
+      toast.success("Lançamento excluído");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Não foi possível excluir");
+    }
+  }
+
 
   function moveFocus(delta: number, currentIndex: number) {
     const buttons = listRef.current?.querySelectorAll<HTMLButtonElement>("[data-row-button]");
@@ -306,7 +349,7 @@ export function MetricDetailDialog({
 
             <section>
               <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Lançamentos ({detail.rows.length})
+                Lançamentos ({visibleRows.length})
               </h3>
               <p className="mt-1 text-[11px] text-muted-foreground">
                 Use Tab e as setas ↑ ↓ para percorrer, Enter para ver os detalhes e Esc para fechar.
@@ -325,58 +368,70 @@ export function MetricDetailDialog({
                     const category = categories.find((item) => item.id === row.category_id);
                     return (
                       <li key={row.id}>
-                        <button
-                          type="button"
-                          data-row-button
-                          aria-expanded={expanded}
-                          className="flex w-full items-center justify-between gap-2 p-2.5 text-left text-xs transition-colors hover:bg-muted/60 focus-visible:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                          onClick={() => setSelectedId(expanded ? null : row.id)}
-                          onKeyDown={(event) => {
-                            if (event.key === "ArrowDown") {
-                              event.preventDefault();
-                              moveFocus(1, index);
-                            } else if (event.key === "ArrowUp") {
-                              event.preventDefault();
-                              moveFocus(-1, index);
-                            } else if (event.key === "Home") {
-                              event.preventDefault();
-                              moveFocus(-rows.length, index);
-                            } else if (event.key === "End") {
-                              event.preventDefault();
-                              moveFocus(rows.length, index);
-                            }
-                          }}
-                        >
-                          <span className="min-w-0">
-                            <span className="block truncate font-medium">{row.description}</span>
-                            <span className="text-[10px] text-muted-foreground">
-                              {formatDate(`${row.transaction_date}T12:00:00`)}
-                              {row.payment_method
-                                ? ` · ${labelFor(PAYMENT_METHODS, row.payment_method)}`
-                                : ""}
-                            </span>
-                          </span>
-                          <span className="flex shrink-0 items-center gap-1.5">
-                            <span
-                              className={
-                                row.transaction_type === "income"
-                                  ? "font-semibold tabular-nums text-income"
-                                  : "font-semibold tabular-nums"
+                        <div className="flex items-stretch">
+                          <button
+                            type="button"
+                            data-row-button
+                            aria-expanded={expanded}
+                            className="flex min-w-0 flex-1 items-center justify-between gap-2 p-2.5 text-left text-xs transition-colors hover:bg-muted/60 focus-visible:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            onClick={() => setSelectedId(expanded ? null : row.id)}
+                            onKeyDown={(event) => {
+                              if (event.key === "ArrowDown") {
+                                event.preventDefault();
+                                moveFocus(1, index);
+                              } else if (event.key === "ArrowUp") {
+                                event.preventDefault();
+                                moveFocus(-1, index);
+                              } else if (event.key === "Home") {
+                                event.preventDefault();
+                                moveFocus(-rows.length, index);
+                              } else if (event.key === "End") {
+                                event.preventDefault();
+                                moveFocus(rows.length, index);
                               }
-                            >
-                              {formatCurrency(Number(row.amount))}
+                            }}
+                          >
+                            <span className="min-w-0">
+                              <span className="block truncate font-medium">{row.description}</span>
+                              <span className="text-[10px] text-muted-foreground">
+                                {formatDate(`${row.transaction_date}T12:00:00`)}
+                                {row.payment_method
+                                  ? ` · ${labelFor(PAYMENT_METHODS, row.payment_method)}`
+                                  : ""}
+                              </span>
                             </span>
-                            <ChevronRight
-                              className={`size-3.5 text-muted-foreground transition-transform ${expanded ? "rotate-90" : ""}`}
-                            />
-                          </span>
-                        </button>
+                            <span className="flex shrink-0 items-center gap-1.5">
+                              <span
+                                className={
+                                  row.transaction_type === "income"
+                                    ? "font-semibold tabular-nums text-income"
+                                    : "font-semibold tabular-nums"
+                                }
+                              >
+                                {formatCurrency(Number(row.amount))}
+                              </span>
+                              <ChevronRight
+                                className={`size-3.5 text-muted-foreground transition-transform ${expanded ? "rotate-90" : ""}`}
+                              />
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Excluir ${row.description}`}
+                            title="Excluir lançamento"
+                            className="shrink-0 px-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            onClick={() => setPendingDelete(row)}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </button>
+                        </div>
                         {expanded ? (
                           <div className="px-2.5 pb-2.5">
                             <TransactionPanel
                               transaction={row}
                               categoryName={category?.name}
                               onEdit={onEditTransaction}
+                              onRequestDelete={setPendingDelete}
                             />
                           </div>
                         ) : null}
@@ -385,7 +440,7 @@ export function MetricDetailDialog({
                   })}
                 </ul>
               )}
-              {detail.rows.length > 40 ? (
+              {visibleRows.length > 40 ? (
                 <p className="mt-2 text-[11px] text-muted-foreground">
                   Mostrando os 40 lançamentos mais recentes.
                 </p>
@@ -394,6 +449,24 @@ export function MetricDetailDialog({
           </>
         ) : null}
       </DialogContent>
+
+      <DeleteConfirmDialog
+        open={Boolean(pendingDelete)}
+        onOpenChange={(value) => {
+          if (!value) setPendingDelete(null);
+        }}
+        title="Excluir este lançamento?"
+        description="O valor sai na hora deste detalhamento, dos gráficos, dos totais e do saldo do período."
+        itemLabel={pendingDelete?.description ?? null}
+        amountLabel={
+          pendingDelete
+            ? `${pendingDelete.transaction_type === "income" ? "+" : "−"} ${formatCurrency(Number(pendingDelete.amount))}`
+            : null
+        }
+        pending={deleteTransaction.isPending}
+        onConfirm={confirmDelete}
+      />
     </Dialog>
   );
 }
+

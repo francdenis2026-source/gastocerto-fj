@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Check, FileDown, History, NotebookPen, Paperclip, Pencil, X } from "lucide-react";
+import { Check, FileDown, History, NotebookPen, Paperclip, Pencil, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 
+import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
 import { ReceiptViewer } from "@/components/finance/receipt-viewer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,8 @@ import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/
 import { useCategories } from "@/lib/queries";
 import { exportTransactionPdf } from "@/lib/transaction-detail-export";
 import { NOTE_FIELD_LABEL, useNoteHistory, useRefreshNoteHistory } from "@/lib/transaction-notes";
-import { useSaveTransaction, type Transaction } from "@/lib/transactions";
+import { useDeleteTransaction, useSaveTransaction, type Transaction } from "@/lib/transactions";
+
 
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
@@ -47,12 +49,15 @@ export function TransactionDetailsDialog({
 }) {
   const { data: categories } = useCategories();
   const saveTransaction = useSaveTransaction();
+  const deleteTransaction = useDeleteTransaction();
   const refreshHistory = useRefreshNoteHistory();
   const [receiptOpen, setReceiptOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesDraft, setNotesDraft] = useState("");
   const [historyOpen, setHistoryOpen] = useState(false);
   const { data: history } = useNoteHistory(transaction?.id, open);
+
 
   useEffect(() => {
     setEditingNotes(false);
@@ -276,6 +281,14 @@ export function TransactionDetailsDialog({
             <Button size="sm" variant="outline" onClick={handleExport}>
               <FileDown className="mr-2 size-3.5" /> PDF
             </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+              onClick={() => setConfirmDelete(true)}
+            >
+              <Trash2 className="mr-2 size-3.5" /> Excluir
+            </Button>
 
             {onEdit ? (
               <Button
@@ -292,11 +305,32 @@ export function TransactionDetailsDialog({
         </DialogContent>
       </Dialog>
 
+      <DeleteConfirmDialog
+        open={confirmDelete}
+        onOpenChange={setConfirmDelete}
+        title="Excluir este lançamento?"
+        description="O registro sai imediatamente dos relatórios, gráficos e saldos. Esta ação pode ser desfeita apenas pelo suporte."
+        itemLabel={transaction.description}
+        amountLabel={`${isIncome ? "+" : "−"} ${formatCurrency(Number(transaction.amount))}`}
+        pending={deleteTransaction.isPending}
+        onConfirm={async () => {
+          try {
+            await deleteTransaction.mutateAsync([transaction.id]);
+            setConfirmDelete(false);
+            onOpenChange(false);
+            toast.success("Lançamento excluído");
+          } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Não foi possível excluir");
+          }
+        }}
+      />
+
       <ReceiptViewer
         path={transaction.attachment_url}
         open={receiptOpen}
         onOpenChange={setReceiptOpen}
       />
     </>
+
   );
 }
