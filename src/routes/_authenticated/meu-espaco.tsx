@@ -321,56 +321,19 @@ function KidSpacePage() {
       "bg-gradient-to-b from-primary/8 via-background to-background",
       compactMode && "tracking-tight"
     )}>
-      {/* Selector for period view and Goals Panel */}
-      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col gap-4 px-4">
-        {/* Goals / Budget Alert - Removed as requested to gain space */}
-
-        <div className="flex items-center justify-between">
-          <div className="relative flex-1 max-w-xs">
-             <Input 
-               placeholder="Buscar registros..." 
-               className="h-8 text-xs pl-8 bg-muted/50 border-none shadow-none"
-             />
-             <HelpCircle className="absolute left-2.5 top-2.5 size-3 text-muted-foreground" />
-          </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="h-8 text-[10px] font-bold gap-1.5"
-            onClick={async () => {
-              if (rows.length === 0) return;
-              await exportKidsSummaryPdf(
-                rows.map(r => ({
-                  date: r.transaction_date,
-                  description: r.description,
-                  type: r.transaction_type as any,
-                  amount: r.amount
-                })),
-                { income, expense, balance, count: rows.length },
-                { 
-                  kidName: dependent.name, 
-                  periodLabel: viewYearly ? `Ano ${selectedYear}` : `${MONTH_NAMES[selectedMonth]} ${selectedYear}`,
-                  typeLabel: "Todos os registros"
-                }
-              );
-            }}
-          >
-            <FileText className="size-3" /> Exportar PDF
-          </Button>
-        </div>
-        
-        <div className="flex items-center justify-end gap-2">
+      {/* Seletor de período (mês/ano) — movido para a faixa superior com tipografia legível */}
+      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-wrap items-center justify-end gap-2 px-4">
           {!viewYearly && (
             <Select 
               value={selectedMonth.toString()} 
               onValueChange={(v) => setSelectedMonth(parseInt(v))}
             >
-              <SelectTrigger className="h-8 w-32 text-[10px] font-bold bg-muted/50 border-none shadow-none">
+              <SelectTrigger className="h-10 w-40 text-sm font-bold capitalize bg-card border-border shadow-sm">
                 <SelectValue placeholder="Mês" />
               </SelectTrigger>
               <SelectContent>
                 {Array.from({ length: 12 }).map((_, i) => (
-                  <SelectItem key={i} value={i.toString()} className="text-xs">
+                  <SelectItem key={i} value={i.toString()} className="text-sm font-semibold capitalize">
                     {new Date(0, i).toLocaleDateString("pt-BR", { month: "long" })}
                   </SelectItem>
                 ))}
@@ -381,21 +344,21 @@ function KidSpacePage() {
             value={selectedYear.toString()} 
             onValueChange={(v) => setSelectedYear(parseInt(v))}
           >
-            <SelectTrigger className="h-8 w-24 text-[10px] font-bold bg-muted/50 border-none shadow-none">
+            <SelectTrigger className="h-10 w-28 text-sm font-bold bg-card border-border shadow-sm">
               <SelectValue placeholder="Ano" />
             </SelectTrigger>
             <SelectContent>
               {[2024, 2025, 2026].map((y) => (
-                <SelectItem key={y} value={y.toString()} className="text-xs">{y}</SelectItem>
+                <SelectItem key={y} value={y.toString()} className="text-sm font-semibold">{y}</SelectItem>
               ))}
             </SelectContent>
           </Select>
           
-          <div className="inline-flex rounded-lg bg-muted p-1 shadow-sm">
+          <div className="inline-flex rounded-xl bg-muted p-1 shadow-sm">
             <Button 
               variant={!viewYearly ? "secondary" : "ghost"} 
               size="sm" 
-              className="h-7 px-3 text-[10px] font-bold"
+              className="h-8 px-4 text-sm font-bold"
               onClick={() => setViewYearly(false)}
             >
               Mês
@@ -403,14 +366,14 @@ function KidSpacePage() {
             <Button 
               variant={viewYearly ? "secondary" : "ghost"} 
               size="sm" 
-              className="h-7 px-3 text-[10px] font-bold"
+              className="h-8 px-4 text-sm font-bold"
               onClick={() => setViewYearly(true)}
             >
               Anual
             </Button>
           </div>
-        </div>
       </div>
+
 
 
       {/* Densidade da interface: modo padrão (confortável) ou compacto (objetivo) */}
@@ -501,7 +464,18 @@ function KidSpacePage() {
           </div>
 
           <div className="flex items-center gap-1.5">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-9 rounded-full text-muted-foreground"
+              onClick={toggleKidTheme}
+              title={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
+              aria-label={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
+            >
+              {kidTheme === "dark" ? <Sun className="size-4 text-amber-500" /> : <Moon className="size-4 text-primary" />}
+            </Button>
             <NotificationCenter isKid />
+
             <Button
               variant="ghost"
               size="icon"

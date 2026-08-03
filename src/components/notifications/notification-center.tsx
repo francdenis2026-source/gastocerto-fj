@@ -30,32 +30,36 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
-          <Bell className="size-5" />
+        <Button variant="ghost" size="icon" className={cn("relative rounded-full", isKid ? "size-9" : "h-10 w-10")}>
+          <Bell className={isKid ? "size-4" : "size-5"} />
           {unreadCount > 0 && (
-            <Badge className="absolute -top-1 -right-1 h-5 w-5 justify-center rounded-full bg-destructive p-0 text-[10px] text-destructive-foreground ring-2 ring-background">
+            <Badge className={cn(
+              "absolute justify-center rounded-full bg-destructive p-0 text-destructive-foreground ring-2 ring-background",
+              isKid ? "-top-0.5 -right-0.5 h-4 w-4 text-[9px]" : "-top-1 -right-1 h-5 w-5 text-[10px]",
+            )}>
               {unreadCount}
             </Badge>
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0 shadow-xl" align="end">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h3 className="flex items-center gap-2 text-sm font-bold">
-            <Bell className="size-4 text-primary" /> Central de Avisos
+      <PopoverContent className={cn("p-0 shadow-lg", isKid ? "w-[16rem]" : "w-80")} align="end">
+        <div className={cn("flex items-center justify-between border-b border-border", isKid ? "px-3 py-2" : "p-4")}>
+          <h3 className={cn("flex items-center gap-1.5 font-bold", isKid ? "text-[12px]" : "text-sm")}>
+            <Bell className={cn("text-primary", isKid ? "size-3.5" : "size-4")} /> Avisos
           </h3>
           {unreadCount > 0 && (
             <Button 
               variant="ghost" 
               size="sm" 
-              className="h-7 text-[10px] font-bold uppercase tracking-wider text-primary"
+              className="h-6 px-2 text-[10px] font-bold uppercase tracking-wider text-primary"
               onClick={() => markRead.mutate({ all: true })}
             >
               Lida(s)
             </Button>
           )}
         </div>
-        <ScrollArea className="h-80">
+        <ScrollArea className={isKid ? "h-60" : "h-80"}>
+
           {isLoading ? (
             <div className="flex h-40 items-center justify-center">
               <span className="text-[11px] text-muted-foreground">Carregando...</span>
