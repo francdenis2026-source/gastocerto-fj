@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -65,6 +65,7 @@ import { StatTile } from "@/components/finance/stat-tile";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
+import { DashboardTabs } from "@/components/finance/dashboard-tabs";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
 import { getYearlyBalance } from "@/lib/yearly-balance.functions";
 import { useServerFn } from "@tanstack/react-start";
@@ -742,140 +743,133 @@ function DashboardPage() {
             </aside>
 
             <div className="space-y-6">
-              <div className="grid gap-3 auto-cards-sm">
-                <StatTile
-                  tone="brand"
-                  label={
-                    metrics.isCurrentMonth
-                      ? `Gasto hoje · ${formatDate(isoDate(today))}`
-                      : "Gasto hoje"
-                  }
-                  value={formatCurrency(metrics.today)}
-                  hint={
-                    !metrics.isCurrentMonth
-                      ? "Disponível apenas no mês atual"
-                      : detailRows.todayExpenses.length === 0
-                        ? "Nenhum lançamento hoje"
-                        : `${detailRows.todayExpenses.length} lançamento${
-                            detailRows.todayExpenses.length > 1 ? "s" : ""
-                          } só de hoje`
-                  }
-                  icon={Zap}
-                  onClick={() => openDayDetail(today.getDate())}
-                />
-
-
-                <StatTile
-                  tone="warning"
-                  label="Gasto nos 7 dias"
-                  value={formatCurrency(metrics.week)}
-                  icon={CalendarClock}
-                  onClick={() =>
-                    setDetail({
-                      label: "Gasto nos últimos 7 dias",
-                      value: formatCurrency(metrics.week),
-                      formula:
-                        "Soma das despesas dos 7 dias corridos até hoje, incluindo os dias que caem no mês anterior.",
-                      rows: detailRows.weekExpenses,
-                    })
-                  }
-                />
-
-                
-                <StatTile
-                  tone="expense"
-                  label="Gasto no mês"
-                  value={formatCurrency(metrics.totalExpense)}
-                  icon={TrendingDown}
-                  onClick={() =>
-                    setDetail({
-                      label: "Gasto no mês",
-                      value: formatCurrency(metrics.totalExpense),
-                      formula: "Soma de todas as despesas do período selecionado.",
-                      rows: detailRows.expenses,
-                      extra: [
-                        { label: "Lançamentos", value: String(detailRows.expenses.length) },
-                        { label: "Média diária", value: formatCurrency(metrics.dailyAverage) },
-                      ],
-                    })
-                  }
-                />
-
-
-                <StatTile
-                  tone="success"
-                  label="Receita total"
-                  value={formatCurrency(metrics.totalIncome)}
-                  icon={TrendingUp}
-                  onClick={() =>
-                    setDetail({
-                      label: "Receita total",
-                      value: formatCurrency(metrics.totalIncome),
-                      formula: "Soma de todas as receitas do período selecionado.",
-                      rows: detailRows.incomes,
-                      extra: [
-                        { label: "Lançamentos", value: String(detailRows.incomes.length) },
-                      ],
-                    })
-                  }
-                />
-
-
-                <StatTile
-                  tone="neutral"
-                  label="Saldo disponível"
-                  value={formatCurrency(metrics.balance)}
-                  icon={Wallet}
-                />
-
-              </div>
-
                <DashboardTabs
                  overview={
                    <div className="space-y-6">
                       <div className="grid gap-3 auto-cards-sm">
-                        <StatTile tone="brand" label="Gasto hoje" value={formatCurrency(metrics.today)} icon={Zap} onClick={() => openDayDetail(today.getDate())} />
-                        <StatTile tone="warning" label="Gasto nos 7 dias" value={formatCurrency(metrics.week)} icon={CalendarClock} />
-                        <StatTile tone="expense" label="Gasto no mês" value={formatCurrency(metrics.totalExpense)} icon={TrendingDown} />
-                        <StatTile tone="success" label="Receita total" value={formatCurrency(metrics.totalIncome)} icon={TrendingUp} />
-                        <StatTile tone="neutral" label="Saldo disponível" value={formatCurrency(metrics.balance)} icon={Wallet} />
+                        <StatTile
+                          tone="brand"
+                          label={
+                            metrics.isCurrentMonth
+                              ? `Gasto hoje · ${formatDate(isoDate(today))}`
+                              : "Gasto hoje"
+                          }
+                          value={formatCurrency(metrics.today)}
+                          hint={
+                            !metrics.isCurrentMonth
+                              ? "Disponível apenas no mês atual"
+                              : detailRows.todayExpenses.length === 0
+                                ? "Nenhum lançamento hoje"
+                                : `${detailRows.todayExpenses.length} lançamento${
+                                    detailRows.todayExpenses.length > 1 ? "s" : ""
+                                  } só de hoje`
+                          }
+                          icon={Zap}
+                          onClick={() => openDayDetail(today.getDate())}
+                        />
+
+                        <StatTile
+                          tone="warning"
+                          label="Gasto nos 7 dias"
+                          value={formatCurrency(metrics.week)}
+                          icon={CalendarClock}
+                          onClick={() =>
+                            setDetail({
+                              label: "Gasto nos últimos 7 dias",
+                              value: formatCurrency(metrics.week),
+                              formula:
+                                "Soma das despesas dos 7 dias corridos até hoje, incluindo os dias que caem no mês anterior.",
+                              rows: detailRows.weekExpenses,
+                            })
+                          }
+                        />
+
+                        <StatTile
+                          tone="expense"
+                          label="Gasto no mês"
+                          value={formatCurrency(metrics.totalExpense)}
+                          icon={TrendingDown}
+                          onClick={() =>
+                            setDetail({
+                              label: "Gasto no mês",
+                              value: formatCurrency(metrics.totalExpense),
+                              formula: "Soma de todas as despesas do período selecionado.",
+                              rows: detailRows.expenses,
+                              extra: [
+                                { label: "Lançamentos", value: String(detailRows.expenses.length) },
+                                { label: "Média diária", value: formatCurrency(metrics.dailyAverage) },
+                              ],
+                            })
+                          }
+                        />
+
+                        <StatTile
+                          tone="success"
+                          label="Receita total"
+                          value={formatCurrency(metrics.totalIncome)}
+                          icon={TrendingUp}
+                          onClick={() =>
+                            setDetail({
+                              label: "Receita total",
+                              value: formatCurrency(metrics.totalIncome),
+                              formula: "Soma de todas as receitas do período selecionado.",
+                              rows: detailRows.incomes,
+                              extra: [
+                                { label: "Lançamentos", value: String(detailRows.incomes.length) },
+                              ],
+                            })
+                          }
+                        />
+
+                        <StatTile
+                          tone="neutral"
+                          label="Saldo disponível"
+                          value={formatCurrency(metrics.balance)}
+                          icon={Wallet}
+                        />
                       </div>
                       <ChartCard title="Evolução Diária" summary="Pico de gastos diários">
-                         <ResponsiveContainer width="100%" height={250}>
-                            <BarChart data={byDay} onClick={(s:any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}>
-                               <CartesianGrid {...gridProps} />
-                               <XAxis dataKey="day" {...axisProps} />
-                               <YAxis {...axisProps} width={36} />
-                               <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
-                               <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
-                            </BarChart>
-                         </ResponsiveContainer>
+                         <div className="h-[250px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                               <BarChart data={byDay} onClick={(s:any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}>
+                                  <CartesianGrid {...gridProps} />
+                                  <XAxis dataKey="day" {...axisProps} />
+                                  <YAxis {...axisProps} width={36} />
+                                  <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
+                                  <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
+                               </BarChart>
+                            </ResponsiveContainer>
+                         </div>
                       </ChartCard>
                    </div>
                  }
                  analytics={
                    <div className="grid gap-6 md:grid-cols-2">
                      <ChartCard title="Categorias" summary="Distribuição percentual de gastos">
-                       <ResponsiveContainer width="100%" height={300}>
-                         <PieChart>
-                           <Pie data={byCategory} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} onClick={(e:any) => e?.id && openCategoryDetail(e.id, e.name)}>
-                             {byCategory.map((e, i) => <Cell key={e.name} fill={e.color ?? seriesColor(i)} />)}
-                           </Pie>
-                           <Tooltip formatter={(v:any, n:any) => [formatCurrency(v), n]} />
-                         </PieChart>
-                       </ResponsiveContainer>
+                       <div className="h-[300px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie data={byCategory} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} onClick={(e:any) => e?.id && openCategoryDetail(e.id, e.name)}>
+                                {byCategory.map((e, i) => <Cell key={e.name} fill={e.color ?? seriesColor(i)} stroke="var(--card)" strokeWidth={2} />)}
+                              </Pie>
+                              <Tooltip formatter={(v:any, n:any) => [formatCurrency(v), n]} />
+                            </PieChart>
+                          </ResponsiveContainer>
+                       </div>
                      </ChartCard>
                      <ChartCard title="Receitas x Despesas" summary="Fluxo mensal">
-                       <ResponsiveContainer width="100%" height={300}>
-                         <LineChart data={byDay}>
-                            <CartesianGrid {...gridProps} />
-                            <XAxis dataKey="day" {...axisProps} />
-                            <YAxis {...axisProps} width={40} />
-                            <Tooltip formatter={(v:any) => formatCurrency(v)} />
-                            <Line type="monotone" dataKey="receita" stroke={CHART_TOKENS.income} />
-                            <Line type="monotone" dataKey="gasto" stroke={CHART_TOKENS.expense} />
-                         </LineChart>
-                       </ResponsiveContainer>
+                       <div className="h-[300px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={byDay}>
+                               <CartesianGrid {...gridProps} />
+                               <XAxis dataKey="day" {...axisProps} />
+                               <YAxis {...axisProps} width={40} />
+                               <Tooltip formatter={(v:any) => formatCurrency(v)} />
+                               <Line type="monotone" dataKey="receita" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
+                               <Line type="monotone" dataKey="gasto" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
+                            </LineChart>
+                          </ResponsiveContainer>
+                       </div>
                      </ChartCard>
                    </div>
                  }
@@ -883,7 +877,7 @@ function DashboardPage() {
                  insights={<InsightsPanel year={period.year} month={period.month} />}
                  kids={<KidsManagementPanel />}
                />
-          </div>
+            </div>
         )}
 
       
