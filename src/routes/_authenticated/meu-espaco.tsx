@@ -1113,6 +1113,8 @@ function KidEntryDialog({
   const [reason, setReason] = useState<string>(DEPENDENT_REASONS[0].value);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [confirming, setConfirming] = useState(false);
+
 
   const selected = DEPENDENT_REASONS.find((item) => item.value === reason) ?? DEPENDENT_REASONS[0];
 
@@ -1151,51 +1153,10 @@ function KidEntryDialog({
         }
       }
     },
-    onMutate: async () => {
-      // Pedir confirmação com diálogo profissional antes de salvar
-      const confirmed = await new Promise((resolve) => {
-        toast.custom((t) => (
-          <div className="bg-card border border-border p-6 rounded-3xl shadow-2xl w-full max-w-sm animate-in zoom-in-95 duration-200">
-            <div className="flex flex-col items-center text-center gap-4">
-              <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <Target className="size-8" />
-              </div>
-              <div>
-                <h4 className="text-xl font-semibold tracking-tight">Confirmar registro</h4>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Confira o valor antes de continuar. Depois de salvar, este lançamento não poderá ser editado.
-                </p>
-              </div>
-              <div className="flex gap-3 w-full mt-2">
-                <Button 
-                  variant="outline" 
-                  className="flex-1 rounded-2xl h-12 font-bold" 
-                  onClick={() => {
-                    toast.dismiss(t);
-                    resolve(false);
-                  }}
-                >
-                  Revisar
-                </Button>
-                <Button 
-                  className="flex-1 rounded-2xl h-12 font-bold shadow-lg" 
-                  onClick={() => {
-                    toast.dismiss(t);
-                    resolve(true);
-                  }}
-                >
-                  Confirmar
-                </Button>
-              </div>
-            </div>
-          </div>
-        ), { duration: Infinity, position: 'bottom-center' });
-      });
-      
-      if (!confirmed) {
-        throw new Error("Revisão solicitada");
-      }
+    onSettled: () => {
+      setConfirming(false);
     },
+
     onSuccess: () => {
 
       toast.success("Lançamento registrado com sucesso.");
@@ -1286,15 +1247,58 @@ function KidEntryDialog({
 
 
 
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancelar
-          </Button>
-          <Button onClick={() => save.mutate()} disabled={save.isPending}>
-            {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-            Salvar
-          </Button>
-        </DialogFooter>
+        {confirming ? (
+          <div className="rounded-2xl border border-primary/30 bg-primary/5 p-4">
+            <div className="flex items-start gap-3">
+              <div className="rounded-xl bg-primary/10 p-2 text-primary">
+                <Target className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold tracking-tight">Confirmar registro</p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+                  Confira o valor antes de continuar. Depois de salvar, este lançamento não poderá ser editado.
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-1 rounded-xl font-semibold"
+                onClick={() => setConfirming(false)}
+                disabled={save.isPending}
+              >
+                Revisar
+              </Button>
+              <Button
+                className="flex-1 rounded-xl font-semibold"
+                onClick={() => save.mutate()}
+                disabled={save.isPending}
+              >
+                {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+                Confirmar
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={() => {
+                const value = parseAmount(amount);
+                if (!value || value <= 0) {
+                  toast.error("Informe um valor maior que zero.");
+                  return;
+                }
+                setConfirming(true);
+              }}
+            >
+              Salvar
+            </Button>
+          </DialogFooter>
+        )}
+
       </DialogContent>
     </Dialog>
   );
