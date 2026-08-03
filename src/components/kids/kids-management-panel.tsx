@@ -59,6 +59,7 @@ import { useDependents, type Dependent } from "@/lib/dependents";
 import { formatCurrency } from "@/lib/format";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
+import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
 import { cn } from "@/lib/utils";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
 import { useAuth } from "@/hooks/use-auth";
