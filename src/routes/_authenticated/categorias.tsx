@@ -263,7 +263,7 @@ function CategoriesPage() {
 
 
         {isLoading ? (
-          <div className="grid gap-3 auto-cards-sm">
+          <div className="grid gap-3 auto-cards-md">
             {Array.from({ length: 6 }).map((_, index) => (
               <Skeleton key={index} className="h-24 rounded-2xl" />
             ))}
@@ -273,7 +273,7 @@ function CategoriesPage() {
             <p className="text-sm text-muted-foreground">Nenhuma categoria por aqui ainda.</p>
           </div>
         ) : (
-          <div className="grid gap-3 auto-cards-sm">
+          <div className="grid gap-3 auto-cards-md">
             {allCategories.map((category) => {
               const isActive = category.active !== false;
               return (
@@ -307,7 +307,7 @@ function CategoriesPage() {
                         <span
                           title={category.name}
                           className={cn(
-                            "block text-[13.5px] font-bold leading-tight tracking-tight transition-colors [overflow-wrap:anywhere] line-clamp-2",
+                            "block text-sm font-semibold leading-snug tracking-tight transition-colors [overflow-wrap:anywhere] line-clamp-2",
                             isActive ? "text-foreground" : "text-muted-foreground",
                           )}
                         >
@@ -414,7 +414,7 @@ function CategoriesPage() {
                 Restaurar todas
               </Button>
             </div>
-            <div className="grid gap-2 auto-cards-sm">
+            <div className="grid gap-2 auto-cards-md">
               {inactiveCategories.map((category) => {
                 const Icon = categoryIcon(category.icon);
                 return (

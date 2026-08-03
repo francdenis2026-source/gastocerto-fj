@@ -14,6 +14,7 @@ export function useProfile() {
   return useQuery({
     queryKey: ["profile", user?.id],
     enabled: Boolean(user?.id),
+    staleTime: 5 * 60_000,
     queryFn: async (): Promise<any | null> => {
       const { data, error } = await supabase
         .from("profiles")
@@ -25,10 +26,11 @@ export function useProfile() {
         .eq("user_id", user!.id)
         .maybeSingle();
       if (error) throw error;
-      
+      if (!data) return null;
+
       const p = data as any;
       const activeLicense = (p.license ?? []).find((l: any) => l.status === 'active');
-      
+
       return {
         ...p,
         plan_slug: p.plan?.slug,
@@ -40,6 +42,7 @@ export function useProfile() {
     },
   });
 }
+
 
 export function useRoles() {
   const { user } = useAuth();

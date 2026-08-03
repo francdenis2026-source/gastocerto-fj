@@ -1221,22 +1221,22 @@ function YearlyBalanceSection({ year }: { year: number }) {
           <div className="h-[250px] w-full mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
                 <XAxis 
                   dataKey="month" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fontSize: 10, fontWeight: 600}}
+                  tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
                   tickFormatter={(m) => MONTH_NAMES[m-1].slice(0,3)}
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fontSize: 10}} 
+                  tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
                   tickFormatter={(v) => `R$ ${v > 1000 ? (v/1000).toFixed(0)+'k' : v}`}
                 />
                 <Tooltip 
-                  cursor={{fill: 'hsl(var(--muted))', opacity: 0.4}}
+                  cursor={tooltipProps.cursor}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       const m = payload[0].payload;
@@ -1266,8 +1266,8 @@ function YearlyBalanceSection({ year }: { year: number }) {
                   }}
                 />
                 <Legend iconType="circle" wrapperStyle={{fontSize: 10, fontWeight: 600, paddingTop: 10}} />
-                <Bar name="Receita" dataKey="income" fill={CHART_TOKENS.income} radius={[4, 4, 0, 0]} />
-                <Bar name="Despesa" dataKey="expense" fill={CHART_TOKENS.expense} radius={[4, 4, 0, 0]} />
+                <Bar name="Receita" dataKey="income" fill={CHART_TOKENS.income} radius={[5, 5, 0, 0]} maxBarSize={22} />
+                <Bar name="Despesa" dataKey="expense" fill={CHART_TOKENS.expense} radius={[5, 5, 0, 0]} maxBarSize={22} />
               </BarChart>
             </ResponsiveContainer>
           </div>

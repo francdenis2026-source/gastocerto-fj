@@ -229,8 +229,8 @@ function DailyPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                  <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} />
-                  <YAxis stroke="var(--muted-foreground)" fontSize={11} width={54} />
+                  <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} />
+                  <YAxis tickLine={false} axisLine={false} width={54} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} />
                   <Tooltip
                     formatter={(value: number) => formatCurrency(value)}
                     contentStyle={{
@@ -239,7 +239,7 @@ function DailyPage() {
                       borderRadius: 12,
                     }}
                   />
-                  <Bar dataKey="total" fill="var(--primary)" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="total" fill="var(--destructive)" radius={[6, 6, 0, 0]} maxBarSize={28} />
                 </BarChart>
               </ResponsiveContainer>
             )}

@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
+import { TransactionDialog } from "@/components/finance/transaction-dialog";
 import { PageHeader } from "@/components/finance/page-header";
 import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-notice";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +32,7 @@ import {
   type NotificationDraft,
 } from "@/lib/notifications";
 import { useCategories } from "@/lib/queries";
-import { useBudgets, useTransactions } from "@/lib/transactions";
+import { useBudgets, useTransactions, type Transaction } from "@/lib/transactions";
 
 export const Route = createFileRoute("/_authenticated/calendario")({
   head: () => ({
@@ -88,6 +89,9 @@ function CalendarPage() {
   const [selectedDay, setSelectedDay] = useState<string | null>(isoDate(today));
   const [active, setActive] = useState<CalendarKind[]>([]);
   const [horizon, setHorizon] = useState<Horizon>("month");
+  /** Lançamento aberto para edição a partir do calendário. */
+  const [editing, setEditing] = useState<Transaction | null>(null);
+  const [creatingDate, setCreatingDate] = useState<string | null>(null);
 
   function toggleKind(kind: CalendarKind) {
     setActive((current) =>
@@ -400,6 +404,11 @@ function CalendarPage() {
                         key={cell}
                         type="button"
                         onClick={() => setSelectedDay(cell)}
+                        onDoubleClick={() => {
+                          setSelectedDay(cell);
+                          setCreatingDate(cell);
+                        }}
+                        title="Clique para ver o dia · clique duplo para lançar"
                         className={[
                           "min-h-20 rounded-lg border p-1.5 text-left text-xs transition-colors",
                           selectedDay === cell
@@ -439,18 +448,28 @@ function CalendarPage() {
 
             {selectedDay ? (
               <div className="mt-4 border-t border-border pt-4">
-                <h2 className="text-sm font-medium">
-                  {formatDate(`${selectedDay}T00:00:00`)} · {selectedItems.length} lançamento(s)
-                </h2>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="text-sm font-medium">
+                    {formatDate(`${selectedDay}T00:00:00`)} · {selectedItems.length} lançamento(s)
+                  </h2>
+                  <Button size="sm" variant="outline" onClick={() => setCreatingDate(selectedDay)}>
+                    Lançar neste dia
+                  </Button>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Toque em um lançamento para editar ou excluir.
+                </p>
                 <ul className="mt-2 space-y-2">
                   {selectedItems.length === 0 ? (
                     <li className="text-sm text-muted-foreground">Nada agendado para este dia.</li>
                   ) : (
                     selectedItems.map((item) => (
-                      <li
-                        key={item.id}
-                        className="flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-sm"
-                      >
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          onClick={() => setEditing(item as Transaction)}
+                          className="flex w-full items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors hover:border-primary/50 hover:bg-secondary/60"
+                        >
                         <span className="min-w-0 truncate">{item.description}</span>
                         <span
                           className={
@@ -461,6 +480,7 @@ function CalendarPage() {
                         >
                           {formatCurrency(Number(item.amount || 0))}
                         </span>
+                        </button>
                       </li>
                     ))
                   )}
@@ -633,7 +653,26 @@ function CalendarPage() {
           </aside>
         </div>
       </div>
+
+      <TransactionDialog
+        open={Boolean(editing)}
+        onOpenChange={(open) => {
+          if (!open) setEditing(null);
+        }}
+        transaction={editing}
+        kind={(editing?.transaction_type as "expense" | "income") ?? "expense"}
+      />
+
+      <TransactionDialog
+        open={Boolean(creatingDate)}
+        onOpenChange={(open) => {
+          if (!open) setCreatingDate(null);
+        }}
+        defaultDate={creatingDate ?? undefined}
+        kind="expense"
+      />
     </AppShell>
+
   );
 }
 
