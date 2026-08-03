@@ -124,7 +124,17 @@ export function KidsManagementPanel() {
   });
 
   const [lastDeleted, setLastDeleted] = useState<any>(null);
-  const [undoTimeout, setUndoTimeout] = useState<NodeJS.Timeout | null>(null);
+  
+  const undoMutation = useMutation({
+    mutationFn: useServerFn(undoKidTransactionDeletion),
+    onSuccess: () => {
+      toast.success("Lançamento restaurado com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      setLastDeleted(null);
+    }
+  });
 
   const deleteMutation = useMutation({
     mutationFn: (vars: { data: { transactionId: string } }) => 
@@ -135,14 +145,12 @@ export function KidsManagementPanel() {
       
       if (deletedTx) {
         setLastDeleted(deletedTx);
-        // Exibe o brinde de undo por 8 segundos
         toast("Lançamento removido", {
+          description: `"${deletedTx.description}" foi excluído.`,
           action: {
             label: "Desfazer",
             onClick: () => {
-              // Em um cenário real, aqui chamaríamos a restauração
-              toast.success("Restauração solicitada!");
-              setLastDeleted(null);
+              undoMutation.mutate({ data: { transactionId: deletedId } });
             },
           },
           duration: 8000,
