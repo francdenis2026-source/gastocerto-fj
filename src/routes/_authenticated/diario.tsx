@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { AlertTriangle, ArrowDownRight, ArrowUpRight, CalendarDays, Clock, ListFilter, Plus, Search } from "lucide-react";
+import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -84,6 +85,9 @@ function rangeFor(mode: Mode, year: number, month: number) {
       : new Date(year, month, 0);
     return { start: iso(start), end: iso(end) };
   }
+  
+  return { start: iso(dateInView), end: iso(new Date(year, month, 0)) };
+}
 }
 
 function hourOf(value: string | null) {
