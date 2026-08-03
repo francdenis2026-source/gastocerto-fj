@@ -677,7 +677,7 @@ function SyncLicenseButton({ profile, onChanged }: { profile: Profile; onChanged
   async function handleSync() {
     setLoading(true);
     try {
-      const result = await syncUserLicense({ userId: profile.user_id });
+      const result = await syncUserLicense({ data: { userId: profile.user_id } });
       if (result.success) {
         toast.success(`Licença sincronizada: ${result.licenseKey}`);
         await onChanged();
