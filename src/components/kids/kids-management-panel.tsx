@@ -90,8 +90,14 @@ export function KidsManagementPanel() {
   const queryClient = useQueryClient();
 
   const metrics = useQuery({
-    queryKey: ["kids_financial_metrics", selectedKidId],
-    queryFn: () => fetchMetrics({ data: { dependentId: selectedKidId === "all" ? undefined : selectedKidId } }),
+    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
+    queryFn: () => fetchMetrics({ 
+      data: { 
+        dependentId: selectedKidId === "all" ? undefined : selectedKidId,
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear()
+      } 
+    }),
   });
 
   const giveMoneyMutation = useMutation({

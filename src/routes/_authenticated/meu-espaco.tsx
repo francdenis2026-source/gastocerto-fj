@@ -188,27 +188,15 @@ function KidSpacePage() {
     queryKey: ["kid_transactions", dependent?.id, viewYearly, selectedMonth, selectedYear],
     enabled: Boolean(dependent?.id),
     queryFn: async (): Promise<KidTransaction[]> => {
-      let query = supabase
+      const startMonth = selectedMonth + 1;
+      const { data, error } = await supabase
         .from("transactions")
         .select("id, description, amount, transaction_type, transaction_date, tags")
         .is("deleted_at", null)
-        .order("transaction_date", { ascending: false });
+        .order("transaction_date", { ascending: false })
+        .gte("transaction_date", viewYearly ? `${selectedYear}-01-01` : `${selectedYear}-${String(startMonth).padStart(2, '0')}-01`)
+        .lte("transaction_date", viewYearly ? `${selectedYear}-12-31T23:59:59` : `${selectedYear}-${String(startMonth).padStart(2, '0')}-${new Date(selectedYear, startMonth, 0).getDate()}T23:59:59`);
 
-      if (!viewYearly) {
-        const startOfMonth = new Date(selectedYear, selectedMonth, 1);
-        const endOfMonth = new Date(selectedYear, selectedMonth + 1, 0, 23, 59, 59);
-        query = query
-          .gte("transaction_date", startOfMonth.toISOString())
-          .lte("transaction_date", endOfMonth.toISOString());
-      } else {
-        const startOfYear = new Date(selectedYear, 0, 1);
-        const endOfYear = new Date(selectedYear, 11, 31, 23, 59, 59);
-        query = query
-          .gte("transaction_date", startOfYear.toISOString())
-          .lte("transaction_date", endOfYear.toISOString());
-      }
-
-      const { data, error } = await query.limit(viewYearly ? 500 : 100);
       if (error) throw error;
       return (data ?? []) as unknown as KidTransaction[];
     },
