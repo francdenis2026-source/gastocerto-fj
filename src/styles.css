@@ -51,6 +51,16 @@
   --color-income-surface: var(--income-surface);
   --color-income-border: var(--income-border);
   --color-surface: var(--surface);
+  /* Hero da landing: tokens próprios para funcionar nos dois temas. */
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-fg: var(--hero-fg);
+  --color-hero-fg-muted: var(--hero-fg-muted);
+  --color-hero-fg-soft: var(--hero-fg-soft);
+  --color-hero-border: var(--hero-border);
+  --color-hero-border-strong: var(--hero-border-strong);
+  --color-hero-surface: var(--hero-surface);
+  --color-hero-surface-soft: var(--hero-surface-soft);
+  --color-hero-accent: var(--hero-accent);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -135,7 +145,32 @@
   --acc-4: oklch(0.58 0.18 25);
   --acc-5: oklch(0.58 0.19 300);
   --acc-6: oklch(0.63 0.13 210);
+
+  /* ---- Hero (tema claro) ---- */
+  --hero-bg: oklch(0.97 0.012 259);
+  --hero-fg: oklch(0.22 0.05 259);
+  --hero-fg-muted: oklch(0.34 0.04 259);
+  --hero-fg-soft: oklch(0.42 0.03 259);
+  --hero-border: oklch(0.22 0.05 259 / 12%);
+  --hero-border-strong: oklch(0.22 0.05 259 / 30%);
+  --hero-surface: oklch(1 0 0 / 78%);
+  --hero-surface-soft: oklch(1 0 0 / 58%);
+  --hero-accent: oklch(0.45 0.14 155);
+  --hero-veil-mobile: linear-gradient(
+    180deg,
+    oklch(0.99 0.008 259 / 0.94),
+    oklch(0.98 0.01 259 / 0.86) 50%,
+    oklch(0.97 0.012 259 / 0.96)
+  );
+  --hero-veil-desktop: linear-gradient(
+    100deg,
+    oklch(0.99 0.008 259 / 0.95) 0%,
+    oklch(0.98 0.01 259 / 0.82) 46%,
+    oklch(0.97 0.012 259 / 0.42) 100%
+  );
+  --hero-fade: linear-gradient(180deg, transparent, oklch(0.97 0.012 259));
 }
+
 
 .dark {
   --background: oklch(0.12 0.02 259); /* Navy ultra escuro */
@@ -193,6 +228,31 @@
   --acc-4: oklch(0.7 0.17 25);
   --acc-5: oklch(0.72 0.16 300);
   --acc-6: oklch(0.74 0.12 210);
+
+  /* ---- Hero (tema escuro) ---- */
+  --hero-bg: oklch(0.15 0.026 252);
+  --hero-fg: oklch(1 0 0);
+  --hero-fg-muted: oklch(1 0 0 / 90%);
+  --hero-fg-soft: oklch(1 0 0 / 72%);
+  --hero-border: oklch(1 0 0 / 14%);
+  --hero-border-strong: oklch(1 0 0 / 35%);
+  --hero-surface: oklch(0.2 0.03 252 / 72%);
+  --hero-surface-soft: oklch(1 0 0 / 7%);
+  --hero-accent: oklch(0.86 0.11 165);
+  --hero-veil-mobile: linear-gradient(
+    180deg,
+    oklch(0.14 0.02 252 / 0.92),
+    oklch(0.14 0.02 252 / 0.78) 50%,
+    oklch(0.14 0.02 252 / 0.95)
+  );
+  --hero-veil-desktop: linear-gradient(
+    100deg,
+    oklch(0.13 0.02 252 / 0.95) 0%,
+    oklch(0.13 0.02 252 / 0.78) 46%,
+    oklch(0.14 0.02 252 / 0.32) 100%
+  );
+  --hero-fade: linear-gradient(180deg, transparent, oklch(0.15 0.026 252));
+
 }
 
 @utility text-gradient {
