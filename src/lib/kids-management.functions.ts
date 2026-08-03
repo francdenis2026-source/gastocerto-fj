@@ -49,11 +49,11 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
       // 1. Criar transação para a criança
       const { error: kidError } = await supabaseAdmin.from("transactions").insert({
         user_id: dependent.kid_user_id,
-        description: `Recebido: ${description}`,
+        description: "Recebido do responsável", // Descrição genérica para a criança
         amount: amount,
         transaction_type: "income",
         transaction_date: transactionDate,
-        tags: ["from_parent", `type:${type}`],
+        tags: ["from_parent", `type:${type}`, `parent_desc:${description}`], // Mantemos a tag para referência se necessário, mas a descrição é limpa
         status: "paid",
       });
       if (kidError) console.error("Erro ao registrar entrada no painel da criança:", kidError.message);

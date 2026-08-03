@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw } from "lucide-react";
+import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
 import { useKidsAppMode } from "@/lib/kids-pwa";
@@ -148,6 +149,8 @@ function KidSpacePage() {
   const { compactMode: initialCompactMode } = Route.useLoaderData();
   const [compactMode, setCompactMode] = useState(initialCompactMode);
   const [viewYearly, setViewYearly] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
@@ -178,7 +181,7 @@ function KidSpacePage() {
   });
 
   const transactions = useQuery({
-    queryKey: ["kid_transactions", dependent?.id, viewYearly],
+    queryKey: ["kid_transactions", dependent?.id, viewYearly, selectedMonth, selectedYear],
     enabled: Boolean(dependent?.id),
     queryFn: async (): Promise<KidTransaction[]> => {
       let query = supabase
@@ -188,18 +191,20 @@ function KidSpacePage() {
         .order("transaction_date", { ascending: false });
 
       if (!viewYearly) {
-        const startOfMonth = new Date();
-        startOfMonth.setDate(1);
-        startOfMonth.setHours(0, 0, 0, 0);
-        query = query.gte("transaction_date", startOfMonth.toISOString());
+        const startOfMonth = new Date(selectedYear, selectedMonth, 1);
+        const endOfMonth = new Date(selectedYear, selectedMonth + 1, 0, 23, 59, 59);
+        query = query
+          .gte("transaction_date", startOfMonth.toISOString())
+          .lte("transaction_date", endOfMonth.toISOString());
       } else {
-        const startOfYear = new Date();
-        startOfYear.setMonth(0, 1);
-        startOfYear.setHours(0, 0, 0, 0);
-        query = query.gte("transaction_date", startOfYear.toISOString());
+        const startOfYear = new Date(selectedYear, 0, 1);
+        const endOfYear = new Date(selectedYear, 11, 31, 23, 59, 59);
+        query = query
+          .gte("transaction_date", startOfYear.toISOString())
+          .lte("transaction_date", endOfYear.toISOString());
       }
 
-      const { data, error } = await query.limit(viewYearly ? 200 : 60);
+      const { data, error } = await query.limit(viewYearly ? 500 : 100);
       if (error) throw error;
       return (data ?? []) as unknown as KidTransaction[];
     },
@@ -325,24 +330,57 @@ function KidSpacePage() {
       compactMode && "tracking-tight"
     )}>
       {/* Selector for period view */}
-      <div className="mx-auto mt-4 flex w-full max-w-2xl justify-end px-4">
-        <div className="inline-flex rounded-lg bg-muted p-1 shadow-sm">
-          <Button 
-            variant={!viewYearly ? "secondary" : "ghost"} 
-            size="sm" 
-            className="h-7 px-3 text-[10px] font-bold"
-            onClick={() => setViewYearly(false)}
+      <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col items-end gap-3 px-4">
+        <div className="flex items-center gap-2">
+          {!viewYearly && (
+            <Select 
+              value={selectedMonth.toString()} 
+              onValueChange={(v) => setSelectedMonth(parseInt(v))}
+            >
+              <SelectTrigger className="h-8 w-32 text-[10px] font-bold bg-muted/50 border-none shadow-none">
+                <SelectValue placeholder="Mês" />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <SelectItem key={i} value={i.toString()} className="text-xs">
+                    {new Date(0, i).toLocaleDateString("pt-BR", { month: "long" })}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+          <Select 
+            value={selectedYear.toString()} 
+            onValueChange={(v) => setSelectedYear(parseInt(v))}
           >
-            Mês Atual
-          </Button>
-          <Button 
-            variant={viewYearly ? "secondary" : "ghost"} 
-            size="sm" 
-            className="h-7 px-3 text-[10px] font-bold"
-            onClick={() => setViewYearly(true)}
-          >
-            Balanço Anual
-          </Button>
+            <SelectTrigger className="h-8 w-24 text-[10px] font-bold bg-muted/50 border-none shadow-none">
+              <SelectValue placeholder="Ano" />
+            </SelectTrigger>
+            <SelectContent>
+              {[2024, 2025, 2026].map((y) => (
+                <SelectItem key={y} value={y.toString()} className="text-xs">{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          
+          <div className="inline-flex rounded-lg bg-muted p-1 shadow-sm">
+            <Button 
+              variant={!viewYearly ? "secondary" : "ghost"} 
+              size="sm" 
+              className="h-7 px-3 text-[10px] font-bold"
+              onClick={() => setViewYearly(false)}
+            >
+              Mês
+            </Button>
+            <Button 
+              variant={viewYearly ? "secondary" : "ghost"} 
+              size="sm" 
+              className="h-7 px-3 text-[10px] font-bold"
+              onClick={() => setViewYearly(true)}
+            >
+              Anual
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -764,6 +802,9 @@ function KidSpacePage() {
         expense={expense}
         rows={rows}
         accent={accent}
+        viewYearly={viewYearly}
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
       />
 
       <KidEntryDialog
@@ -792,12 +833,18 @@ function KidSummary({
   expense,
   rows,
   accent,
+  viewYearly,
+  selectedMonth,
+  selectedYear,
 }: {
   balance: number;
   income: number;
   expense: number;
   rows: KidTransaction[];
   accent: KidAccent;
+  viewYearly: boolean;
+  selectedMonth: number;
+  selectedYear: number;
 }) {
   return (
     <section className={cn(
@@ -805,12 +852,13 @@ function KidSummary({
       accent.border,
     )}>
       <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-        <Target className={cn("size-5", accent.text)} aria-hidden="true" /> Resumo do período
+        <Target className={cn("size-5", accent.text)} aria-hidden="true" /> 
+        Resumo {viewYearly ? `de ${selectedYear}` : `de ${new Date(0, selectedMonth).toLocaleDateString("pt-BR", { month: "long" })}`}
       </h2>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className={cn("rounded-xl border p-4 text-center", accent.surface, accent.border)}>
-          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", accent.text)}>Saldo atual</p>
+          <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", accent.text)}>Saldo final</p>
           <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">{formatCurrency(balance)}</p>
         </div>
         <div className={cn("rounded-xl border border-emerald-600/20 p-4 text-center dark:border-emerald-400/20", POSITIVE_SURFACE)}>
