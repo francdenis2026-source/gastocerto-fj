@@ -173,12 +173,15 @@ export const adminDeleteUser = createServerFn({ method: "POST" })
       .eq("user_id", data.targetUserId)
       .maybeSingle();
 
-    await context.supabase.from("admin_logs").insert({
-      actor_id: context.userId,
-      target_user_id: data.targetUserId,
-      action: "delete_user",
-      details: { full_name: profile?.full_name ?? null, cpf: profile?.cpf ?? null },
-    });
+    await context.supabase
+      .from("admin_logs")
+      .insert({
+        actor_id: context.userId,
+        target_user_id: data.targetUserId,
+        action: "delete_user",
+        details: { full_name: profile?.full_name ?? null, cpf: profile?.cpf ?? null },
+      })
+      .then(() => undefined, () => undefined);
 
     const { error } = await supabaseAdmin.auth.admin.deleteUser(data.targetUserId);
     if (error) throw new Error("Não foi possível excluir a conta");
