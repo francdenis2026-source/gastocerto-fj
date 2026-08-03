@@ -7,12 +7,14 @@ import { loadPlanAccess } from "@/lib/plan-access.server";
 import { trialDaysForSlug } from "@/lib/plan-features";
 
 const trialSchema = z.object({
-  slug: z.enum(["trial_14", "trial_15", "trial_30"]),
+  slug: z.enum(["trial_14", "trial_15", "trial_30", "trial_1h", "trial_6h", "trial_12h", "trial_custom"]),
+  customDays: z.number().min(1).max(365).optional(),
 });
 
 const adminTrialSchema = z.object({
   targetUserId: z.string().uuid(),
-  slug: z.enum(["trial_14", "trial_15", "trial_30"]),
+  slug: z.enum(["trial_14", "trial_15", "trial_30", "trial_1h", "trial_6h", "trial_12h", "trial_custom"]),
+  customDays: z.number().min(1).max(365).optional(),
   restart: z.boolean().optional(),
 });
 
@@ -86,9 +88,24 @@ export const adminGrantTrial = createServerFn({ method: "POST" })
     await assertAdminRole(supabase, userId);
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const days = trialDaysForSlug(data.slug) ?? 14;
+    let ends: Date;
+    let days = 0;
+
+    if (data.slug === "trial_1h") {
+      ends = new Date(Date.now() + 60 * 60 * 1000);
+    } else if (data.slug === "trial_6h") {
+      ends = new Date(Date.now() + 6 * 60 * 60 * 1000);
+    } else if (data.slug === "trial_12h") {
+      ends = new Date(Date.now() + 12 * 60 * 60 * 1000);
+    } else if (data.slug === "trial_custom" && data.customDays) {
+      days = data.customDays;
+      ends = new Date(Date.now() + days * 86_400_000);
+    } else {
+      days = trialDaysForSlug(data.slug) ?? 14;
+      ends = new Date(Date.now() + days * 86_400_000);
+    }
+    
     const now = new Date();
-    const ends = new Date(now.getTime() + days * 86_400_000);
 
     const { data: plan } = await supabaseAdmin
       .from("plans")

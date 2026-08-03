@@ -1,311 +1,123 @@
 import { useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
-import { ScrollText, Download, FileText, RefreshCw, Trash2, AlertTriangle } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info } from "lucide-react";
 import { useMemo, useState } from "react";
-
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  AUDIT_CATEGORY_LABELS,
-  auditLogsToCsv,
-  categorizeAction,
-  filterAuditLogs,
-  periodLabel,
-  type AuditCategory,
-  type AuditLogRow,
-} from "@/lib/audit-log";
-import { adminListAuditLogs } from "@/lib/audit-logs.functions";
-import { adminClearAuditLogs } from "@/lib/admin-maintenance.functions";
+import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
-import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
-function download(name: string, blob: Blob) {
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = name;
-  anchor.click();
-  URL.revokeObjectURL(url);
-}
-
-export function AuditLogsPanel({ globalSearch = "" }: { globalSearch?: string }) {
-  const listLogs = useServerFn(adminListAuditLogs);
-  const clearLogs = useServerFn(adminClearAuditLogs);
-  const [isClearing, setIsClearing] = useState(false);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [category, setCategory] = useState<AuditCategory | "all">("all");
+export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
-
-  const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ["admin", "audit-logs", from, to],
-    queryFn: () =>
-      listLogs({ data: { from: from || null, to: to || null } }),
-    refetchInterval: 60_000,
+  
+  const { data: logs, isLoading } = useQuery({
+    queryKey: ["admin", "logs"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("admin_logs")
+        .select(`
+          *,
+          actor:profiles!admin_logs_actor_id_fkey(full_name),
+          target:profiles!admin_logs_target_user_id_fkey(full_name)
+        `)
+        .order("created_at", { ascending: false })
+        .limit(200);
+      if (error) throw error;
+      return (data || []) as any[];
+    },
   });
 
-  const nameByUser = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const person of data?.people ?? []) {
-      if (person.full_name) map.set(person.user_id, person.full_name);
-    }
-    return map;
-  }, [data]);
-
-  const rows = useMemo(
-    () =>
-      filterAuditLogs((data?.logs ?? []) as AuditLogRow[], {
-        from: null,
-        to: null,
-        category,
-        search,
-      }),
-    [data, category, search, globalSearch],
-  );
-
-  function exportCsv() {
-    const csv = auditLogsToCsv(rows, nameByUser);
-    download(
-      `auditoria-${from || "inicio"}-${to || "hoje"}.csv`,
-      new Blob([`\ufeff${csv}`], { type: "text/csv;charset=utf-8;" }),
-    );
-  }
-
-  async function exportPdf() {
-    const [{ default: jsPDF }, { default: autoTable }] = await Promise.all([
-      import("jspdf"),
-      import("jspdf-autotable"),
-    ]);
-    const doc = new jsPDF({ orientation: "landscape" });
-    doc.setFontSize(15);
-    doc.text("GastoCerto — Logs de auditoria administrativa", 14, 16);
-    doc.setFontSize(9);
-    doc.text(`Período: ${periodLabel(from || null, to || null)}`, 14, 23);
-    doc.text(
-      `Registros: ${rows.length} · Gerado em ${new Date().toLocaleString("pt-BR")}`,
-      14,
-      28,
-    );
-
-    autoTable(doc, {
-      startY: 34,
-      head: [["Data/Hora", "Categoria", "Ação", "Responsável", "Afetado", "Detalhes"]],
-      body: rows.map((row) => [
-        formatDateTime(row.created_at),
-        AUDIT_CATEGORY_LABELS[categorizeAction(row.action)],
-        row.action,
-        nameByUser.get(row.actor_id) ?? "Equipe",
-        row.target_user_id ? (nameByUser.get(row.target_user_id) ?? "—") : "—",
-        JSON.stringify(row.details ?? {}).slice(0, 120),
-      ]),
-      styles: { fontSize: 7, cellPadding: 1.5 },
-      headStyles: { fillColor: [16, 74, 58] },
-      didDrawPage: () => {
-        const page = doc.getNumberOfPages();
-        doc.setFontSize(8);
-        doc.text(
-          `Página ${doc.getCurrentPageInfo().pageNumber} de ${page}`,
-          doc.internal.pageSize.getWidth() - 40,
-          doc.internal.pageSize.getHeight() - 8,
-        );
-      },
+  const filtered = useMemo(() => {
+    const term = (globalSearch || search).toLowerCase();
+    if (!term) return logs ?? [];
+    return (logs ?? []).filter(log => {
+      const action = (log.action || "").toLowerCase();
+      const actor = (log.actor?.full_name || "").toLowerCase();
+      const target = (log.target?.full_name || "").toLowerCase();
+      const details = JSON.stringify(log.details || "").toLowerCase();
+      return action.includes(term) || actor.includes(term) || target.includes(term) || details.includes(term);
     });
+  }, [logs, search, globalSearch]);
 
-    doc.save(`auditoria-${from || "inicio"}-${to || "hoje"}.pdf`);
-  }
-
-  async function handleClearLogs() {
-    setIsClearing(true);
-    try {
-      await clearLogs();
-      toast.success("Logs de auditoria removidos com sucesso.");
-      refetch();
-    } catch (error: any) {
-      toast.error(error.message || "Erro ao limpar logs.");
-    } finally {
-      setIsClearing(false);
-    }
-  }
+  const actionLabels: Record<string, { label: string; color: string }> = {
+    set_status: { label: "Alterar Status", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
+    grant_role: { label: "Conceder Papel", color: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" },
+    revoke_role: { label: "Remover Papel", color: "bg-rose-500/10 text-rose-600 border-rose-500/20" },
+    reset_password: { label: "Reset Senha", color: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    delete_user: { label: "Excluir Conta", color: "bg-rose-600 text-white" },
+    promote: { label: "Promover Pago", color: "bg-purple-500/10 text-purple-600 border-purple-500/20" },
+    grant_trial: { label: "Conceder Teste", color: "bg-brand/10 text-brand border-brand/20" },
+  };
 
   return (
-    <Card className="border-border/60 shadow-sm">
-      <CardHeader className="pb-4">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+    <div className="space-y-4 rounded-2xl border border-border bg-card p-4">
+      <header className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-brand/10 text-brand">
+            <ScrollText className="size-5" />
+          </div>
           <div>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <ScrollText className="size-5 text-primary" />
-              Auditoria administrativa
-            </CardTitle>
-            <CardDescription>
-              Geração e revogação de códigos, mudanças de permissões, planos e avisos.
-            </CardDescription>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
-              <RefreshCw className={isFetching ? "size-4 animate-spin" : "size-4"} />
-              Atualizar
-            </Button>
-            <Button variant="outline" size="sm" onClick={exportCsv} disabled={rows.length === 0}>
-              <Download className="size-4" />
-              CSV
-            </Button>
-            <Button size="sm" onClick={exportPdf} disabled={rows.length === 0}>
-              <FileText className="size-4" />
-              PDF
-            </Button>
-
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-destructive hover:bg-destructive/10 hover:text-destructive">
-                  <Trash2 className="size-4" />
-                  Limpar tudo
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="flex items-center gap-2">
-                    <AlertTriangle className="size-5 text-destructive" />
-                    Limpar auditoria?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Esta ação é irreversível. Todos os registros de ações administrativas serão
-                    permanentemente removidos, exceto por um log registrando esta própria limpeza.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleClearLogs}
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    disabled={isClearing}
-                  >
-                    {isClearing ? "Limpando..." : "Confirmar exclusão"}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <h2 className="text-base font-semibold">Trilha de Auditoria</h2>
+            <p className="text-xs text-muted-foreground">Registro de ações administrativas</p>
           </div>
         </div>
-
-        <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-1">
-            <Label htmlFor="audit-from" className="text-xs">De</Label>
-            <Input id="audit-from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="audit-to" className="text-xs">Até</Label>
-            <Input id="audit-to" type="date" value={to} onChange={(e) => setTo(e.target.value)} />
-          </div>
-          <div className="space-y-1">
-            <Label className="text-xs">Categoria</Label>
-            <Select value={category} onValueChange={(v) => setCategory(v as AuditCategory | "all")}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todas as categorias</SelectItem>
-                {(Object.keys(AUDIT_CATEGORY_LABELS) as AuditCategory[]).map((key) => (
-                  <SelectItem key={key} value={key}>
-                    {AUDIT_CATEGORY_LABELS[key]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="audit-search" className="text-xs">Buscar</Label>
-            <Input
-              id="audit-search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Ação ou detalhe"
-            />
-          </div>
+        <div className="relative w-64">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input 
+            placeholder="Filtrar logs..." 
+            value={search} 
+            onChange={e => setSearch(e.target.value)}
+            className="h-9 pl-9" 
+          />
         </div>
-      </CardHeader>
-      <CardContent>
+      </header>
+
+      <div className="divide-y divide-border/50">
         {isLoading ? (
-          <div className="space-y-2">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
-        ) : rows.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
-            <ScrollText className="mb-2 size-8 opacity-20" />
-            <p>Nenhum registro no período selecionado.</p>
-          </div>
+          <div className="py-8 text-center text-sm text-muted-foreground">Carregando logs...</div>
+        ) : filtered.length === 0 ? (
+          <div className="py-8 text-center text-sm text-muted-foreground">Nenhum log encontrado.</div>
         ) : (
-          <div className="overflow-x-auto rounded-md border border-border/60">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/30">
-                  <TableHead>Quando</TableHead>
-                  <TableHead>Categoria</TableHead>
-                  <TableHead>Ação</TableHead>
-                  <TableHead>Responsável</TableHead>
-                  <TableHead>Afetado</TableHead>
-                  <TableHead>Detalhes</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell className="whitespace-nowrap text-xs">
-                      {formatDateTime(row.created_at)}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="text-[11px]">
-                        {AUDIT_CATEGORY_LABELS[categorizeAction(row.action)]}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-xs font-medium">{row.action}</TableCell>
-                    <TableCell className="text-xs">
-                      {nameByUser.get(row.actor_id) ?? "Equipe"}
-                    </TableCell>
-                    <TableCell className="text-xs">
-                      {row.target_user_id ? (nameByUser.get(row.target_user_id) ?? "—") : "—"}
-                    </TableCell>
-                    <TableCell className="max-w-64 truncate text-xs text-muted-foreground">
-                      {JSON.stringify(row.details ?? {})}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+          filtered.map((log) => {
+            const config = actionLabels[log.action] || { label: log.action, color: "bg-slate-500/10 text-slate-600" };
+            return (
+              <div key={log.id} className="py-3 flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
+                <div className="w-32 shrink-0 flex items-center gap-2 text-xs text-muted-foreground">
+                  <Calendar className="size-3" />
+                  {formatDateTime(log.created_at)}
+                </div>
+                
+                <div className="w-32 shrink-0">
+                  <Badge variant="outline" className={config.color}>
+                    {config.label}
+                  </Badge>
+                </div>
+
+                <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-medium text-foreground flex items-center gap-1">
+                      <User className="size-3 text-brand" />
+                      {log.actor?.full_name || "Sistema"}
+                    </span>
+                    <span className="text-muted-foreground">realizou em</span>
+                    <span className="font-medium text-foreground flex items-center gap-1">
+                      <User className="size-3 text-amber-500" />
+                      {log.target?.full_name || "—"}
+                    </span>
+                  </div>
+                  {log.details && (
+                    <div className="flex items-start gap-1 text-[11px] text-muted-foreground bg-muted/30 p-1.5 rounded border border-border/50">
+                      <Info className="size-3 mt-0.5 shrink-0" />
+                      <pre className="whitespace-pre-wrap font-sans">
+                        {JSON.stringify(log.details, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

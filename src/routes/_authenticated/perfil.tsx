@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User, Users, Bell } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -28,6 +29,8 @@ import { ExternalCodesList, ExternalCodeCreator } from "./kids";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 
 
+
+import { usePlanAccess } from "@/lib/plan-features";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({
@@ -203,6 +206,9 @@ function ProfilePage() {
     .map((part: string) => part.charAt(0).toUpperCase())
     .join("");
 
+  const access = usePlanAccess();
+  const readOnly = access.courtesyTrial && access.trialActive;
+
   return (
     <AppShell>
       <div className="mx-auto w-full max-w-5xl space-y-3 sm:space-y-4">
@@ -213,8 +219,13 @@ function ProfilePage() {
           description="Gerencie sua conta e acompanhe o status da sua licença."
           className="pb-1"
         />
+        {readOnly && (
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-xs text-amber-700 dark:text-amber-400 font-medium animate-in fade-in slide-in-from-top duration-300">
+            Sua conta está em modo de teste temporário. A edição de dados pessoais está bloqueada por segurança até a ativação de uma licença definitiva.
+          </div>
+        )}
 
-        <div className="grid gap-3 sm:gap-4 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <div className={cn("grid gap-3 sm:gap-4 lg:grid-cols-[240px_minmax(0,1fr)]", readOnly && "pointer-events-none opacity-80")}>
           {/* Coluna esquerda: identidade */}
           <aside className="space-y-3 sm:space-y-4">
             <section className="accent-tile overflow-hidden rounded-2xl p-4 text-center shadow-soft">

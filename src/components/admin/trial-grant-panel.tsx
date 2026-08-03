@@ -35,6 +35,7 @@ export function TrialGrantPanel() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [slug, setSlug] = useState<TrialSlug>("trial_14");
+  const [customDays, setCustomDays] = useState(1);
 
   const users = useQuery({
     queryKey: ["admin", "trial-users"],
@@ -63,7 +64,7 @@ export function TrialGrantPanel() {
   }, [users.data, search]);
 
   const mutation = useMutation({
-    mutationFn: (targetUserId: string) => grant({ data: { targetUserId, slug, restart: true } }),
+    mutationFn: (targetUserId: string) => grant({ data: { targetUserId, slug, customDays, restart: true } }),
     onSuccess: (result) => {
       toast.success(`Teste de ${result.days} dias liberado até ${formatDateTime(result.endsAt)}.`);
       void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
@@ -128,14 +129,31 @@ export function TrialGrantPanel() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {TRIAL_OPTIONS.map((option) => (
-                <SelectItem key={option.slug} value={option.slug}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+               {TRIAL_OPTIONS.map((option) => (
+                 <SelectItem key={option.slug} value={option.slug}>
+                   {option.label}
+                 </SelectItem>
+               ))}
+               <SelectItem value="trial_1h">1 Hora</SelectItem>
+               <SelectItem value="trial_6h">6 Horas</SelectItem>
+               <SelectItem value="trial_12h">12 Horas</SelectItem>
+               <SelectItem value="trial_custom">Dias Específicos</SelectItem>
+             </SelectContent>
+           </Select>
+         </div>
+         {((slug as string) === "trial_custom") && (
+           <div className="w-24 space-y-1">
+             <Label className="text-xs">Dias</Label>
+             <Input
+               type="number"
+               min={1}
+               max={365}
+               value={customDays}
+               onChange={(e) => setCustomDays(Number(e.target.value))}
+               className="h-9"
+             />
+           </div>
+         )}
         <Button variant="outline" size="sm" onClick={exportPdf} className="h-9">
             <FileText className="size-4 mr-2" />
             PDF
@@ -164,9 +182,9 @@ export function TrialGrantPanel() {
                   className="h-8 border-rose-500/30 text-rose-600 hover:bg-rose-50"
                   disabled={mutation.isPending}
                   onClick={async () => {
-                    if (!confirm("Tem certeza que deseja BLOQUEAR este usuário imediatamente?")) return;
+                    if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato. Continuar?")) return;
                     await supabase.from("profiles").update({ status: 'suspended' }).eq("user_id", row.user_id);
-                    toast.success("Usuário bloqueado.");
+                    toast.success("Usuário bloqueado e deslogado com sucesso.");
                     void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
                   }}
                 >
@@ -177,7 +195,11 @@ export function TrialGrantPanel() {
                   variant="outline"
                   className="h-8 border-emerald-500/30 text-emerald-600 hover:bg-emerald-50"
                   disabled={mutation.isPending}
-                  onClick={() => mutation.mutate(row.user_id)}
+                  onClick={async () => {
+                    const ok = window.confirm(`Deseja conceder um período de teste de ${TRIAL_OPTIONS.find(o => o.slug === slug)?.label} para ${row.full_name || 'este usuário'}?`);
+                    if (!ok) return;
+                    mutation.mutate(row.user_id);
+                  }}
                 >
                   Liberar teste
                 </Button>
