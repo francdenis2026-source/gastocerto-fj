@@ -489,12 +489,12 @@ function DashboardPage() {
         
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
            <div className="flex-1 w-full max-w-md">
-              <div className="relative">
+              <div className="relative group">
                 <Input 
-                  placeholder="Pesquisar no painel..." 
-                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm"
+                  placeholder="Pesquisar no painel (⌘K)..." 
+                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm transition-all focus:ring-2 focus:ring-brand/20 group-hover:border-brand/30"
                 />
-                <CalendarIcon className="absolute left-3 top-3 size-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-3 size-4 text-muted-foreground transition-colors group-hover:text-brand" />
               </div>
            </div>
         </div>
@@ -640,8 +640,6 @@ function DashboardPage() {
 
         </header>
 
-        <KidsManagementPanel />
-
         <GlobalAnnouncementsBanner />
 
         {loadingTransactions ? (
@@ -651,10 +649,8 @@ function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
-            <div className="space-y-4">
-              <InteractiveCalendar onDayClick={openDayDetail} />
-              
+          <div className="grid gap-6 lg:grid-cols-[1fr_380px] mt-6">
+            <div className="space-y-6">
               <div className="grid gap-3 auto-cards-sm">
                 <StatTile
                   tone="brand"
@@ -742,23 +738,154 @@ function DashboardPage() {
                 />
 
               </div>
+
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm overflow-hidden relative">
+                 <div className="absolute top-0 right-0 p-8 opacity-5">
+                    <BarChart3 className="size-32" />
+                 </div>
+                 <h2 className="text-lg font-black tracking-tight mb-4 flex items-center gap-2">
+                    <Sparkles className="size-5 text-brand" />
+                    Área de Análise Consolidada
+                 </h2>
+                 <div className="grid gap-6">
+                    <YearlyBalanceSection year={period.year} />
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <ChartCard
+                        title="Evolução Diária"
+                        summary={`Maior pico: ${formatCurrency(Math.max(0, ...byDay.map((item) => item.gasto)))}.`}
+                      >
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={byDay} onClick={(s:any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}>
+                            <CartesianGrid {...gridProps} />
+                            <XAxis dataKey="day" {...axisProps} />
+                            <YAxis {...axisProps} width={36} />
+                            <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
+                            <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </ChartCard>
+                      <ChartCard
+                        title="Categorias"
+                        summary="Distribuição percentual dos seus gastos"
+                      >
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={byCategory}
+                              dataKey="value"
+                              nameKey="name"
+                              innerRadius={40}
+                              outerRadius={65}
+                              onClick={(e:any) => e?.id && openCategoryDetail(e.id, e.name)}
+                            >
+                              {byCategory.map((entry, index) => (
+                                <Cell key={entry.name} fill={entry.color ?? seriesColor(index)} />
+                              ))}
+                            </Pie>
+                            <Tooltip 
+                              {...tooltipProps} 
+                              formatter={(v:any, n:any) => {
+                                const total = byCategory.reduce((a, b) => a + b.value, 0);
+                                return [formatCurrency(v), `${n} (${total > 0 ? ((v/total)*100).toFixed(1) : 0}%)`];
+                              }} 
+                            />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </ChartCard>
+                    </div>
+                 </div>
+              </div>
+
+              <KidsManagementPanel />
+
+              <div className="grid md:grid-cols-2 gap-4">
+                 <ChartCard
+                    title="Receitas x Despesas"
+                    summary="Equilíbrio financeiro ao longo do mês"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={byDay}>
+                        <CartesianGrid {...gridProps} />
+                        <XAxis dataKey="day" {...axisProps} />
+                        <YAxis {...axisProps} width={40} />
+                        <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
+                        <Legend {...legendProps} />
+                        <Line type="monotone" dataKey="receita" name="Receitas" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
+                        <Line type="monotone" dataKey="gasto" name="Despesas" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                  <ChartCard
+                    title="Perfil de Consumo"
+                    summary="Divisão entre essenciais e estilo de vida"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={essentialSplit}
+                          dataKey="value"
+                          nameKey="name"
+                          outerRadius={65}
+                        >
+                          {essentialSplit.map((entry) => (
+                            <Cell key={entry.name} fill={entry.color} stroke="var(--card)" strokeWidth={2} />
+                          ))}
+                        </Pie>
+                        <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
+                        <Legend {...legendProps} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              {metrics.limit > 0 && (
-                <StatTile
-                  tone="neutral"
-                  label="Orçamento geral"
-                  value={formatCurrency(metrics.limit)}
-                  progress={metrics.usedPercent}
-                  icon={Wallet}
-                  hint={`Você já usou ${metrics.usedPercent.toFixed(1)}% do seu limite definido.`}
-                />
-
-              )}
+            <aside className="space-y-6">
+              <InteractiveCalendar onDayClick={openDayDetail} />
               
-              <RecurringAlerts />
-            </div>
+              <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+                <h2 className="text-sm font-bold mb-4 flex items-center gap-2">
+                   <TrendingUpIcon className="size-4 text-brand" />
+                   Status do Mês
+                </h2>
+                <div className="space-y-4">
+                  <StatTile
+                    tone="neutral"
+                    label="Média diária"
+                    value={formatCurrency(metrics.dailyAverage)}
+                    onClick={() => setDetail({ label: "Média diária", value: formatCurrency(metrics.dailyAverage), formula: "...", rows: detailRows.expenses })}
+                  />
+                  <StatTile
+                    tone="warning"
+                    label="Projeção"
+                    value={formatCurrency(metrics.projection)}
+                    onClick={() => setDetail({ label: "Projeção", value: formatCurrency(metrics.projection), formula: "...", rows: detailRows.expenses })}
+                  />
+                  {metrics.limit > 0 && (
+                    <div className="p-4 rounded-xl bg-muted/20 border border-border/50">
+                       <p className="text-[10px] font-bold text-muted-foreground uppercase mb-2">Orçamento Mensal</p>
+                       <Progress value={Math.min(100, metrics.usedPercent)} className="h-2" />
+                       <div className="flex justify-between mt-2">
+                          <span className="text-[10px] text-muted-foreground">{metrics.usedPercent.toFixed(1)}% usado</span>
+                          <span className="text-[10px] font-bold">{formatCurrency(metrics.limit)}</span>
+                       </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <InsightsPanel year={period.year} month={period.month} />
+              
+              <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+                <h2 className="text-sm font-bold mb-3 text-muted-foreground uppercase tracking-widest text-[9px]">Avisos e Contas</h2>
+                <RecurringAlerts days={7} />
+              </div>
+
+              <CardMonthSummary
+                transactions={transactions ?? []}
+                categories={categories ?? []}
+                monthLabel={`${MONTH_NAMES[period.month - 1]}/${period.year}`}
+              />
+            </aside>
           </div>
         )}
 

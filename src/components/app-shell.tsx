@@ -60,7 +60,19 @@ export function AppShell({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return false;
     return localStorage.getItem("gc:sidebar-collapsed") === "true";
   });
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("gc:sidebar-expanded-group");
+  });
+
+  const handleSetExpanded = (val: string | null) => {
+    setExpanded(val);
+    if (val) {
+      localStorage.setItem("gc:sidebar-expanded-group", val);
+    } else {
+      localStorage.removeItem("gc:sidebar-expanded-group");
+    }
+  };
 
   const toggleRail = () => {
     setRailCollapsed((prev) => {
@@ -215,95 +227,97 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         ) : null}
 
-        <nav aria-label="Menu principal" className="flex-1 space-y-3 overflow-y-auto p-2">
+        <nav aria-label="Menu principal" className="flex-1 space-y-3 overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-muted">
           {sections.map((section) => (
             <div key={section.key} className="space-y-1">
               {!railCollapsed ? (
-                <p className="px-2.5 pt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground/70">
+                <p className="px-2.5 pt-1 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">
                   {section.label}
                 </p>
               ) : (
-                <div aria-hidden className="mx-auto h-px w-6 bg-border" />
+                <div aria-hidden className="mx-auto h-px w-6 bg-border/50 my-3" />
               )}
               {section.groups.map((item) => {
                 const isActive = activeGroup?.key === item.key;
                 const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
                 const hasChildren = visibleChildren.length > 1;
                 const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
+                
                 return (
-                  <div key={item.to}>
+                  <div key={item.to} className="group/nav-item">
                     <div
                       className={cn(
-                        "group relative flex items-center gap-1 rounded-xl transition-colors",
-                        isActive ? "bg-brand/10" : "hover:bg-secondary/70",
+                        "group relative flex items-center gap-1 rounded-xl transition-all duration-200",
+                        isActive ? "bg-brand/10 shadow-sm shadow-brand/5" : "hover:bg-secondary/70",
                       )}
                     >
-                      {isActive ? (
+                      {isActive && (
                         <span
                           aria-hidden
-                          className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand"
+                          className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand shadow-[0_0_8px_rgba(var(--brand),0.5)]"
                         />
-                      ) : null}
+                      )}
                       <Link
                         to={item.to as never}
                         aria-current={isActive ? "page" : undefined}
                         title={item.hint ? `${item.label} — ${item.hint}` : item.label}
                         className={cn(
-                          "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold",
+                          "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-bold transition-transform active:scale-[0.98]",
                           isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
                           railCollapsed && "justify-center px-0",
                         )}
                       >
                         <span
                           className={cn(
-                            "grid size-8 shrink-0 place-items-center rounded-lg border transition-colors",
+                            "grid size-8 shrink-0 place-items-center rounded-lg border transition-all duration-300 group-hover/nav-item:scale-110",
                             isActive
-                              ? "border-brand/40 bg-brand/15 text-brand"
-                              : "border-border bg-secondary/60 text-brand",
+                              ? "border-brand/40 bg-brand/15 text-brand shadow-inner"
+                              : "border-border/50 bg-secondary/60 text-muted-foreground group-hover:border-brand/30 group-hover:text-brand",
                           )}
                         >
-                          <item.icon className="size-4" aria-hidden="true" />
+                          <item.icon className={cn("size-4 transition-transform", isActive && "scale-110")} aria-hidden="true" />
                         </span>
-                        {!railCollapsed ? <span className="truncate">{item.label}</span> : null}
+                        {!railCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
                       </Link>
-                      {hasChildren && !railCollapsed ? (
+                      
+                      {hasChildren && !railCollapsed && (
                         <button
                           type="button"
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            setExpanded((prev) => (prev === item.key ? "" : item.key));
+                            handleSetExpanded(expanded === item.key ? null : item.key);
                           }}
                           aria-expanded={isOpen}
                           aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                          className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-transform hover:bg-secondary active:scale-95"
+                          className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-all hover:bg-secondary active:scale-90"
                         >
                           <ChevronDown
-                            className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
+                            className={cn("size-4 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
                           />
                         </button>
-                      ) : null}
+                      )}
                     </div>
 
-                    {hasChildren && isOpen ? (
-                      <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border pl-2.5">
+                    {hasChildren && isOpen && (
+                      <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border/80 pl-2.5 animate-in slide-in-from-left-2 duration-200">
                         {visibleChildren.map((child) => (
                           <Link
                             key={child.to}
                             to={child.to as never}
                             aria-current={pathname === child.to ? "page" : undefined}
                             className={cn(
-                              "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+                              "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[11.5px] font-bold transition-all relative",
                               pathname === child.to
-                                ? "bg-secondary text-foreground"
-                                : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                                ? "bg-secondary/80 text-foreground"
+                                : "text-muted-foreground hover:bg-secondary/40 hover:text-foreground hover:translate-x-0.5",
                             )}
                           >
-                            <span className="truncate">{child.label}</span>
+                            <span className="truncate tracking-tight">{child.label}</span>
                           </Link>
                         ))}
                       </div>
-                    ) : null}
+                    )}
                   </div>
                 );
               })}
@@ -356,40 +370,43 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         )}
 
-        <div className="border-t border-border p-2">
+        <div className="mt-auto border-t border-border p-2 space-y-1">
           <Link
             to="/perfil"
             className={cn(
-              "flex items-center gap-2 rounded-xl px-2 py-2 transition-colors hover:bg-secondary/70",
+              "flex items-center gap-2 rounded-xl px-2 py-2.5 transition-all hover:bg-brand/10 group/profile",
               railCollapsed && "justify-center px-0",
             )}
           >
-            <Avatar className="size-8 shrink-0">
-              {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-              <AvatarFallback className="text-xs">{initials}</AvatarFallback>
-            </Avatar>
-            {!railCollapsed ? (
+            <div className="relative shrink-0">
+              <Avatar className="size-8 transition-transform group-hover/profile:scale-105 border border-border/50">
+                {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
+                <AvatarFallback className="text-xs bg-secondary text-muted-foreground">{initials}</AvatarFallback>
+              </Avatar>
+              <div className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-emerald-500 border-2 border-background" />
+            </div>
+            {!railCollapsed && (
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12.5px] font-semibold">
+                <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-brand transition-colors">
                   {profile?.full_name ?? "Minha conta"}
                 </span>
-                <span className="block truncate text-[11px] text-muted-foreground">
+                <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
                   Meu perfil e plano
                 </span>
               </span>
-            ) : null}
+            )}
           </Link>
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start gap-2 text-muted-foreground",
+              "w-full justify-start gap-2 h-10 px-2 rounded-xl text-muted-foreground hover:text-rose-500 hover:bg-rose-500/5 transition-all group/logout",
               railCollapsed && "justify-center",
             )}
             onClick={handleSignOut}
             aria-label="Sair"
           >
-            <LogOut className="size-4" />
-            {!railCollapsed ? "Sair" : null}
+            <LogOut className="size-4 transition-transform group-hover/logout:-translate-x-0.5" />
+            {!railCollapsed && <span className="text-[12.5px] font-bold">Encerrar Sessão</span>}
           </Button>
         </div>
       </aside>

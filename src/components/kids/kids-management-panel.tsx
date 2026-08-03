@@ -551,25 +551,49 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Botão de excluir desabilitado durante qualquer processamento
+  const isActionPending = isPending;
+
   if (showDeleteConfirm) {
     return (
-      <div className="space-y-4 py-4">
+      <div className="space-y-4 py-4 animate-in fade-in zoom-in-95 duration-200">
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="size-12 rounded-full bg-rose-500/10 flex items-center justify-center">
-            <Trash2 className="size-6 text-rose-500" />
+          <div className="size-14 rounded-full bg-rose-500/10 flex items-center justify-center">
+            <Trash2 className="size-7 text-rose-500" />
           </div>
-          <div>
-            <h3 className="text-lg font-bold">Excluir lançamento?</h3>
-            <p className="text-sm text-muted-foreground">Esta ação removerá o gasto do seu extrato e a receita do saldo do seu filho.</p>
+          <div className="space-y-1">
+            <h3 className="text-lg font-black tracking-tight">Confirmar exclusão?</h3>
+            <p className="text-sm text-muted-foreground max-w-[280px] leading-relaxed">
+              Esta ação removerá permanentemente o lançamento de <strong className="text-rose-500">{formatCurrency(transaction.amount)}</strong>. O saldo do seu filho será atualizado em tempo real.
+            </p>
           </div>
         </div>
-        <div className="flex gap-2 pt-2">
-          <Button variant="outline" className="flex-1" onClick={() => setShowDeleteConfirm(false)}>Cancelar</Button>
-          <Button variant="destructive" className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold" onClick={onDelete} disabled={isPending}>
-            {isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : <Trash2 className="size-4 mr-2" />}
-            Confirmar Exclusão
+        <div className="flex gap-3 pt-2">
+          <Button 
+            variant="outline" 
+            className="flex-1 h-11 font-bold" 
+            onClick={() => setShowDeleteConfirm(false)}
+            disabled={isActionPending}
+          >
+            Cancelar
+          </Button>
+          <Button 
+            variant="destructive" 
+            className="flex-1 h-11 bg-rose-500 hover:bg-rose-600 text-white font-bold shadow-lg shadow-rose-500/20" 
+            onClick={onDelete} 
+            disabled={isActionPending}
+          >
+            {isActionPending ? (
+              <Loader2 className="size-4 animate-spin mr-2" />
+            ) : (
+              <Trash2 className="size-4 mr-2" />
+            )}
+            Excluir Agora
           </Button>
         </div>
+        <p className="text-[10px] text-center text-muted-foreground/60 italic">
+          Dica: Você pode desfazer exclusões acidentais através do suporte.
+        </p>
       </div>
     );
   }
@@ -600,10 +624,15 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
         <Button variant="ghost" className="text-destructive hover:text-destructive hover:bg-destructive/5" onClick={() => setShowDeleteConfirm(true)}>
           Excluir
         </Button>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-1 sm:flex-initial">
           <Button variant="outline" className="flex-1" onClick={() => window.location.reload()}>Cancelar</Button>
-          <Button onClick={() => onUpdate(formData)} disabled={isPending}>
-            {isPending && <Loader2 className="size-4 animate-spin mr-2" />} Salvar
+          <Button 
+            onClick={() => onUpdate(formData)} 
+            disabled={isPending}
+            className="flex-1"
+          >
+            {isPending && <Loader2 className="size-4 animate-spin mr-2" />} 
+            Salvar Alterações
           </Button>
         </div>
       </DialogFooter>
