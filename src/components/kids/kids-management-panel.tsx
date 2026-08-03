@@ -301,7 +301,9 @@ export function KidsManagementPanel() {
                                     <EditTransactionForm 
                                       transaction={tx}
                                       onUpdate={(values: any) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })}
-                                      onDelete={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}
+                                      onDelete={() => {
+                                        deleteMutation.mutate({ data: { transactionId: tx.id } });
+                                      }}
                                       isPending={updateMutation.isPending || deleteMutation.isPending}
                                     />
                                   </DialogContent>
