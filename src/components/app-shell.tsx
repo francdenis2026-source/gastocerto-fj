@@ -137,15 +137,6 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 
 
-
-
-  const activeGroup = items.find(
-    (group) => group.to === pathname || group.children?.some((child) => child.to === pathname),
-  );
-  const subTabs = activeGroup?.children ?? [];
-
-
-
   const initials = (profile?.full_name ?? "GC")
     .split(" ")
     .slice(0, 2)
