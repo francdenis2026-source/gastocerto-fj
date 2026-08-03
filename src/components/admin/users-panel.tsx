@@ -651,7 +651,8 @@ function ManageUserDialog({
                   className="gap-2 border-primary/30 text-primary hover:bg-primary/5"
                   disabled={pending !== null}
                   onClick={() => {
-                    if (!confirm("Promover este usuário para a versão PAGA (Premium IA) agora?")) return;
+                    const ok = window.confirm("Promover este usuário para a versão PAGA (Premium IA) agora?");
+                    if (!ok) return;
                     void run(
                       "promote",
                       async () => {
@@ -675,7 +676,8 @@ function ManageUserDialog({
                   className="gap-2 border-rose-500/30 text-rose-600 hover:bg-rose-50"
                   disabled={pending !== null}
                   onClick={() => {
-                    if (!confirm("Bloquear este usuário imediatamente?")) return;
+                    const ok = window.confirm("Bloquear este usuário imediatamente?");
+                    if (!ok) return;
                     void run(
                       "block",
                       () => adminSetUserStatus({ data: { targetUserId: profile.user_id, status: 'suspended' } }),
