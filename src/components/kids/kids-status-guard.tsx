@@ -31,7 +31,7 @@ export function KidsStatusGuard({ kidUserId, children }: { kidUserId: string; ch
                     Novos lançamentos estão bloqueados até a regularização.
                   </p>
                   <Button asChild size="sm" variant="outline" className="mt-2 h-7 gap-1.5 text-[10px] bg-amber-500/20 border-amber-500/30 hover:bg-amber-500/30 text-amber-900 dark:text-amber-100">
-                    <Link to="/auth" search={{ mode: 'signin' }}>
+                    <Link to="/auth" search={{ mode: 'login' }}>
                       Falar com responsável <ArrowRight className="size-3" />
                     </Link>
                   </Button>
