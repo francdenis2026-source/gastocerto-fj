@@ -183,17 +183,15 @@ export function TrialGrantPanel() {
                   disabled={mutation.isPending}
                   onClick={async () => {
                     if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato e enviará uma notificação crítica. Continuar?")) return;
-                    
-                    const pin = window.prompt("Digite o código mestre para confirmar a suspensão:");
-                    if (pin !== 'ADMIN123456') {
-                       toast.error("Código incorreto.");
-                       return;
-                    }
+
+                    const code = window.prompt("Digite o código mestre para confirmar a suspensão:");
+                    if (!code || !(await checkMasterCode(code))) return;
 
                     await supabase.from("profiles").update({ status: 'suspended' }).eq("user_id", row.user_id);
                     toast.success("Usuário bloqueado e deslogado com sucesso.");
                     void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
                   }}
+
                 >
                   Bloquear
                 </Button>
