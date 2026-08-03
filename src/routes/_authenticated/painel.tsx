@@ -493,6 +493,13 @@ function DashboardPage() {
            </div>
         </div>
 
+        {!hasFeature(access, "financial_advisor") && (
+          <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
+                <Sparkles className="size-5 text-banner-amber-icon" />
+              </div>
+              <div>
                 <p className="text-xs font-black uppercase tracking-widest text-banner-amber-text">Consultoria IA</p>
                 <p className="text-[10px] text-banner-amber-text/70 font-bold leading-tight max-w-[280px]">
                   Estratégias exclusivas para investir e sair das dívidas no plano Premium.
@@ -504,6 +511,7 @@ function DashboardPage() {
             </Button>
           </div>
         )}
+
 
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (

@@ -351,7 +351,8 @@ function KidSpacePage() {
              />
              <HelpCircle className="absolute left-2.5 top-2.5 size-3 text-muted-foreground" />
           </div>
-        <div className="flex items-center gap-2">
+        </div>
+
           {!viewYearly && (
             <Select 
               value={selectedMonth.toString()} 

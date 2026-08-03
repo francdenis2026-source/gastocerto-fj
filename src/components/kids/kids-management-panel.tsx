@@ -207,6 +207,7 @@ export function KidsManagementPanel() {
                 ))}
               </SelectContent>
             </Select>
+            
             <Dialog open={kidDetailsOpen} onOpenChange={setKidDetailsOpen}>
               <Button 
                 variant="outline" 
@@ -278,7 +279,7 @@ export function KidsManagementPanel() {
                               </span>
                               <div className="flex gap-1">
                                 <Button variant="ghost" size="icon" className="size-7" onClick={() => {
-                                  // Abre modal de edição
+                                  // Em um sistema real, aqui abriríamos outro Dialog ou trocaríamos o estado para editar
                                 }}>
                                   <Edit2 className="size-3" />
                                 </Button>
@@ -295,8 +296,7 @@ export function KidsManagementPanel() {
                 )}
               </DialogContent>
             </Dialog>
-              </SelectContent>
-            </Select>
+
             <Button 
               variant="ghost" 
               size="icon" 
