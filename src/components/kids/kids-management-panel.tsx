@@ -541,7 +541,11 @@ export function KidsManagementPanel() {
           {metrics.data && metrics.data.length > 0 && (
             <div className="border-t border-border/50">
               <div className="px-4 py-2 bg-muted/5 flex items-center justify-between">
-                <Label className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">Lançamentos Recentes</Label>
+                <div className="flex items-center gap-2">
+                  <Activity className="size-3 text-primary animate-pulse" />
+                  <Label className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">Monitoramento em Tempo Real</Label>
+                </div>
+                {metrics.isFetching && <Loader2 className="size-2 animate-spin text-muted-foreground" />}
               </div>
               <div className="max-h-[200px] overflow-y-auto divide-y divide-border/30">
                 {metrics.data.slice(0, 5).map((tx: any) => {
