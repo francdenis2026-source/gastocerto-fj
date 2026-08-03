@@ -461,17 +461,7 @@ function DashboardPage() {
 
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
 
-  if (isLoading) {
-    return (
-      <AppShell>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
-        </div>
-      </AppShell>
-    );
-  }
-
-  if (loadingTransactions || loadingCategories) {
+  if (!profile || loadingTransactions || loadingCategories) {
     return (
       <AppShell>
         <div className="flex min-h-[40vh] items-center justify-center">
@@ -801,6 +791,21 @@ function DashboardPage() {
                  overview={
                    <div className="space-y-6">
                       <div className="grid gap-3 auto-cards-sm">
+                        <StatTile
+                          label="Minha Assinatura"
+                          value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
+                          tone={access.planSlug !== "free" ? "success" : "neutral"}
+                          icon={ShieldCheck}
+                          badge={
+                            (access.planSlug === "premium_ia" || access.planSlug === "premium") && (
+                              <Badge variant="outline" className="h-5 border-emerald-500/30 bg-emerald-500/10 text-emerald-600 font-black text-[10px] uppercase">
+                                PRO
+                              </Badge>
+                            )
+                          }
+                          onClick={() => navigate({ to: "/perfil" })}
+                        />
+
                         <StatTile
                           tone="brand"
                           label={
