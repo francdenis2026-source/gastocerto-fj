@@ -43,6 +43,8 @@ import { createKidTransaction } from "@/lib/kids-self-transactions.functions";
 import { exportKidsSummaryPdf } from "@/lib/kids-export";
 import { getKidGoals } from "@/lib/kids-goals.functions";
 import { useKidSpaceRealtime } from "@/lib/kids-space-realtime";
+import { KidEntryDetailsDialog } from "@/components/kids/kid-entry-details-dialog";
+import { kidEntryKind, kidEntryLabel, kidEntryTone } from "@/lib/kids-labels";
 
 
 
