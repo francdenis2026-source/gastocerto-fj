@@ -177,16 +177,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className="dark">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('gastocerto-theme');
+                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (!theme && supportDarkMode) theme = 'dark';
+                  if (!theme) theme = 'dark';
+                  document.documentElement.classList.toggle('dark', theme === 'dark');
+                  document.documentElement.style.colorScheme = theme;
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
-        {/* Ajustar os botões de alternância (Entrar/Criar conta) para ficarem acessíveis com foco visível, rótulos ARIA e navegação pelo teclado. 
-
-Incluir o mesmo destaque do alternar entre “Criar conta” e “Entrar” também no modo escuro, mantendo contraste e legibilidade. 
-
-Verificar e reforçar a proteção das rotas para que, após o logout, eu não consiga acessar páginas autenticadas nem pelo histórico. Adicionar uma confirmação ao clicar em “Sair” no painel administrativo para evitar deslogar por acidente. */}
         {children}
         <Scripts />
       </body>
