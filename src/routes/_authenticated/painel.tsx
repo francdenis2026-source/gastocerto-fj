@@ -975,48 +975,6 @@ function DashboardPage() {
           </div>
         )}
 
-        {/* Bloco de métricas secundárias */}
-        {!loadingTransactions && (
-          <div className="grid gap-3 auto-cards-sm mt-4">
-            <StatTile
-              tone="neutral"
-              label="Média diária"
-              value={formatCurrency(metrics.dailyAverage)}
-              onClick={() =>
-                setDetail({
-                  label: "Média diária de gastos",
-                  value: formatCurrency(metrics.dailyAverage),
-                  formula: "Gasto do mês dividido pelos dias já decorridos do período.",
-                  rows: detailRows.expenses,
-                  extra: [
-                    { label: "Gasto no mês", value: formatCurrency(metrics.totalExpense) },
-                    { label: "Projeção do mês", value: formatCurrency(metrics.projection) },
-                  ],
-                })
-              }
-            />
-
-            <StatTile
-              tone="warning"
-              label="Projeção do mês"
-              value={formatCurrency(metrics.projection)}
-              hint="Com base no ritmo atual"
-              onClick={() =>
-                setDetail({
-                  label: "Projeção do mês",
-                  value: formatCurrency(metrics.projection),
-                  formula: "Média diária multiplicada pelo total de dias do mês.",
-                  rows: detailRows.expenses,
-                  extra: [
-                    { label: "Média diária", value: formatCurrency(metrics.dailyAverage) },
-                    { label: "Gasto até agora", value: formatCurrency(metrics.totalExpense) },
-                  ],
-                })
-              }
-            />
-
-          </div>
-        )}
       
         {!loadingTransactions && (
           <div className="space-y-4 mt-4">
