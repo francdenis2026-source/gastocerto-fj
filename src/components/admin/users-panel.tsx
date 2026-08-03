@@ -83,13 +83,29 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     queryFn: async (): Promise<Profile[]> => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*, plan:plans(slug), kid_accounts:kid_accounts(count)");
-      // Note: Omitted .order if it's causing issues, but usually it shouldn't.
-      // If we want all, we just don't limit.
+        .select("*, plan:plans(slug)")
+        .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data || []).map(p => ({ ...p, plan_slug: (p as any).plan?.slug })) as any;
+      return (data || []).map((p) => ({ ...p, plan_slug: (p as any).plan?.slug })) as any;
     },
   });
+
+  // Quantidade de filhos (Espaço Kids) por responsável, contada separadamente
+  // porque não existe relação direta entre profiles e dependents.
+  const kidsCount = useQuery({
+    queryKey: ["admin", "profiles", "kids-count"],
+    staleTime: 60_000,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("dependents").select("user_id");
+      if (error) throw error;
+      const map = new Map<string, number>();
+      for (const row of data ?? []) {
+        map.set(row.user_id, (map.get(row.user_id) ?? 0) + 1);
+      }
+      return map;
+    },
+  });
+
 
   const rolesByUser = useQuery({
     queryKey: ["admin", "roles"],
