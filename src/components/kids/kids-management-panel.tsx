@@ -518,7 +518,7 @@ export function KidsManagementPanel() {
                       <div className="flex items-center justify-between">
                         <p className="text-lg font-black text-primary">
                           {formatCurrency(
-                            metrics.data?.reduce((acc: number, tx: any) => {
+                            metrics.data?.transactions?.reduce((acc: number, tx: any) => {
                               const isKidSelf = tx.tags?.includes("kid_self_expense");
                               if (isKidSelf) return acc - (tx.transaction_type === 'expense' ? tx.amount : -tx.amount);
                               return acc + tx.amount;
