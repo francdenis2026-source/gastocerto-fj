@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Loader2, LogOut, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp, Bell, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
+import { CreditCard, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useKidTheme } from "@/lib/kids-theme";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
