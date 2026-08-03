@@ -727,6 +727,7 @@ function KidSpacePage() {
         dependentId={dependent.id}
         ownerId={dependent.user_id}
         syncTx={syncTx}
+        createTx={createTx}
       />
       <footer className="mt-auto border-t border-border py-6 text-center">
         <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
@@ -834,12 +835,14 @@ function KidEntryDialog({
   dependentId,
   ownerId,
   syncTx,
+  createTx,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dependentId: string;
   ownerId: string;
   syncTx: any;
+  createTx: any;
 }) {
   const queryClient = useQueryClient();
   const [reason, setReason] = useState<string>(DEPENDENT_REASONS[0].value);

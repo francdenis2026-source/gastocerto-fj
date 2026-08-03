@@ -1231,33 +1231,51 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <QrCode className="size-3 text-primary" aria-hidden /> Entrada
             </p>
             {qr ? (
-              <>
-                <div id={`qr-container-${dependent.id}`} className="mx-auto mt-2 inline-block rounded-lg border border-border/50 bg-white p-1.5">
+              <div className="flex flex-col items-center gap-3">
+                <div className="relative group overflow-hidden rounded-2xl border-4 border-white shadow-xl bg-white p-2">
                   <img
                     src={qr}
-                    alt={`QR code de acesso de ${dependent.name}`}
-                    width={128}
-                    height={128}
-                    className="size-32 max-w-full"
+                    alt={`QR Code de ${dependent.name}`}
+                    className="size-44 transition-transform group-hover:scale-[1.02]"
                   />
+                  <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                 </div>
-
-                <p className="mt-1 text-[9px] font-bold text-muted-foreground">{expiry.label}</p>
-                <p className="mt-0.5 text-[9px] text-muted-foreground leading-tight">
-                  Escaneie para entrar sem digitar código.
-                </p>
                 
-                <div className="grid grid-cols-2 gap-2 mt-3">
+                <div className="flex w-full gap-2">
                   <Button
-                    type="button"
+                    variant="outline"
                     size="sm"
-                    variant="secondary"
-                    className="w-full text-[10px] h-8 px-1"
-                    onClick={() => void copyLoginUrl()}
+                    className="flex-1 h-9 text-[10px] font-bold gap-1.5 rounded-xl border-primary/20 hover:bg-primary/5 hover:border-primary/40"
+                    onClick={copyLoginUrl}
                   >
-                    <Copy className="mr-1 size-3" /> Link
+                    <Copy className="size-3" /> Link
                   </Button>
                   <Button
+                    variant="default"
+                    size="sm"
+                    className="flex-1 h-9 text-[10px] font-bold gap-1.5 rounded-xl shadow-md"
+                    onClick={shareQr}
+                  >
+                    <Share2 className="size-3" /> Compartilhar
+                  </Button>
+                </div>
+                
+                <button
+                  type="button"
+                  onClick={reloadQr}
+                  className="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 mt-1"
+                >
+                  <RefreshCw className="size-2.5" /> Atualizar imagem
+                </button>
+              </div>
+            ) : (
+              <div className="flex h-44 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border/60 bg-muted/20">
+                <QrCode className="size-8 text-muted-foreground/40" />
+                <p className="max-w-[120px] text-center text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">
+                  Escolha um código para gerar o QR
+                </p>
+              </div>
+            )}
                     type="button"
                     size="sm"
                     variant="secondary"
