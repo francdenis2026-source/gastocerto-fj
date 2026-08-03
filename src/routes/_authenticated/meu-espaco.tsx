@@ -8,7 +8,7 @@ import { useKidsAppMode } from "@/lib/kids-pwa";
 import { useAppUpdate } from "@/lib/pwa";
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
