@@ -873,11 +873,11 @@ function KidSummary({
 
       <div className="rounded-xl border border-border bg-muted/40 p-4">
         <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-foreground">
-          <HelpCircle className="size-3.5" aria-hidden="true" /> Como o saldo é calculado
+          <HelpCircle className="size-3.5" aria-hidden="true" /> Entenda seu dinheiro
         </p>
         <p className="mt-1.5 text-[12px] font-medium leading-relaxed text-muted-foreground">
-          O saldo é a diferença entre tudo o que você <strong className="text-foreground">recebeu</strong> (mesada, presentes)
-          e tudo o que você <strong className="text-foreground">gastou</strong>. Cada novo registro atualiza o valor na hora.
+          O seu saldo é o que sobra: <strong className="text-emerald-600 dark:text-emerald-400">Ganhos</strong> (o que você recebe) menos <strong className="text-rose-600 dark:text-rose-400">Gastos</strong> (o que você usa). 
+          Cada vez que você anota algo, o valor atualiza na hora!
         </p>
       </div>
 
@@ -901,8 +901,10 @@ function KidSummary({
                   <div>
                     <p className="text-xs font-medium">
                       {row.tags?.some(t => t.startsWith("parent_desc:")) 
-                        ? "Recebido do responsável" 
-                        : row.description}
+                        ? "Ganho recebido" 
+                        : row.transaction_type === "income" 
+                          ? "Ganho recebido" 
+                          : `Gasto feito: ${row.description}`}
                     </p>
                     <p className="text-[10px] font-medium text-muted-foreground">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
@@ -913,7 +915,7 @@ function KidSummary({
                   "text-xs font-semibold tabular-nums",
                   row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
                 )}>
-                  {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(row.amount)}
+                  {row.transaction_type === "income" ? "Ganhou +" : "Gastou -"} {formatCurrency(row.amount)}
                 </p>
               </div>
             ))}
