@@ -3,7 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { 
   PiggyBank, 
-  TrendingUp, 
+  TrendingUp,
+  TrendingDown, 
   Gift, 
   Coins, 
   ArrowRight, 
@@ -344,12 +345,17 @@ export function KidsManagementPanel() {
                         "size-8 rounded-lg flex items-center justify-center",
                         tx.tags?.includes("type:pix") ? "bg-emerald-500/10 text-emerald-600" :
                         tx.tags?.includes("type:cash") ? "bg-sky-500/10 text-sky-600" :
+                        tx.tags?.includes("kid_self_expense") ? "bg-rose-500/10 text-rose-600" :
                         "bg-amber-500/10 text-amber-600"
                       )}>
-                        {tx.tags?.includes("type:gift") ? <Gift className="size-4" /> : <Coins className="size-4" />}
+                        {tx.tags?.includes("kid_self_expense") ? <TrendingDown className="size-4" /> : 
+                         tx.tags?.includes("type:gift") ? <Gift className="size-4" /> : <Coins className="size-4" />}
                       </div>
                       <div>
-                        <p className="text-[11px] font-bold leading-tight">{tx.description.replace("[Envio para ", "").split("]")[1]?.trim() || tx.description}</p>
+                        <p className="text-[11px] font-bold leading-tight">
+                          {tx.tags?.includes("kid_self_expense") ? `[Gasto do Filho] ${tx.description}` : 
+                           (tx.description.replace("[Envio para ", "").split("]")[1]?.trim() || tx.description)}
+                        </p>
                         <p className="text-[9px] text-muted-foreground">{new Date(tx.transaction_date).toLocaleDateString()}</p>
                       </div>
                     </div>
