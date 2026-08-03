@@ -126,24 +126,20 @@ export function KidsManagementPanel() {
   const [lastDeleted, setLastDeleted] = useState<any>(null);
 
   const deleteMutation = useMutation({
-    mutationFn: (vars: { data: { transactionId: string } }) => useServerFn(deleteKidManagementTransaction)(vars),
+    mutationFn: (vars: { data: { transactionId: string } }) => 
+      useServerFn(deleteKidManagementTransaction)(vars),
     onSuccess: (_, variables) => {
       const deletedId = variables.data.transactionId;
       const deletedTx = metrics.data?.find(t => t.id === deletedId);
       if (deletedTx) setLastDeleted(deletedTx);
       
-      toast.success("Lançamento removido.", {
-        action: {
-          label: "Desfazer",
-          onClick: () => {
-            // A restauração exigiria uma função server-side de "undo" ou re-inserção
-            toast.info("Restauração solicitada.");
-          }
-        }
-      });
+      toast.success("Lançamento removido.");
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      
+      // Fecha o modal de detalhes para garantir que a UI atualize o estado corretamente
+      setKidDetailsOpen(false);
     }
   });
 
@@ -298,22 +294,20 @@ export function KidsManagementPanel() {
                                 <Dialog>
                                   <DialogTrigger asChild>
                                     <Button variant="ghost" size="icon" className="size-7">
-                                      <Edit2 className="size-3" />
+                                      <MoreVertical className="size-3" />
                                     </Button>
                                   </DialogTrigger>
                                   <DialogContent>
-                                    <DialogHeader>
-                                      <DialogTitle>Editar Lançamento</DialogTitle>
-                                    </DialogHeader>
-                                    <EditTxForm 
-                                      tx={tx} 
-                                      onSave={(values) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })} 
+                                    <EditTransactionForm 
+                                      transaction={tx}
+                                      onUpdate={(values: any) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })}
+                                      onDelete={() => {
+                                        deleteMutation.mutate({ data: { transactionId: tx.id } });
+                                      }}
+                                      isPending={updateMutation.isPending || deleteMutation.isPending}
                                     />
                                   </DialogContent>
                                 </Dialog>
-                                <Button variant="ghost" size="icon" className="size-7 text-destructive" onClick={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}>
-                                  <Trash2 className="size-3" />
-                                </Button>
                               </div>
                             </div>
                           </div>
@@ -561,8 +555,8 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
     return (
       <div className="space-y-4 py-4">
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="size-12 rounded-full bg-destructive/10 flex items-center justify-center">
-            <Trash2 className="size-6 text-destructive" />
+          <div className="size-12 rounded-full bg-rose-500/10 flex items-center justify-center">
+            <Trash2 className="size-6 text-rose-500" />
           </div>
           <div>
             <h3 className="text-lg font-bold">Excluir lançamento?</h3>
@@ -571,7 +565,7 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
         </div>
         <div className="flex gap-2 pt-2">
           <Button variant="outline" className="flex-1" onClick={() => setShowDeleteConfirm(false)}>Cancelar</Button>
-          <Button variant="destructive" className="flex-1" onClick={onDelete} disabled={isPending}>
+          <Button variant="destructive" className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold" onClick={onDelete} disabled={isPending}>
             {isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : <Trash2 className="size-4 mr-2" />}
             Confirmar Exclusão
           </Button>

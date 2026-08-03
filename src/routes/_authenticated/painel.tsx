@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
+import { fixEnzoTransactionError } from "@/lib/data-fix-enzo.functions";
 
 
 import { cn } from "@/lib/utils";
@@ -454,7 +455,35 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        {/* O aviso de remoção de dados foi removido conforme solicitação do usuário. */}
+        {profile?.cpf === "69598193268" && (
+          <div className="rounded-3xl border border-rose-500/20 bg-rose-500/5 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
+            <div className="flex items-center gap-3 w-full">
+              <div className="size-10 rounded-2xl bg-rose-500/10 flex items-center justify-center shrink-0">
+                <AlertCircle className="size-5 text-rose-500" />
+              </div>
+              <div className="space-y-0.5 flex-1 min-w-0">
+                <p className="text-[12px] font-bold text-rose-500">Erro de Sincronização Detectado</p>
+                <p className="text-[10px] text-rose-500/80 leading-tight">
+                  O lançamento "dei 20 reias pro Enzo" foi identificado como erro de sistema e precisa ser removido.
+                </p>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-8 text-[10px] border-rose-500/30 hover:bg-rose-500/10 text-rose-600 font-bold shrink-0"
+                onClick={async () => {
+                  const fix = await fixEnzoTransactionError();
+                  if (fix.success) {
+                    toast.success("Lançamento corrigido e removido!");
+                    queryClient.invalidateQueries();
+                  }
+                }}
+              >
+                Corrigir Lançamento
+              </Button>
+            </div>
+          </div>
+        )}
         
         {/* Adiciona o gatilho de busca global no topo se necessário */}
         
@@ -1185,7 +1214,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
              </div>
              <div className="text-right border-l pl-3">
                <p className="text-[9px] font-bold text-muted-foreground uppercase">Despesa Anual</p>
-               <p className="font-black text-rose-600">{formatCurrency(data.totalExpense)}</p>
+               <p className="font-black text-rose-500">{formatCurrency(data.totalExpense)}</p>
              </div>
            </div>
            {isExpanded ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
