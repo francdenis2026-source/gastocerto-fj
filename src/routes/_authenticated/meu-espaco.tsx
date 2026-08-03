@@ -1028,8 +1028,19 @@ function KidSummary({
         <div className="space-y-2">
           <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Últimos registros</p>
           <div className="space-y-2">
-            {rows.slice(0, 3).map((row) => (
-              <div key={row.id} className="flex items-center justify-between rounded-xl border border-border bg-background p-3">
+            {rows.slice(0, 3).map((row) => {
+              const kind = kidEntryKind(row as any);
+              return (
+              <button
+                type="button"
+                key={row.id}
+                onClick={() => setEntryDetails({
+                  ...row,
+                  description: kind === "received" ? kidEntryLabel(row as any) : row.description,
+                })}
+                className="flex w-full items-center justify-between rounded-xl border border-border bg-background p-3 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                aria-label={`Ver detalhes: ${kidEntryLabel(row as any)}`}
+              >
                 <div className="flex items-center gap-3">
                   <div className={cn(
                     "flex size-8 items-center justify-center rounded-lg",
@@ -1042,12 +1053,11 @@ function KidSummary({
                       : <TrendingDown className="size-4" aria-hidden="true" />}
                   </div>
                   <div>
-                    <p className="text-xs font-medium">
-                      {row.tags?.some(t => t.startsWith("from_parent") || t.startsWith("parent_desc:")) 
-                        ? "Ganho recebido" 
-                        : row.transaction_type === "income" 
-                          ? "Ganho recebido" 
-                          : `Gasto feito: ${row.description}`}
+                    <p className={cn("text-xs font-semibold", kidEntryTone(kind))}>
+                      {kidEntryLabel(row as any)}
+                      {kind !== "received" && row.description ? (
+                        <span className="font-medium text-muted-foreground">{`: ${row.description}`}</span>
+                      ) : null}
                     </p>
                     <p className="text-[10px] font-medium text-muted-foreground">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
@@ -1060,8 +1070,9 @@ function KidSummary({
                 )}>
                   {row.transaction_type === "income" ? "Ganhou +" : "Gastou -"} {formatCurrency(row.amount)}
                 </p>
-              </div>
-            ))}
+              </button>
+              );
+            })}
           </div>
         </div>
       )}
