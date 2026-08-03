@@ -13,7 +13,9 @@ import {
   TrendingUp,
   TrendingDown,
   Settings,
+  AlertCircle,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { useState, type ReactNode, useEffect, useMemo } from "react";
 
@@ -155,16 +157,39 @@ export function AppShell({ children }: { children: ReactNode }) {
     .join("");
 
   async function handleSignOut() {
-    await queryClient.cancelQueries();
-    queryClient.clear();
-    await supabase.auth.signOut();
-    // Não deixa preferências/rascunhos deste usuário no navegador compartilhado.
-    clearBrowserCredentials();
-    // Forçar limpeza total para evitar carregamento de lixo do histórico
-    window.localStorage.clear();
-    window.sessionStorage.clear();
-    // Após sair, o destino é sempre a homepage pública (não a área do cliente).
-    window.location.replace("/");
+    const confirmed = window.confirm("Tem certeza que deseja encerrar sua sessão com segurança?");
+    if (!confirmed) return;
+
+    const toastId = toast.loading("Encerrando sessão e limpando dados...", {
+      description: "Seus dados estão sendo removidos com segurança.",
+      icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+    });
+
+    try {
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      
+      // Limpeza completa e segura
+      clearBrowserCredentials();
+      window.localStorage.clear();
+      window.sessionStorage.clear();
+      
+      await supabase.auth.signOut();
+      
+      toast.success("Sessão encerrada!", {
+        id: toastId,
+        description: "Seus dados foram removidos do navegador.",
+        icon: <AlertCircle className="size-4 text-emerald-500" />
+      });
+
+      // Pequeno delay para o usuário ver o toast antes do redirecionamento
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 1000);
+    } catch (error) {
+      toast.error("Erro ao sair", { id: toastId });
+      window.location.replace("/");
+    }
   }
 
   return (

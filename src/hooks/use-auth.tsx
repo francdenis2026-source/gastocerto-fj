@@ -1,5 +1,7 @@
 import type { Session, User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { toast } from "sonner";
+import { AlertCircle, RefreshCcw } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { clearBrowserCredentials, ensureLocalDataOwner } from "@/lib/local-session";
@@ -45,13 +47,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: session?.user ?? null,
       loading,
       signOut: async () => {
-        await supabase.auth.signOut();
-        clearBrowserCredentials();
-        // Limpeza completa do estado do navegador para evitar vazamento de dados sensíveis.
-        window.localStorage.clear();
-        window.sessionStorage.clear();
-        // Redireciona e força recarga total para resetar qualquer estado em memória.
-        window.location.href = "/auth";
+        const confirmed = window.confirm("Tem certeza que deseja sair?");
+        if (!confirmed) return;
+
+        const toastId = toast.loading("Saindo com segurança...", {
+          description: "Limpando dados do navegador.",
+          icon: <RefreshCcw className="size-4 animate-spin" />
+        });
+
+        try {
+          await supabase.auth.signOut();
+          clearBrowserCredentials();
+          window.localStorage.clear();
+          window.sessionStorage.clear();
+          
+          toast.success("Até logo!", {
+            id: toastId,
+            description: "Sua sessão foi encerrada com sucesso.",
+            icon: <AlertCircle className="size-4 text-emerald-500" />
+          });
+
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 800);
+        } catch (error) {
+          toast.error("Erro ao encerrar sessão", { id: toastId });
+          window.location.href = "/";
+        }
       },
     }),
     [session, loading],

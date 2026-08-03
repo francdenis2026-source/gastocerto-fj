@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { checkKidAccountStatus } from "@/lib/kids-license-check.functions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ShieldAlert, ArrowRight } from "lucide-react";
+import { ShieldAlert, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
@@ -14,7 +14,22 @@ export function KidsStatusGuard({ kidUserId, children }: { kidUserId: string; ch
     checkStatus({ data: { kidUserId } }).then(setStatus);
   }, [kidUserId]);
 
-  if (!status) return <>{children}</>;
+  if (!status) {
+    return (
+      <div className="flex min-h-dvh flex-col items-center justify-center gap-6 p-6">
+        <div className="relative">
+          <div className="absolute inset-0 size-16 animate-ping rounded-full bg-primary/20" />
+          <div className="relative grid size-16 place-items-center rounded-2xl border border-primary/30 bg-card shadow-xl">
+            <Loader2 className="size-8 animate-spin text-primary" />
+          </div>
+        </div>
+        <div className="space-y-2 text-center">
+          <div className="h-5 w-48 animate-pulse rounded-md bg-muted mx-auto" />
+          <div className="h-3 w-32 animate-pulse rounded-md bg-muted/60 mx-auto" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
