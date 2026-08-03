@@ -374,92 +374,98 @@ function KidSpacePage() {
           compactMode && "sm:grid-cols-3"
         )}>
           <section className={cn(
-            "rounded-3xl border border-primary/20 bg-card p-5 text-center shadow-sm flex flex-col justify-center min-h-[160px] relative overflow-hidden transition-all",
-            compactMode && "min-h-[120px] rounded-2xl p-4 sm:col-span-2 flex-row items-center justify-between text-left",
-            isBoy ? "border-blue-500/30" : isGirl ? "border-pink-500/30" : ""
+            "relative flex min-h-[160px] flex-col justify-center overflow-hidden rounded-2xl border bg-card p-5 text-center shadow-sm transition-colors",
+            accent.border,
+            compactMode && "min-h-[120px] p-4 sm:col-span-2 flex-row items-center justify-between text-left",
           )}>
 
-            {/* Background decorativo sutil para o saldo */}
+            {/* Emblema SVG decorativo — opacidade calibrada para os dois temas */}
             <div className={cn(
-              "absolute -right-4 -top-4 size-24 opacity-5",
-              isBoy ? "text-blue-500" : isGirl ? "text-pink-500" : "text-primary"
-            )}>
+              "pointer-events-none absolute -right-5 -top-5 size-24 opacity-[0.07] dark:opacity-[0.12]",
+              accent.text,
+            )} aria-hidden="true">
               <PiggyBank className="size-full" />
             </div>
 
             {visibility.balance ? (
               <div className={cn(compactMode && "flex flex-col")}>
                 <p className={cn(
-                  "flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary",
+                  "flex items-center justify-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em]",
+                  accent.text,
                   compactMode && "justify-start"
                 )}>
-                  <Sparkles className="size-3.5" /> Saldo disponível
+                  <Sparkles className="size-3.5" aria-hidden="true" /> Saldo disponível
                 </p>
                 <p
                   className={cn(
-                    "mt-1 text-4xl font-black tabular-nums tracking-tighter",
+                    "mt-1.5 text-4xl font-semibold tabular-nums tracking-tight",
                     compactMode && "text-2xl mt-0",
-                    balance < 0 ? "text-destructive" : "text-foreground",
+                    balance < 0 ? NEGATIVE_TEXT : "text-foreground",
                   )}
                 >
                   {formatCurrency(balance)}
                 </p>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  Atualizado a cada novo registro
+                </p>
               </div>
             ) : (
-
-              <p className="text-[11px] font-semibold text-muted-foreground">
-                Saldo oculto pelo responsável.
+              <p className="text-[12px] font-medium text-muted-foreground">
+                Seu saldo está oculto por escolha do responsável.
               </p>
             )}
-            
+
             {visibility.income ? (
               <div className={cn(
-                "mt-3 grid grid-cols-2 gap-2 text-left",
+                "mt-4 grid grid-cols-2 gap-2 text-left",
                 compactMode && "mt-0 grid-cols-1 gap-1"
               )}>
-                <div className="rounded-xl bg-emerald-500/10 p-2">
-                  <p className="flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase tracking-tight">
-                    <TrendingUp className="size-3" /> Ganhei
+                <div className={cn("rounded-xl p-2.5", POSITIVE_SURFACE)}>
+                  <p className={cn("flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide", POSITIVE_TEXT)}>
+                    <TrendingUp className="size-3" aria-hidden="true" /> Entradas
                   </p>
-                  <p className="text-sm font-bold tabular-nums">{formatCurrency(income)}</p>
+                  <p className="mt-0.5 text-sm font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
                 </div>
-                <div className="rounded-xl bg-destructive/10 p-2">
-                  <p className="flex items-center gap-1 text-[9px] font-bold text-destructive uppercase tracking-tight">
-                    <TrendingDown className="size-3" /> Gastei
+                <div className={cn("rounded-xl p-2.5", NEGATIVE_SURFACE)}>
+                  <p className={cn("flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide", NEGATIVE_TEXT)}>
+                    <TrendingDown className="size-3" aria-hidden="true" /> Saídas
                   </p>
-                  <p className="text-sm font-bold tabular-nums">{formatCurrency(expense)}</p>
+                  <p className="mt-0.5 text-sm font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
                 </div>
               </div>
             ) : null}
           </section>
 
           <section className={cn(
-            "rounded-3xl border border-border bg-card p-5 shadow-sm flex flex-col items-center justify-center gap-4 group hover:border-primary/40 transition-all",
+            "group flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-colors",
+            accent.borderHover,
             compactMode && "rounded-2xl p-4 flex-row justify-between",
-            isBoy ? "hover:border-blue-500/40" : isGirl ? "hover:border-pink-500/40" : ""
           )}>
             <div className={cn(
-              "size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform",
+              "flex size-14 items-center justify-center rounded-full transition-transform group-hover:scale-105",
+              accent.iconBg,
               compactMode && "size-10",
-              isBoy ? "bg-blue-500/10 text-blue-600" : isGirl ? "bg-pink-500/10 text-pink-600" : "text-primary"
             )}>
-              <TrendingUp className={cn("size-8", compactMode && "size-5")} />
+              <TrendingUp className={cn("size-7", compactMode && "size-5")} aria-hidden="true" />
             </div>
             <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
-              <h3 className="text-sm font-bold">Comprei ou Ganhei?</h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Toque no botão para anotar</p>
+              <h2 className="text-sm font-semibold tracking-tight">Registrar movimentação</h2>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+                Anote o que você recebeu ou gastou.
+              </p>
             </div>
-            <Button 
+            <Button
               className={cn(
-                "h-10 w-full rounded-xl text-sm font-bold shadow-lg",
+                "h-10 w-full rounded-xl text-sm font-semibold shadow-sm",
                 compactMode && "w-auto px-4 h-9",
-                isBoy ? "bg-blue-600 hover:bg-blue-700" : isGirl ? "bg-pink-600 hover:bg-pink-700" : ""
-              )} 
+                accent.button,
+              )}
               onClick={() => setEntryOpen(true)}
             >
-              {compactMode ? "Anotar" : "Lançar agora 📝"}
+              {compactMode ? "Registrar" : "Novo registro"}
             </Button>
           </section>
+
 
         </div>
 
