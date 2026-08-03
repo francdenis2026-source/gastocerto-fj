@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Check, FileDown, History, NotebookPen, Paperclip, Pencil, X } from "lucide-react";
+import { Check, FileDown, History, NotebookPen, Paperclip, Pencil, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 
+import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
 import { ReceiptViewer } from "@/components/finance/receipt-viewer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,8 @@ import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/
 import { useCategories } from "@/lib/queries";
 import { exportTransactionPdf } from "@/lib/transaction-detail-export";
 import { NOTE_FIELD_LABEL, useNoteHistory, useRefreshNoteHistory } from "@/lib/transaction-notes";
-import { useSaveTransaction, type Transaction } from "@/lib/transactions";
+import { useDeleteTransaction, useSaveTransaction, type Transaction } from "@/lib/transactions";
+
 
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
