@@ -1214,7 +1214,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
              </div>
              <div className="text-right border-l pl-3">
                <p className="text-[9px] font-bold text-muted-foreground uppercase">Despesa Anual</p>
-               <p className="font-black text-rose-600">{formatCurrency(data.totalExpense)}</p>
+               <p className="font-black text-rose-500">{formatCurrency(data.totalExpense)}</p>
              </div>
            </div>
            {isExpanded ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
