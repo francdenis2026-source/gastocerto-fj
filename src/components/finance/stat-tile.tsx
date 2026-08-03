@@ -20,9 +20,9 @@ const tones = {
   },
   expense: {
     ring: "border-rose-500/30",
-    glow: "oklch(0.68 0.18 25 / 12%)",
+    glow: "oklch(0.68 0.18 25 / 8%)",
     icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
-    value: "text-rose-600 font-black dark:text-rose-400",
+    value: "text-rose-600 font-bold dark:text-rose-400 dark:font-black",
     bar: "bg-rose-500",
   },
   warning: {
