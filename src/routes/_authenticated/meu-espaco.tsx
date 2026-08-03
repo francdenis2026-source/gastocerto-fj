@@ -1040,7 +1040,7 @@ function KidSummary({
                   </div>
                   <div>
                     <p className="text-xs font-medium">
-                      {row.tags?.some(t => t.startsWith("parent_desc:")) 
+                      {row.tags?.some(t => t.startsWith("from_parent") || t.startsWith("parent_desc:")) 
                         ? "Ganho recebido" 
                         : row.transaction_type === "income" 
                           ? "Ganho recebido" 
