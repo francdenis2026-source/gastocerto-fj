@@ -26,6 +26,7 @@ import {
   Activity
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { amountToInput } from "@/lib/money-input";
 import { parseAmount } from "@/lib/finance";
 import { 
@@ -452,17 +453,17 @@ export function KidsManagementPanel() {
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mb-1">Total Enviado</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mb-1">Saldo Real Enviado</p>
                   <p className="text-lg font-black text-emerald-600">{formatCurrency(stats.totalSent)}</p>
-                  <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none">Saída real da conta</p>
+                  <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none font-bold">Afeta seu saldo real</p>
                 </div>
                 <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600 mb-1">Gasto p/ Filhos</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600 mb-1">Resumo Informativo</p>
                   <div className="flex items-center justify-between">
                     <p className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</p>
-                    <div className="px-1.5 py-0.5 rounded bg-rose-500/10 text-[8px] font-bold text-rose-600 border border-rose-500/20 uppercase">Informativo</div>
+                    <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
                   </div>
-                  <p className="text-[8px] text-rose-600/60 mt-0.5 leading-none">Não altera seu saldo</p>
+                  <p className="text-[8px] text-rose-600/60 mt-0.5 leading-none italic">Não afeta seu saldo</p>
                 </div>
               </div>
 

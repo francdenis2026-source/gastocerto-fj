@@ -47,10 +47,10 @@ export const createKidTransaction = createServerFn({ method: "POST" })
         .from("notifications")
         .insert({
           user_id: dependent.user_id,
-          title: "Gasto do filho registrado",
-          message: `${dependent.name} registrou um gasto de ${data.amount.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}.`,
+          title: data.transactionType === 'income' ? "Novo ganho do filho" : "Gasto do filho registrado",
+          message: `${dependent.name} registrou um ${data.transactionType === 'income' ? 'ganho' : 'gasto'} de ${data.amount.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}.`,
           severity: "info",
-          notification_type: "kid_expense",
+          notification_type: data.transactionType === 'income' ? "kid_income" : "kid_expense",
           dedupe_key: `kid_expense_${dependent.id}_${Date.now()}`,
         } as never)
         .then(() => undefined, () => undefined);
