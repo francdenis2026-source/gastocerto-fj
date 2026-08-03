@@ -621,7 +621,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate autoComplete="off">
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
@@ -701,7 +701,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
       <div className="text-center">
         <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
         <p className="text-[12px] text-muted-foreground">Área restrita para gestores do sistema.</p>
@@ -864,7 +864,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
       <div className="flex items-center justify-center gap-2">
         <Baby className="size-5 shrink-0 text-primary" aria-hidden />
         <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>
