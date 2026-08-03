@@ -456,6 +456,43 @@ function DashboardPage() {
                 <ShieldAlert className="size-5 text-banner-amber-icon" />
               </div>
               <div className="space-y-0.5">
+                <p className="text-[12px] font-bold text-banner-amber-icon">Aviso de Sistema</p>
+                <p className="text-[10px] text-banner-amber-icon/80">
+                  Dados de Julho/2026 foram removidos conforme autorizado. O sistema agora inicia em Agosto.
+                </p>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-8 text-[10px] border-banner-amber-border hover:bg-banner-amber-bg"
+                onClick={async () => {
+                  const cleanup = await cleanupJulyData();
+                  if (cleanup.success) {
+                    toast.success("Limpeza concluída com sucesso!");
+                    queryClient.invalidateQueries();
+                  }
+                }}
+              >
+                Executar Limpeza
+              </Button>
+            </div>
+          </div>
+        )}
+        
+        {/* Adiciona o gatilho de busca global no topo se necessário */}
+        
+        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+           <div className="flex-1 w-full max-w-md">
+              <div className="relative">
+                <Input 
+                  placeholder="Pesquisar no painel..." 
+                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm"
+                />
+                <CalendarIcon className="absolute left-3 top-3 size-4 text-muted-foreground" />
+              </div>
+           </div>
+        </div>
+
                 <p className="text-xs font-black uppercase tracking-widest text-banner-amber-text">Consultoria IA</p>
                 <p className="text-[10px] text-banner-amber-text/70 font-bold leading-tight max-w-[280px]">
                   Estratégias exclusivas para investir e sair das dívidas no plano Premium.

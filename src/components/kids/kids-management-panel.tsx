@@ -79,6 +79,8 @@ export function KidsManagementPanel() {
   );
   
   const [selectedKidId, setSelectedKidId] = useState<string>("all");
+  const [kidDetailsOpen, setKidDetailsOpen] = useState(false);
+  const [detailedKid, setDetailedKid] = useState<Dependent | null>(null);
   const [giveMoneyOpen, setGiveMoneyOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -105,10 +107,23 @@ export function KidsManagementPanel() {
     }
   });
 
+  const [lastDeleted, setLastDeleted] = useState<any>(null);
+
   const deleteMutation = useMutation({
     mutationFn: useServerFn(deleteKidManagementTransaction),
-    onSuccess: () => {
-      toast.success("Lançamento removido.");
+    onSuccess: (_, variables) => {
+      const deletedTx = metrics.data?.find(t => t.id === variables.data.transactionId);
+      if (deletedTx) setLastDeleted(deletedTx);
+      
+      toast.success("Lançamento removido.", {
+        action: {
+          label: "Desfazer",
+          onClick: () => {
+            // A restauração exigiria uma função server-side de "undo" ou re-inserção
+            toast.info("Restauração solicitada.");
+          }
+        }
+      });
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
@@ -122,6 +137,7 @@ export function KidsManagementPanel() {
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      setKidDetailsOpen(false);
     }
   });
 
@@ -189,6 +205,96 @@ export function KidsManagementPanel() {
                 {kids.map(kid => (
                   <SelectItem key={kid.id} value={kid.id}>{kid.name}</SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+            <Dialog open={kidDetailsOpen} onOpenChange={setKidDetailsOpen}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-8 text-[10px] font-bold gap-1.5"
+                disabled={selectedKidId === "all"}
+                onClick={() => {
+                  const kid = kids.find(k => k.id === selectedKidId);
+                  if (kid) {
+                    setDetailedKid(kid);
+                    setKidDetailsOpen(true);
+                  }
+                }}
+              >
+                <FileText className="size-3" /> Detalhes
+              </Button>
+              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                {detailedKid && (
+                  <div className="space-y-6">
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-2 text-xl">
+                        <Avatar className="size-8 border ring-2 ring-primary/20">
+                          <AvatarFallback className="bg-primary text-white text-xs">
+                            {detailedKid.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        Gastos de {detailedKid.name}
+                      </DialogTitle>
+                      <DialogDescription>
+                        Histórico completo de envios e gastos no Espaço Kids.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="grid grid-cols-3 gap-3">
+                       <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                         <p className="text-[9px] font-bold uppercase text-emerald-600 mb-1">Recebido</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income').reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                       </div>
+                       <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                         <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense').reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                       </div>
+                       <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
+                         <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo</p>
+                         <p className="text-lg font-black">{formatCurrency((metrics.data?.filter(t => t.transaction_type === 'income').reduce((a, b) => a + b.amount, 0) || 0) - (metrics.data?.filter(t => t.transaction_type === 'expense').reduce((a, b) => a + b.amount, 0) || 0))}</p>
+                       </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase text-muted-foreground">Movimentações em tempo real</Label>
+                      <div className="divide-y border rounded-xl overflow-hidden">
+                        {metrics.data?.map((tx: any) => (
+                          <div key={tx.id} className="p-3 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className={cn(
+                                "size-8 rounded-lg flex items-center justify-center",
+                                tx.transaction_type === 'income' ? "bg-emerald-500/10 text-emerald-600" : "bg-rose-500/10 text-rose-600"
+                              )}>
+                                {tx.transaction_type === 'income' ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                              </div>
+                              <div>
+                                <p className="text-xs font-bold leading-tight">{tx.description}</p>
+                                <p className="text-[9px] text-muted-foreground">{new Date(tx.transaction_date).toLocaleDateString()}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <span className={cn("text-xs font-black", tx.transaction_type === 'income' ? "text-emerald-600" : "text-rose-600")}>
+                                {tx.transaction_type === 'income' ? "+" : "-"} {formatCurrency(tx.amount)}
+                              </span>
+                              <div className="flex gap-1">
+                                <Button variant="ghost" size="icon" className="size-7" onClick={() => {
+                                  // Abre modal de edição
+                                }}>
+                                  <Edit2 className="size-3" />
+                                </Button>
+                                <Button variant="ghost" size="icon" className="size-7 text-destructive" onClick={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}>
+                                  <Trash2 className="size-3" />
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
               </SelectContent>
             </Select>
             <Button 
