@@ -306,6 +306,39 @@ export type Database = {
           },
         ]
       }
+      business_metrics_daily: {
+        Row: {
+          active_customers: number
+          churned_customers: number
+          created_at: string
+          date: string
+          id: string
+          mrr: number
+          new_customers: number
+          updated_at: string
+        }
+        Insert: {
+          active_customers?: number
+          churned_customers?: number
+          created_at?: string
+          date: string
+          id?: string
+          mrr?: number
+          new_customers?: number
+          updated_at?: string
+        }
+        Update: {
+          active_customers?: number
+          churned_customers?: number
+          created_at?: string
+          date?: string
+          id?: string
+          mrr?: number
+          new_customers?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       card_transactions: {
         Row: {
           amount: number
@@ -997,6 +1030,89 @@ export type Database = {
         }
         Relationships: []
       }
+      external_access_codes: {
+        Row: {
+          access_code: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          label: string
+          last_viewed_at: string | null
+          password_hash: string
+          password_salt: string
+          permissions: Json
+          revoked_at: string | null
+          updated_at: string
+          user_id: string
+          view_count: number
+        }
+        Insert: {
+          access_code: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          label: string
+          last_viewed_at?: string | null
+          password_hash: string
+          password_salt: string
+          permissions?: Json
+          revoked_at?: string | null
+          updated_at?: string
+          user_id: string
+          view_count?: number
+        }
+        Update: {
+          access_code?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          label?: string
+          last_viewed_at?: string | null
+          password_hash?: string
+          password_salt?: string
+          permissions?: Json
+          revoked_at?: string | null
+          updated_at?: string
+          user_id?: string
+          view_count?: number
+        }
+        Relationships: []
+      }
+      external_access_logs: {
+        Row: {
+          action: string
+          code_id: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          code_id: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          code_id?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "external_access_logs_code_id_fkey"
+            columns: ["code_id"]
+            isOneToOne: false
+            referencedRelation: "external_access_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       fuel_audit_log: {
         Row: {
           action: string
@@ -1172,6 +1288,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      global_announcements: {
+        Row: {
+          active: boolean
+          content: string
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          content: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       goal_contributions: {
         Row: {
@@ -1418,6 +1570,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      kid_session_logs: {
+        Row: {
+          created_at: string
+          dependent_id: string
+          device_info: Json
+          id: string
+          ip_address: string | null
+          status: string
+          updated_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dependent_id: string
+          device_info?: Json
+          id?: string
+          ip_address?: string | null
+          status?: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dependent_id?: string
+          device_info?: Json
+          id?: string
+          ip_address?: string | null
+          status?: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kid_session_logs_dependent_id_fkey"
+            columns: ["dependent_id"]
+            isOneToOne: false
+            referencedRelation: "dependents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       kids_audit_log: {
         Row: {
@@ -2030,6 +2226,39 @@ export type Database = {
           },
         ]
       }
+      plan_configs: {
+        Row: {
+          annual_price: number
+          created_at: string
+          id: string
+          limits: Json
+          monthly_price: number
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          annual_price?: number
+          created_at?: string
+          id?: string
+          limits?: Json
+          monthly_price?: number
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          annual_price?: number
+          created_at?: string
+          id?: string
+          limits?: Json
+          monthly_price?: number
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       plans: {
         Row: {
           active: boolean
@@ -2378,6 +2607,47 @@ export type Database = {
           year?: number
         }
         Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          id: string
+          message: string
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       transaction_items: {
         Row: {
