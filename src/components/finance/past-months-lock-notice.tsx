@@ -6,6 +6,7 @@ import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dia
 import { MONTH_NAMES } from "@/lib/finance";
 import { usePastEditUnlock, PAST_EDIT_UNLOCK_MINUTES } from "@/lib/past-edit-unlock";
 import { useClosingPolicy } from "@/lib/use-closing-policy";
+import { cn } from "@/lib/utils";
 
 type PastMonthsLockNoticeProps = {
   /** Competência exibida na tela, no formato YYYY-MM. */
@@ -38,28 +39,36 @@ export function PastMonthsLockNotice({ monthKey, className }: PastMonthsLockNoti
 
   return (
     <div
-      className={`rounded-2xl border p-4 ${
+      className={cn(
+        "rounded-2xl border p-4 backdrop-blur-sm shadow-sm transition-all",
         unlocked && !adminBlocked
-          ? "border-primary/40 bg-primary/5"
-          : "border-amber-500/40 bg-amber-500/5"
-      } ${className ?? ""}`}
+          ? "border-banner-primary-border bg-banner-primary-bg"
+          : "border-banner-amber-border bg-banner-amber-bg",
+        className
+      )}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           {unlocked && !adminBlocked ? (
-            <LockOpen className="mt-0.5 size-5 text-primary" />
+            <LockOpen className="mt-0.5 size-5 text-banner-primary-icon" />
           ) : (
-            <Lock className="mt-0.5 size-5 text-amber-600" />
+            <Lock className="mt-0.5 size-5 text-banner-amber-icon" />
           )}
-          <div>
-            <p className="text-sm font-semibold text-foreground">
+          <div className="min-w-0">
+            <p className={cn(
+              "text-sm font-semibold",
+              unlocked && !adminBlocked ? "text-banner-primary-text" : "text-banner-amber-text"
+            )}>
               {adminBlocked
                 ? `${labelOf(monthKey)} está bloqueado pelo administrador`
                 : unlocked
                   ? `${labelOf(monthKey)} liberado para edição por ${minutesLeft} min`
                   : `${labelOf(monthKey)} é um mês anterior e está bloqueado`}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className={cn(
+              "mt-1 text-xs leading-relaxed",
+              unlocked && !adminBlocked ? "text-banner-primary-text/80" : "text-banner-amber-text/80"
+            )}>
               {adminBlocked
                 ? policy.notice ||
                   "Solicite a liberação em Fechamento mensal para retificar lançamentos deste mês."
@@ -71,13 +80,24 @@ export function PastMonthsLockNotice({ monthKey, className }: PastMonthsLockNoti
         </div>
 
         {adminBlocked ? null : unlocked ? (
-          <Button type="button" variant="outline" size="sm" onClick={revoke}>
-            <Lock className="size-4" />
+          <Button 
+            type="button" 
+            variant="outline" 
+            size="sm" 
+            onClick={revoke}
+            className="h-8 border-banner-primary-border bg-background/50 hover:bg-background/80"
+          >
+            <Lock className="size-3.5" />
             Bloquear agora
           </Button>
         ) : (
-          <Button type="button" size="sm" onClick={() => setAskPassword(true)}>
-            <ShieldCheck className="size-4" />
+          <Button 
+            type="button" 
+            size="sm" 
+            onClick={() => setAskPassword(true)}
+            className="h-8 shadow-lifted"
+          >
+            <ShieldCheck className="size-3.5" />
             Confirmar senha
           </Button>
         )}

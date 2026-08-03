@@ -86,6 +86,15 @@
   --color-acc-6: var(--acc-6);
   --shadow-soft: 0 1px 2px oklch(0.22 0.07 258 / 3%), 0 4px 12px oklch(0.22 0.07 258 / 4%);
   --shadow-lifted: 0 2px 4px oklch(0.22 0.07 258 / 4%), 0 12px 32px oklch(0.22 0.07 258 / 8%);
+  --color-banner-amber-bg: var(--banner-amber-bg);
+  --color-banner-amber-border: var(--banner-amber-border);
+  --color-banner-amber-text: var(--banner-amber-text);
+  --color-banner-amber-icon: var(--banner-amber-icon);
+  --color-banner-primary-bg: var(--banner-primary-bg);
+  --color-banner-primary-border: var(--banner-primary-border);
+  --color-banner-primary-text: var(--banner-primary-text);
+  --color-banner-primary-icon: var(--banner-primary-icon);
+
   --color-cta-bg: var(--cta-bg);
   --color-cta-fg: var(--cta-fg);
   --color-cta-fg-muted: var(--cta-fg-muted);
@@ -163,6 +172,18 @@
   --hero-surface: oklch(1 0 0 / 78%);
   --hero-surface-soft: oklch(1 0 0 / 58%);
   --hero-accent: oklch(0.55 0.16 155);
+
+  /* Banners informativos e áreas de alerta */
+  --banner-amber-bg: oklch(0.97 0.02 75 / 80%);
+  --banner-amber-border: oklch(0.65 0.15 75 / 30%);
+  --banner-amber-text: oklch(0.25 0.05 75);
+  --banner-amber-icon: oklch(0.55 0.15 75);
+
+  --banner-primary-bg: oklch(0.97 0.01 259 / 80%);
+  --banner-primary-border: oklch(0.25 0.06 259 / 20%);
+  --banner-primary-text: oklch(0.2 0.04 259);
+  --banner-primary-icon: oklch(0.25 0.06 259);
+
   --hero-veil-mobile: linear-gradient(
     180deg,
     oklch(0.99 0.008 259 / 0.94),
@@ -262,6 +283,17 @@
   --hero-surface: oklch(0.2 0.03 252 / 72%);
   --hero-surface-soft: oklch(1 0 0 / 7%);
   --hero-accent: oklch(0.86 0.11 165);
+
+  --banner-amber-bg: oklch(0.2 0.04 75 / 20%);
+  --banner-amber-border: oklch(0.65 0.15 75 / 40%);
+  --banner-amber-text: oklch(0.92 0.02 75);
+  --banner-amber-icon: oklch(0.8 0.15 75);
+
+  --banner-primary-bg: oklch(0.2 0.04 259 / 30%);
+  --banner-primary-border: oklch(0.65 0.14 155 / 30%);
+  --banner-primary-text: oklch(0.98 0.01 259);
+  --banner-primary-icon: oklch(0.65 0.14 155);
+
   --hero-veil-mobile: linear-gradient(
     180deg,
     oklch(0.14 0.02 252 / 0.92),

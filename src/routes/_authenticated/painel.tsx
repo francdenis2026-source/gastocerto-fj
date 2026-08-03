@@ -449,24 +449,25 @@ function DashboardPage() {
     <AppShell>
       <div className="space-y-4">
         {!hasFeature(access, "financial_help") && (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 mb-4 flex items-start gap-3">
-            <ShieldAlert className="size-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="rounded-2xl border border-banner-amber-border bg-banner-amber-bg p-4 mb-4 flex items-start gap-3 backdrop-blur-sm shadow-sm">
+            <ShieldAlert className="size-5 text-banner-amber-icon shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <p className="text-sm font-semibold text-amber-900">Área de Ajuda Financeira Restrita</p>
-              <p className="text-xs text-amber-700">
+              <p className="text-sm font-semibold text-banner-amber-text">Área de Ajuda Financeira Restrita</p>
+              <p className="text-xs text-banner-amber-text/80 leading-relaxed">
                 Esta funcionalidade está disponível apenas para planos Premium ativos ou contas com permissão especial do administrador. 
                 Fique atento: o Consultor de Dívidas analisa cartões e financiamentos para criar metas reais de quitação.
               </p>
               <Link to="/perfil">
-                <Button variant="link" className="p-0 h-auto text-xs text-amber-600 hover:text-amber-700">Ver Planos e Fazer Upgrade</Button>
+                <Button variant="link" className="p-0 h-auto text-xs text-banner-amber-icon hover:text-banner-amber-icon/80">Ver Planos e Fazer Upgrade</Button>
               </Link>
             </div>
           </div>
+
         )}
 
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-sm">
+          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg p-5 shadow-sm backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-4">
               <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <Baby className="size-5 text-primary" />

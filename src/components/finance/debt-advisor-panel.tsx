@@ -120,7 +120,7 @@ export function DebtAdvisorPanel() {
       </section>
 
       {summary.debtToIncomeRatio > 50 && (
-        <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-4 flex gap-3 items-start">
+        <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-4 flex gap-3 items-start dark:bg-destructive/10 dark:border-destructive/30">
           <AlertCircle className="size-5 text-destructive shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-bold text-destructive">Alerta Crítico: Superendividamento</p>
