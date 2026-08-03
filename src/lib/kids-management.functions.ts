@@ -52,21 +52,11 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
     }
 
     if (dependent.kid_user_id) {
-      // 1. Criar transação espelho para a criança, marcada com a origem do
-      // lançamento do responsável. Isso permite apagar/editar em cascata
-      // (trigger sync_kid_mirror_tx) e mantém os painéis sincronizados.
-      const { error: kidError } = await supabaseAdmin.from("transactions").insert({
-        user_id: dependent.kid_user_id,
-        description: "Recebido do responsável", // Descrição genérica para a criança
-        amount: amount,
-        transaction_type: "income",
-        transaction_date: transactionDate,
-        tags: ["from_parent", `type:${type}`, `origin:${parentTx.id}`, `parent_desc:${description}`],
-        status: "paid",
-      });
-      if (kidError) console.error("Erro ao registrar entrada no painel da criança:", kidError.message);
-
-      // 2. Criar notificação persistente para a criança
+      // Nota: Não inserimos mais o espelho manualmente aqui para evitar duplicidade.
+      // O banco de dados agora possui a trigger 'trg_sync_kid_mirror_tx' que detecta 
+      // a tag 'kids_management' e cria o espelho automaticamente com a tag 'origin'.
+      
+      // Criar notificação persistente para a criança
       await supabaseAdmin.from("notifications").insert({
         user_id: dependent.kid_user_id,
         title: "Dinheiro recebido! 💰",
