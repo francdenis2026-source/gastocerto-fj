@@ -448,98 +448,85 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="space-y-4">
+      <div className="space-y-6">
         {!hasFeature(access, "financial_help") && (
-          <div className="rounded-2xl border border-banner-amber-border bg-banner-amber-bg p-4 mb-4 flex items-start gap-3 backdrop-blur-sm shadow-sm">
-            <ShieldAlert className="size-5 text-banner-amber-icon shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-banner-amber-text">Área de Ajuda Financeira Restrita</p>
-              <p className="text-xs text-banner-amber-text/80 leading-relaxed">
-                Esta funcionalidade está disponível apenas para planos Premium ativos ou contas com permissão especial do administrador. 
-                Fique atento: o Consultor de Dívidas analisa cartões e financiamentos para criar metas reais de quitação.
-              </p>
-              <Link to="/perfil">
-                <Button variant="link" className="p-0 h-auto text-xs text-banner-amber-icon hover:text-banner-amber-icon/80">Ver Planos e Fazer Upgrade</Button>
-              </Link>
-            </div>
-          </div>
-
-        )}
-
-
-        {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg p-5 shadow-sm backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Baby className="size-5 text-primary" />
+          <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
+                <ShieldAlert className="size-5 text-banner-amber-icon" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold">Ativar Espaço Kids</h3>
-                <p className="text-[11px] text-muted-foreground">Complete os passos para liberar o Modo Criança seguro.</p>
+              <div className="space-y-0.5">
+                <p className="text-xs font-black uppercase tracking-widest text-banner-amber-text">Consultoria IA</p>
+                <p className="text-[10px] text-banner-amber-text/70 font-bold leading-tight max-w-[280px]">
+                  Estratégias exclusivas para investir e sair das dívidas no plano Premium.
+                </p>
               </div>
             </div>
-            
-            <div className="grid gap-3 sm:grid-cols-4">
-              {[
-                { label: "Cadastrar Criança", done: kidsOnboarding.hasKid },
-                { label: "Definir PIN de 4 dígitos", done: kidsOnboarding.hasPin },
-                { label: "Configurar Limites", done: kidsOnboarding.hasLimit },
-                { label: "Agendar Mesada", done: kidsOnboarding.hasAllowance }
-              ].map((step, idx) => (
-                <div key={idx} className={cn(
-                  "flex items-center gap-2 p-2 rounded-xl border transition",
-                  step.done ? "bg-primary/10 border-primary/20 text-primary" : "bg-background border-border text-muted-foreground"
-                )}>
-                  {step.done ? <CheckSquare className="size-4" /> : <Circle className="size-4" />}
-                  <span className="text-[10px] font-bold">{step.label}</span>
-                </div>
-              ))}
-            </div>
-            <Button asChild variant="link" size="sm" className="mt-3 h-auto p-0 text-primary text-[10px] font-bold">
-              <Link to="/kids">Ir para configurações do Espaço Kids →</Link>
+            <Button asChild variant="outline" size="sm" className="border-banner-amber-border/50 text-banner-amber-text hover:bg-banner-amber-bg rounded-xl h-9 px-4 text-[10px] font-black uppercase tracking-wider">
+              <Link to="/perfil">Upgrade</Link>
             </Button>
           </div>
         )}
 
-        {/* Ferramentas rápidas e Insights */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-          <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-               <div className="flex items-center gap-2">
-                 <div className="size-8 rounded-xl bg-orange-500/20 flex items-center justify-center">
-                   <UtensilsCrossed className="size-4 text-orange-600" />
-                 </div>
-                 <h3 className="text-sm font-bold text-orange-950 dark:text-orange-200">Churrasco & Fim de Semana</h3>
-               </div>
-               <Badge variant="outline" className="bg-orange-100 dark:bg-orange-900/30 border-orange-200 text-orange-700 dark:text-orange-300 text-[10px] scale-90">
-                 Destaque
-               </Badge>
-             </div>
 
-             <p className="text-[11px] text-orange-800/70 dark:text-orange-300/70 leading-relaxed mb-4">
-               Acompanhe os gastos com <strong>Carnes Assadas, Frango e Churrasco</strong> de domingo. 
-             </p>
-             <div className="flex items-center justify-between">
-                <div>
-                   <span className="block text-[10px] uppercase font-bold text-orange-600/50">Gasto no mês</span>
-
-                   <span className="text-lg font-black text-orange-700 dark:text-orange-400">
-                     {formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}
-                   </span>
+        {kidsOnboarding.visible && !kidsOnboarding.complete && (
+          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg/50 p-4 shadow-sm backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Baby className="size-4 text-primary" />
                 </div>
-                <Button 
-                  size="sm" 
-                  className="bg-orange-600 hover:bg-orange-700 text-white rounded-xl h-8 text-[11px]"
-                  onClick={() => {
-                    setDialogKind("expense");
-                    const cat = categories?.find(c => c.name === 'Churrasco & Fim de Semana');
-                    if (cat) setPreset({ categoryId: cat.id, subCategoryId: null });
-                    setDialogOpen(true);
-                  }}
-                >
-                  Lançar Churrasco
-                </Button>
+                <h3 className="text-xs font-black uppercase tracking-widest">Configuração Espaço Kids</h3>
+              </div>
+              <Button asChild variant="link" size="sm" className="h-auto p-0 text-primary text-[10px] font-bold">
+                <Link to="/kids">Configurar Agora →</Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[
+                { label: "Cadastrar", done: kidsOnboarding.hasKid },
+                { label: "PIN Segurança", done: kidsOnboarding.hasPin },
+                { label: "Limites", done: kidsOnboarding.hasLimit },
+                { label: "Mesada", done: kidsOnboarding.hasAllowance }
+              ].map((step, idx) => (
+                <div key={idx} className={cn(
+                  "flex items-center gap-2 px-3 py-1.5 rounded-xl border transition",
+                  step.done ? "bg-primary/10 border-primary/20 text-primary" : "bg-background border-border text-muted-foreground"
+                )}>
+                  {step.done ? <CheckSquare className="size-3.5" /> : <Circle className="size-3.5" />}
+                  <span className="text-[10px] font-bold">{step.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Churrasco & Fim de Semana - Card Refinado */}
+        <section className="mb-4">
+          <div className="rounded-3xl border border-orange-500/10 bg-orange-500/5 p-4 shadow-sm flex items-center justify-between">
+             <div className="flex items-center gap-3">
+                <div className="size-10 rounded-2xl bg-orange-500/20 flex items-center justify-center shrink-0">
+                  <UtensilsCrossed className="size-5 text-orange-600" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-black text-orange-950 dark:text-orange-200 uppercase tracking-widest">Churrasco & Fim de Semana</h3>
+                  <p className="text-[10px] text-orange-800/60 dark:text-orange-300/60 font-bold leading-tight">
+                    Gastos no mês: <span className="text-orange-700 dark:text-orange-400 font-black">{formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}</span>
+                  </p>
+                </div>
              </div>
+             <Button 
+               size="sm" 
+               className="bg-orange-600 hover:bg-orange-700 text-white rounded-xl h-9 px-4 text-[10px] font-black uppercase tracking-wider shadow-orange-500/20 shadow-lg"
+               onClick={() => {
+                 setDialogKind("expense");
+                 const cat = categories?.find(c => c.name === 'Churrasco & Fim de Semana');
+                 if (cat) setPreset({ categoryId: cat.id, subCategoryId: null });
+                 setDialogOpen(true);
+               }}
+             >
+               Lançar Gasto
+             </Button>
           </div>
         </section>
 
@@ -563,7 +550,7 @@ function DashboardPage() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="h-9 rounded-lg px-2 text-xs font-medium text-muted-foreground hover:text-foreground"
+              className="h-9 rounded-xl px-2 text-xs font-bold text-muted-foreground hover:text-foreground border-border/40"
               onClick={() => {
                 reset();
                 navigate({
@@ -574,29 +561,20 @@ function DashboardPage() {
                   replace: true,
                 });
               }}
-              title="Voltar para hoje e limpar filtros"
             >
               <RefreshCw className="mr-1.5 size-3" />
               Redefinir
             </Button>
             <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-            <QuickCategoryMenu
-              kind="income"
-              label="Nova receita"
-              onPick={(pick) => {
-                setEditingTx(null);
-                setDialogKind("income");
-                setPreset(pick);
-                setDialogOpen(true);
-              }}
-            />
-            <Button onClick={() => setCardsOpen(true)}>
-              <Zap className="mr-2 size-4" aria-hidden />
-              Gasto em 2 toques
+            
+            <Button className="rounded-xl h-9 text-xs font-bold shadow-sm" onClick={() => setCardsOpen(true)}>
+              <Zap className="mr-2 size-3.5" />
+              Lançar Rápido
             </Button>
+
             <QuickCategoryMenu
               kind="expense"
-              label="Novo gasto"
+              label="Novo Gasto"
               onPick={(pick) => {
                 setEditingTx(null);
                 setDialogKind("expense");
@@ -604,17 +582,31 @@ function DashboardPage() {
                 setDialogOpen(true);
               }}
             />
-            <Button onClick={() => navigate({ to: "/veiculos" })}>
-              <Car className="mr-2 size-4" />
-              Novo gasto do veículo
+
+            <QuickCategoryMenu
+              kind="income"
+              label="Nova Receita"
+              onPick={(pick) => {
+                setEditingTx(null);
+                setDialogKind("income");
+                setPreset(pick);
+                setDialogOpen(true);
+              }}
+            />
+
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => navigate({ to: "/veiculos" })}>
+              <Car className="mr-2 size-3.5 text-muted-foreground" />
+              Veículos
             </Button>
-            <Button variant="outline" onClick={() => setDependentOpen(true)}>
-              <Baby className="mr-2 size-4" aria-hidden />
-              Espaço Kids
+
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setDependentOpen(true)}>
+              <Baby className="mr-2 size-3.5 text-muted-foreground" />
+              Kids
             </Button>
-            <Button variant="outline" onClick={() => setTaxOpen(true)}>
-              <Landmark className="mr-2 size-4" aria-hidden />
-              Imposto de Renda
+
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setTaxOpen(true)}>
+              <Landmark className="mr-2 size-3.5 text-muted-foreground" />
+              I.R.
             </Button>
           </div>
 
@@ -786,9 +778,7 @@ function DashboardPage() {
         )}
       
         {!loadingTransactions && (
-        <div className="space-y-4 mt-4">
-
-
+          <div className="space-y-4 mt-4">
             <section className="rounded-2xl border border-border bg-card p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-sm font-semibold">Orçamento do mês</h2>
@@ -848,10 +838,10 @@ function DashboardPage() {
               </section>
             ) : null}
 
-            <section className="auto-cards-lg">
+            <section className="grid gap-4 md:grid-cols-2">
               <ChartCard
-                title="Gastos por dia"
-                summary={`Maior gasto diário: ${formatCurrency(Math.max(0, ...byDay.map((item) => item.gasto)))}. Clique em uma barra para ver o dia.`}
+                title="Evolução Diária"
+                summary={`Maior pico: ${formatCurrency(Math.max(0, ...byDay.map((item) => item.gasto)))}. Toque na barra para ver os lançamentos do dia.`}
               >
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -863,7 +853,7 @@ function DashboardPage() {
                   >
                     <CartesianGrid {...gridProps} />
                     <XAxis dataKey="day" {...axisProps} />
-                    <YAxis {...axisProps} width={44} />
+                    <YAxis {...axisProps} width={40} />
                     <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
                     <Bar
                       dataKey="gasto"
@@ -877,11 +867,11 @@ function DashboardPage() {
               </ChartCard>
 
               <ChartCard
-                title="Gastos por categoria"
+                title="Categorias"
                 summary={
                   byCategory.length > 0
-                    ? `Maior categoria: ${byCategory[0].name} com ${formatCurrency(byCategory[0].value)}. Clique na fatia para detalhar.`
-                    : "Sem gastos categorizados neste período."
+                    ? `Foco em: ${byCategory[0].name}. Toque na fatia para filtrar.`
+                    : "Sem gastos neste período."
                 }
               >
                 <ResponsiveContainer width="100%" height="100%">
@@ -890,8 +880,8 @@ function DashboardPage() {
                       data={byCategory}
                       dataKey="value"
                       nameKey="name"
-                      innerRadius={42}
-                      outerRadius={72}
+                      innerRadius={45}
+                      outerRadius={75}
                       className="cursor-pointer"
                       onClick={(entry: { id?: string; name?: string }) => {
                         if (entry?.id) openCategoryDetail(entry.id, entry.name ?? "Categoria");
@@ -906,11 +896,20 @@ function DashboardPage() {
                         />
                       ))}
                     </Pie>
-                    <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
+                    <Tooltip 
+                      {...tooltipProps} 
+                      formatter={(value: number, name: string, props: any) => {
+                        const total = byCategory.reduce((a, b) => a + b.value, 0);
+                        const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                        return [formatCurrency(value), `${name} (${percent}%)`];
+                      }} 
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </ChartCard>
+            </section>
 
+            <section className="grid gap-4 md:grid-cols-2">
               <ChartCard
                 title="Receitas x despesas"
                 summary={`Receitas ${formatCurrency(metrics.totalIncome)} contra despesas ${formatCurrency(metrics.totalExpense)}.`}
@@ -1054,96 +1053,9 @@ function DashboardPage() {
                 </p>
               </div>
             </section>
-
-            <section className="rounded-2xl border border-border bg-card p-4">
-              <h2 className="text-sm font-semibold">Maiores categorias</h2>
-              {byCategory.length === 0 ? (
-                <p className="mt-3 text-sm text-muted-foreground">Nada registrado ainda.</p>
-              ) : (
-                <ul className="mt-3 space-y-2">
-                  {byCategory.slice(0, 5).map((item) => (
-                    <li key={item.name} className="space-y-1">
-                      <div className="flex justify-between text-sm">
-                        <span className="truncate">{item.name}</span>
-                        <span className="tabular-nums">{formatCurrency(item.value)}</span>
-                      </div>
-                      <Progress
-                        value={metrics.totalExpense > 0 ? (item.value / metrics.totalExpense) * 100 : 0}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-
-            <section className="rounded-2xl border border-border bg-card p-4">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h2 className="text-sm font-semibold">Gastos por veículo no período</h2>
-                <Button asChild variant="ghost" size="sm">
-                  <Link to="/veiculos-relatorio">
-                    Relatório completo
-                    <ArrowRight className="ml-1 size-4" />
-                  </Link>
-                </Button>
-              </div>
-              {vehicleSummary.length === 0 ? (
-                <p className="mt-3 text-sm text-muted-foreground">
-                  Nenhum gasto vinculado a veículos neste período.
-                </p>
-              ) : (
-                <ul className="mt-3 space-y-3">
-                  {vehicleSummary.map((row) => (
-                    <li key={row.vehicle?.id ?? row.vehicleName} className="space-y-1.5">
-                      <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-                        <span className="flex min-w-0 items-center gap-2">
-                          <VehicleEmblem
-                            vehicleType={row.vehicleType}
-                            className="size-4 shrink-0 text-muted-foreground"
-                          />
-                          {row.vehicle ? (
-                            <Link
-                              to="/lancamentos"
-                              search={{
-                                veiculo: row.vehicle.id,
-                                ano: period.year,
-                                mes: period.month,
-                              }}
-                              className="truncate font-medium underline-offset-4 hover:underline focus-visible:underline"
-                              aria-label={`Ver lançamentos de ${row.vehicleName} em ${MONTH_NAMES[period.month - 1]} de ${period.year}`}
-                            >
-                              {row.vehicleName}
-                            </Link>
-                          ) : (
-                            <span className="truncate font-medium">{row.vehicleName}</span>
-                          )}
-                          <Badge variant="secondary">
-                            {labelFor(VEHICLE_TYPES, row.vehicleType)}
-                          </Badge>
-                        </span>
-                        <span className="font-semibold tabular-nums">
-                          {formatCurrency(row.total)}
-                        </span>
-                      </div>
-                      <Progress value={vehicleTotal > 0 ? (row.total / vehicleTotal) * 100 : 0} />
-                      <div className="flex flex-wrap gap-1.5">
-                        {row.categories.slice(0, 4).map((category) => (
-                          <span
-                            key={category.id}
-                            className="rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground"
-                          >
-                            {category.name} · {formatCurrency(category.total)}
-                          </span>
-                        ))}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
           </div>
         )}
       </div>
-
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
@@ -1194,7 +1106,6 @@ function DashboardPage() {
       <DependentExpenseDialog open={dependentOpen} onOpenChange={setDependentOpen} />
       <TaxQuickDialog open={taxOpen} onOpenChange={setTaxOpen} />
     </AppShell>
-
   );
 }
 

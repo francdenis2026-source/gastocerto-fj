@@ -217,7 +217,7 @@
 
 
 .dark {
-  --background: oklch(0.12 0.02 259); /* Navy ultra escuro */
+  --background: oklch(0.08 0.02 259); /* Navy ultra profundo para um visual mais profissional */
   --foreground: oklch(0.98 0.01 259);
   --surface: oklch(0.16 0.03 259);
   --card: oklch(0.16 0.03 259);

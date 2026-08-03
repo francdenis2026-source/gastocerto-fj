@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-title", content: "GastoCerto" },
       { property: "og:site_name", content: "GastoCerto" },
       { property: "og:title", content: "GastoCerto — Controle de gastos pessoais" },
-      { property: "og:description", content: "Despesas, receitas, cartões, contas fixas, combustível, gás, metas e relatórios em um único painel de finanças pessoais." },
+      { property: "og:description", content: "Domine suas finanças com o GastoCerto. Controle hoje, tranquilidade sempre." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
