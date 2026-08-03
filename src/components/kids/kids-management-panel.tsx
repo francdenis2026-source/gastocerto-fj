@@ -713,3 +713,24 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
     </div>
   );
 }
+
+function EditTxForm({ tx, onSave }: { tx: any, onSave: (values: any) => void }) {
+  const [description, setDescription] = useState(tx.description.replace(/^\[Envio\]\s*/, ""));
+  const [amount, setAmount] = useState(tx.amount.toString());
+
+  return (
+    <div className="space-y-4 py-4">
+      <div className="space-y-2">
+        <Label>Descrição</Label>
+        <Input value={description} onChange={(e) => setDescription(e.target.value)} />
+      </div>
+      <div className="space-y-2">
+        <Label>Valor</Label>
+        <MoneyInput value={amount} onChange={setAmount} />
+      </div>
+      <Button className="w-full" onClick={() => onSave({ description, amount: parseAmount(amount) })}>
+        Salvar Alterações
+      </Button>
+    </div>
+  );
+}
