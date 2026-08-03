@@ -304,7 +304,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="signup"
                     aria-label="Criar nova conta"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:font-extrabold"
                   >
                     <UserPlus className="size-3.5" aria-hidden />
                     Criar conta
@@ -323,7 +323,7 @@ function AuthPage() {
                         <div className="w-full border-t border-border"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-muted-foreground/70">Acesso Infantil</span>
+                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-bold dark:text-muted-foreground/70">Acesso Infantil</span>
                       </div>
                     </div>
 
@@ -342,7 +342,7 @@ function AuthPage() {
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
-                    <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] text-muted-foreground">
+                    <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] font-medium text-[oklch(0.25_0.04_259)] dark:text-muted-foreground">
                       Já tem conta?{" "}
                       <button
                         type="button"
