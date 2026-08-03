@@ -936,18 +936,12 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           className="mt-1 font-mono tracking-wide uppercase"
         />
       </div>
-      <div>
-        <Label htmlFor="kid-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Minha senha (4 a 6 números)</Label>
-        <Input
-          id="kid-pin"
-          type="password"
-          inputMode="numeric"
-          value={pin}
-          onChange={(event) => setPin(onlyDigits(event.target.value).slice(0, 6))}
-          placeholder="••••"
-          autoComplete="current-password"
-          className="mt-1 tracking-[0.4em]"
-        />
+      <PinInput 
+        id="kid-pin" 
+        name="pin" 
+        autoComplete="current-password" 
+        label="Minha senha (4 a 6 números)"
+      />
       </div>
       {lockSeconds > 0 ? (
         <p className="rounded-xl bg-destructive/10 p-2.5 text-center text-[12px] font-semibold text-destructive">

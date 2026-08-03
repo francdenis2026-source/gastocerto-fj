@@ -52,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         window.sessionStorage.clear();
         // Redireciona e força recarga total para resetar qualquer estado em memória.
         window.location.href = "/auth";
+      },
     }),
     [session, loading],
   );
