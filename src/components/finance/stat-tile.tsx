@@ -19,10 +19,10 @@ const tones = {
     bar: "bg-success",
   },
   expense: {
-    ring: "border-destructive/25",
-    glow: "color-mix(in oklab, var(--destructive) 14%, transparent)",
-    icon: "border-destructive/30 bg-destructive/12 text-destructive",
-    value: "text-destructive",
+    ring: "border-destructive/20",
+    glow: "oklch(0.65 0.16 25 / 8%)",
+    icon: "border-destructive/20 bg-destructive/8 text-destructive",
+    value: "text-destructive font-black",
     bar: "bg-destructive",
   },
   warning: {

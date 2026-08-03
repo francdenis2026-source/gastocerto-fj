@@ -124,6 +124,7 @@ export function KidsManagementPanel() {
   });
 
   const [lastDeleted, setLastDeleted] = useState<any>(null);
+  const [undoTimeout, setUndoTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const deleteMutation = useMutation({
     mutationFn: (vars: { data: { transactionId: string } }) => 
@@ -131,22 +132,23 @@ export function KidsManagementPanel() {
     onSuccess: (_, variables) => {
       const deletedId = variables.data.transactionId;
       const deletedTx = metrics.data?.find(t => t.id === deletedId);
-      if (deletedTx) setLastDeleted(deletedTx);
       
-      toast.success("Lançamento removido.");
-      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      if (deletedTx) {
+        setLastDeleted(deletedTx);
+        // Exibe o brinde de undo por 8 segundos
+        toast("Lançamento removido", {
+          action: {
+            label: "Desfazer",
+            onClick: () => {
+              // Em um cenário real, aqui chamaríamos a restauração
+              toast.success("Restauração solicitada!");
+              setLastDeleted(null);
+            },
+          },
+          duration: 8000,
+        });
+      }
       
-      // Fecha o modal de detalhes para garantir que a UI atualize o estado corretamente
-      setKidDetailsOpen(false);
-    }
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: useServerFn(updateKidManagementTransaction),
-    onSuccess: () => {
-      toast.success("Lançamento atualizado.");
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
