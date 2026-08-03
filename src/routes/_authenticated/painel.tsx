@@ -561,7 +561,7 @@ function DashboardPage() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="h-9 rounded-lg px-2 text-xs font-medium text-muted-foreground hover:text-foreground"
+              className="h-9 rounded-xl px-2 text-xs font-bold text-muted-foreground hover:text-foreground border-border/40"
               onClick={() => {
                 reset();
                 navigate({
@@ -572,29 +572,20 @@ function DashboardPage() {
                   replace: true,
                 });
               }}
-              title="Voltar para hoje e limpar filtros"
             >
               <RefreshCw className="mr-1.5 size-3" />
               Redefinir
             </Button>
             <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-            <QuickCategoryMenu
-              kind="income"
-              label="Nova receita"
-              onPick={(pick) => {
-                setEditingTx(null);
-                setDialogKind("income");
-                setPreset(pick);
-                setDialogOpen(true);
-              }}
-            />
-            <Button onClick={() => setCardsOpen(true)}>
-              <Zap className="mr-2 size-4" aria-hidden />
-              Gasto em 2 toques
+            
+            <Button className="rounded-xl h-9 text-xs font-bold shadow-sm" onClick={() => setCardsOpen(true)}>
+              <Zap className="mr-2 size-3.5" />
+              Lançar Rápido
             </Button>
+
             <QuickCategoryMenu
               kind="expense"
-              label="Novo gasto"
+              label="Novo Gasto"
               onPick={(pick) => {
                 setEditingTx(null);
                 setDialogKind("expense");
@@ -602,17 +593,31 @@ function DashboardPage() {
                 setDialogOpen(true);
               }}
             />
-            <Button onClick={() => navigate({ to: "/veiculos" })}>
-              <Car className="mr-2 size-4" />
-              Novo gasto do veículo
+
+            <QuickCategoryMenu
+              kind="income"
+              label="Nova Receita"
+              onPick={(pick) => {
+                setEditingTx(null);
+                setDialogKind("income");
+                setPreset(pick);
+                setDialogOpen(true);
+              }}
+            />
+
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => navigate({ to: "/veiculos" })}>
+              <Car className="mr-2 size-3.5 text-muted-foreground" />
+              Veículos
             </Button>
-            <Button variant="outline" onClick={() => setDependentOpen(true)}>
-              <Baby className="mr-2 size-4" aria-hidden />
-              Espaço Kids
+
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setDependentOpen(true)}>
+              <Baby className="mr-2 size-3.5 text-muted-foreground" />
+              Kids
             </Button>
-            <Button variant="outline" onClick={() => setTaxOpen(true)}>
-              <Landmark className="mr-2 size-4" aria-hidden />
-              Imposto de Renda
+
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setTaxOpen(true)}>
+              <Landmark className="mr-2 size-3.5 text-muted-foreground" />
+              I.R.
             </Button>
           </div>
 
