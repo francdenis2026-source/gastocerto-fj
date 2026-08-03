@@ -162,7 +162,7 @@
   --hero-border-strong: oklch(0.22 0.05 259 / 30%);
   --hero-surface: oklch(1 0 0 / 78%);
   --hero-surface-soft: oklch(1 0 0 / 58%);
-  --hero-accent: oklch(0.45 0.14 155);
+  --hero-accent: oklch(0.55 0.16 155);
   --hero-veil-mobile: linear-gradient(
     180deg,
     oklch(0.99 0.008 259 / 0.94),

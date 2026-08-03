@@ -80,7 +80,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 aria-current={isActive ? "location" : undefined}
                 onClick={(event) => handleAnchorClick(event, item.href)}
                 className={cn(
-                  "nav-underline relative inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent after:bg-brand",
+                  "nav-underline relative inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent after:bg-hero-accent",
                   isActive && "after:scale-x-100",
                   scrolled
                     ? cn("text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground")
