@@ -955,7 +955,7 @@ function KidSummary({
         accent.border,
       )}>
       <div className="flex items-center justify-between mb-2">
-        <h2 className="flex items-center gap-2 text-base font-black tracking-tighter uppercase text-muted-foreground/80">
+        <h2 className="flex items-center gap-2 text-xl font-black tracking-tighter uppercase text-foreground">
           <CalendarIcon className="size-4" />
           {viewYearly ? selectedYear : `${MONTH_NAMES[selectedMonth]} ${selectedYear}`}
         </h2>
