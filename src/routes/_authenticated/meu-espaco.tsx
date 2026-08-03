@@ -194,18 +194,17 @@ function KidSpacePage() {
         toast.custom((t) => (
           <div className={cn(
             "flex w-full max-w-sm flex-col gap-2 rounded-2xl border p-4 shadow-2xl animate-in slide-in-from-right-5",
-            isBoy ? "bg-blue-600 border-blue-400 text-white" : 
-            isGirl ? "bg-pink-600 border-pink-400 text-white" : 
-            "bg-emerald-600 border-emerald-400 text-white"
+            "border-white/20 text-white",
+            isBoy ? "bg-sky-700" : isGirl ? "bg-fuchsia-700" : "bg-emerald-700",
           )}>
             <div className="flex items-start gap-3">
               <div className="bg-white/20 p-2 rounded-xl">
                 <TrendingUp className="size-6" />
               </div>
               <div className="flex-1">
-                <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Recebimento Aprovado! 🚀</p>
-                <h4 className="text-xl font-black">{formatCurrency(pixAlerts.data.amount)}</h4>
-                <p className="text-[11px] font-medium opacity-90 mt-1">{pixAlerts.data.description}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">Transferência confirmada</p>
+                <h4 className="text-xl font-bold tracking-tight">{formatCurrency(pixAlerts.data.amount)}</h4>
+                <p className="text-[11px] font-medium text-white/90 mt-1">{pixAlerts.data.description}</p>
                 <p className="text-[9px] mt-2 font-bold opacity-70">
                   {new Date(pixAlerts.data.created_at || '').toLocaleString('pt-BR')}
                 </p>
