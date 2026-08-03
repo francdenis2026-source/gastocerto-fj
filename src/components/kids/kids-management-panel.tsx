@@ -531,26 +531,28 @@ export function KidsManagementPanel() {
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-2 opacity-10">
+                  <div className="p-3 rounded-xl bg-card border border-border/50 relative overflow-hidden shadow-sm">
+                    <div className="absolute top-0 right-0 p-2 opacity-5">
                       <TrendingDown className="size-8" />
                     </div>
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Consumo dos Filhos</p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
-                        <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex flex-col">
+                        <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Consumo dos Filhos</p>
+                        <p className="text-lg font-black text-foreground">{formatCurrency(stats.totalKidSpent)}</p>
                       </div>
+                      <Badge variant="outline" className="h-5 text-[9px] bg-muted text-muted-foreground border-border font-bold px-2 uppercase shrink-0">Informativo</Badge>
                     </div>
-                    <div className="w-full bg-rose-500/10 rounded-full h-1.5 overflow-hidden">
-                      <div 
-                        className="bg-rose-500 h-full transition-all duration-1000" 
-                        style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
-                      />
+                    <div className="space-y-1.5">
+                      <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                        <div 
+                          className="bg-primary/60 h-full transition-all duration-1000" 
+                          style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
+                        />
+                      </div>
+                      <p className="text-[8px] text-muted-foreground leading-none font-bold flex items-center gap-1">
+                         Eles já gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}% do valor enviado
+                      </p>
                     </div>
-                    <p className="text-[8px] text-rose-600/60 mt-1.5 leading-none font-bold">
-                      Não afeta seu saldo real · Gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%
-                    </p>
                   </div>
 
                   <div className="space-y-2">
