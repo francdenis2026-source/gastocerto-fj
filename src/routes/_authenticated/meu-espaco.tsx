@@ -382,38 +382,37 @@ function KidSpacePage() {
       ) : null}
 
       <header className={cn(
-        "px-4 pt-6 pb-2 sm:px-6 transition-all",
-        compactMode && "pt-2 px-3 pb-1 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
+        "px-4 pt-4 pb-2 sm:px-6 transition-all",
+        compactMode && "pt-2 px-3 pb-1.5 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="relative group cursor-pointer" onClick={toggleKidTheme}>
-              <Avatar className={cn("size-9 sm:size-10 border border-border shadow-md ring-2 transition-transform active:scale-90", accent.ring)}>
-                {avatarUrl ? (
-                  <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
-                ) : null}
-                <AvatarFallback
-                  className="text-base font-bold text-white"
-                  style={{ backgroundColor: dependent.color ?? "#0f766e" }}
-                >
-                  {firstName.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div className="absolute -bottom-1 -right-1 size-5 rounded-full bg-background border border-border flex items-center justify-center shadow-sm">
-                {kidTheme === "dark" ? <Moon className="size-3 text-primary" /> : <Sun className="size-3 text-amber-500" />}
-              </div>
-            </div>
-            <div>
-              <h1 className="text-base sm:text-lg font-bold leading-none tracking-tight">
+        <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <Avatar className={cn(
+              "size-14 sm:size-16 border-2 border-background shadow-lg ring-2 transition-transform active:scale-95",
+              accent.ring,
+              compactMode && "size-12 sm:size-12",
+            )}>
+              {avatarUrl ? (
+                <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} className="object-cover" />
+              ) : null}
+              <AvatarFallback
+                className="text-xl font-black text-white"
+                style={{ backgroundColor: dependent.color ?? "#0f766e" }}
+              >
+                {firstName.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              <h1 className="truncate text-lg sm:text-xl font-bold leading-tight tracking-tight">
                 Olá, <span className={accent.text}>{firstName}</span>
               </h1>
-              <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-muted-foreground mt-0.5 opacity-70">
+              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground opacity-70">
                 {online ? "Online" : "Offline"} · Espaço Kids
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-0.5">
             <Button
               variant="ghost"
               size="icon"
@@ -425,21 +424,69 @@ function KidSpacePage() {
               {kidTheme === "dark" ? <Sun className="size-4 text-amber-500" /> : <Moon className="size-4 text-primary" />}
             </Button>
             <NotificationCenter isKid />
-
             <Button
               variant="ghost"
               size="icon"
-              className="size-8 text-muted-foreground rounded-full"
+              className="size-9 rounded-full text-muted-foreground"
               onClick={async () => {
                 await signOut();
                 navigate({ to: "/auth", replace: true });
               }}
+              title="Sair"
+              aria-label="Sair"
             >
               <LogOut className="size-4" />
             </Button>
           </div>
         </div>
+
+        {/* Período (mês/ano) na mesma faixa do topo, compacto e legível */}
+        <div className="mx-auto mt-2 flex w-full max-w-2xl flex-wrap items-center justify-end gap-1.5">
+          {!viewYearly && (
+            <Select value={selectedMonth.toString()} onValueChange={(v) => setSelectedMonth(parseInt(v))}>
+              <SelectTrigger className="h-9 w-36 border-border bg-card text-sm font-bold capitalize shadow-sm">
+                <SelectValue placeholder="Mês" />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <SelectItem key={i} value={i.toString()} className="text-sm font-semibold capitalize">
+                    {new Date(0, i).toLocaleDateString("pt-BR", { month: "long" })}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+          <Select value={selectedYear.toString()} onValueChange={(v) => setSelectedYear(parseInt(v))}>
+            <SelectTrigger className="h-9 w-24 border-border bg-card text-sm font-bold shadow-sm">
+              <SelectValue placeholder="Ano" />
+            </SelectTrigger>
+            <SelectContent>
+              {[2024, 2025, 2026].map((y) => (
+                <SelectItem key={y} value={y.toString()} className="text-sm font-semibold">{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="inline-flex rounded-lg bg-muted p-0.5 shadow-sm">
+            <Button
+              variant={!viewYearly ? "secondary" : "ghost"}
+              size="sm"
+              className="h-8 px-3 text-sm font-bold"
+              onClick={() => setViewYearly(false)}
+            >
+              Mês
+            </Button>
+            <Button
+              variant={viewYearly ? "secondary" : "ghost"}
+              size="sm"
+              className="h-8 px-3 text-sm font-bold"
+              onClick={() => setViewYearly(true)}
+            >
+              Anual
+            </Button>
+          </div>
+        </div>
       </header>
+
 
       <div className={cn(
         "mx-auto w-full max-w-2xl space-y-5 px-4 sm:px-6 transition-all",
