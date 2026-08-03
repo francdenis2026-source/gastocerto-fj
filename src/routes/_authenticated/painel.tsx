@@ -95,6 +95,7 @@ import { MONTH_NAMES, isoDate, monthRange, periodDefaultDate } from "@/lib/finan
 import { useCategories, useProfile } from "@/lib/queries";
 import { useBudgets, useTransactions, type Transaction } from "@/lib/transactions";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 import { useAutoRecurring } from "@/lib/recurring";
 import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
