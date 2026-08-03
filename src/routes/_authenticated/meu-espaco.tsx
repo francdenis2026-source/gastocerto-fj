@@ -846,6 +846,19 @@ function KidSummary({
   selectedMonth: number;
   selectedYear: number;
 }) {
+  const weeklyStats = useMemo(() => {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const weekRows = rows.filter(r => new Date(r.transaction_date).getTime() >= startOfWeek.getTime());
+    const weekIncome = weekRows.filter(r => r.transaction_type === "income").reduce((a, b) => a + Number(b.amount), 0);
+    const weekExpense = weekRows.filter(r => r.transaction_type === "expense").reduce((a, b) => a + Number(b.amount), 0);
+
+    return { income: weekIncome, expense: weekExpense, balance: weekIncome - weekExpense };
+  }, [rows]);
+
   return (
     <section className={cn(
       "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm",
