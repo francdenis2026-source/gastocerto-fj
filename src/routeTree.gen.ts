@@ -50,6 +50,7 @@ import { Route as AuthenticatedVeiculosConfiguracoesRouteImport } from './routes
 import { Route as AuthenticatedVeiculosRelatorioRouteImport } from './routes/_authenticated/veiculos-relatorio'
 import { Route as CompartilhadoTokenRouteImport } from './routes/compartilhado.$token'
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
+import { Route as AuthenticatedConsumoSlugRouteImport } from './routes/_authenticated/consumo.$slug'
 import { Route as ApiPublicExternalVerifyRouteImport } from './routes/api/public/external-verify'
 import { Route as ApiPublicMercadopagoRouteImport } from './routes/api/public/mercadopago'
 import { Route as ApiPublicMercadopagoPixRouteImport } from './routes/api/public/mercadopago-pix'
@@ -269,6 +270,12 @@ const PedidoIdRoute = PedidoIdRouteImport.update({
   path: '/pedido/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedConsumoSlugRoute =
+  AuthenticatedConsumoSlugRouteImport.update({
+    id: '/consumo/$slug',
+    path: '/consumo/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicExternalVerifyRoute = ApiPublicExternalVerifyRouteImport.update({
   id: '/api/public/external-verify',
   path: '/api/public/external-verify',
@@ -326,6 +333,7 @@ export interface FileRoutesByFullPath {
   '/veiculos-relatorio': typeof AuthenticatedVeiculosRelatorioRoute
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
+  '/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
@@ -371,6 +379,7 @@ export interface FileRoutesByTo {
   '/veiculos-relatorio': typeof AuthenticatedVeiculosRelatorioRoute
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
+  '/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
@@ -418,6 +427,7 @@ export interface FileRoutesById {
   '/_authenticated/veiculos-relatorio': typeof AuthenticatedVeiculosRelatorioRoute
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
+  '/_authenticated/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
@@ -465,6 +475,7 @@ export interface FileRouteTypes {
     | '/veiculos-relatorio'
     | '/compartilhado/$token'
     | '/pedido/$id'
+    | '/consumo/$slug'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
@@ -510,6 +521,7 @@ export interface FileRouteTypes {
     | '/veiculos-relatorio'
     | '/compartilhado/$token'
     | '/pedido/$id'
+    | '/consumo/$slug'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
@@ -556,6 +568,7 @@ export interface FileRouteTypes {
     | '/_authenticated/veiculos-relatorio'
     | '/compartilhado/$token'
     | '/pedido/$id'
+    | '/_authenticated/consumo/$slug'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
@@ -865,6 +878,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PedidoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/consumo/$slug': {
+      id: '/_authenticated/consumo/$slug'
+      path: '/consumo/$slug'
+      fullPath: '/consumo/$slug'
+      preLoaderRoute: typeof AuthenticatedConsumoSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/external-verify': {
       id: '/api/public/external-verify'
       path: '/api/public/external-verify'
@@ -922,6 +942,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedVeiculosAuditoriaRoute: typeof AuthenticatedVeiculosAuditoriaRoute
   AuthenticatedVeiculosConfiguracoesRoute: typeof AuthenticatedVeiculosConfiguracoesRoute
   AuthenticatedVeiculosRelatorioRoute: typeof AuthenticatedVeiculosRelatorioRoute
+  AuthenticatedConsumoSlugRoute: typeof AuthenticatedConsumoSlugRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -958,6 +979,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedVeiculosConfiguracoesRoute:
     AuthenticatedVeiculosConfiguracoesRoute,
   AuthenticatedVeiculosRelatorioRoute: AuthenticatedVeiculosRelatorioRoute,
+  AuthenticatedConsumoSlugRoute: AuthenticatedConsumoSlugRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
