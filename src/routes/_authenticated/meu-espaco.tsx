@@ -72,6 +72,59 @@ type KidTransaction = {
   transaction_date: string;
 };
 
+/**
+ * Paleta de acento do Espaço Kids.
+ *
+ * Cada variante declara explicitamente o par claro/escuro para garantir contraste
+ * AA nos dois temas — evitamos usar apenas `text-blue-600`, que fica ilegível no
+ * modo escuro, e apenas `text-blue-300`, que falha no modo claro.
+ */
+type KidAccent = {
+  surface: string;
+  border: string;
+  borderHover: string;
+  text: string;
+  iconBg: string;
+  button: string;
+  ring: string;
+};
+
+const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
+  boy: {
+    surface: "bg-sky-500/8 dark:bg-sky-400/10",
+    border: "border-sky-600/25 dark:border-sky-400/25",
+    borderHover: "hover:border-sky-600/50 dark:hover:border-sky-400/50",
+    text: "text-sky-700 dark:text-sky-300",
+    iconBg: "bg-sky-600/12 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300",
+    button: "bg-sky-700 text-white hover:bg-sky-800 dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-sky-950",
+    ring: "ring-sky-600/20 dark:ring-sky-400/25",
+  },
+  girl: {
+    surface: "bg-fuchsia-500/8 dark:bg-fuchsia-400/10",
+    border: "border-fuchsia-600/25 dark:border-fuchsia-400/25",
+    borderHover: "hover:border-fuchsia-600/50 dark:hover:border-fuchsia-400/50",
+    text: "text-fuchsia-700 dark:text-fuchsia-300",
+    iconBg: "bg-fuchsia-600/12 text-fuchsia-700 dark:bg-fuchsia-400/15 dark:text-fuchsia-300",
+    button: "bg-fuchsia-700 text-white hover:bg-fuchsia-800 dark:bg-fuchsia-500 dark:hover:bg-fuchsia-400 dark:text-fuchsia-950",
+    ring: "ring-fuchsia-600/20 dark:ring-fuchsia-400/25",
+  },
+  neutral: {
+    surface: "bg-primary/8",
+    border: "border-primary/25",
+    borderHover: "hover:border-primary/50",
+    text: "text-primary",
+    iconBg: "bg-primary/12 text-primary",
+    button: "",
+    ring: "ring-primary/20",
+  },
+};
+
+/** Valores positivos e negativos com contraste garantido nos dois temas. */
+const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-300";
+const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
+const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-300";
+const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/10";
+
 function KidSpacePage() {
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
