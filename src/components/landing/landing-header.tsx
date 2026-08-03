@@ -55,7 +55,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
           ? "border-b border-border bg-background/90 text-foreground backdrop-blur-md shadow-soft"
-          : "border-b border-white/10 bg-transparent text-white",
+          : "border-b border-hero-border bg-transparent text-hero-fg",
       )}
     >
       <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
@@ -63,7 +63,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           href="#inicio"
           onClick={(event) => handleAnchorClick(event, "#inicio")}
           className={cn(
-            "inline-flex min-w-0 shrink rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+            "inline-flex min-w-0 shrink rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
           )}
           aria-label="GastoCerto — início"
         >
@@ -84,7 +84,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   isActive && "after:scale-x-100",
                   scrolled
                     ? cn("text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground")
-                    : cn("text-white/90 hover:bg-white/10 hover:text-white focus-visible:ring-white/70", isActive && "text-white"),
+                    : cn("text-hero-fg-muted hover:bg-hero-surface-soft hover:text-hero-fg focus-visible:ring-hero-border-strong", isActive && "text-hero-fg"),
                 )}
 
               >
@@ -95,11 +95,11 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         </nav>
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className={cn("inline-flex", !scrolled && "text-white hover:bg-white/10 hover:text-white")} />
+          <ThemeToggle className={cn("inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")} />
           <CodeAccessDialog>
             <Button
               variant="ghost"
-              className={cn("hidden lg:inline-flex", !scrolled && "text-white hover:bg-white/10 hover:text-white")}
+              className={cn("hidden lg:inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")}
             >
               <KeyRound className="size-4" aria-hidden />
               Código de acesso
@@ -113,7 +113,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               aria-label="Entrar com código de teste"
               className={cn(
                 "lg:hidden",
-                !scrolled && "border-white/25 bg-white/5 text-white hover:bg-white/15 hover:text-white",
+                !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
               )}
             >
               <KeyRound className="size-4" aria-hidden />
@@ -124,7 +124,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
             variant="outline"
             className={cn(
               "h-10 px-3 text-sm font-semibold",
-              !scrolled && "border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white",
+              !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
             )}
             asChild
           >
@@ -138,7 +138,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               <Button
                 variant="outline"
                 size="icon"
-                className={cn("lg:hidden", !scrolled && "border-white/25 bg-white/5 text-white hover:bg-white/15 hover:text-white")}
+                className={cn("lg:hidden", !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg")}
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
                 onClick={() => setOpen((v) => !v)}
