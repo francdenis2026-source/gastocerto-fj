@@ -466,36 +466,34 @@ function DashboardPage() {
 
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg p-5 shadow-sm backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Baby className="size-5 text-primary" />
+          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg/50 p-4 shadow-sm backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Baby className="size-4 text-primary" />
+                </div>
+                <h3 className="text-xs font-black uppercase tracking-widest">Configuração Espaço Kids</h3>
               </div>
-              <div>
-                <h3 className="text-sm font-bold">Ativar Espaço Kids</h3>
-                <p className="text-[11px] text-muted-foreground">Complete os passos para liberar o Modo Criança seguro.</p>
-              </div>
+              <Button asChild variant="link" size="sm" className="h-auto p-0 text-primary text-[10px] font-bold">
+                <Link to="/kids">Configurar Agora →</Link>
+              </Button>
             </div>
-            
-            <div className="grid gap-3 sm:grid-cols-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[
-                { label: "Cadastrar Criança", done: kidsOnboarding.hasKid },
-                { label: "Definir PIN de 4 dígitos", done: kidsOnboarding.hasPin },
-                { label: "Configurar Limites", done: kidsOnboarding.hasLimit },
-                { label: "Agendar Mesada", done: kidsOnboarding.hasAllowance }
+                { label: "Cadastrar", done: kidsOnboarding.hasKid },
+                { label: "PIN Segurança", done: kidsOnboarding.hasPin },
+                { label: "Limites", done: kidsOnboarding.hasLimit },
+                { label: "Mesada", done: kidsOnboarding.hasAllowance }
               ].map((step, idx) => (
                 <div key={idx} className={cn(
-                  "flex items-center gap-2 p-2 rounded-xl border transition",
+                  "flex items-center gap-2 px-3 py-1.5 rounded-xl border transition",
                   step.done ? "bg-primary/10 border-primary/20 text-primary" : "bg-background border-border text-muted-foreground"
                 )}>
-                  {step.done ? <CheckSquare className="size-4" /> : <Circle className="size-4" />}
+                  {step.done ? <CheckSquare className="size-3.5" /> : <Circle className="size-3.5" />}
                   <span className="text-[10px] font-bold">{step.label}</span>
                 </div>
               ))}
             </div>
-            <Button asChild variant="link" size="sm" className="mt-3 h-auto p-0 text-primary text-[10px] font-bold">
-              <Link to="/kids">Ir para configurações do Espaço Kids →</Link>
-            </Button>
           </div>
         )}
 
