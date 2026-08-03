@@ -75,14 +75,16 @@ export function AdminAccessPanel() {
   const createMutation = useMutation({
     mutationFn: (data: { label: string; expiresInDays: number; maxUses: number }) => 
       createCode({ data }),
-    onSuccess: () => {
+    onSuccess: (created: any) => {
       queryClient.invalidateQueries({ queryKey: ["admin-access-codes"] });
       setIsCreateOpen(false);
       setNewLabel("");
-      toast.success("Código de acesso gerado com sucesso!");
+      if (created?.code) navigator.clipboard?.writeText(created.code).catch(() => undefined);
+      toast.success(`Código ${created?.code ?? ""} gerado e copiado!`);
     },
-    onError: () => toast.error("Falha ao gerar código."),
+    onError: (err: any) => toast.error(err?.message || "Falha ao gerar código."),
   });
+
 
   const revokeMutation = useMutation({
     mutationFn: (id: string) => revokeCode({ data: { id } }),
