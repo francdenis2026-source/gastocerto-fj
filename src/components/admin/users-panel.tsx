@@ -42,7 +42,9 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { PermissionsPanel } from "./permissions-panel";
+import { CreateUserDialog } from "./create-user-dialog";
 import { UserAuditTimeline } from "./user-audit-timeline";
+
 import { usePlanAccess } from "@/lib/plan-features";
 import { syncUserLicense } from "@/lib/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
