@@ -1113,6 +1113,8 @@ function KidEntryDialog({
   const [reason, setReason] = useState<string>(DEPENDENT_REASONS[0].value);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [confirming, setConfirming] = useState(false);
+
 
   const selected = DEPENDENT_REASONS.find((item) => item.value === reason) ?? DEPENDENT_REASONS[0];
 
