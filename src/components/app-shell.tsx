@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
+import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
 import {
   ChevronDown,
   PanelLeftClose,
@@ -194,6 +195,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-secondary/20 lg:flex">
+      <TemporaryLicenseBanner />
       <aside
         className={cn(
           "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-background transition-[width] duration-200 lg:flex",

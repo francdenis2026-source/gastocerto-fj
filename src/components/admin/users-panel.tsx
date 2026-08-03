@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { PermissionsPanel } from "./permissions-panel";
+import { usePlanAccess } from "@/lib/plan-features";
 import { syncUserLicense } from "@/lib/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -315,7 +316,13 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                   <TableCell className="text-right flex items-center justify-end gap-2">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="size-8" title="Permissões">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="size-8" 
+                          title="Permissões"
+                          disabled={!isAdmin}
+                        >
                           <Shield className="size-4" />
                         </Button>
                       </DialogTrigger>
@@ -326,7 +333,12 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                         <PermissionsPanel targetUserId={profile.user_id} />
                       </DialogContent>
                     </Dialog>
-                    <Button size="sm" variant="outline" onClick={() => setSelected(profile)}>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      onClick={() => setSelected(profile)}
+                      disabled={!isAdmin && profile.user_id !== user?.id}
+                    >
                       <UserCog className="mr-2 size-4" />
                       Gerenciar
                     </Button>

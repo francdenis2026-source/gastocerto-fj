@@ -141,7 +141,7 @@ export function TrialGrantPanel() {
              </SelectContent>
            </Select>
          </div>
-         {slug === "trial_custom" && (
+         {((slug as string) === "trial_custom") && (
            <div className="w-24 space-y-1">
              <Label className="text-xs">Dias</Label>
              <Input

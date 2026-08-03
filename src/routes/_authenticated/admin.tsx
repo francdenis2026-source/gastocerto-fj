@@ -79,7 +79,7 @@ const ReopenRequestsPanel = lazy(() =>
   import("@/components/admin/reopen-requests-panel").then((m) => ({ default: m.ReopenRequestsPanel })),
 );
 const AuditLogsPanel = lazy(() =>
-  import("@/components/admin/audit-logs-panel").then((m) => ({ default: m.AuditLogsPanel })),
+  import("@/components/admin/audit-logs-panel").then((m) => ({ default: m.AuditLogsTable })),
 );
 const PermissionsPanel = lazy(() =>
   import("@/components/admin/permissions-panel").then((m) => ({ default: m.PermissionsPanel })),
