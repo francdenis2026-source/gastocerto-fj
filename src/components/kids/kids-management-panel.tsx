@@ -101,6 +101,10 @@ export function KidsManagementPanel() {
   const [giveMoneyOpen, setGiveMoneyOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [details, setDetails] = useState<any | null>(null);
+  
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
 
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
@@ -112,12 +116,14 @@ export function KidsManagementPanel() {
   useParentKidsRealtime(user?.id, kidUserIds);
 
   const metrics = useQuery({
-    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
+    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear(), page],
     queryFn: () => fetchMetrics({ 
       data: { 
         dependentId: selectedKidId === "all" ? undefined : selectedKidId,
         month: new Date().getMonth() + 1,
-        year: new Date().getFullYear()
+        year: new Date().getFullYear(),
+        page,
+        pageSize: PAGE_SIZE
       } 
     }),
     refetchOnWindowFocus: true,
@@ -235,11 +241,12 @@ export function KidsManagementPanel() {
 
 
   const chartData = useMemo(() => {
-    if (!metrics.data) return [];
+    const data = metrics.data?.transactions;
+    if (!data) return [];
     
     // Group by month/year
     const grouped: Record<string, number> = {};
-    metrics.data.forEach(tx => {
+    data.forEach((tx: any) => {
       const date = new Date(tx.transaction_date);
       const key = `${date.getMonth() + 1}/${date.getFullYear()}`;
       grouped[key] = (grouped[key] || 0) + tx.amount;
@@ -254,13 +261,14 @@ export function KidsManagementPanel() {
   }, [metrics.data]);
 
   const stats = useMemo(() => {
-    if (!metrics.data) return { totalSent: 0, totalKidSpent: 0, byType: { cash: 0, pix: 0, gift: 0, value: 0 }, count: 0 };
+    const data = metrics.data?.transactions;
+    if (!data) return { totalSent: 0, totalKidSpent: 0, byType: { cash: 0, pix: 0, gift: 0, value: 0 }, count: 0 };
     
     let totalSent = 0;
     let totalKidSpent = 0;
     const byType = { cash: 0, pix: 0, gift: 0, value: 0 };
     
-    metrics.data.forEach(tx => {
+    data.forEach((tx: any) => {
       const isKidSelf = tx.tags?.includes("kid_self_expense");
       
       if (isKidSelf) {
@@ -268,7 +276,7 @@ export function KidsManagementPanel() {
       } else {
         // Envio do pai (sempre despesa para o pai, entrada para o filho)
         totalSent += tx.amount;
-        const typeTag = (tx.tags || []).find(t => t.startsWith("type:"));
+        const typeTag = (tx.tags || []).find((t: string) => t.startsWith("type:"));
         if (typeTag) {
           const type = typeTag.split(":")[1] as keyof typeof byType;
           if (byType[type] !== undefined) byType[type] += tx.amount;
@@ -276,7 +284,7 @@ export function KidsManagementPanel() {
       }
     });
 
-    return { totalSent, totalKidSpent, byType, count: metrics.data.length };
+    return { totalSent, totalKidSpent, byType, count: data.length };
   }, [metrics.data]);
 
   if (loadingDeps) return <div className="h-32 flex items-center justify-center"><Loader2 className="animate-spin" /></div>;
@@ -345,26 +353,26 @@ export function KidsManagementPanel() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                        <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
                          <p className="text-[9px] font-bold uppercase text-emerald-600 mb-1">Recebido</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
                          <p className="text-[9px] font-bold uppercase text-rose-600 mb-1">Gastos</p>
-                         <p className="text-lg font-black">{formatCurrency(metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)}</p>
+                         <p className="text-lg font-black">{formatCurrency(metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0)}</p>
                        </div>
                        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
                          <p className="text-[9px] font-bold uppercase text-primary mb-1">Saldo Atual</p>
                          <p className="text-lg font-black text-primary">
                            {formatCurrency(
-                             (metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) - 
-                             (metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0)
+                             (metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0) - 
+                             (metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0)
                            )}
                          </p>
                        </div>
                        <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
                          <p className="text-[9px] font-bold uppercase text-amber-600 mb-1">Uso do Saldo</p>
                          <p className="text-lg font-black text-amber-600">
-                           {Math.min(100, Math.round(((metrics.data?.filter(t => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0) / 
-                            (Math.max(1, metrics.data?.filter(t => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a, b) => a + b.amount, 0) || 0))) * 100))}%
+                           {Math.min(100, Math.round(((metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'expense' && t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0) / 
+                            (Math.max(1, metrics.data?.transactions?.filter((t: any) => t.transaction_type === 'income' && !t.tags?.includes("kid_self_expense")).reduce((a: number, b: any) => a + b.amount, 0) || 0))) * 100))}%
                          </p>
                        </div>
                     </div>
@@ -375,12 +383,12 @@ export function KidsManagementPanel() {
                         {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
                       </div>
                       <div className="divide-y border rounded-xl overflow-hidden bg-background/50">
-                        {metrics.data?.length === 0 && (
+                        {metrics.data?.transactions?.length === 0 && (
                           <div className="p-8 text-center text-muted-foreground">
                             <p className="text-xs">Nenhum registro encontrado para este período.</p>
                           </div>
                         )}
-                        {metrics.data?.map((tx: any) => {
+                        {metrics.data?.transactions?.map((tx: any) => {
                           const kind = kidEntryKind(tx);
                           return (
                           <div key={tx.id} className="p-3 flex items-center justify-between hover:bg-muted/30 transition-colors">
@@ -510,7 +518,7 @@ export function KidsManagementPanel() {
                       <div className="flex items-center justify-between">
                         <p className="text-lg font-black text-primary">
                           {formatCurrency(
-                            metrics.data?.reduce((acc: number, tx: any) => {
+                            metrics.data?.transactions?.reduce((acc: number, tx: any) => {
                               const isKidSelf = tx.tags?.includes("kid_self_expense");
                               if (isKidSelf) return acc - (tx.transaction_type === 'expense' ? tx.amount : -tx.amount);
                               return acc + tx.amount;
@@ -523,26 +531,28 @@ export function KidsManagementPanel() {
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-2 opacity-10">
+                  <div className="p-3 rounded-xl bg-card border border-border/50 relative overflow-hidden shadow-sm">
+                    <div className="absolute top-0 right-0 p-2 opacity-5">
                       <TrendingDown className="size-8" />
                     </div>
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Consumo dos Filhos</p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
-                        <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex flex-col">
+                        <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Consumo dos Filhos</p>
+                        <p className="text-lg font-black text-foreground">{formatCurrency(stats.totalKidSpent)}</p>
                       </div>
+                      <Badge variant="outline" className="h-5 text-[9px] bg-muted text-muted-foreground border-border font-bold px-2 uppercase shrink-0">Informativo</Badge>
                     </div>
-                    <div className="w-full bg-rose-500/10 rounded-full h-1.5 overflow-hidden">
-                      <div 
-                        className="bg-rose-500 h-full transition-all duration-1000" 
-                        style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
-                      />
+                    <div className="space-y-1.5">
+                      <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                        <div 
+                          className="bg-primary/60 h-full transition-all duration-1000" 
+                          style={{ width: `${Math.min(100, (stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%` }}
+                        />
+                      </div>
+                      <p className="text-[8px] text-muted-foreground leading-none font-bold flex items-center gap-1">
+                         Eles já gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}% do valor enviado
+                      </p>
                     </div>
-                    <p className="text-[8px] text-rose-600/60 mt-1.5 leading-none font-bold">
-                      Não afeta seu saldo real · Gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%
-                    </p>
                   </div>
 
                   <div className="space-y-2">
@@ -630,8 +640,40 @@ export function KidsManagementPanel() {
             </TabsContent>
 
             <TabsContent value="history" className="m-0 focus-visible:outline-none">
+              <div className="p-4 bg-muted/5 border-b border-border/50">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <Label className="text-[10px] font-bold uppercase text-muted-foreground">Comparação (Este mês vs Mês passado)</Label>
+                    <Info className="size-3 text-muted-foreground" />
+                  </div>
+                  {metrics.data?.summary && (
+                    <div className="flex gap-4">
+                      <div className="text-right">
+                        <p className="text-[8px] font-bold uppercase text-muted-foreground">Variação Enviada</p>
+                        <p className={cn(
+                          "text-[10px] font-black tabular-nums",
+                          (metrics.data.summary.current.sent - metrics.data.summary.previous.sent) >= 0 ? "text-emerald-600" : "text-rose-600"
+                        )}>
+                          {(metrics.data.summary.current.sent - metrics.data.summary.previous.sent) >= 0 ? "+" : ""}
+                          {formatCurrency(metrics.data.summary.current.sent - metrics.data.summary.previous.sent)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[8px] font-bold uppercase text-muted-foreground">Variação Gasto</p>
+                        <p className={cn(
+                          "text-[10px] font-black tabular-nums",
+                          (metrics.data.summary.current.spent - metrics.data.summary.previous.spent) >= 0 ? "text-rose-600" : "text-emerald-600"
+                        )}>
+                          {(metrics.data.summary.current.spent - metrics.data.summary.previous.spent) >= 0 ? "+" : ""}
+                          {formatCurrency(metrics.data.summary.current.spent - metrics.data.summary.previous.spent)}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
               <div className="divide-y divide-border/30">
-                {metrics.data?.map((tx: any) => {
+                {metrics.data?.transactions?.map((tx: any) => {
                   const kind = kidEntryKind(tx);
                   const sync = syncStatusFor(tx);
                   return (
@@ -674,6 +716,33 @@ export function KidsManagementPanel() {
                   );
                 })}
               </div>
+              
+              {/* Pagination Controls */}
+              {metrics.data && metrics.data.totalCount > PAGE_SIZE && (
+                <div className="px-6 py-3 border-t bg-muted/5 flex items-center justify-between">
+                  <p className="text-[10px] text-muted-foreground">Mostrando {metrics.data.transactions.length} de {metrics.data.totalCount} registros</p>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-7 text-[10px]" 
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >
+                      Anterior
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-7 text-[10px]" 
+                      onClick={() => setPage(p => p + 1)}
+                      disabled={page * PAGE_SIZE >= metrics.data.totalCount}
+                    >
+                      Próximo
+                    </Button>
+                  </div>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
 
@@ -697,7 +766,7 @@ export function KidsManagementPanel() {
                   variant="outline" 
                   size="sm" 
                   className="h-7 text-[10px] font-bold gap-1.5"
-                  onClick={() => exportPDF(metrics.data, kids.find(k => k.id === selectedKidId))}
+                  onClick={() => exportPDF(metrics.data?.transactions, kids.find(k => k.id === selectedKidId))}
                 >
                   <Download className="size-3" /> Exportar PDF
                 </Button>
@@ -708,7 +777,7 @@ export function KidsManagementPanel() {
           </div>
 
           {/* List of recent actions for management */}
-          {metrics.data && metrics.data.length > 0 && (
+          {metrics.data?.transactions && metrics.data.transactions.length > 0 && (
             <div className="border-t border-border/50">
               <div className="px-4 py-2 bg-muted/5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -718,7 +787,7 @@ export function KidsManagementPanel() {
                 {metrics.isFetching && <Loader2 className="size-2 animate-spin text-muted-foreground" />}
               </div>
               <div className="max-h-[200px] overflow-y-auto divide-y divide-border/30">
-                {metrics.data.slice(0, 5).map((tx: any) => {
+                {metrics.data.transactions.slice(0, 5).map((tx: any) => {
                   const kind = kidEntryKind(tx);
                   const sync = syncStatusFor(tx);
                   return (
