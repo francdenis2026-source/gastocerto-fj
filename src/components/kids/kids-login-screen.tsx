@@ -34,7 +34,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
 
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,oklch(0.14_0.04_255/0.94)_0%,oklch(0.14_0.04_255/0.6)_45%,oklch(0.14_0.04_255/0.22)_100%)]"
+            className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,oklch(0.14_0.04_255/0.96)_0%,oklch(0.14_0.04_255/0.75)_45%,oklch(0.14_0.04_255/0.3)_100%)]"
           />
           <div
             aria-hidden="true"
