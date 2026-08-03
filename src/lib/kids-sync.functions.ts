@@ -23,12 +23,14 @@ export const syncKidTransaction = createServerFn({ method: "POST" })
 
     const { error: parentError } = await supabaseAdmin.from("transactions").insert({
       user_id: context.userId,
-      description: `[Espaço Kids] ${data.description}`,
+      description: `[Monitoramento Kids] ${data.description}`,
       amount: data.amount,
-      transaction_type: "expense",
+      // Para o pai, monitoramos o fluxo: se a criança ganhou, o pai vê como 'income' informativo.
+      // Se a criança gastou, o pai vê como 'expense' informativo.
+      transaction_type: data.type, 
       transaction_date: data.transactionDate,
-      category_id: null, // O pai pode categorizar depois ou podemos sugerir 'Educação/Filhos'
-      tags: [tag, "auto_kids"],
+      category_id: null,
+      tags: [tag, "kid_self_expense", "auto_kids"], // kid_self_expense marca como informativo (não afeta saldo real do pai)
       status: "paid",
     });
 
