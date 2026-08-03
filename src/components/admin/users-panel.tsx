@@ -81,10 +81,10 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     queryFn: async (): Promise<Profile[]> => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*, kid_accounts:kid_accounts(count)")
+        .select("*, plan:plans(slug), kid_accounts:kid_accounts(count)")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data ?? [];
+      return (data || []).map(p => ({ ...p, plan_slug: (p as any).plan?.slug })) as any;
     },
   });
 
@@ -119,33 +119,33 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
   }, [profiles.data, search, statusFilter]);
 
   async function exportCsv() {
-    const ok = await confirm({
+    confirm({
       title: "Confirmar Exportação",
       description: "Você deseja exportar a lista atual de usuários para um arquivo CSV? Este arquivo contém dados sensíveis.",
+      onConfirm: () => {
+        const headers = ["Nome", "CPF", "E-mail Contato", "Status", "Plano", "Cadastro", "Papéis"];
+        const rows = filtered.map(p => [
+          p.full_name || "—",
+          p.cpf || "—",
+          p.contact_email || "—",
+          STATUS_LABELS[p.status] || p.status,
+          (p as any).plan_slug || "free",
+          formatDateTime(p.created_at),
+          (rolesByUser.data?.get(p.user_id) ?? ["user"]).join(", ")
+        ]);
+        const csvContent = "\ufeff" + [headers, ...rows].map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `usuarios-${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        toast.success("CSV exportado com sucesso");
+      }
     });
-    if (!ok) return;
-
-    const headers = ["Nome", "CPF", "E-mail Contato", "Status", "Plano", "Cadastro", "Papéis"];
-    const rows = filtered.map(p => [
-      p.full_name || "—",
-      p.cpf || "—",
-      p.contact_email || "—",
-      STATUS_LABELS[p.status] || p.status,
-      (p as any).plan_slug || "free",
-      formatDateTime(p.created_at),
-      (rolesByUser.data?.get(p.user_id) ?? ["user"]).join(", ")
-    ]);
-    const csvContent = "\ufeff" + [headers, ...rows].map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\n");
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `usuarios-${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    toast.success("CSV exportado com sucesso");
   }
 
   async function exportPdf() {
@@ -411,22 +411,22 @@ function ManageUserDialog({
                     size="sm"
                     variant={profile.status === status ? "default" : "outline"}
                     disabled={pending !== null}
-                    onClick={async () => {
+                    onClick={() => {
                       const label = STATUS_LABELS[status];
-                      const ok = await confirm({
+                      confirm({
                         title: "Alterar Situação",
                         description: `Tem certeza que deseja alterar o status de ${profile.full_name || 'este usuário'} para ${label.toUpperCase()}?`,
+                        onConfirm: () => {
+                          void run(
+                            `status-${status}`,
+                            () =>
+                              adminSetUserStatus({
+                                data: { targetUserId: profile.user_id, status },
+                              }),
+                            `Usuário agora está ${label}`,
+                          );
+                        }
                       });
-                      if (!ok) return;
-
-                      void run(
-                        `status-${status}`,
-                        () =>
-                          adminSetUserStatus({
-                            data: { targetUserId: profile.user_id, status },
-                          }),
-                        `Usuário agora está ${label}`,
-                      );
                     }}
                   >
                     {pending === `status-${status}` ? (

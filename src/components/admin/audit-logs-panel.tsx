@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
 import { supabase } from "@/integrations/supabase/client";
 
-export function AuditLogsPanel({ globalSearch = "" }: { globalSearch?: string }) {
+export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
   
   const { data: logs, isLoading } = useQuery({

@@ -91,7 +91,7 @@ const IntegrationsPanel = lazy(() =>
   import("@/components/admin/integrations-panel").then((m) => ({ default: m.IntegrationsPanel })),
 );
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
-import { AuditLogsPanel } from "@/components/admin/audit-logs-panel";
+import { AuditLogsTable as AuditLogsPanel } from "@/components/admin/audit-logs-panel";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
