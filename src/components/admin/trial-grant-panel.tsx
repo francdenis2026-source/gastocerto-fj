@@ -32,10 +32,23 @@ type Row = {
 
 export function TrialGrantPanel() {
   const grant = useServerFn(adminGrantTrial);
+  const verifyCode = useServerFn(verifyMasterCode);
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [slug, setSlug] = useState<TrialSlug>("trial_14");
   const [customDays, setCustomDays] = useState(1);
+
+  /** Valida o código mestre no servidor (hash seguro / segredo de ambiente). */
+  async function checkMasterCode(code: string) {
+    try {
+      await verifyCode({ data: { code: code.trim() } });
+      return true;
+    } catch {
+      toast.error("Código mestre incorreto.");
+      return false;
+    }
+  }
+
 
   const users = useQuery({
     queryKey: ["admin", "trial-users"],
