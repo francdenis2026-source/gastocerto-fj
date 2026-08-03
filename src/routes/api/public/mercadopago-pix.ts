@@ -58,11 +58,11 @@ export const Route = createFileRoute('/api/public/mercadopago-pix')({
 
               // 4. Se houver um destinatário (criança), podemos disparar um alerta
               if (pix.recipient_id) {
-                await supabase.from("kids_access_audit" as any).insert({
+                await supabase.from("kid_access_audit" as any).insert({
                   user_id: pix.user_id,
                   dependent_id: pix.recipient_id,
                   action: 'access_granted',
-                  details: { amount: pix.amount, type: 'pix_credit' }
+                  detail: { amount: pix.amount, type: 'pix_credit' }
                 } as any)
               }
               
