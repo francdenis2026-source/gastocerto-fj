@@ -942,7 +942,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
         autoComplete="current-password" 
         label="Minha senha (4 a 6 números)"
       />
-      </div>
+      
       {lockSeconds > 0 ? (
         <p className="rounded-xl bg-destructive/10 p-2.5 text-center text-[12px] font-semibold text-destructive">
           Bloqueado por {Math.floor(lockSeconds / 60)}:{String(lockSeconds % 60).padStart(2, "0")}
