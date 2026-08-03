@@ -476,11 +476,11 @@ function KidSpacePage() {
             <Button
               variant="outline"
               size="sm"
-              className="h-9 px-2 text-xs font-medium sm:px-3"
+              className="h-8 sm:h-9 px-2 text-[11px] sm:text-xs font-medium sm:px-3"
               onClick={() => void install()}
               title="Instalar o Meu Espaço como aplicativo"
             >
-              <Download className="mr-1.5 size-4" aria-hidden="true" />
+              <Download className="mr-1.5 size-3.5 sm:size-4" aria-hidden="true" />
               <span className="hidden sm:inline">Instalar app</span>
             </Button>
           ) : null}
