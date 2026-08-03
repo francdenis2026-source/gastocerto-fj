@@ -167,8 +167,9 @@ function AnnualBalancePage() {
               <FileDown className="size-4" />
               Baixar PDF
             </Button>
-          </div>
-        </header>
+            </div>
+          }
+        />
 
         {isLoading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 opacity-50 transition-opacity duration-300">

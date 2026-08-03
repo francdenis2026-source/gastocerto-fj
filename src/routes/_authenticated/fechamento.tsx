@@ -294,8 +294,9 @@ function FechamentoPage() {
               <FileDown className="mr-1.5 size-4" />
               PDF
             </Button>
-          </div>
-        </header>
+            </div>
+          }
+        />
 
 
         <div className="auto-cards-sm grid gap-3">
