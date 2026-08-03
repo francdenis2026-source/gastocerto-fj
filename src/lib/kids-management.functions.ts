@@ -86,11 +86,13 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
       dependentId: z.string().uuid().optional(),
       month: z.number().optional(),
       year: z.number().optional(),
+      page: z.number().optional().default(1),
+      pageSize: z.number().optional().default(20),
     }).parse(data)
   )
   .handler(async ({ data, context }) => {
     const userId = context.userId;
-    const { dependentId, month, year } = data;
+    const { dependentId, month, year, page, pageSize } = data;
 
     const start = year && month ? `${year}-${String(month).padStart(2, "0")}-01` : null;
     const end =
@@ -98,9 +100,10 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
         ? `${new Date(year, month, 0).toISOString().split("T")[0]}T23:59:59`
         : null;
 
+    // Current period query
     let query = supabaseAdmin
       .from("transactions")
-      .select("id, amount, description, transaction_date, tags, transaction_type, status")
+      .select("id, amount, description, transaction_date, tags, transaction_type, status", { count: "exact" })
       .eq("user_id", userId)
       .is("deleted_at", null);
 
@@ -108,28 +111,45 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
       query = query.gte("transaction_date", start).lte("transaction_date", end);
     }
 
-    const { data: transactions, error } = await query;
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+    
+    const { data: transactions, error, count } = await query
+      .order("transaction_date", { ascending: false })
+      .range(from, to);
+
     if (error) throw error;
 
-    // Filter in JS to simplify complex tag logic for both auto_kids and kids_management
+    // Previous period query (for comparison)
+    let prevTransactions: any[] = [];
+    if (month && year) {
+      const prevDate = new Date(year, month - 2, 1);
+      const prevMonth = prevDate.getMonth() + 1;
+      const prevYear = prevDate.getFullYear();
+      const prevStart = `${prevYear}-${String(prevMonth).padStart(2, "0")}-01`;
+      const prevEnd = `${new Date(prevYear, prevMonth, 0).toISOString().split("T")[0]}T23:59:59`;
+
+      const { data: prevData } = await supabaseAdmin
+        .from("transactions")
+        .select("id, amount, transaction_type, tags")
+        .eq("user_id", userId)
+        .is("deleted_at", null)
+        .gte("transaction_date", prevStart)
+        .lte("transaction_date", prevEnd);
+      
+      prevTransactions = prevData || [];
+    }
+
     const parentRows = (transactions || []).filter(tx => {
       const tags = tx.tags || [];
-      // Gastos da própria criança (kid_self_expense) NÃO devem entrar no parentRows 
-      // se foram gerados indevidamente na conta do pai. Eles entram no kidRows.
       const isKidTx = (tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("from_parent")) 
                     && !tags.includes("kid_self_expense");
       
       if (!isKidTx) return false;
-
       if (dependentId) return tags.includes(`dependente:${dependentId}`) || (tx as any).dependent_id === dependentId;
       return true;
     });
 
-    /**
-     * Gastos lançados pela própria criança ficam na conta dela (user_id do
-     * filho), então precisamos buscá-los separadamente para o responsável ver
-     * em tempo real. São informativos: não entram no caixa do responsável.
-     */
     let kidsQuery = supabaseAdmin
       .from("dependents")
       .select("id, name, kid_user_id")
@@ -144,6 +164,8 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     }
 
     let kidRows: typeof parentRows = [];
+    let prevKidRows: any[] = [];
+    
     if (kidMap.size > 0) {
       let selfQuery = supabaseAdmin
         .from("transactions")
@@ -155,12 +177,11 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
         selfQuery = selfQuery.gte("transaction_date", start).lte("transaction_date", end);
       }
 
-      const { data: selfRows } = await selfQuery;
+      const { data: selfRows } = await selfQuery.order("transaction_date", { ascending: false }).range(from, to);
 
       kidRows = (selfRows ?? [])
         .filter((tx) => {
           const tags = tx.tags ?? [];
-          // Apenas o que a criança lançou por conta própria (espelhos ficam de fora).
           return !tags.includes("from_parent") && !tags.some((t) => t.startsWith("origin:"));
         })
         .map((tx) => {
@@ -178,9 +199,54 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
             tags: [...tags],
           } as (typeof parentRows)[number];
         });
+
+      // Previous period for kids self transactions
+      if (month && year) {
+        const prevDate = new Date(year, month - 2, 1);
+        const prevMonth = prevDate.getMonth() + 1;
+        const prevYear = prevDate.getFullYear();
+        const prevStart = `${prevYear}-${String(prevMonth).padStart(2, "0")}-01`;
+        const prevEnd = `${new Date(prevYear, prevMonth, 0).toISOString().split("T")[0]}T23:59:59`;
+
+        const { data: prevSelfRows } = await supabaseAdmin
+          .from("transactions")
+          .select("id, amount, transaction_type, tags, user_id")
+          .in("user_id", [...kidMap.keys()])
+          .is("deleted_at", null)
+          .gte("transaction_date", prevStart)
+          .lte("transaction_date", prevEnd);
+        
+        prevKidRows = (prevSelfRows || []).filter(tx => {
+          const tags = tx.tags ?? [];
+          return !tags.includes("from_parent") && !tags.some((t) => t.startsWith("origin:"));
+        });
+      }
     }
 
-    return [...parentRows, ...kidRows].sort((a, b) =>
-      b.transaction_date.localeCompare(a.transaction_date),
-    );
+    // Comparison summary
+    const summary = {
+      current: {
+        sent: parentRows.filter(t => t.transaction_type === 'expense').reduce((acc, t) => acc + t.amount, 0),
+        spent: kidRows.filter(t => t.transaction_type === 'expense').reduce((acc, t) => acc + t.amount, 0)
+      },
+      previous: {
+        sent: prevTransactions.filter(tx => {
+          const tags = tx.tags || [];
+          const isKidTx = (tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("from_parent")) 
+                        && !tags.includes("kid_self_expense");
+          if (!isKidTx) return false;
+          if (dependentId) return tags.includes(`dependente:${dependentId}`);
+          return true;
+        }).reduce((acc, t) => acc + t.amount, 0),
+        spent: prevKidRows.filter(t => t.transaction_type === 'expense').reduce((acc, t) => acc + t.amount, 0)
+      }
+    };
+
+    return {
+      transactions: [...parentRows, ...kidRows].sort((a, b) =>
+        b.transaction_date.localeCompare(a.transaction_date)
+      ),
+      totalCount: count || 0,
+      summary
+    };
   });
