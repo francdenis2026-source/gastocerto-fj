@@ -49,12 +49,15 @@ export function TransactionDetailsDialog({
 }) {
   const { data: categories } = useCategories();
   const saveTransaction = useSaveTransaction();
+  const deleteTransaction = useDeleteTransaction();
   const refreshHistory = useRefreshNoteHistory();
   const [receiptOpen, setReceiptOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesDraft, setNotesDraft] = useState("");
   const [historyOpen, setHistoryOpen] = useState(false);
   const { data: history } = useNoteHistory(transaction?.id, open);
+
 
   useEffect(() => {
     setEditingNotes(false);
