@@ -298,22 +298,18 @@ export function KidsManagementPanel() {
                                 <Dialog>
                                   <DialogTrigger asChild>
                                     <Button variant="ghost" size="icon" className="size-7">
-                                      <Edit2 className="size-3" />
+                                      <MoreVertical className="size-3" />
                                     </Button>
                                   </DialogTrigger>
                                   <DialogContent>
-                                    <DialogHeader>
-                                      <DialogTitle>Editar Lançamento</DialogTitle>
-                                    </DialogHeader>
-                                    <EditTxForm 
-                                      tx={tx} 
-                                      onSave={(values) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })} 
+                                    <EditTransactionForm 
+                                      transaction={tx}
+                                      onUpdate={(values: any) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })}
+                                      onDelete={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}
+                                      isPending={updateMutation.isPending || deleteMutation.isPending}
                                     />
                                   </DialogContent>
                                 </Dialog>
-                                <Button variant="ghost" size="icon" className="size-7 text-destructive" onClick={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}>
-                                  <Trash2 className="size-3" />
-                                </Button>
                               </div>
                             </div>
                           </div>
