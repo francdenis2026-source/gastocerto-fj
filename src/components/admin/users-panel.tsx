@@ -88,27 +88,23 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
         .select("*, plan:plans(slug)")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data || []).map((p) => ({ ...p, plan_slug: (p as any).plan?.slug })) as any;
+      
+      const { data: kidsData } = await supabase.from("dependents").select("user_id");
+      const kidsMap = new Map<string, number>();
+      for (const row of kidsData ?? []) {
+        kidsMap.set(row.user_id, (kidsMap.get(row.user_id) ?? 0) + 1);
+      }
+
+      return (data || []).map((p) => ({ 
+        ...p, 
+        plan_slug: (p as any).plan?.slug,
+        kids_count: kidsMap.get(p.user_id) || 0
+      })) as any;
     },
   });
 
   // Quantidade de filhos (Espaço Kids) por responsável, contada separadamente
   // porque não existe relação direta entre profiles e dependents.
-  const kidsCount = useQuery({
-    queryKey: ["admin", "profiles", "kids-count"],
-    staleTime: 60_000,
-    queryFn: async () => {
-      const { data, error } = await supabase.from("dependents").select("user_id");
-      if (error) throw error;
-      const map = new Map<string, number>();
-      for (const row of data ?? []) {
-        map.set(row.user_id, (map.get(row.user_id) ?? 0) + 1);
-      }
-      return map;
-    },
-  });
-
-
   const rolesByUser = useQuery({
     queryKey: ["admin", "roles"],
     enabled: isAdmin,
@@ -321,10 +317,10 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    {(kidsCount.data?.get(profile.user_id) ?? 0) > 0 ? (
+                    {(profile as any).kids_count > 0 ? (
                       <Badge variant="outline" className="gap-1 border-brand/30 bg-brand/5 text-brand">
                         <Baby className="size-3" />
-                        {kidsCount.data?.get(profile.user_id)}
+                        {(profile as any).kids_count}
                       </Badge>
                     ) : (
                       <span className="text-xs text-muted-foreground">—</span>
