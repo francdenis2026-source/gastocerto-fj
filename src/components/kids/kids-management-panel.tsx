@@ -493,10 +493,16 @@ export function KidsManagementPanel() {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+              <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-2 opacity-10">
+                  <TrendingDown className="size-8" />
+                </div>
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600">Consumo dos Filhos</p>
-                  <span className="text-[10px] font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</span>
+                    <Badge variant="outline" className="h-4 text-[7px] bg-rose-500/10 text-rose-600 border-rose-500/20 font-bold px-1 uppercase">INFO</Badge>
+                  </div>
                 </div>
                 <div className="w-full bg-rose-500/10 rounded-full h-1.5 overflow-hidden">
                   <div 
@@ -505,7 +511,7 @@ export function KidsManagementPanel() {
                   />
                 </div>
                 <p className="text-[8px] text-rose-600/60 mt-1.5 leading-none font-bold">
-                  Eles já gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}% do valor enviado
+                  Não afeta seu saldo real · Gastaram {Math.round((stats.totalKidSpent / Math.max(1, stats.totalSent)) * 100)}%
                 </p>
               </div>
 
