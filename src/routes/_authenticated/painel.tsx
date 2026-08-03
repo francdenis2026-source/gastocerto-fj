@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -70,6 +70,7 @@ import { DashboardTabs } from "@/components/finance/dashboard-tabs";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
 import { getYearlyBalance } from "@/lib/yearly-balance.functions";
 import { useServerFn } from "@tanstack/react-start";
+import { useAuth } from "@/hooks/use-auth";
 
 
 
@@ -124,6 +125,9 @@ function DashboardPage() {
   const navigate = useNavigate();
   const search = useSearch({ from: "/_authenticated/painel" });
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const { data: profile } = useProfile();
+  const access = usePlanAccess();
 
   const today = new Date();
   const { year: storedYear, month: storedMonth, setPeriod: setStoredPeriod, reset } = usePeriodStore();
@@ -144,8 +148,6 @@ function DashboardPage() {
   const [dependentOpen, setDependentOpen] = useState(false);
   const [taxOpen, setTaxOpen] = useState(false);
 
-  const { data: profile, isLoading } = useProfile();
-  const access = usePlanAccess();
   const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
 
@@ -165,7 +167,7 @@ function DashboardPage() {
   const cleanupDuplicates = useServerFn(cleanupDuplicatedKidTransactions);
 
   useEffect(() => {
-    if (!isLoading && profile) {
+    if (profile) {
       if (!profile.onboarding_completed) {
         navigate({ to: "/onboarding", replace: true });
         return;
@@ -188,7 +190,7 @@ function DashboardPage() {
         runCleanup();
       }
     }
-  }, [isLoading, profile, navigate, cleanupDuplicates]);
+  }, [profile, navigate, cleanupDuplicates]);
 
   const metrics = useMemo(() => {
     const rows = transactions ?? [];
@@ -459,17 +461,7 @@ function DashboardPage() {
 
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
 
-  if (isLoading) {
-    return (
-      <AppShell>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
-        </div>
-      </AppShell>
-    );
-  }
-
-  if (loadingTransactions || loadingCategories) {
+  if (!profile || loadingTransactions || loadingCategories) {
     return (
       <AppShell>
         <div className="flex min-h-[40vh] items-center justify-center">
@@ -799,6 +791,21 @@ function DashboardPage() {
                  overview={
                    <div className="space-y-6">
                       <div className="grid gap-3 auto-cards-sm">
+                        <StatTile
+                          label="Minha Assinatura"
+                          value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
+                          tone={access.planSlug !== "free" ? "success" : "neutral"}
+                          icon={ShieldCheck}
+                          badge={
+                            (access.planSlug === "premium_ia" || access.planSlug === "premium") && (
+                              <Badge variant="outline" className="h-5 border-emerald-500/30 bg-emerald-500/10 text-emerald-600 font-black text-[10px] uppercase">
+                                PRO
+                              </Badge>
+                            )
+                          }
+                          onClick={() => navigate({ to: "/perfil" })}
+                        />
+
                         <StatTile
                           tone="brand"
                           label={

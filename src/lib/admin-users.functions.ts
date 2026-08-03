@@ -294,7 +294,10 @@ export const adminPromoteToPaid = createServerFn({ method: "POST" })
         trial_ends_at: null,
       })
       .eq("user_id", data.targetUserId);
-    if (error) throw new Error("Não foi possível promover a conta");
+    if (error) {
+      console.error("[admin] erro ao promover conta:", error);
+      throw new Error(`Erro no banco de dados: ${error.message} (Código: ${error.code})`);
+    }
 
     await context.supabase.from("admin_logs").insert({
       actor_id: context.userId,
