@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Baby, ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User, Bell } from "lucide-react";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { ExternalLink, History, Loader2, Settings2, ShieldCheck, Upload, User, Users, Bell } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -11,10 +11,10 @@ import { LicenseCard } from "@/components/finance/license-card";
 import { LicenseDetailPanel } from "@/components/finance/license-detail-panel";
 import { TrialCard } from "@/components/finance/trial-card";
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
-import { KidsSpendingSummary } from "@/components/finance/kids-spending-summary";
 
 import { SidebarConfig } from "@/components/settings/sidebar-config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -48,8 +48,8 @@ export const Route = createFileRoute("/_authenticated/perfil")({
 });
 
 function ProfilePage() {
-  const { user } = useAuth();
-  const { data: profile, isLoading } = useProfile();
+  const { user, loading: authLoading } = useAuth();
+  const { data: profile, isLoading, isError, error, refetch } = useProfile();
   const { data: roles } = useRoles();
   const invalidateProfile = useInvalidateProfile();
   const avatarUrl = useAvatarUrl(profile?.avatar_url);
@@ -165,11 +165,33 @@ function ProfilePage() {
   }
 
 
-  if (isLoading) {
+  // Só mostramos o carregamento enquanto a sessão ou o perfil realmente estão
+  // em busca. Antes, uma consulta em espera deixava a tela presa no spinner.
+  if (authLoading || (isLoading && !isError)) {
     return (
       <AppShell>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+        <div className="mx-auto w-full max-w-5xl space-y-3">
+          <Skeleton className="h-16 w-full rounded-2xl" />
+          <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
+            <Skeleton className="h-64 w-full rounded-2xl" />
+            <Skeleton className="h-64 w-full rounded-2xl" />
+          </div>
+        </div>
+      </AppShell>
+    );
+  }
+
+  if (isError) {
+    return (
+      <AppShell>
+        <div className="mx-auto w-full max-w-md rounded-2xl border bg-card p-6 text-center">
+          <h2 className="text-sm font-semibold">Não foi possível carregar seu perfil</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {error instanceof Error ? error.message : "Tente novamente em alguns segundos."}
+          </p>
+          <Button className="mt-4" size="sm" onClick={() => void refetch()}>
+            Tentar novamente
+          </Button>
         </div>
       </AppShell>
     );
@@ -235,6 +257,18 @@ function ProfilePage() {
                 Conta e segurança
               </Button>
 
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="mt-1.5 h-9 w-full rounded-xl text-[10px] font-bold uppercase tracking-wider"
+              >
+                <Link to="/filhos">
+                  <Users className="mr-1.5 size-3.5" aria-hidden />
+                  Central da Família
+                </Link>
+              </Button>
+
               <input
                 ref={fileRef}
                 type="file"
@@ -280,10 +314,6 @@ function ProfilePage() {
                 <TabsTrigger value="external" className="rounded-lg text-xs gap-2">
                   <ExternalLink className="size-3.5" aria-hidden />
                   Acessos externos
-                </TabsTrigger>
-                <TabsTrigger value="kids" className="rounded-lg text-xs gap-2">
-                  <Baby className="size-3.5" aria-hidden />
-                  Gastos das crianças
                 </TabsTrigger>
                 <TabsTrigger value="notifications" className="rounded-lg text-xs gap-2">
                   <Bell className="size-3.5" aria-hidden />
@@ -423,27 +453,6 @@ function ProfilePage() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="kids" className="mt-0 space-y-4">
-                <div
-                  id="perfil-kids"
-                  tabIndex={-1}
-                  className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4"
-                >
-
-                  <div className="border-b border-border/40 pb-2.5">
-                    <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
-                      <Baby className="size-4 text-primary" aria-hidden /> Gastos e movimentações das crianças
-                    </h2>
-                    <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
-                      Acompanhe, em tempo real, o resumo financeiro de cada criança cadastrada no
-                      Espaço Kids. Use os filtros para escolher a criança, o período e o tipo de
-                      movimentação.
-                    </p>
-                  </div>
-                  <KidsSpendingSummary />
-                </div>
-              </TabsContent>
-
               <TabsContent value="notifications" className="mt-0 space-y-4">
                 <div className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5 space-y-4">
                   <div className="border-b border-border/40 pb-2.5">
@@ -495,7 +504,6 @@ const INPUT_CLASS =
 
 
 const SHORTCUTS: Array<{ id: string; label: string; tab: string; anchor?: string }> = [
-  { id: "kids", label: "Gastos das crianças", tab: "kids", anchor: "perfil-kids" },
   { id: "planos", label: "Planos", tab: "profile", anchor: "perfil-planos" },
   { id: "licencas", label: "Licenças", tab: "profile", anchor: "perfil-licencas" },
   { id: "historico", label: "Histórico", tab: "audit", anchor: "perfil-historico" },
