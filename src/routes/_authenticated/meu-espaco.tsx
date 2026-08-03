@@ -145,8 +145,8 @@ const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
 /** Valores positivos e negativos com contraste garantido nos dois temas. */
 const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-400";
 const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
-const NEGATIVE_TEXT = "text-rose-600 dark:text-rose-400 font-extrabold";
-const NEGATIVE_SURFACE = "bg-rose-500/10 dark:bg-rose-500/20";
+const NEGATIVE_TEXT = "text-red-600 dark:text-red-400 font-black";
+const NEGATIVE_SURFACE = "bg-red-500/10 dark:bg-red-400/15";
 
 function KidSpacePage() {
   const navigate = useNavigate();
@@ -1135,20 +1135,8 @@ function KidEntryDialog({
         }
       });
       
-      // 2. Notificação/log informativo para o pai
-      try {
-        await syncTx({
-          data: {
-            dependentId,
-            amount: value,
-            description: description.trim() || selected.label,
-            transactionDate: isoDate,
-            type: selected.type // Envia o tipo real (income/expense)
-          }
-        });
-      } catch (syncErr) {
-        console.warn("[kids-sync] Falha na sincronização informativa", syncErr);
-      }
+      // A sincronização com o painel do responsável é automática via tags e notificações
+      // disparadas diretamente na criação do lançamento (createTx).
     },
     onSettled: () => {
       setConfirming(false);
