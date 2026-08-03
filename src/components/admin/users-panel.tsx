@@ -98,21 +98,6 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
 
   // Quantidade de filhos (Espaço Kids) por responsável, contada separadamente
   // porque não existe relação direta entre profiles e dependents.
-  const kidsCount = useQuery({
-    queryKey: ["admin", "profiles", "kids-count"],
-    staleTime: 60_000,
-    queryFn: async () => {
-      const { data, error } = await supabase.from("dependents").select("user_id");
-      if (error) throw error;
-      const map = new Map<string, number>();
-      for (const row of data ?? []) {
-        map.set(row.user_id, (map.get(row.user_id) ?? 0) + 1);
-      }
-      return map;
-    },
-  });
-
-
   const rolesByUser = useQuery({
     queryKey: ["admin", "roles"],
     enabled: isAdmin,
