@@ -378,8 +378,10 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="date">Data</Label>
+        <div className="space-y-1.5">
+          <div className="flex justify-between">
+            <Label htmlFor="date">Data</Label>
+          </div>
           <Input 
             id="date" 
             type="date"
