@@ -488,24 +488,41 @@ function KidSpacePage() {
               ))}
             </SelectContent>
           </Select>
-          <div className="inline-flex rounded-lg bg-muted p-0.5 shadow-sm">
-            <Button
-              variant={!viewYearly ? "secondary" : "ghost"}
-              size="sm"
-              className="h-8 px-3 text-sm font-bold"
-              onClick={() => setViewYearly(false)}
-            >
-              Mês
-            </Button>
-            <Button
-              variant={viewYearly ? "secondary" : "ghost"}
-              size="sm"
-              className="h-8 px-3 text-sm font-bold"
-              onClick={() => setViewYearly(true)}
-            >
-              Anual
-            </Button>
-          </div>
+          <TooltipProvider delayDuration={200}>
+            <div className="inline-flex rounded-lg bg-muted p-0.5 shadow-sm">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={!viewYearly ? "secondary" : "ghost"}
+                    size="icon"
+                    className="size-8 rounded-md"
+                    onClick={() => setViewYearly(false)}
+                    aria-label="Ver por mês"
+                    aria-pressed={!viewYearly}
+                  >
+                    <CalendarIcon className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Mês</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={viewYearly ? "secondary" : "ghost"}
+                    size="icon"
+                    className="size-8 rounded-md"
+                    onClick={() => setViewYearly(true)}
+                    aria-label="Ver o ano inteiro"
+                    aria-pressed={viewYearly}
+                  >
+                    <LayoutGrid className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Anual</TooltipContent>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
+
         </div>
       </header>
 
