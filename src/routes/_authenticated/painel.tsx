@@ -489,12 +489,12 @@ function DashboardPage() {
         
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
            <div className="flex-1 w-full max-w-md">
-              <div className="relative">
+              <div className="relative group">
                 <Input 
-                  placeholder="Pesquisar no painel..." 
-                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm"
+                  placeholder="Pesquisar no painel (⌘K)..." 
+                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm transition-all focus:ring-2 focus:ring-brand/20 group-hover:border-brand/30"
                 />
-                <CalendarIcon className="absolute left-3 top-3 size-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-3 size-4 text-muted-foreground transition-colors group-hover:text-brand" />
               </div>
            </div>
         </div>

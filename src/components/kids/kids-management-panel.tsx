@@ -562,9 +562,9 @@ function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any
             <Trash2 className="size-7 text-rose-500" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-lg font-bold">Confirmar exclusão?</h3>
-            <p className="text-sm text-muted-foreground max-w-[280px]">
-              Esta ação removerá permanentemente o lançamento de <strong>{formatCurrency(transaction.amount)}</strong>. O saldo do seu filho será atualizado imediatamente.
+            <h3 className="text-lg font-black tracking-tight">Confirmar exclusão?</h3>
+            <p className="text-sm text-muted-foreground max-w-[280px] leading-relaxed">
+              Esta ação removerá permanentemente o lançamento de <strong className="text-rose-500">{formatCurrency(transaction.amount)}</strong>. O saldo do seu filho será atualizado em tempo real.
             </p>
           </div>
         </div>

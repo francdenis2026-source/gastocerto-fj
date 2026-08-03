@@ -370,40 +370,43 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         )}
 
-        <div className="border-t border-border p-2">
+        <div className="mt-auto border-t border-border p-2 space-y-1">
           <Link
             to="/perfil"
             className={cn(
-              "flex items-center gap-2 rounded-xl px-2 py-2 transition-colors hover:bg-secondary/70",
+              "flex items-center gap-2 rounded-xl px-2 py-2.5 transition-all hover:bg-brand/10 group/profile",
               railCollapsed && "justify-center px-0",
             )}
           >
-            <Avatar className="size-8 shrink-0">
-              {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-              <AvatarFallback className="text-xs">{initials}</AvatarFallback>
-            </Avatar>
-            {!railCollapsed ? (
+            <div className="relative shrink-0">
+              <Avatar className="size-8 transition-transform group-hover/profile:scale-105 border border-border/50">
+                {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
+                <AvatarFallback className="text-xs bg-secondary text-muted-foreground">{initials}</AvatarFallback>
+              </Avatar>
+              <div className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-emerald-500 border-2 border-background" />
+            </div>
+            {!railCollapsed && (
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12.5px] font-semibold">
+                <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-brand transition-colors">
                   {profile?.full_name ?? "Minha conta"}
                 </span>
-                <span className="block truncate text-[11px] text-muted-foreground">
+                <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
                   Meu perfil e plano
                 </span>
               </span>
-            ) : null}
+            )}
           </Link>
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start gap-2 text-muted-foreground",
+              "w-full justify-start gap-2 h-10 px-2 rounded-xl text-muted-foreground hover:text-rose-500 hover:bg-rose-500/5 transition-all group/logout",
               railCollapsed && "justify-center",
             )}
             onClick={handleSignOut}
             aria-label="Sair"
           >
-            <LogOut className="size-4" />
-            {!railCollapsed ? "Sair" : null}
+            <LogOut className="size-4 transition-transform group-hover/logout:-translate-x-0.5" />
+            {!railCollapsed && <span className="text-[12.5px] font-bold">Encerrar Sessão</span>}
           </Button>
         </div>
       </aside>
