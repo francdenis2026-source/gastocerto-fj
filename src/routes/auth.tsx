@@ -296,7 +296,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="login"
                     aria-label="Acessar conta existente"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-[oklch(0.25_0.04_259)] no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:text-muted-foreground dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
                   >
                     <KeyRound className="size-3.5" aria-hidden />
                     Entrar
@@ -304,7 +304,7 @@ function AuthPage() {
                   <TabsTrigger
                     value="signup"
                     aria-label="Criar nova conta"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-muted-foreground no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:font-extrabold"
+                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-[oklch(0.25_0.04_259)] no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:text-muted-foreground dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:font-extrabold"
                   >
                     <UserPlus className="size-3.5" aria-hidden />
                     Criar conta
@@ -382,7 +382,7 @@ function AuthPage() {
 function FieldError({ id, message }: { id?: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-xs text-destructive">
+    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-xs text-destructive dark:text-destructive-foreground font-semibold">
       <AlertCircle className="mt-px size-3.5 shrink-0" aria-hidden="true" />
       <span>{message}</span>
     </p>
@@ -395,7 +395,7 @@ function FormAlert({ message }: { message?: string | null }) {
     <div
       role="alert"
       tabIndex={-1}
-      className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive"
+      className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive dark:text-destructive-foreground font-semibold"
     >
       <AlertCircle className="mt-px size-4 shrink-0" aria-hidden="true" />
       <span>{message}</span>
