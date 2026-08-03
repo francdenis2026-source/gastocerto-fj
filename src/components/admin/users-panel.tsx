@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { PermissionsPanel } from "./permissions-panel";
+import { syncUserLicense } from "@/lib/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
