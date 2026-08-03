@@ -865,11 +865,27 @@ function KidSummary({
           <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", POSITIVE_TEXT)}>Total recebido</p>
           <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
         </div>
-        <div className={cn("rounded-xl border border-rose-600/20 p-4 text-center dark:border-rose-400/20", NEGATIVE_SURFACE)}>
+        <div className={cn(
+          "rounded-xl border p-4 text-center transition-all duration-500", 
+          balance <= 0 ? "border-rose-600/30 bg-rose-500/10 shadow-sm shadow-rose-500/10" : "border-rose-600/20", 
+          NEGATIVE_SURFACE
+        )}>
           <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", NEGATIVE_TEXT)}>Total gasto</p>
           <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
         </div>
       </div>
+
+      {balance <= 0 && (
+        <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-xl border border-rose-600/20 bg-rose-500/5 p-4">
+          <AlertTriangle className="size-5 text-rose-600 shrink-0" />
+          <div className="space-y-0.5">
+            <p className="text-[12px] font-bold text-rose-950 dark:text-rose-200">Saldo zerado ou baixo!</p>
+            <p className="text-[11px] font-medium text-rose-800/80 dark:text-rose-300/80">
+              Pense bem antes de gastar. Que tal poupar um pouco para um objetivo maior?
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="rounded-xl border border-border bg-muted/40 p-4">
         <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-foreground">
