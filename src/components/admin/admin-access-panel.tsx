@@ -150,8 +150,13 @@ export function AdminAccessPanel() {
                   <Input 
                     id="days" 
                     type="number" 
+                    min={1}
+                    max={365}
                     value={newDays}
-                    onChange={(e) => setNewDays(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setNewDays(Number.isFinite(value) ? Math.min(365, Math.max(1, value)) : 1);
+                    }}
                   />
                 </div>
                 <div className="grid gap-2">
@@ -159,12 +164,17 @@ export function AdminAccessPanel() {
                   <Input 
                     id="uses" 
                     type="number" 
+                    min={1}
+                    max={1000}
                     value={newMaxUses}
-                    onChange={(e) => setNewMaxUses(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setNewMaxUses(Number.isFinite(value) ? Math.min(1000, Math.max(1, value)) : 1);
+                    }}
                   />
                 </div>
               </div>
-            </div>
+
             <DialogFooter>
               <Button 
                 onClick={() => createMutation.mutate({ 
