@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon } from "lucide-react";
+import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
@@ -40,6 +40,8 @@ import { NotificationCenter } from "@/components/notifications/notification-cent
 import { useAvatarUrl } from "@/lib/queries";
 import { syncKidTransaction } from "@/lib/kids-sync.functions";
 import { createKidTransaction } from "@/lib/kids-self-transactions.functions";
+import { exportKidsSummaryPdf } from "@/lib/kids-export";
+import { getKidGoals } from "@/lib/kids-goals.functions";
 
 
 
@@ -156,6 +158,7 @@ function KidSpacePage() {
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
   const createTx = useServerFn(createKidTransaction);
+  const fetchGoals = useServerFn(getKidGoals);
 
   // Modo aplicativo/offline exclusivo do Espaço Kids.
   const { canInstall, online, install } = useKidsAppMode();
@@ -268,19 +271,7 @@ function KidSpacePage() {
     queryKey: ["kid_goals", dependent?.id],
     enabled: Boolean(dependent?.id),
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("kids_savings_goals" as never)
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return (data ?? []) as unknown as {
-        id: string;
-        title: string;
-        target_amount: number;
-        current_amount: number;
-        reward: string | null;
-        completed_at: string | null;
-      }[];
+      return await fetchGoals({ data: { kidUserId: dependent!.id } }) as any[];
     },
   });
 
@@ -351,6 +342,30 @@ function KidSpacePage() {
              />
              <HelpCircle className="absolute left-2.5 top-2.5 size-3 text-muted-foreground" />
           </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="h-8 text-[10px] font-bold gap-1.5"
+            onClick={async () => {
+              if (rows.length === 0) return;
+              await exportKidsSummaryPdf(
+                rows.map(r => ({
+                  date: r.transaction_date,
+                  description: r.description,
+                  type: r.transaction_type as any,
+                  amount: r.amount
+                })),
+                { income, expense, balance, count: rows.length },
+                { 
+                  kidName: dependent.name, 
+                  periodLabel: viewYearly ? `Ano ${selectedYear}` : `${MONTH_NAMES[selectedMonth]} ${selectedYear}`,
+                  typeLabel: "Todos os registros"
+                }
+              );
+            }}
+          >
+            <FileText className="size-3" /> Exportar PDF
+          </Button>
         </div>
         
         <div className="flex items-center justify-end gap-2">
@@ -645,11 +660,18 @@ function KidSpacePage() {
 
         </div>
 
-        {visibility.goals && (goals.data ?? []).length > 0 && (
+        {visibility.goals && (
           <section className="space-y-3">
-            <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-              <Target className={cn("size-4", accent.text)} aria-hidden="true" /> Minhas metas
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
+                <Target className={cn("size-4", accent.text)} aria-hidden="true" /> Metas e Educação Financeira
+              </h2>
+            </div>
+            {(goals.data ?? []).length === 0 && (
+              <div className="rounded-2xl border border-dashed border-border p-4 text-center">
+                 <p className="text-[10px] text-muted-foreground">Você ainda não tem metas. Peça ao seu responsável para criar uma!</p>
+              </div>
+            )}
             {(goals.data ?? []).map((goal) => {
               const progress = goal.target_amount
                 ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))

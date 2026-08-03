@@ -281,11 +281,22 @@ export function KidsManagementPanel() {
                                 {tx.transaction_type === 'income' ? "+" : "-"} {formatCurrency(tx.amount)}
                               </span>
                               <div className="flex gap-1">
-                                <Button variant="ghost" size="icon" className="size-7" onClick={() => {
-                                  // Em um sistema real, aqui abriríamos outro Dialog ou trocaríamos o estado para editar
-                                }}>
-                                  <Edit2 className="size-3" />
-                                </Button>
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="size-7">
+                                      <Edit2 className="size-3" />
+                                    </Button>
+                                  </DialogTrigger>
+                                  <DialogContent>
+                                    <DialogHeader>
+                                      <DialogTitle>Editar Lançamento</DialogTitle>
+                                    </DialogHeader>
+                                    <EditTxForm 
+                                      tx={tx} 
+                                      onSave={(values) => updateMutation.mutate({ data: { transactionId: tx.id, ...values } })} 
+                                    />
+                                  </DialogContent>
+                                </Dialog>
                                 <Button variant="ghost" size="icon" className="size-7 text-destructive" onClick={() => deleteMutation.mutate({ data: { transactionId: tx.id } })}>
                                   <Trash2 className="size-3" />
                                 </Button>
