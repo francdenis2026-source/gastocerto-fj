@@ -14,8 +14,8 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-import heroBg from "@/assets/hero-bg-real.jpg";
-import heroMobileBg from "@/assets/hero-bg-real-mobile.jpg";
+import heroBg from "@/assets/hero-bg-desk.jpg";
+import heroMobileBg from "@/assets/hero-bg-desk-mobile.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
