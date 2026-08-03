@@ -110,6 +110,10 @@ export function KidsManagementPanel() {
         year: new Date().getFullYear()
       } 
     }),
+    // Gastos lançados pela própria criança ficam na conta dela: revalidamos com
+    // frequência para o responsável ver quase em tempo real.
+    refetchInterval: 15_000,
+    refetchOnWindowFocus: true,
   });
 
   const giveMoneyMutation = useMutation({
@@ -127,57 +131,100 @@ export function KidsManagementPanel() {
     }
   });
 
-  const [lastDeleted, setLastDeleted] = useState<any>(null);
-  
-  const undoMutation = useMutation({
-    mutationFn: useServerFn(undoKidTransactionDeletion),
-    onSuccess: () => {
-      toast.success("Lançamento restaurado com sucesso!");
-      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
-      setLastDeleted(null);
+  const deletePermission = useDeletePermission();
+  const runDelete = useServerFn(deleteKidManagementTransaction);
+  const runUndo = useServerFn(undoKidTransactionDeletion);
+  const runUpdate = useServerFn(updateKidManagementTransaction);
+
+  const refreshKids = () => {
+    queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+    queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+  };
+
+  /** Remove/repõe a linha na hora (totais e gráficos acompanham). */
+  const setOptimisticRemoved = (transactionId: string, removed: boolean) => {
+    if (!removed) {
+      refreshKids();
+      return;
     }
+    queryClient.setQueriesData<any[]>({ queryKey: ["kids_financial_metrics"] }, (current) =>
+      Array.isArray(current) ? current.filter((row) => row?.id !== transactionId) : current,
+    );
+  };
+
+  const undoMutation = useMutation({
+    mutationFn: (vars: { data: { transactionId: string; extraIds?: string[] } }) => runUndo(vars),
+    onSuccess: () => {
+      toast.success("Exclusão desfeita. Totais e gráficos recalculados.");
+      refreshKids();
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : "Não foi possível restaurar.");
+      refreshKids();
+    },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (vars: { data: { transactionId: string } }) => 
-      useServerFn(deleteKidManagementTransaction)(vars),
-    onSuccess: (_, variables) => {
+    mutationFn: (vars: { data: { transactionId: string } }) => runDelete(vars),
+    onMutate: (variables) => {
+      setOptimisticRemoved(variables.data.transactionId, true);
+    },
+    onSuccess: (result: any, variables) => {
       const deletedId = variables.data.transactionId;
-      const deletedTx = metrics.data?.find(t => t.id === deletedId);
-      
-      if (deletedTx) {
-        setLastDeleted(deletedTx);
-        toast("Lançamento removido", {
-          description: `"${deletedTx.description}" foi excluído.`,
-          action: {
-            label: "Desfazer",
-            onClick: () => {
-              undoMutation.mutate({ data: { transactionId: deletedId } });
-            },
+      const deletedAt = Date.now();
+      const extraIds: string[] = (result?.ids ?? []).filter((id: string) => id !== deletedId);
+
+      toast("Lançamento removido", {
+        description: "Você pode desfazer esta exclusão em até 10 minutos.",
+        duration: UNDO_WINDOW_MS,
+        action: {
+          label: "Desfazer",
+          onClick: () => {
+            if (Date.now() - deletedAt > UNDO_WINDOW_MS) {
+              toast.error("O prazo de 10 minutos para desfazer já passou.");
+              return;
+            }
+            undoMutation.mutate({ data: { transactionId: deletedId, extraIds } });
           },
-          duration: 8000,
-        });
-      }
-      
-      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+        },
+      });
+
+      refreshKids();
       setKidDetailsOpen(false);
-    }
+    },
+    onError: (error, variables) => {
+      // Rollback automático: nada muda na tela se o backend recusar.
+      setOptimisticRemoved(variables.data.transactionId, false);
+      toast.error(
+        error instanceof Error ? error.message : "Não foi possível excluir. Nada foi alterado.",
+      );
+    },
   });
 
+  /** Exclusão com verificação de permissão e mensagem clara. */
+  const requestKidDelete = (transactionId: string) => {
+    if (!deletePermission.allowed) {
+      toast.error("Exclusão não permitida", { description: deletePermission.reason ?? undefined });
+      return;
+    }
+    deleteMutation.mutate({ data: { transactionId } });
+  };
+
   const updateMutation = useMutation({
-    mutationFn: useServerFn(updateKidManagementTransaction),
+    mutationFn: (vars: {
+      data: { transactionId: string; amount: number; description: string; transactionDate?: string };
+    }) => runUpdate(vars),
     onSuccess: () => {
       toast.success("Lançamento atualizado.");
-      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      refreshKids();
       setKidDetailsOpen(false);
-    }
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : "Não foi possível atualizar.");
+    },
   });
+
 
   const chartData = useMemo(() => {
     if (!metrics.data) return [];
