@@ -471,31 +471,39 @@ function KidSpacePage() {
 
         {visibility.goals && (goals.data ?? []).length > 0 && (
           <section className="space-y-3">
-            <h2 className="flex items-center gap-2 text-sm font-bold">
-              <Target className="size-4 text-primary" /> Minhas metas
+            <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
+              <Target className={cn("size-4", accent.text)} aria-hidden="true" /> Minhas metas
             </h2>
             {(goals.data ?? []).map((goal) => {
               const progress = goal.target_amount
                 ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))
                 : 0;
               return (
-                <div key={goal.id} className="rounded-2xl border border-border bg-card p-4">
+                <div key={goal.id} className="rounded-2xl border border-border bg-card p-4 shadow-sm">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-bold">{goal.title}</p>
-                    <span className="text-[11px] font-bold text-primary">{progress}%</span>
+                    <p className="text-sm font-semibold tracking-tight">{goal.title}</p>
+                    <span className={cn("text-[11px] font-semibold tabular-nums", accent.text)}>{progress}%</span>
                   </div>
-                  <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="mt-2.5 h-2 overflow-hidden rounded-full bg-muted"
+                    role="progressbar"
+                    aria-valuenow={progress}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`Progresso da meta ${goal.title}`}
+                  >
                     <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
                   </div>
-                  <p className="mt-2 text-[11px] text-muted-foreground">
+                  <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
                     {formatCurrency(Number(goal.current_amount))} de {formatCurrency(Number(goal.target_amount))}
-                    {goal.reward ? ` · Prêmio: ${goal.reward}` : ""}
+                    {goal.reward ? ` · Recompensa: ${goal.reward}` : ""}
                   </p>
                 </div>
               );
             })}
           </section>
         )}
+
 
         {cardControl.data?.cards && cardControl.data.cards.length > 0 && (
           <section className="space-y-3">
