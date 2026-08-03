@@ -25,9 +25,9 @@ export function Logo({
   }
 
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <BrandMark className="size-11" />
-      <span className="flex min-w-0 flex-col leading-none">
+    <span className={cn("inline-flex min-w-0 items-center gap-2 sm:gap-2.5", className)}>
+      <BrandMark className="size-9 sm:size-11" />
+      <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
         <span
           className={cn(
             "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
