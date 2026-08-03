@@ -1131,6 +1131,7 @@ function KidEntryDialog({
           amount: value,
           description: description.trim() || selected.label,
           transactionDate: isoDate,
+          transactionType: selected.type,
         }
       });
       

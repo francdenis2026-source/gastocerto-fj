@@ -11,6 +11,7 @@ export const createKidTransaction = createServerFn({ method: "POST" })
         amount: z.number().positive(),
         description: z.string().min(1),
         transactionDate: z.string(),
+        transactionType: z.enum(["income", "expense"]).default("expense"),
       })
       .parse(data),
   )
@@ -32,7 +33,7 @@ export const createKidTransaction = createServerFn({ method: "POST" })
       user_id: userId,
       description: data.description,
       amount: data.amount,
-      transaction_type: "expense",
+      transaction_type: data.transactionType,
       transaction_date: data.transactionDate,
       tags,
       status: "paid",
