@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertCircle, ArrowRight, CheckCircle2, Landmark, Wallet } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, Landmark, Scale, Wallet } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
