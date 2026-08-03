@@ -1135,23 +1135,20 @@ function KidEntryDialog({
         }
       });
       
-      // 2. Se for uma despesa da criança que deve gerar registro para o pai, sincronizar
-      // Nota: o sistema agora reflete que gastos da criança são "gastos pessoais" dela
-      // mas o pai recebe uma notificação informativa ou log (opcionalmente sincronizado se for via cartão/config)
-      if (selected.type === "expense") {
-        try {
-          await syncTx({
-            data: {
-              dependentId,
-              amount: value,
-              description: description.trim() || selected.label,
-              transactionDate: isoDate,
-              type: "expense"
-            }
-          });
-        } catch (syncErr) {
-          console.warn("[kids-sync] Falha na sincronização informativa", syncErr);
-        }
+      // 2. Se for um registro que deve gerar notificação ou log para o pai
+      // Gastos manuais da criança são marcados como Informativos no painel do pai.
+      try {
+        await syncTx({
+          data: {
+            dependentId,
+            amount: value,
+            description: description.trim() || selected.label,
+            transactionDate: isoDate,
+            type: selected.type
+          }
+        });
+      } catch (syncErr) {
+        console.warn("[kids-sync] Falha na sincronização informativa", syncErr);
       }
     },
     onSettled: () => {
