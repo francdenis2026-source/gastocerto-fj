@@ -83,7 +83,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   "nav-underline relative inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent after:bg-hero-accent",
                   isActive && "after:scale-x-100",
                   scrolled
-                    ? cn("text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground")
+                    ? cn("text-[oklch(0.25_0.04_259)] dark:text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground font-bold")
                     : cn("text-hero-fg-muted hover:bg-hero-surface-soft hover:text-hero-fg focus-visible:ring-hero-border-strong", isActive && "text-hero-fg"),
                 )}
 
@@ -163,8 +163,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 className={cn(
                   "flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                   active === item.href
-                    ? "bg-accent text-foreground"
-                    : "text-muted-foreground",
+                    ? "bg-accent text-foreground font-bold"
+                    : "text-[oklch(0.25_0.04_259)] dark:text-muted-foreground",
                 )}
               >
                 {item.label}
@@ -185,7 +185,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 </Button>
               </div>
               <div className="flex items-center justify-between gap-2 rounded-lg border border-border bg-accent/30 p-2">
-                <span className="text-xs font-medium text-muted-foreground">Alternar tema</span>
+                <span className="text-xs font-semibold text-[oklch(0.25_0.04_259)] dark:text-muted-foreground">Alternar tema</span>
                 <ThemeToggle className="h-9 w-9" />
               </div>
               <CodeAccessDialog>

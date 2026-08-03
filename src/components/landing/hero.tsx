@@ -169,25 +169,25 @@ export function Hero() {
           <div className="mt-5 rounded-2xl border border-hero-border bg-hero-surface p-3.5 backdrop-blur-sm lg:hidden">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-hero-fg-muted">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[oklch(0.25_0.04_259)] dark:text-hero-fg-muted">
                   Mês atual
                 </p>
                 <p className="tabular mt-0.5 whitespace-nowrap text-lg font-bold text-hero-fg sm:text-xl">
                   {formatCurrency(3782.45)}
                 </p>
 
-                <p className="text-[12.5px] text-hero-fg-soft">despesas consolidadas</p>
+                <p className="text-[12.5px] font-medium text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft">despesas consolidadas</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-2.5 py-2">
                 <RingChart className="size-9 shrink-0 text-hero-accent" value={45} />
                 <div className="min-w-0">
-                  <p className="text-[10px] text-hero-fg-soft">Orçamento</p>
+                  <p className="text-[10px] font-semibold text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft">Orçamento</p>
                   <p className="tabular text-[13px] font-bold text-hero-fg">45%</p>
                 </div>
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-2.5 py-2">
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-hero-fg-muted">
+              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[oklch(0.25_0.04_259)] dark:text-hero-fg-muted">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Despesas vs. mês anterior
               </span>
