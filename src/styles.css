@@ -86,7 +86,14 @@
   --color-acc-6: var(--acc-6);
   --shadow-soft: 0 1px 2px oklch(0.22 0.07 258 / 3%), 0 4px 12px oklch(0.22 0.07 258 / 4%);
   --shadow-lifted: 0 2px 4px oklch(0.22 0.07 258 / 4%), 0 12px 32px oklch(0.22 0.07 258 / 8%);
+  --color-cta-bg: var(--cta-bg);
+  --color-cta-fg: var(--cta-fg);
+  --color-cta-fg-muted: var(--cta-fg-muted);
+  --color-cta-border: var(--cta-border);
+  --color-cta-surface: var(--cta-surface);
+  --color-cta-accent-glow: var(--cta-accent-glow);
 }
+
 
 :root {
   --radius: 0.75rem;
@@ -170,6 +177,22 @@
   );
   --hero-fade: linear-gradient(180deg, transparent, oklch(0.97 0.012 259));
 }
+
+/* CTA Banner: semantic tokens for dark background with theme adaptation */
+:root {
+  --cta-bg: oklch(0.18 0.05 259);
+  --cta-fg: oklch(1 0 0);
+  --cta-fg-muted: oklch(1 0 0 / 90%);
+  --cta-border: oklch(1 0 0 / 15%);
+  --cta-surface: oklch(1 0 0 / 5%);
+  --cta-accent-glow: oklch(0.55 0.16 155 / 30%);
+}
+
+.dark {
+  --cta-bg: oklch(0.15 0.03 259);
+  --cta-accent-glow: oklch(0.65 0.14 155 / 20%);
+}
+
 
 
 .dark {
