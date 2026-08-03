@@ -19,11 +19,11 @@ const tones = {
     bar: "bg-success",
   },
   expense: {
-    ring: "border-destructive/20",
-    glow: "oklch(0.65 0.16 25 / 8%)",
-    icon: "border-destructive/20 bg-destructive/8 text-destructive",
-    value: "text-destructive font-black",
-    bar: "bg-destructive",
+    ring: "border-rose-500/30",
+    glow: "oklch(0.68 0.18 25 / 12%)",
+    icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
+    value: "text-rose-600 font-black dark:text-rose-400",
+    bar: "bg-rose-500",
   },
   warning: {
     ring: "border-warning/30",
