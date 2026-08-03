@@ -490,9 +490,9 @@ export function KidsManagementPanel() {
                     <div className="flex items-center gap-3">
                       <div className={cn(
                         "size-8 rounded-lg flex items-center justify-center",
+                        tx.tags?.includes("kid_self_expense") ? "bg-rose-500/10 text-rose-600" :
                         tx.tags?.includes("type:pix") ? "bg-emerald-500/10 text-emerald-600" :
                         tx.tags?.includes("type:cash") ? "bg-sky-500/10 text-sky-600" :
-                        tx.tags?.includes("kid_self_expense") ? "bg-rose-500/10 text-rose-600" :
                         "bg-amber-500/10 text-amber-600"
                       )}>
                         {tx.tags?.includes("kid_self_expense") ? <TrendingDown className="size-4" /> : 
