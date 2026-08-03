@@ -126,24 +126,20 @@ export function KidsManagementPanel() {
   const [lastDeleted, setLastDeleted] = useState<any>(null);
 
   const deleteMutation = useMutation({
-    mutationFn: (vars: { data: { transactionId: string } }) => useServerFn(deleteKidManagementTransaction)(vars),
+    mutationFn: (vars: { data: { transactionId: string } }) => 
+      useServerFn(deleteKidManagementTransaction)(vars),
     onSuccess: (_, variables) => {
       const deletedId = variables.data.transactionId;
       const deletedTx = metrics.data?.find(t => t.id === deletedId);
       if (deletedTx) setLastDeleted(deletedTx);
       
-      toast.success("Lançamento removido.", {
-        action: {
-          label: "Desfazer",
-          onClick: () => {
-            // A restauração exigiria uma função server-side de "undo" ou re-inserção
-            toast.info("Restauração solicitada.");
-          }
-        }
-      });
+      toast.success("Lançamento removido.");
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      
+      // Fecha o modal de detalhes para garantir que a UI atualize o estado corretamente
+      setKidDetailsOpen(false);
     }
   });
 
