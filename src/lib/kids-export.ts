@@ -1,149 +1,113 @@
-import { formatCurrency, formatDateTime } from "@/lib/format";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { formatCurrency } from "./format";
 
-/** Linha de movimentação usada nas exportações do Espaço Kids. */
-export type KidExportRow = {
+export interface KidExportRow {
   date: string;
   description: string;
   type: "income" | "expense";
-  amount: number;
-};
+  amount: number | string;
+}
 
-/** Filtros aplicados no momento da exportação (aparecem no cabeçalho). */
-export type KidExportFilters = {
-  kidName: string;
-  periodLabel: string;
-  typeLabel: string;
-};
-
-export type KidExportTotals = {
+export interface KidExportMetrics {
   income: number;
   expense: number;
   balance: number;
   count: number;
-};
-
-function download(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
 }
 
-function cell(value: string | number) {
-  return `"${String(value).replace(/"/g, '""')}"`;
+export interface KidExportMeta {
+  kidName: string;
+  periodLabel: string;
+  typeLabel: string;
 }
 
-function fileSlug(name: string) {
-  return (
-    name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-zA-Z0-9]+/g, "-")
-      .replace(/^-|-$/g, "")
-      .toLowerCase() || "crianca"
-  );
-}
+export async function exportKidsSummaryPdf(
+  data: KidExportRow[],
+  metrics: KidExportMetrics,
+  meta: KidExportMeta
+) {
+  const doc = new jsPDF();
+  const now = new Date().toLocaleString("pt-BR");
 
-function formatRowDate(date: string) {
-  return new Date(`${date}T12:00:00`).toLocaleDateString("pt-BR");
-}
+  // Header
+  doc.setFillColor(0, 22, 64); // Navy
+  doc.rect(0, 0, 210, 40, "F");
+  
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.text("GastoCerto Kids", 14, 20);
+  
+  doc.setFontSize(10);
+  doc.text("Relatório de Acompanhamento Financeiro", 14, 28);
+  
+  doc.setFontSize(8);
+  doc.text(`Gerado em: ${now}`, 160, 28);
 
-function summaryRows(totals: KidExportTotals, filters: KidExportFilters): [string, string][] {
-  return [
-    ["Criança", filters.kidName],
-    ["Período", filters.periodLabel],
-    ["Tipo de movimentação", filters.typeLabel],
-    ["Registros no filtro", String(totals.count)],
-    ["Total de gastos", formatCurrency(totals.expense)],
-    ["Total de entradas", formatCurrency(totals.income)],
-    ["Saldo do período", formatCurrency(totals.balance)],
-  ];
-}
+  // Kid Info
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(14);
+  doc.text(`Perfil: ${meta.kidName}`, 14, 55);
+  
+  doc.setFontSize(10);
+  doc.text(`Período: ${meta.periodLabel}`, 14, 62);
+  doc.text(`Filtro: ${meta.typeLabel}`, 14, 67);
 
-const MOVEMENT_HEADER = ["Data", "Descrição", "Tipo", "Valor"];
+  // Summary Cards
+  const startY = 75;
+  
+  // Total Recebido
+  doc.setFillColor(240, 253, 244); // Light Emerald
+  doc.roundedRect(14, startY, 55, 25, 3, 3, "F");
+  doc.setTextColor(5, 150, 105);
+  doc.setFontSize(8);
+  doc.text("TOTAL RECEBIDO", 18, startY + 8);
+  doc.setFontSize(12);
+  doc.text(formatCurrency(metrics.income), 18, startY + 18);
 
-function movementRows(rows: KidExportRow[]) {
-  return rows.map((row) => [
-    formatRowDate(row.date),
+  // Total Gasto
+  doc.setFillColor(254, 242, 242); // Light Rose
+  doc.roundedRect(77, startY, 55, 25, 3, 3, "F");
+  doc.setTextColor(225, 29, 72);
+  doc.setFontSize(8);
+  doc.text("TOTAL GASTO", 81, startY + 8);
+  doc.setFontSize(12);
+  doc.text(formatCurrency(metrics.expense), 81, startY + 18);
+
+  // Saldo
+  doc.setFillColor(248, 250, 252); // Light Gray
+  doc.roundedRect(140, startY, 55, 25, 3, 3, "F");
+  doc.setTextColor(71, 85, 105);
+  doc.setFontSize(8);
+  doc.text("SALDO ATUAL", 144, startY + 8);
+  doc.setFontSize(12);
+  doc.text(formatCurrency(metrics.balance), 144, startY + 18);
+
+  // Table
+  const tableData = data.map((row) => [
+    new Date(row.date).toLocaleDateString("pt-BR"),
     row.description,
-    row.type === "income" ? "Entrada" : "Gasto",
+    row.type === "income" ? "Recebido" : "Gasto",
     formatCurrency(row.amount),
   ]);
-}
-
-/** Resumo + movimentações da criança em CSV (separador ponto e vírgula). */
-export function exportKidsSummaryCsv(
-  rows: KidExportRow[],
-  totals: KidExportTotals,
-  filters: KidExportFilters,
-) {
-  const lines = [
-    cell("GastoCerto — Espaço Kids · resumo por criança"),
-    cell(`Gerado em ${formatDateTime(new Date().toISOString())}`),
-    "",
-    [cell("Indicador"), cell("Valor")].join(";"),
-    ...summaryRows(totals, filters).map(([label, value]) => [cell(label), cell(value)].join(";")),
-    "",
-    MOVEMENT_HEADER.map(cell).join(";"),
-    ...movementRows(rows).map((row) => row.map(cell).join(";")),
-  ];
-
-  download(
-    new Blob(["\uFEFF" + lines.join("\n")], { type: "text/csv;charset=utf-8" }),
-    `espaco-kids-${fileSlug(filters.kidName)}.csv`,
-  );
-}
-
-/** Resumo + movimentações da criança em PDF, respeitando os filtros da tela. */
-export async function exportKidsSummaryPdf(
-  rows: KidExportRow[],
-  totals: KidExportTotals,
-  filters: KidExportFilters,
-) {
-  const [{ default: JsPDF }, { default: autoTable }] = await Promise.all([
-    import("jspdf"),
-    import("jspdf-autotable"),
-  ]);
-
-  const doc = new JsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-
-  doc.setFontSize(15);
-  doc.text("GastoCerto — Espaço Kids", 40, 40);
-  doc.setFontSize(10);
-  doc.text(`Criança: ${filters.kidName}`, 40, 58);
-  doc.setFontSize(9);
-  doc.text(
-    `${filters.periodLabel} · ${filters.typeLabel} · gerado em ${formatDateTime(new Date().toISOString())}`,
-    40,
-    72,
-  );
 
   autoTable(doc, {
-    startY: 88,
-    head: [["Indicador", "Valor"]],
-    body: summaryRows(totals, filters),
-    styles: { fontSize: 9, cellPadding: 4 },
-    headStyles: { fillColor: [16, 45, 70] },
+    startY: startY + 40,
+    head: [["Data", "Descrição", "Tipo", "Valor"]],
+    body: tableData,
+    headStyles: { fillColor: [0, 22, 64], textColor: [255, 255, 255] },
+    alternateRowStyles: { fillColor: [249, 250, 251] },
+    margin: { top: 40 },
+    didDrawPage: (data) => {
+      doc.setFontSize(8);
+      doc.setTextColor(150);
+      doc.text(
+        "GastoCerto - Controle hoje, tranquilidade sempre.",
+        data.settings.margin.left,
+        doc.internal.pageSize.height - 10
+      );
+    },
   });
 
-  const cursor =
-    (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 24;
-
-  doc.setFontSize(11);
-  doc.text("Movimentações no filtro selecionado", 40, cursor);
-
-  autoTable(doc, {
-    startY: cursor + 10,
-    head: [MOVEMENT_HEADER],
-    body: rows.length
-      ? movementRows(rows)
-      : [["—", "Nenhuma movimentação encontrada com os filtros atuais.", "—", "—"]],
-    styles: { fontSize: 9, cellPadding: 4 },
-    headStyles: { fillColor: [16, 110, 90] },
-    columnStyles: { 3: { halign: "right" } },
-  });
-
-  doc.save(`espaco-kids-${fileSlug(filters.kidName)}.pdf`);
+  doc.save(`relatorio-kids-${meta.kidName.toLowerCase()}-${new Date().getTime()}.pdf`);
 }
