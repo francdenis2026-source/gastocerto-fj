@@ -62,6 +62,7 @@ import { kidEntryKind, kidEntryLabel, kidEntryTone, syncStatusFor } from "@/lib/
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
 import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
+import { UNDO_WINDOW_MS, useDeletePermission } from "@/lib/undo-delete";
 import { cn } from "@/lib/utils";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
 import { useAuth } from "@/hooks/use-auth";

@@ -417,9 +417,8 @@ export function MetricDetailDialog({
                           <button
                             type="button"
                             aria-label={`Excluir ${row.description}`}
-                            title="Excluir lançamento"
                             className="shrink-0 px-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            title={permission.reason ?? undefined}
+                            title={permission.reason ?? "Excluir lançamento"}
                             onClick={() => {
                               if (!permission.allowed) {
                                 toast.error("Exclusão não permitida", {
