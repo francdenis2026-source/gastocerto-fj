@@ -60,6 +60,7 @@ import { InteractiveCalendar } from "@/components/finance/interactive-calendar";
 import { StatTile } from "@/components/finance/stat-tile";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
+import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
 
 
@@ -618,6 +619,8 @@ function DashboardPage() {
           </div>
 
         </header>
+
+        <KidsManagementPanel />
 
         <GlobalAnnouncementsBanner />
 
