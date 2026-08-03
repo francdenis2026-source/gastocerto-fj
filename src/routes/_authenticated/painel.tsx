@@ -887,25 +887,6 @@ function DashboardPage() {
               />
             </aside>
           </div>
-        ) }
-      </div>
-
-            <div className="space-y-4">
-              {metrics.limit > 0 && (
-                <StatTile
-                  tone="neutral"
-                  label="Orçamento geral"
-                  value={formatCurrency(metrics.limit)}
-                  progress={metrics.usedPercent}
-                  icon={Wallet}
-                  hint={`Você já usou ${metrics.usedPercent.toFixed(1)}% do seu limite definido.`}
-                />
-
-              )}
-              
-              <RecurringAlerts />
-            </div>
-        )}
 
         {/* Bloco de métricas secundárias */}
         {!loadingTransactions && (
