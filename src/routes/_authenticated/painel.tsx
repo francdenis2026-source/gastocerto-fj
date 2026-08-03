@@ -774,9 +774,7 @@ function DashboardPage() {
         )}
       
         {!loadingTransactions && (
-        <div className="space-y-4 mt-4">
-
-
+          <div className="space-y-4 mt-4">
             <section className="rounded-2xl border border-border bg-card p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-sm font-semibold">Orçamento do mês</h2>
