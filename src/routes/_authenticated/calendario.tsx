@@ -653,7 +653,26 @@ function CalendarPage() {
           </aside>
         </div>
       </div>
+
+      <TransactionDialog
+        open={Boolean(editing)}
+        onOpenChange={(open) => {
+          if (!open) setEditing(null);
+        }}
+        transaction={editing}
+        kind={(editing?.transaction_type as "expense" | "income") ?? "expense"}
+      />
+
+      <TransactionDialog
+        open={Boolean(creatingDate)}
+        onOpenChange={(open) => {
+          if (!open) setCreatingDate(null);
+        }}
+        defaultDate={creatingDate ?? undefined}
+        kind="expense"
+      />
     </AppShell>
+
   );
 }
 
