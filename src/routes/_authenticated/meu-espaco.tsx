@@ -177,24 +177,32 @@ function KidSpacePage() {
 
 
   const transactions = useQuery({
-    queryKey: ["kid_transactions", dependent?.id],
+    queryKey: ["kid_transactions", dependent?.id, viewYearly],
     enabled: Boolean(dependent?.id),
     queryFn: async (): Promise<KidTransaction[]> => {
-      const startOfMonth = new Date();
-      startOfMonth.setDate(1);
-      startOfMonth.setHours(0, 0, 0, 0);
-
-      const { data, error } = await supabase
+      let query = supabase
         .from("transactions")
         .select("id, description, amount, transaction_type, transaction_date, tags")
         .is("deleted_at", null)
-        .gte("transaction_date", startOfMonth.toISOString())
-        .order("transaction_date", { ascending: false })
-        .limit(60);
+        .order("transaction_date", { ascending: false });
+
+      if (!viewYearly) {
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        query = query.gte("transaction_date", startOfMonth.toISOString());
+      } else {
+        const startOfYear = new Date();
+        startOfYear.setMonth(0, 1);
+        startOfYear.setHours(0, 0, 0, 0);
+        query = query.gte("transaction_date", startOfYear.toISOString());
+      }
+
+      const { data, error } = await query.limit(viewYearly ? 200 : 60);
       if (error) throw error;
       return (data ?? []) as unknown as KidTransaction[];
     },
-  });
+  }, [viewYearly]); // Depend on viewYearly to refetch
 
   const pixAlerts = useQuery({
     queryKey: ["kid_pix_alerts", dependent?.id],
@@ -301,6 +309,8 @@ function KidSpacePage() {
   // O responsável escolhe o que aparece aqui (painel /kids).
   const visibility = parseKidVisibility((dependent as { kid_visibility?: unknown }).kid_visibility);
 
+  const [viewYearly, setViewYearly] = useState(false);
+
   return (
     <KidsStatusGuard kidUserId={dependent.id}>
     <main className={cn(
@@ -311,6 +321,28 @@ function KidSpacePage() {
       "bg-gradient-to-b from-primary/8 via-background to-background",
       compactMode && "tracking-tight"
     )}>
+      {/* Selector for period view */}
+      <div className="mx-auto mt-4 flex w-full max-w-2xl justify-end px-4">
+        <div className="inline-flex rounded-lg bg-muted p-1 shadow-sm">
+          <Button 
+            variant={!viewYearly ? "secondary" : "ghost"} 
+            size="sm" 
+            className="h-7 px-3 text-[10px] font-bold"
+            onClick={() => setViewYearly(false)}
+          >
+            Mês Atual
+          </Button>
+          <Button 
+            variant={viewYearly ? "secondary" : "ghost"} 
+            size="sm" 
+            className="h-7 px-3 text-[10px] font-bold"
+            onClick={() => setViewYearly(true)}
+          >
+            Balanço Anual
+          </Button>
+        </div>
+      </div>
+
       {/* Densidade da interface: modo padrão (confortável) ou compacto (objetivo) */}
       <div className="fixed bottom-4 right-4 z-50">
         <Button
@@ -656,7 +688,11 @@ function KidSpacePage() {
                 <li key={row.id} className="group flex items-center justify-between gap-3 p-3.5 transition-colors hover:bg-muted/40">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-medium">{row.description}</p>
+                      <p className="truncate text-sm font-medium">
+                        {row.tags?.some(t => t.startsWith("parent_desc:")) 
+                          ? "Recebido do responsável" 
+                          : row.description}
+                      </p>
                       <button
                         type="button"
                         disabled={!online}
@@ -812,7 +848,11 @@ function KidSummary({
                       : <TrendingDown className="size-4" aria-hidden="true" />}
                   </div>
                   <div>
-                    <p className="text-xs font-medium">{row.description}</p>
+                    <p className="text-xs font-medium">
+                      {row.tags?.some(t => t.startsWith("parent_desc:")) 
+                        ? "Recebido do responsável" 
+                        : row.description}
+                    </p>
                     <p className="text-[10px] font-medium text-muted-foreground">
                       {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR")}
                     </p>

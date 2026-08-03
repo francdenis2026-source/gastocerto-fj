@@ -62,11 +62,11 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
       await supabaseAdmin.from("notifications").insert({
         user_id: dependent.kid_user_id,
         title: "Dinheiro recebido! 💰",
-        message: `Você recebeu ${amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} via ${type.toUpperCase()}. (${description})`,
+        message: `Você recebeu ${amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} do seu responsável.`,
         severity: "info",
         notification_type: "kid_income",
         dedupe_key: dedupeKey,
-        metadata: { amount, type, description }
+        metadata: { amount, type }
       } as any);
     }
 
