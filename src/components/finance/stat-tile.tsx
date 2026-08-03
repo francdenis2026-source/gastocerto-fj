@@ -19,11 +19,11 @@ const tones = {
     bar: "bg-success",
   },
   expense: {
-    ring: "border-destructive/25",
-    glow: "color-mix(in oklab, var(--destructive) 14%, transparent)",
-    icon: "border-destructive/30 bg-destructive/12 text-destructive",
-    value: "text-destructive",
-    bar: "bg-destructive",
+    ring: "border-rose-500/30",
+    glow: "oklch(0.68 0.18 25 / 12%)",
+    icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
+    value: "text-rose-600 font-black dark:text-rose-400",
+    bar: "bg-rose-500",
   },
   warning: {
     ring: "border-warning/30",

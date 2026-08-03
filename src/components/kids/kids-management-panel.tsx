@@ -59,6 +59,7 @@ import { useDependents, type Dependent } from "@/lib/dependents";
 import { formatCurrency } from "@/lib/format";
 import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
+import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
 import { cn } from "@/lib/utils";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
 import { useAuth } from "@/hooks/use-auth";
@@ -124,6 +125,17 @@ export function KidsManagementPanel() {
   });
 
   const [lastDeleted, setLastDeleted] = useState<any>(null);
+  
+  const undoMutation = useMutation({
+    mutationFn: useServerFn(undoKidTransactionDeletion),
+    onSuccess: () => {
+      toast.success("Lançamento restaurado com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
+      setLastDeleted(null);
+    }
+  });
 
   const deleteMutation = useMutation({
     mutationFn: (vars: { data: { transactionId: string } }) => 
@@ -131,14 +143,24 @@ export function KidsManagementPanel() {
     onSuccess: (_, variables) => {
       const deletedId = variables.data.transactionId;
       const deletedTx = metrics.data?.find(t => t.id === deletedId);
-      if (deletedTx) setLastDeleted(deletedTx);
       
-      toast.success("Lançamento removido.");
+      if (deletedTx) {
+        setLastDeleted(deletedTx);
+        toast("Lançamento removido", {
+          description: `"${deletedTx.description}" foi excluído.`,
+          action: {
+            label: "Desfazer",
+            onClick: () => {
+              undoMutation.mutate({ data: { transactionId: deletedId } });
+            },
+          },
+          duration: 8000,
+        });
+      }
+      
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["kid_transactions"] });
-      
-      // Fecha o modal de detalhes para garantir que a UI atualize o estado corretamente
       setKidDetailsOpen(false);
     }
   });
