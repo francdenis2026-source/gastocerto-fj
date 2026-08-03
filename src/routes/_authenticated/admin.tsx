@@ -233,8 +233,10 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
         ) : null}
         {current === "security" ? (
           <div className="space-y-4">
+            <MasterCodePanel />
             <AdminAccessPanel />
             <BlockedIpsPanel />
+
           </div>
         ) : null}
         {current === "integrations" ? <IntegrationsPanel /> : null}
