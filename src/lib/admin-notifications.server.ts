@@ -18,7 +18,4 @@ export async function sendAdminNotification(
   });
 
   if (notifyError) console.error("[admin-notify] In-app error:", notifyError);
-
-  // Aqui futuramente pode-se integrar o envio de e-mail via Lovable Cloud
-  // Por enquanto focamos na persistência para o centro de notificações do app
 }
