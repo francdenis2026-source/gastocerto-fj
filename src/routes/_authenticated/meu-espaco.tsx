@@ -42,6 +42,7 @@ import { syncKidTransaction } from "@/lib/kids-sync.functions";
 import { createKidTransaction } from "@/lib/kids-self-transactions.functions";
 import { exportKidsSummaryPdf } from "@/lib/kids-export";
 import { getKidGoals } from "@/lib/kids-goals.functions";
+import { useKidSpaceRealtime } from "@/lib/kids-space-realtime";
 
 
 
@@ -166,6 +167,9 @@ function KidSpacePage() {
 
   // Preferência de tema exclusiva da criança (não altera a do responsável).
   const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
+
+  // Se o responsável apagar ou editar um envio, a tela da criança atualiza na hora.
+  useKidSpaceRealtime(user?.id);
 
 
 

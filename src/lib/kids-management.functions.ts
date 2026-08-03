@@ -32,28 +32,36 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
     const parentTag = `dependente:${dependentId}`;
     const dedupeKey = `kid_money_${dependentId}_${Date.now()}`;
     
-    const { error: parentError } = await supabaseAdmin.from("transactions").insert({
-      user_id: userId,
-      description: `[Envio para ${dependent.name}] ${description} (${type.toUpperCase()})`,
-      amount: amount,
-      transaction_type: "expense",
-      transaction_date: transactionDate,
-      category_id: null, 
-      tags: [parentTag, "kids_management", `type:${type}`, `parent_desc:${description}`],
-      status: "paid",
-    });
+    const { data: parentTx, error: parentError } = await supabaseAdmin
+      .from("transactions")
+      .insert({
+        user_id: userId,
+        description: `[Envio para ${dependent.name}] ${description} (${type.toUpperCase()})`,
+        amount: amount,
+        transaction_type: "expense",
+        transaction_date: transactionDate,
+        category_id: null,
+        tags: [parentTag, "kids_management", `type:${type}`, `parent_desc:${description}`],
+        status: "paid",
+      })
+      .select("id")
+      .single();
 
-    if (parentError) throw new Error(`Erro ao registrar gasto do responsável: ${parentError.message}`);
+    if (parentError || !parentTx) {
+      throw new Error(`Erro ao registrar gasto do responsável: ${parentError?.message ?? "falha"}`);
+    }
 
     if (dependent.kid_user_id) {
-      // 1. Criar transação para a criança
+      // 1. Criar transação espelho para a criança, marcada com a origem do
+      // lançamento do responsável. Isso permite apagar/editar em cascata
+      // (trigger sync_kid_mirror_tx) e mantém os painéis sincronizados.
       const { error: kidError } = await supabaseAdmin.from("transactions").insert({
         user_id: dependent.kid_user_id,
         description: "Recebido do responsável", // Descrição genérica para a criança
         amount: amount,
         transaction_type: "income",
         transaction_date: transactionDate,
-        tags: ["from_parent", `type:${type}`, `parent_desc:${description}`], // Mantemos a tag para referência se necessário, mas a descrição é limpa
+        tags: ["from_parent", `type:${type}`, `origin:${parentTx.id}`, `parent_desc:${description}`],
         status: "paid",
       });
       if (kidError) console.error("Erro ao registrar entrada no painel da criança:", kidError.message);

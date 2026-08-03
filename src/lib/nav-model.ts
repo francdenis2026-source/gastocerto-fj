@@ -169,14 +169,16 @@ export const navSections: NavSection[] = [
       {
         key: "kids",
         label: "Espaço Kids",
-        to: "/kids",
+        to: "/filhos",
         icon: Baby,
-        hint: "Códigos, mesadas e metas dos filhos",
+        hint: "Filhos, mesadas, acessos e métricas",
         children: [
-          { key: "kids.panel", label: "Painel do responsável", to: "/kids", highlight: true, keywords: "filho criança pin código mesada" },
+          { key: "kids.hub", label: "Central da Família", to: "/filhos", highlight: true, keywords: "filho criança cadastro mesada acesso métricas" },
+          { key: "kids.panel", label: "Códigos e metas", to: "/kids", keywords: "pin código qr metas" },
           { key: "kids.audit", label: "Auditoria Kids", to: "/kids-auditoria", keywords: "histórico criança" },
         ],
       },
+
       {
         key: "settings",
         label: "Configurações",

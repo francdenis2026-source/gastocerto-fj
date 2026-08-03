@@ -61,6 +61,8 @@ import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.f
 import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
 import { cn } from "@/lib/utils";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
+import { useAuth } from "@/hooks/use-auth";
+import { useParentKidsRealtime } from "@/lib/kids-space-realtime";
 
 import { 
   BarChart, 
@@ -90,6 +92,10 @@ export function KidsManagementPanel() {
 
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  // Gastos feitos pela criança aparecem aqui em tempo real.
+  useParentKidsRealtime(user?.id);
 
   const metrics = useQuery({
     queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear()],
