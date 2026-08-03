@@ -292,7 +292,7 @@ function AuthPage() {
                 onValueChange={(value) => setMode(value as Mode)}
                 className="relative flex min-h-0 flex-col"
               >
-                <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-border bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
+                <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-input bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
                   <TabsTrigger
                     value="login"
                     aria-label="Acessar conta existente"
@@ -330,7 +330,7 @@ function AuthPage() {
                     <button
                       type="button"
                       onClick={() => setMode("kid")}
-                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-border bg-secondary px-3 py-2.5 text-foreground transition-colors duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99]"
+                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-input bg-secondary px-3 py-2.5 text-foreground transition-all duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99]"
                     >
                       <Baby className="size-4 animate-soft-pulse shrink-0 text-primary transition-transform duration-300 group-hover:scale-105" aria-hidden />
                       <span className="text-[12px] font-semibold leading-tight tracking-tight sm:text-[13px]">
