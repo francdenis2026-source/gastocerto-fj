@@ -315,16 +315,7 @@ function KidSpacePage() {
     )}>
       {/* Selector for period view and Goals Panel */}
       <div className="mx-auto mt-4 flex w-full max-w-2xl flex-col gap-4 px-4">
-        {/* Goals / Budget Alert */}
-        {(balance / (dependent.monthly_limit || 100)) < 0.2 && (
-          <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-3 flex items-center gap-3 animate-pulse">
-            <AlertTriangle className="size-5 text-rose-500 shrink-0" />
-            <div className="flex-1">
-              <p className="text-xs font-bold text-rose-700 dark:text-rose-400">Atenção! Seu saldo está baixo.</p>
-              <p className="text-[10px] text-rose-600/80 dark:text-rose-400/80">Que tal economizar um pouquinho para sua meta?</p>
-            </div>
-          </div>
-        )}
+        {/* Goals / Budget Alert - Removed as requested to gain space */}
 
         <div className="flex items-center justify-between">
           <div className="relative flex-1 max-w-xs">
