@@ -465,6 +465,65 @@ function PinInput({
   autoComplete,
   invalid,
   describedById,
+  label = "Senha (6 dígitos)",
+}: {
+  id: string;
+  name: string;
+  autoComplete: "current-password" | "new-password";
+  invalid?: boolean;
+  describedById?: string;
+  label?: string;
+}) {
+  const [show, setShow] = useState(false);
+  const Icon = show ? EyeOff : Eye;
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <Label
+          htmlFor={id}
+          className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold"
+        >
+          {label}
+        </Label>
+      </div>
+      <div className="relative mt-1.5">
+        <Input
+          id={id}
+          name={name}
+          type={show ? "text" : "password"}
+          inputMode="numeric"
+          autoComplete={autoComplete}
+          placeholder="••••••"
+          maxLength={6}
+          required
+          aria-invalid={invalid || undefined}
+          aria-describedby={describedById}
+          className="h-10 pr-10 tracking-[0.4em]"
+          onChange={(event) => {
+            event.target.value = onlyDigits(event.target.value).slice(0, 6);
+          }}
+        />
+        <button
+          type="button"
+          onClick={() => setShow(!show)}
+          className="absolute right-0 top-0 flex h-full w-10 items-center justify-center text-muted-foreground/60 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+        >
+          <Icon className="size-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Versão anterior para compatibilidade se necessário (embora não usada nas rotas principais)
+function PinInputOld({
+  id,
+  name,
+  autoComplete,
+  invalid,
+  describedById,
 }: {
   id: string;
   name: string;
@@ -541,12 +600,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
           <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
         </div>
       </div>
-      <div>
-        <Label htmlFor="login-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
-        <div className="mt-1">
-          <PinInput id="login-pin" name="pin" autoComplete="current-password" />
-        </div>
-      </div>
+      <PinInput id="login-pin" name="pin" autoComplete="current-password" />
       <div className="flex flex-wrap items-center justify-between gap-2">
         <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
           Esqueci minha senha
