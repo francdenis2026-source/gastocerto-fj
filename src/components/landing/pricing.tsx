@@ -197,46 +197,55 @@ export function Pricing() {
           {plans.map((plan) => {
             const price = isYearly ? plan.yearly : plan.monthly;
             return (
-              <FeatureDetailDialog
-                key={plan.slug}
-                feature={{
-                  title: `Plano ${plan.name}`,
-                  text: plan.features.join(". "),
-                  tag: plan.highlighted ? "Destaque" : "Assinatura"
-                }}
-              >
-                <button
-                  type="button"
-                  className={cn(
-                    "group flex w-full flex-col rounded-xl border border-border bg-card/80 p-3 text-left transition-all active:scale-[0.98]",
-                    plan.highlighted && "border-brand/40 bg-brand/5 shadow-sm"
-                  )}
+              <div key={plan.slug} className="flex flex-col gap-1.5">
+                <FeatureDetailDialog
+                  feature={{
+                    title: `Plano ${plan.name}`,
+                    text: plan.features.join(". "),
+                    tag: plan.highlighted ? "Destaque" : "Assinatura"
+                  }}
                 >
-                  <div className="flex w-full items-center justify-between gap-2">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-bold">{plan.name}</span>
-                        {plan.highlighted && (
-                          <span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-brand">
-                            IA
-                          </span>
-                        )}
+                  <button
+                    type="button"
+                    className={cn(
+                      "group flex w-full flex-col rounded-xl border border-border bg-card/80 p-3 text-left transition-all active:scale-[0.98]",
+                      plan.highlighted && "border-brand/40 bg-brand/5 shadow-sm"
+                    )}
+                  >
+                    <div className="flex w-full items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-bold">{plan.name}</span>
+                          {plan.highlighted && (
+                            <span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-brand">
+                              IA
+                            </span>
+                          )}
+                        </div>
+                        <p className="truncate text-[11px] text-muted-foreground">{plan.description}</p>
                       </div>
-                      <p className="truncate text-[11px] text-muted-foreground">{plan.description}</p>
+                      <div className="shrink-0 text-right">
+                        <p className="text-base font-black text-foreground">
+                          {price === 0 ? "R$ 0" : formatCurrency(price)}
+                        </p>
+                        <p className="text-[9px] font-medium text-muted-foreground">/mês</p>
+                      </div>
                     </div>
-                    <div className="shrink-0 text-right">
-                      <p className="text-base font-black text-foreground">
-                        {price === 0 ? "R$ 0" : formatCurrency(price)}
-                      </p>
-                      <p className="text-[9px] font-medium text-muted-foreground">/mês</p>
+                    <div className="mt-2 flex items-center justify-between border-t border-border/50 pt-2">
+                      <span className="text-[10px] font-semibold text-brand">Ver detalhes e benefícios</span>
+                      <Sparkles className={cn("size-3", plan.highlighted ? "text-brand" : "text-muted-foreground/40")} />
                     </div>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between border-t border-border/50 pt-2">
-                    <span className="text-[10px] font-semibold text-brand">Toque para ver detalhes</span>
-                    <Sparkles className={cn("size-3", plan.highlighted ? "text-brand" : "text-muted-foreground/40")} />
-                  </div>
-                </button>
-              </FeatureDetailDialog>
+                  </button>
+                </FeatureDetailDialog>
+                
+                <Button
+                  className="h-9 w-full rounded-xl text-xs font-bold"
+                  variant={plan.highlighted ? "default" : "secondary"}
+                  onClick={() => setCheckoutPlan(plan.slug as any)}
+                >
+                  Selecionar {plan.name}
+                </Button>
+              </div>
             );
           })}
         </div>
