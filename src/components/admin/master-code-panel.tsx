@@ -103,6 +103,63 @@ export function MasterCodePanel() {
         )}
       </div>
 
+      <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-border/70 bg-background p-3">
+        <code className="min-w-[9rem] rounded-md bg-muted px-3 py-1.5 font-mono text-sm tracking-widest">
+          {visibleCode ?? "••••-••••-••••"}
+        </code>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          className="h-9"
+          disabled={revealMutation.isPending}
+          onClick={() => (visibleCode ? setVisibleCode(null) : revealMutation.mutate())}
+        >
+          {revealMutation.isPending ? (
+            <Loader2 className="size-4 animate-spin mr-2" />
+          ) : visibleCode ? (
+            <EyeOff className="size-4 mr-2" />
+          ) : (
+            <Eye className="size-4 mr-2" />
+          )}
+          {visibleCode ? "Ocultar" : "Mostrar código"}
+        </Button>
+        {visibleCode ? (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="h-9"
+            onClick={() => {
+              void navigator.clipboard.writeText(visibleCode);
+              toast.success("Código copiado.");
+            }}
+          >
+            <Copy className="size-4 mr-2" />
+            Copiar
+          </Button>
+        ) : null}
+        <Button
+          type="button"
+          size="sm"
+          className="h-9"
+          disabled={generateMutation.isPending}
+          onClick={() => {
+            if (!window.confirm("Gerar um novo código mestre? O código atual deixará de funcionar.")) return;
+            generateMutation.mutate();
+          }}
+        >
+          {generateMutation.isPending ? (
+            <Loader2 className="size-4 animate-spin mr-2" />
+          ) : (
+            <RefreshCw className="size-4 mr-2" />
+          )}
+          Gerar novo código
+        </Button>
+      </div>
+
+
+
       <form
         className="mt-3 grid gap-3 md:grid-cols-2"
         onSubmit={(event) => {
