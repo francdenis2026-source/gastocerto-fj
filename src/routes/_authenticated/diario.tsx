@@ -84,6 +84,7 @@ function rangeFor(mode: Mode, year: number, month: number) {
       : new Date(year, month, 0);
     return { start: iso(start), end: iso(end) };
   }
+}
 
 function hourOf(value: string | null) {
   if (!value) return null;
