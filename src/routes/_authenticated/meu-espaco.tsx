@@ -464,7 +464,18 @@ function KidSpacePage() {
           </div>
 
           <div className="flex items-center gap-1.5">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-9 rounded-full text-muted-foreground"
+              onClick={toggleKidTheme}
+              title={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
+              aria-label={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
+            >
+              {kidTheme === "dark" ? <Sun className="size-4 text-amber-500" /> : <Moon className="size-4 text-primary" />}
+            </Button>
             <NotificationCenter isKid />
+
             <Button
               variant="ghost"
               size="icon"
