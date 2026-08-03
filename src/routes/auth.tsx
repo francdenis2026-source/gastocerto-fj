@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock } from "lucide-react";
+import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";

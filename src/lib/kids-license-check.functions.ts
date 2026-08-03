@@ -14,7 +14,7 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
   .handler(async ({ data }): Promise<KidAccountStatus> => {
     const { data: kid, error: kidErr } = await supabaseAdmin
       .from("dependents")
-      .select("user_id, name")
+      .select("user_id, name, id")
       .eq("kid_user_id", data.kidUserId)
       .maybeSingle();
 
@@ -24,7 +24,7 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
 
     const { data: profile, error: profErr } = await supabaseAdmin
       .from("profiles")
-      .select("id, plan_id, trial_ends_at, status")
+      .select("id, plan_id, trial_ends_at, status, plan_tier, has_paid_license, trial_plan_slug, paid_plan_slug")
       .eq("user_id", kid.user_id)
       .maybeSingle();
 
@@ -41,14 +41,24 @@ export const checkKidAccountStatus = createServerFn({ method: "GET" })
       };
     }
 
-    const trialExpired = profile.trial_ends_at ? new Date(profile.trial_ends_at) < new Date() : false;
-    
-    if (!profile.plan_id && trialExpired) {
+    // Integração com o resolvePlanAccess para garantir consistência total com o app principal.
+    const { resolvePlanAccess } = await import("./plan-features");
+    const access = resolvePlanAccess({
+      planSlug: profile.plan_id,
+      planTier: (profile as any).plan_tier,
+      trialEndsAt: profile.trial_ends_at,
+      hasPaidLicense: (profile as any).has_paid_license,
+      trialPlanSlug: (profile as any).trial_plan_slug,
+      paidPlanSlug: (profile as any).paid_plan_slug,
+      isAdmin: false,
+    });
+
+    if (access.readOnly) {
       return { 
         active: true, 
         readOnly: true, 
         reason: "parent_expired",
-        message: "A assinatura do seu responsável expirou. Você ainda pode ver seus dados, mas para fazer novos lançamentos o responsável precisa renovar o plano."
+        message: access.readOnlyReason || "A assinatura do seu responsável expirou. Você ainda pode ver seus dados, mas para fazer novos lançamentos o responsável precisa renovar o plano."
       };
     }
 
