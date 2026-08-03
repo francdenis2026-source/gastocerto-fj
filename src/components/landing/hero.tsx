@@ -91,17 +91,18 @@ export function Hero() {
         src={heroMobileBg}
         alt=""
         aria-hidden="true"
-        width={768}
-        height={1344}
+        width={828}
+        height={1472}
         fetchPriority="high"
         decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover object-center sm:hidden"
+        className="absolute inset-0 -z-20 size-full object-cover object-[50%_28%] sm:hidden"
       />
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.88),oklch(0.14_0.02_252/0.65)_55%,oklch(0.14_0.02_252/0.92))] backdrop-blur-[4px] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.95)_0%,oklch(0.13_0.02_252/0.78)_46%,oklch(0.14_0.02_252/0.32)_100%)] sm:backdrop-blur-[3px]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.92),oklch(0.14_0.02_252/0.78)_50%,oklch(0.14_0.02_252/0.95))] backdrop-blur-[6px] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.95)_0%,oklch(0.13_0.02_252/0.78)_46%,oklch(0.14_0.02_252/0.32)_100%)] sm:backdrop-blur-[3px]"
       />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[linear-gradient(180deg,transparent,oklch(0.15_0.026_252))]"
@@ -109,12 +110,12 @@ export function Hero() {
 
       <div className="section-shell relative grid w-full items-center gap-6 lg:grid-cols-[1.06fr_1fr] lg:gap-10">
         <div className="min-w-0">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white sm:text-[12.5px]">
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase leading-tight tracking-[0.12em] text-white sm:tracking-[0.16em] sm:text-[12.5px]">
             <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-            Controle financeiro e tranquilidade sempre
+            <span className="min-w-0">Controle financeiro e tranquilidade sempre</span>
           </span>
 
-          <h1 className="font-display mt-3 text-[2.15rem] font-extrabold leading-[1.03] tracking-[-0.032em] text-white [text-wrap:balance] sm:text-[2.7rem] lg:text-[3.15rem]">
+          <h1 className="font-display mt-3 text-[clamp(1.85rem,7.5vw,2.35rem)] font-extrabold leading-[1.06] tracking-[-0.03em] text-white [text-wrap:balance] sm:text-[2.7rem] sm:leading-[1.03] lg:text-[3.15rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
             <span className="text-[oklch(0.88_0.11_165)]">organizado e simples.</span>
@@ -171,9 +172,10 @@ export function Hero() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
                   Mês atual
                 </p>
-                <p className="tabular mt-0.5 text-xl font-bold text-white">
+                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-bold text-white sm:text-xl">
                   {formatCurrency(3782.45)}
                 </p>
+
                 <p className="text-[12.5px] text-white/70">despesas consolidadas</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.06] px-2.5 py-2">

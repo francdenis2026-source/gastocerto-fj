@@ -25,12 +25,12 @@ export function Logo({
   }
 
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <BrandMark className="size-11" />
-      <span className="flex min-w-0 flex-col leading-none">
+    <span className={cn("inline-flex min-w-0 items-center gap-2 sm:gap-2.5", className)}>
+      <BrandMark className="size-9 sm:size-11" />
+      <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
         <span
           className={cn(
-            "font-display text-[1.35rem] font-extrabold tracking-tight",
+            "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
             onDark ? "text-white" : "text-[oklch(0.28_0.06_255)] dark:text-white",
           )}
         >
@@ -47,7 +47,7 @@ export function Logo({
         </span>
         <span
           className={cn(
-            "mt-1 text-[8.5px] font-bold uppercase tracking-[0.16em]",
+            "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block",
             onDark ? "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" : "text-muted-foreground",
           )}
         >
@@ -55,5 +55,6 @@ export function Logo({
         </span>
       </span>
     </span>
+
   );
 }
