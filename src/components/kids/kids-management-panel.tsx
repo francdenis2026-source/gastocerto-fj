@@ -1059,7 +1059,7 @@ function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids:
   const { data: goals, isLoading } = useQuery({
     queryKey: ["kid-goals", selectedKidId],
     queryFn: () => getKidGoals({ data: { dependentId: selectedKidId === "all" ? kids[0]?.id : selectedKidId } }),
-    enabled: !!(selectedKidId === "all" ? kids[0]?.id : selectedKidId)
+    enabled: !!(selectedKidId === "all" ? (kids?.length > 0 ? kids[0].id : null) : selectedKidId)
   });
 
   const saveMutation = useMutation({
