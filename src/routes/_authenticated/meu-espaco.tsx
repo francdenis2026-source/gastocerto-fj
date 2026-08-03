@@ -449,10 +449,7 @@ function KidSpacePage() {
                     variant="ghost"
                     size="icon"
                     className="size-10 rounded-full text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    onClick={async () => {
-                      await signOut();
-                      navigate({ to: "/auth", replace: true });
-                    }}
+                    onClick={() => setLogoutDialogOpen(true)}
                     aria-label="Sair do Espaço Kids"
                   >
                     <LogOut className="size-4" />
