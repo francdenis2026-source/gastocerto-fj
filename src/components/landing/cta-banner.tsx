@@ -9,30 +9,30 @@ export function CtaBanner() {
   return (
     <section className="section-y">
       <Reveal className="section-shell">
-        <div className="relative isolate overflow-hidden rounded-3xl bg-[oklch(0.18_0.05_259)] px-5 py-5 text-white shadow-lifted sm:px-10 sm:py-7">
-          <GridPattern className="absolute inset-0 -z-10 size-full text-white/10" />
+        <div className="relative isolate overflow-hidden rounded-3xl bg-cta-bg px-5 py-5 text-cta-fg shadow-lifted sm:px-10 sm:py-7 border border-cta-border">
+          <GridPattern className="absolute inset-0 -z-10 size-full text-cta-fg/10" />
           <div
             aria-hidden="true"
-            className="absolute -right-24 -top-24 -z-10 size-[320px] rounded-full bg-brand/30 blur-[120px]"
+            className="absolute -right-24 -top-24 -z-10 size-[320px] rounded-full bg-cta-accent-glow blur-[120px]"
           />
 
           <div className="grid items-center gap-4 lg:grid-cols-[1.35fr_1fr]">
             <div className="min-w-0">
-              <h2 className="section-title text-white">
+              <h2 className="section-title text-cta-fg">
                 Decisões melhores começam com números claros
               </h2>
-              <p className="mt-2 max-w-xl text-[13px] leading-snug text-white/90 sm:text-sm">
+              <p className="mt-2 max-w-xl text-[13px] leading-snug text-cta-fg-muted sm:text-sm">
                 Conta gratuita, sem cartão de crédito e sem instalar nada. Prefere ver antes?
                 Abra a demonstração com dados de exemplo.
               </p>
-              <p className="mt-2 inline-flex items-center gap-2 text-[12.5px] text-white/90">
+              <p className="mt-2 inline-flex items-center gap-2 text-[12.5px] text-cta-fg-muted">
                 <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Seus dados são só seus: exporte ou apague quando quiser.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
-              <Button className="h-10 w-full shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" asChild>
+              <Button className="h-10 w-full shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-fg/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Criar conta grátis
                   <ArrowRight className="size-4" aria-hidden="true" />
@@ -40,7 +40,7 @@ export function CtaBanner() {
               </Button>
               <Button
                 variant="outline"
-                className="h-10 w-full border-white/25 bg-white/5 text-white hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                className="h-10 w-full border-cta-fg/25 bg-cta-surface text-cta-fg hover:bg-cta-fg/15 hover:text-cta-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-fg/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 asChild
               >
                 <Link to="/demonstracao">
@@ -50,7 +50,7 @@ export function CtaBanner() {
               </Button>
               <Button
                 variant="ghost"
-                className="col-span-2 h-9 w-full text-white/90 hover:bg-white/10 hover:text-white lg:col-span-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                className="col-span-2 h-9 w-full text-cta-fg-muted hover:bg-cta-fg/10 hover:text-cta-fg lg:col-span-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-fg/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "login" }}>

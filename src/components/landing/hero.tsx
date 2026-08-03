@@ -118,7 +118,7 @@ export function Hero() {
           <h1 className="font-display mt-3 text-[clamp(1.85rem,7.5vw,2.35rem)] font-extrabold leading-[1.06] tracking-[-0.03em] text-hero-fg [text-wrap:balance] sm:text-[2.7rem] sm:leading-[1.03] lg:text-[3.15rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="text-hero-accent">organizado e simples.</span>
+            <span className="text-hero-accent brightness-[0.85] dark:brightness-100">organizado e simples.</span>
           </h1>
 
           <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-hero-fg-muted sm:text-base">
@@ -139,7 +139,7 @@ export function Hero() {
             <CodeAccessDialog>
               <Button
                 variant="outline"
-                className="h-12 w-full justify-center border-hero-border-strong bg-hero-surface-soft px-5 text-sm text-hero-fg hover:bg-hero-surface hover:text-hero-fg sm:h-11 sm:w-auto sm:px-6"
+                className="h-12 w-full justify-center border-hero-border-strong bg-hero-surface-soft px-5 text-sm font-semibold text-hero-fg hover:bg-hero-surface hover:text-hero-fg sm:h-11 sm:w-auto sm:px-6"
               >
                 <KeyRound className="size-4 shrink-0" aria-hidden="true" />
                 <span className="truncate">Código de acesso</span>
