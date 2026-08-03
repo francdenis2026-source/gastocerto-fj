@@ -145,8 +145,8 @@ const KID_ACCENTS: Record<"boy" | "girl" | "neutral", KidAccent> = {
 /** Valores positivos e negativos com contraste garantido nos dois temas. */
 const POSITIVE_TEXT = "text-emerald-700 dark:text-emerald-400";
 const POSITIVE_SURFACE = "bg-emerald-600/10 dark:bg-emerald-400/10";
-const NEGATIVE_TEXT = "text-rose-700 dark:text-rose-400 font-bold";
-const NEGATIVE_SURFACE = "bg-rose-600/10 dark:bg-rose-400/15";
+const NEGATIVE_TEXT = "text-rose-600 dark:text-rose-500 font-bold";
+const NEGATIVE_SURFACE = "bg-rose-500/5 dark:bg-rose-500/10";
 
 function KidSpacePage() {
   const navigate = useNavigate();
@@ -286,9 +286,9 @@ function KidSpacePage() {
   if (!dependent) {
     return (
       <main className="flex min-h-dvh flex-col items-center justify-center gap-4 p-6 text-center">
-        <h1 className="text-lg font-bold">Este espaço é só para crianças</h1>
+        <h1 className="text-lg font-bold">Acesso ao Espaço Kids</h1>
         <p className="max-w-sm text-sm text-muted-foreground">
-          Sua conta não está vinculada a um espaço infantil. Entre com o painel do responsável.
+          Entre com o painel do responsável para gerenciar seu espaço.
         </p>
         <Button onClick={() => navigate({ to: "/painel" })}>Ir para o painel</Button>
       </main>
