@@ -386,35 +386,32 @@ export function KidsManagementPanel() {
                 {metrics.isFetching && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
               </div>
               
-              <div className="flex-1 h-[180px] w-full min-h-[180px]">
+              <div className="flex-1 h-[200px] w-full min-h-[200px]">
                 {chartData.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
                       <XAxis 
                         dataKey="name" 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{fontSize: 9, fontWeight: 600}} 
+                        tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
                         dy={10}
                       />
                       <YAxis 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{fontSize: 9}} 
+                        tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} 
                         tickFormatter={(v) => `R$ ${v}`}
                       />
                       <Tooltip 
-                        contentStyle={{ 
-                          borderRadius: '12px', 
-                          border: 'none', 
-                          boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-                          fontSize: '11px',
-                          fontWeight: 600
-                        }}
+                        cursor={tooltipProps.cursor}
+                        contentStyle={tooltipProps.contentStyle}
+                        labelStyle={tooltipProps.labelStyle}
+                        itemStyle={tooltipProps.itemStyle}
                         formatter={(value: number) => [formatCurrency(value), "Total"]}
                       />
-                      <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} barSize={32} />
+                      <Bar dataKey="total" fill={CHART_TOKENS.expense} radius={[6, 6, 0, 0]} maxBarSize={26} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
