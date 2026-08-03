@@ -900,6 +900,31 @@ function KidSummary({
         </div>
       )}
 
+      <div className="rounded-xl border border-border bg-muted/20 p-4">
+        <div className="flex items-center justify-between mb-2">
+          <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-foreground">
+            <CalendarIcon className="size-3" aria-hidden="true" /> Evolução da semana
+          </p>
+          <Badge variant="outline" className="text-[9px] font-bold border-emerald-500/20 text-emerald-600 bg-emerald-500/5">Ativo</Badge>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <div className="space-y-0.5">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase">Ganhou</p>
+            <p className="text-xs font-bold text-emerald-600">+{formatCurrency(weeklyStats.income)}</p>
+          </div>
+          <div className="space-y-0.5 text-center">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase">Gastou</p>
+            <p className="text-xs font-bold text-rose-600">-{formatCurrency(weeklyStats.expense)}</p>
+          </div>
+          <div className="space-y-0.5 text-right">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase">Saldo Sem.</p>
+            <p className={cn("text-xs font-bold", weeklyStats.balance < 0 ? "text-rose-600" : "text-emerald-600")}>
+              {formatCurrency(weeklyStats.balance)}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="rounded-xl border border-border bg-muted/40 p-4">
         <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-foreground">
           <HelpCircle className="size-3.5" aria-hidden="true" /> Entenda seu dinheiro
