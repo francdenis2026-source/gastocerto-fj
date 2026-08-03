@@ -385,60 +385,80 @@ function KidSpacePage() {
         "px-4 pt-4 pb-2 sm:px-6 transition-all",
         compactMode && "pt-2 px-3 pb-1.5 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
-        <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3">
+        <div className="mx-auto grid w-full max-w-2xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <Avatar className={cn(
-              "size-14 sm:size-16 border-2 border-background shadow-lg ring-2 transition-transform active:scale-95",
+              "size-16 shrink-0 border-2 border-background shadow-lg ring-2 ring-offset-2 ring-offset-background transition-transform active:scale-95 sm:size-[4.5rem]",
               accent.ring,
-              compactMode && "size-12 sm:size-12",
+              compactMode && "size-12 sm:size-12 ring-offset-1",
             )}>
               {avatarUrl ? (
                 <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} className="object-cover" />
               ) : null}
               <AvatarFallback
-                className="text-xl font-black text-white"
+                className="bg-gradient-to-br from-white/25 to-transparent text-2xl font-black text-white"
                 style={{ backgroundColor: dependent.color ?? "#0f766e" }}
               >
                 {firstName.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0">
-              <h1 className="truncate text-lg sm:text-xl font-bold leading-tight tracking-tight">
+              <h1 className="truncate text-lg font-bold leading-tight tracking-tight sm:text-xl">
                 Olá, <span className={accent.text}>{firstName}</span>
               </h1>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground opacity-70">
+              <p className="mt-0.5 truncate text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground opacity-70">
                 {online ? "Online" : "Offline"} · Espaço Kids
               </p>
             </div>
           </div>
 
-          <div className="flex shrink-0 items-center gap-0.5">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-9 rounded-full text-muted-foreground"
-              onClick={toggleKidTheme}
-              title={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
-              aria-label={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
-            >
-              {kidTheme === "dark" ? <Sun className="size-4 text-amber-500" /> : <Moon className="size-4 text-primary" />}
-            </Button>
-            <NotificationCenter isKid />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-9 rounded-full text-muted-foreground"
-              onClick={async () => {
-                await signOut();
-                navigate({ to: "/auth", replace: true });
-              }}
-              title="Sair"
-              aria-label="Sair"
-            >
-              <LogOut className="size-4" />
-            </Button>
-          </div>
+          <TooltipProvider delayDuration={200}>
+            <div className="flex shrink-0 items-center gap-1">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-10 rounded-full text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    onClick={toggleKidTheme}
+                    aria-label={kidTheme === "dark" ? "Usar modo claro" : "Usar modo escuro"}
+                  >
+                    {kidTheme === "dark" ? <Sun className="size-4 text-amber-500" /> : <Moon className="size-4 text-primary" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{kidTheme === "dark" ? "Modo claro" : "Modo escuro"}</TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="inline-flex">
+                    <NotificationCenter isKid />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent>Avisos</TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-10 rounded-full text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    onClick={async () => {
+                      await signOut();
+                      navigate({ to: "/auth", replace: true });
+                    }}
+                    aria-label="Sair do Espaço Kids"
+                  >
+                    <LogOut className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Sair</TooltipContent>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
         </div>
+
 
         {/* Período (mês/ano) na mesma faixa do topo, compacto e legível */}
         <div className="mx-auto mt-2 flex w-full max-w-2xl flex-wrap items-center justify-end gap-1.5">
