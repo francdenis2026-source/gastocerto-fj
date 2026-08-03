@@ -2,31 +2,19 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
 import {
-  ArrowLeftRight,
-  Baby,
-  BarChart3,
-  Bell,
-  CalendarClock,
-  Car,
   ChevronDown,
-  LayoutDashboard,
   PanelLeftClose,
   PanelLeftOpen,
   LogOut,
   Plus,
   Menu,
-  PiggyBank,
-  ShieldCheck,
   RefreshCcw,
-  User2,
   X,
   TrendingUp,
   TrendingDown,
-  Flame,
-  Zap,
-  HelpCircle,
   Settings,
 } from "lucide-react";
+
 import { useState, type ReactNode, useEffect, useMemo } from "react";
 
 import { Logo } from "@/components/logo";
