@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -269,7 +269,23 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                 <TableRow key={profile.id}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
-                      {profile.full_name ?? "—"}
+                      <div className="flex items-center gap-1.5">
+                        {profile.full_name ?? "—"}
+                        {((profile as any).plan_slug === "premium_ia" || (profile as any).plan_slug === "premium") && (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <div className="flex size-4 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
+                                  <Sparkles className="size-2.5" />
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="text-[10px] font-bold">Assinante PRO</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
+                      </div>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -405,10 +421,24 @@ function ManageUserDialog({
     try {
       await action();
       await onChanged();
-      toast.success(successMessage);
+      
+      confirm({
+        title: "Ação Concluída",
+        description: successMessage,
+        type: "success",
+        confirmLabel: "Entendido",
+        onConfirm: () => {}
+      });
     } catch (error) {
       console.error("[admin] falha na ação", error);
-      toast.error(error instanceof Error ? error.message : "Não foi possível concluir a ação");
+      
+      confirm({
+        title: "Falha na Operação",
+        description: error instanceof Error ? error.message : "Não foi possível concluir a ação. Verifique a conexão e tente novamente.",
+        type: "warning",
+        confirmLabel: "Fechar",
+        onConfirm: () => {}
+      });
     } finally {
       setPending(null);
     }
