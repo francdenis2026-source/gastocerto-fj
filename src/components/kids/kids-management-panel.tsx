@@ -106,6 +106,12 @@ export function KidsManagementPanel() {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 15;
 
+  // Filtros do histórico (criança, tipo de movimentação e intervalo de datas)
+  const [histKidId, setHistKidId] = useState<string>("all");
+  const [histKind, setHistKind] = useState<string>("all");
+  const [histStart, setHistStart] = useState<string>("");
+  const [histEnd, setHistEnd] = useState<string>("");
+
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -115,13 +121,19 @@ export function KidsManagementPanel() {
   const kidUserIds = useMemo(() => kids.map(k => k.kid_user_id), [kids]);
   useParentKidsRealtime(user?.id, kidUserIds);
 
+  const effectiveKidId = histKidId !== "all" ? histKidId : selectedKidId;
+  const useRange = Boolean(histStart && histEnd);
+
   const metrics = useQuery({
-    queryKey: ["kids_financial_metrics", selectedKidId, new Date().getMonth(), new Date().getFullYear(), page],
+    queryKey: ["kids_financial_metrics", effectiveKidId, histKind, histStart, histEnd, new Date().getMonth(), new Date().getFullYear(), page],
     queryFn: () => fetchMetrics({ 
       data: { 
-        dependentId: selectedKidId === "all" ? undefined : selectedKidId,
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
+        dependentId: effectiveKidId === "all" ? undefined : effectiveKidId,
+        month: useRange ? undefined : new Date().getMonth() + 1,
+        year: useRange ? undefined : new Date().getFullYear(),
+        kind: histKind,
+        startDate: useRange ? histStart : undefined,
+        endDate: useRange ? histEnd : undefined,
         page,
         pageSize: PAGE_SIZE
       } 
@@ -129,6 +141,7 @@ export function KidsManagementPanel() {
     refetchOnWindowFocus: true,
     staleTime: 5000,
   });
+
 
   const giveMoneyMutation = useMutation({
     mutationFn: useServerFn(giveMoneyToKid),
