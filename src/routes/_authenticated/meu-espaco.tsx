@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight } from "lucide-react";
+import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight, Plus, Gift } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
@@ -607,44 +607,48 @@ function KidSpacePage() {
         </div>
 
         {visibility.goals && (
-          <section className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-                <Target className={cn("size-4", accent.text)} aria-hidden="true" /> Metas e Educação Financeira
+          <section className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                <Target className="size-3.5" /> Metas
               </h2>
             </div>
             {(goals.data ?? []).length === 0 && (
-              <div className="rounded-2xl border border-dashed border-border p-4 text-center">
-                 <p className="text-[10px] text-muted-foreground">Você ainda não tem metas. Peça ao seu responsável para criar uma!</p>
+              <div className="rounded-[2rem] border border-dashed border-border p-8 text-center bg-muted/20">
+                 <p className="text-[11px] font-bold text-muted-foreground opacity-60">Nenhuma meta ativa</p>
               </div>
             )}
-            {(goals.data ?? []).map((goal) => {
-              const progress = goal.target_amount
-                ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))
-                : 0;
-              return (
-                <div key={goal.id} className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold tracking-tight">{goal.title}</p>
-                    <span className={cn("text-[11px] font-semibold tabular-nums", accent.text)}>{progress}%</span>
+            <div className="grid gap-3">
+              {(goals.data ?? []).map((goal) => {
+                const progress = goal.target_amount
+                  ? Math.min(100, Math.round((Number(goal.current_amount) / Number(goal.target_amount)) * 100))
+                  : 0;
+                return (
+                  <div key={goal.id} className="rounded-[2rem] border border-border bg-card p-4 shadow-sm group hover:border-primary/30 transition-all">
+                    <div className="flex items-center justify-between mb-3 px-1">
+                      <div>
+                        <p className="text-xs font-black tracking-tight">{goal.title}</p>
+                        <p className="text-[9px] font-bold text-muted-foreground mt-0.5">
+                          {formatCurrency(Number(goal.current_amount))} de {formatCurrency(Number(goal.target_amount))}
+                        </p>
+                      </div>
+                      <div className={cn("size-10 rounded-full flex items-center justify-center font-black text-xs border shadow-inner", accent.iconBg)}>
+                        {progress}%
+                      </div>
+                    </div>
+                    <div className="h-2.5 overflow-hidden rounded-full bg-muted/50 p-0.5 border border-border/50 shadow-inner">
+                      <div className="h-full rounded-full bg-primary shadow-[0_0_10px_rgba(var(--primary),0.3)] transition-all duration-1000" style={{ width: `${progress}%` }} />
+                    </div>
+                    {goal.reward && (
+                      <div className="mt-3 flex items-center gap-1.5 px-1">
+                        <Gift className="size-3 text-amber-500" />
+                        <p className="text-[9px] font-bold text-amber-600 dark:text-amber-400">Recompensa: {goal.reward}</p>
+                      </div>
+                    )}
                   </div>
-                  <div
-                    className="mt-2.5 h-2 overflow-hidden rounded-full bg-muted"
-                    role="progressbar"
-                    aria-valuenow={progress}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={`Progresso da meta ${goal.title}`}
-                  >
-                    <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
-                  </div>
-                  <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-                    {formatCurrency(Number(goal.current_amount))} de {formatCurrency(Number(goal.target_amount))}
-                    {goal.reward ? ` · Recompensa: ${goal.reward}` : ""}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </section>
         )}
 
@@ -704,86 +708,61 @@ function KidSpacePage() {
         )}
 
         {visibility.history ? (
-
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold tracking-tight">Histórico de movimentações</h2>
-            {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
-          </div>
-          {rows.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm leading-relaxed text-muted-foreground">
-              Nenhuma movimentação registrada até agora. Use “Novo registro” para começar.
-            </p>
-          ) : (
-            <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-              {rows.map((row) => (
-                <li key={row.id} className="group flex items-center justify-between gap-3 p-3.5 transition-colors hover:bg-muted/40">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-medium">
+          <section className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">Histórico</h2>
+              {visibility.siblings ? <KidSiblingAvatars dependentId={dependent.id} /> : null}
+            </div>
+            {rows.length === 0 ? (
+              <div className="rounded-[2rem] border border-dashed border-border p-8 text-center bg-muted/20">
+                 <p className="text-[11px] font-bold text-muted-foreground opacity-60">Nenhum registro</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {rows.map((row) => (
+                  <div key={row.id} className="group flex items-center justify-between gap-3 p-4 rounded-[1.5rem] border border-border bg-card shadow-sm transition-all hover:border-primary/20">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-black tracking-tight">
                         {row.tags?.some(t => t.startsWith("from_parent") || t.startsWith("parent_desc:")) 
-                          ? "Recebido do responsável" 
-                          : row.description}
+                          ? "💰 Recebido do responsável" 
+                          : row.transaction_type === "income" ? "📈 Ganho" : "🛍️ " + row.description}
                       </p>
-                      <button
-                        type="button"
-                        disabled={!online}
-                        onClick={() => {
-                          if (!online) {
-                            toast.warning("Sem internet", {
-                              description: "O aviso ao responsável precisa de conexão. Tente novamente quando a rede voltar.",
-                            });
-                            return;
-                          }
-                          toast.info("Solicitação registrada", {
-                            description: "Seu responsável foi avisado e vai revisar este lançamento.",
-                          });
-                        }}
-                        className={cn(
-                          "shrink-0 rounded-md px-1 text-[10px] font-semibold underline-offset-2 transition-opacity hover:underline focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          "opacity-0 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-40",
-                          accent.text,
-                        )}
-                      >
-                        Solicitar correção
-                      </button>
+                      <p className="mt-0.5 text-[9px] font-bold uppercase text-muted-foreground opacity-60">
+                        {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "short",
+                        })}
+                      </p>
                     </div>
-                    <p className="mt-0.5 text-[11px] font-medium capitalize text-muted-foreground">
-                      {new Date(`${row.transaction_date}T12:00:00`).toLocaleDateString("pt-BR", {
-                        day: "2-digit",
-                        month: "long",
-                      })}
-                    </p>
+
+                    <div className="text-right">
+                      <span className={cn(
+                        "text-sm font-black tabular-nums",
+                        row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
+                      )}>
+                        {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(Number(row.amount))}
+                      </span>
+                      <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          disabled={!online}
+                          onClick={() => {
+                            if (!online) return;
+                            toast.info("Avisamos seu responsável!", {
+                              description: "Ele vai revisar este lançamento em breve.",
+                            });
+                          }}
+                          className={cn("text-[8px] font-black uppercase tracking-widest underline decoration-2 underline-offset-2", accent.text)}
+                        >
+                          Corrigir
+                        </button>
+                      </div>
+                    </div>
                   </div>
-
-                  <span
-                    className={cn(
-                      "shrink-0 text-sm font-semibold tabular-nums",
-                      row.transaction_type === "income" ? POSITIVE_TEXT : NEGATIVE_TEXT,
-                    )}
-                  >
-                    {row.transaction_type === "income" ? "+" : "−"} {formatCurrency(Number(row.amount))}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="mt-2 flex justify-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-2 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
-              onClick={() => {
-                toast.info("Encontrou uma informação errada?", {
-                  description: "Passe o cursor sobre o lançamento e toque em “Solicitar correção”.",
-                });
-              }}
-            >
-              <HelpCircle className="size-3.5" aria-hidden="true" /> Como corrigir um lançamento
-            </Button>
-          </div>
-        </section>
-
+                ))}
+              </div>
+            )}
+          </section>
         ) : null}
       </div>
 
