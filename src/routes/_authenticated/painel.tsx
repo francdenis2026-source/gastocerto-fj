@@ -878,6 +878,7 @@ function DashboardPage() {
                  kids={<KidsManagementPanel />}
                />
             </div>
+          </div>
         )}
 
       
@@ -1116,6 +1117,17 @@ function DashboardPage() {
                           {row.transaction_type === "income" ? "+" : "−"}
                           {formatCurrency(Number(row.amount))}
                         </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <Button asChild variant="ghost" size="sm" className="mt-4">
+                  <Link to="/lancamentos" search={() => ({})}>
+                    Ver todas
+                    <ArrowRight className="ml-1 size-4" />
+                  </Link>
+                </Button>
+              </div>
                       </li>
                     ))}
                   </ul>
