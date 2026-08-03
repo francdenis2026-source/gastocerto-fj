@@ -78,7 +78,7 @@ const ClosingPolicyPanel = lazy(() =>
 const ReopenRequestsPanel = lazy(() =>
   import("@/components/admin/reopen-requests-panel").then((m) => ({ default: m.ReopenRequestsPanel })),
 );
-const AuditLogsPanel = lazy(() =>
+const AuditLogsPanelComponent = lazy(() =>
   import("@/components/admin/audit-logs-panel").then((m) => ({ default: m.AuditLogsTable })),
 );
 const PermissionsPanel = lazy(() =>
@@ -91,7 +91,7 @@ const IntegrationsPanel = lazy(() =>
   import("@/components/admin/integrations-panel").then((m) => ({ default: m.IntegrationsPanel })),
 );
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
-import { AuditLogsTable as AuditLogsPanel } from "@/components/admin/audit-logs-panel";
+
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -224,7 +224,7 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
               <ProfileAuditPanel />
               <RedemptionHistoryPanel />
             </div>
-            <AuditLogsPanel globalSearch={search} />
+            <AuditLogsPanelComponent globalSearch={search} />
           </div>
         ) : null}
         {current === "security" ? (
