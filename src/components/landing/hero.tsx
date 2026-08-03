@@ -91,17 +91,18 @@ export function Hero() {
         src={heroMobileBg}
         alt=""
         aria-hidden="true"
-        width={768}
-        height={1344}
+        width={828}
+        height={1472}
         fetchPriority="high"
         decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover object-center sm:hidden"
+        className="absolute inset-0 -z-20 size-full object-cover object-[50%_28%] sm:hidden"
       />
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.88),oklch(0.14_0.02_252/0.65)_55%,oklch(0.14_0.02_252/0.92))] backdrop-blur-[4px] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.95)_0%,oklch(0.13_0.02_252/0.78)_46%,oklch(0.14_0.02_252/0.32)_100%)] sm:backdrop-blur-[3px]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.14_0.02_252/0.92),oklch(0.14_0.02_252/0.78)_50%,oklch(0.14_0.02_252/0.95))] backdrop-blur-[6px] sm:bg-[linear-gradient(100deg,oklch(0.13_0.02_252/0.95)_0%,oklch(0.13_0.02_252/0.78)_46%,oklch(0.14_0.02_252/0.32)_100%)] sm:backdrop-blur-[3px]"
       />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[linear-gradient(180deg,transparent,oklch(0.15_0.026_252))]"
