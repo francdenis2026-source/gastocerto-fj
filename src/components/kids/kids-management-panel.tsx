@@ -451,13 +451,18 @@ export function KidsManagementPanel() {
             {/* Form & Stats */}
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-2">
-                <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Total Enviado</p>
-                  <p className="text-lg font-black text-primary">{formatCurrency(stats.totalSent)}</p>
+                <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mb-1">Total Enviado</p>
+                  <p className="text-lg font-black text-emerald-600">{formatCurrency(stats.totalSent)}</p>
+                  <p className="text-[8px] text-emerald-600/60 mt-0.5 leading-none">Saída real da conta</p>
                 </div>
                 <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Gasto p/ Filhos</p>
-                  <p className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-rose-600 mb-1">Gasto p/ Filhos</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-lg font-black text-rose-600">{formatCurrency(stats.totalKidSpent)}</p>
+                    <div className="px-1.5 py-0.5 rounded bg-rose-500/10 text-[8px] font-bold text-rose-600 border border-rose-500/20 uppercase">Informativo</div>
+                  </div>
+                  <p className="text-[8px] text-rose-600/60 mt-0.5 leading-none">Não altera seu saldo</p>
                 </div>
               </div>
 
