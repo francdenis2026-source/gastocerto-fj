@@ -323,7 +323,7 @@ function AuthPage() {
                         <div className="w-full border-t border-border"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-muted-foreground/70">Acesso Infantil</span>
+                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-bold dark:text-muted-foreground/70">Acesso Infantil</span>
                       </div>
                     </div>
 
