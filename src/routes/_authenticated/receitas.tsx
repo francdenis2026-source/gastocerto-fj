@@ -21,7 +21,8 @@ import {
 import { formatCurrency, formatDate } from "@/lib/format";
 import { monthRange, periodDefaultDate } from "@/lib/finance";
 import { useCategories } from "@/lib/queries";
-import { useDeleteTransaction, useTransactions, type Transaction } from "@/lib/transactions";
+import { useTransactions, type Transaction } from "@/lib/transactions";
+import { useUndoableDelete } from "@/lib/undo-delete";
 
 export const Route = createFileRoute("/_authenticated/receitas")({
   head: () => ({
@@ -46,7 +47,7 @@ function IncomePage() {
   const range = monthRange(period.year, period.month);
   const { data: transactions, isLoading } = useTransactions(range);
   const { data: categories } = useCategories();
-  const remove = useDeleteTransaction();
+  const { requestDelete } = useUndoableDelete();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Transaction | null>(null);
@@ -81,13 +82,7 @@ function IncomePage() {
   }, [incomes, categoryNames]);
 
   async function handleDelete(id: string) {
-    try {
-      await remove.mutateAsync([id]);
-      toast.success("Receita excluída.");
-    } catch (error) {
-      console.error("[receitas] falha ao excluir", error);
-      toast.error("Não foi possível excluir.");
-    }
+    await requestDelete([id]);
   }
 
   return (
