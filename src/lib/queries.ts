@@ -16,32 +16,42 @@ export function useProfile() {
     enabled: Boolean(user?.id),
     staleTime: 5 * 60_000,
     queryFn: async (): Promise<any | null> => {
+      // Perfil + plano. A licença é buscada em separado porque não existe
+      // relacionamento declarado entre licenças e contas: pedir o vínculo
+      // dentro desta consulta fazia a requisição falhar e a tela do cliente
+      // ficava presa em "carregando".
       const { data, error } = await supabase
         .from("profiles")
-        .select(`
-          *,
-          plan:plans(id, name, slug, monthly_price, annual_price, tier),
-          license:licenses!licenses_user_id_fkey(id, status, license_key, expires_at, source, amount)
-        `)
+        .select("*, plan:plans(id, name, slug, monthly_price, annual_price, tier)")
         .eq("user_id", user!.id)
         .maybeSingle();
       if (error) throw error;
       if (!data) return null;
 
       const p = data as any;
-      const activeLicense = (p.license ?? []).find((l: any) => l.status === 'active');
+
+      const { data: licenses } = await supabase
+        .from("licenses")
+        .select("id, status, license_key, expires_at, source, amount")
+        .eq("user_id", user!.id)
+        .order("issued_at", { ascending: false });
+
+      const list = licenses ?? [];
+      const activeLicense = list.find((l: any) => l.status === "active");
 
       return {
         ...p,
+        license: list,
         plan_slug: p.plan?.slug,
         plan_tier: p.plan?.tier,
         plan_price: p.plan?.monthly_price,
         has_paid_license: Boolean(activeLicense),
-        paid_plan_slug: activeLicense ? p.plan?.slug : null
+        paid_plan_slug: activeLicense ? p.plan?.slug : null,
       };
     },
   });
 }
+
 
 
 export function useRoles() {

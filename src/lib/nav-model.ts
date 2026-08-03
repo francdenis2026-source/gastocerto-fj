@@ -198,8 +198,8 @@ export const navSections: NavSection[] = [
 
 export const adminNavGroups: NavGroup[] = [
   { key: "admin", label: "Administração", to: "/admin", icon: ShieldCheck, hint: "Usuários, licenças e ajustes" },
-  { key: "profile", label: "Minha conta", to: "/perfil", icon: User2 },
 ];
+
 
 export const staffNavGroup: NavGroup = {
   key: "admin",
