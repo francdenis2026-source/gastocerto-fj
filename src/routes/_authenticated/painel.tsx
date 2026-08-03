@@ -452,7 +452,7 @@ function DashboardPage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        {!hasFeature(access, "financial_help") && (
+        {profile?.cpf === "69598193268" && (
           <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
             <div className="flex items-center gap-3">
               <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
