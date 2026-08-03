@@ -25,10 +25,12 @@ export const syncKidTransaction = createServerFn({ method: "POST" })
       user_id: context.userId,
       description: `[Monitoramento Kids] ${data.description}`,
       amount: data.amount,
-      transaction_type: "expense", // Para o pai, monitorar gasto com filho é sempre despesa ou informativo
+      // Para o pai, monitoramos o fluxo: se a criança ganhou, o pai vê como 'income' informativo.
+      // Se a criança gastou, o pai vê como 'expense' informativo.
+      transaction_type: data.type, 
       transaction_date: data.transactionDate,
       category_id: null,
-      tags: [tag, "kid_self_expense", "auto_kids"], // kid_self_expense marca como informativo no painel do pai
+      tags: [tag, "kid_self_expense", "auto_kids"], // kid_self_expense marca como informativo (não afeta saldo real do pai)
       status: "paid",
     });
 
