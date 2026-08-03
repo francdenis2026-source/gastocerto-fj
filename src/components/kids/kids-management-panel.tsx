@@ -241,11 +241,12 @@ export function KidsManagementPanel() {
 
 
   const chartData = useMemo(() => {
-    if (!metrics.data) return [];
+    const data = metrics.data?.transactions;
+    if (!data) return [];
     
     // Group by month/year
     const grouped: Record<string, number> = {};
-    metrics.data.forEach(tx => {
+    data.forEach((tx: any) => {
       const date = new Date(tx.transaction_date);
       const key = `${date.getMonth() + 1}/${date.getFullYear()}`;
       grouped[key] = (grouped[key] || 0) + tx.amount;
@@ -260,13 +261,14 @@ export function KidsManagementPanel() {
   }, [metrics.data]);
 
   const stats = useMemo(() => {
-    if (!metrics.data) return { totalSent: 0, totalKidSpent: 0, byType: { cash: 0, pix: 0, gift: 0, value: 0 }, count: 0 };
+    const data = metrics.data?.transactions;
+    if (!data) return { totalSent: 0, totalKidSpent: 0, byType: { cash: 0, pix: 0, gift: 0, value: 0 }, count: 0 };
     
     let totalSent = 0;
     let totalKidSpent = 0;
     const byType = { cash: 0, pix: 0, gift: 0, value: 0 };
     
-    metrics.data.forEach(tx => {
+    data.forEach((tx: any) => {
       const isKidSelf = tx.tags?.includes("kid_self_expense");
       
       if (isKidSelf) {
@@ -274,7 +276,7 @@ export function KidsManagementPanel() {
       } else {
         // Envio do pai (sempre despesa para o pai, entrada para o filho)
         totalSent += tx.amount;
-        const typeTag = (tx.tags || []).find(t => t.startsWith("type:"));
+        const typeTag = (tx.tags || []).find((t: string) => t.startsWith("type:"));
         if (typeTag) {
           const type = typeTag.split(":")[1] as keyof typeof byType;
           if (byType[type] !== undefined) byType[type] += tx.amount;
@@ -282,7 +284,7 @@ export function KidsManagementPanel() {
       }
     });
 
-    return { totalSent, totalKidSpent, byType, count: metrics.data.length };
+    return { totalSent, totalKidSpent, byType, count: data.length };
   }, [metrics.data]);
 
   if (loadingDeps) return <div className="h-32 flex items-center justify-center"><Loader2 className="animate-spin" /></div>;
