@@ -419,7 +419,16 @@ export function MetricDetailDialog({
                             aria-label={`Excluir ${row.description}`}
                             title="Excluir lançamento"
                             className="shrink-0 px-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            onClick={() => setPendingDelete(row)}
+                            title={permission.reason ?? undefined}
+                            onClick={() => {
+                              if (!permission.allowed) {
+                                toast.error("Exclusão não permitida", {
+                                  description: permission.reason ?? undefined,
+                                });
+                                return;
+                              }
+                              setPendingDelete(row);
+                            }}
                           >
                             <Trash2 className="size-3.5" />
                           </button>
@@ -430,7 +439,15 @@ export function MetricDetailDialog({
                               transaction={row}
                               categoryName={category?.name}
                               onEdit={onEditTransaction}
-                              onRequestDelete={setPendingDelete}
+                              onRequestDelete={(tx) => {
+                                if (!permission.allowed) {
+                                  toast.error("Exclusão não permitida", {
+                                    description: permission.reason ?? undefined,
+                                  });
+                                  return;
+                                }
+                                setPendingDelete(tx);
+                              }}
                             />
                           </div>
                         ) : null}
@@ -455,14 +472,14 @@ export function MetricDetailDialog({
           if (!value) setPendingDelete(null);
         }}
         title="Excluir este lançamento?"
-        description="O valor sai na hora deste detalhamento, dos gráficos, dos totais e do saldo do período."
+        description="O valor sai na hora deste detalhamento, dos gráficos, dos totais e do saldo do período. Você pode desfazer por até 10 minutos."
         itemLabel={pendingDelete?.description ?? null}
         amountLabel={
           pendingDelete
             ? `${pendingDelete.transaction_type === "income" ? "+" : "−"} ${formatCurrency(Number(pendingDelete.amount))}`
             : null
         }
-        pending={deleteTransaction.isPending}
+        pending={deletePending}
         onConfirm={confirmDelete}
       />
     </Dialog>
