@@ -597,24 +597,30 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
     <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="signup-name">Nome Completo</Label>
-        <Input id="signup-name" name="fullName" required />
+        <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
+        <Input id="signup-name" name="fullName" required className="mt-1" />
       </div>
       <div>
-        <Label htmlFor="signup-cpf">CPF</Label>
-        <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        <Label htmlFor="signup-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
+        <div className="mt-1">
+          <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} />
+        </div>
       </div>
       <div>
-        <Label htmlFor="signup-email">E-mail de contato (opcional)</Label>
-        <Input id="signup-email" name="contactEmail" type="email" />
+        <Label htmlFor="signup-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail de contato (opcional)</Label>
+        <Input id="signup-email" name="contactEmail" type="email" className="mt-1" />
       </div>
       <div>
-        <Label htmlFor="signup-pin">Senha (6 dígitos)</Label>
-        <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
+        <Label htmlFor="signup-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
+        <div className="mt-1">
+          <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
+        </div>
       </div>
       <div>
-        <Label htmlFor="signup-confirm-pin">Confirmar Senha</Label>
-        <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
+        <Label htmlFor="signup-confirm-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Confirmar Senha</Label>
+        <div className="mt-1">
+          <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
+        </div>
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
