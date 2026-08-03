@@ -1276,47 +1276,6 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 </p>
               </div>
             )}
-                    type="button"
-                    size="sm"
-                    variant="secondary"
-                    className="w-full text-[10px] h-8 px-1"
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = qr;
-                      link.download = `qr-acesso-${dependent.name.toLowerCase().replace(/\s+/g, '-')}.png`;
-                      link.click();
-                    }}
-                  >
-                    <Download className="mr-1 size-3" /> PNG
-                  </Button>
-                </div>
-
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="mt-2 w-full text-[11px]"
-                  onClick={reloadQr}
-                >
-                  <RefreshCw className="mr-1.5 size-3.5" /> Reexibir QR
-                </Button>
-
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="ghost"
-                  className="mt-2 w-full text-[11px]"
-                  disabled={busy}
-                  onClick={() => persist(suggestKidCode(dependent.name), "rotated")}
-                >
-                  <KeyRound className="mr-1.5 size-3.5" /> Novo código
-                </Button>
-              </>
-            ) : (
-              <p className="mt-3 text-[11px] text-muted-foreground">
-                Libere o acesso para gerar o QR code de entrada.
-              </p>
-            )}
           </aside>
         </div>
       </div>
