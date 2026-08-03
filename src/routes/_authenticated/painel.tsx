@@ -499,23 +499,27 @@ function DashboardPage() {
         </div>
 
         {!hasFeature(access, "financial_help") && (
-          <div className="rounded-3xl border border-banner-amber-border bg-banner-amber-bg/30 p-4 mb-2 flex items-center justify-between backdrop-blur-sm shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="size-10 rounded-2xl bg-banner-amber-icon/10 flex items-center justify-center shrink-0">
-                <Sparkles className="size-5 text-banner-amber-icon" />
-              </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="size-4 shrink-0 text-muted-foreground" />
               <div>
-                <p className="text-xs font-black uppercase tracking-widest text-banner-amber-text">Consultoria IA</p>
-                <p className="text-[10px] text-banner-amber-text/70 font-bold leading-tight max-w-[280px]">
-                  Estratégias exclusivas para investir e sair das dívidas no plano Premium.
+                <p className="text-sm font-semibold">
+                  Consultoria IA
+                  <span className="ml-2 rounded-md border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                    Premium
+                  </span>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Análise técnica de dívidas, orçamento e projeções disponível nos planos pagos.
                 </p>
               </div>
             </div>
-            <Button asChild variant="outline" size="sm" className="border-banner-amber-border/50 text-banner-amber-text hover:bg-banner-amber-bg rounded-xl h-9 px-4 text-[10px] font-black uppercase tracking-wider">
-              <Link to="/perfil">Upgrade</Link>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/perfil">Ver planos</Link>
             </Button>
           </div>
         )}
+
 
 
 
