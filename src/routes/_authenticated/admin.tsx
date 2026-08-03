@@ -69,6 +69,10 @@ const AdminAccessPanel = lazy(() =>
 const BlockedIpsPanel = lazy(() =>
   import("@/components/admin/blocked-ips-panel").then((m) => ({ default: m.BlockedIpsPanel })),
 );
+const MasterCodePanel = lazy(() =>
+  import("@/components/admin/master-code-panel").then((m) => ({ default: m.MasterCodePanel })),
+);
+
 const CategoriesCatalogPanel = lazy(() =>
   import("@/components/admin/categories-panel").then((m) => ({ default: m.CategoriesCatalogPanel })),
 );
@@ -229,8 +233,10 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
         ) : null}
         {current === "security" ? (
           <div className="space-y-4">
+            <MasterCodePanel />
             <AdminAccessPanel />
             <BlockedIpsPanel />
+
           </div>
         ) : null}
         {current === "integrations" ? <IntegrationsPanel /> : null}

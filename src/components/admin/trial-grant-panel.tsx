@@ -20,6 +20,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { maskCpf } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format";
 import { adminGrantTrial } from "@/lib/plan.functions";
+import { verifyMasterCode } from "@/lib/master-code.functions";
+
 import { TRIAL_OPTIONS, type TrialSlug } from "@/lib/plan-features";
 
 type Row = {
@@ -32,10 +34,23 @@ type Row = {
 
 export function TrialGrantPanel() {
   const grant = useServerFn(adminGrantTrial);
+  const verifyCode = useServerFn(verifyMasterCode);
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [slug, setSlug] = useState<TrialSlug>("trial_14");
   const [customDays, setCustomDays] = useState(1);
+
+  /** Valida o código mestre no servidor (hash seguro / segredo de ambiente). */
+  async function checkMasterCode(code: string) {
+    try {
+      await verifyCode({ data: { code: code.trim() } });
+      return true;
+    } catch {
+      toast.error("Código mestre incorreto.");
+      return false;
+    }
+  }
+
 
   const users = useQuery({
     queryKey: ["admin", "trial-users"],
@@ -183,17 +198,15 @@ export function TrialGrantPanel() {
                   disabled={mutation.isPending}
                   onClick={async () => {
                     if (!window.confirm("ATENÇÃO: Bloquear o usuário impedirá seu acesso imediato e enviará uma notificação crítica. Continuar?")) return;
-                    
-                    const pin = window.prompt("Digite o código mestre para confirmar a suspensão:");
-                    if (pin !== 'ADMIN123456') {
-                       toast.error("Código incorreto.");
-                       return;
-                    }
+
+                    const code = window.prompt("Digite o código mestre para confirmar a suspensão:");
+                    if (!code || !(await checkMasterCode(code))) return;
 
                     await supabase.from("profiles").update({ status: 'suspended' }).eq("user_id", row.user_id);
                     toast.success("Usuário bloqueado e deslogado com sucesso.");
                     void queryClient.invalidateQueries({ queryKey: ["admin", "trial-users"] });
                   }}
+
                 >
                   Bloquear
                 </Button>
@@ -217,11 +230,9 @@ export function TrialGrantPanel() {
                   onClick={async () => {
                     if (!window.confirm(`TEM CERTEZA? Esta ação excluirá PERMANENTEMENTE a conta de ${row.full_name || 'este usuário'} e todos os seus dados. Esta ação não pode ser desfeita.`)) return;
                     
-                    const pin = window.prompt("Digite o código mestre para confirmar a EXCLUSÃO DEFINITIVA:");
-                    if (pin !== 'ADMIN123456') {
-                       toast.error("Código incorreto.");
-                       return;
-                    }
+                    const code = window.prompt("Digite o código mestre para confirmar a EXCLUSÃO DEFINITIVA:");
+                    if (!code || !(await checkMasterCode(code))) return;
+
 
                     try {
                       const { adminDeleteUser } = await import("@/lib/admin-users.functions");
