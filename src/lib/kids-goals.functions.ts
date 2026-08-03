@@ -37,13 +37,13 @@ export const saveKidGoal = createServerFn({ method: "POST" })
     if (id) {
       const { error } = await supabaseAdmin
         .from("kid_goals")
-        .update({ title, target_amount: targetAmount, period, updated_at: new Date().toISOString() })
+        .update({ title, target_amount: targetAmount, period, updated_at: new Date().toISOString() } as any)
         .eq("id", id);
       if (error) throw error;
     } else {
       const { error } = await supabaseAdmin
         .from("kid_goals")
-        .insert({ dependent_id: dependentId, title, target_amount: targetAmount, period });
+        .insert({ dependent_id: dependentId, title, target_amount: targetAmount, period } as any);
       if (error) throw error;
     }
     
@@ -58,7 +58,7 @@ export const deleteKidGoal = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { error } = await supabaseAdmin
       .from("kid_goals")
-      .update({ deleted_at: new Date().toISOString() })
+      .update({ deleted_at: new Date().toISOString() } as any)
       .eq("id", data.id);
     if (error) throw error;
     return { success: true };
@@ -76,8 +76,8 @@ export const updateKidSettings = createServerFn({ method: "POST" })
     const { error } = await supabaseAdmin
       .from("dependents")
       .update({ 
-        monthly_limit: data.lowBalanceAlertThreshold // Reusing monthly_limit for low balance alert threshold for now
-      })
+        monthly_limit: data.lowBalanceAlertThreshold 
+      } as any)
       .eq("id", data.dependentId)
       .eq("user_id", context.userId);
     
