@@ -338,7 +338,7 @@ function GoalDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4" key={goal?.id ?? "new"}>
+        <form autoComplete="off" data-1p-ignore onSubmit={handleSubmit} className="space-y-4" key={goal?.id ?? "new"}>
           <div>
             <Label htmlFor="goal-name">Nome</Label>
             <Input
@@ -488,7 +488,7 @@ function ContributionDialog({ goal, onClose }: { goal: Goal | null; onClose: () 
           <DialogTitle>Registrar aporte</DialogTitle>
           <DialogDescription>{goal?.name}</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form autoComplete="off" data-1p-ignore onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="contribution-amount">Valor</Label>
             <MoneyInput

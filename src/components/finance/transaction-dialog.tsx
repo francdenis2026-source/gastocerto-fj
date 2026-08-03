@@ -547,7 +547,7 @@ export function TransactionDialog({
 
         </DialogHeader>
 
-        <form
+        <form autoComplete="off" data-1p-ignore
           ref={formRef}
           onSubmit={handleSubmit}
           onKeyDown={handleFormKeyDown}

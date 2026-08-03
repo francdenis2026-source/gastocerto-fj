@@ -183,7 +183,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative isolate grid min-h-dvh w-full place-items-center overflow-x-hidden p-3 sm:p-4 lg:h-dvh lg:min-h-0 lg:overflow-hidden">
+    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-2 sm:p-4 lg:grid lg:place-items-center">
       {/* Imagem de fundo global para o layout - Visível em todas as resoluções */}
       <img
         src={authHero}
@@ -198,9 +198,9 @@ function AuthPage() {
       />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
-        <section className="relative flex min-h-[160px] flex-col justify-between overflow-hidden lg:min-h-0">
+        <section className="relative flex min-h-[140px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
           {/* Imagem Hero específica para cada modo */}
           <img
             src={
@@ -302,7 +302,7 @@ function AuthPage() {
             </Link>
           </div>
 
-          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
+          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
@@ -533,7 +533,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
@@ -621,7 +621,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate autoComplete="off">
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
@@ -701,7 +701,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
       <div className="text-center">
         <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
         <p className="text-[12px] text-muted-foreground">Área restrita para gestores do sistema.</p>
@@ -864,7 +864,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading}>
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
       <div className="flex items-center justify-center gap-2">
         <Baby className="size-5 shrink-0 text-primary" aria-hidden />
         <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>

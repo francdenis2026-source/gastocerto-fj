@@ -138,7 +138,7 @@ export function PasswordConfirmDialog({
           </div>
         ) : null}
 
-        <form className="space-y-3" onSubmit={handleConfirm}>
+        <form autoComplete="off" data-1p-ignore className="space-y-3" onSubmit={handleConfirm}>
           <div className="space-y-1.5">
             <Label htmlFor="confirm-password">Senha da sua conta</Label>
             <Input

@@ -87,7 +87,7 @@ export function FilterPresets({
       </div>
 
       {naming ? (
-        <form
+        <form autoComplete="off" data-1p-ignore
           className="flex items-center gap-1.5"
           onSubmit={(event) => {
             event.preventDefault();

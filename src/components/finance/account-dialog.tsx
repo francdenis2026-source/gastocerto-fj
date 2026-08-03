@@ -85,7 +85,7 @@ export function AccountDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form autoComplete="off" data-1p-ignore onSubmit={handleSubmit} className="space-y-3">
           <div>
             <Label htmlFor="account-name">Nome</Label>
             <Input

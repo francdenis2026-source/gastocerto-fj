@@ -178,7 +178,7 @@ export function RecurringDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2" noValidate>
+        <form autoComplete="off" data-1p-ignore onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2" noValidate>
           {!rule ? (
             <div className="sm:col-span-2">
               <Label className="text-xs text-muted-foreground">Modelos prontos</Label>

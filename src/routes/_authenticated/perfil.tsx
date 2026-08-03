@@ -330,7 +330,7 @@ function ProfilePage() {
 
 
               <TabsContent value="profile" className="space-y-4 mt-0">
-                <form
+                <form autoComplete="off" data-1p-ignore
                   onSubmit={handleSubmit}
                   className="accent-tile rounded-2xl p-4 shadow-soft sm:p-5"
                   noValidate

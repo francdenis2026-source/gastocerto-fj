@@ -107,7 +107,7 @@ export function VehicleDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2" noValidate>
+        <form autoComplete="off" data-1p-ignore onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2" noValidate>
           <div className="sm:col-span-2">
             <Label htmlFor="vehicle-name">Nome</Label>
             <Input
