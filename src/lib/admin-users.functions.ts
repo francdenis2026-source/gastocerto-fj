@@ -355,3 +355,74 @@ export const adminSetAccessLimit = createServerFn({ method: "POST" })
 
     return { ok: true, days: data.days };
   });
+
+const createUserSchema = z.object({
+  fullName: z.string().trim().min(2).max(120),
+  cpf: z.string().min(11).max(14),
+  pin: z.string().regex(/^\d{6}$/),
+  contactEmail: z.string().email().max(160).optional().or(z.literal("")),
+  planSlug: z.enum(["free", "premium", "premium_ia"]).default("free"),
+});
+
+/** Cria uma conta de cliente diretamente pelo painel administrativo. */
+export const adminCreateUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => createUserSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { cpfToLoginEmail, pinToPassword, onlyDigits, isValidCpf } = await import("@/lib/cpf");
+    const cpf = onlyDigits(data.cpf);
+    if (!isValidCpf(cpf)) throw new Error("CPF inválido. Confira os dígitos informados.");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+      email: cpfToLoginEmail(cpf),
+      password: pinToPassword(cpf, data.pin),
+      email_confirm: true,
+      user_metadata: {
+        full_name: data.fullName,
+        cpf,
+        contact_email: data.contactEmail || null,
+      },
+    });
+
+    if (error || !created?.user) {
+      const raw = (error?.message ?? "").toLowerCase();
+      if (raw.includes("already") || raw.includes("registered") || raw.includes("duplicate")) {
+        throw new Error("Já existe uma conta cadastrada com este CPF.");
+      }
+      throw new Error(error?.message || "Não foi possível criar a conta.");
+    }
+
+    const newUserId = created.user.id;
+
+    const { data: plan } = await supabaseAdmin
+      .from("plans")
+      .select("id")
+      .eq("slug", data.planSlug)
+      .maybeSingle();
+
+    await supabaseAdmin
+      .from("profiles")
+      .update({
+        full_name: data.fullName,
+        cpf,
+        contact_email: data.contactEmail || null,
+        status: "active",
+        ...(plan?.id ? { plan_id: plan.id } : {}),
+      })
+      .eq("user_id", newUserId);
+
+    await context.supabase
+      .from("admin_logs")
+      .insert({
+        actor_id: context.userId,
+        target_user_id: newUserId,
+        action: "create_user",
+        details: { cpf, plan: data.planSlug },
+      })
+      .then(() => undefined, () => undefined);
+
+    return { ok: true, userId: newUserId, cpf };
+  });
