@@ -281,6 +281,14 @@ export function TransactionDetailsDialog({
             <Button size="sm" variant="outline" onClick={handleExport}>
               <FileDown className="mr-2 size-3.5" /> PDF
             </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+              onClick={() => setConfirmDelete(true)}
+            >
+              <Trash2 className="mr-2 size-3.5" /> Excluir
+            </Button>
 
             {onEdit ? (
               <Button
@@ -297,11 +305,32 @@ export function TransactionDetailsDialog({
         </DialogContent>
       </Dialog>
 
+      <DeleteConfirmDialog
+        open={confirmDelete}
+        onOpenChange={setConfirmDelete}
+        title="Excluir este lançamento?"
+        description="O registro sai imediatamente dos relatórios, gráficos e saldos. Esta ação pode ser desfeita apenas pelo suporte."
+        itemLabel={transaction.description}
+        amountLabel={`${isIncome ? "+" : "−"} ${formatCurrency(Number(transaction.amount))}`}
+        pending={deleteTransaction.isPending}
+        onConfirm={async () => {
+          try {
+            await deleteTransaction.mutateAsync([transaction.id]);
+            setConfirmDelete(false);
+            onOpenChange(false);
+            toast.success("Lançamento excluído");
+          } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Não foi possível excluir");
+          }
+        }}
+      />
+
       <ReceiptViewer
         path={transaction.attachment_url}
         open={receiptOpen}
         onOpenChange={setReceiptOpen}
       />
     </>
+
   );
 }
