@@ -1,9 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff } from "lucide-react";
+import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
 import { useKidsAppMode } from "@/lib/kids-pwa";
+import { useAppUpdate } from "@/lib/pwa";
 
 
 import { useEffect, useState } from "react";
@@ -150,6 +151,7 @@ function KidSpacePage() {
 
   // Modo aplicativo/offline exclusivo do Espaço Kids.
   const { canInstall, online, install } = useKidsAppMode();
+  const { updateReady, applyUpdate } = useAppUpdate();
 
   // Preferência de tema exclusiva da criança (não altera a do responsável).
   const { theme: kidTheme, toggleTheme: toggleKidTheme } = useKidTheme(dependent?.id);
@@ -325,6 +327,37 @@ function KidSpacePage() {
         </Button>
       </div>
 
+      {/* Aviso discreto de nova versão do app instalado */}
+      {updateReady ? (
+        <div className="mx-auto mt-3 w-full max-w-2xl px-4 sm:px-6">
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2">
+            <p className="text-[12px] font-medium leading-snug text-foreground">
+              <RefreshCw className="mr-1.5 inline size-3.5 align-[-2px] text-primary" aria-hidden="true" />
+              Uma versão mais nova do Meu Espaço está pronta.
+            </p>
+            <Button size="sm" className="h-8 shrink-0 px-3 text-xs font-semibold" onClick={applyUpdate}>
+              Atualizar agora
+            </Button>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Modo offline: mensagem clara e explicação do que dá para fazer */}
+      {!online ? (
+        <div className="mx-auto mt-3 w-full max-w-2xl px-4 sm:px-6">
+          <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2.5">
+            <p className="flex items-center gap-1.5 text-[12px] font-semibold text-amber-800 dark:text-amber-200">
+              <WifiOff className="size-3.5" aria-hidden="true" /> Você está sem internet
+            </p>
+            <p className="mt-1 text-[12px] font-medium leading-relaxed text-amber-900/90 dark:text-amber-100/90">
+              Seu saldo e os últimos registros continuam visíveis porque ficam guardados no aparelho.
+              Para registrar uma nova movimentação ou avisar o responsável, conecte-se ao Wi-Fi ou aos dados
+              e tente de novo — nada do que já está salvo será perdido.
+            </p>
+          </div>
+        </div>
+      ) : null}
+
       <header className={cn(
         "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
         compactMode && "py-3 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
@@ -486,7 +519,9 @@ function KidSpacePage() {
             <div className={cn("text-center", compactMode && "text-left flex-1 px-3")}>
               <h2 className="text-sm font-semibold tracking-tight">Registrar movimentação</h2>
               <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
-                Anote o que você recebeu ou gastou.
+                {online
+                  ? "Anote o que você recebeu ou gastou."
+                  : "Sem internet agora: o registro precisa de conexão para ser salvo com segurança."}
               </p>
             </div>
             <Button
@@ -496,8 +531,10 @@ function KidSpacePage() {
                 accent.button,
               )}
               onClick={() => setEntryOpen(true)}
+              disabled={!online}
+              title={online ? undefined : "Disponível quando a internet voltar"}
             >
-              {compactMode ? "Registrar" : "Novo registro"}
+              {compactMode ? "Registrar" : online ? "Novo registro" : "Sem internet"}
             </Button>
           </section>
 
@@ -614,14 +651,21 @@ function KidSpacePage() {
                       <p className="truncate text-sm font-medium">{row.description}</p>
                       <button
                         type="button"
+                        disabled={!online}
                         onClick={() => {
+                          if (!online) {
+                            toast.warning("Sem internet", {
+                              description: "O aviso ao responsável precisa de conexão. Tente novamente quando a rede voltar.",
+                            });
+                            return;
+                          }
                           toast.info("Solicitação registrada", {
                             description: "Seu responsável foi avisado e vai revisar este lançamento.",
                           });
                         }}
                         className={cn(
                           "shrink-0 rounded-md px-1 text-[10px] font-semibold underline-offset-2 transition-opacity hover:underline focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          "opacity-0 group-hover:opacity-100",
+                          "opacity-0 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-40",
                           accent.text,
                         )}
                       >

@@ -26,10 +26,19 @@ self.addEventListener("install", (event) => {
     (async () => {
       const cache = await caches.open(CACHE_NAME);
       await Promise.allSettled(PRECACHE.map((url) => cache.add(new Request(url, { cache: "reload" }))));
-      await self.skipWaiting();
+      // Sem skipWaiting automático: a nova versão espera o aviso discreto na
+      // interface (mensagem SKIP_WAITING) para não recarregar a criança no meio
+      // de um registro.
     })(),
   );
 });
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
