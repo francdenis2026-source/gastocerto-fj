@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarDays, ChevronRight, History, NotebookPen, Pencil, Plus } from "lucide-react";
+import { CalendarDays, ChevronRight, History, NotebookPen, Pencil, Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
+import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +16,8 @@ import { categoryIcon } from "@/lib/category-icons";
 import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/lib/finance";
 import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
 import { NOTE_FIELD_LABEL, useNoteHistory } from "@/lib/transaction-notes";
-import type { Category, Transaction } from "@/lib/transactions";
+import { useDeleteTransaction, type Category, type Transaction } from "@/lib/transactions";
+
 
 export type MetricDetail = {
   label: string;
