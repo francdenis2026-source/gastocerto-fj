@@ -907,6 +907,7 @@ function DashboardPage() {
               </ChartCard>
             </section>
 
+            <section className="grid gap-4 md:grid-cols-2">
               <ChartCard
                 title="Receitas x despesas"
                 summary={`Receitas ${formatCurrency(metrics.totalIncome)} contra despesas ${formatCurrency(metrics.totalExpense)}.`}
