@@ -153,6 +153,7 @@ const NEGATIVE_SURFACE = "bg-red-500/10 dark:bg-red-400/15";
 function KidSpacePage() {
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
+  const { confirm, ConfirmDialog } = useConfirm();
   const { dependent, loading } = useKidSession();
   const { compactMode: initialCompactMode } = Route.useLoaderData();
   const [compactMode, setCompactMode] = useState(initialCompactMode);
@@ -828,7 +829,8 @@ function KidSpacePage() {
       </footer>
 
 
-      </main>
+      <ConfirmDialog />
+    </main>
     </KidsStatusGuard>
   );
 }
