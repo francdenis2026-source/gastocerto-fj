@@ -22,7 +22,8 @@ import {
   Edit2,
   Trash2,
   MoreVertical,
-  Sparkles
+  Sparkles,
+  Activity
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { amountToInput } from "@/lib/money-input";
