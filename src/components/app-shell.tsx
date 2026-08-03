@@ -410,7 +410,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               {!isAdminArea ? (
                 <>
+                  <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
                   <NotificationCenter />
+
 
                   <button
                     type="button"
