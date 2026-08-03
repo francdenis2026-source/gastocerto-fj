@@ -114,11 +114,12 @@ export const getKidsFinancialMetrics = createServerFn({ method: "GET" })
     // Filter in JS to simplify complex tag logic for both auto_kids and kids_management
     const parentRows = (transactions || []).filter(tx => {
       const tags = tx.tags || [];
-      const isKidTx = tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("kid_self_expense") || tags.includes("from_parent");
+      // Gastos da própria criança (kid_self_expense) NÃO devem entrar no parentRows 
+      // se foram gerados indevidamente na conta do pai. Eles entram no kidRows.
+      const isKidTx = (tags.includes("auto_kids") || tags.includes("kids_management") || tags.includes("from_parent")) 
+                    && !tags.includes("kid_self_expense");
+      
       if (!isKidTx) return false;
-
-      // Gastos da própria criança (kid_self_expense) são informativos para o pai
-      // Não entram nos cálculos de saldo do pai porque não têm user_id do pai diretamente impactando caixa
 
       if (dependentId) return tags.includes(`dependente:${dependentId}`) || (tx as any).dependent_id === dependentId;
       return true;
