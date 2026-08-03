@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { PermissionsPanel } from "./permissions-panel";
+import { UserAuditTimeline } from "./user-audit-timeline";
 import { usePlanAccess } from "@/lib/plan-features";
 import { syncUserLicense } from "@/lib/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
@@ -756,6 +757,7 @@ function ManageUserDialog({
                 </DialogFooter>
               </form>
             </section>
+            <UserAuditTimeline targetUserId={profile.user_id} />
           </div>
         )}
         <ConfirmDialog />

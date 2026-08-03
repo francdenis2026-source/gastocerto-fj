@@ -10,7 +10,7 @@ type AuthContextValue = {
   session: Session | null;
   user: User | null;
   loading: boolean;
-  signOut: () => Promise<void>;
+  signOut: (silent?: boolean) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue>({
@@ -46,11 +46,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       user: session?.user ?? null,
       loading,
-      signOut: async () => {
-        const confirmed = window.confirm("Tem certeza que deseja sair?");
-        if (!confirmed) return;
+      signOut: async (silent = false) => {
+        if (!silent) {
+          const confirmed = window.confirm("Tem certeza que deseja sair?");
+          if (!confirmed) return;
+        }
 
-        const toastId = toast.loading("Saindo com segurança...", {
+        const toastId = silent ? undefined : toast.loading("Saindo com segurança...", {
           description: "Limpando dados do navegador.",
           icon: <RefreshCcw className="size-4 animate-spin" />
         });
@@ -61,17 +63,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           window.localStorage.clear();
           window.sessionStorage.clear();
           
-          toast.success("Até logo!", {
-            id: toastId,
-            description: "Sua sessão foi encerrada com sucesso.",
-            icon: <AlertCircle className="size-4 text-emerald-500" />
-          });
+          if (toastId) {
+            toast.success("Até logo!", {
+              id: toastId,
+              description: "Sua sessão foi encerrada com sucesso.",
+              icon: <AlertCircle className="size-4 text-emerald-500" />
+            });
+          }
 
           setTimeout(() => {
             window.location.href = "/";
           }, 800);
         } catch (error) {
-          toast.error("Erro ao encerrar sessão", { id: toastId });
+          if (toastId) toast.error("Erro ao encerrar sessão", { id: toastId });
           window.location.href = "/";
         }
       },

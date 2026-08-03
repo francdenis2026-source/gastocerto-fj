@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, Download, Loader2, LogOut, Moon, PiggyBank, Sparkles, Sun, Target, TrendingDown, TrendingUp, HelpCircle, AlertTriangle, LayoutGrid, WifiOff, RefreshCw, Calendar as CalendarIcon, FileText, ChevronRight, Plus, Gift, Wallet } from "lucide-react";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -153,9 +154,11 @@ const NEGATIVE_SURFACE = "bg-red-500/10 dark:bg-red-400/15";
 function KidSpacePage() {
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
+  const { confirm, ConfirmDialog } = useConfirm();
   const { dependent, loading } = useKidSession();
   const { compactMode: initialCompactMode } = Route.useLoaderData();
   const [compactMode, setCompactMode] = useState(initialCompactMode);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const [viewYearly, setViewYearly] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -446,10 +449,7 @@ function KidSpacePage() {
                     variant="ghost"
                     size="icon"
                     className="size-10 rounded-full text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    onClick={async () => {
-                      await signOut();
-                      navigate({ to: "/auth", replace: true });
-                    }}
+                    onClick={() => setLogoutDialogOpen(true)}
                     aria-label="Sair do Espaço Kids"
                   >
                     <LogOut className="size-4" />
@@ -828,7 +828,13 @@ function KidSpacePage() {
       </footer>
 
 
-      </main>
+      <ConfirmDialog />
+      <SvgLogoutDialog 
+        open={logoutDialogOpen} 
+        onClose={() => setLogoutDialogOpen(false)} 
+        onConfirm={() => signOut(true)} 
+      />
+    </main>
     </KidsStatusGuard>
   );
 }
@@ -1255,6 +1261,38 @@ function KidEntryDialog({
           </DialogFooter>
         )}
 
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function SvgLogoutDialog({ open, onClose, onConfirm }: { open: boolean; onClose: () => void; onConfirm: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="max-w-xs overflow-hidden rounded-3xl border-none p-0">
+        <div className="bg-gradient-to-b from-rose-500 to-rose-600 p-8 text-center text-white">
+          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/20 backdrop-blur-md">
+            <LogOut className="h-10 w-10" />
+          </div>
+          <h2 className="text-2xl font-black tracking-tight">Até logo!</h2>
+          <p className="mt-2 text-sm font-medium opacity-90">
+            Tem certeza que deseja sair do seu espaço agora?
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-px bg-border/50">
+          <button 
+            onClick={onClose}
+            className="bg-card py-4 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/50 active:bg-muted"
+          >
+            Voltar
+          </button>
+          <button 
+            onClick={onConfirm}
+            className="bg-card py-4 text-sm font-black text-rose-500 transition-colors hover:bg-rose-50 active:bg-rose-100"
+          >
+            Sair agora
+          </button>
+        </div>
       </DialogContent>
     </Dialog>
   );
