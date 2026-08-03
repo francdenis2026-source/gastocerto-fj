@@ -180,7 +180,64 @@ const overrides: Record<string, Overrides> = {
       { label: "Criar conta grátis", to: "/auth" },
     ],
   },
-};
+  },
+  "Plano Gratuito": {
+    screenshotKey: "painel",
+    summary: "Para conhecer o sistema sem pagar nada e começar sua jornada financeira.",
+    overview: [
+      "Até 30 lançamentos por mês, categorias completas e painel mensal.",
+      "Teste completo de todos os recursos (Premium IA) por 14 dias liberado no cadastro.",
+    ],
+    howItWorks: [
+      "Crie sua conta em segundos usando apenas CPF e senha.",
+      "Comece a lançar seus gastos e veja o painel ser montado.",
+      "Não pede cartão de crédito para o período de teste.",
+    ],
+    benefits: [
+      "Controle inicial básico sem custo fixo.",
+      "Liberdade para exportar seus dados se decidir não assinar.",
+      "Acesso à comunidade e suporte via FAQ.",
+    ],
+    actions: [{ label: "Começar Grátis", to: "/auth?mode=signup" }],
+  },
+  "Plano Premium": {
+    screenshotKey: "veiculo",
+    summary: "Controle total, previsões e relatórios detalhados para quem quer organização séria.",
+    overview: [
+      "Lançamentos ilimitados, controle de combustível, gás e orçamentos por categoria.",
+      "Gestão de múltiplos veículos, metas de poupança e links de compartilhamento seguro.",
+    ],
+    howItWorks: [
+      "Assine via Pix com liberação imediata.",
+      "Configure seus veículos, cartões e metas de orçamento.",
+      "Exporte relatórios em PDF/Excel para sua contabilidade ou arquivo.",
+    ],
+    benefits: [
+      "Visão completa do patrimônio e tendências de gastos.",
+      "Economia real detectando desperdícios em veículos e casa.",
+      "Segurança jurídica com auditoria e exportação ilimitada.",
+    ],
+    actions: [{ label: "Assinar Premium", to: "/auth?mode=signup" }],
+  },
+  "Plano Premium IA": {
+    screenshotKey: "ia",
+    summary: "A experiência definitiva com inteligência artificial analisando suas finanças.",
+    overview: [
+      "Tudo do Premium liberado, agora sem qualquer cota ou limite.",
+      "Consultor de IA integrado que dá dicas, faz planos de dívidas e diagnósticos.",
+    ],
+    howItWorks: [
+      "Assine o plano IA via Pix.",
+      "Clique em 'Consultor IA' no painel: a IA analisa seu comportamento financeiro.",
+      "Receba orientações personalizadas baseadas em dados reais, não apenas genéricas.",
+    ],
+    benefits: [
+      "Coach financeiro 24h por dia por uma fração do custo.",
+      "Identificação rápida de padrões de gastos nocivos.",
+      "Créditos mensais inclusos para uma análise profunda recorrente.",
+    ],
+    actions: [{ label: "Assinar Premium IA", to: "/auth?mode=signup" }],
+  },
 
 function pickScreenshot(title: string, tag?: string): keyof typeof screenshots {
   const key = `${title} ${tag ?? ""}`.toLowerCase();
