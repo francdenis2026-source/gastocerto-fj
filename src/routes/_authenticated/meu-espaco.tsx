@@ -878,6 +878,7 @@ function KidSummary({
   selectedMonth: number;
   selectedYear: number;
 }) {
+  const [entryDetails, setEntryDetails] = useState<any | null>(null);
   const [onboarding, setOnboarding] = useState(() => {
     if (typeof window === "undefined") return false;
     return localStorage.getItem("kid_onboarding_done") !== "true";
