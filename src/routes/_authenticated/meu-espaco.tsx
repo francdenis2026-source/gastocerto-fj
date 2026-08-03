@@ -37,6 +37,7 @@ import { KidsStatusGuard } from "@/components/kids/kids-status-guard";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { useAvatarUrl } from "@/lib/queries";
 import { syncKidTransaction } from "@/lib/kids-sync.functions";
+import { createKidTransaction } from "@/lib/kids-self-transactions.functions";
 
 
 
@@ -148,6 +149,7 @@ function KidSpacePage() {
   const avatarUrl = useAvatarUrl(dependent?.avatar_url);
   const [entryOpen, setEntryOpen] = useState(false);
   const syncTx = useServerFn(syncKidTransaction);
+  const createTx = useServerFn(createKidTransaction);
 
   // Modo aplicativo/offline exclusivo do Espaço Kids.
   const { canInstall, online, install } = useKidsAppMode();
@@ -851,36 +853,34 @@ function KidEntryDialog({
       const value = parseAmount(amount);
       if (!value || value <= 0) throw new Error("Informe um valor maior que zero.");
       
-      // A data, a hora e o created_at são definidos pelo banco de dados (trigger),
-      // então a criança não consegue antedatar ou "burlar" um lançamento.
       const isoDate = new Date().toISOString().split('T')[0];
 
-      const { error } = await supabase.from("transactions").insert({
-        user_id: ownerId,
-        description: description.trim() || selected.label,
-        amount: value,
-        transaction_type: selected.type,
-        transaction_date: isoDate,
-        status: selected.type === "income" ? "received" : "paid",
-        tags: [dependentTag(dependentId), reasonTag(selected.value)],
-      } as never);
-      if (error) throw error;
+      // 1. Criar transação para a criança
+      await createTx({
+        data: {
+          amount: value,
+          description: description.trim() || selected.label,
+          transactionDate: isoDate,
+        }
+      });
       
-      // 3. Sincronizar com o painel do pai (registrar despesa automática)
-      try {
-        await syncTx({
-          data: {
-            dependentId,
-            amount: value,
-            description: description.trim() || selected.label,
-            transactionDate: isoDate,
-            type: selected.type
-          }
-        });
-      } catch (syncErr) {
-        console.warn("[kids-sync] Falha na sincronização silenciosa", syncErr);
-        // Não travamos o fluxo da criança se a sincronização falhar, 
-        // mas o log acima ajuda no debug.
+      // 2. Se for uma despesa da criança que deve gerar registro para o pai, sincronizar
+      // Nota: o sistema agora reflete que gastos da criança são "gastos pessoais" dela
+      // mas o pai recebe uma notificação informativa ou log (opcionalmente sincronizado se for via cartão/config)
+      if (selected.type === "expense") {
+        try {
+          await syncTx({
+            data: {
+              dependentId,
+              amount: value,
+              description: description.trim() || selected.label,
+              transactionDate: isoDate,
+              type: "expense"
+            }
+          });
+        } catch (syncErr) {
+          console.warn("[kids-sync] Falha na sincronização informativa", syncErr);
+        }
       }
     },
     onMutate: async () => {

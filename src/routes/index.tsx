@@ -16,7 +16,7 @@ const description =
   "Organize despesas, receitas, cartões, contas fixas, combustível e gás em um só painel. Metas, relatórios, mesada do Espaço Kids e consultor financeiro com IA. Comece grátis.";
 
 const siteUrl = "https://gastocerto-fj.lovable.app";
-const ogImage = `${siteUrl}/og-gastocerto-v3.jpg`;
+const ogImage = `${siteUrl}/og-gastocerto-v4.jpg`;
 
 export const Route = createFileRoute("/")({
   head: () => ({

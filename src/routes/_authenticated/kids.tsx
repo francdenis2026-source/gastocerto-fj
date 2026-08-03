@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload } from "lucide-react";
+import { Upload, Share2 } from "lucide-react";
 import QRCode from "qrcode";
 import {
   Baby,
@@ -666,7 +666,31 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["dependents"] });
   const refreshAudit = () => queryClient.invalidateQueries({ queryKey: ["kid_access_audit"] });
-
+  
+  async function shareQr() {
+    if (!qr) return;
+    try {
+      const blob = await (await fetch(qr)).blob();
+      const file = new File([blob], `qr-espaco-kids-${dependent.name.toLowerCase()}.png`, { type: 'image/png' });
+      
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `QR Code - Espaço Kids de ${dependent.name}`,
+          text: `Use este QR Code para acessar o Espaço Kids de ${dependent.name}.`
+        });
+      } else {
+        const link = document.createElement('a');
+        link.href = qr;
+        link.download = `qr-espaco-kids-${dependent.name.toLowerCase()}.png`;
+        link.click();
+        toast.success("QR Code baixado com sucesso!");
+      }
+    } catch (error) {
+      toast.error("Não foi possível compartilhar o QR Code.");
+    }
+  }
+  
   async function copyLoginUrl() {
     if (!loginUrl) return;
     try {
