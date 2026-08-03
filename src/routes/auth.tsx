@@ -323,7 +323,7 @@ function AuthPage() {
                         <div className="w-full border-t border-border"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-bold dark:text-muted-foreground/70">Acesso Infantil</span>
+                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-extrabold dark:text-muted-foreground/70">Acesso Infantil</span>
                       </div>
                     </div>
 
@@ -333,7 +333,7 @@ function AuthPage() {
                       className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-input bg-secondary px-3 py-2.5 text-foreground transition-all duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99]"
                     >
                       <Baby className="size-4 animate-soft-pulse shrink-0 text-primary transition-transform duration-300 group-hover:scale-105" aria-hidden />
-                      <span className="text-[12px] font-semibold leading-tight tracking-tight sm:text-[13px]">
+                      <span className="text-[12px] font-bold leading-tight tracking-tight sm:text-[13px] text-[oklch(0.25_0.04_259)] dark:text-foreground">
                         Sou criança — entrar com meu código
                       </span>
                     </button>
