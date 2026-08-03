@@ -161,13 +161,13 @@ function AuthPage() {
 
   return (
     <main className="relative isolate grid min-h-dvh w-full place-items-center overflow-x-hidden p-3 sm:p-4 lg:h-dvh lg:min-h-0 lg:overflow-hidden">
-      {/* Imagem de fundo global para o layout */}
+      {/* Imagem de fundo global para o layout - Visível em todas as resoluções */}
       <img
         src={authHero}
         alt=""
         aria-hidden="true"
         decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover"
+        className="absolute inset-0 -z-20 size-full object-cover lg:object-center"
       />
       <div
         aria-hidden="true"
