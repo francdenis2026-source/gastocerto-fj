@@ -49,7 +49,8 @@ export function InteractiveCalendar({ onDayClick }: InteractiveCalendarProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 shadow-soft">
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-soft lg:grid lg:grid-cols-[1fr_280px] lg:gap-6">
+      <div className="space-y-4">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Calendar className="size-5 text-brand" />
@@ -110,18 +111,41 @@ export function InteractiveCalendar({ onDayClick }: InteractiveCalendarProps) {
         ))}
       </div>
       
-      <div className="mt-4 flex items-center justify-center gap-4 border-t border-border pt-3">
-        <div className="flex items-center gap-1.5">
-          <div className="size-2 rounded-full bg-income" />
-          <span className="text-[10px] text-muted-foreground">Receitas</span>
+      <div className="mt-6 lg:mt-0 border-t lg:border-t-0 lg:border-l border-border pt-6 lg:pt-0 lg:pl-6 space-y-6">
+        <div>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-3">Legenda</h3>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="size-2 rounded-full bg-income" />
+              <span className="text-[11px] font-bold">Receitas</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="size-2 rounded-full bg-expense" />
+              <span className="text-[11px] font-bold">Despesas</span>
+            </div>
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/50">
+              <Info className="size-3 text-brand" />
+              <span className="text-[10px] text-muted-foreground italic leading-tight">Clique em um dia para lançar ou ver detalhes.</span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="size-2 rounded-full bg-expense" />
-          <span className="text-[10px] text-muted-foreground">Despesas</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <Info className="size-3 text-muted-foreground" />
-          <span className="text-[10px] text-muted-foreground italic">Clique no dia para detalhes</span>
+
+        <div>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-3">Resumo Diário</h3>
+          <div className="max-h-[200px] overflow-y-auto pr-2 scrollbar-thin space-y-2">
+            {days.filter(d => d.count > 0).slice(-5).reverse().map(d => (
+              <div key={d.day} className="flex items-center justify-between p-2 rounded-xl bg-muted/30 border border-border/40">
+                <span className="text-[10px] font-bold">{d.day}/{month}</span>
+                <div className="flex gap-2">
+                  {d.income > 0 && <span className="text-[10px] font-black text-income">+{formatCurrency(d.income)}</span>}
+                  {d.expense > 0 && <span className="text-[10px] font-black text-expense">-{formatCurrency(d.expense)}</span>}
+                </div>
+              </div>
+            ))}
+            {days.filter(d => d.count > 0).length === 0 && (
+              <p className="text-[10px] text-muted-foreground italic text-center py-4">Sem registros este mês.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

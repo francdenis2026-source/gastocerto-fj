@@ -721,7 +721,7 @@ function DashboardPage() {
                       tone="neutral"
                       label="Projeção de Fim de Mês"
                       value={formatCurrency(metrics.projection)}
-                      className="!p-3 border-none bg-muted/20 shadow-none"
+                      className="!p-3 border-none bg-emerald-500/5 dark:bg-emerald-500/10 shadow-none ring-1 ring-emerald-500/20"
                     />
                   </div>
                 </div>
@@ -729,29 +729,67 @@ function DashboardPage() {
 
               <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Evolução do Saldo</h3>
-                <div className="h-[140px]">
+                <div className="h-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={byDay}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.3} />
-                      <XAxis dataKey="day" hide />
-                      <YAxis hide domain={['auto', 'auto']} />
-                      <Tooltip content={() => null} />
-                      <Line 
-                        type="monotone" 
-                        dataKey="receita" 
-                        stroke="var(--success)" 
-                        strokeWidth={2} 
-                        dot={false} 
+                      <XAxis 
+                        dataKey="day" 
+                        tick={{ fontSize: 9 }}
+                        interval="preserveStartEnd"
+                        axisLine={false}
+                        tickLine={false}
+                      />
+                      <YAxis 
+                        hide 
+                        domain={['auto', 'auto']} 
+                      />
+                      <Tooltip 
+                        contentStyle={{ 
+                          fontSize: '10px', 
+                          borderRadius: '12px', 
+                          backgroundColor: 'var(--card)', 
+                          border: '1px solid var(--border)' 
+                        }}
+                        formatter={(value: number, name: string) => [formatCurrency(value), name === 'receita' ? 'Ganhos' : 'Gastos']}
+                        labelFormatter={(label) => `Dia ${label}`}
+                      />
+                      <Legend 
+                        verticalAlign="top" 
+                        align="right" 
+                        iconType="circle"
+                        wrapperStyle={{ fontSize: '9px', fontWeight: 'bold', paddingBottom: '10px' }}
                       />
                       <Line 
                         type="monotone" 
+                        name="receita"
+                        dataKey="receita" 
+                        stroke="var(--success)" 
+                        strokeWidth={2.5} 
+                        dot={false} 
+                        activeDot={{ r: 4 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        name="gasto"
                         dataKey="gasto" 
                         stroke="var(--expense)" 
-                        strokeWidth={2} 
+                        strokeWidth={2.5} 
                         dot={false} 
+                        activeDot={{ r: 4 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
+                </div>
+                <div className="mt-4 pt-4 border-t border-border/50 grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-black uppercase text-muted-foreground">Média Diária</p>
+                    <p className="text-xs font-black">{formatCurrency(metrics.dailyAverage)}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-black uppercase text-muted-foreground">Projeção</p>
+                    <p className="text-xs font-black">{formatCurrency(metrics.projection)}</p>
+                  </div>
                 </div>
               </div>
             </aside>

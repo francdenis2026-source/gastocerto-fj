@@ -28,42 +28,42 @@ export function DashboardTabs({
         <TabsList className="w-full justify-start h-12 bg-muted/40 p-1 rounded-2xl border border-border/50 overflow-x-auto overflow-y-hidden scrollbar-none flex-nowrap">
           <TabsTrigger 
             value="overview" 
-            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <Activity className="size-3.5" />
             Visão Geral
           </TabsTrigger>
           <TabsTrigger 
             value="analytics" 
-            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <PieChart className="size-3.5" />
             Análises
           </TabsTrigger>
           <TabsTrigger 
             value="yearly" 
-            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <BarChart3 className="size-3.5" />
             Balanço Anual
           </TabsTrigger>
           <TabsTrigger 
             value="insights" 
-            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <Sparkles className="size-3.5" />
             Insights
           </TabsTrigger>
           <TabsTrigger 
             value="recommendations" 
-            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <TrendingUp className="size-3.5" />
             Conselhos & Planos
           </TabsTrigger>
           <TabsTrigger 
             value="kids" 
-            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <TrendingUp className="size-3.5" />
             Família & Kids
