@@ -180,7 +180,6 @@ const overrides: Record<string, Overrides> = {
       { label: "Criar conta grátis", to: "/auth" },
     ],
   },
-  },
   "Plano Gratuito": {
     screenshotKey: "painel",
     summary: "Para conhecer o sistema sem pagar nada e começar sua jornada financeira.",
@@ -238,6 +237,7 @@ const overrides: Record<string, Overrides> = {
     ],
     actions: [{ label: "Assinar Premium IA", to: "/auth?mode=signup" }],
   },
+};
 
 function pickScreenshot(title: string, tag?: string): keyof typeof screenshots {
   const key = `${title} ${tag ?? ""}`.toLowerCase();
