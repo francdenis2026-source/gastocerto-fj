@@ -88,9 +88,10 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             </Link>
           </div>
 
-          <div className="flex-1 overflow-y-auto pr-1">
-            <div className="flex min-h-[340px] flex-col justify-center">{children}</div>
+          <div className="flex-1 pr-1 lg:overflow-y-auto">
+            <div className="flex flex-col justify-center lg:min-h-[340px]">{children}</div>
           </div>
+
 
           <div className="mt-4 pt-4 shrink-0 space-y-3 border-t border-border/50">
             <p className="rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-center text-[10px] font-semibold leading-snug text-primary">
