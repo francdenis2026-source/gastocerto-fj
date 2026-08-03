@@ -88,7 +88,7 @@ export function KidsLoginScreen({ children }: { children: ReactNode }) {
             </Link>
           </div>
 
-          <div className="flex-1 pr-1 lg:overflow-y-auto">
+          <div className="no-scrollbar flex-1 lg:overflow-y-auto">
             <div className="flex flex-col justify-center lg:min-h-[340px]">{children}</div>
           </div>
 

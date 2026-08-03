@@ -279,7 +279,7 @@ function AuthPage() {
             </Link>
           </div>
 
-          <div ref={formAreaRef} className="min-h-0 flex-1 pr-1 lg:overflow-y-auto">
+          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
@@ -330,11 +330,12 @@ function AuthPage() {
                     <button
                       type="button"
                       onClick={() => setMode("kid")}
-                      className="group relative mt-4 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-[13px] font-bold text-primary transition-all duration-500 hover:bg-primary/10 hover:shadow-[0_8px_20px_-6px_oklch(var(--primary)/0.15)] active:scale-[0.98]"
+                      className="group relative mt-3.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-primary/25 bg-primary/[0.06] px-3 py-2.5 text-primary transition-colors duration-300 hover:border-primary/40 hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99] dark:border-primary/30 dark:bg-primary/10 dark:text-primary-foreground dark:hover:bg-primary/20"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                      <Baby className="size-4.5 animate-pulse transition-transform duration-500 group-hover:scale-105" aria-hidden />
-                      <span className="relative">Sou criança — entrar com meu código</span>
+                      <Baby className="size-4 animate-soft-pulse shrink-0 transition-transform duration-300 group-hover:scale-105 dark:text-primary-foreground" aria-hidden />
+                      <span className="text-[12px] font-semibold leading-tight tracking-tight sm:text-[13px]">
+                        Sou criança — entrar com meu código
+                      </span>
                     </button>
                     <CodeAccessInline onContinue={() => setMode("signup")} />
                   </TabsContent>
