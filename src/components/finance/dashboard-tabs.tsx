@@ -9,6 +9,7 @@ interface DashboardTabsProps {
   kids: ReactNode;
   yearly: ReactNode;
   insights: ReactNode;
+  recommendations: ReactNode;
   className?: string;
 }
 
@@ -18,6 +19,7 @@ export function DashboardTabs({
   kids,
   yearly,
   insights,
+  recommendations,
   className
 }: DashboardTabsProps) {
   return (
@@ -53,6 +55,13 @@ export function DashboardTabs({
             Insights
           </TabsTrigger>
           <TabsTrigger 
+            value="recommendations" 
+            className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+          >
+            <TrendingUp className="size-3.5" />
+            Conselhos & Planos
+          </TabsTrigger>
+          <TabsTrigger 
             value="kids" 
             className="rounded-xl px-4 text-[12px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
@@ -76,6 +85,10 @@ export function DashboardTabs({
 
       <TabsContent value="insights" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
         {insights}
+      </TabsContent>
+
+      <TabsContent value="recommendations" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
+        {recommendations}
       </TabsContent>
 
       <TabsContent value="kids" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
