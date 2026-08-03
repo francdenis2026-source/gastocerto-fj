@@ -192,20 +192,25 @@ function KidSpacePage() {
   });
 
   const transactions = useQuery({
-    queryKey: ["kid_transactions", dependent?.id, viewYearly, selectedMonth, selectedYear],
-    enabled: Boolean(dependent?.id),
+    queryKey: ["kid_transactions", dependent?.id, user?.id, viewYearly, selectedMonth, selectedYear],
+    enabled: Boolean(dependent?.id) && Boolean(user?.id),
     queryFn: async (): Promise<KidTransaction[]> => {
       const startMonth = selectedMonth + 1;
       const { data, error } = await supabase
         .from("transactions")
         .select("id, description, amount, transaction_type, transaction_date, tags")
+        // Somente os lançamentos da própria criança: nunca os registros do responsável.
+        .eq("user_id", user!.id)
         .is("deleted_at", null)
         .order("transaction_date", { ascending: false })
         .gte("transaction_date", viewYearly ? `${selectedYear}-01-01` : `${selectedYear}-${String(startMonth).padStart(2, '0')}-01`)
         .lte("transaction_date", viewYearly ? `${selectedYear}-12-31T23:59:59` : `${selectedYear}-${String(startMonth).padStart(2, '0')}-${new Date(selectedYear, startMonth, 0).getDate()}T23:59:59`);
 
       if (error) throw error;
-      return (data ?? []) as unknown as KidTransaction[];
+      // Blindagem extra: descarta qualquer espelho de lançamento feito pelo responsável.
+      return ((data ?? []) as unknown as KidTransaction[]).filter(
+        (row) => !(row.tags ?? []).includes("kids_management"),
+      );
     },
   });
 
