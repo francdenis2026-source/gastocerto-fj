@@ -388,38 +388,35 @@ export function KidsManagementPanel() {
   );
 }
 
-// PDF Export Helper (Placeholder - implementation logic)
-function exportPDF(data: any[] | undefined, selectedKid?: Dependent) {
-  if (!data) return;
+// PDF Export Helper
+async function exportPDF(data: any[] | undefined, selectedKid?: Dependent) {
+  if (!data || !selectedKid) return;
   toast.info("Gerando PDF...", { description: "Suas métricas estão sendo preparadas para download." });
   
-  // Dynamic import to avoid heavy bundling if not used
-  import('jspdf').then(({ jsPDF }) => {
-    const doc = new jsPDF();
-    const title = selectedKid ? `Relatório Financeiro: ${selectedKid.name}` : "Relatório Geral: Espaço Kids";
+  try {
+    const { exportKidsSummaryPdf } = await import("@/lib/kids-export");
     
-    doc.setFontSize(20);
-    doc.text(title, 20, 20);
-    doc.setFontSize(10);
-    doc.text(`Gerado em: ${new Date().toLocaleString()}`, 20, 30);
-    
-    let y = 50;
-    doc.setFontSize(12);
-    doc.text("Resumo de Gastos:", 20, y);
-    y += 10;
-    
-    data.slice(0, 20).forEach(tx => {
-      doc.setFontSize(10);
-      doc.text(`${new Date(tx.transaction_date).toLocaleDateString()} - ${tx.description}: ${formatCurrency(tx.amount)}`, 20, y);
-      y += 8;
-    });
-    
-    doc.save(`relatorio-kids-${new Date().getTime()}.pdf`);
+    const rows = data.map(tx => ({
+      date: tx.transaction_date,
+      description: tx.description,
+      type: tx.transaction_type as "income" | "expense",
+      amount: tx.amount
+    }));
+
+    const income = data.filter(tx => tx.transaction_type === "income").reduce((a, b) => a + Number(b.amount), 0);
+    const expense = data.filter(tx => tx.transaction_type === "expense").reduce((a, b) => a + Number(b.amount), 0);
+
+    await exportKidsSummaryPdf(
+      rows,
+      { income, expense, balance: income - expense, count: rows.length },
+      { kidName: selectedKid.name, periodLabel: "Relatório de Gestão", typeLabel: "Todos os registros" }
+    );
+
     toast.success("PDF baixado com sucesso!");
-  }).catch(err => {
+  } catch (err) {
     console.error("Erro ao gerar PDF:", err);
     toast.error("Erro ao gerar PDF.");
-  });
+  }
 }
 
 function EditTransactionForm({ transaction, onUpdate, onDelete, isPending }: any) {

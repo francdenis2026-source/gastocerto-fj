@@ -501,34 +501,6 @@ function DashboardPage() {
           </div>
         )}
 
-        {/* Churrasco & Fim de Semana - Card Refinado */}
-        <section className="mb-4">
-          <div className="rounded-3xl border border-orange-500/10 bg-orange-500/5 p-4 shadow-sm flex items-center justify-between">
-             <div className="flex items-center gap-3">
-                <div className="size-10 rounded-2xl bg-orange-500/20 flex items-center justify-center shrink-0">
-                  <UtensilsCrossed className="size-5 text-orange-600" />
-                </div>
-                <div>
-                  <h3 className="text-xs font-black text-orange-950 dark:text-orange-200 uppercase tracking-widest">Churrasco & Fim de Semana</h3>
-                  <p className="text-[10px] text-orange-800/60 dark:text-orange-300/60 font-bold leading-tight">
-                    Gastos no mês: <span className="text-orange-700 dark:text-orange-400 font-black">{formatCurrency(metrics.expenses.filter(r => r.category_id && categories?.find(c => c.id === r.category_id)?.name === 'Churrasco & Fim de Semana').reduce((a, b) => a + Number(b.amount), 0))}</span>
-                  </p>
-                </div>
-             </div>
-             <Button 
-               size="sm" 
-               className="bg-orange-600 hover:bg-orange-700 text-white rounded-xl h-9 px-4 text-[10px] font-black uppercase tracking-wider shadow-orange-500/20 shadow-lg"
-               onClick={() => {
-                 setDialogKind("expense");
-                 const cat = categories?.find(c => c.name === 'Churrasco & Fim de Semana');
-                 if (cat) setPreset({ categoryId: cat.id, subCategoryId: null });
-                 setDialogOpen(true);
-               }}
-             >
-               Lançar Gasto
-             </Button>
-          </div>
-        </section>
 
         {hasFeature(access, "financial_help") && (
           <div className="mb-6">

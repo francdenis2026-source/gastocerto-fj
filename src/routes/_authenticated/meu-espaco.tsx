@@ -6,9 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useKidTheme } from "@/lib/kids-theme";
 import { useKidsAppMode } from "@/lib/kids-pwa";
 import { useAppUpdate } from "@/lib/pwa";
+import { Badge } from "@/components/ui/badge";
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -441,11 +442,11 @@ function KidSpacePage() {
 
       <header className={cn(
         "flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-all",
-        compactMode && "py-3 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
+        compactMode && "py-2 px-3 border-b border-border bg-card/70 backdrop-blur-md sticky top-0 z-40"
       )}>
 
         <div className="flex min-w-0 items-center gap-3">
-          <Avatar className={cn("size-12 border border-border shadow-sm ring-2", accent.ring)}>
+          <Avatar className={cn("size-10 sm:size-12 border border-border shadow-sm ring-2", accent.ring)}>
             {avatarUrl ? (
               <AvatarImage src={avatarUrl} alt={`Foto de ${dependent.name}`} />
             ) : null}
@@ -460,7 +461,7 @@ function KidSpacePage() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               Espaço financeiro
             </p>
-            <h1 className="truncate text-xl font-semibold leading-tight tracking-tight">
+            <h1 className="truncate text-lg sm:text-xl font-semibold leading-tight tracking-tight">
               Olá, <span className={accent.text}>{firstName}</span>
             </h1>
           </div>
@@ -475,11 +476,11 @@ function KidSpacePage() {
             <Button
               variant="outline"
               size="sm"
-              className="h-9 px-2 text-xs font-medium sm:px-3"
+              className="h-8 sm:h-9 px-2 text-[11px] sm:text-xs font-medium sm:px-3"
               onClick={() => void install()}
               title="Instalar o Meu Espaço como aplicativo"
             >
-              <Download className="mr-1.5 size-4" aria-hidden="true" />
+              <Download className="mr-1.5 size-3.5 sm:size-4" aria-hidden="true" />
               <span className="hidden sm:inline">Instalar app</span>
             </Button>
           ) : null}
@@ -846,11 +847,85 @@ function KidSummary({
   selectedMonth: number;
   selectedYear: number;
 }) {
+  const [onboarding, setOnboarding] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("kid_onboarding_done") !== "true";
+  });
+
+  const weeklyStats = useMemo(() => {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const weekRows = rows.filter(r => new Date(r.transaction_date).getTime() >= startOfWeek.getTime());
+    const weekIncome = weekRows.filter(r => r.transaction_type === "income").reduce((a, b) => a + Number(b.amount), 0);
+    const weekExpense = weekRows.filter(r => r.transaction_type === "expense").reduce((a, b) => a + Number(b.amount), 0);
+
+    return { income: weekIncome, expense: weekExpense, balance: weekIncome - weekExpense };
+  }, [rows]);
+
   return (
-    <section className={cn(
-      "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm",
-      accent.border,
-    )}>
+    <>
+      <Dialog open={onboarding} onOpenChange={(v) => {
+        if (!v) {
+          localStorage.setItem("kid_onboarding_done", "true");
+          setOnboarding(false);
+        }
+      }}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="size-5 text-emerald-500" /> Bem-vindo ao seu Espaço!
+            </DialogTitle>
+            <DialogDescription className="text-xs">
+              Este é o seu lugar seguro para aprender sobre dinheiro.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="flex gap-3">
+              <div className="bg-emerald-500/10 p-2 rounded-lg shrink-0">
+                <TrendingUp className="size-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-xs font-bold">Ganhos</p>
+                <p className="text-[11px] text-muted-foreground">Aqui você vê o dinheiro que recebeu dos seus pais.</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="bg-rose-500/10 p-2 rounded-lg shrink-0">
+                <TrendingDown className="size-5 text-rose-600" />
+              </div>
+              <div>
+                <p className="text-xs font-bold">Gastos</p>
+                <p className="text-[11px] text-muted-foreground">Anote aqui sempre que usar seu dinheiro para comprar algo.</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="bg-sky-500/10 p-2 rounded-lg shrink-0">
+                <Target className="size-5 text-sky-600" />
+              </div>
+              <div>
+                <p className="text-xs font-bold">Metas</p>
+                <p className="text-[11px] text-muted-foreground">Crie objetivos para juntar dinheiro e ganhar recompensas!</p>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button className="w-full font-bold" onClick={() => {
+              localStorage.setItem("kid_onboarding_done", "true");
+              setOnboarding(false);
+            }}>
+              Começar agora!
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <section className={cn(
+        "mx-auto mt-8 w-full max-w-2xl space-y-4 rounded-2xl border bg-card p-6 shadow-sm transition-all duration-300",
+        accent.border,
+      )}>
       <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
         <Target className={cn("size-5", accent.text)} aria-hidden="true" /> 
         Resumo {viewYearly ? `de ${selectedYear}` : `de ${new Date(0, selectedMonth).toLocaleDateString("pt-BR", { month: "long" })}`}
@@ -865,9 +940,50 @@ function KidSummary({
           <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", POSITIVE_TEXT)}>Total recebido</p>
           <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(income)}</p>
         </div>
-        <div className={cn("rounded-xl border border-rose-600/20 p-4 text-center dark:border-rose-400/20", NEGATIVE_SURFACE)}>
+        <div className={cn(
+          "rounded-xl border p-4 text-center transition-all duration-500", 
+          balance <= 0 ? "border-rose-600/30 bg-rose-500/10 shadow-sm shadow-rose-500/10" : "border-rose-600/20", 
+          NEGATIVE_SURFACE
+        )}>
           <p className={cn("text-[10px] font-semibold uppercase tracking-[0.16em]", NEGATIVE_TEXT)}>Total gasto</p>
           <p className="mt-1 text-xl font-semibold tabular-nums text-foreground">{formatCurrency(expense)}</p>
+        </div>
+      </div>
+
+      {balance <= 0 && (
+        <div className="animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-xl border border-rose-600/20 bg-rose-500/5 p-4">
+          <AlertTriangle className="size-5 text-rose-600 shrink-0" />
+          <div className="space-y-0.5">
+            <p className="text-[12px] font-bold text-rose-950 dark:text-rose-200">Saldo zerado ou baixo!</p>
+            <p className="text-[11px] font-medium text-rose-800/80 dark:text-rose-300/80">
+              Pense bem antes de gastar. Que tal poupar um pouco para um objetivo maior?
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="rounded-xl border border-border bg-muted/20 p-4">
+        <div className="flex items-center justify-between mb-2">
+          <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-foreground">
+            <CalendarIcon className="size-3" aria-hidden="true" /> Evolução da semana
+          </p>
+          <Badge variant="outline" className="text-[9px] font-bold border-emerald-500/20 text-emerald-600 bg-emerald-500/5">Ativo</Badge>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <div className="space-y-0.5">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase">Ganhou</p>
+            <p className="text-xs font-bold text-emerald-600">+{formatCurrency(weeklyStats.income)}</p>
+          </div>
+          <div className="space-y-0.5 text-center">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase">Gastou</p>
+            <p className="text-xs font-bold text-rose-600">-{formatCurrency(weeklyStats.expense)}</p>
+          </div>
+          <div className="space-y-0.5 text-right">
+            <p className="text-[9px] font-medium text-muted-foreground uppercase">Saldo Sem.</p>
+            <p className={cn("text-xs font-bold", weeklyStats.balance < 0 ? "text-rose-600" : "text-emerald-600")}>
+              {formatCurrency(weeklyStats.balance)}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -923,6 +1039,7 @@ function KidSummary({
         </div>
       )}
     </section>
+    </>
   );
 }
 
