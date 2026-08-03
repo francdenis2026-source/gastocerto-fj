@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/finance/page-header";
 import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-notice";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -277,14 +278,13 @@ function CalendarPage() {
   return (
     <AppShell>
       <div className="space-y-4">
-        <header className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h1 className="page-title">Calendário</h1>
-            <p className="page-subtitle mt-1">
-              Vencimentos, recorrências e alertas de orçamento em um só lugar.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
+        <PageHeader
+          icon={CalendarDays}
+          eyebrow="Dia a dia"
+          title="Calendário"
+          description="Vencimentos, recorrências e alertas de orçamento em um só lugar."
+          actions={
+            <div className="flex items-center gap-2">
             <Button variant="outline" size="icon" onClick={() => shiftMonth(-1)} aria-label="Mês anterior">
               <ChevronLeft className="size-4" />
             </Button>
@@ -294,8 +294,9 @@ function CalendarPage() {
             <Button variant="outline" size="icon" onClick={() => shiftMonth(1)} aria-label="Próximo mês">
               <ChevronRight className="size-4" />
             </Button>
-          </div>
-        </header>
+            </div>
+          }
+        />
 
         <PastMonthsLockNotice monthKey={`${year}-${String(month).padStart(2, "0")}`} />
 

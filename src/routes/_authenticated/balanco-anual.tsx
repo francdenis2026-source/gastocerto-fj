@@ -15,6 +15,7 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/finance/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -122,18 +123,13 @@ function AnnualBalancePage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        <header className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <EmblemReceipt className="size-11 shrink-0" />
-            <div>
-              <h1 className="page-title">Balanço geral do ano</h1>
-              <p className="page-subtitle mt-1">
-                Fechamento consolidado de entradas, saídas e resultado — mês a mês e por categoria.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
+        <PageHeader
+          icon={CalendarRange}
+          eyebrow="Análise"
+          title="Balanço geral do ano"
+          description="Fechamento consolidado de entradas, saídas e resultado — mês a mês e por categoria."
+          actions={
+            <div className="flex flex-wrap items-center gap-2">
             <Select value={year} onValueChange={handleYearChange}>
               <SelectTrigger className="w-[130px]">
                 <CalendarRange className="mr-2 size-4" />
@@ -171,8 +167,9 @@ function AnnualBalancePage() {
               <FileDown className="size-4" />
               Baixar PDF
             </Button>
-          </div>
-        </header>
+            </div>
+          }
+        />
 
         {isLoading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 opacity-50 transition-opacity duration-300">

@@ -2,31 +2,19 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
 import {
-  ArrowLeftRight,
-  Baby,
-  BarChart3,
-  Bell,
-  CalendarClock,
-  Car,
   ChevronDown,
-  LayoutDashboard,
   PanelLeftClose,
   PanelLeftOpen,
   LogOut,
   Plus,
   Menu,
-  PiggyBank,
-  ShieldCheck,
   RefreshCcw,
-  User2,
   X,
   TrendingUp,
   TrendingDown,
-  Flame,
-  Zap,
-  HelpCircle,
   Settings,
 } from "lucide-react";
+
 import { useState, type ReactNode, useEffect, useMemo } from "react";
 
 import { Logo } from "@/components/logo";
@@ -48,105 +36,22 @@ import { formatCurrency } from "@/lib/format";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
 import { useQuery } from "@tanstack/react-query";
 import type { SidebarMetric } from "./settings/sidebar-config";
+import { CommandPalette } from "@/components/nav/command-palette";
+import {
+  adminNavGroups,
+  flattenGroups,
+  mobilePrimary,
+  navSections,
+  staffNavGroup,
+  type NavGroup,
+  type NavSection,
+} from "@/lib/nav-model";
 import { cn } from "@/lib/utils";
 
 
+
 type Kind = "expense" | "income";
-type NavChild = { key: string; label: string; to: string; highlight?: boolean };
-type NavGroup = {
-  key: string;
-  label: string;
-  to: string;
-  icon: typeof LayoutDashboard;
-  children?: NavChild[];
-};
 
-export const navGroups: NavGroup[] = [
-  {
-    key: "overview",
-    label: "Visão Geral",
-    to: "/painel",
-    icon: LayoutDashboard,
-    children: [
-      { key: "overview.panel", label: "Painel de Controle", to: "/painel" },
-      { key: "overview.daily", label: "Histórico Detalhado", to: "/diario" },
-      { key: "overview.registrations", label: "Meus Cadastros", to: "/cadastros" },
-    ],
-  },
-  {
-    key: "entries",
-    label: "Movimentações",
-    to: "/lancamentos",
-    icon: ArrowLeftRight,
-    children: [
-      { key: "entries.expenses", label: "Despesas", to: "/lancamentos" },
-      { key: "entries.incomes", label: "Receitas", to: "/receitas" },
-      { key: "entries.recurring", label: "Recargas e Assinaturas", to: "/recorrencia" },
-      { key: "entries.receipts", label: "Comprovantes", to: "/comprovantes" },
-    ],
-  },
-  {
-    key: "consumption",
-    label: "Utilidades e Consumo",
-    to: "/gas",
-    icon: Zap,
-    children: [
-      { key: "consumption.gas", label: "Botijão de Gás", to: "/gas" },
-      { key: "consumption.energy", label: "Energia Elétrica", to: "/energia" },
-      { key: "consumption.vehicles", label: "Veículos e Combustível", to: "/veiculos" },
-    ],
-  },
-  {
-    key: "planning",
-    label: "Estratégia e Metas",
-    to: "/orcamentos",
-    icon: PiggyBank,
-    children: [
-      { key: "planning.budgets", label: "Orçamentos", to: "/orcamentos" },
-      { key: "planning.commitments", label: "Dívidas e Compromissos", to: "/compromissos" },
-      { key: "planning.goals", label: "Metas de Poupança", to: "/metas" },
-      { key: "planning.categories", label: "Minhas Categorias", to: "/categorias" },
-      { key: "planning.closing", label: "Fechamento Mensal", to: "/fechamento" },
-      { key: "planning.annual", label: "Balanço Anual", to: "/balanco-anual" },
-      { key: "planning.cards", label: "Gestão de Cartões", to: "/cartoes" },
-    ],
-
-  },
-  {
-    key: "analytics",
-    label: "Inteligência",
-    to: "/relatorios",
-    icon: BarChart3,
-    children: [
-      { key: "analytics.reports", label: "Relatórios Avançados", to: "/relatorios" },
-      { key: "analytics.advisor", label: "Mentor de IA", to: "/consultor" },
-      { key: "analytics.reconciliation", label: "Reconciliação Bancária", to: "/reconciliacao" },
-    ],
-  },
-  {
-    key: "support",
-    label: "Ajuda e Kids",
-    to: "/ajuda",
-    icon: HelpCircle,
-    children: [
-      { key: "support.help", label: "Central de Ajuda", to: "/ajuda" },
-      {
-        key: "support.kids",
-        label: "Espaço Kids — códigos e acessos",
-        to: "/kids",
-        highlight: true,
-      },
-      { key: "support.kidsaudit", label: "Auditoria Kids", to: "/kids-auditoria" },
-      { key: "support.calendar", label: "Agenda e Alertas", to: "/calendario" },
-    ],
-  },
-];
-
-// Navegação exclusiva da área administrativa: nada de funções de cliente aqui.
-const adminNavGroups: NavGroup[] = [
-  { key: "admin", label: "Administração", to: "/admin", icon: ShieldCheck },
-  { key: "profile", label: "Minha conta", to: "/perfil", icon: User2 },
-];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -211,25 +116,23 @@ export function AppShell({ children }: { children: ReactNode }) {
   const unreadCount = (notifications ?? []).filter((item) => !item.read_at).length;
   const isStaff = (roles ?? []).some((role) => role === "admin" || role === "support");
   const isAdminArea = pathname.startsWith("/admin");
-  const baseItems: NavGroup[] = isAdminArea
-    ? adminNavGroups
+  // Uma única fonte de verdade (src/lib/nav-model.ts) alimenta sidebar,
+  // menu mobile, abas do header e a busca rápida.
+  const sections: NavSection[] = isAdminArea
+    ? [{ key: "admin", label: "Equipe", groups: adminNavGroups }]
     : isStaff
-      ? [...navGroups, { key: "admin", label: "Administração", to: "/admin", icon: ShieldCheck }]
-      : [...navGroups];
-  const items: NavGroup[] = baseItems.map((group) => ({
-    ...group,
-    children: group.children && group.children.length > 0 ? group.children : undefined,
-  }));
+      ? [...navSections, { key: "staff", label: "Equipe", groups: [staffNavGroup] }]
+      : navSections;
 
-
-
-
-
+  const items: NavGroup[] = flattenGroups(sections);
 
   const activeGroup = items.find(
     (group) => group.to === pathname || group.children?.some((child) => child.to === pathname),
   );
-  const subTabs = activeGroup?.children ?? [];
+  // Rotas de detalhe ficam fora das abas para não poluir o header.
+  const subTabs = (activeGroup?.children ?? []).filter((child) => !child.hidden);
+
+
 
 
 
@@ -284,134 +187,135 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
 
         {!isAdminArea ? (
-          <div className={cn("space-y-1.5 border-b border-border p-3", railCollapsed && "px-2")}>
-            <Button
-              onClick={() => setQuickEntry("expense")}
-              className="w-full gap-2 bg-brand text-brand-foreground hover:opacity-90"
-              size={railCollapsed ? "icon" : "default"}
-              aria-label="Nova despesa"
-            >
-              <Plus className="size-4" aria-hidden="true" />
-              {!railCollapsed ? <span>Nova despesa</span> : null}
-            </Button>
-            {!railCollapsed ? (
+          <div className={cn("space-y-2 border-b border-border p-3", railCollapsed && "px-2")}>
+            <div className={cn("grid gap-1.5", railCollapsed ? "grid-cols-1" : "grid-cols-2")}>
               <Button
-                variant="outline"
-                onClick={() => setQuickEntry("income")}
-                className="w-full gap-2 border-emerald-500/30 text-foreground"
+                onClick={() => setQuickEntry("expense")}
+                className="w-full gap-1.5 bg-brand text-brand-foreground hover:opacity-90"
+                size={railCollapsed ? "icon" : "sm"}
+                aria-label="Nova despesa"
+                title="Nova despesa"
               >
-                <TrendingUp className="size-4 text-emerald-500" aria-hidden="true" />
-                Nova receita
+                <TrendingDown className="size-4" aria-hidden="true" />
+                {!railCollapsed ? <span className="text-[12px]">Despesa</span> : null}
               </Button>
-            ) : null}
+              {!railCollapsed ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setQuickEntry("income")}
+                  className="w-full gap-1.5 border-success/35 text-foreground"
+                >
+                  <TrendingUp className="size-4 text-success" aria-hidden="true" />
+                  <span className="text-[12px]">Receita</span>
+                </Button>
+              ) : null}
+            </div>
+            {!railCollapsed ? <CommandPalette onQuickEntry={setQuickEntry} /> : null}
           </div>
         ) : null}
 
-        <nav aria-label="Menu principal" className="flex-1 space-y-1 overflow-y-auto p-2">
-          {items.map((item) => {
-            const isActive = activeGroup?.key === item.key;
-            const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
-            const hasChildren = Boolean(item.children && item.children.length > 0);
-            return (
-              <div key={item.to}>
-                <div
-                  className={cn(
-                    "group flex items-center gap-1 rounded-xl transition-colors",
-                    isActive ? "bg-brand/10" : "hover:bg-secondary/70",
-                  )}
-                >
-                  <Link
-                    to={item.to as never}
-                    aria-current={isActive ? "page" : undefined}
-                    title={item.label}
-                    className={cn(
-                      "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold",
-                      isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
-                      railCollapsed && "justify-center px-0",
-                    )}
-                  >
-                    <span
+        <nav aria-label="Menu principal" className="flex-1 space-y-3 overflow-y-auto p-2">
+          {sections.map((section) => (
+            <div key={section.key} className="space-y-1">
+              {!railCollapsed ? (
+                <p className="px-2.5 pt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground/70">
+                  {section.label}
+                </p>
+              ) : (
+                <div aria-hidden className="mx-auto h-px w-6 bg-border" />
+              )}
+              {section.groups.map((item) => {
+                const isActive = activeGroup?.key === item.key;
+                const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
+                const hasChildren = visibleChildren.length > 1;
+                const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
+                return (
+                  <div key={item.to}>
+                    <div
                       className={cn(
-                        "grid size-8 shrink-0 place-items-center rounded-lg border",
-                        isActive
-                          ? "border-brand/40 bg-brand/15 text-brand"
-                          : "border-border bg-secondary/60 text-brand",
+                        "group relative flex items-center gap-1 rounded-xl transition-colors",
+                        isActive ? "bg-brand/10" : "hover:bg-secondary/70",
                       )}
                     >
-                      <item.icon className="size-4" aria-hidden="true" />
-                    </span>
-                    {!railCollapsed ? <span className="truncate">{item.label}</span> : null}
-                  </Link>
-                  {hasChildren && !railCollapsed ? (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // O estado expanded agora é independente da navegação do item pai
-                        // para garantir que clicar na seta sempre funcione sem mudar de tela
-                        setExpanded((prev) => (prev === item.key ? "" : item.key));
-                      }}
-                      aria-expanded={isOpen}
-                      aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                      className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground hover:bg-secondary active:scale-95 transition-transform"
-                    >
-                      <ChevronDown
-                        className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
-                      />
-                    </button>
-                  ) : null}
-                </div>
-
-                {hasChildren && isOpen ? (
-                  <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border pl-2.5">
-                    {item.children!.map((child) => (
+                      {isActive ? (
+                        <span
+                          aria-hidden
+                          className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand"
+                        />
+                      ) : null}
                       <Link
-                        key={child.to}
-                        to={child.to as never}
-                        aria-current={pathname === child.to ? "page" : undefined}
+                        to={item.to as never}
+                        aria-current={isActive ? "page" : undefined}
+                        title={item.hint ? `${item.label} — ${item.hint}` : item.label}
                         className={cn(
-                          "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
-                          pathname === child.to
-                            ? "bg-secondary text-foreground"
-                            : child.highlight
-                              ? "bg-brand/10 text-brand hover:bg-brand/20"
-                              : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
-                          child.highlight && "font-semibold",
+                          "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold",
+                          isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
+                          railCollapsed && "justify-center px-0",
                         )}
                       >
-                        {child.highlight ? <Baby className="size-3.5 shrink-0" aria-hidden /> : null}
-                        <span className="truncate">{child.label}</span>
+                        <span
+                          className={cn(
+                            "grid size-8 shrink-0 place-items-center rounded-lg border transition-colors",
+                            isActive
+                              ? "border-brand/40 bg-brand/15 text-brand"
+                              : "border-border bg-secondary/60 text-brand",
+                          )}
+                        >
+                          <item.icon className="size-4" aria-hidden="true" />
+                        </span>
+                        {!railCollapsed ? <span className="truncate">{item.label}</span> : null}
                       </Link>
-                    ))}
+                      {hasChildren && !railCollapsed ? (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setExpanded((prev) => (prev === item.key ? "" : item.key));
+                          }}
+                          aria-expanded={isOpen}
+                          aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
+                          className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-transform hover:bg-secondary active:scale-95"
+                        >
+                          <ChevronDown
+                            className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
+                          />
+                        </button>
+                      ) : null}
+                    </div>
+
+                    {hasChildren && isOpen ? (
+                      <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border pl-2.5">
+                        {visibleChildren.map((child) => (
+                          <Link
+                            key={child.to}
+                            to={child.to as never}
+                            aria-current={pathname === child.to ? "page" : undefined}
+                            className={cn(
+                              "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+                              pathname === child.to
+                                ? "bg-secondary text-foreground"
+                                : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                            )}
+                          >
+                            <span className="truncate">{child.label}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          ))}
         </nav>
+
 
         {!isAdminArea && (
           <div className="mb-4 space-y-2">
-            {/* Atalho fixo: onde o responsável gerencia códigos e PINs das crianças. */}
-            <Link
-              to={"/kids" as never}
-              title="Painel do responsável — códigos das crianças"
-              className={cn(
-                "mx-2 flex items-center gap-2 rounded-xl border border-brand/30 bg-brand/10 p-2.5 text-brand transition-colors hover:bg-brand/20",
-                railCollapsed && "justify-center px-0",
-              )}
-            >
-              <Baby className="size-4 shrink-0" aria-hidden />
-              {!railCollapsed && (
-                <span className="min-w-0">
-                  <span className="block text-[11px] font-bold leading-tight">Painel do responsável</span>
-                  <span className="block truncate text-[10px] text-brand/80">
-                    Códigos e PINs do Espaço Kids
-                  </span>
-                </span>
-              )}
-            </Link>
+            {/* Atalho do Espaço Kids saiu daqui: agora é um grupo próprio no menu. */}
+
 
             <EnergySidebarWidget collapsed={railCollapsed} />
             
@@ -506,7 +410,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               {!isAdminArea ? (
                 <>
+                  <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
                   <NotificationCenter />
+
 
                   <button
                     type="button"
@@ -600,7 +506,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-const MOBILE_PRIMARY = ["/painel", "/lancamentos", "/veiculos", "/relatorios"];
+const MOBILE_PRIMARY = mobilePrimary;
 
 function MobileTabBar({
   items,

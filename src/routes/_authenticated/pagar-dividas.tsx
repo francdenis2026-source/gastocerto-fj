@@ -22,6 +22,7 @@ import { formatCurrency, formatDate } from "@/lib/format";
 import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
 import { useSyncNotifications } from "@/lib/notifications";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/finance/page-header";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/pagar-dividas")({
@@ -76,20 +77,21 @@ function PayDebtsPage() {
 
   return (
     <AppShell>
-      <div className="max-w-2xl mx-auto space-y-6 pb-12">
-        <header className="space-y-2">
-          <Link to="/diario" className="text-xs text-muted-foreground flex items-center gap-1 hover:text-foreground transition-colors">
-            <ArrowLeft className="size-3" />
-            Voltar para o Histórico
-          </Link>
-          <h1 className="page-title text-2xl flex items-center gap-2">
-            <AlertTriangle className="size-6 text-destructive" />
-            Pagar Dívidas em Atraso
-          </h1>
-          <p className="page-subtitle text-sm">
-            Gerencie suas pendências, visualize o que já foi quitado e ative lembretes de pagamento.
-          </p>
-        </header>
+      <div className="mx-auto w-full max-w-3xl space-y-4 sm:space-y-6">
+        <PageHeader
+          icon={AlertTriangle}
+          eyebrow="Planejamento"
+          title="Plano de quitação"
+          description="Gerencie suas pendências, veja o que já foi quitado e ative lembretes de pagamento."
+          actions={
+            <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
+              <Link to="/compromissos">
+                <ArrowLeft className="size-3.5" />
+                Compromissos
+              </Link>
+            </Button>
+          }
+        />
 
         <div className="flex items-center gap-3">
           <div className="relative flex-1">

@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/finance/page-header";
 import { FeatureGate } from "@/components/finance/feature-gate";
 import { CommitmentDialog } from "@/components/finance/commitment-dialog";
 import { CommitmentEntriesDialog } from "@/components/finance/commitment-entries-dialog";
@@ -141,26 +142,25 @@ function CompromissosPage() {
     <AppShell>
       <FeatureGate feature="commitments">
       <div className="space-y-4">
-        <header className="flex flex-wrap items-end justify-between gap-3">
-          <div className="space-y-1">
-            <h1 className="page-title">Compromissos e dívidas</h1>
-            <p className="page-subtitle mt-1">
-              Financiamentos, fiado no comércio, açougue, empréstimos, cartão de crédito, compras a
-              prazo, pensão alimentícia e outras saídas — com saldo devedor, parcelas e vencimentos.
-            </p>
-          </div>
-          <Button
-            size="sm"
-            className="h-9"
-            onClick={() => {
-              setEditing(null);
-              setDialogOpen(true);
-            }}
-          >
-            <Plus className="mr-1.5 size-4" />
-            Novo compromisso
-          </Button>
-        </header>
+        <PageHeader
+          icon={Wallet}
+          eyebrow="Planejamento"
+          title="Compromissos e dívidas"
+          description="Financiamentos, fiado no comércio, empréstimos, cartão, compras a prazo e pensão — com saldo devedor, parcelas e vencimentos."
+          actions={
+            <Button
+              size="sm"
+              className="h-9"
+              onClick={() => {
+                setEditing(null);
+                setDialogOpen(true);
+              }}
+            >
+              <Plus className="mr-1.5 size-4" />
+              Novo compromisso
+            </Button>
+          }
+        />
 
         <div className="auto-cards-sm grid gap-3">
           <MetricCard

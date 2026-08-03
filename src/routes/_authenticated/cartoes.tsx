@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageHeader } from "@/components/finance/page-header";
 
 export const Route = createFileRoute("/_authenticated/cartoes")({
   head: () => ({
@@ -38,21 +39,28 @@ function CreditCardsPage() {
 
   return (
     <AppShell>
-      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 pb-24 lg:pb-8">
-        <header className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Meus Cartões</h1>
-            <p className="text-muted-foreground text-sm">Gerencie limites, faturas e gastos por cartão.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="gap-2 h-9 text-xs" onClick={() => toast.success("Relatório gerado com filtros completos! (Simulação)")}>
-              <FileDown className="size-4" /> Exportar Relatório
-            </Button>
-            <Button className="gap-2 h-9 text-xs">
-              <Plus className="size-4" /> Novo Cartão
-            </Button>
-          </div>
-        </header>
+      <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6">
+        <PageHeader
+          icon={CreditCard}
+          eyebrow="Movimentações"
+          title="Meus cartões"
+          description="Gerencie limites, faturas e gastos por cartão."
+          actions={
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-9 gap-2 text-xs"
+                onClick={() => toast.success("Relatório gerado com filtros completos! (Simulação)")}
+              >
+                <FileDown className="size-4" /> Exportar
+              </Button>
+              <Button size="sm" className="h-9 gap-2 text-xs">
+                <Plus className="size-4" /> Novo cartão
+              </Button>
+            </>
+          }
+        />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="bg-muted/50 p-1 rounded-xl">
