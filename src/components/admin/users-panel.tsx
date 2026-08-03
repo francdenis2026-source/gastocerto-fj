@@ -620,6 +620,77 @@ function ManageUserDialog({
                   Excluir conta
                 </Button>
                 <SyncLicenseButton profile={profile} onChanged={onChanged} />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-amber-500/30 text-amber-600 hover:bg-amber-50"
+                  disabled={pending !== null}
+                  onClick={() => {
+                    const days = prompt("Limitar acesso por quantos dias a partir de hoje? (0 para remover limite)");
+                    if (days === null) return;
+                    const numDays = parseInt(days);
+                    if (isNaN(numDays)) return;
+
+                    void run(
+                      "limit-time",
+                      async () => {
+                         const endsAt = new Date();
+                         endsAt.setDate(endsAt.getDate() + numDays);
+                         
+                         const { error } = await supabase.from("profiles").update({
+                            trial_ends_at: numDays > 0 ? endsAt.toISOString() : null,
+                            trial_plan_slug: numDays > 0 ? (profile.plan_id || 'premium_ia') : null
+                         } as any).eq("user_id", profile.user_id);
+                         if (error) throw error;
+                      },
+                      numDays > 0 ? `Acesso limitado por ${numDays} dias` : "Limites de tempo removidos"
+                    );
+                  }}
+                >
+                  <KeyRound className="size-4" />
+                  Limitar Tempo
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-primary/30 text-primary hover:bg-primary/5"
+                  disabled={pending !== null}
+                  onClick={() => {
+                    if (!confirm("Promover este usuário para a versão PAGA (Premium IA) agora?")) return;
+                    void run(
+                      "promote",
+                      async () => {
+                         const { data: plans } = await supabase.from("plans").select("id").eq("slug", "premium_ia").maybeSingle();
+                         const { error } = await supabase.from("profiles").update({
+                            plan_id: plans?.id,
+                            status: 'active'
+                         } as any).eq("user_id", profile.user_id);
+                         if (error) throw error;
+                      },
+                      "Usuário promovido para Premium IA"
+                    );
+                  }}
+                >
+                  <TrendingUp className="size-4" />
+                  Promover para Pago
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 border-rose-500/30 text-rose-600 hover:bg-rose-50"
+                  disabled={pending !== null}
+                  onClick={() => {
+                    if (!confirm("Bloquear este usuário imediatamente?")) return;
+                    void run(
+                      "block",
+                      () => adminSetUserStatus({ data: { targetUserId: profile.user_id, status: 'suspended' } }),
+                      "Usuário bloqueado"
+                    );
+                  }}
+                >
+                  <Shield className="size-4" />
+                  Bloquear
+                </Button>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
                 O cancelamento revoga licenças ativas. A exclusão é definitiva e fica registrada nos
