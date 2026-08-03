@@ -309,21 +309,17 @@ export function TransactionDetailsDialog({
         open={confirmDelete}
         onOpenChange={setConfirmDelete}
         title="Excluir este lançamento?"
-        description="O registro sai imediatamente dos relatórios, gráficos e saldos. Esta ação pode ser desfeita apenas pelo suporte."
+        description="O registro sai imediatamente dos relatórios, gráficos e saldos. Você pode desfazer a exclusão por até 10 minutos."
         itemLabel={transaction.description}
         amountLabel={`${isIncome ? "+" : "−"} ${formatCurrency(Number(transaction.amount))}`}
-        pending={deleteTransaction.isPending}
+        pending={pending}
         onConfirm={async () => {
-          try {
-            await deleteTransaction.mutateAsync([transaction.id]);
-            setConfirmDelete(false);
-            onOpenChange(false);
-            toast.success("Lançamento excluído");
-          } catch (error) {
-            toast.error(error instanceof Error ? error.message : "Não foi possível excluir");
-          }
+          const done = await requestDelete([transaction.id], transaction.description);
+          setConfirmDelete(false);
+          if (done) onOpenChange(false);
         }}
       />
+
 
       <ReceiptViewer
         path={transaction.attachment_url}
