@@ -143,17 +143,24 @@ const SECTIONS: AdminSection[] = [
 ];
 
 function AdminPage() {
-  const { data: roles, isLoading } = useRoles();
+  const { data: roles, isLoading, error } = useRoles();
   const isAdmin = (roles ?? []).includes("admin");
   const isStaff = isAdmin || (roles ?? []).includes("support");
   const navigate = useNavigate();
 
-  // Guarda extra no cliente: se os papéis mudarem em tempo real, sai da central.
+  // Caso ocorra erro 401/403 ou o usuário não seja staff, redireciona
   useEffect(() => {
+    if (error) {
+      console.error("[admin] falha ao carregar permissões:", error);
+      navigate({ to: "/painel", replace: true });
+      return;
+    }
+    
     if (!isLoading && !isStaff) {
+      console.warn("[admin] acesso negado: usuário não possui papel administrativo");
       navigate({ to: "/painel", replace: true });
     }
-  }, [isLoading, isStaff, navigate]);
+  }, [isLoading, isStaff, error, navigate]);
 
   if (isLoading || !isStaff) {
     return (

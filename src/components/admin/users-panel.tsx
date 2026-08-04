@@ -88,8 +88,12 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
       const { data, error } = await supabase
         .from("profiles")
         .select("*, plan:plans(slug)")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
+        .order("created_at", { ascending: false })
+        .limit(1000); // Evita sobrecarga de memória no navegador
+      if (error) {
+        console.error("[admin] erro ao buscar perfis:", error);
+        throw error;
+      }
       
       const { data: kidsData } = await supabase.from("dependents").select("user_id");
       const kidsMap = new Map<string, number>();
