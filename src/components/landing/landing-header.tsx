@@ -208,7 +208,6 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           </nav>
         </div>
       )}
-      )}
     </header>
     </>
   );
