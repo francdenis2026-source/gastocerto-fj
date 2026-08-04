@@ -41,15 +41,15 @@ body::-webkit-scrollbar {
 @custom-variant dark (&:is(.dark *));
 
 /*
- * GastoCerto design system.
- * Fintech identity: deep navy primary, emerald for positive, coral for alerts,
- * amber for warnings, neutral light surfaces.
- * All colors MUST use oklch.
+ * Meu Controle Financeiro Design System.
+ * identity: deep charcoal background (#0B0F14), emerald primary.
+ * All colors use oklch.
  */
 
 @theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
