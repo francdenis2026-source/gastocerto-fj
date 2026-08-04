@@ -495,9 +495,9 @@
 }
 
 @utility glass-morphism {
-  background: color-mix(in oklab, var(--card) 65%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: color-mix(in oklab, var(--card) 45%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid color-mix(in oklab, var(--border) 40%, transparent);
 }
 

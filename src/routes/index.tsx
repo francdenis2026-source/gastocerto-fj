@@ -79,7 +79,33 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* Documentação interna da tarefa de otimização mobile */}
+        {/* 
+          ## Análise e Refinamento de Design da Homepage
+
+          **Objetivo:** Otimizar o design da homepage para torná-la mais compacta, profissional e sofisticada, com foco em melhorias visuais e de contraste.
+
+          **Pontos a serem analisados e aprimorados:**
+
+          1.  **Layout Geral e Pontos Visuais:**
+              *   Identificar elementos visuais que podem ser simplificados ou reorganizados para maior compacidade e clareza.
+              *   Avaliar a hierarquia visual e a distribuição de elementos para garantir um fluxo de usuário intuitivo.
+              *   Propor mudanças que elevem o profissionalismo geral da página.
+
+          2.  **Efeito Blur:**
+              *   Analisar a aplicação atual do efeito blur.
+              *   Ajustar o blur para aumentar o contraste entre os elementos, conferindo maior profundidade e sofisticação ao design.
+
+          3.  **Modos Claro e Escuro:**
+              *   Verificar a consistência e a adequação dos contrastes em ambos os modos (claro e escuro).
+              *   Garantir que a legibilidade e a experiência do usuário sejam ótimas em todas as condições de iluminação.
+
+          **Requisito Adicional:**
+          *   Implementar mudanças radicais, se necessário, para atingir um alto nível de profissionalismo e impacto visual.
+
+          **Entregáveis:**
+          *   Sugestões detalhadas de alterações de design.
+          *   Justificativas para as melhorias propostas, com foco em usabilidade, estética e profissionalismo.
+        */}
       </div>
 
       <PageBackground />
