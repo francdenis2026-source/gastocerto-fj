@@ -86,8 +86,8 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
       setStatus("valid");
       setMessage(
         result.planName
-          ? `Licença para o plano "${result.planName}" identificada! Redirecionando para o cadastro...`
-          : "Código de licença válido! Você será redirecionado para o cadastro.",
+          ? `Licença para o plano "${result.planName}" identificada! Autenticando sua sessão...`
+          : "Código de licença válido! Autenticando sua sessão...",
       );
 
       try {
@@ -96,8 +96,9 @@ export function CodeAccessDialog({ children }: { children: React.ReactNode }) {
 
       setTimeout(() => {
         setOpen(false);
-        void navigate({ to: "/auth", search: { mode: "signup" } });
-      }, 2000);
+        // Otimização: Direciona para o login simplificado ou direto se já for reconhecido
+        void navigate({ to: "/auth", search: { mode: "login", code: key } });
+      }, 1500);
     } catch (err) {
       console.error("[code-access] erro na validação:", err);
       setStatus("invalid");

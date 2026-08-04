@@ -54,11 +54,11 @@ export function AdminOverviewPanel({
 
   const shortcuts = [
     { id: "users", label: "Contas e usuários", icon: Users },
-    { id: "business", label: "Métricas de negócio", icon: TrendingUp },
-    { id: "trials", label: "Testes e cortesias", icon: Gift },
-    { id: "licenses", label: "Licenças e códigos", icon: ShieldCheck },
-    { id: "tickets", label: "Fila de suporte", icon: LifeBuoy },
-    { id: "sales", label: "Vendas e pagamentos", icon: CreditCard },
+    { id: "financial", label: "Adm. Financeiro", icon: TrendingUp },
+    { id: "temporary", label: "Acessos Temporários", icon: Gift },
+    { id: "temporary", label: "Licenças e códigos", icon: ShieldCheck },
+    { id: "operations", label: "Fila de suporte", icon: LifeBuoy },
+    { id: "financial", label: "Vendas e pagamentos", icon: CreditCard },
   ];
 
   return (
@@ -74,7 +74,7 @@ export function AdminOverviewPanel({
           </div>
         </div>
         <div className="flex gap-2">
-           <Button variant="outline" size="sm" onClick={() => onNavigate("business")} className="gap-2">
+           <Button variant="outline" size="sm" onClick={() => onNavigate("financial")} className="gap-2">
              <TrendingUp className="size-4" /> Relatórios
            </Button>
         </div>
@@ -102,7 +102,7 @@ export function AdminOverviewPanel({
           label="Novos (30 dias)"
           value={String(overview.data?.newUsers30d ?? 0)}
           icon={TrendingUp}
-          onClick={() => onNavigate("business")}
+          onClick={() => onNavigate("financial")}
           className="cursor-pointer hover:scale-[1.02] transition-transform"
         />
         <StatTile
@@ -110,7 +110,7 @@ export function AdminOverviewPanel({
           label="Lançamentos"
           value={String(overview.data?.totalTransactions ?? 0)}
           icon={Database}
-          onClick={() => onNavigate("business")}
+          onClick={() => onNavigate("financial")}
           className="cursor-pointer hover:scale-[1.02] transition-transform"
         />
       </div>
@@ -124,7 +124,7 @@ export function AdminOverviewPanel({
             <Button
               key={shortcut.id}
               variant="outline"
-              className="h-auto justify-start gap-2 py-3"
+              className="h-auto justify-start gap-2 py-3 cursor-pointer hover:border-brand/50 hover:bg-brand/5 transition-all"
               onClick={() => onNavigate(shortcut.id)}
             >
               <shortcut.icon className="size-4 text-brand" />
@@ -167,7 +167,7 @@ export function AdminOverviewPanel({
                <div className="h-full w-[72%] bg-brand" />
              </div>
              <p className="text-[10px] text-muted-foreground leading-relaxed">
-               O monitoramento de MRR, Churn e LTV foi movido para a aba <strong>"Negócio"</strong>.
+               O monitoramento de MRR, Churn e LTV foi movido para a aba <strong>"Adm. Financeiro"</strong>.
              </p>
              <div className="grid grid-cols-2 gap-2 pt-1">
                 <div className="rounded-lg bg-muted/50 p-2 text-center">

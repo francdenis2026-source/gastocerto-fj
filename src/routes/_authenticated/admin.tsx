@@ -1,41 +1,28 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import {
-  BellRing,
-  BrainCircuit,
-  ClipboardList,
-  CreditCard,
-  FileClock,
-  KeyRound,
-  LayoutDashboard,
-  LifeBuoy,
-  ReceiptText,
+import { useState, useMemo, Suspense, lazy, useEffect } from "react";
+import { useRoles } from "@/lib/queries";
+import { useAuth } from "@/hooks/use-auth";
+import { 
+  LayoutDashboard, 
+  Users, 
+  Wallet, 
+  KeyRound, 
+  LifeBuoy, 
+  Lock, 
+  FileClock, 
   Loader2,
-  Lock,
-  ScrollText,
-  ShieldCheck,
-  Tags,
   TrendingUp,
-  Users,
-  Wallet,
-  Settings,
-  Gift,
+  Clock
 } from "lucide-react";
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
-
-import { AdminConsoleShell, type AdminSection } from "@/components/admin/admin-console-shell";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { AdminConsoleShell } from "@/components/admin/admin-console-shell";
 import { AdminOverviewPanel } from "@/components/admin/overview-panel";
 import { UsersPanel } from "@/components/admin/users-panel";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/hooks/use-auth";
-import { useRoles } from "@/lib/queries";
+import { BusinessDashboard } from "@/components/admin/business-dashboard";
+import { SupportTicketsPanel } from "@/components/admin/support-tickets-panel";
 
-/** Painéis pesados carregam sob demanda para a central abrir instantaneamente. */
-const BusinessDashboard = lazy(() =>
-  import("@/components/admin/business-dashboard").then((m) => ({ default: m.BusinessDashboard })),
-);
-const SupportTicketsPanel = lazy(() =>
-  import("@/components/admin/support-tickets-panel").then((m) => ({ default: m.SupportTicketsPanel })),
-);
+// Lazy components
 const EmailSetupPanel = lazy(() =>
   import("@/components/admin/email-setup-panel").then((m) => ({ default: m.EmailSetupPanel })),
 );
@@ -75,7 +62,6 @@ const BlockedIpsPanel = lazy(() =>
 const MasterCodePanel = lazy(() =>
   import("@/components/admin/master-code-panel").then((m) => ({ default: m.MasterCodePanel })),
 );
-
 const CategoriesCatalogPanel = lazy(() =>
   import("@/components/admin/categories-panel").then((m) => ({ default: m.CategoriesCatalogPanel })),
 );
@@ -88,17 +74,35 @@ const ReopenRequestsPanel = lazy(() =>
 const AuditLogsPanelComponent = lazy(() =>
   import("@/components/admin/audit-logs-panel").then((m) => ({ default: m.AuditLogsTable })),
 );
-const PermissionsPanel = lazy(() =>
-  import("@/components/admin/permissions-panel").then((m) => ({ default: m.PermissionsPanel })),
-);
 const PaymentsAuditPanel = lazy(() =>
   import("@/components/admin/payments-audit-panel").then((m) => ({ default: m.PaymentsAuditPanel })),
 );
 const IntegrationsPanel = lazy(() =>
   import("@/components/admin/integrations-panel").then((m) => ({ default: m.IntegrationsPanel })),
 );
+const LogsTable = lazy(() =>
+  import("@/components/admin/logs-table").then((m) => ({ default: m.LogsTable })),
+);
+
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
 
+type AdminSection = {
+  id: string;
+  label: string;
+  hint: string;
+  icon: any;
+  adminOnly?: boolean;
+};
+
+const SECTIONS: AdminSection[] = [
+  { id: "overview", label: "Dashboard", hint: "Métricas globais de negócio", icon: LayoutDashboard },
+  { id: "users", label: "Contas & Usuários", hint: "Gestão e permissões", icon: Users },
+  { id: "financial", label: "Adm. Financeiro", hint: "Planos e receitas", icon: Wallet, adminOnly: true },
+  { id: "temporary", label: "Acesso Temporário", hint: "Trials e chaves", icon: KeyRound, adminOnly: true },
+  { id: "operations", label: "Operações", hint: "Suporte e catálogo", icon: LifeBuoy, adminOnly: true },
+  { id: "security", label: "Segurança", hint: "Acessos e infra", icon: Lock, adminOnly: true },
+  { id: "audit", label: "Auditoria", hint: "Histórico de logs", icon: FileClock },
+];
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -122,16 +126,6 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-const SECTIONS: AdminSection[] = [
-  { id: "overview", label: "Dashboard", hint: "Métricas globais de negócio", icon: LayoutDashboard },
-  { id: "users", label: "Contas & Usuários", hint: "Gestão e permissões", icon: Users },
-  { id: "financial", label: "Administrador Financeiro", hint: "Planos e receitas", icon: Wallet, adminOnly: true },
-  { id: "temporary", label: "Acessos Temporários", hint: "Trials e chaves", icon: KeyRound, adminOnly: true },
-  { id: "operations", label: "Operações & Suporte", hint: "Notificações e catálogo", icon: LifeBuoy, adminOnly: true },
-  { id: "security", label: "Segurança & Infra", icon: Lock, hint: "Acessos e integrações", adminOnly: true },
-  { id: "audit", label: "Auditoria & Logs", hint: "Histórico de ações", icon: FileClock },
-];
-
 function AdminPage() {
   const { data: roles, isLoading, isError, error } = useRoles();
   const { user } = useAuth();
@@ -140,24 +134,9 @@ function AdminPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Só redireciona se tivermos certeza que NÃO é staff
-    // Se isLoading ou se ocorreu um erro de rede temporário, aguardamos
     if (isLoading || !user) return;
-
-    if (isError) {
-      const err = error as any;
-      console.error("[admin] falha ao verificar permissões:", err);
-      // Se for erro de autenticação/token, volta pro login
-      if (err?.status === 401) {
-        navigate({ to: "/auth", replace: true });
-        return;
-      }
-      // Outros erros (rede, rate limit): não redireciona para não quebrar a sessão do admin
-      return;
-    }
-    
+    if (isError) return;
     if (!isStaff) {
-      console.warn("[admin] acesso negado: usuário comum tentando acessar área staff");
       navigate({ to: "/painel", replace: true });
     }
   }, [isLoading, isStaff, isError, error, navigate]);
@@ -171,12 +150,10 @@ function AdminPage() {
     );
   }
 
-  // Se não carregou e não é staff, redireciona (o useEffect cuida disso, mas o render protege)
   if (!isStaff) return null;
 
   return <AdminConsole isAdmin={isAdmin} />;
 }
-
 
 function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
   const { user } = useAuth();
@@ -268,8 +245,3 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
     </AdminConsoleShell>
   );
 }
-
-const LogsTable = lazy(() =>
-  import("@/components/admin/logs-table").then((m) => ({ default: m.LogsTable })),
-);
-

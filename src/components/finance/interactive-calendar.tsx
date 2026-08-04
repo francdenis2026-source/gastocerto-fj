@@ -49,9 +49,9 @@ export function InteractiveCalendar({ onDayClick }: InteractiveCalendarProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 shadow-soft lg:grid lg:grid-cols-[1fr_280px] lg:gap-6">
+    <div className="rounded-xl border border-border bg-card p-3 shadow-soft lg:grid lg:grid-cols-[1fr_280px] lg:gap-6 sm:p-4">
       <div className="space-y-4">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Calendar className="size-5 text-brand" />
             <h2 className="text-sm font-bold uppercase tracking-wider">Calendário de Fluxo</h2>
@@ -81,7 +81,7 @@ export function InteractiveCalendar({ onDayClick }: InteractiveCalendarProps) {
               key={d.day}
               onClick={() => onDayClick(d.day)}
               className={cn(
-                "group relative flex flex-col items-center justify-between rounded-xl border border-border/40 p-1.5 transition-all hover:border-brand/50 hover:bg-brand/5",
+                "group relative flex flex-col items-center justify-between rounded-lg border border-border/40 p-1 transition-all hover:border-brand/50 hover:bg-brand/5 sm:p-1.5 sm:rounded-xl",
                 d.isToday && "border-brand bg-brand/5 ring-1 ring-brand/20",
                 d.count === 0 && "opacity-60"
               )}

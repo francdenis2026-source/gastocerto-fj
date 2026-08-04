@@ -23,7 +23,6 @@ import {
   Zap,
   Gift,
   PiggyBank,
-  Trophy,
   Baby,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";

@@ -215,7 +215,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           railCollapsed ? "w-[76px]" : "w-[268px]",
         )}
       >
-        <div className="flex h-16 items-center gap-2 border-b border-border px-3">
+        <div className="flex h-14 items-center gap-2 border-b border-border px-3">
           <Link
             to={isAdminArea ? "/admin" : "/painel"}
             aria-label="Ir para o painel"

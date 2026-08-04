@@ -108,6 +108,7 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
         ];
       });
       
+      toast.info(`Exportando ${(accounts ?? []).length} contas temporárias...`);
       const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");

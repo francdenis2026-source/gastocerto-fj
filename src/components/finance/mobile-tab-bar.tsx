@@ -29,17 +29,17 @@ export function MobileTabBar() {
           "fixed inset-y-0 right-0 w-[300px] bg-card border-l border-border shadow-2xl transition-transform duration-300 lg:hidden flex flex-col",
           menuOpen ? "translate-x-0" : "translate-x-full"
         )} onClick={e => e.stopPropagation()}>
-          <div className="flex h-16 items-center justify-between border-b border-border px-5">
-            <span className="text-sm font-black uppercase tracking-[0.2em] text-brand">Navegação</span>
-            <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)} className="rounded-full">
-              <X className="size-5" />
+          <div className="flex h-14 items-center justify-between border-b border-border px-4">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-brand">Navegação</span>
+            <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)} className="rounded-full size-9">
+              <X className="size-4" />
             </Button>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-5 space-y-8 pb-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-6 pb-4">
             {navSections.map((section) => (
-              <div key={section.key} className="space-y-3">
-                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 px-1">
+              <div key={section.key} className="space-y-2">
+                <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 px-1">
                   {section.label}
                 </p>
                 <div className="grid gap-2">
@@ -52,14 +52,14 @@ export function MobileTabBar() {
                         to={group.to as any}
                         onClick={() => setMenuOpen(false)}
                         className={cn(
-                          "flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[13px] font-bold transition-all active:scale-[0.98]",
+                          "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[12px] font-bold transition-all active:scale-[0.98]",
                           isActive 
                             ? "bg-brand/10 text-brand shadow-inner border border-brand/20" 
                             : "bg-secondary/40 text-muted-foreground hover:bg-secondary/60"
                         )}
                       >
                         <div className={cn(
-                          "grid size-8 place-items-center rounded-xl border",
+                          "grid size-7 place-items-center rounded-lg border",
                           isActive ? "border-brand/30 bg-brand/10" : "border-border/50 bg-background/50"
                         )}>
                           <Icon className="size-4" />
@@ -78,7 +78,7 @@ export function MobileTabBar() {
             <div className="pt-4 border-t border-border mt-4">
               <Button 
                 variant="destructive" 
-                className="w-full justify-start gap-3 rounded-2xl py-6 text-sm font-bold"
+                className="w-full justify-start gap-3 rounded-xl py-5 text-[13px] font-bold"
                 onClick={() => {
                   setMenuOpen(false);
                   signOut();
@@ -93,8 +93,8 @@ export function MobileTabBar() {
       </div>
 
       {/* Tab Bar Fixo Inferior */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/90 p-1.5 pb-safe backdrop-blur-lg lg:hidden">
-        <div className="mx-auto flex max-w-md items-center justify-around gap-1">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/90 p-1 pb-safe backdrop-blur-lg lg:hidden">
+        <div className="mx-auto flex max-w-md items-center justify-around gap-0.5">
           {mainActions.map((item) => {
             const isActive = pathname === item.to;
             const Icon = item.icon;
@@ -103,12 +103,12 @@ export function MobileTabBar() {
                 key={item.to}
                 to={item.to as any}
                 className={cn(
-                  "flex flex-1 flex-col items-center gap-1 rounded-2xl py-2 transition-all active:scale-90",
+                  "flex flex-1 flex-col items-center gap-0.5 rounded-xl py-1.5 transition-all active:scale-90",
                   isActive ? "text-brand" : "text-muted-foreground/70"
                 )}
               >
                 <div className={cn(
-                  "relative grid size-11 place-items-center rounded-2xl transition-all duration-300",
+                  "relative grid size-10 place-items-center rounded-xl transition-all duration-300",
                   isActive ? "bg-brand/10 shadow-sm border border-brand/20" : "hover:bg-secondary"
                 )}>
                   <Icon className={cn("size-5.5", isActive && "animate-pulse")} />
@@ -123,12 +123,12 @@ export function MobileTabBar() {
           
           <button
             onClick={() => setMenuOpen(true)}
-            className="flex flex-1 flex-col items-center gap-1 rounded-2xl py-2 text-muted-foreground/70 active:scale-90"
+            className="flex flex-1 flex-col items-center gap-0.5 rounded-xl py-1.5 text-muted-foreground/70 active:scale-90"
           >
-            <div className="grid size-11 place-items-center rounded-2xl hover:bg-secondary border border-transparent">
-              <Menu className="size-5.5" />
+            <div className="grid size-10 place-items-center rounded-xl hover:bg-secondary border border-transparent">
+              <Menu className="size-5" />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-tighter">Mais</span>
+            <span className="text-[9px] font-black uppercase tracking-tighter">Mais</span>
           </button>
         </div>
       </div>

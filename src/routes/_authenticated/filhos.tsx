@@ -234,16 +234,15 @@ function FamilyHubPage() {
 
   return (
     <AppShell>
-      <div className="space-y-3 sm:space-y-4">
+      <div className="space-y-2 sm:space-y-3">
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:flex-wrap sm:items-start sm:justify-between sm:gap-3">
           <div className="min-w-0">
-            <h1 className="flex items-center gap-2 text-base font-semibold sm:text-lg">
+            <h1 className="flex items-center gap-2 text-sm font-bold sm:text-base md:text-lg">
               <Users className="size-4 shrink-0 text-primary sm:size-5" />
               <span className="truncate">Central da Família</span>
             </h1>
-            <p className="mt-0.5 line-clamp-2 text-[11px] text-muted-foreground sm:text-xs">
-              Acompanhe as carteiras dos filhos em tempo real, libere o Espaço Kids e registre
-              mesadas e presentes.
+            <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground sm:text-xs">
+              Acompanhe as carteiras dos filhos e libere o Espaço Kids.
             </p>
           </div>
           <div className="flex shrink-0 gap-1.5 sm:gap-2">
@@ -260,13 +259,13 @@ function FamilyHubPage() {
           </div>
         </header>
 
-        <Tabs defaultValue="registros" className="space-y-3">
-          <TabsList className="w-full justify-start overflow-x-auto sm:w-auto">
-            <TabsTrigger value="registros" className="text-xs sm:text-sm">
-              Registros e métricas
+        <Tabs defaultValue="registros" className="space-y-2.5 sm:space-y-3">
+          <TabsList className="w-full justify-start h-9 bg-muted/40 p-0.5 rounded-xl border border-border/50 overflow-x-auto sm:w-auto">
+            <TabsTrigger value="registros" className="text-[11px] px-3 font-bold sm:text-xs">
+              Métricas
             </TabsTrigger>
-            <TabsTrigger value="cadastro" className="text-xs sm:text-sm">
-              Filhos e acessos
+            <TabsTrigger value="cadastro" className="text-[11px] px-3 font-bold sm:text-xs">
+              Filhos e Acessos
             </TabsTrigger>
           </TabsList>
 
