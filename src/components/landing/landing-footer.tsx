@@ -1,4 +1,4 @@
-import { Lock } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 import { Logo } from "@/components/logo";
@@ -52,21 +52,27 @@ export function LandingFooter() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Legal</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Empresa</h4>
             <nav className="flex flex-col gap-2">
-              <Link to="/termos" className="text-sm text-muted-foreground transition-colors hover:text-brand">Termos de uso</Link>
-              <Link to="/privacidade" className="text-sm text-muted-foreground transition-colors hover:text-brand">Privacidade</Link>
+              <Link to="/sobre" className="text-sm text-muted-foreground transition-colors hover:text-brand">Sobre nós</Link>
+              <Link to="/contato" className="text-sm text-muted-foreground transition-colors hover:text-brand">Central de Ajuda</Link>
             </nav>
           </div>
 
           <div className="space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Contato</h4>
-            <button
-              onClick={() => setContactOpen(true)}
-              className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-bold text-brand-foreground transition-all hover:brightness-110 active:scale-95"
-            >
-              Fale Conosco
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => setContactOpen(true)}
+                className="text-sm text-muted-foreground transition-colors hover:text-brand text-left"
+              >
+                Fale Conosco
+              </button>
+              <a href="mailto:contato@precocerto.shop" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-brand">
+                <Mail className="size-4" />
+                contato@precocerto.shop
+              </a>
+            </div>
           </div>
         </div>
       </div>
