@@ -2,6 +2,21 @@
 @source "../src";
 @import "tw-animate-css";
 
+@layer base {
+  *, ::before, ::after {
+    @apply cursor-default;
+  }
+
+  a, button, [role="button"], input[type="submit"], input[type="button"], label, select, summary, [tabindex]:not([tabindex="-1"]) {
+    @apply cursor-pointer;
+  }
+
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="url"], textarea {
+    @apply cursor-text;
+  }
+}
+
+
 @custom-variant dark (&:is(.dark *));
 
 /*
