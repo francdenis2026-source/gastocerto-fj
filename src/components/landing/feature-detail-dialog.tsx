@@ -94,7 +94,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
   return (
     <Dialog onOpenChange={(open) => !open && setStep(0)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl sm:p-6 p-4 gap-4 overflow-y-auto max-h-[90vh] bg-background/95 backdrop-blur-xl border-border/50">
+      <DialogContent className="max-w-2xl sm:p-10 p-6 gap-6 overflow-y-auto max-h-[95vh] bg-background border-white/10 rounded-[2rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-300">
         <DialogHeader className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             {detail.tag ? (
@@ -109,7 +109,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
           <DialogTitle className="text-left text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
             {detail.title}
           </DialogTitle>
-          <DialogDescription className="text-left text-[14px] font-medium leading-relaxed text-muted-foreground sm:text-[15px]">
+          <DialogDescription className="text-left text-base font-medium leading-relaxed text-muted-foreground">
             {detail.summary}
           </DialogDescription>
         </DialogHeader>
@@ -125,8 +125,8 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                 aria-current={active ? "step" : undefined}
                 className={
                   active
-                    ? "inline-flex h-9 items-center gap-2 rounded-lg border border-primary bg-primary px-4 text-[12px] font-bold text-primary-foreground shadow-sm transition-all focus-visible:outline-none"
-                    : "inline-flex h-9 items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-4 text-[12px] font-medium text-muted-foreground transition-all hover:border-white/10 hover:bg-white/5 focus-visible:outline-none"
+                    ? "inline-flex h-10 items-center gap-2 rounded-xl bg-emerald-500 px-6 text-[12px] font-bold text-black shadow-lg shadow-emerald-500/20 transition-all focus-visible:outline-none"
+                    : "inline-flex h-10 items-center gap-2 rounded-xl border border-white/5 bg-white/[0.02] px-6 text-[12px] font-bold text-muted-foreground transition-all hover:bg-white/5 focus-visible:outline-none"
 
                 }
               >
