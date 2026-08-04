@@ -103,8 +103,8 @@ export const createAdminAccessCode = createServerFn({ method: "POST" })
     const code = `ADM-${random}`;
 
     const expiresAt = new Date();
-    expiresAt.setHours(23, 59, 59, 999);
     expiresAt.setDate(expiresAt.getDate() + data.expiresInDays);
+    expiresAt.setHours(23, 59, 59, 999); // Garante validade até o fim do último dia
 
     const { data: newCode, error } = await supabaseAdmin
       .from("admin_access_codes")

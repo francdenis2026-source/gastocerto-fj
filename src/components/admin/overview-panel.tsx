@@ -37,13 +37,17 @@ export function AdminOverviewPanel({
   const logs = useQuery({
     queryKey: ["admin", "logs", "recent"],
     staleTime: 60_000,
+    enabled: isAdmin, // Apenas admins podem ver a trilha global
     queryFn: async () => {
       const { data, error } = await supabase
         .from("admin_logs")
         .select("id, action, created_at, details")
         .order("created_at", { ascending: false })
         .limit(12);
-      if (error) throw error;
+      if (error) {
+        console.error("[admin] falha ao buscar logs recentes:", error);
+        throw error;
+      }
       return data ?? [];
     },
   });

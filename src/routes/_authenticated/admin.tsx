@@ -162,7 +162,7 @@ function AdminPage() {
     }
   }, [isLoading, isStaff, error, navigate]);
 
-  if (isLoading || !isStaff) {
+  if (isLoading) {
     return (
       <div className="mx-auto w-full max-w-[1400px] space-y-4 p-6">
         <Skeleton className="h-24 rounded-2xl" />
@@ -170,6 +170,9 @@ function AdminPage() {
       </div>
     );
   }
+
+  // Se não carregou e não é staff, redireciona (o useEffect cuida disso, mas o render protege)
+  if (!isStaff) return null;
 
   return <AdminConsole isAdmin={isAdmin} />;
 }
