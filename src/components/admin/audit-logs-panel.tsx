@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2 } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import { adminListAuditLogs } from "@/lib/audit-logs.functions";
 
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const purgeLogs = useServerFn(adminPurgeLogs);
@@ -66,6 +68,15 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
     });
   }, [logs, search, globalSearch]);
 
+  const clearFilters = () => {
+    setSearch("");
+    // Se houvesse outros filtros locais, seriam resetados aqui
+    toast.info("Filtros limpos em tempo real", {
+      icon: <FilterX className="size-4" />,
+      duration: 2000
+    });
+  };
+
   const actionLabels: Record<string, { label: string; color: string }> = {
     set_status: { label: "Alterar Status", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
     grant_role: { label: "Conceder Papel", color: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" },
@@ -80,90 +91,115 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
   };
 
   return (
-    <div className="space-y-4 rounded-2xl border border-border bg-card p-4">
-      <header className="flex items-center justify-between gap-4">
+    <div className="space-y-4 rounded-2xl border border-border bg-card overflow-hidden transition-all duration-300">
+      <header className="flex items-center justify-between gap-4 p-4 border-b border-border/50 bg-muted/10">
         <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-brand/10 text-brand">
-            <ScrollText className="size-5" />
-          </div>
-          <div>
-            <h2 className="text-base font-semibold">Trilha de Auditoria</h2>
-            <p className="text-xs text-muted-foreground">Registro de ações administrativas</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="relative w-48 sm:w-64">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input 
-              placeholder="Filtrar logs..." 
-              value={search} 
-              onChange={e => setSearch(e.target.value)}
-              className="h-9 pl-9" 
-            />
-          </div>
           <Button 
-            variant="outline" 
-            size="sm" 
-            className="h-9 gap-2 text-destructive hover:text-destructive"
-            onClick={handlePurge}
-            disabled={purgeMutation.isPending}
+            variant="ghost" 
+            size="icon" 
+            className="size-8 text-muted-foreground hover:bg-muted/50"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            aria-label={isCollapsed ? "Expandir" : "Recolher"}
           >
-            {purgeMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
-            <span className="hidden sm:inline">Limpar 30d</span>
+            <ChevronDown className={cn("size-4 transition-transform duration-200", isCollapsed && "-rotate-90")} />
           </Button>
+          <div className="flex items-center gap-2">
+            <ScrollText className="size-4 text-brand" />
+            <h2 className="text-sm font-bold uppercase tracking-wider">Trilha de Auditoria</h2>
+          </div>
         </div>
+
+        {!isCollapsed && (
+          <div className="flex items-center gap-2">
+            <div className="relative w-40 sm:w-56">
+              <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+              <Input 
+                placeholder="Filtrar logs..." 
+                value={search} 
+                onChange={e => setSearch(e.target.value)}
+                className="h-8 pl-8 text-xs border-none bg-muted/40 focus-visible:ring-1 focus-visible:ring-brand/30" 
+              />
+            </div>
+            {search && (
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="size-8 text-muted-foreground hover:text-brand"
+                onClick={clearFilters}
+                title="Limpar filtros"
+              >
+                <FilterX className="size-4" />
+              </Button>
+            )}
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8 gap-1.5 text-[10px] text-destructive hover:bg-destructive/5 hover:text-destructive border-destructive/20"
+              onClick={handlePurge}
+              disabled={purgeMutation.isPending}
+            >
+              {purgeMutation.isPending ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}
+              <span className="hidden sm:inline">Limpar 30d</span>
+            </Button>
+          </div>
+        )}
         <ConfirmDialog />
       </header>
 
-      <div className="divide-y divide-border/50">
-        {isLoading ? (
-          <div className="py-8 text-center text-sm text-muted-foreground">Carregando logs...</div>
-        ) : filtered.length === 0 ? (
-          <div className="py-8 text-center text-sm text-muted-foreground">Nenhum log encontrado.</div>
-        ) : (
-          filtered.map((log) => {
-            const config = actionLabels[log.action] || { label: log.action, color: "bg-slate-500/10 text-slate-600" };
-            return (
-              <div key={log.id} className="py-3 flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
-                <div className="w-32 shrink-0 flex items-center gap-2 text-xs text-muted-foreground">
-                  <Calendar className="size-3" />
-                  {formatDateTime(log.created_at)}
-                </div>
-                
-                <div className="w-32 shrink-0">
-                  <Badge variant="outline" className={config.color}>
-                    {config.label}
-                  </Badge>
-                </div>
-
-                <div className="flex-1 min-w-0 space-y-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-medium text-foreground flex items-center gap-1">
-                      <User className="size-3 text-brand" />
-                      {log.actor?.full_name || "Sistema"}
-                    </span>
-                    <span className="text-muted-foreground">realizou em</span>
-                    <span className="font-medium text-foreground flex items-center gap-1">
-                      <User className="size-3 text-amber-500" />
-                      {log.target?.full_name || "—"}
-                    </span>
+      {!isCollapsed && (
+        <div className="divide-y divide-border/30 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted p-2">
+          {isLoading ? (
+            <div className="py-8 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
+              <Loader2 className="size-3 animate-spin" />
+              Carregando registros...
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="py-8 text-center text-xs text-muted-foreground">Nenhum log encontrado.</div>
+          ) : (
+            filtered.map((log) => {
+              const config = actionLabels[log.action] || { label: log.action, color: "bg-slate-500/10 text-slate-600" };
+              return (
+                <div key={log.id} className="py-2.5 px-2 flex flex-col sm:flex-row sm:items-center gap-3 text-xs hover:bg-muted/5 transition-colors group">
+                  <div className="w-28 shrink-0 flex items-center gap-1.5 text-[10px] text-muted-foreground/70">
+                    <Calendar className="size-3" />
+                    {formatDateTime(log.created_at)}
                   </div>
-                  {log.details && (
-                    <div className="flex items-start gap-1 text-[10px] text-muted-foreground bg-muted/30 px-1.5 py-1 rounded border border-border/40 max-w-md">
-                      <Info className="size-2.5 mt-0.5 shrink-0" />
-                      <span className="truncate">
-                        {typeof log.details === 'object' 
-                          ? Object.entries(log.details).map(([k, v]) => `${k}: ${v}`).join(" | ")
-                          : String(log.details)}
+                  
+                  <div className="w-28 shrink-0">
+                    <Badge variant="outline" className={cn("text-[10px] py-0 h-5 border-none", config.color)}>
+                      {config.label}
+                    </Badge>
+                  </div>
+
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-semibold text-foreground/90 flex items-center gap-1">
+                        <User className="size-3 text-brand/70" />
+                        {log.actor?.full_name || "Sistema"}
+                      </span>
+                      <span className="text-muted-foreground/60 text-[10px] lowercase">realizou em</span>
+                      <span className="font-semibold text-foreground/90 flex items-center gap-1">
+                        <User className="size-3 text-amber-500/70" />
+                        {log.target?.full_name || "—"}
                       </span>
                     </div>
-                  )}
+                    {log.details && (
+                      <div className="flex items-start gap-1 text-[9px] text-muted-foreground/80 bg-muted/20 px-1.5 py-0.5 rounded border border-border/20 max-w-sm">
+                        <Info className="size-2.5 mt-0.5 shrink-0" />
+                        <span className="truncate group-hover:whitespace-normal group-hover:break-words">
+                          {typeof log.details === 'object' 
+                            ? Object.entries(log.details).map(([k, v]) => `${k}: ${v}`).join(" | ")
+                            : String(log.details)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
+      )}
     </div>
   );
 }
