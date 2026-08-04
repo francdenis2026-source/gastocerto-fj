@@ -121,25 +121,13 @@ export const Route = createFileRoute("/_authenticated/admin")({
 
 const SECTIONS: AdminSection[] = [
   { id: "overview", label: "Visão geral", hint: "Indicadores e atalhos da operação", icon: LayoutDashboard },
-  { id: "users", label: "Contas", hint: "Usuários, papéis e credenciais", icon: Users },
-  { id: "business", label: "Negócio", hint: "MRR, churn, LTV e custo de IA", icon: TrendingUp, adminOnly: true },
-  { id: "sales", label: "Vendas e pagamentos", hint: "Pedidos, Pix e reconciliação", icon: Wallet, adminOnly: true },
-  { id: "payments-audit", label: "Auditoria de pagamentos", hint: "Checkout Pix, status e erros do Mercado Pago", icon: ReceiptText, adminOnly: true },
-  { id: "plans", label: "Planos e preços", hint: "Limites e valores por plano", icon: CreditCard, adminOnly: true },
-  { id: "licenses", label: "Licenças", hint: "Emissão, validade e revogação", icon: ShieldCheck, adminOnly: true },
-  { id: "codes", label: "Códigos de clientes", hint: "Validade e tempo restante", icon: KeyRound, adminOnly: true },
-  { id: "trials", label: "Testes e cortesias", hint: "Gerenciar contas em teste, bloquear e promover", icon: Gift, adminOnly: true },
-  { id: "ai", label: "IA e limites", hint: "Cotas, rate limit e alertas", icon: BrainCircuit, adminOnly: true },
-  { id: "tickets", label: "Suporte", hint: "Fila de atendimento", icon: LifeBuoy, adminOnly: true },
-  { id: "announcements", label: "Avisos globais", hint: "Comunicados na plataforma", icon: BellRing, adminOnly: true },
-  { id: "categories", label: "Catálogo", hint: "Categorias da plataforma", icon: Tags, adminOnly: true },
-  { id: "security", label: "Segurança", hint: "Códigos de acesso e IPs bloqueados", icon: Lock, adminOnly: true },
-  { id: "emails", label: "E-mails e avisos", hint: "Domínio de envio, teste e liberação", icon: BellRing, adminOnly: true },
-  { id: "integrations", label: "Integrações", hint: "Mercado Pago, IA e APIs", icon: Settings, adminOnly: true },
-
-  { id: "closing", label: "Fechamento", hint: "Política e liberações de meses", icon: Lock },
-  { id: "audit", label: "Auditoria", hint: "Códigos, permissões e exportação", icon: FileClock },
-  { id: "logs", label: "Logs administrativos", hint: "Trilha completa de ações", icon: ScrollText },
+  { id: "users", label: "Contas e Usuários", hint: "Gestão completa de perfis e papéis", icon: Users },
+  { id: "temporary", label: "Contas Temporárias", hint: "Gestão de trials e acessos por código", icon: KeyRound, adminOnly: true },
+  { id: "business", label: "Negócio e Vendas", hint: "MRR, Churn e faturamento", icon: TrendingUp, adminOnly: true },
+  { id: "licenses", label: "Licenças", hint: "Emissão e controle de chaves", icon: ShieldCheck, adminOnly: true },
+  { id: "operations", label: "Operações", hint: "Suporte, avisos e catálogo", icon: LifeBuoy, adminOnly: true },
+  { id: "security", label: "Segurança", hint: "Infraestrutura e acessos", icon: Lock, adminOnly: true },
+  { id: "audit", label: "Auditoria e Logs", hint: "Trilha completa de ações", icon: FileClock },
 ];
 
 function AdminPage() {
