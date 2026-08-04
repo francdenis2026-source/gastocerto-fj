@@ -130,7 +130,12 @@ type ConfirmState = {
 
 export function useConfirm() {
   const [state, setState] = React.useState<ConfirmState | null>(null);
-  const [value, setValue] = React.useState("");
+  React.useEffect(() => {
+    if (state?.input) {
+      setValue(state.input.defaultValue ?? "");
+    }
+  }, [state]);
+  const [value, setValue] = React.useState(state.input?.defaultValue ?? "");
 
   const confirm = (options: {
     title: string;
