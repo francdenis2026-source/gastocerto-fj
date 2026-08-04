@@ -770,7 +770,7 @@ function ManageUserDialog({
                               data: { targetUserId: profile.user_id, planSlug: "premium_ia" },
                             }).then(() => {
                               // Se o usuário promovido for o próprio administrador (teste), recarrega
-                              if (profile.user_id === user?.id) {
+                              if (profile.user_id === (supabase.auth.getSession().then(s => s.data.session?.user.id).catch(() => null) as unknown)) {
                                 window.location.href = "/painel";
                               }
                             }),
