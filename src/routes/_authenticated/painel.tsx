@@ -1006,6 +1006,18 @@ function DashboardPage() {
                           label="Saldo disponível"
                           value={formatCurrency(metrics.balance)}
                           icon={Wallet}
+                          onClick={() =>
+                            setDetail({
+                              label: "Saldo disponível",
+                              value: formatCurrency(metrics.balance),
+                              formula: "Resultado líquido do mês (Receitas - Despesas).",
+                              rows: transactions ?? [],
+                              extra: [
+                                { label: "Receitas", value: formatCurrency(metrics.totalIncome) },
+                                { label: "Despesas", value: formatCurrency(metrics.totalExpense) },
+                              ],
+                            })
+                          }
                         />
                       </div>
                       <ChartCard title="Evolução Diária" summary="Pico de gastos diários">
