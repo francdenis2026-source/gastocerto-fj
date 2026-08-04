@@ -103,22 +103,20 @@ export function Hero() {
         decoding="async"
         className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%] sm:hidden"
       />
-      {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
+      {/* Fundo com gradientes e profundidade premium */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[2px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[2px] dark:opacity-80 opacity-60"
-      />
-
-      {/* camada extra de desfoque progressivo sobre a área do notebook (direita),
-          intensificando o contraste com os textos sem lavar a imagem inteira */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[3px] [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.15)_38%,rgba(0,0,0,0.45)_68%,rgba(0,0,0,0.6)_100%)] sm:backdrop-blur-[4px]"
-      />
+        className="absolute inset-0 -z-20 overflow-hidden"
+      >
+        <div className="absolute -top-[25%] -left-[10%] h-[100%] w-[100%] rounded-full bg-primary/5 blur-[120px] dark:bg-primary/10" />
+        <div className="absolute top-[20%] -right-[15%] h-[80%] w-[80%] rounded-full bg-secondary/5 blur-[100px] dark:bg-secondary/10" />
+        <div className="absolute -bottom-[20%] left-[20%] h-[60%] w-[60%] rounded-full bg-accent/5 blur-[100px] dark:bg-accent/10" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] brightness-100 contrast-150" />
+      </div>
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[image:var(--hero-fade)]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-background to-transparent"
       />
 
 
@@ -127,38 +125,36 @@ export function Hero() {
 
 
 
-          <h1 className="font-display mt-4 text-[clamp(2.1rem,8vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-hero-fg [text-wrap:balance] sm:text-[3.25rem] lg:text-[3.75rem] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
+          <h1 className="reveal font-display text-[clamp(2.5rem,10vw,4.5rem)] font-extrabold leading-[1.02] tracking-tight text-foreground [text-wrap:balance]">
             Controle financeiro
-            <br className="hidden sm:block" />{" "}
-            <span className="bg-gradient-to-br from-[oklch(0.50_0.16_155)] via-[oklch(0.55_0.18_155)] to-[oklch(0.60_0.16_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-115">
+            <br />{" "}
+            <span className="bg-gradient-to-br from-primary via-emerald-500 to-primary/80 bg-clip-text text-transparent">
               inteligente e simples.
             </span>
           </h1>
 
-          <p className="mt-4 max-w-[50ch] text-[15px] font-medium leading-[1.62] text-hero-fg-muted sm:text-[17px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
-            A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
+          <p className="reveal mt-6 max-w-[55ch] text-lg font-medium leading-relaxed text-muted-foreground lg:text-xl" style={{ animationDelay: '200ms' }}>
+            A plataforma definitiva para organizar gastos familiar com tecnologia de ponta, 
+            design minimalista e insights poderosos por IA.
           </p>
 
-          <div className="mt-5 grid gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
+          <div className="reveal mt-10 flex flex-col gap-4 sm:flex-row sm:items-center" style={{ animationDelay: '400ms' }}>
             <Button
-              className="cta-lift btn-hover-shine group h-12 w-full justify-center rounded-xl bg-brand px-6 text-[15px] font-bold text-brand-foreground shadow-[0_10px_28px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:w-auto sm:px-8"
+              className="btn-primary h-14 rounded-2xl text-lg font-bold"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
-                <span className="truncate">Começar agora — é grátis</span>
-                <ArrowRight
-                  className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
+                <span>Começar agora — é grátis</span>
+                <ArrowRight className="ml-2 size-5" aria-hidden="true" />
               </Link>
             </Button>
+            
             <CodeAccessDialog>
               <Button
-                variant="outline"
-                className="press-feedback h-12 w-full justify-center rounded-xl border-hero-border-strong bg-hero-surface px-5 text-[15px] font-semibold text-hero-fg backdrop-blur-sm transition-all hover:border-hero-accent/60 hover:bg-hero-surface hover:text-hero-fg hover:shadow-[0_0_15px_rgba(23,164,95,0.15)] focus-visible:ring-2 focus-visible:ring-hero-border-strong sm:w-auto sm:px-6"
+                className="btn-secondary h-14 rounded-2xl text-lg font-semibold"
               >
-                <KeyRound className="size-4 shrink-0 text-hero-accent animate-pulse" aria-hidden="true" />
-                <span className="truncate">Código de acesso</span>
+                <KeyRound className="mr-2 size-5" aria-hidden="true" />
+                <span>Entrar com código</span>
               </Button>
             </CodeAccessDialog>
           </div>
@@ -173,10 +169,8 @@ export function Hero() {
                   <button
                     type="button"
                     className={cn(
-                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12.5px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong",
-                      "highlight" in mod && mod.highlight
-                        ? "border-hero-accent/50 bg-hero-accent/20 text-hero-fg shadow-[0_0_12px_rgba(23,164,95,0.2)] hover:border-hero-accent hover:bg-hero-accent/30 dark:border-hero-accent/40 dark:bg-hero-accent/15"
-                        : "border-hero-border-strong/30 bg-hero-surface/40 text-hero-fg hover:border-hero-border-strong/60 hover:bg-hero-surface/70 shadow-sm dark:border-white/5 dark:bg-white/5"
+                      "group flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md",
+                      "highlight" in mod && mod.highlight && "border-primary/20 bg-primary/5 text-primary"
                     )}
                   >
                     <mod.icon 
