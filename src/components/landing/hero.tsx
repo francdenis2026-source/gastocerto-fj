@@ -100,14 +100,14 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[4px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[3px] dark:opacity-80 opacity-60"
+        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[2px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[2px] dark:opacity-80 opacity-60"
       />
 
       {/* camada extra de desfoque progressivo sobre a área do notebook (direita),
           intensificando o contraste com os textos sem lavar a imagem inteira */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[8px] [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.35)_38%,rgba(0,0,0,0.85)_68%,rgba(0,0,0,1)_100%)] sm:backdrop-blur-[10px]"
+        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[3px] [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.15)_38%,rgba(0,0,0,0.45)_68%,rgba(0,0,0,0.6)_100%)] sm:backdrop-blur-[4px]"
       />
 
       <div
