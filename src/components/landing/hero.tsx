@@ -127,7 +127,7 @@ export function Hero() {
 
 
 
-          <h1 className="font-display mt-4 text-[clamp(2.15rem,8.5vw,2.85rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.5rem] lg:text-[4rem]">
+          <h1 className="font-display mt-4 text-[clamp(2.1rem,8vw,2.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.25rem] lg:text-[3.75rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
             <span className="bg-gradient-to-br from-[oklch(0.50_0.16_155)] via-[oklch(0.55_0.18_155)] to-[oklch(0.60_0.16_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-115">
