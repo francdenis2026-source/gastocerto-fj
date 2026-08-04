@@ -50,7 +50,6 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
         .from("profiles")
         .select("*, plans(name, slug)")
         .eq("status", "active")
-        .eq("plan_slug", "free")
         .not("trial_ends_at", "is", null)
         .order("created_at", { ascending: false });
       

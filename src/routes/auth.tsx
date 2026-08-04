@@ -45,6 +45,7 @@ const searchSchema = z.object({
   mode: z.enum(["login", "signup", "forgot", "admin", "kid", "external"]).optional(),
   kid: z.string().optional(),
   external: z.string().optional(),
+  code: z.string().optional(),
 });
 
 
@@ -109,7 +110,7 @@ function AuthPage() {
 
   );
 
-  const [pendingCode, setPendingCode] = useState<string | null>(null);
+  const [pendingCode, setPendingCode] = useState<string | null>(search.code ?? null);
   const formAreaRef = useRef<HTMLDivElement>(null);
   const didMountRef = useRef(false);
 
