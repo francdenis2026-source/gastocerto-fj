@@ -65,7 +65,13 @@ function ExtratosPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {transactions.length === 0 ? (
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="h-24 text-center text-muted-foreground italic">
+                          Carregando transações...
+                        </TableCell>
+                      </TableRow>
+                    ) : transactions.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
                           Nenhuma movimentação encontrada para o período selecionado.
@@ -75,23 +81,23 @@ function ExtratosPage() {
                       transactions.map((t) => (
                         <TableRow key={t.id} className="hover:bg-muted/20 transition-colors">
                           <TableCell className="text-xs text-muted-foreground">
-                            {formatDateTime(t.date)}
+                            {formatDateTime(t.transaction_date)}
                           </TableCell>
                           <TableCell className="font-medium">{t.description}</TableCell>
                           <TableCell>
-                            <Badge variant="secondary" className="font-normal">
-                              {t.category}
+                            <Badge variant="secondary" className="font-normal text-[10px]">
+                              {t.category_id || "Sem categoria"}
                             </Badge>
                           </TableCell>
                           <TableCell className={cn(
                             "text-right font-bold",
-                            t.type === 'income' ? "text-success" : "text-destructive"
+                            t.transaction_type === 'income' ? "text-emerald-500" : "text-rose-500"
                           )}>
-                            {t.type === 'income' ? "+" : "-"} {formatCurrency(t.amount)}
+                            {t.transaction_type === 'income' ? "+" : "-"} {formatCurrency(t.amount)}
                           </TableCell>
                           <TableCell>
-                            <Badge variant={t.confirmed ? "default" : "outline"} className="capitalize">
-                              {t.confirmed ? "Confirmado" : "Pendente"}
+                            <Badge variant={t.status === 'confirmed' ? "default" : "outline"} className="capitalize text-[10px]">
+                              {t.status === 'confirmed' ? "Confirmado" : "Pendente"}
                             </Badge>
                           </TableCell>
                         </TableRow>
