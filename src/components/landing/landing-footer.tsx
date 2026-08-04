@@ -33,7 +33,7 @@ const focusRing =
 export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   return (
-    <footer className="mt-auto border-t border-border bg-secondary/30">
+    <footer className="mt-auto border-t border-border/50 bg-secondary/10 dark:bg-black/20">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       <div className="section-shell grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 py-2 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:gap-x-5 sm:py-2.5">
         <div className="flex min-w-0 shrink-0 scale-[0.8] items-center justify-self-start sm:scale-90">
@@ -59,7 +59,7 @@ export function LandingFooter() {
             <Link
               key={link.label}
               to={link.to}
-              className={`shrink-0 py-1 text-[12.5px] text-foreground transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
+              className={`shrink-0 py-1 text-[11px] text-muted-foreground/70 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-[10px] ${focusRing}`}
             >
               {link.label}
             </Link>
@@ -68,7 +68,7 @@ export function LandingFooter() {
             <a
               key={link.label}
               href={link.href}
-              className={`shrink-0 py-1 text-[12.5px] text-foreground transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
+              className={`shrink-0 py-1 text-[11px] text-muted-foreground/70 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-[10px] ${focusRing}`}
             >
               {link.label}
             </a>
@@ -76,8 +76,8 @@ export function LandingFooter() {
         </nav>
       </div>
 
-      <div className="border-t border-border">
-        <div className="section-shell flex items-center justify-between gap-x-3 py-1.5 text-[10px] text-foreground sm:py-2 sm:text-[12.5px]">
+      <div className="border-t border-border/30">
+        <div className="section-shell flex items-center justify-between gap-x-3 py-1 text-[9px] text-muted-foreground/60 sm:py-1.5 sm:text-[10px]">
           <p className="truncate">© {new Date().getFullYear()} GastoCerto.</p>
           <div className="flex shrink-0 items-center gap-1">
             <p className="truncate">Dev. Franc D&apos;nis · Acre</p>

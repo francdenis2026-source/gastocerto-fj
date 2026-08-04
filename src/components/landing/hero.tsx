@@ -121,15 +121,15 @@ export function Hero() {
 
 
 
-          <h1 className="font-display mt-3 text-[clamp(2rem,8vw,2.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.2rem] lg:text-[3.75rem]">
+          <h1 className="font-display mt-4 text-[clamp(2.25rem,9vw,3rem)] font-extrabold leading-[0.98] tracking-[-0.05em] text-hero-fg [text-wrap:balance] sm:text-[3.8rem] lg:text-[4.5rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="bg-gradient-to-br from-[oklch(0.48_0.14_155)] via-[oklch(0.52_0.15_155)] to-[oklch(0.58_0.14_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-110">
+            <span className="bg-gradient-to-br from-[oklch(0.55_0.18_155)] via-[oklch(0.60_0.20_155)] to-[oklch(0.65_0.18_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/90 dark:to-emerald-300 dark:brightness-125">
               inteligente e simples.
             </span>
           </h1>
 
-          <p className="mt-3.5 max-w-[48ch] text-[15px] font-medium leading-[1.55] text-hero-fg-muted sm:text-[17px]">
+          <p className="mt-4 max-w-[52ch] text-[16px] font-medium leading-[1.6] text-hero-fg-muted sm:text-[18px]">
             A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
           </p>
 
