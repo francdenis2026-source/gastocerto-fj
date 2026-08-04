@@ -81,14 +81,14 @@ export function MobileHeroSection() {
           {/* Headline - Removed requested phrase, added alternatives */}
           <h2 className={cn(
             "font-display font-black tracking-tight text-foreground transition-all duration-700",
-            variation === "glass" && "text-3xl leading-[1.1]",
-            variation === "minimal" && "text-4xl leading-none",
-            variation === "split" && "text-3xl leading-tight"
+            variation === "glass" && "text-2xl leading-tight",
+            variation === "minimal" && "text-3xl leading-none",
+            variation === "split" && "text-2xl leading-tight"
           )}>
             {variation === "minimal" ? (
-              <>Sua <span className="text-brand">prosperidade</span>, agora simplificada.</>
+              <>Sua <span className="text-brand">prosperidade</span>, simplificada.</>
             ) : (
-              <>Organize sua vida <br /><span className="text-brand italic">financeira hoje</span></>
+              <>Controle <span className="text-brand">total</span>, tranquilidade <span className="text-brand italic">sempre</span></>
             )}
           </h2>
           
@@ -105,7 +105,7 @@ export function MobileHeroSection() {
           
           {/* Feature Cards with Glassmorphism */}
           <div className={cn(
-            "mt-10 grid w-full transition-all duration-700",
+            "mt-8 grid w-full transition-all duration-700",
             variation === "glass" && "grid-cols-2 gap-4",
             variation === "minimal" && "grid-cols-1 gap-3",
             variation === "split" && "grid-cols-2 gap-2"
@@ -122,15 +122,16 @@ export function MobileHeroSection() {
             </div>
           </div>
 
-          {/* New CTA for Split variation */}
-          {variation === "split" && (
-            <div className="mt-8 flex w-full flex-col gap-2">
-              <button className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-lg shadow-brand/20">
-                Começar agora
-                <Sparkles className="size-4" />
-              </button>
-            </div>
-          )}
+          {/* Enhanced CTA for all variations */}
+          <div className="mt-8 flex w-full flex-col gap-3">
+            <button className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-lg shadow-brand/20 transition-all active:scale-[0.96] hover:brightness-110">
+              Começar agora gratuito
+              <Sparkles className="size-4" />
+            </button>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+              Sem cartão de crédito necessário
+            </p>
+          </div>
         </div>
       </div>
     </section>
