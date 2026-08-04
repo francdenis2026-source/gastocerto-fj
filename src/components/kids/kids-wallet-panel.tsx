@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Baby, Plus, RefreshCw, Trash2, Wallet } from "lucide-react";
+import { AlertTriangle, Baby, ChevronLeft, ChevronRight, Plus, RefreshCw, Search, Trash2, Wallet } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { getKidsWalletOverview, type KidWallet } from "@/lib/kids-wallet.functions";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
+
+const PAGE_SIZE = 6;
 
 type Props = {
   onCreate?: () => void;
@@ -28,6 +33,8 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
   const fetchOverview = useServerFn(getKidsWalletOverview);
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState<string>("all");
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
 
   const query = useQuery({
     queryKey: ["kids-wallet-overview"],
@@ -49,14 +56,20 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
   }, [queryClient]);
 
   const wallets = query.data?.wallets ?? [];
-  const visible = useMemo(
-    () => (selected === "all" ? wallets : wallets.filter((w) => w.dependentId === selected)),
-    [wallets, selected]
-  );
+  const filtered = useMemo(() => {
+    const term = search.trim().toLocaleLowerCase("pt-BR");
+    return wallets.filter((wallet) => {
+      if (selected !== "all" && wallet.dependentId !== selected) return false;
+      if (!term) return true;
+      return `${wallet.name} ${wallet.nickname ?? ""}`.toLocaleLowerCase("pt-BR").includes(term);
+    });
+  }, [wallets, selected, search]);
+  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const visible = filtered.slice((Math.min(page, pages) - 1) * PAGE_SIZE, Math.min(page, pages) * PAGE_SIZE);
 
   const totals = useMemo(
     () =>
-      visible.reduce(
+      filtered.reduce(
         (acc, w) => ({
           balance: acc.balance + w.balance,
           monthSpent: acc.monthSpent + w.monthSpent,
@@ -64,8 +77,24 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
         }),
         { balance: 0, monthSpent: 0, monthReceived: 0 }
       ),
-    [visible]
+    [filtered]
   );
+
+  const alerts = useMemo(() => filtered.flatMap((wallet) => {
+    const name = wallet.nickname?.trim() || wallet.name;
+    const lowThreshold = Math.max(wallet.monthlyAllowance * 0.2, 20);
+    const usage = wallet.monthlyLimit > 0 ? (wallet.monthSpent / wallet.monthlyLimit) * 100 : 0;
+    const items: string[] = [];
+    if (wallet.balance <= lowThreshold) items.push(`${name} está com saldo baixo (${formatCurrency(wallet.balance)}).`);
+    if (usage >= 80) items.push(`${name} já utilizou ${Math.round(usage)}% do limite mensal.`);
+    return items;
+  }), [filtered]);
+
+  const chartData = useMemo(() => filtered.map((wallet) => ({
+    name: wallet.nickname?.trim() || wallet.name,
+    gastos: wallet.monthSpent,
+    limite: wallet.monthlyLimit,
+  })), [filtered]);
 
   return (
     <section className="rounded-2xl border bg-card p-3 sm:p-4">
@@ -100,7 +129,16 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
       </header>
 
       {wallets.length > 1 ? (
-        <div className="mt-3">
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(event) => { setSearch(event.target.value); setPage(1); }}
+              placeholder="Buscar filho..."
+              className="h-9 pl-9 text-xs"
+            />
+          </div>
           <Select value={selected} onValueChange={setSelected}>
             <SelectTrigger className="h-9 text-xs">
               <SelectValue />
@@ -140,11 +178,56 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
             <Tile label="Gasto no mês" value={totals.monthSpent} tone="out" />
           </div>
 
+          {alerts.length > 0 ? (
+            <div className="mt-3 space-y-1.5" role="status" aria-label="Alertas das carteiras">
+              {alerts.map((alert) => (
+                <div key={alert} className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2.5 py-2 text-[11px] text-amber-700 dark:text-amber-300">
+                  <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                  <span>{alert}</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {chartData.length > 0 ? (
+            <div className="mt-3 rounded-xl border bg-background/50 p-2.5">
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-[11px] font-semibold">Gastos e limite mensal</p>
+                <span className="text-[10px] text-muted-foreground">Mês atual</span>
+              </div>
+              <div className="h-44 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={CHART_TOKENS.grid} vertical={false} />
+                    <XAxis dataKey="name" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
+                    <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
+                    <Bar dataKey="gastos" name="Gastos" fill={CHART_TOKENS.expense} radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="limite" name="Limite" fill={CHART_TOKENS.income} radius={[3, 3, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          ) : null}
+
           <ul className="mt-3 space-y-2">
             {visible.map((wallet) => (
               <WalletRow key={wallet.dependentId} wallet={wallet} onRemove={onRemove} />
             ))}
           </ul>
+          {pages > 1 ? (
+            <div className="mt-3 flex items-center justify-between border-t pt-2">
+              <span className="text-[10px] text-muted-foreground">Página {Math.min(page, pages)} de {pages}</span>
+              <div className="flex gap-1">
+                <Button variant="outline" size="icon" className="size-8" aria-label="Página anterior" disabled={page <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>
+                  <ChevronLeft className="size-3.5" />
+                </Button>
+                <Button variant="outline" size="icon" className="size-8" aria-label="Próxima página" disabled={page >= pages} onClick={() => setPage((value) => Math.min(pages, value + 1))}>
+                  <ChevronRight className="size-3.5" />
+                </Button>
+              </div>
+            </div>
+          ) : null}
         </>
       )}
     </section>
