@@ -564,16 +564,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         />
       ) : null}
 
-      <MobileTabBar
-        items={items}
-        activeGroup={activeGroup?.to}
-        open={open}
-        onOpenChange={setOpen}
-        onSignOut={handleSignOut}
-        adminArea={isAdminArea}
-        onQuickEntry={(kind) => setQuickEntry(kind)}
-        pathname={pathname}
-      />
+      <NewMobileTabBar />
     </div>
   );
 }
