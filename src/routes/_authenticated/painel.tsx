@@ -1274,7 +1274,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
            <div className="hidden sm:flex items-center gap-3 text-xs">
              <div className="text-right">
                <p className="text-[9px] font-bold text-muted-foreground uppercase">Receita Anual</p>
-               <p className="font-black text-emerald-600">{formatCurrency(data.totalIncome)}</p>
+               <p className="font-black text-primary">{formatCurrency(data.totalIncome)}</p>
              </div>
              <div className="text-right border-l pl-3">
                <p className="text-[9px] font-bold text-muted-foreground uppercase">Despesa Anual</p>
