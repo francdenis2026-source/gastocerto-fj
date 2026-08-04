@@ -512,24 +512,25 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="space-y-3 sm:space-y-6">
-
+      <div className="flex-1 space-y-8 p-4 lg:p-8 max-w-[1600px] mx-auto animate-in fade-in duration-500">
+        <GlobalAnnouncementsBanner />
+        
         {profile?.cpf === "69598193268" && profile?.tags?.includes('fixed_enzo_error') && (
-          <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 rounded-3xl border border-dashed border-emerald-500/30 bg-emerald-500/5 animate-in fade-in zoom-in duration-500 mb-6">
-            <div className="size-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <ShieldAlert className="size-6 text-emerald-600" />
+          <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 rounded-3xl border border-dashed border-primary/30 bg-primary/5 animate-in fade-in zoom-in duration-500 mb-6">
+            <div className="size-12 rounded-full bg-primary/20 flex items-center justify-center">
+              <ShieldAlert className="size-6 text-primary" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-sm font-black text-emerald-800">por que essa menssagem persiste? Correção de Sistema Aplicada</h3>
-              <p className="text-xs text-emerald-700/80 max-w-xs leading-relaxed">
-                O erro "dei 20 reias pro Enzo" foi removido. Clique abaixo para confirmar e ocultar este aviso definitivamente.
+              <h3 className="text-sm font-black text-primary">Correção de Sistema Aplicada</h3>
+              <p className="text-xs text-primary/80 max-w-xs leading-relaxed">
+                O erro foi removido. Clique abaixo para confirmar e ocultar este aviso definitivamente.
               </p>
             </div>
             <Button 
               size="sm" 
-              className="rounded-xl h-9 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg shadow-emerald-600/20 transition-all active:scale-95"
+              className="rounded-xl h-9 px-6 bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/20 transition-all active:scale-95"
               onClick={async () => {
-                 toast.success("Aviso removido com sucesso!");
+                 toast.success("Aviso removido!");
                  queryClient.setQueryData(["profile"], (old: any) => ({
                    ...old,
                    tags: (old?.tags || []).filter((t: string) => t !== 'fixed_enzo_error').concat('enzo_error_hidden')
@@ -540,94 +541,189 @@ function DashboardPage() {
             </Button>
           </div>
         )}
-        
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-col">
-          <h1 className="text-xl font-black tracking-tight sm:text-2xl">
-            Olá, {profile?.full_name?.split(" ")[0] ?? "Usuário"}!
-          </h1>
-          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
-            {MONTH_NAMES[period.month - 1]} de {period.year}
-          </p>
-        </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
-          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-          
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleRefresh}
-            className="size-9 shrink-0 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm sm:hidden"
-            aria-label="Atualizar dados"
-            title="Atualizar dados"
-          >
-            <RefreshCw className="size-4 text-muted-foreground" />
-          </Button>
-          
-          <div className="h-8 w-px shrink-0 bg-border/40" />
-
-          <div className="flex shrink-0 items-center gap-1.5">
-            <Button
-              size="sm"
-              onClick={() => {
-                setDialogKind("expense");
-                setDialogOpen(true);
-              }}
-              className="h-9 rounded-xl bg-rose-500 px-4 font-bold text-white shadow-lg shadow-rose-500/10 transition-all hover:bg-rose-600 active:scale-95"
-            >
-              <Plus className="mr-1.5 size-4" />
-              Lançar
-            </Button>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-9 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm"
-                >
-                  <ChevronDown className="size-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => {
-                  setDialogKind("income");
-                  setDialogOpen(true);
-                }}>
-                  <TrendingUp className="mr-2 size-4 text-success" />
-                  Lançar Receita
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCardsOpen(true)}>
-                  <ShoppingBag className="mr-2 size-4 text-brand" />
-                  Gasto no Cartão
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTaxOpen(true)}>
-                  <FileText className="mr-2 size-4 text-warning" />
-                  Lançar Imposto
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => exportDashboardToPDF("dashboard-content", "Painel Financeiro")}>
-                  <Printer className="mr-2 size-4" />
-                  Exportar PDF
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+        <header className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between border-b border-border/50 pb-8">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1">
+              <span>GastoCerto</span>
+              <ChevronRight className="size-3.5" />
+              <span className="text-foreground">Painel</span>
+            </div>
+            <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+              Olá, {profile?.full_name?.split(" ")[0]}!
+            </h1>
+            <p className="mt-1 text-base lg:text-lg text-muted-foreground font-medium">
+              Acompanhe seu desempenho financeiro em tempo real.
+            </p>
           </div>
-        </div>
-      </div>
+          
+          <div className="flex flex-wrap items-center gap-3">
+            <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
+            
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleRefresh}
+                className="size-11 rounded-xl border-border/50 bg-background/50 backdrop-blur-sm transition-all hover:bg-secondary/80"
+                title="Sincronizar"
+              >
+                <RefreshCw className="size-5" />
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-11 rounded-xl border-border/50 bg-background/50 backdrop-blur-sm transition-all hover:bg-secondary/80"
+                onClick={() => exportDashboardToPDF("dashboard-content", "Relatório")}
+                title="Exportar"
+              >
+                <Printer className="size-5" />
+              </Button>
 
-      <div className="grid grid-cols-2 gap-2 sm:hidden px-4 mb-4">
-        <StatTile
-          label="Saldo"
-          value={formatCurrency(metrics.balance)}
-          tone={metrics.balance >= 0 ? "success" : "expense"}
-          icon={Wallet}
-          className="mobile-compact-card"
-          onClick={() => {
-            setDetail({
-              label: "Saldo Geral",
-              value: formatCurrency(metrics.balance),
+              <div className="h-8 w-px bg-border/50 mx-1 hidden lg:block" />
+
+              <Button 
+                className="h-11 px-6 rounded-xl bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-[0.98]"
+                onClick={() => {
+                  setDialogKind("expense");
+                  setDialogOpen(true);
+                }}
+              >
+                <Plus className="mr-2 size-5" />
+                Novo Lançamento
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="h-11 w-11 p-0 rounded-xl border-border/50 bg-background/50 backdrop-blur-sm"
+                  >
+                    <ChevronDown className="size-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl border-border/50 shadow-2xl backdrop-blur-xl">
+                  <DropdownMenuItem 
+                    className="rounded-xl h-11 px-4 cursor-pointer font-medium"
+                    onClick={() => {
+                      setDialogKind("income");
+                      setDialogOpen(true);
+                    }}
+                  >
+                    <TrendingUp className="mr-3 size-5 text-primary" />
+                    Lançar Receita
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="rounded-xl h-11 px-4 cursor-pointer font-medium"
+                    onClick={() => setCardsOpen(true)}
+                  >
+                    <ShoppingBag className="mr-3 size-5 text-blue-500" />
+                    Gasto no Cartão
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="rounded-xl h-11 px-4 cursor-pointer font-medium"
+                    onClick={() => setTaxOpen(true)}
+                  >
+                    <FileText className="mr-3 size-5 text-amber-500" />
+                    Lançar Imposto
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <StatTile
+            label="Receitas"
+            value={formatCurrency(metrics.totalIncome)}
+            tone="success"
+            icon={TrendingUp}
+            onClick={() => {
+              setDetail({
+                label: "Total de Receitas",
+                value: formatCurrency(metrics.totalIncome),
+                hint: `${metrics.incomes.length} lançamento(s) no período`,
+                formula: "Soma de todas as entradas registradas no mês selecionado.",
+                rows: metrics.incomes,
+              });
+            }}
+          />
+          <StatTile
+            label="Despesas"
+            value={formatCurrency(metrics.totalExpense)}
+            tone="expense"
+            icon={TrendingDown}
+            progress={metrics.usedPercent}
+            hint={
+              metrics.limit > 0 ? (
+                <span className="flex items-center gap-1">
+                  Limite: {formatCurrency(metrics.limit)}
+                  <span className={cn(
+                    "ml-1 font-bold px-1.5 py-0.5 rounded-md text-[10px]",
+                    metrics.usedPercent > 90 ? "bg-rose-500/20 text-rose-500" : "bg-primary/20 text-primary"
+                  )}>
+                    {metrics.usedPercent.toFixed(0)}%
+                  </span>
+                </span>
+              ) : "Sem limite definido"
+            }
+            onClick={() => {
+              setDetail({
+                label: "Total de Despesas",
+                value: formatCurrency(metrics.totalExpense),
+                hint: `${metrics.expenses.length} lançamento(s) no período`,
+                formula: "Soma de todas as saídas registradas no mês selecionado.",
+                rows: metrics.expenses,
+              });
+            }}
+          />
+          <StatTile
+            label="Saldo"
+            value={formatCurrency(metrics.balance)}
+            tone={metrics.balance >= 0 ? "brand" : "expense"}
+            icon={WalletIcon}
+            hint={
+              <span className="flex items-center gap-1.5">
+                <Activity className="size-3.5" />
+                Média Diária: {formatCurrency(metrics.dailyAverage)}
+              </span>
+            }
+            onClick={() => {
+              setDetail({
+                label: "Saldo Acumulado",
+                value: formatCurrency(metrics.balance),
+                hint: `Resultado líquido do período`,
+                formula: "Diferença total entre receitas e despesas registradas.",
+                rows: transactions ?? [],
+              });
+            }}
+          />
+          <StatTile
+            label="Disponível"
+            value={formatCurrency(metrics.available)}
+            tone={metrics.available > 0 ? "success" : "neutral"}
+            icon={Landmark}
+            hint={
+              metrics.projection > 0 ? (
+                <span className="flex items-center gap-1.5">
+                  <Flame className="size-3.5" />
+                  Projeção Final: {formatCurrency(metrics.projection)}
+                </span>
+              ) : "Projeção indisponível"
+            }
+            onClick={() => {
+              setDetail({
+                label: "Disponível p/ Gastar",
+                value: formatCurrency(metrics.available),
+                hint: `Baseado no limite de ${formatCurrency(metrics.limit)}`,
+                formula: "Valor restante até atingir o teto de gastos definido.",
+                rows: [],
+              });
+            }}
+          />
+        </div>
               hint: "Resultado do mês atual",
               formula: "Receitas totais menos despesas totais do período selecionado.",
               extra: [
