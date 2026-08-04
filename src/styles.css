@@ -16,12 +16,17 @@
   }
 }
 
-/* Desativar pull-to-refresh nativo em mobile */
-@media (max-width: 1024px) {
-  body {
-    overscroll-behavior-y: contain;
-  }
+/* Ocultar barra de rolagem lateral (y) mantendo funcionalidade de scroll nativa */
+body {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  overscroll-behavior-y: contain; /* Desativar pull-to-refresh em mobile */
 }
+
+body::-webkit-scrollbar {
+  display: none; /* Safari e Chrome */
+}
+
 
 
 @custom-variant dark (&:is(.dark *));
