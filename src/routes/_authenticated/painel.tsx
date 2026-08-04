@@ -705,7 +705,7 @@ function DashboardPage() {
           <StatTile
             label="Disponível"
             value={formatCurrency(metrics.available)}
-            tone={metrics.available > 0 ? "brand" : "neutral"}
+            tone={metrics.available > 0 ? "success" : "neutral"}
             icon={Landmark}
             hint={
               metrics.projection > 0 ? (
