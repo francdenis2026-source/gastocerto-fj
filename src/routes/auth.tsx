@@ -699,9 +699,13 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     setLoading(false);
 
     if (error) {
+      // Implementação de alerta genérico e profissional para ocultar detalhes sobre CPF/Senha
       const message = friendlyAuthError(error.message);
       setFormError(message);
-      toast.error(message);
+      toast.error(message, {
+        description: "Verifique seus dados e tente novamente.",
+        duration: 5000
+      });
       return;
     }
     clearFields();

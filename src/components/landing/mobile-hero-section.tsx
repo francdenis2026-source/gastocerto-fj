@@ -27,7 +27,7 @@ export function MobileHeroSection() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Dashboard Screenshot Mockup - Representing the app interface */}
           <div className="absolute -right-12 -top-12 h-[140%] w-[120%] rotate-[-6deg] opacity-[0.15] blur-[1px]">
-            <div className="h-full w-full rounded-[3rem] border-[8px] border-border/20 bg-card p-4 shadow-2xl">
+            <div className="h-full w-full rounded-[3rem] border-[8px] border-border/20 bg-card p-4 shadow-2xl overflow-hidden">
               <div className="h-full w-full space-y-4 rounded-2xl bg-muted/30 p-4">
                 <div className="h-8 w-1/2 rounded-lg bg-brand/20" />
                 <div className="h-32 rounded-xl bg-card/80" />
