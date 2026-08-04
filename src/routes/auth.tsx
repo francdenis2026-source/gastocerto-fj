@@ -641,18 +641,6 @@ function useClearAuthFields() {
   };
 }
 
-function useClearAuthFields() {
-  return () => {
-    // Busca todos os inputs de texto, e-mail e CPF e limpa os valores
-    const inputs = document.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"])');
-    inputs.forEach((input) => {
-      const el = input as HTMLInputElement;
-      el.value = '';
-      // Dispara evento de input para sincronizar com estados de bibliotecas (se houver)
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-    });
-  };
-}
 
 function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   const navigate = useNavigate();
