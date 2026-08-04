@@ -611,135 +611,152 @@ function MobileTabBar({
             type="button"
             aria-label="Fechar menu"
             onClick={() => onOpenChange(false)}
-            className="absolute inset-0 bg-foreground/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-foreground/60 backdrop-blur-md transition-opacity"
           />
-          <div className="absolute inset-x-0 bottom-0 max-h-[86svh] overflow-y-auto rounded-t-3xl border-t border-border bg-background pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-lifted">
-            <div className="sticky top-0 z-10 border-b border-border bg-background/95 px-3 py-2.5 backdrop-blur">
-              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-                <div className="min-w-0">
-                  <p className="text-[13px] font-bold leading-tight">
-                    {adminArea ? "Área administrativa" : "Tudo do seu controle"}
-                  </p>
-                  <p className="truncate text-[11px] text-muted-foreground">
-                    {adminArea
-                      ? "Gestão do negócio, usuários e licenças"
-                      : "Toque em uma área para abrir a seção"}
-                  </p>
+          <div className="absolute inset-x-0 bottom-0 flex max-h-[92svh] flex-col overflow-hidden rounded-t-[2.5rem] border-t border-border bg-background pb-[env(safe-area-inset-bottom)] shadow-lifted ring-1 ring-black/5 animate-in slide-in-from-bottom-10 duration-300 ease-out">
+            {/* Drag Handle Indicator */}
+            <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-muted-foreground/20" />
 
-                </div>
-                <div className="flex shrink-0 items-center gap-1">
-                  <ThemeToggle />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onOpenChange(false)}
-                    aria-label="Fechar menu"
-                  >
-                    <X className="size-5" />
-                  </Button>
-                </div>
+            <div className="flex shrink-0 items-center justify-between px-6 py-4">
+              <div className="min-w-0">
+                <p className="text-base font-black tracking-tight text-foreground">
+                  {adminArea ? "Painel Administrativo" : "Menu de Navegação"}
+                </p>
+                <p className="truncate text-xs font-medium text-muted-foreground">
+                  {adminArea
+                    ? "Gestão de usuários e licenças"
+                    : "Acesse todas as áreas do GastoCerto"}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <ThemeToggle />
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="size-10 rounded-full bg-secondary/80 backdrop-blur-sm"
+                  onClick={() => onOpenChange(false)}
+                  aria-label="Fechar menu"
+                >
+                  <X className="size-5" />
+                </Button>
               </div>
             </div>
 
-            {/* Atalhos rápidos: as ações mais usadas em uma linha só. */}
-            {!adminArea ? (
-            <div className="grid grid-cols-3 gap-1.5 px-3 pt-3">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  onOpenChange(false);
-                  onQuickEntry("income");
-                }}
-                className="flex h-14 flex-col items-center justify-center gap-1 rounded-2xl border-emerald-500/25 bg-emerald-500/10 text-[11px] font-bold text-foreground"
-              >
-                <TrendingUp className="size-4 text-emerald-500" />
-                Receita
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  onOpenChange(false);
-                  onQuickEntry("expense");
-                }}
-                className="flex h-14 flex-col items-center justify-center gap-1 rounded-2xl border-rose-500/25 bg-rose-500/10 text-[11px] font-bold text-foreground"
-              >
-                <TrendingDown className="size-4 text-rose-500" />
-                Despesa
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  onOpenChange(false);
-                  navigate({ to: "/recorrencia" });
-                }}
-                className="flex h-14 flex-col items-center justify-center gap-1 rounded-2xl border-brand/25 bg-brand/10 text-[11px] font-bold text-foreground"
-              >
-                <RefreshCcw className="size-4 text-brand" />
-                Fixos
-              </Button>
-            </div>
-            ) : null}
-
-
-            {/* Áreas com suas subseções: qualquer página em 2 toques. */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3">
-              {items.map((item) => {
-                const isActive = activeGroup === item.to;
-                return (
-                  <section
-                    key={item.to}
-                    className={cn(
-                      "overflow-hidden rounded-2xl border bg-card transition-all active:scale-[0.98]",
-                      isActive ? "border-brand/40 shadow-sm bg-brand/5" : "border-border",
-                    )}
-                  >
-                    <Link
-                      to={item.to as never}
-                      onClick={() => onOpenChange(false)}
+            <div className="flex-1 overflow-y-auto px-4 pb-6 scrollbar-none">
+              {/* Quick Actions Grid - Compact & Visual */}
+              {!adminArea && (
+                <div className="mb-6 grid grid-cols-3 gap-3">
+                  {[
+                    { label: "Receita", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", kind: "income" as const },
+                    { label: "Despesa", icon: TrendingDown, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", kind: "expense" as const },
+                    { label: "Fixos", icon: RefreshCcw, color: "text-brand", bg: "bg-brand/10", border: "border-brand/20", to: "/recorrencia" }
+                  ].map((action) => (
+                    <Button
+                      key={action.label}
+                      variant="outline"
+                      onClick={() => {
+                        onOpenChange(false);
+                        if (action.kind) onQuickEntry(action.kind);
+                        else if (action.to) navigate({ to: action.to as any });
+                      }}
                       className={cn(
-                        "flex min-h-12 items-center gap-3 px-3 text-[13px] font-black transition-colors",
-                        isActive ? "text-brand" : "text-foreground",
+                        "flex h-20 flex-col items-center justify-center gap-2 rounded-2xl border-2 transition-all active:scale-95",
+                        action.bg, action.border
                       )}
                     >
-                      <div className={cn(
-                        "grid size-9 place-items-center rounded-xl border transition-colors",
-                        isActive ? "bg-brand/10 border-brand/20" : "bg-secondary/50 border-border/50"
-                      )}>
-                        <item.icon className="size-5" />
+                      <div className={cn("rounded-xl p-2 bg-background/50 shadow-sm", action.color)}>
+                        <action.icon className="size-5" />
                       </div>
-                      <div className="flex flex-1 flex-col min-w-0">
-                        <span className="truncate leading-none">{item.label}</span>
-                        {item.hint && (
-                          <span className="truncate text-[10px] font-medium text-muted-foreground mt-1">
-                            {item.hint}
-                          </span>
-                        )}
-                      </div>
-                    </Link>
-                    {item.children && item.children.length > 1 ? (
-                      <div className="flex flex-wrap gap-1.5 border-t border-border px-3 py-2 bg-secondary/20">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.to}
-                            to={child.to as never}
-                            onClick={() => onOpenChange(false)}
-                            className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-colors active:bg-brand/15 active:text-foreground"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    ) : null}
-                  </section>
-                );
-              })}
-            </div>
+                      <span className="text-[11px] font-black uppercase tracking-wider">{action.label}</span>
+                    </Button>
+                  ))}
+                </div>
+              )}
 
-            <div className="border-t border-border p-3">
-              <Button variant="outline" className="w-full justify-center gap-2" onClick={onSignOut}>
-                <LogOut className="size-4" />
-                Sair da conta
-              </Button>
+              {/* Logical Groups */}
+              <div className="space-y-6">
+                {Object.entries(items.reduce((acc, item) => {
+                  // Find which section this group belongs to for grouping in mobile menu
+                  const section = navSections.find(s => s.groups.some(g => g.key === item.key)) || 
+                                 (adminArea ? { label: "Administração" } : { label: "Geral" });
+                  
+                  const sectionLabel = section.label;
+                  if (!acc[sectionLabel]) acc[sectionLabel] = [];
+                  acc[sectionLabel].push(item);
+                  return acc;
+                }, {} as Record<string, NavGroup[]>)).map(([label, sectionGroups]) => (
+                  <div key={label} className="space-y-3">
+                    <h3 className="px-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
+                      {label}
+                    </h3>
+                    <div className="grid grid-cols-1 gap-2.5">
+                      {sectionGroups.map((item) => {
+                        const isActive = activeGroup === item.to;
+                        return (
+                          <div
+                            key={item.to}
+                            className={cn(
+                              "overflow-hidden rounded-2xl border transition-all active:scale-[0.98]",
+                              isActive ? "border-brand/40 bg-brand/5 shadow-sm" : "border-border bg-card/50"
+                            )}
+                          >
+                            <Link
+                              to={item.to as any}
+                              onClick={() => onOpenChange(false)}
+                              className="flex min-h-[3.5rem] items-center gap-4 px-4"
+                            >
+                              <div className={cn(
+                                "flex size-10 shrink-0 items-center justify-center rounded-xl border-2 transition-colors",
+                                isActive ? "border-brand/30 bg-brand/10 text-brand" : "border-border bg-secondary/50 text-muted-foreground"
+                              )}>
+                                <item.icon className="size-5" />
+                              </div>
+                              <div className="flex flex-1 flex-col min-w-0">
+                                <span className={cn("text-sm font-bold tracking-tight", isActive ? "text-brand" : "text-foreground")}>
+                                  {item.label}
+                                </span>
+                                {item.hint && (
+                                  <span className="truncate text-[10px] font-medium text-muted-foreground/80">
+                                    {item.hint}
+                                  </span>
+                                )}
+                              </div>
+                            </Link>
+                            {item.children && item.children.length > 1 && (
+                              <div className="flex flex-wrap gap-2 border-t border-border/50 bg-secondary/20 p-3">
+                                {item.children.filter(c => !c.hidden).map((child) => (
+                                  <Link
+                                    key={child.to}
+                                    to={child.to as any}
+                                    onClick={() => onOpenChange(false)}
+                                    className={cn(
+                                      "rounded-full border border-border/60 bg-background px-3 py-1.5 text-[11px] font-bold text-muted-foreground shadow-sm transition-all active:bg-brand active:text-brand-foreground",
+                                      pathname === child.to && "border-brand/40 bg-brand/10 text-brand"
+                                    )}
+                                  >
+                                    {child.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 px-2 pb-2">
+                <Button 
+                  variant="ghost" 
+                  className="h-12 w-full justify-center gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/5 text-sm font-bold text-rose-500 hover:bg-rose-500/10 active:scale-95" 
+                  onClick={onSignOut}
+                >
+                  <LogOut className="size-5" />
+                  Encerrar Sessão com Segurança
+                </Button>
+              </div>
             </div>
           </div>
         </div>
