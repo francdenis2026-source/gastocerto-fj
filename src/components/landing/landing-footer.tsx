@@ -1,4 +1,4 @@
-import { Instagram, Linkedin, Lock, Mail, Youtube } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 import { Logo } from "@/components/logo";
@@ -17,9 +17,6 @@ const legalLinks = [
 ];
 
 const socials = [
-  { label: "Instagram", icon: Instagram, href: "#inicio" },
-  { label: "LinkedIn", icon: Linkedin, href: "#inicio" },
-  { label: "YouTube", icon: Youtube, href: "#inicio" },
   { label: "E-mail", icon: Mail, href: "mailto:contato@gastocerto.app" },
 ];
 
