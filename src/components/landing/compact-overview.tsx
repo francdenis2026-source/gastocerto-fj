@@ -350,9 +350,9 @@ export function CompactOverview() {
                         >
                           <button
                             type="button"
-                            className="group flex w-full items-center gap-3 rounded-xl border border-transparent p-2 text-left transition-all hover:bg-white/[0.03] hover:border-white/5"
+                            className="group flex w-full items-center gap-3 rounded-2xl border border-transparent p-2 text-left transition-all hover:bg-white/[0.04] hover:border-white/5"
                           >
-                            <div className="grid size-8 place-items-center rounded-lg bg-brand/10 text-brand">
+                            <div className="grid size-8 place-items-center rounded-lg bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                               <item.icon className="size-4" />
                             </div>
                             <div className="min-w-0 flex-1">
@@ -381,7 +381,7 @@ export function CompactOverview() {
                       type="button"
                       className="interactive-card h-full w-full rounded-2xl border border-white/5 bg-white/[0.015] p-5 text-left transition-all hover:border-white/20 sm:p-6"
                     >
-                      <span className="grid size-9 place-items-center rounded-lg bg-brand/10 text-brand">
+                      <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                         <pillar.icon className="size-4" aria-hidden="true" />
                       </span>
                       <p className="mt-2 text-sm font-semibold">{pillar.title}</p>
