@@ -582,7 +582,7 @@ function DashboardPage() {
                   Lançar Imposto
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => exportDashboardToPDF("dashboard-content")}>
+                <DropdownMenuItem onClick={() => exportDashboardToPDF("dashboard-content", "Painel Financeiro")}>
                   <Printer className="mr-2 size-4" />
                   Exportar PDF
                 </DropdownMenuItem>
