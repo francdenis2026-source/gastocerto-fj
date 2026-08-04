@@ -616,13 +616,13 @@ function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:hidden">
+      <div className="grid grid-cols-2 gap-2 sm:hidden px-4 mb-4">
         <StatTile
-          label="Saldo Geral"
+          label="Saldo"
           value={formatCurrency(metrics.balance)}
           tone={metrics.balance >= 0 ? "success" : "expense"}
           icon={Wallet}
-          className="bg-background/40"
+          className="mobile-compact-card"
           onClick={() => {
             setDetail({
               label: "Saldo Geral",
@@ -638,11 +638,11 @@ function DashboardPage() {
           }}
         />
         <StatTile
-          label="Total Gasto"
+          label="Gasto"
           value={formatCurrency(metrics.totalExpense)}
           tone="expense"
           icon={TrendingDown}
-          className="bg-background/40"
+          className="mobile-compact-card"
           onClick={() => {
             setDetail({
               label: "Total de Despesas",
