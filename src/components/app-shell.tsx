@@ -267,9 +267,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             aria-label={railCollapsed ? "Expandir menu" : "Recolher menu"}
           >
             {railCollapsed ? (
-              <PanelLeftOpen className="size-4" />
+              <PanelLeftOpen className="size-5" />
             ) : (
-              <PanelLeftClose className="size-4" />
+              <PanelLeftClose className="size-5" />
             )}
           </Button>
         </div>
@@ -284,7 +284,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 aria-label="Adicionar despesa"
                 title="Adicionar despesa"
               >
-                <TrendingDown className="size-4" aria-hidden="true" />
+                <TrendingDown className="size-5" aria-hidden="true" />
                 {!railCollapsed ? <span className="text-[12px]">Despesa</span> : null}
               </Button>
               {!railCollapsed ? (
@@ -294,7 +294,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   onClick={() => setQuickEntry("income")}
                   className="w-full gap-1.5 border-success/35 text-foreground"
                 >
-                  <TrendingUp className="size-4 text-success" aria-hidden="true" />
+                  <TrendingUp className="size-5 text-success" aria-hidden="true" />
                   <span className="text-[12px]">Receita</span>
                 </Button>
               ) : null}
@@ -355,7 +355,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                                 : "border-border/50 bg-secondary/60 text-muted-foreground group-hover:border-brand/30 group-hover:text-brand",
                             )}
                           >
-                            <item.icon className={cn("size-4 transition-transform", isActive && "scale-110")} aria-hidden="true" />
+                            <item.icon className={cn("size-5 transition-transform", isActive && "scale-110")} aria-hidden="true" />
                           </span>
                           {!railCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
                         </Link>
@@ -373,7 +373,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                             className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-all hover:bg-secondary active:scale-90"
                           >
                             <ChevronDown
-                              className={cn("size-4 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
+                              className={cn("size-5 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
                             />
                           </button>
                         )}
