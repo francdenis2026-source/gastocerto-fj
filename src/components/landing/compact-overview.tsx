@@ -377,10 +377,10 @@ export function CompactOverview() {
                               {item.tag}
                             </span>
                           </button>
-                        </FeatureDetailDialog>
-                      </li>
-                    ))}
-                  </ul>
+              </FeatureDetailDialog>
+            </Reveal>
+          ))}
+        </ul>
                 </Reveal>
               ))}
               <Reveal
