@@ -27,4 +27,3 @@ describe("categorizeLogic", () => {
     expect(result).toEqual({ categoryName: "Outros Familiares", subCategoryName: "Tio/Tia" });
   });
 });
-EOF
