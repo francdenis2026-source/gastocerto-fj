@@ -181,6 +181,49 @@ export function Benefits() {
           </div>
         </div>
       </section>
+
+      <section id="faq" className="section-y border-b border-white/5 bg-background">
+        <div className="section-shell max-w-3xl">
+          <Reveal className="text-center mb-12">
+            <h3 className="text-2xl font-bold text-white">Dúvidas Frequentes</h3>
+            <p className="mt-2 text-muted-foreground text-sm">Respostas para as perguntas mais comuns.</p>
+          </Reveal>
+          <div className="grid gap-4">
+            {faqItems.map((faq, idx) => (
+              <Reveal key={faq.q} delay={idx * 50} className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+                <h4 className="text-sm font-bold text-white mb-2">{faq.q}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="cta-final" className="section-y bg-background">
+        <div className="section-shell">
+          <Reveal className="relative overflow-hidden rounded-[2.5rem] bg-emerald-500 px-8 py-16 text-center shadow-[0_20px_50px_-12px_rgba(34,197,94,0.3)]">
+            <div className="relative z-10 mx-auto max-w-2xl">
+              <h2 className="text-3xl font-black text-black sm:text-4xl">
+                Pronto para transformar sua vida financeira?
+              </h2>
+              <p className="mt-4 text-base font-bold text-black/70">
+                Junte-se a mais de 10.000 pessoas e tome o controle hoje mesmo.
+              </p>
+              <Button
+                asChild
+                className="mt-8 h-14 rounded-xl bg-black px-10 text-base font-black text-white hover:bg-black/80"
+              >
+                <Link to="/auth" search={{ mode: "signup" }}>Começar Grátis Agora</Link>
+              </Button>
+            </div>
+            {/* Elemento Decorativo */}
+            <div className="absolute inset-0 z-0 opacity-10">
+              <div className="absolute -left-10 -top-10 size-64 rounded-full bg-white blur-3xl" />
+              <div className="absolute -right-10 -bottom-10 size-64 rounded-full bg-white blur-3xl" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </div>
   );
 }
