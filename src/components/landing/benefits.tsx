@@ -86,16 +86,16 @@ export function Benefits() {
     <section
       id="beneficios"
       aria-labelledby="beneficios-titulo"
-      className="relative border-b border-border bg-background py-16 sm:py-20"
+      className="relative border-b border-white/5 bg-background section-y"
     >
       <div className="section-shell">
         <Reveal className="max-w-2xl">
-          <p className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-brand sm:text-[12.5px]">
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
             <Sparkles className="size-3.5" aria-hidden="true" />
             Benefícios e diferenciais
           </p>
           <h2 id="beneficios-titulo" className="mt-1.5 section-title">
-            Por que o GastoCerto facilita o controle do seu dinheiro
+            Por que o Meu Controle Financeiro facilita a gestão do seu dinheiro
           </h2>
           <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
             Seis diferenciais que separam um controle improvisado de uma gestão financeira
@@ -119,10 +119,10 @@ export function Benefits() {
               >
                 <button
                   type="button"
-                  className="group flex h-full w-full flex-col rounded-[2rem] border border-white/5 bg-white/[0.03] p-8 text-left transition-all duration-300 hover:bg-white/[0.05] hover:border-brand/30 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="group flex h-full w-full flex-col rounded-3xl border border-white/5 bg-white/[0.015] p-10 text-left transition-all duration-300 hover:bg-white/[0.03] hover:border-white/10 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
                 >
                   <div className="flex w-full items-start justify-between">
-                    <div className="grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand">
+                    <div className="grid size-12 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                       <benefit.icon className="size-6" />
                     </div>
                     {benefit.metric && (

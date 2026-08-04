@@ -98,7 +98,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
         <DialogHeader className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             {detail.tag ? (
-              <span className="rounded-full border border-brand/30 bg-brand/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand">
+              <span className="rounded-md border border-brand/20 bg-brand/5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand">
                 {detail.tag}
               </span>
             ) : null}
@@ -125,8 +125,9 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                 aria-current={active ? "step" : undefined}
                 className={
                   active
-                    ? "inline-flex h-9 items-center gap-2 rounded-full border border-primary bg-primary px-4 text-[12px] font-bold text-primary-foreground shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    : "inline-flex h-9 items-center gap-2 rounded-full border border-border bg-card px-4 text-[12px] font-semibold text-muted-foreground transition-all hover:border-primary/40 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    ? "inline-flex h-9 items-center gap-2 rounded-lg border border-primary bg-primary px-4 text-[12px] font-bold text-primary-foreground shadow-sm transition-all focus-visible:outline-none"
+                    : "inline-flex h-9 items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-4 text-[12px] font-medium text-muted-foreground transition-all hover:border-white/10 hover:bg-white/5 focus-visible:outline-none"
+
                 }
               >
                 <section.icon className="size-3.5" aria-hidden="true" />
@@ -161,7 +162,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                     {items.map((item, index) => (
                       <li
                         key={item}
-                        className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card select-none"
+                        className="flex gap-3 rounded-2xl border border-white/5 bg-white/[0.015] p-4 text-[13.5px] font-normal leading-relaxed text-foreground transition-all hover:bg-white/[0.03] select-none"
                       >
                         <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
                           {index + 1}

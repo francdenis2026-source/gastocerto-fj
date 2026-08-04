@@ -92,7 +92,7 @@ export function Pricing() {
       <div className="section-shell">
         <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
-            <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-brand">
               Planos de Assinatura
             </p>
             <h2 className="section-title mt-1.5">
@@ -152,7 +152,8 @@ export function Pricing() {
               <div
                 key={plan.slug}
                 className={cn(
-                  "relative flex flex-col rounded-[2rem] border border-white/5 bg-white/[0.02] p-8 shadow-2xl backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-brand/30 overflow-hidden",
+                  "relative flex flex-col rounded-3xl border border-white/5 bg-white/[0.015] p-10 shadow-2xl transition-all hover:-translate-y-1 hover:border-white/10 overflow-hidden",
+
                   plan.highlighted && "border-brand/40 ring-1 ring-brand/20 bg-brand/[0.03]",
                 )}
               >
@@ -184,12 +185,13 @@ export function Pricing() {
                 <div className="mt-4">
                   <Button
                     className={cn(
-                      "w-full font-bold shadow-soft transition-all active:scale-[0.98]",
+                      "w-full rounded-lg font-bold shadow-sm transition-all active:scale-[0.98]",
                       plan.highlighted 
-                        ? "bg-brand text-brand-foreground hover:bg-brand/90 hover:shadow-brand/20 shadow-lg" 
-                        : "border-brand/30 text-brand hover:bg-brand/[0.03]"
+                        ? "bg-brand text-brand-foreground hover:bg-brand/90" 
+                        : "border-white/10 text-foreground hover:bg-white/5"
                     )}
                     variant={plan.highlighted ? "default" : "outline"}
+
                     onClick={() => setCheckoutPlan(plan.slug as any)}
                   >
                     {plan.cta}

@@ -85,11 +85,12 @@ export const Route = createFileRoute("/auth")({
     // identidade do produto. Ambas em 1200x630 — nada de imagem gigante.
     const isKid = Boolean((match.search as { kid?: string } | undefined)?.kid);
     const title = isKid
-      ? "Entrar no Meu Espaço — GastoCerto Kids"
-      : "Acesse sua conta — GastoCerto";
+      ? "Entrar no Meu Espaço — Kids"
+      : "Acesse sua conta — Meu Controle Financeiro";
+
     const description = isKid
       ? "Acesso do Espaço Kids: a criança entra com o código do responsável para ver a mesada, as metas e os próprios gastos."
-      : "Entre no GastoCerto para acompanhar despesas, receitas, cartões, veículos e metas em um só painel.";
+      : "Entre no sistema para acompanhar despesas, receitas, cartões, veículos e metas em um só painel.";
     const image = `https://gastocerto-fj.lovable.app/${isKid ? "og-kids.jpg" : "og-gastocerto-v2.jpg"}`;
     return {
       meta: [
@@ -231,7 +232,7 @@ function AuthPage() {
       <div aria-hidden="true" className="auth-veil absolute inset-0 -z-10" />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-border/60 bg-card/95 shadow-lifted ring-1 ring-black/5 backdrop-blur-xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)] dark:border-white/10 dark:ring-white/5">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-white/5 bg-background shadow-2xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
 
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
         <section className="relative flex min-h-[110px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
@@ -281,7 +282,7 @@ function AuthPage() {
             </div>
 
             <div className="max-w-sm">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-emerald-300">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-emerald-400">
                 {mode === "login" ? (
                   <>
                     <LayoutDashboard className="size-3" /> Acesso ao Painel
@@ -300,7 +301,7 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-2 text-[15px] font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:mt-3 sm:text-xl xl:text-2xl">
+              <h2 className="font-display mt-2 text-[15px] font-bold leading-tight tracking-tight text-white sm:mt-3 sm:text-xl xl:text-2xl">
                 {mode === "login"
                   ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
@@ -322,7 +323,7 @@ function AuthPage() {
           </div>
 
           <div className="hidden p-5 pt-0 sm:block">
-            <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/60">
+            <p className="relative z-10 text-[9px] font-medium uppercase tracking-widest text-white/30">
               &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
             </p>
           </div>

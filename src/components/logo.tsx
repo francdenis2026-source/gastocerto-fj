@@ -30,24 +30,27 @@ export function Logo({
         <span
           className={cn(
             "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
-            onDark ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : "text-[var(--navy)] dark:text-white",
+            onDark ? "text-white" : "text-foreground",
           )}
         >
-          Gasto
+          Meu Controle
+
           <span
             className={cn(
               onDark
-                ? "text-[var(--emerald)] drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]"
-                : "text-[var(--emerald)] dark:text-[var(--emerald)]",
+                ? "text-[var(--emerald)]"
+                : "text-[var(--emerald)]",
+
             )}
           >
-            Certo
+            Financeiro
+
           </span>
         </span>
         <span
           className={cn(
             "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block max-w-[200px] leading-tight",
-            onDark ? "text-white" : "text-[oklch(0.25_0.04_259)] dark:text-white/60",
+            onDark ? "text-white/60" : "text-muted-foreground",
           )}
         >
           Controle hoje, tranquilidade sempre
