@@ -25,21 +25,58 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      // Troca de conta no mesmo navegador: apaga preferências da conta anterior.
-      ensureLocalDataOwner(nextSession?.user?.id ?? null);
-      setSession(nextSession);
+    let mounted = true;
+
+    // 1. Carregar sessão inicial de forma resiliente
+    const loadSession = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!mounted) return;
+        
+        if (error) {
+          console.error("[auth] Erro ao carregar sessão:", error);
+          if (error.status === 429) {
+            toast.error("Muitas tentativas. Aguarde um momento.");
+          }
+        }
+        
+        const currentUserId = data.session?.user?.id ?? null;
+        ensureLocalDataOwner(currentUserId);
+        setSession(data.session);
+      } catch (err) {
+        console.error("[auth] Falha crítica ao carregar sessão:", err);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    void loadSession();
+
+    // 2. Escutar mudanças de estado (login/logout/token refreshed)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
+      if (!mounted) return;
+      
+      console.log(`[auth] Evento: ${event}`, nextSession?.user?.id);
+      
+      const nextUserId = nextSession?.user?.id ?? null;
+      
+      // Se o ID do usuário mudou (incluindo login ou troca de conta)
+      if (nextUserId !== (session?.user?.id ?? null)) {
+        ensureLocalDataOwner(nextUserId);
+        setSession(nextSession);
+      } else if (nextSession?.access_token !== session?.access_token) {
+        // Apenas refresh de token, mantendo o mesmo usuário
+        setSession(nextSession);
+      }
+      
       setLoading(false);
     });
 
-    supabase.auth.getSession().then(({ data }) => {
-      ensureLocalDataOwner(data.session?.user?.id ?? null);
-      setSession(data.session);
-      setLoading(false);
-    });
-
-    return () => subscription.subscription.unsubscribe();
-  }, []);
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [session?.user?.id, session?.access_token]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
