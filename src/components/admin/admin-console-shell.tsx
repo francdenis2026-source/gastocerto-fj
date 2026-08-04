@@ -86,7 +86,7 @@ export function AdminConsoleShell({
   const exportSearchPdf = () => {
     if (!searchTerm) return;
     const doc = new jsPDF();
-    doc.text(`GameCarto — Central Administrativa: "${searchTerm}"`, 14, 15);
+    doc.text(`GastoCerto — Central Administrativa: "${searchTerm}"`, 14, 15);
     doc.save(`admin-export-${searchTerm}.pdf`);
   };
 
@@ -97,7 +97,7 @@ export function AdminConsoleShell({
         <div className="h-16 flex items-center px-6 border-b border-border/50">
           <div className="flex items-center gap-2">
              <div className="size-7 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">G</div>
-             <span className="font-bold text-base tracking-tight">GameCarto Admin</span>
+             <span className="font-bold text-base tracking-tight">GastoCerto Admin</span>
           </div>
         </div>
 

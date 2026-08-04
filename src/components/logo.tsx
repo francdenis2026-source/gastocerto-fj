@@ -32,7 +32,7 @@ export function Logo({
             onDark ? "text-white" : "text-foreground",
           )}
         >
-          Game<span className="text-primary italic">Carto</span>
+          Gasto<span className="text-primary italic">Certo</span>
         </span>
         <span
           className={cn(

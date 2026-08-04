@@ -150,7 +150,7 @@ export function Benefits() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="max-w-xl">
               <h3 className="text-3xl lg:text-4xl font-black tracking-tight text-foreground mb-6">
-                Leve o GameCarto para qualquer lugar.
+                Leve o GastoCerto para qualquer lugar.
               </h3>
               <p className="text-lg text-muted-foreground font-medium leading-relaxed mb-8">
                 Nossa plataforma é 100% responsiva e PWA. Instale no seu smartphone e tenha o controle 

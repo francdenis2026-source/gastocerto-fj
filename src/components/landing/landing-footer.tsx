@@ -108,7 +108,7 @@ export function LandingFooter() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">
-            © 2026 GameCarto · Mastery of Finances
+            © 2026 GastoCerto · Mastery of Finances
           </p>
           
           <div className="flex items-center gap-6">
