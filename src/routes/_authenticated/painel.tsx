@@ -758,7 +758,6 @@ function DashboardPage() {
         )}
 
 
-        <GlobalAnnouncementsBanner />
 
         {loadingTransactions ? (
           <div className="grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 opacity-50 transition-opacity duration-300">
