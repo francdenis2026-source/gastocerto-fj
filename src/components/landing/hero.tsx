@@ -201,7 +201,7 @@ export function Hero() {
             </div>
           </div>
 
-          <dl className="mt-5 hidden grid-cols-3 gap-3 border-t border-hero-border pt-3 sm:grid">
+          <dl className="mt-4 hidden grid-cols-3 gap-3 border-t border-hero-border pt-3 sm:grid">
             {stats.map((stat) => (
               <div key={stat.label} className="min-w-0">
                 <dt className="truncate text-[10px] uppercase tracking-wide text-hero-fg-soft sm:text-[12.5px]">
