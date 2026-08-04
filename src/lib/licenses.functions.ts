@@ -482,3 +482,46 @@ export const adminDeleteAccessCode = createServerFn({ method: "POST" })
 
     return { ok: true };
   });
+
+/**
+ * Verificação pública de um código de acesso (sem login), usada na página
+ * inicial. Roda no servidor para não depender das políticas de leitura da
+ * tabela de licenças e trata códigos ainda não ativados como válidos —
+ * a contagem de validade só começa quando o cliente ativa a chave.
+ */
+export const verifyAccessCode = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ code: z.string().trim().min(5).max(32) }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const key = data.code.trim().toUpperCase();
+
+    const { data: license } = await supabaseAdmin
+      .from("licenses")
+      .select("status, activated_at, user_id, expires_at, trial_days, plans(name, slug)")
+      .eq("license_key", key)
+      .maybeSingle();
+
+    if (!license) {
+      return { valid: false as const, reason: "not_found" as const };
+    }
+
+    const activated = Boolean(license.activated_at || license.user_id);
+
+    if (license.status === "revoked") {
+      return { valid: false as const, reason: "revoked" as const };
+    }
+    if (activated) {
+      const expired =
+        license.status === "expired" ||
+        (license.expires_at && new Date(license.expires_at).getTime() <= Date.now());
+      return { valid: false as const, reason: expired ? ("expired" as const) : ("used" as const) };
+    }
+
+    return {
+      valid: true as const,
+      planName: (license.plans as { name?: string } | null)?.name ?? null,
+      trialDays: license.trial_days ?? null,
+    };
+  });
