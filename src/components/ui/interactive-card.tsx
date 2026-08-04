@@ -22,6 +22,7 @@ interface InteractiveCardProps {
 }
 
 export function InteractiveCard({
+  id,
   title,
   description,
   icon,
@@ -34,8 +35,17 @@ export function InteractiveCard({
   className,
   onClick
 }: InteractiveCardProps) {
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  // Persistência de estado via LocalStorage
+  const storageKey = `card-state-${id}`;
+  const [isExpanded, setIsExpanded] = React.useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem(storageKey) === "true";
+  });
   const [showAllItems, setShowAllItems] = React.useState(false);
+
+  React.useEffect(() => {
+    localStorage.setItem(storageKey, String(isExpanded));
+  }, [isExpanded, storageKey]);
 
   const hasItems = items && items.length > 0 && renderItem;
   const visibleItems = showAllItems ? items : items.slice(0, maxVisibleItems);
@@ -47,24 +57,38 @@ export function InteractiveCard({
     if (onClick) onClick();
   };
 
+  // Navegação por teclado
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setIsExpanded(!isExpanded);
+    }
+  };
+
   return (
     <Card 
       className={cn(
-        "overflow-hidden transition-all duration-300 hover:shadow-md border-border/50 bg-card/50 backdrop-blur-sm cursor-pointer",
+        "overflow-hidden transition-all duration-300 hover:shadow-md border-border/50 bg-card/50 backdrop-blur-sm cursor-pointer focus-within:ring-2 focus-within:ring-brand/50",
         className
       )}
       onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="region"
+      aria-labelledby={`card-title-${id}`}
     >
       <CardHeader className="p-4 pb-2">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
             {icon && <div className="p-1.5 rounded-lg bg-primary/10 text-primary">{icon}</div>}
-            <CardTitle className="text-sm font-bold tracking-tight">{title}</CardTitle>
+            <CardTitle id={`card-title-${id}`} className="text-sm font-bold tracking-tight">{title}</CardTitle>
           </div>
           <Button 
             variant="ghost" 
             size="icon" 
             className="size-7 rounded-full hover:bg-primary/10"
+            aria-expanded={isExpanded}
+            aria-controls={`card-content-${id}`}
             onClick={(e) => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
@@ -76,62 +100,79 @@ export function InteractiveCard({
         {description && <CardDescription className="text-[10px] leading-tight">{description}</CardDescription>}
       </CardHeader>
 
-      <CardContent className="p-4 pt-0 space-y-4">
-        {chart && (
-          <div className="h-32 w-full rounded-xl bg-muted/30 p-2 flex items-center justify-center border border-border/20">
-            {chart}
-          </div>
-        )}
-
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="overflow-hidden"
+      {/* Swipe Gestures para Mobile usando Framer Motion */}
+      <motion.div
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={0.1}
+        onDragEnd={(_, info) => {
+          if (info.offset.y > 50 && isExpanded) setIsExpanded(false);
+          else if (info.offset.y < -50 && !isExpanded) setIsExpanded(true);
+        }}
+        className="touch-none"
+      >
+        <CardContent className="p-4 pt-0 space-y-4">
+          {chart && (
+            <div 
+              className="h-32 w-full rounded-xl bg-muted/30 p-2 flex items-center justify-center border border-border/20"
+              role="img"
+              aria-label="Gráfico de dados"
             >
-              <div className="pt-2 space-y-4">
-                {children}
-                
-                {hasItems && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Registros</h4>
-                      {canExpandItems && (
-                        <Button 
-                          variant="link" 
-                          className="h-auto p-0 text-[10px] font-bold text-primary hover:no-underline"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowAllItems(!showAllItems);
-                          }}
-                        >
-                          {showAllItems ? "Ver menos" : `Ver todos (${items.length})`}
-                        </Button>
-                      )}
-                    </div>
-                    <div className="space-y-1">
-                      {visibleItems.map((item, idx) => (
-                        <div key={idx} className="group/item transition-all hover:translate-x-1">
-                          {renderItem(item, idx)}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
+              {chart}
+            </div>
           )}
-        </AnimatePresence>
 
-        {footerInfo && (
-          <div className="pt-2 border-t border-border/20">
-            {footerInfo}
-          </div>
-        )}
-      </CardContent>
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                id={`card-content-${id}`}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="pt-2 space-y-4">
+                  {children}
+                  
+                  {hasItems && (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Registros</h4>
+                        {canExpandItems && (
+                          <Button 
+                            variant="link" 
+                            className="h-auto p-0 text-[10px] font-bold text-primary hover:no-underline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowAllItems(!showAllItems);
+                            }}
+                          >
+                            {showAllItems ? "Ver menos" : `Ver todos (${items.length})`}
+                          </Button>
+                        )}
+                      </div>
+                      <div className="space-y-1" role="list">
+                        {visibleItems.map((item, idx) => (
+                          <div key={idx} className="group/item transition-all hover:translate-x-1" role="listitem">
+                            {renderItem(item, idx)}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {footerInfo && (
+            <div className="pt-2 border-t border-border/20">
+              {footerInfo}
+            </div>
+          )}
+        </CardContent>
+      </motion.div>
     </Card>
   );
 }
