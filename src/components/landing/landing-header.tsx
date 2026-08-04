@@ -59,16 +59,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       )}
     >
       <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
-        <a
-          href="#inicio"
-          onClick={(event) => handleAnchorClick(event, "#inicio")}
-          className={cn(
-            "group inline-flex min-w-0 shrink cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
-          )}
-          aria-label="GastoCerto — início"
-        >
-          <Logo onDark={!scrolled} />
-        </a>
+        <Logo onDark={!scrolled} href="#inicio" className="group" />
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {
