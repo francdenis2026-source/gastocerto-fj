@@ -2,168 +2,178 @@ import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight,
-  BellRing,
-  Fuel,
-  Gauge,
-  PiggyBank,
+  BarChart3,
+  Flame,
+  CreditCard,
+  Baby,
   ShieldCheck,
-  Smartphone,
-  Sparkles,
-  type LucideIcon,
+  Zap,
+  Target,
+  LayoutDashboard,
+  Search,
+  Lock,
+  HelpCircle,
 } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
-import { Button } from "@/components/ui/button";
-import { DemoDialog } from "@/components/landing/demo-dialog";
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 
-type Benefit = {
-  icon: LucideIcon;
-  title: string;
-  text: string;
-  metric: string;
-  metricLabel: string;
-  accent: string;
-};
-
-const benefits: Benefit[] = [
+const categories = [
   {
-    icon: Gauge,
-    title: "Visão mensal em um toque",
-    text: "Receitas, despesas, sobra e pendências consolidados assim que você abre o app.",
-    metric: "10 s",
-    metricLabel: "para lançar",
-    accent: "var(--acc-1)",
+    name: "Visão Geral",
+    icon: LayoutDashboard,
+    items: [
+      {
+        icon: BarChart3,
+        title: "Painel Inteligente",
+        text: "Visão consolidada de saldo, gastos e metas.",
+        tag: "Analytics",
+        detail: {
+          summary: "Um painel centralizado que aprende com seus hábitos financeiros.",
+          benefits: ["Gráficos em tempo real", "Projeção de saldo", "Alertas de gastos"],
+        },
+      },
+      {
+        icon: Target,
+        title: "Metas de Poupança",
+        text: "Crie objetivos e acompanhe o progresso.",
+        tag: "Planejamento",
+        detail: {
+          summary: "Transforme seus sonhos em metas alcançáveis com aportes guiados.",
+          benefits: ["Barra de progresso visual", "Previsão de conclusão", "Priorização de metas"],
+        },
+      },
+    ],
   },
   {
-    icon: Fuel,
-    title: "Custo real do veículo",
-    text: "Abastecimentos, consumo médio, custo por km e alertas de desvio por veículo.",
-    metric: "R$/km",
-    metricLabel: "calculado",
-    accent: "var(--acc-3)",
+    name: "Automação",
+    icon: Zap,
+    items: [
+      {
+        icon: Flame,
+        title: "Controle de Gás",
+        text: "Previsão de consumo e alertas de troca.",
+        tag: "Exclusivo",
+        detail: {
+          summary: "Nunca mais seja pego de surpresa pelo fim do gás de cozinha.",
+          benefits: ["Histórico de duração", "Aviso de baixa", "Estimativa de custo anual"],
+        },
+      },
+      {
+        icon: CreditCard,
+        title: "Gestão de Cartões",
+        text: "Faturas e limites em um único lugar.",
+        tag: "Eficiência",
+        detail: {
+          summary: "Gerencie múltiplos cartões sem perder o controle das datas.",
+          benefits: ["Consolidação de faturas", "Alertas de vencimento", "Análise de parcelamento"],
+        },
+      },
+    ],
   },
   {
-    icon: PiggyBank,
-    title: "Orçamentos inteligentes",
-    text: "Limite por categoria com barra de consumo e aviso antes de estourar o mês.",
-    metric: "80%",
-    metricLabel: "alerta do limite",
-    accent: "var(--acc-2)",
-  },
-  {
-    icon: BellRing,
-    title: "Contas sempre em dia",
-    text: "Recorrências lançadas sozinhas e lembretes três dias antes do vencimento.",
-    metric: "0",
-    metricLabel: "juros por atraso",
-    accent: "var(--acc-5)",
-  },
-  {
+    name: "Segurança",
     icon: ShieldCheck,
-    title: "Dados isolados por conta",
-    text: "Cada usuário acessa apenas os próprios registros, com regras aplicadas no banco.",
-    metric: "LGPD",
-    metricLabel: "na prática",
-    accent: "var(--acc-6)",
-  },
-  {
-    icon: Smartphone,
-    title: "Funciona instalado no celular",
-    text: "Instale como aplicativo, use offline e continue lançando sem conexão.",
-    metric: "PWA",
-    metricLabel: "com modo offline",
-    accent: "var(--acc-4)",
+    items: [
+      {
+        icon: Lock,
+        title: "Criptografia Bancária",
+        text: "Seus dados protegidos com o mais alto padrão.",
+        tag: "Proteção",
+        detail: {
+          summary: "Segurança de nível militar para suas informações financeiras.",
+          benefits: ["Dados criptografados", "Zero compartilhamento", "Conformidade LGPD"],
+        },
+      },
+      {
+        icon: Baby,
+        title: "Espaço Kids Seguro",
+        text: "Educação financeira com PIN para os filhos.",
+        tag: "Família",
+        detail: {
+          summary: "Ensine seus filhos a lidar com dinheiro em um ambiente controlado.",
+          benefits: ["PIN de segurança", "Mesada automática", "Avatar personalizado"],
+        },
+      },
+    ],
   },
 ];
 
-/**
- * Seção de benefícios e diferenciais logo abaixo do hero.
- * Cards responsivos: 1 coluna no mobile, 2 no tablet e 3 no desktop.
- */
+const securitySeals = [
+  { icon: ShieldCheck, title: "Criptografia de ponta a ponta", text: "Tráfego seguro HTTPS" },
+  { icon: Lock, title: "Conformidade com LGPD", text: "Dados 100% seus" },
+  { icon: ShieldCheck, title: "Dados nunca compartilhados", text: "Privacidade absoluta" },
+];
+
 export function Benefits() {
   return (
-    <section
-      id="beneficios"
-      aria-labelledby="beneficios-titulo"
-      className="relative border-b border-white/5 bg-background section-y"
-    >
-      <div className="section-shell">
-        <Reveal className="max-w-2xl">
-          <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            Benefícios e diferenciais
-          </p>
-          <h2 id="beneficios-titulo" className="mt-1.5 section-title">
-            Por que o Meu Controle Financeiro facilita a gestão do seu dinheiro
-          </h2>
-          <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
-            Seis diferenciais que separam um controle improvisado de uma gestão financeira
-            documentada — do lançamento diário ao relatório do mês.
-          </p>
-        </Reveal>
+    <div className="bg-background">
+      <section id="recursos" className="section-y border-b border-white/5">
+        <div className="section-shell">
+          <Reveal className="text-center mx-auto max-w-2xl mb-16">
+            <h2 className="section-title">Recursos essenciais para seu controle</h2>
+            <p className="mt-4 text-muted-foreground">Clique nos cards para explorar as funcionalidades detalhadamente.</p>
+          </Reveal>
 
-        <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
-          {benefits.map((benefit, index) => (
-            <Reveal 
-              as="li" 
-              key={benefit.title} 
-              delay={index * 60}
-              className={cn(
-                "h-full",
-                index === 0 || index === 1 ? "lg:col-span-3 lg:row-span-1" : "lg:col-span-3 lg:row-span-1"
-              )}
-            >
-              <FeatureDetailDialog
-                feature={{ title: benefit.title, text: benefit.text, tag: benefit.metricLabel }}
-              >
-                <button
-                  type="button"
-                  className="group flex h-full w-full flex-col rounded-3xl border border-white/5 bg-white/[0.015] p-10 text-left transition-all duration-300 hover:bg-white/[0.03] hover:border-white/10 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
-                >
-                  <div className="flex w-full items-start justify-between">
-                    <div className="grid size-12 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
-                      <benefit.icon className="size-6" />
-                    </div>
-                    {benefit.metric && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-brand leading-none">{benefit.metric}</p>
-                        <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground mt-1">{benefit.metricLabel}</p>
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="mt-6 font-display text-xl font-bold tracking-tight">
-                    {benefit.title}
-                  </h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-                    {benefit.text}
-                  </p>
-                </button>
-              </FeatureDetailDialog>
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal className="mt-3.5 hidden gap-2 rounded-2xl border border-brand/25 bg-brand/8 p-3.5 sm:mt-4 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-4">
-          <p className="text-[13px] font-medium leading-relaxed sm:text-sm">
-            Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
-            veículos e consultor com inteligência artificial.
-          </p>
-          <div className="grid gap-2 sm:flex sm:items-center">
-            <DemoDialog>
-              <Button variant="outline" className="w-full sm:w-auto">
-                Ver demonstração
-              </Button>
-            </DemoDialog>
-            <Button asChild className="w-full sm:w-auto">
-              <Link to="/auth">
-                Criar conta gratuita
-                <ArrowRight className="ml-2 size-4" aria-hidden="true" />
-              </Link>
-            </Button>
+          <div className="grid gap-12">
+            {categories.map((cat, catIdx) => (
+              <div key={cat.name}>
+                <div className="flex items-center gap-2 mb-6">
+                  <cat.icon className="size-5 text-emerald-500" />
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-white/90">{cat.name}</h3>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+                  {cat.items.map((item, itemIdx) => (
+                    <Reveal key={item.title} delay={(catIdx * 100) + (itemIdx * 50)}>
+                      <FeatureDetailDialog
+                        feature={{ title: item.title, text: item.text, tag: item.tag }}
+                      >
+                        <button className="group relative flex w-full flex-col items-start rounded-2xl border border-white/5 bg-white/[0.02] p-8 text-left transition-all hover:bg-white/[0.04] hover:border-emerald-500/30 hover:shadow-[0_0_30px_-12px_rgba(34,197,94,0.2)] active:scale-[0.98]">
+                          <div className="mb-4 grid size-12 place-items-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-black">
+                            <item.icon className="size-6" />
+                          </div>
+                          <div className="flex w-full items-center justify-between">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80">{item.tag}</span>
+                            <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-emerald-500" />
+                          </div>
+                          <h4 className="mt-2 text-xl font-bold text-white">{item.title}</h4>
+                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                        </button>
+                      </FeatureDetailDialog>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
-        </Reveal>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      <section id="seguranca" className="py-16 bg-white/[0.01]">
+        <div className="section-shell">
+          <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
+            <div className="max-w-md">
+              <h3 className="text-2xl font-bold text-white">Sua segurança é nossa prioridade</h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                Utilizamos as mesmas tecnologias de segurança dos grandes bancos para garantir que seus dados estejam sempre protegidos.
+              </p>
+            </div>
+            <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 lg:w-auto">
+              {securitySeals.map((seal) => (
+                <div key={seal.title} className="flex items-center gap-3 rounded-xl border border-white/5 bg-black/20 p-4">
+                  <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                    <seal.icon className="size-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white leading-tight">{seal.title}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">{seal.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

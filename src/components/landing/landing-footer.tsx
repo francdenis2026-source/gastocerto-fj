@@ -29,53 +29,32 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="mt-20 border-t border-white/5 bg-background print:hidden py-16">
+    <footer className="border-t border-white/5 bg-black/40 py-12">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
       <div className="section-shell">
-        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
-          <div className="flex flex-col items-start gap-4">
-            <Logo className="scale-100" />
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Gestão financeira inteligente para quem busca clareza, 
-              controle e resultados reais.
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
+          <Logo compact className="scale-90" />
+          
+          <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            <Link to="/termos" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Termos</Link>
+            <Link to="/privacidade" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Privacidade</Link>
+            <button 
+              onClick={() => setContactOpen(true)}
+              className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors"
+            >
+              Contato
+            </button>
+          </nav>
 
-          <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Produto</h4>
-            <nav className="flex flex-col gap-2">
-              <Link to="/recursos" className="text-sm text-muted-foreground transition-colors hover:text-brand">Recursos</Link>
-              <a href="#planos" className="text-sm text-muted-foreground transition-colors hover:text-brand">Planos</a>
-              <Link to="/auth" className="text-sm text-muted-foreground transition-colors hover:text-brand">Área do Cliente</Link>
-            </nav>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Empresa</h4>
-            <nav className="flex flex-col gap-2">
-              <Link to="/sobre" className="text-sm text-muted-foreground transition-colors hover:text-brand">Sobre nós</Link>
-              <Link to="/contato" className="text-sm text-muted-foreground transition-colors hover:text-brand">Central de Ajuda</Link>
-            </nav>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Contato</h4>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => setContactOpen(true)}
-                className="text-sm text-muted-foreground transition-colors hover:text-brand text-left"
-              >
-                Fale Conosco
-              </button>
-              <a href="mailto:contato@precocerto.shop" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-brand">
-                <Mail className="size-4" />
-                contato@precocerto.shop
-              </a>
-            </div>
+          <div className="flex items-center gap-4">
+            <a href="mailto:contato@precocerto.shop" className="size-8 grid place-items-center rounded-lg border border-white/10 bg-white/5 text-muted-foreground hover:text-emerald-500 transition-colors">
+              <Mail className="size-4" />
+            </a>
           </div>
         </div>
       </div>
+    </footer>
 
       {/* Bottom Bar - Minimal */}
       <div className="border-t border-border/20 bg-secondary/10 dark:bg-black/20">
