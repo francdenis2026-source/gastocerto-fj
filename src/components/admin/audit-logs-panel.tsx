@@ -55,9 +55,10 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
   };
   
   const { data: result, isLoading } = useQuery({
-    queryKey: ["admin", "logs", page],
+    queryKey: ["admin", "logs", page, search, globalSearch], // Adicionada dependência de busca para permitir paginação filtrada
     queryFn: async () => {
-      const res = await listLogs({ data: { page, pageSize } });
+      const searchTerm = (globalSearch || search).trim();
+      const res = await listLogs({ data: { page, pageSize, search: searchTerm } });
       const names = new Map(res.people.map((person) => [person.user_id, person.full_name]));
       return {
         logs: res.logs.map((log) => ({
@@ -76,16 +77,8 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
   const totalCount = result?.count ?? 0;
 
   const filtered = useMemo(() => {
-    const term = (globalSearch || search).toLowerCase();
-    if (!term) return logs ?? [];
-    return (logs ?? []).filter(log => {
-      const action = (log.action || "").toLowerCase();
-      const actor = (log.actor?.full_name || "").toLowerCase();
-      const target = (log.target?.full_name || "").toLowerCase();
-      const details = typeof log.details === 'object' ? Object.values(log.details || {}).join(" ").toLowerCase() : String(log.details || "").toLowerCase();
-      return action.includes(term) || actor.includes(term) || target.includes(term) || details.includes(term);
-    });
-  }, [logs, search, globalSearch]);
+    return logs ?? []; // A filtragem agora é feita no servidor via useQuery
+  }, [logs]);
 
   const clearFilters = () => {
     setSearch("");

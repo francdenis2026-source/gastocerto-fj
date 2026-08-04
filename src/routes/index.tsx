@@ -79,21 +79,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {`## Tarefa: Criação de Nova Homepage Moderna e Tecnológica
-
-**Objetivo:** Desenvolver uma nova página inicial (homepage) com design moderno, intuitivo e com um toque tecnológico, utilizando a stack TanStack Start + React.
-
-**Requisitos Visuais:**
-*   **Design:** Moderno, visualmente atraente e focado em fintech high-tech.
-*   **Intuitividade:** Navegação fluida e hierarquia clara de informações.
-*   **Toque Tecnológico:** Tipografia display (Sora), gradientes neon, glassmorphism e animações sutis.
-*   **Otimização:** Responsividade extrema e carregamento progressivo de imagens.
-
-**Implementação:**
-1.  **Hero V3:** Estrutura de grid assimétrica com preview interativo.
-2.  **Design Tokens:** Calibração de cores para tons neon sobre fundo navy.
-3.  **Micro-interações:** Feedback visual imediato em cards e botões.
-4.  **Acessibilidade:** Suporte total a teclado e leitores de tela.`}
+        {/* Documentação interna da tarefa de otimização mobile */}
       </div>
 
       <PageBackground />
