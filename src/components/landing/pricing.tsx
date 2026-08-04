@@ -88,7 +88,7 @@ export function Pricing() {
 
 
   return (
-    <section id="planos" className="section-y">
+    <section id="planos" className="py-20 sm:py-32">
       <div className="section-shell">
         <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
