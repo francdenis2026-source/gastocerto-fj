@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
   BarChart3,
@@ -11,9 +12,7 @@ import {
   Zap,
   Target,
   LayoutDashboard,
-  Search,
   Lock,
-  HelpCircle,
 } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
