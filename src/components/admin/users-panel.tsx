@@ -63,6 +63,8 @@ import {
   adminSetUserPassword,
   adminUpdateUser,
 } from "@/lib/admin-users.functions";
+import { moveToTrash } from "@/lib/admin-trash.functions";
+import { useServerFn } from "@tanstack/react-start";
 import { maskCpf, onlyDigits } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format";
 import type { Profile } from "@/lib/queries";
@@ -80,6 +82,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selected, setSelected] = useState<Profile | null>(null);
+  const moveToTrashFn = useServerFn(moveToTrash);
 
   const profiles = useQuery({
     queryKey: ["admin", "profiles"],
