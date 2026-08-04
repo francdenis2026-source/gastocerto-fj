@@ -142,10 +142,10 @@ function ConfirmDialogView({
 
   const iconColor =
     state.type === "warning"
-      ? "text-destructive bg-destructive/10"
+      ? "text-destructive bg-destructive/10 dark:bg-destructive/20 dark:text-red-400"
       : state.type === "success"
-        ? "text-emerald-500 bg-emerald-500/10"
-        : "text-primary bg-primary/10";
+        ? "text-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20 dark:text-emerald-400"
+        : "text-primary bg-primary/10 dark:bg-primary/20 dark:text-brand";
 
   const blocked = Boolean(
     state.input && (state.input.expected ? value.trim() !== state.input.expected : !value.trim()),
