@@ -30,15 +30,15 @@ export function Logo({
         <span
           className={cn(
             "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
-            onDark ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : "text-[oklch(0.25_0.04_259)] dark:text-white",
+            onDark ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : "text-[var(--navy)] dark:text-white",
           )}
         >
           Gasto
           <span
             className={cn(
               onDark
-                ? "text-[oklch(0.78_0.17_152)] drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]"
-                : "text-[oklch(0.52_0.15_150)] dark:text-[oklch(0.78_0.17_152)]",
+                ? "text-[var(--emerald)] drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]"
+                : "text-[var(--emerald)] dark:text-[var(--emerald)]",
             )}
           >
             Certo
