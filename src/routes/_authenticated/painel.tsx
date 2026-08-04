@@ -906,23 +906,20 @@ function DashboardPage() {
                          icon={<ShoppingBag className="size-4" />}
                          items={byCategory}
                          maxVisibleItems={4}
-                          chart={
-                            <ResponsiveContainer width="100%" height="100%">
-                              <BarChart data={byCategory.slice(0, 5)} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                               <XAxis dataKey="name" hide />
-                               <YAxis hide />
-                               <Tooltip 
-                                 contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '12px', border: '1px solid hsl(var(--border))', fontSize: '10px' }}
-                                 formatter={(value: number) => [formatCurrency(value), 'Gasto']}
-                               />
-                               <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                                 {byCategory.slice(0, 5).map((entry, index) => (
-                                   <Cell key={`cell-${index}`} fill={entry.color} opacity={0.8} />
-                                 ))}
-                               </Bar>
-                             </BarChart>
-                           </ResponsiveContainer>
-                         }
+                           chart={
+                             <ResponsiveContainer width="100%" height="100%">
+                               <BarChart data={byCategory.slice(0, 5)} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                                <XAxis dataKey="name" hide />
+                                <YAxis hide />
+                                <Tooltip {...tooltipProps} formatter={(value: number) => [formatCurrency(value), 'Gasto']} />
+                                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                                  {byCategory.slice(0, 5).map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} opacity={0.8} />
+                                  ))}
+                                </Bar>
+                              </BarChart>
+                            </ResponsiveContainer>
+                          }
                          renderItem={(cat) => (
                            <div 
                              key={cat.id} 
