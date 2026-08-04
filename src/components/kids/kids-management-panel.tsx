@@ -149,6 +149,7 @@ export function KidsManagementPanel() {
   const giveMoneyMutation = useMutation({
     mutationFn: useServerFn(giveMoneyToKid),
     onSuccess: (result) => {
+      const transactionId = (result as { transactionId: string }).transactionId;
       const createdAt = Date.now();
       toast.success("Valor enviado com sucesso!", {
         description: "O saldo da carteira já foi atualizado.",
@@ -160,7 +161,7 @@ export function KidsManagementPanel() {
               toast.error("O prazo para desfazer já passou.");
               return;
             }
-            deleteMutation.mutate({ data: { transactionId: result.transactionId } });
+            deleteMutation.mutate({ data: { transactionId } });
           },
         },
       });
