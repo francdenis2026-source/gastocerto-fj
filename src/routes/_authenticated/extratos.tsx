@@ -96,8 +96,8 @@ function ExtratosPage() {
                             {t.transaction_type === 'income' ? "+" : "-"} {formatCurrency(t.amount)}
                           </TableCell>
                           <TableCell>
-                            <Badge variant={t.status === 'confirmed' ? "default" : "outline"} className="capitalize text-[10px]">
-                              {t.status === 'confirmed' ? "Confirmado" : "Pendente"}
+                            <Badge variant={(t.status === 'received' || t.status === 'paid') ? "default" : "outline"} className="capitalize text-[10px]">
+                              {(t.status === 'received' || t.status === 'paid') ? "Confirmado" : "Pendente"}
                             </Badge>
                           </TableCell>
                         </TableRow>
