@@ -226,14 +226,14 @@ function AuthPage() {
             className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.25_0.06_259/0.6)] via-transparent to-[oklch(0.16_0.03_258/0.8)]"
           />
 
-          <div className="p-5">
+          <div className="p-3 sm:p-5">
             <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
               <Logo onDark />
             </Link>
           </div>
 
-          <div className="relative z-10 space-y-4 p-5">
-            <div className="flex -space-x-3 overflow-hidden">
+          <div className="relative z-10 space-y-2.5 p-3 sm:space-y-4 sm:p-5">
+            <div className="hidden -space-x-3 overflow-hidden sm:flex">
               {[
                 "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
                 "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop",
@@ -272,7 +272,7 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-3 text-lg sm:text-xl xl:text-2xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+              <h2 className="font-display mt-2 text-[15px] font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:mt-3 sm:text-xl xl:text-2xl">
                 {mode === "login"
                   ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
@@ -281,7 +281,7 @@ function AuthPage() {
                       ? "Não se preocupe, vamos te ajudar a voltar."
                       : "Área de administração técnica e suporte."}
               </h2>
-              <p className="mt-3 text-[11px] sm:text-[12px] leading-relaxed text-white font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+              <p className="mt-2 hidden text-[11px] font-semibold leading-relaxed text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] sm:mt-3 sm:block sm:text-[12px]">
                 {mode === "login"
                   ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta."
                   : mode === "signup"
@@ -293,11 +293,12 @@ function AuthPage() {
             </div>
           </div>
 
-          <div className="p-5 pt-0">
+          <div className="hidden p-5 pt-0 sm:block">
             <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/60">
               &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
             </p>
           </div>
+
         </section>
 
         {/* Painel do formulário rolável */}
