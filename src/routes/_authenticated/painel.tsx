@@ -712,7 +712,7 @@ function DashboardPage() {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="p-3 rounded-xl bg-muted/30 border border-border/50">
+                  <div className="p-3 rounded-xl bg-secondary/20 border border-border/30">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Resumo do Mês</p>
                     <div className="flex items-end justify-between">
                       <p className={cn("text-lg font-black", metrics.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
@@ -725,21 +725,21 @@ function DashboardPage() {
                   <div className="space-y-2">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase px-1">Alertas do Mês</p>
                     {metrics.usedPercent > 90 ? (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
                         <AlertTriangle className="size-4 text-rose-500 shrink-0 mt-0.5" />
                         <p className="text-[10px] leading-tight text-rose-600 font-bold">
                           Você atingiu {metrics.usedPercent.toFixed(1)}% do seu orçamento. Considere frear gastos não essenciais.
                         </p>
                       </div>
                     ) : metrics.usedPercent > 75 ? (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
                         <AlertTriangle className="size-4 text-amber-600 shrink-0 mt-0.5" />
                         <p className="text-[10px] leading-tight text-amber-700 font-bold">
                           Atenção: Orçamento em {metrics.usedPercent.toFixed(1)}%. Mantenha o foco até o fechamento.
                         </p>
                       </div>
                     ) : (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                         <CheckSquare className="size-4 text-emerald-500 shrink-0 mt-0.5" />
                         <p className="text-[10px] leading-tight text-emerald-700 font-bold">
                           Orçamento sob controle ({metrics.usedPercent.toFixed(1)}%). Ótimo trabalho!
