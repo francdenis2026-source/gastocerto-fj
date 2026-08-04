@@ -175,8 +175,8 @@ export function Hero() {
                     className={cn(
                       "press-feedback inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12.5px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong",
                       "highlight" in mod && mod.highlight
-                        ? "border-hero-accent/50 bg-hero-accent/20 text-hero-fg shadow-[0_0_12px_rgba(23,164,95,0.15)] hover:border-hero-accent hover:bg-hero-accent/30"
-                        : "border-hero-border-strong/40 bg-hero-surface/60 text-hero-fg hover:border-hero-border-strong hover:bg-hero-surface shadow-sm"
+                        ? "border-hero-accent/50 bg-hero-accent/20 text-hero-fg shadow-[0_0_12px_rgba(23,164,95,0.2)] hover:border-hero-accent hover:bg-hero-accent/30 dark:border-hero-accent/40 dark:bg-hero-accent/15"
+                        : "border-hero-border-strong/30 bg-hero-surface/40 text-hero-fg hover:border-hero-border-strong/60 hover:bg-hero-surface/70 shadow-sm dark:border-white/5 dark:bg-white/5"
                     )}
                   >
                     <mod.icon 
