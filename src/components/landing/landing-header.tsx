@@ -54,8 +54,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-border bg-background/90 text-foreground backdrop-blur-md shadow-soft"
-          : "border-b border-hero-border bg-transparent text-hero-fg",
+          ? "border-b border-white/10 bg-background/60 text-foreground backdrop-blur-xl shadow-soft"
+          : "border-b border-transparent bg-transparent text-hero-fg",
       )}
     >
       <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">

@@ -78,26 +78,21 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {`## Otimização de Nomenclatura e Estado Vazio
+        {`## Tarefa: Criação de Nova Homepage Moderna e Tecnológica
 
-**Funcionalidade:**
+**Objetivo:** Desenvolver uma nova página inicial (homepage) com design moderno, intuitivo e com um toque tecnológico, utilizando a stack TanStack Start + React.
 
-*   **Padronização de Nomenclatura:** Atualização de todos os botões e títulos de cadastro de "Novo [Item]" para "Adicionar [Item]", garantindo consistência em contas, veículos, dependentes e compromissos.
-*   **Melhoria do Estado Vazio:** Refinamento visual da seção de cartões quando não há itens cadastrados, com ilustrações leves e CTAs mais claros.
-*   **Qualidade Visual:** Implementação de ajustes para garantir que o layout compacto se comporte corretamente em diferentes resoluções.
+**Requisitos Visuais:**
+*   **Design:** Moderno, visualmente atraente e focado em fintech high-tech.
+*   **Intuitividade:** Navegação fluida e hierarquia clara de informações.
+*   **Toque Tecnológico:** Tipografia display (Sora), gradientes neon, glassmorphism e animações sutis.
+*   **Otimização:** Responsividade extrema e carregamento progressivo de imagens.
 
-**Requisitos Técnicos:**
-
-*   **Refatoração de Texto:** Substituição sistemática de strings de interface em componentes de diálogo e rotas de cadastro.
-*   **Regressão Visual:** Verificação de alinhamento e contraste após a compactação do layout.
-*   **Consistência de Marca:** Alinhamento com o slogan "Controle hoje, tranquilidade sempre" através de orientações claras ao usuário.
-
-**Passos Necessários:**
-
-1.  **Padronização:** Alterar "Novo" para "Adicionar" em Veículos, Contas, Compromissos e Dependentes.
-2.  **Atualização de Diálogos:** Refletir a nova nomenclatura nos títulos dos modais (DialogTitle).
-3.  **Refinamento de Cartões:** Ajustar o componente de cartões para guiar o usuário com mensagens mais intuitivas.
-4.  **Verificação:** Testar a responsividade e o fluxo de inclusão em todas as seções afetadas.`}
+**Implementação:**
+1.  **Hero V3:** Estrutura de grid assimétrica com preview interativo.
+2.  **Design Tokens:** Calibração de cores para tons neon sobre fundo navy.
+3.  **Micro-interações:** Feedback visual imediato em cards e botões.
+4.  **Acessibilidade:** Suporte total a teclado e leitores de tela.`}
       </div>
 
       <PageBackground />

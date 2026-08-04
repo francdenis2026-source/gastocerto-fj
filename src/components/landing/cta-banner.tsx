@@ -9,57 +9,60 @@ export function CtaBanner() {
   return (
     <section className="section-y">
       <Reveal className="section-shell">
-        <div className="relative isolate overflow-hidden rounded-3xl bg-cta-bg px-5 py-5 text-cta-fg shadow-lifted sm:px-10 sm:py-7 border border-cta-border">
-          <GridPattern className="absolute inset-0 -z-10 size-full text-cta-fg/10" />
+        <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-cta-bg px-6 py-10 text-cta-fg shadow-2xl sm:px-12 sm:py-14 border border-white/5 transition-all duration-500 hover:border-brand/30">
+          <GridPattern className="absolute inset-0 -z-10 size-full text-cta-fg/5" />
+          
+          {/* Efeitos de Glow High-Tech */}
           <div
             aria-hidden="true"
-            className="absolute -right-24 -top-24 -z-10 size-[320px] rounded-full bg-cta-accent-glow blur-[120px]"
+            className="absolute -right-32 -top-32 -z-10 size-[400px] rounded-full bg-cta-accent-glow blur-[140px] animate-pulse"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -left-32 -bottom-32 -z-10 size-[400px] rounded-full bg-brand/10 blur-[140px]"
           />
 
-          <div className="grid items-center gap-4 lg:grid-cols-[1.35fr_1fr]">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
             <div className="min-w-0">
-              <h2 className="section-title text-cta-fg">
-                Decisões melhores começam com números claros
+              <h2 className="font-display text-2xl font-black leading-tight tracking-tight text-cta-fg sm:text-4xl">
+                Decisões inteligentes começam com dados precisos.
               </h2>
-              <p className="mt-2 max-w-xl text-[13px] leading-snug text-cta-fg-muted sm:text-sm">
-                Conta gratuita, sem cartão de crédito e sem instalar nada. Prefere ver antes?
-                Abra a demonstração com dados de exemplo.
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-cta-fg-muted">
+                Junte-se à nova era da gestão financeira familiar. 100% gratuito, sem cartão, 
+                seguro e pronto para uso em segundos.
               </p>
-              <p className="mt-2 inline-flex items-center gap-2 text-[12.5px] text-cta-fg-muted">
-                <ShieldCheck className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-                Seus dados são só seus: exporte ou apague quando quiser.
-              </p>
+              <div className="mt-6 flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {[1,2,3].map(i => (
+                    <div key={i} className="size-8 rounded-full border-2 border-cta-bg bg-muted ring-2 ring-brand/20" />
+                  ))}
+                </div>
+                <p className="text-sm font-semibold text-cta-fg-muted">
+                  +2.500 famílias economizando hoje.
+                </p>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
-              <Button className="h-10 w-full shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-fg/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" asChild>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <Button size="lg" className="h-14 w-full rounded-2xl bg-brand text-base font-bold shadow-[0_0_30px_rgba(23,164,95,0.2)] transition-transform hover:scale-105 active:scale-95" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
-                  Criar conta grátis
-                  <ArrowRight className="size-4" aria-hidden="true" />
+                  Começar Agora
+                  <ArrowRight className="size-5 ml-1" aria-hidden="true" />
                 </Link>
               </Button>
               <Button
                 variant="outline"
-                className="h-10 w-full border-cta-fg/25 bg-cta-surface text-cta-fg hover:bg-cta-fg/15 hover:text-cta-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-fg/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                size="lg"
+                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 text-base font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-brand/40"
                 asChild
               >
                 <Link to="/demonstracao">
-                  <PlayCircle className="size-4" aria-hidden="true" />
-                  Demonstração
-                </Link>
-              </Button>
-              <Button
-                variant="ghost"
-                className="col-span-2 h-9 w-full text-cta-fg-muted hover:bg-cta-fg/10 hover:text-cta-fg lg:col-span-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-fg/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-                asChild
-              >
-                <Link to="/auth" search={{ mode: "login" }}>
-                  Já tenho conta — entrar
+                  <PlayCircle className="size-5 mr-2" aria-hidden="true" />
+                  Ver Demo Interativa
                 </Link>
               </Button>
             </div>
           </div>
-
         </div>
       </Reveal>
     </section>
