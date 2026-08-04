@@ -3,7 +3,6 @@ import {
   Baby,
   Banknote,
   Send,
-
   BarChart3,
   Bell,
   CalendarClock,
@@ -198,23 +197,10 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   },
 ];
 
-
 const highlights = [
   { icon: Droplets, value: "20+", label: "categorias prontas", hint: "gás, combustível, água, roupas…" },
   { icon: Dumbbell, value: "12", label: "módulos integrados", hint: "de lançamentos ao Espaço Kids" },
   { icon: ShieldCheck, value: "100%", label: "dados isolados", hint: "cada conta vê só o que é seu" },
-];
-
-const steps = [
-  { title: "Entre com seu CPF", text: "Cadastro em menos de um minuto, com senha de 6 dígitos." },
-  { title: "Lance o gasto na hora", text: "Gás, combustível, mercado, roupas, academia, streaming — tudo pronto." },
-  { title: "Veja a sobra crescer", text: "Painel, orçamentos e alertas mostram onde cortar sem sufoco." },
-];
-
-const proofs = [
-  { name: "Mariana Silva", role: "Gestora · Rio Branco", text: "Achei R$ 380 por mês em assinaturas que eu nem lembrava que existiam." },
-  { name: "Rafael Lima", role: "Motorista · Feijó", text: "Descobri que rodava por R$ 0,52 o km. Reajustei minha meta no mesmo dia." },
-  { name: "Juliana Costa", role: "Professora · Cruzeiro do Sul", text: "Zerei juros de atraso: o app avisa três dias antes de cada conta." },
 ];
 
 const pillars = [
@@ -316,8 +302,6 @@ export function CompactOverview() {
           ))}
         </Reveal>
 
-
-
         <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-3.5">
           <div role="region" aria-label="Navegação das seções do produto" className="w-full">
             <p id="tabs-hint" className="sr-only">
@@ -397,8 +381,6 @@ export function CompactOverview() {
             </div>
           </TabsContent>
 
-
-
           <TabsContent value="seguranca" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["seguranca"].label}</h3>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-2.5">
@@ -428,18 +410,18 @@ export function CompactOverview() {
 
           <TabsContent value="faq" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
-            <Accordion type="single" collapsible className="grid gap-x-6 sm:grid-cols-2">
+            <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
-                <AccordionItem
-                  key={faq.q}
-                  value={`item-${index}`}
-                  className={index > 3 ? "hidden sm:block" : undefined}
-                >
-                  <AccordionTrigger className="py-2.5 text-left text-[13px] font-semibold sm:text-sm">{faq.q}</AccordionTrigger>
-                  <AccordionContent className="text-xs leading-relaxed text-muted-foreground">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
+                <Reveal key={faq.q} delay={index * 50}>
+                  <AccordionItem value={`faq-${index}`} className="border-border/60">
+                    <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="px-1 text-[12.5px] leading-relaxed text-muted-foreground sm:text-sm">
+                      {faq.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Reveal>
               ))}
             </Accordion>
           </TabsContent>

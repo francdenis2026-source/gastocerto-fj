@@ -110,7 +110,7 @@ export function Benefits() {
               >
                 <button
                   type="button"
-                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/40 p-3 text-left shadow-soft backdrop-blur-md transition-all hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-[0_20px_40px_rgba(23,164,95,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
+                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/40 p-3 text-left shadow-soft backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-[0_20px_40px_rgba(23,164,95,0.1)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
                   style={{
                     backgroundImage: `linear-gradient(150deg, color-mix(in oklab, ${benefit.accent} 10%, transparent), transparent 62%)`,
                   }}
