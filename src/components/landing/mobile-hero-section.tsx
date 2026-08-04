@@ -53,7 +53,7 @@ export function MobileHeroSection() {
           {/* Visual Highlight Cards */}
           <div className="mt-6 grid w-full grid-cols-2 gap-3 animate-reveal" style={{ animationDelay: '400ms' }}>
             <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md transition-all active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30 shadow-[0_0_15px_rgba(23,164,95,0.2)]">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30 shadow-[0_0_15px_rgba(23,164,95,0.2)]">
                 <Target className="size-5" />
               </div>
               <p className="text-xl font-black text-white">Metas</p>
