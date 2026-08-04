@@ -6,23 +6,22 @@
 
 /** Paleta de séries — use sempre nesta ordem para manter consistência visual. */
 export const CHART_SERIES = [
-  "#17A45F", // Emerald/Brand
+  "#10B981", // Emerald (Primary)
   "#3B82F6", // Blue
+  "#F472B6", // Pink
   "#F59E0B", // Amber
-  "#EF4444", // Red/Destructive
   "#8B5CF6", // Violet
   "#06B6D4", // Cyan
-  "#EC4899", // Pink
-  "#10B981", // Emerald-500
+  "#F43F5E", // Rose
 ] as const;
 
 /** Cores semânticas fixas por tipo de valor. */
 export const CHART_TOKENS = {
-  expense: "var(--destructive)",
-  income: "var(--success)",
-  neutral: "var(--chart-1)",
-  warning: "var(--warning)",
-  muted: "var(--muted-foreground)",
+  expense: "#F43F5E",
+  income: "#10B981",
+  neutral: "#3B82F6",
+  warning: "#F59E0B",
+  muted: "#64748B",
 } as const;
 
 export function seriesColor(index: number) {
@@ -31,10 +30,10 @@ export function seriesColor(index: number) {
 
 /** Tipografia e traços padronizados dos eixos. */
 export const axisProps = {
-  tick: { fontSize: 11, fill: "var(--muted-foreground)" },
+  tick: { fontSize: 12, fill: "#94A3B8", fontWeight: "500" },
   tickLine: false,
   axisLine: false,
-  stroke: "var(--border)",
+  stroke: "rgba(255, 255, 255, 0.08)",
 } as const;
 
 export const gridProps = {
@@ -44,19 +43,19 @@ export const gridProps = {
 } as const;
 
 export const tooltipProps = {
-  cursor: { fill: "color-mix(in oklab, var(--muted-foreground) 8%, transparent)" },
+  cursor: { fill: "rgba(255, 255, 255, 0.03)" },
   contentStyle: {
-    background: "var(--popover)",
-    border: "1px solid var(--border)",
-    borderRadius: "1rem",
-    color: "var(--popover-foreground)",
-    fontSize: 12,
-    boxShadow: "0 10px 30px -10px oklch(0 0 0 / 15%)",
-    padding: "10px 14px",
-    backdropFilter: "blur(8px)",
+    background: "#111827",
+    border: "1px solid rgba(255, 255, 255, 0.08)",
+    borderRadius: "16px",
+    color: "#F8FAFC",
+    fontSize: 13,
+    boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.3)",
+    padding: "12px 16px",
+    backdropFilter: "blur(12px)",
   },
-  labelStyle: { color: "var(--muted-foreground)", fontSize: 11, fontWeight: "700", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" },
-  itemStyle: { color: "var(--popover-foreground)", fontSize: 13, fontWeight: "600", padding: "2px 0" },
+  labelStyle: { color: "#94A3B8", fontSize: 11, fontWeight: "700", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.1em" },
+  itemStyle: { color: "#F8FAFC", fontSize: 14, fontWeight: "600", padding: "4px 0" },
 } as const;
 
 export const legendProps = {

@@ -75,40 +75,40 @@ export function StatTile({
     <Comp
       {...(onClick ? { type: "button" as const, onClick } : {})}
       className={cn(
-        "relative w-full overflow-hidden glass-morphism mobile-compact-card text-left shadow-soft transition-all hover:bg-card/80",
+        "relative w-full overflow-hidden premium-card text-left p-6",
         t.ring,
-        onClick
-          ? "hover:-translate-y-0.5 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          : null,
+        onClick ? "active:scale-[0.98]" : "hover:translate-y-0",
         className,
       )}
-      style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 60%)` }}
+      style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 70%)` }}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="min-w-0 truncate text-[9.5px] font-semibold uppercase tracking-[0.05em] text-muted-foreground sm:text-[11.5px] sm:tracking-[0.09em]">
+      <div className="flex items-start justify-between gap-3">
+        <p className="min-w-0 truncate text-xs font-bold uppercase tracking-widest text-muted-foreground">
           {label}
         </p>
         {Icon ? (
-          <span className={cn("grid size-6 sm:size-7 shrink-0 place-items-center rounded-lg border", t.icon)}>
-            <Icon className="size-3.5" aria-hidden="true" />
-          </span>
+          <div className={cn("grid size-10 shrink-0 place-items-center rounded-xl border transition-colors", t.icon)}>
+            <Icon className="size-5" aria-hidden="true" />
+          </div>
         ) : null}
       </div>
       <p
         title={value}
         className={cn(
-          "mt-1.5 truncate font-display text-[clamp(0.95rem,4.1vw,1.3rem)] font-bold leading-tight tabular tracking-tight",
+          "mt-4 truncate font-sans text-3xl lg:text-4xl font-extrabold leading-none tabular tracking-tight",
           t.value,
         )}
       >
         {value}
       </p>
       {hint ? (
-        <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground sm:text-xs">{hint}</p>
+        <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground font-medium">
+          {hint}
+        </div>
       ) : null}
-      {badge ? <div className="mt-2">{badge}</div> : null}
+      {badge ? <div className="mt-4">{badge}</div> : null}
       {typeof progress === "number" ? (
-        <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-muted">
+        <div className="mt-5 h-2 overflow-hidden rounded-full bg-secondary/50">
           <div
             className={cn("h-full rounded-full transition-[width] duration-500", t.bar)}
             style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
