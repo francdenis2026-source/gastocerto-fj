@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
-import { UserPlus, Search, Trash2, Edit2, Loader2, Shield, Calendar, Clock } from "lucide-react";
+import { UserPlus, Search, Trash2, Edit2, Loader2, Shield, Calendar, Clock, Lock, Save, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -16,21 +15,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { formatDateTime } from "@/lib/format";
 import { supabase } from "@/integrations/supabase/client";
+import { adminUpdateUser } from "@/lib/admin-users.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: string }) {
   const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
+  const [editingAccount, setEditingAccount] = useState<any>(null);
+  const updateUser = useServerFn(adminUpdateUser);
 
   const { data: accounts, isLoading } = useQuery({
     queryKey: ["admin", "temporary-accounts"],
     queryFn: async () => {
-      // Temporary accounts are those created via code activation
-      // We'll look for profiles that have specific metadata or are linked to licenses but haven't been promoted to full paid yet
-      // For now, let's filter by a flag or specific status if available, 
-      // or simply profiles that were created via admin/codes
       const { data, error } = await supabase
         .from("profiles")
         .select("*, plans(name, slug)")
@@ -54,17 +62,37 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
     );
   }, [accounts, search, globalSearch]);
 
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingAccount) return;
+
+    try {
+      await updateUser({
+        data: {
+          targetUserId: editingAccount.user_id,
+          fullName: editingAccount.full_name,
+          contactEmail: editingAccount.contact_email,
+        }
+      });
+      toast.success("Dados da conta temporária atualizados");
+      setEditingAccount(null);
+      queryClient.invalidateQueries({ queryKey: ["admin", "temporary-accounts"] });
+    } catch (err: any) {
+      toast.error(err.message || "Erro ao atualizar conta");
+    }
+  };
+
   return (
     <Card className="border-border/60 shadow-sm">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2 text-lg">
+            <CardTitle className="flex items-center gap-2 text-lg font-bold">
               <UserPlus className="size-5 text-amber-500" />
-              Contas Temporárias
+              Contas Temporárias (Trials)
             </CardTitle>
             <CardDescription>
-              Gestão de usuários que acessam via código ou período de teste.
+              Gestão de usuários em período de teste ou acesso por código. Edite nomes fictícios e acompanhe expirações.
             </CardDescription>
           </div>
         </div>
@@ -73,72 +101,144 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar por nome, e-mail ou CPF"
-            className="pl-9"
+            placeholder="Buscar por nome fictício, e-mail ou CPF"
+            className="pl-9 bg-background/50 border-border/40 focus:border-amber-500/50"
           />
         </div>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto rounded-md border border-border/60">
+        <div className="overflow-x-auto rounded-xl border border-border/40 bg-background/30 backdrop-blur-sm">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
-                <TableHead>Usuário</TableHead>
-                <TableHead>Plano/Teste</TableHead>
-                <TableHead>Expiração</TableHead>
-                <TableHead>Criado em</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
+                <TableHead className="font-bold">Usuário / Nome Fictício</TableHead>
+                <TableHead className="font-bold">Plano</TableHead>
+                <TableHead className="font-bold">Tempo Restante</TableHead>
+                <TableHead className="font-bold">Status de Acesso</TableHead>
+                <TableHead className="text-right font-bold">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="py-8 text-center">
-                    <Loader2 className="mx-auto size-5 animate-spin text-muted-foreground" />
+                  <TableCell colSpan={5} className="py-12 text-center">
+                    <Loader2 className="mx-auto size-6 animate-spin text-amber-500" />
                   </TableCell>
                 </TableRow>
               ) : filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
-                    Nenhuma conta temporária ativa encontrada.
+                  <TableCell colSpan={5} className="py-12 text-center text-muted-foreground">
+                    <div className="flex flex-col items-center gap-2">
+                      <X className="size-8 opacity-20" />
+                      <p>Nenhuma conta temporária ativa encontrada.</p>
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : (
-                filtered.map((account) => (
-                  <TableRow key={account.id}>
-                    <TableCell>
-                      <div className="flex flex-col">
-                        <span className="font-medium">{account.full_name || "Usuário Temporário"}</span>
-                        <span className="text-xs text-muted-foreground">{account.contact_email || account.cpf || "—"}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
-                        {account.plans?.name || "Trial"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1.5 text-xs font-medium text-orange-600">
-                        <Clock className="size-3" />
-                        {account.trial_ends_at ? formatDateTime(account.trial_ends_at) : "—"}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground">
-                      {formatDateTime(account.created_at)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" className="size-8">
-                        <Edit2 className="size-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
+                filtered.map((account) => {
+                  const endsAt = new Date(account.trial_ends_at);
+                  const now = new Date();
+                  const diffMs = endsAt.getTime() - now.getTime();
+                  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+                  const isExpired = diffMs < 0;
+
+                  return (
+                    <TableRow key={account.id} className="hover:bg-muted/20 transition-colors">
+                      <TableCell>
+                        <div className="flex flex-col gap-0.5">
+                          <span className="font-semibold text-sm">{account.full_name || "Usuário Temporário"}</span>
+                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                            {account.contact_email || account.cpf || "—"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="bg-amber-500/5 text-amber-600 border-amber-500/20 text-[10px] font-bold uppercase tracking-tighter">
+                          {account.plans?.name || "Trial"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className={cn(
+                          "flex items-center gap-1.5 text-xs font-bold",
+                          isExpired ? "text-destructive" : diffDays <= 3 ? "text-orange-600" : "text-emerald-600"
+                        )}>
+                          <Clock className="size-3" />
+                          {isExpired ? "Expirado" : `${diffDays} dia(s)`}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="secondary" className="bg-slate-500/10 text-slate-600 border-slate-500/20 text-[10px] font-black">
+                          <Lock className="mr-1 size-3" />
+                          RESTRITO
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="size-8 hover:bg-amber-500/10 hover:text-amber-600"
+                          onClick={() => setEditingAccount({ ...account })}
+                        >
+                          <Edit2 className="size-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
               )}
             </TableBody>
           </Table>
         </div>
       </CardContent>
+
+      <Dialog open={!!editingAccount} onOpenChange={(open) => !open && setEditingAccount(null)}>
+        <DialogContent className="max-w-md rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Edit2 className="size-5 text-amber-500" />
+              Editar Conta Temporária
+            </DialogTitle>
+            <DialogDescription>
+              Ajuste as informações da conta. O usuário não poderá editar estes dados por conta própria.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSave} className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="full_name">Nome Fictício / Exibição</Label>
+              <Input 
+                id="full_name" 
+                value={editingAccount?.full_name || ""} 
+                onChange={(e) => setEditingAccount({ ...editingAccount, full_name: e.target.value })}
+                placeholder="Ex: João Teste"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contact_email">E-mail de Contato</Label>
+              <Input 
+                id="contact_email" 
+                type="email"
+                value={editingAccount?.contact_email || ""} 
+                onChange={(e) => setEditingAccount({ ...editingAccount, contact_email: e.target.value })}
+                placeholder="email@exemplo.com"
+              />
+            </div>
+          </form>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="ghost" onClick={() => setEditingAccount(null)} className="rounded-xl">
+              Cancelar
+            </Button>
+            <Button onClick={handleSave} className="bg-amber-600 hover:bg-amber-700 text-white rounded-xl gap-2">
+              <Save className="size-4" />
+              Salvar Alterações
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <ConfirmDialog />
     </Card>
   );
+}
+
+function cn(...inputs: any[]) {
+  return inputs.filter(Boolean).join(" ");
 }
