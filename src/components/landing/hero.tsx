@@ -150,7 +150,7 @@ export function Hero() {
           </div>
 
 
-          <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Módulos disponíveis">
+          <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Módulos disponíveis">
             {modules.map((mod) => (
               <li key={mod.label}>
                 <FeatureDetailDialog
