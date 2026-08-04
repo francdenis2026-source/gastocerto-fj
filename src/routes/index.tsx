@@ -78,26 +78,24 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {`## Anomalia e Refatoração de Mensagens de Logout
+        {`## Otimização da Área do Cliente (Web)
 
-**1. Identificação e Correção da Anomalia de Logout:**
+**Funcionalidade:**
 
-*   **Problema:** Ao clicar em "sair" no painel do administrador, o sistema exibe o painel da área do cliente com um botão de sair adicional. O logout completo só ocorre após clicar neste segundo botão.
-*   **Objetivo:** Garantir que o clique em "sair" no painel do administrador redirecione diretamente para o logout efetivo, sem a exibição intermediária do painel do cliente.
-
-**2. Refatoração de Mensagens do Navegador:**
-
-*   **Problema:** As mensagens de confirmação/erro emitidas pelo navegador durante o processo de logout são informais e não profissionais.
-*   **Objetivo:** Substituir todas as mensagens de navegador relacionadas ao logout por mensagens padronizadas, profissionais e em formato SVG, que sejam consistentes em todo o sistema.
+*   **Redundância de Opções:** Identificar e resolver a redundância entre as opções "Novo Cartão" e "Adicionar Cartão" na área do cliente.
+*   **Otimização de Espaço:** Reduzir o espaço vertical excessivo na seção "Nenhum Cartão Cadastrado".
 
 **Requisitos Técnicos:**
 
-*   Análise do fluxo de navegação e lógica de logout no painel do administrador.
-*   Implementação de redirecionamento correto após o logout no painel do administrador.
-*   Identificação de todos os pontos onde mensagens de navegador são exibidas em relação ao logout.
-*   Criação de ícones SVG para as novas mensagens de logout.
-*   Integração das mensagens SVG no sistema, substituindo as mensagens existentes.
-*   Testes abrangentes para validar a correção da anomalia e a exibição correta das novas mensagens.`}
+*   **Análise de UI/UX:** Avaliar a nomenclatura e o fluxo do usuário para determinar a melhor abordagem para a adição de cartões.
+*   **Ajuste de Layout:** Implementar ajustes no CSS para compactar o espaço na área de exibição de cartões quando nenhum estiver cadastrado.
+
+**Passos Necessários:**
+
+1.  **Revisão das Opções:** Analisar as funcionalidades associadas a "Novo Cartão" e "Adicionar Cartão" para consolidar em uma única opção clara e intuitiva.
+2.  **Implementação da Correção:** Remover a opção redundante e garantir que a funcionalidade de adição de cartão esteja acessível de forma eficiente.
+3.  **Ajuste de Espaçamento:** Modificar os estilos CSS para reduzir o padding/margin da área que exibe a mensagem "Nenhum Cartão Cadastrado", tornando o layout mais compacto.
+4.  **Testes:** Validar as alterações em diferentes navegadores e resoluções de tela para garantir a consistência visual e funcional.`}
       </div>
 
       <PageBackground />

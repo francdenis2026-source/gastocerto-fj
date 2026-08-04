@@ -56,7 +56,7 @@ function CreditCardsPage() {
                 <FileDown className="size-4" /> Exportar
               </Button>
               <Button size="sm" className="h-9 gap-2 text-xs">
-                <Plus className="size-4" /> Novo cartão
+                <Plus className="size-4" /> Adicionar cartão
               </Button>
             </>
           }
@@ -78,11 +78,13 @@ function CreditCardsPage() {
                 {[1, 2, 3].map(i => <Skeleton key={i} className="h-48 rounded-2xl" />)}
               </div>
             ) : cards?.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed rounded-3xl">
-                <CardIcon className="size-12 mx-auto text-muted-foreground/30" />
-                <h3 className="mt-4 text-lg font-semibold">Nenhum cartão cadastrado</h3>
-                <p className="text-muted-foreground text-sm mb-6">Comece adicionando seu primeiro cartão de crédito ou débito.</p>
-                <Button variant="outline">Adicionar Cartão</Button>
+              <div className="text-center py-8 border-2 border-dashed rounded-3xl bg-muted/10">
+                <CardIcon className="size-10 mx-auto text-muted-foreground/30 mb-3" />
+                <h3 className="text-base font-semibold">Nenhum cartão cadastrado</h3>
+                <p className="text-muted-foreground text-xs mb-4">Comece adicionando seu primeiro cartão de crédito ou débito.</p>
+                <Button variant="outline" size="sm" className="h-8 text-xs gap-2">
+                  <Plus className="size-3" /> Adicionar Cartão
+                </Button>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
