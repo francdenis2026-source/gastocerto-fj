@@ -96,7 +96,7 @@ export function Pricing() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3 lg:max-w-5xl lg:mx-auto">
-          {plans.map((plan) => (
+          {basePlans.map((plan) => (
             <div
               key={plan.slug}
               className={cn(
