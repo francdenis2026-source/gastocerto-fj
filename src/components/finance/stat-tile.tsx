@@ -8,7 +8,7 @@ const tones = {
     ring: "border-primary/20",
     glow: "rgba(16, 185, 129, 0.05)",
     icon: "border-primary/20 bg-primary/10 text-primary",
-    value: "text-foreground",
+    value: "text-primary font-bold",
     bar: "bg-primary",
   },
   success: {
