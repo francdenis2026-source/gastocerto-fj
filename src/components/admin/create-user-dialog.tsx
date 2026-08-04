@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { Loader2, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -28,6 +29,7 @@ import { maskCpf, onlyDigits } from "@/lib/cpf";
 /** Cadastro manual de contas de clientes pelo painel administrativo. */
 export function CreateUserDialog() {
   const queryClient = useQueryClient();
+  const createUser = useServerFn(adminCreateUser);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -52,7 +54,7 @@ export function CreateUserDialog() {
 
     setLoading(true);
     try {
-      await adminCreateUser({
+      await createUser({
         data: {
           fullName: fullName.trim(),
           cpf: onlyDigits(cpf),

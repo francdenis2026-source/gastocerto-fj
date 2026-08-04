@@ -2,7 +2,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { sendAdminNotification } from "./admin-notifications.server";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */
 async function assertAdmin(context: { supabase: any; userId: string }) {
@@ -140,6 +139,7 @@ export const adminCancelSubscription = createServerFn({ method: "POST" })
       details: { revoked: revoked?.length ?? 0, reason: data.reason ?? null },
     });
 
+    const { sendAdminNotification } = await import("./admin-notifications.server");
     await sendAdminNotification(
       data.targetUserId,
       "subscription_canceled",
@@ -264,20 +264,23 @@ export const adminListBlockedIps = createServerFn({ method: "GET" })
     return data ?? [];
   });
 
-const promoteSchema = z.object({
-  targetUserId: z.string().uuid(),
-  planSlug: z.enum(["premium", "premium_ia"]).default("premium_ia"),
-});
-
 /**
  * Promove qualquer conta para a versão paga usando o cliente administrativo
  * (o update direto pelo navegador era bloqueado pelas políticas de acesso).
  */
 export const adminPromoteToPaid = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => promoteSchema.parse(input))
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        targetUserId: z.string().uuid(),
+        planSlug: z.enum(["premium", "premium_ia"]).default("premium_ia"),
+      })
+      .parse(input),
+  )
   .handler(async ({ data, context }) => {
-    await assertAdmin(context);
+    const { assertAdminCtx, auditLog } = await import("@/lib/admin-guard.server");
+    await assertAdminCtx(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: plan } = await supabaseAdmin
@@ -287,7 +290,7 @@ export const adminPromoteToPaid = createServerFn({ method: "POST" })
       .maybeSingle();
     if (!plan?.id) throw new Error("Plano pago não encontrado no catálogo");
 
-    const { error } = await supabaseAdmin
+    const { data: updatedProfile, error } = await supabaseAdmin
       .from("profiles")
       .update({
         plan_id: plan.id,
@@ -296,7 +299,9 @@ export const adminPromoteToPaid = createServerFn({ method: "POST" })
         trial_started_at: null,
         trial_ends_at: null,
       })
-      .eq("user_id", data.targetUserId);
+      .eq("user_id", data.targetUserId)
+      .select("user_id")
+      .maybeSingle();
     if (error) {
       console.error("[admin] erro ao promover conta:", error);
       // Se for erro de permissão (42501), o service_role deveria ter resolvido, mas garantimos uma mensagem clara
@@ -305,14 +310,11 @@ export const adminPromoteToPaid = createServerFn({ method: "POST" })
       }
       throw new Error(`Erro no banco de dados: ${error.message} (Código: ${error.code})`);
     }
+    if (!updatedProfile) throw new Error("Conta não encontrada para promoção.");
 
-    await context.supabase.from("admin_logs").insert({
-      actor_id: context.userId,
-      target_user_id: data.targetUserId,
-      action: "promote_paid",
-      details: { plan_slug: data.planSlug },
-    });
+    await auditLog(context, "promote_paid", { plan_slug: data.planSlug }, data.targetUserId);
 
+    const { sendAdminNotification } = await import("./admin-notifications.server");
     await sendAdminNotification(
       data.targetUserId,
       "plan_upgraded",
@@ -359,20 +361,23 @@ export const adminSetAccessLimit = createServerFn({ method: "POST" })
     return { ok: true, days: data.days };
   });
 
-const createUserSchema = z.object({
-  fullName: z.string().trim().min(2).max(120),
-  cpf: z.string().min(11).max(14),
-  pin: z.string().regex(/^\d{6}$/),
-  contactEmail: z.string().email().max(160).optional().or(z.literal("")),
-  planSlug: z.enum(["free", "premium", "premium_ia"]).default("free"),
-});
-
 /** Cria uma conta de cliente diretamente pelo painel administrativo. */
 export const adminCreateUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => createUserSchema.parse(input))
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        fullName: z.string().trim().min(2).max(120),
+        cpf: z.string().min(11).max(14),
+        pin: z.string().regex(/^\d{6}$/),
+        contactEmail: z.string().email().max(160).optional().or(z.literal("")),
+        planSlug: z.enum(["free", "premium", "premium_ia"]).default("free"),
+      })
+      .parse(input),
+  )
   .handler(async ({ data, context }) => {
-    await assertAdmin(context);
+    const { assertAdminCtx, auditLog } = await import("@/lib/admin-guard.server");
+    await assertAdminCtx(context);
     const { cpfToLoginEmail, pinToPassword, onlyDigits, isValidCpf } = await import("@/lib/cpf");
     const cpf = onlyDigits(data.cpf);
     if (!isValidCpf(cpf)) throw new Error("CPF inválido. Confira os dígitos informados.");
@@ -406,7 +411,7 @@ export const adminCreateUser = createServerFn({ method: "POST" })
       .eq("slug", data.planSlug)
       .maybeSingle();
 
-    await supabaseAdmin
+    const { data: updatedProfile, error: profileError } = await supabaseAdmin
       .from("profiles")
       .update({
         full_name: data.fullName,
@@ -415,17 +420,22 @@ export const adminCreateUser = createServerFn({ method: "POST" })
         status: "active",
         ...(plan?.id ? { plan_id: plan.id } : {}),
       })
-      .eq("user_id", newUserId);
+      .eq("user_id", newUserId)
+      .select("user_id")
+      .maybeSingle();
 
-    await context.supabase
-      .from("admin_logs")
-      .insert({
-        actor_id: context.userId,
-        target_user_id: newUserId,
-        action: "create_user",
-        details: { cpf, plan: data.planSlug },
-      })
-      .then(() => undefined, () => undefined);
+    if (profileError || !updatedProfile) {
+      await supabaseAdmin.auth.admin.deleteUser(newUserId).catch(() => undefined);
+      throw new Error(
+        profileError?.message
+          ? `A conta não pôde ser finalizada: ${profileError.message}`
+          : "A conta foi criada sem perfil e a operação foi desfeita. Tente novamente.",
+      );
+    }
+
+    await auditLog(context, "create_user", { cpf, plan: data.planSlug }, newUserId).catch(
+      () => undefined,
+    );
 
     return { ok: true, userId: newUserId, cpf };
   });

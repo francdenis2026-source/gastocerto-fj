@@ -86,8 +86,9 @@ export const createAdminAccessCode = createServerFn({ method: "POST" })
     const { assertAdminCtx, auditLog } = await import("@/lib/admin-guard.server");
     await assertAdminCtx(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { randomBytes } = await import("crypto");
 
-    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const random = randomBytes(5).toString("hex").slice(0, 8).toUpperCase();
     const code = `ADM-${random}`;
 
     const expiresAt = new Date();
