@@ -9,14 +9,16 @@ export function Hero() {
   return (
     <section id="inicio" className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24">
       {/* Immersive Background */}
-      <div className="absolute inset-0 -z-10">
-        <img 
-          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop" 
-          alt=""
-          className="size-full object-cover opacity-[0.03] dark:opacity-[0.07] grayscale"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1400px] h-full bg-primary/[0.03] blur-[120px] rounded-full" />
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
+          <img 
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
+            alt=""
+            className="w-full h-full object-cover opacity-[0.04] grayscale dark:opacity-[0.08]"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-full bg-primary/[0.03] blur-[150px] rounded-full" />
       </div>
 
       <div className="container mx-auto px-6 lg:px-12">
