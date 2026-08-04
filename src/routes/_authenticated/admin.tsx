@@ -89,7 +89,7 @@ import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/au
 type AdminSection = {
   id: string;
   label: string;
-  hint?: string;
+  hint: string;
   icon: any;
   adminOnly?: boolean;
 };
@@ -100,7 +100,7 @@ const SECTIONS: AdminSection[] = [
   { id: "financial", label: "Adm. Financeiro", hint: "Planos e receitas", icon: Wallet, adminOnly: true },
   { id: "temporary", label: "Acesso Temporário", hint: "Trials e chaves", icon: KeyRound, adminOnly: true },
   { id: "operations", label: "Operações", hint: "Suporte e catálogo", icon: LifeBuoy, adminOnly: true },
-  { id: "security", label: "Segurança", icon: Lock, hint: "Acessos e infra", adminOnly: true },
+  { id: "security", label: "Segurança", hint: "Acessos e infra", icon: Lock, adminOnly: true },
   { id: "audit", label: "Auditoria", hint: "Histórico de logs", icon: FileClock },
 ];
 
