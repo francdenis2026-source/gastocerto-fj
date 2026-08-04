@@ -14,7 +14,7 @@ export function Hero() {
           <img 
             src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
             alt=""
-            className="w-full h-full object-cover opacity-[0.04] grayscale dark:opacity-[0.08]"
+            className="w-full h-full object-cover opacity-[0.08] grayscale dark:opacity-[0.15]"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
