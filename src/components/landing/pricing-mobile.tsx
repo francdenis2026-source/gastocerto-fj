@@ -12,8 +12,7 @@ import { cn } from "@/lib/utils";
 type Slug = "free" | "premium" | "premium_ia";
 
 /**
- * Bloco de planos da versão mobile: um único cartão compacto com seletor de plano,
- * evitando três cards enormes ocupando toda a tela.
+ * Bloco de planos da versão mobile: Redesenhado para padrão Premium.
  */
 export function PricingMobile() {
   const { data: livePlans } = usePublicPlans();
@@ -31,16 +30,17 @@ export function PricingMobile() {
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
-    <section id="planos-mobile" className="px-4 py-12 md:hidden">
-      <div className="flex items-end justify-between gap-3">
+    <section id="planos-mobile" className="px-4 py-16 md:hidden bg-background">
+      <div className="flex flex-col gap-4 mb-8">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand">Planos</p>
-          <h2 className="mt-0.5 text-lg font-extrabold tracking-tight">Escolha seu controle</h2>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight">O nível ideal para você</h2>
         </div>
+        
         <div
           role="group"
           aria-label="Ciclo de cobrança"
-          className="inline-flex shrink-0 items-center rounded-full border border-border bg-card/80 p-0.5"
+          className="inline-flex w-fit items-center rounded-full border border-white/5 bg-white/[0.03] p-1"
         >
           {[
             { key: false, label: "Mensal" },
@@ -52,8 +52,8 @@ export function PricingMobile() {
               aria-pressed={yearly === option.key}
               onClick={() => setYearly(option.key)}
               className={cn(
-                "min-h-7 rounded-full px-2.5 text-[10px] font-bold transition-colors",
-                yearly === option.key ? "bg-brand text-brand-foreground" : "text-muted-foreground",
+                "min-h-9 rounded-full px-5 text-xs font-bold transition-all",
+                yearly === option.key ? "bg-brand text-brand-foreground shadow-lg" : "text-muted-foreground",
               )}
             >
               {option.label}
@@ -62,15 +62,8 @@ export function PricingMobile() {
         </div>
       </div>
 
-      <div className="mt-3 rounded-2xl border border-border bg-card/60 p-3 shadow-lifted backdrop-blur-xl">
-        <div className="mb-2.5 px-1">
-          <p className="text-[10px] font-medium leading-tight text-muted-foreground/80">
-            {slug === "free" && "Recursos básicos para controle essencial."}
-            {slug === "premium" && "Tudo liberado, veículos e suporte prioritário."}
-            {slug === "premium_ia" && "Consultor financeiro com IA para análise avançada."}
-          </p>
-        </div>
-        <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-xl bg-muted/50 p-1">
+      <div className="rounded-[2rem] border border-white/5 bg-white/[0.02] p-6 shadow-2xl backdrop-blur-xl">
+        <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-2xl bg-white/[0.03] p-1 mb-6">
           {plans.map((item) => (
             <button
               key={item.slug}
@@ -79,31 +72,34 @@ export function PricingMobile() {
               aria-selected={slug === item.slug}
               onClick={() => setSlug(item.slug as Slug)}
               className={cn(
-                "min-h-8 truncate rounded-lg px-1 text-[11px] font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "min-h-10 truncate rounded-xl px-2 text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
                 slug === item.slug
-                  ? "bg-card text-foreground shadow-soft"
+                  ? "bg-brand text-brand-foreground shadow-lg"
                   : "text-muted-foreground",
               )}
             >
-              {item.name.replace("Premium IA", "Prem. IA")}
+              {item.name.replace("Premium IA", "IA")}
             </button>
           ))}
         </div>
 
-        <div className="mt-3 flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium text-muted-foreground">{plan.description}</p>
+        <div className="flex items-center justify-between mb-6">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-xl font-black">{plan.name}</h3>
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{plan.description}</p>
           </div>
-          <p className="tabular shrink-0 text-right text-2xl font-extrabold leading-none tracking-tight">
-            {price === 0 ? "R$ 0" : formatCurrency(price)}
-            <span className="ml-1 text-[10px] font-semibold text-muted-foreground">/mês</span>
-          </p>
+          <div className="shrink-0 text-right ml-4">
+            <p className="tabular text-2xl font-black tracking-tight">
+              {price === 0 ? "R$ 0" : formatCurrency(price)}
+            </p>
+            <p className="text-[10px] font-bold text-muted-foreground">/mês</p>
+          </div>
         </div>
 
-        <ul className="mt-3 space-y-1.5 border-t border-border/60 pt-3">
-          {plan.features.slice(0, 3).map((feature) => (
-            <li key={feature} className="flex items-start gap-2 text-[12px] leading-snug">
-              <Check className="mt-[2px] size-3.5 shrink-0 text-success" aria-hidden="true" />
+        <ul className="space-y-3 mb-8 border-t border-white/5 pt-6">
+          {plan.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-3 text-sm">
+              <Check className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />
               <span className="text-muted-foreground">{feature}</span>
             </li>
           ))}
@@ -111,19 +107,19 @@ export function PricingMobile() {
 
         <Button
           className={cn(
-            "mt-3 h-12 w-full rounded-xl text-[14px] font-black shadow-soft transition-all active:scale-[0.97]",
+            "h-14 w-full rounded-2xl text-base font-bold shadow-xl transition-all active:scale-[0.97]",
             plan.highlighted
-              ? "bg-brand text-brand-foreground hover:bg-brand/90 shadow-lg shadow-brand/20 border-none"
-              : "border-2 border-brand/20 bg-card text-brand hover:bg-brand/[0.02]"
+              ? "bg-brand text-brand-foreground shadow-brand/20 border-none"
+              : "border border-white/10 bg-white/5 text-white"
           )}
           onClick={() => setCheckoutOpen(true)}
           variant={plan.highlighted ? "default" : "outline"}
         >
-          {plan.highlighted ? <Sparkles className="mr-1.5 size-4 animate-pulse" aria-hidden="true" /> : null}
+          {plan.highlighted ? <Sparkles className="mr-2 size-4" aria-hidden="true" /> : null}
           {plan.cta}
         </Button>
-        <p className="mt-2 text-center text-[10px] font-medium text-muted-foreground">
-          Sem fidelidade · cancele quando quiser
+        <p className="mt-4 text-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+          Cancele quando quiser
         </p>
       </div>
 

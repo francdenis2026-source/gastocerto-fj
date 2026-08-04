@@ -106,19 +106,12 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[2px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[2px] dark:opacity-80 opacity-60"
-      />
-
-      {/* camada extra de desfoque progressivo sobre a área do notebook (direita),
-          intensificando o contraste com os textos sem lavar a imagem inteira */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[3px] [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.15)_38%,rgba(0,0,0,0.45)_68%,rgba(0,0,0,0.6)_100%)] sm:backdrop-blur-[4px]"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/60 to-background/90"
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[image:var(--hero-fade)]"
+        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[2px] [mask-image:linear-gradient(to_right,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.4)_50%,rgba(0,0,0,0.8)_100%)]"
       />
 
 
@@ -173,19 +166,13 @@ export function Hero() {
                   <button
                     type="button"
                     className={cn(
-                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12.5px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong",
+                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
                       "highlight" in mod && mod.highlight
-                        ? "border-hero-accent/50 bg-hero-accent/20 text-hero-fg shadow-[0_0_12px_rgba(23,164,95,0.2)] hover:border-hero-accent hover:bg-hero-accent/30 dark:border-hero-accent/40 dark:bg-hero-accent/15"
-                        : "border-hero-border-strong/30 bg-hero-surface/40 text-hero-fg hover:border-hero-border-strong/60 hover:bg-hero-surface/70 shadow-sm dark:border-white/5 dark:bg-white/5"
+                        ? "border-brand/30 bg-brand/10 text-brand shadow-[0_0_15px_rgba(23,164,95,0.1)] hover:bg-brand/20"
+                        : "border-white/5 bg-white/[0.03] text-hero-fg-muted hover:bg-white/[0.08]"
                     )}
                   >
-                    <mod.icon 
-                      className={cn(
-                        "size-3.5 shrink-0",
-                        "highlight" in mod && mod.highlight ? "text-hero-accent brightness-125" : "text-hero-accent"
-                      )} 
-                      aria-hidden="true" 
-                    />
+                    <mod.icon className="size-3.5" />
                     {mod.label}
                   </button>
                 </FeatureDetailDialog>

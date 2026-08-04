@@ -248,7 +248,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-border bg-secondary/30 py-16 sm:py-20">
+    <section id="explorar" className="relative border-y border-white/5 bg-white/[0.01] py-16 sm:py-20">
       <span id="seguranca" className="block" />
       <div
         aria-hidden="true"
