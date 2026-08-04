@@ -1,5 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText, Menu } from "lucide-react";
+import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText, Menu, RefreshCcw } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { clearBrowserCredentials } from "@/lib/local-session";
 import { useState } from "react";
 import { MobileAdminTabBar } from "./mobile-admin-tab-bar";
 
@@ -50,11 +52,55 @@ export function AdminConsoleShell({
 
   function handleLogout() {
     confirm({
-      title: "Deseja sair da administração?",
-      description: "Você voltará para o painel de cliente. Suas alterações salvas não serão perdidas.",
-      type: "question",
-      onConfirm: () => {
-        window.location.href = "/painel";
+      title: "Encerrar Sessão",
+      description: "Deseja sair do sistema completamente? Você será desconectado da administração e da área do cliente.",
+      type: "warning",
+      confirmLabel: "Sair agora",
+      onConfirm: async () => {
+        const toastId = toast.loading("Finalizando acesso administrativo...", {
+          description: "Encerrando sessão com segurança.",
+          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+        });
+
+        try {
+          // Signout direto do backend
+          await supabase.auth.signOut();
+
+          // Limpeza profunda
+          clearBrowserCredentials();
+          window.localStorage.clear();
+          window.sessionStorage.clear();
+          
+          toast.success("Até logo!", {
+            id: toastId,
+            description: "Acesso administrativo encerrado com segurança.",
+            icon: (
+              <div className="flex size-6 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </div>
+            ),
+          });
+
+          // Redirecionamento forçado para a raiz (limpa o estado do react-router)
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 800);
+        } catch (error) {
+          console.error("Erro no logout admin:", error);
+          toast.error("Erro ao encerrar sessão", { id: toastId });
+          window.location.replace("/");
+        }
       }
     });
   }
