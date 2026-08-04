@@ -167,7 +167,7 @@ export function ClientCodesPanel({ globalSearch = "" }: { globalSearch?: string 
                               description: "Tem certeza que deseja remover este código definitivamente? Esta ação não pode ser desfeita.",
                               type: "warning",
                               confirmLabel: "Excluir",
-                              onConfirm: () => deleteMutation.mutate(license.id),
+                              onConfirm: (val) => deleteMutation.mutate(license.id),
                             });
                           }}
                         >
