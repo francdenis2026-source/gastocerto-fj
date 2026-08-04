@@ -150,14 +150,21 @@ function AdminPage() {
 
   // Caso ocorra erro 401/403 ou o usuário não seja staff, redireciona
   useEffect(() => {
+    // Se ainda está carregando, não tomamos decisão para evitar loops falsos
+    if (isLoading) return;
+
     if (error) {
       console.error("[admin] falha ao carregar permissões:", error);
+      // Se for um erro de rede/rate limit, não redirecionamos imediatamente para evitar loops
+      if (error instanceof Error && error.message.includes("429")) return;
+      
       navigate({ to: "/painel", replace: true });
       return;
     }
     
-    if (!isLoading && !isStaff) {
+    if (!isStaff) {
       console.warn("[admin] acesso negado: usuário não possui papel administrativo");
+      // Importante: use replace para não empilhar a rota proibida no histórico
       navigate({ to: "/painel", replace: true });
     }
   }, [isLoading, isStaff, error, navigate]);
