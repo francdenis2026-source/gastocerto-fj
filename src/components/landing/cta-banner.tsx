@@ -31,16 +31,6 @@ export function CtaBanner() {
                 Junte-se à nova era da gestão financeira familiar. 100% gratuito, sem cartão, 
                 seguro e pronto para uso em segundos.
               </p>
-              <div className="mt-6 flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {[1,2,3].map(i => (
-                    <div key={i} className="size-8 rounded-full border-2 border-cta-bg bg-muted ring-2 ring-brand/20" />
-                  ))}
-                </div>
-                <p className="text-sm font-semibold text-cta-fg-muted">
-                  +2.500 famílias economizando hoje.
-                </p>
-              </div>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
