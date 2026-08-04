@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { cn } from "@/lib/utils";
 import { Sparkles, TrendingUp, ShieldCheck, Users, ArrowRight, Zap, Target, CreditCard } from "lucide-react";
-import heroAsset from "@/assets/hero-mobile-v5.png.asset.json";
+import heroAsset from "@/assets/hero-bg-2027-mobile-v2.jpg";
 
 export function MobileHeroSection() {
   const hydrated = useHydrated();
@@ -17,7 +17,7 @@ export function MobileHeroSection() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
           style={{ 
-            backgroundImage: `url(${heroAsset.url})`,
+            backgroundImage: `url(${heroAsset})`,
             backgroundAttachment: 'fixed'
           }}
         />
