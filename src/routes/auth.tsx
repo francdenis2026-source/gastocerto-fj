@@ -85,11 +85,12 @@ export const Route = createFileRoute("/auth")({
     // identidade do produto. Ambas em 1200x630 — nada de imagem gigante.
     const isKid = Boolean((match.search as { kid?: string } | undefined)?.kid);
     const title = isKid
-      ? "Entrar no Meu Espaço — GastoCerto Kids"
-      : "Acesse sua conta — GastoCerto";
+      ? "Entrar no Meu Espaço — Kids"
+      : "Acesse sua conta — Meu Controle Financeiro";
+
     const description = isKid
       ? "Acesso do Espaço Kids: a criança entra com o código do responsável para ver a mesada, as metas e os próprios gastos."
-      : "Entre no GastoCerto para acompanhar despesas, receitas, cartões, veículos e metas em um só painel.";
+      : "Entre no sistema para acompanhar despesas, receitas, cartões, veículos e metas em um só painel.";
     const image = `https://gastocerto-fj.lovable.app/${isKid ? "og-kids.jpg" : "og-gastocerto-v2.jpg"}`;
     return {
       meta: [

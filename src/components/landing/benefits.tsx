@@ -95,7 +95,7 @@ export function Benefits() {
             Benefícios e diferenciais
           </p>
           <h2 id="beneficios-titulo" className="mt-1.5 section-title">
-            Por que o GastoCerto facilita o controle do seu dinheiro
+            Por que o Meu Controle Financeiro facilita a gestão do seu dinheiro
           </h2>
           <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
             Seis diferenciais que separam um controle improvisado de uma gestão financeira

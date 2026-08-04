@@ -33,7 +33,8 @@ export function Logo({
             onDark ? "text-white" : "text-foreground",
           )}
         >
-          Gasto
+          Meu Controle
+
           <span
             className={cn(
               onDark
@@ -42,7 +43,8 @@ export function Logo({
 
             )}
           >
-            Certo
+            Financeiro
+
           </span>
         </span>
         <span
