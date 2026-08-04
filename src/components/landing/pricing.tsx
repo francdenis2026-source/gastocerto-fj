@@ -1,12 +1,23 @@
 import { Link } from "@tanstack/react-router";
-import { Check, Sparkles } from "lucide-react";
+import { Check } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
 
-export const plans = [
+export interface PricingPlan {
+  slug: string;
+  name: string;
+  monthly: number;
+  yearly: number;
+  description: string;
+  cta: string;
+  highlighted: boolean;
+  features: string[];
+}
+
+export const basePlans: PricingPlan[] = [
   {
     slug: "free",
     name: "Grátis",
@@ -96,7 +107,7 @@ export function Pricing() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3 lg:max-w-5xl lg:mx-auto">
-          {basePlans.map((plan) => (
+          {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}
               className={cn(
@@ -127,7 +138,7 @@ export function Pricing() {
               </div>
 
               <ul className="flex-1 space-y-4 mb-8">
-                {plan.features.map((feature) => (
+                {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-sm">
                     <Check className="size-4 shrink-0 text-emerald-500" />
                     <span className="text-white/80">{feature}</span>

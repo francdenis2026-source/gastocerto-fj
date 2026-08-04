@@ -2,7 +2,7 @@ import { Check, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
-import { basePlans } from "@/components/landing/pricing";
+import { basePlans, type PricingPlan } from "@/components/landing/pricing";
 import { Button } from "@/components/ui/button";
 import { usePublicPlans, livePrice } from "@/hooks/use-public-plans";
 import { annualMonthlyEquivalent } from "@/lib/plan-pricing";
@@ -16,17 +16,17 @@ type Slug = "free" | "premium" | "premium_ia";
  */
 export function PricingMobile() {
   const { data: livePlans } = usePublicPlans();
-  const plans = basePlans.map((plan) => {
+  const plans = basePlans.map((plan: PricingPlan) => {
     if (plan.monthly === 0) return plan;
     const live = livePrice(livePlans, plan.slug, { monthly: plan.monthly, annual: plan.yearly * 12 });
     return { ...plan, monthly: live.monthly, yearly: annualMonthlyEquivalent(live.annual) };
   });
 
   const [slug, setSlug] = useState<Slug>("premium_ia");
-  const [yearly, setYearly] = useState(false);
+  const [yearly, setYearly] = useState(true);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
-  const plan = plans.find((item) => item.slug === slug) ?? plans[0]!;
+  const plan = plans.find((item: PricingPlan) => item.slug === slug) ?? plans[0]!;
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
@@ -64,7 +64,7 @@ export function PricingMobile() {
 
       <div className="rounded-[2rem] border border-white/5 bg-white/[0.02] p-6 shadow-2xl backdrop-blur-xl">
         <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-2xl bg-white/[0.03] p-1 mb-6">
-          {plans.map((item) => (
+          {plans.map((item: PricingPlan) => (
             <button
               key={item.slug}
               role="tab"
@@ -97,7 +97,7 @@ export function PricingMobile() {
         </div>
 
         <ul className="space-y-3 mb-8 border-t border-white/5 pt-6">
-          {plan.features.map((feature) => (
+          {plan.features.map((feature: string) => (
             <li key={feature} className="flex items-start gap-3 text-sm">
               <Check className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />
               <span className="text-muted-foreground">{feature}</span>
