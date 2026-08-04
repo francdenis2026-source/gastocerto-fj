@@ -115,25 +115,26 @@ export function Hero() {
             <span className="min-w-0">Controle financeiro e tranquilidade sempre</span>
           </span>
 
-          <h1 className="font-display mt-3 text-[clamp(1.85rem,7.5vw,2.35rem)] font-extrabold leading-[1.06] tracking-[-0.03em] text-hero-fg [text-wrap:balance] sm:text-[2.7rem] sm:leading-[1.03] lg:text-[3.15rem]">
+          <h1 className="font-display mt-3 text-[clamp(2rem,8vw,2.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.2rem] lg:text-[3.75rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="text-hero-accent brightness-[0.85] dark:brightness-100">organizado e simples.</span>
+            <span className="bg-gradient-to-br from-brand via-brand/80 to-emerald-400 bg-clip-text text-transparent brightness-110">
+              inteligente e simples.
+            </span>
           </h1>
 
-          <p className="mt-3.5 max-w-[48ch] text-[15px] leading-[1.65] text-hero-fg-muted sm:text-base">
-            Despesas, veículos, gás, cartões, Espaço Kids e um consultor com IA — organizados
-            em módulos simples, rápidos de usar todos os dias.
+          <p className="mt-4 max-w-[50ch] text-[15.5px] font-medium leading-[1.6] text-hero-fg-muted sm:text-lg">
+            A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
           </p>
 
           <div className="mt-5 grid gap-2 sm:flex sm:flex-wrap sm:items-center">
             <Button
-              className="h-12 w-full justify-center px-5 text-sm font-semibold sm:h-11 sm:w-auto sm:px-6"
+              className="h-12 w-full justify-center rounded-xl bg-brand px-6 text-sm font-bold shadow-[0_0_20px_rgba(23,164,95,0.3)] transition-all hover:scale-[1.02] hover:bg-brand/90 sm:h-12 sm:w-auto sm:px-8"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
-                <span className="truncate">Criar conta grátis</span>
-                <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+                <span className="truncate">Começar Agora — É Grátis</span>
+                <ArrowRight className="size-4 shrink-0 animate-pulse" aria-hidden="true" />
               </Link>
             </Button>
             <CodeAccessDialog>

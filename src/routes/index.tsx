@@ -78,27 +78,21 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {`## Tarefa: Criação de Nova Homepage Moderna e Tecnológica em ERB
+        {`## Tarefa: Criação de Nova Homepage Moderna e Tecnológica
 
-**Objetivo:** Desenvolver uma nova página inicial (homepage) utilizando a linguagem ERB, com design moderno, intuitivo e com um toque tecnológico.
+**Objetivo:** Desenvolver uma nova página inicial (homepage) com design moderno, intuitivo e com um toque tecnológico, utilizando a stack TanStack Start + React.
 
-**Requisitos:**
+**Requisitos Visuais:**
+*   **Design:** Moderno, visualmente atraente e focado em fintech high-tech.
+*   **Intuitividade:** Navegação fluida e hierarquia clara de informações.
+*   **Toque Tecnológico:** Tipografia display (Sora), gradientes neon, glassmorphism e animações sutis.
+*   **Otimização:** Responsividade extrema e carregamento progressivo de imagens.
 
-*   **Linguagem:** ERB (Embedded Ruby)
-*   **Design:**
-    *   Moderno e visualmente atraente.
-    *   Intuitivo, facilitando a navegação e a compreensão do conteúdo.
-    *   Incorporar elementos que transmitam uma sensação tecnológica (ex: tipografia, cores, animações sutis, layout).
-*   **Funcionalidade:** A homepage deve apresentar as informações essenciais de forma clara e organizada.
-*   **Otimização:** Garantir que a página seja responsiva e carregue rapidamente.
-
-**Passos Sugeridos:**
-
-1.  **Análise de Referências:** Pesquisar exemplos de homepages modernas e tecnológicas para inspiração.
-2.  **Estrutura HTML/ERB:** Definir a estrutura semântica da página.
-3.  **Estilização CSS:** Criar o CSS para implementar o design moderno e tecnológico.
-4.  **Interatividade (Opcional):** Adicionar elementos interativos sutis, se aplicável.
-5.  **Testes:** Verificar a responsividade e o desempenho da página em diferentes dispositivos e navegadores.`}
+**Implementação:**
+1.  **Hero V3:** Estrutura de grid assimétrica com preview interativo.
+2.  **Design Tokens:** Calibração de cores para tons neon sobre fundo navy.
+3.  **Micro-interações:** Feedback visual imediato em cards e botões.
+4.  **Acessibilidade:** Suporte total a teclado e leitores de tela.`}
       </div>
 
       <PageBackground />
