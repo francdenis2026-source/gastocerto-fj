@@ -580,7 +580,7 @@ function DashboardPage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[
-                { label: "Cadastrar", done: kidsOnboarding.hasKid },
+                { label: "Adicionar", done: kidsOnboarding.hasKid },
                 { label: "PIN Segurança", done: kidsOnboarding.hasPin },
                 { label: "Limites", done: kidsOnboarding.hasLimit },
                 { label: "Mesada", done: kidsOnboarding.hasAllowance }

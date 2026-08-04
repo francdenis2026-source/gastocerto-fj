@@ -281,7 +281,7 @@ function VehiclesPage() {
               }}
             >
               <Plus className="mr-2 size-4" />
-              Cadastrar veículo
+              Adicionar veículo
             </Button>
           </section>
         ) : (

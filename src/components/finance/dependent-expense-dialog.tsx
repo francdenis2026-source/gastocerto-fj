@@ -443,7 +443,7 @@ export function DependentExpenseDialog({
                 }}
               >
                 <Plus className="size-4" aria-hidden />
-                Cadastrar criança (filho, sobrinho, afilhado...)
+                Adicionar criança (filho, sobrinho, afilhado...)
               </Button>
             </div>
           ) : (
