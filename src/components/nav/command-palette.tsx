@@ -98,7 +98,7 @@ export function CommandPalette({
             <>
               <CommandGroup heading="Ações rápidas">
                 <CommandItem
-                  value="nova despesa gasto lançar"
+                  value="adicionar despesa gasto lançar"
                   onSelect={() => {
                     setOpen(false);
                     onQuickEntry("expense");
@@ -108,7 +108,7 @@ export function CommandPalette({
                   Adicionar despesa
                 </CommandItem>
                 <CommandItem
-                  value="nova receita entrada salário"
+                  value="adicionar receita entrada salário"
                   onSelect={() => {
                     setOpen(false);
                     onQuickEntry("income");
@@ -117,7 +117,7 @@ export function CommandPalette({
                   <TrendingUp className="mr-2 size-4 text-success" />
                   Adicionar receita
                 </CommandItem>
-                <CommandItem value="novo fixo assinatura recorrente" onSelect={() => go("/recorrencia")}>
+                <CommandItem value="adicionar fixo assinatura recorrente" onSelect={() => go("/recorrencia")}>
                   <Plus className="mr-2 size-4 text-brand" />
                   Cadastrar gasto fixo
                 </CommandItem>
