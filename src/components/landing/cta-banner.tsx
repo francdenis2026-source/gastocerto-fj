@@ -24,10 +24,10 @@ export function CtaBanner() {
 
           <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
             <div className="min-w-0">
-              <h2 className="font-display text-2xl font-black leading-tight tracking-tight text-cta-fg sm:text-4xl">
+              <h2 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl">
                 Decisões inteligentes começam com dados precisos.
               </h2>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-cta-fg-muted">
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
                 Junte-se à nova era da gestão financeira familiar. Comece grátis, sem cartão, 
                 seguro e pronto para uso em segundos.
               </p>
