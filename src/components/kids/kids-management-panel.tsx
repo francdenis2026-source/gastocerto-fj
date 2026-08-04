@@ -318,8 +318,8 @@ export function KidsManagementPanel() {
   if (kids.length === 0) return null;
 
   return (
-    <Card className="border-border/40 shadow-sm overflow-hidden bg-card">
-      <CardHeader className="pb-3 border-b border-border/50 bg-muted/20">
+    <Card className="rounded-xl border-border/40 shadow-sm overflow-hidden bg-card">
+      <CardHeader className="py-2.5 px-3 border-b border-border/50 bg-muted/20 sm:py-3 sm:px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-primary/10 rounded-lg text-primary">
@@ -330,11 +330,11 @@ export function KidsManagementPanel() {
               <CardDescription className="text-[11px]">Envie valores e acompanhe os gastos com os filhos</CardDescription>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <Select value={selectedKidId} onValueChange={setSelectedKidId}>
-              <SelectTrigger className="w-40 h-8 text-[11px] bg-background">
-                <Users className="size-3 mr-1.5 opacity-50" />
-                <SelectValue placeholder="Selecionar filho" />
+              <SelectTrigger className="w-32 h-7 text-[10px] bg-background sm:w-40 sm:h-8 sm:text-[11px]">
+                <Users className="size-3 mr-1 opacity-50" />
+                <SelectValue placeholder="Filho" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todos os filhos</SelectItem>
@@ -348,7 +348,7 @@ export function KidsManagementPanel() {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="h-8 text-[10px] font-bold gap-1.5"
+                className="h-7 px-2 text-[10px] font-bold gap-1 sm:h-8 sm:px-3 sm:gap-1.5"
                 disabled={selectedKidId === "all"}
                 onClick={() => {
                   const kid = kids.find(k => k.id === selectedKidId);
