@@ -558,7 +558,9 @@ function DashboardPage() {
           </div>
           
           <div className="flex flex-wrap items-center gap-3">
-            <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
+            <div className="flex items-center gap-2 p-1 rounded-2xl bg-secondary/50 border border-border/40 backdrop-blur-sm">
+              <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
+            </div>
             
             <div className="flex items-center gap-2">
               <Button
