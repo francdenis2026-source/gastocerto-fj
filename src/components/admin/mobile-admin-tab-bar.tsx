@@ -1,5 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, KeyRound, TrendingUp, ShieldCheck, LifeBuoy, Lock, FileClock, Menu, X, Wallet, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, KeyRound, Menu, X, Wallet, LogOut } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -34,7 +33,7 @@ export function MobileAdminTabBar({
         menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
       )} onClick={() => setMenuOpen(false)}>
         <div className={cn(
-          "fixed inset-y-0 right-0 w-[280px] bg-card border-l border-border shadow-2xl transition-transform duration-300 lg:hidden",
+          "fixed inset-y-0 right-0 w-[280px] bg-card border-l border-border shadow-2xl transition-transform duration-300 lg:hidden flex flex-col",
           menuOpen ? "translate-x-0" : "translate-x-full"
         )} onClick={e => e.stopPropagation()}>
           <div className="flex h-16 items-center justify-between border-b border-border px-4">
@@ -43,9 +42,9 @@ export function MobileAdminTabBar({
               <X className="size-5" />
             </Button>
           </div>
-          <div className="flex flex-col h-[calc(100%-4rem)]">
-            <div className="flex-1 overflow-y-auto p-4 space-y-6">
-              <div className="space-y-1">
+          
+          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+            <div className="space-y-1">
               {sections.map((section) => {
                 const Icon = section.icon;
                 const isActive = section.id === active;

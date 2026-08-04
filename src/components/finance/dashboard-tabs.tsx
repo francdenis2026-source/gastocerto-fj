@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { BarChart3, Calendar, PieChart, TrendingUp, Sparkles, Activity } from "lucide-react";
+import { BarChart3, PieChart, TrendingUp, Sparkles, Activity } from "lucide-react";
 
 interface DashboardTabsProps {
   overview: ReactNode;
@@ -59,14 +59,14 @@ export function DashboardTabs({
             className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <TrendingUp className="size-3.5" />
-            Conselhos & Planos
+            Conselhos
           </TabsTrigger>
           <TabsTrigger 
             value="kids" 
             className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
             <TrendingUp className="size-3.5" />
-            Família & Kids
+            Kids
           </TabsTrigger>
         </TabsList>
       </div>

@@ -1,9 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Baby, Menu, X, Settings2, User2, Zap, CalendarClock, LogOut } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { navSections, NavGroup } from "@/lib/nav-model";
+import { navSections } from "@/lib/nav-model";
 import { useAuth } from "@/hooks/use-auth";
 
 export function MobileTabBar() {
@@ -36,7 +36,7 @@ export function MobileTabBar() {
             </Button>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-5 space-y-8 pb-20">
+          <div className="flex-1 overflow-y-auto p-5 space-y-8 pb-4">
             {navSections.map((section) => (
               <div key={section.key} className="space-y-3">
                 <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 px-1">
@@ -73,7 +73,7 @@ export function MobileTabBar() {
                   })}
                 </div>
               </div>
-            </div>
+            ))}
 
             <div className="pt-4 border-t border-border mt-4">
               <Button 
