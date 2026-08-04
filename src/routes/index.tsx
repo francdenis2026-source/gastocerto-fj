@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-import heroBg from "@/assets/hero-bg-desk.jpg";
+import heroBg from "@/assets/hero-bg-2027-v2.jpg";
 import heroMobileBg from "@/assets/hero-bg-2027-mobile-v2.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
