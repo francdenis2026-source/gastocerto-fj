@@ -5,7 +5,7 @@ export function categorizeLogic(description: string, beneficiaryType?: string) {
   const childKeywords = [
     "mesada", "roupa", "tenis", "escola", "faculdade", 
     "curso", "brinquedo", "game", "jogo", "cinema", "lanche", 
-    "transferencia", "pix", "filho", "filha", "neto", "neta"
+    "transferencia", "pix"
   ];
 
   const familyKeywords = [
