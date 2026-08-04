@@ -367,7 +367,17 @@ function AuthPage() {
                       </span>
                     </button>
 
-                    <CodeAccessInline onContinue={() => setMode("signup")} />
+                    <div className="mt-4 flex flex-col gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setMode("admin")}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-input bg-secondary/50 px-3 py-2 text-xs font-bold text-muted-foreground transition-all hover:bg-secondary hover:text-primary sm:hidden"
+                      >
+                        <ShieldAlert className="size-3.5" />
+                        Acesso Administrador
+                      </button>
+                      <CodeAccessInline onContinue={() => setMode("signup")} />
+                    </div>
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
@@ -603,7 +613,13 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
+    <form 
+      onSubmit={handleSubmit} 
+      className="space-y-3" 
+      noValidate 
+      aria-busy={loading} 
+      autoComplete="off"
+    >
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
@@ -616,12 +632,17 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
         <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
           Esqueci minha senha
         </button>
-        <button type="button" onClick={onAdmin} className="text-xs text-muted-foreground">
+        <button 
+          type="button" 
+          onClick={onAdmin} 
+          className="group inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground/80 hover:text-primary transition-colors"
+        >
+          <ShieldAlert className="size-3.5" />
           Acesso administrativo
         </button>
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
         Entrar
       </Button>
     </form>
@@ -726,7 +747,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
 
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate autoComplete="off">
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate autoComplete="off">
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
@@ -754,8 +775,8 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
           <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
         </div>
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
         Criar conta
       </Button>
     </form>
@@ -843,12 +864,12 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ShieldAlert className="mr-2 size-4" />}
         Entrar como Admin
       </Button>
 
-      <Button type="button" onClick={onBack} variant="ghost" className="w-full text-xs">
+      <Button type="button" onClick={onBack} variant="ghost" className="h-9 w-full text-xs">
         Voltar para login comum
       </Button>
     </form>
@@ -1095,10 +1116,11 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
           required
         />
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : "Ver Relatório"}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
+        Ver Relatório
       </Button>
-      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
+      <Button type="button" variant="ghost" className="h-9 w-full text-xs" onClick={onBack}>
         Voltar
       </Button>
     </form>
