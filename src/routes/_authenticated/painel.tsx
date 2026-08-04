@@ -1220,7 +1220,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
   if (!data) return null;
 
   return (
-    <section className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+    <section className="glass-morphism mobile-compact-card shadow-sm overflow-hidden">
       <div 
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/30 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
