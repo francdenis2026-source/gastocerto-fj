@@ -127,7 +127,7 @@ export function Hero() {
 
 
 
-          <h1 className="font-display mt-4 text-[clamp(2.1rem,8vw,2.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.25rem] lg:text-[3.75rem]">
+          <h1 className="font-display mt-4 text-[clamp(2.1rem,8vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-hero-fg [text-wrap:balance] sm:text-[3.25rem] lg:text-[3.75rem] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
             <span className="bg-gradient-to-br from-[oklch(0.50_0.16_155)] via-[oklch(0.55_0.18_155)] to-[oklch(0.60_0.16_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-115">
@@ -135,7 +135,7 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="mt-3.5 max-w-[50ch] text-[15px] font-medium leading-[1.58] text-hero-fg-muted sm:text-[17px]">
+          <p className="mt-4 max-w-[50ch] text-[15px] font-medium leading-[1.62] text-hero-fg-muted sm:text-[17px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
             A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
           </p>
 
@@ -279,8 +279,8 @@ export function Hero() {
           </dl>
         </div>
 
-        <div className="relative hidden pt-4 lg:block">
-          <div className="relative origin-top scale-[0.58] text-foreground -mb-[38%] xl:-mb-[34%] xl:scale-[0.63]">
+        <div className="relative hidden pt-4 lg:block overflow-hidden">
+          <div className="relative origin-top scale-[0.55] text-foreground -mb-[42%] xl:-mb-[38%] xl:scale-[0.6]">
 
             <Suspense fallback={<div className="h-[420px] rounded-2xl bg-hero-surface-soft" />}>
               <DashboardPreview />
