@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { AlertCircle, Baby, KeyRound, Loader2, Users, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 
 import { CategoryPicker, readRecentCategories, rememberCategory } from "@/components/finance/category-picker";
@@ -152,6 +152,8 @@ export function TransactionDialog({
   const [attachment, setAttachment] = useState<string | null>(transaction?.attachment_url ?? null);
   const [suggestion, setSuggestion] = useState<{ id: string; name: string; subCategoryId?: string | null } | null>(null);
   const [subCategoryId, setSubCategoryId] = useState((transaction as any)?.sub_category_id ?? "");
+  const [beneficiaryType, setBeneficiaryType] = useState<"adult_child" | "family_member" | "none">("none");
+  const [beneficiaryName, setBeneficiaryName] = useState("");
   const saveFeedback = useSaveCategoryFeedback();
   const [revenueSuggestion, setRevenueSuggestion] = useState<{ message: string; date: string } | null>(null);
 
@@ -204,7 +206,35 @@ export function TransactionDialog({
       setSuggestion(null);
     }
 
+
   }, [description, options, editing, categoryId]);
+
+  /** Sugestão inteligente de categoria familiar */
+  const autoCategorize = useServerFn(async (d: { description: string, beneficiaryType: any }) => {
+    const { autoCategorizeFamilyExpense } = await import("@/lib/categorization/family-categories.functions");
+    return autoCategorizeFamilyExpense({ data: d });
+  });
+
+  useEffect(() => {
+    if (!open || editing || kind !== "expense") return;
+    if (beneficiaryType === "none" && !description) return;
+
+    const timer = setTimeout(async () => {
+      const result = await autoCategorize({ 
+        description, 
+        beneficiaryType: beneficiaryType === "none" ? undefined : beneficiaryType 
+      });
+
+      if (result) {
+        const cat = options.find(c => c.name === result.categoryName);
+        if (cat) {
+          setCategoryId(cat.id);
+          // Se houver subcategoria, poderíamos buscar aqui também
+        }
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [description, beneficiaryType, kind, open, editing, options]);
 
   /**
    * Ao abrir um novo lançamento, herda categoria/forma de pagamento/conta do
