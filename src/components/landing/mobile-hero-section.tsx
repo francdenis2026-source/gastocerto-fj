@@ -1,136 +1,107 @@
 import { useState } from "react";
 import { useHydrated } from "@/hooks/use-hydrated";
-import heroMobileAlt from "@/assets/hero-mobile-pro-2027.jpg";
 import { cn } from "@/lib/utils";
-import { Sparkles, TrendingUp, ShieldCheck, Users } from "lucide-react";
-
-type Variation = "glass" | "minimal" | "split";
+import { Sparkles, TrendingUp, ShieldCheck, Users, ArrowRight, Zap, Target, CreditCard } from "lucide-react";
+import heroAsset from "@/assets/hero-mobile-v5.png.asset.json";
 
 export function MobileHeroSection() {
   const hydrated = useHydrated();
-  const [variation] = useState<Variation>("glass");
 
   if (!hydrated) return null;
 
   return (
-    <section className="relative overflow-hidden px-4 py-8 md:hidden">
-      {/* Variation Switcher removed - fixed to "glass" variation as default/compact */}
-
-      <div className={cn(
-        "relative flex flex-col overflow-hidden transition-all duration-700",
-        variation === "glass" && "rounded-[2.5rem] border border-border/50 bg-card shadow-lifted p-1",
-        variation === "minimal" && "rounded-3xl border border-border/30 bg-transparent p-0",
-        variation === "split" && "rounded-[3rem] border-2 border-brand/10 bg-card/40 p-2"
-      )}>
+    <section className="relative overflow-hidden px-4 py-12 md:hidden">
+      <div className="relative flex flex-col overflow-hidden rounded-[2.5rem] border border-border/50 bg-card shadow-lifted transition-all duration-700">
         
-        {/* Dashboard Preview Layer (The "Real" Background) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Dashboard Screenshot Mockup - Representing the app interface */}
-          <div className="absolute -right-12 -top-12 h-[140%] w-[120%] rotate-[-6deg] opacity-[0.15] blur-[1px]">
-            <div className="h-full w-full rounded-[3rem] border-[8px] border-border/20 bg-card p-4 shadow-2xl overflow-hidden">
-              <div className="h-full w-full space-y-4 rounded-2xl bg-muted/30 p-4">
-                <div className="h-8 w-1/2 rounded-lg bg-brand/20" />
-                <div className="h-32 rounded-xl bg-card/80" />
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="h-24 rounded-xl bg-card/80" />
-                  <div className="h-24 rounded-xl bg-card/80" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={cn(
-            "absolute inset-0 bg-gradient-to-b transition-all duration-700",
-            variation === "glass" && "from-card/40 via-card/80 to-card",
-            variation === "minimal" && "from-background/20 via-background/90 to-background",
-            variation === "split" && "from-brand/5 via-card/80 to-card"
-          )} />
-        </div>
+        {/* Parallax Background Layer */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
+          style={{ 
+            backgroundImage: `url(${heroAsset.url})`,
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        
+        {/* Decorative Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-b from-card/40 via-card/80 to-card" />
+        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-brand/10 blur-[80px]" />
+        <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/10 blur-[80px]" />
 
         {/* Content Layer */}
-        <div className={cn(
-          "relative z-10 flex flex-col transition-all duration-700",
-          variation === "glass" && "p-8 items-center text-center",
-          variation === "minimal" && "p-6 items-start text-left",
-          variation === "split" && "p-10 items-center text-center"
-        )}>
+        <div className="relative z-10 flex flex-col p-8 items-center text-center">
           
-          {/* Badge/Icon */}
-          <div className={cn(
-            "mb-6 flex items-center justify-center rounded-2xl transition-all duration-500",
-            variation === "glass" && "size-14 bg-brand/10 text-brand shadow-inner",
-            variation === "minimal" && "h-8 px-3 bg-brand text-brand-foreground text-[10px] font-black uppercase tracking-widest",
-            variation === "split" && "size-16 bg-white/5 border border-white/10 text-brand backdrop-blur-xl"
-          )}>
-            {variation === "minimal" ? (
-              "GastoCerto"
-            ) : (
-              <TrendingUp className={cn(variation === "split" ? "size-7" : "size-6")} />
-            )}
+          {/* Top Badge */}
+          <div className="mb-6 flex animate-reveal items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-brand backdrop-blur-md">
+            <Zap className="size-3" />
+            Nova Geração 2027
           </div>
           
-          {/* Headline - Removed requested phrase, added alternatives */}
-          <h2 className={cn(
-            "font-display font-black tracking-tight text-foreground transition-all duration-700",
-            variation === "glass" && "text-2xl leading-tight",
-            variation === "minimal" && "text-3xl leading-none",
-            variation === "split" && "text-2xl leading-tight"
-          )}>
-            {variation === "minimal" ? (
-              <>Sua <span className="text-brand">prosperidade</span>, simplificada.</>
-            ) : (
-              <>Sua vida <span className="text-brand">financeira</span> em <span className="text-brand italic">ordem</span></>
-            )}
+          {/* Main Icon */}
+          <div className="mb-6 flex size-16 items-center justify-center rounded-2xl bg-brand/10 text-brand shadow-inner ring-1 ring-brand/20 animate-reveal" style={{ animationDelay: '100ms' }}>
+            <TrendingUp className="size-8" />
+          </div>
+          
+          {/* Headline */}
+          <h2 className="animate-reveal font-display text-3xl font-black leading-tight tracking-tight text-foreground" style={{ animationDelay: '200ms' }}>
+            Sua vida <span className="text-brand">financeira</span> em <span className="text-brand italic">ordem</span>
           </h2>
           
-          <p className={cn(
-            "mt-5 font-medium leading-relaxed text-muted-foreground transition-all duration-700",
-            variation === "glass" && "text-sm px-2",
-            variation === "minimal" && "text-base max-w-[80%]",
-            variation === "split" && "text-[13px] opacity-80"
-          )}>
-            {variation === "split" 
-              ? "Acesse o poder de uma gestão profissional na palma da sua mão."
-              : "Uma inteligência dedicada à sua tranquilidade diária e metas de longo prazo."}
+          <p className="mt-5 animate-reveal px-2 text-sm font-medium leading-relaxed text-muted-foreground" style={{ animationDelay: '300ms' }}>
+            Uma inteligência dedicada à sua tranquilidade diária e metas de longo prazo. Controle hoje, tranquilidade sempre.
           </p>
           
-          {/* Feature Cards with Glassmorphism */}
-          <div className={cn(
-            "mt-8 grid w-full transition-all duration-700",
-            variation === "glass" && "grid-cols-2 gap-4",
-            variation === "minimal" && "grid-cols-1 gap-3",
-            variation === "split" && "grid-cols-2 gap-2"
-          )}>
-            <div className="group rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl transition-all active:scale-95">
-              <ShieldCheck className="mb-2 size-5 text-brand" />
-              <p className="text-lg font-black text-foreground">100%</p>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">Segurança</p>
+          {/* Visual Highlight Cards */}
+          <div className="mt-10 grid w-full grid-cols-2 gap-4 animate-reveal" style={{ animationDelay: '400ms' }}>
+            <div className="group flex flex-col items-center rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all active:scale-95">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/20 text-brand">
+                <Target className="size-5" />
+              </div>
+              <p className="text-xl font-black text-foreground">Metas</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Alcançadas</p>
             </div>
-            <div className="group rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl transition-all active:scale-95">
-              <Users className="mb-2 size-5 text-brand" />
-              <p className="text-lg font-black text-foreground">+24k</p>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">Comunidade</p>
+            <div className="group flex flex-col items-center rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all active:scale-95">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-500">
+                <CreditCard className="size-5" />
+              </div>
+              <p className="text-xl font-black text-foreground">Gestão</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">de Cartões</p>
             </div>
           </div>
 
-          {/* Enhanced CTA with Trust Badges */}
-          <div className="mt-8 flex w-full flex-col gap-4">
-            <button className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-lg shadow-brand/20 transition-all active:scale-[0.96] hover:brightness-110">
-              Começar agora gratuito
-              <Sparkles className="size-4" />
+          {/* Social Proof / Stats */}
+          <div className="mt-8 flex items-center gap-6 animate-reveal" style={{ animationDelay: '500ms' }}>
+            <div className="text-center">
+              <p className="text-lg font-black text-foreground">+24k</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Usuários</p>
+            </div>
+            <div className="h-8 w-px bg-border/40" />
+            <div className="text-center">
+              <p className="text-lg font-black text-foreground">4.9/5</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Avaliação</p>
+            </div>
+            <div className="h-8 w-px bg-border/40" />
+            <div className="text-center">
+              <p className="text-lg font-black text-foreground">100%</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Seguro</p>
+            </div>
+          </div>
+
+          {/* Enhanced CTA */}
+          <div className="mt-10 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
+            <button className="group relative flex h-16 w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-xl shadow-brand/20 transition-all active:scale-[0.96] hover:brightness-110">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              Começar Grátis
+              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
             </button>
             
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
               <div className="flex items-center gap-1">
                 <ShieldCheck className="size-3 text-brand" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Privacidade protegida</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">RGPD Compliance</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="size-1 rounded-full bg-brand" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Sem cartão</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="size-1 rounded-full bg-brand" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Cancelamento fácil</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Sem Cartão</span>
               </div>
             </div>
           </div>
