@@ -212,8 +212,12 @@ export function TransactionDialog({
 
   /** Sugestão inteligente de categoria familiar */
   const autoCategorize = useServerFn(async (d: { description: string, beneficiaryType: any }) => {
-    const { autoCategorizeFamilyExpense } = await import("@/lib/categorization/family-categories.functions");
-    return autoCategorizeFamilyExpense({ data: d });
+    try {
+      const { autoCategorizeFamilyExpense } = await import("@/lib/categorization/family-categories.functions");
+      return await autoCategorizeFamilyExpense({ data: d });
+    } catch (e) {
+      return null;
+    }
   });
 
   useEffect(() => {
