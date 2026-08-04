@@ -112,7 +112,10 @@ export const adminCreateLicense = createServerFn({ method: "POST" })
 
 const trialBatchSchema = z.object({
   quantity: z.number().int().min(1).max(50),
-  trialDays: z.union([z.literal(14), z.literal(15), z.literal(30)]).optional(),
+  /** Prazos disponíveis: 7, 14, 15, 30 dias ou 1 ano (365). */
+  trialDays: z
+    .union([z.literal(7), z.literal(14), z.literal(15), z.literal(30), z.literal(365)])
+    .optional(),
   notes: z.string().max(300).optional(),
 });
 
@@ -299,7 +302,12 @@ export const activateLicense = createServerFn({ method: "POST" })
       throw new Error("Licença revogada");
     }
 
-    if (license.status === "expired") {
+    // Código nunca ativado (pendente) continua válido: a contagem de tempo só
+    // começa quando o cliente insere a chave. Só recusamos por expiração quando
+    // a licença já foi ativada anteriormente.
+    const alreadyActivated = Boolean(license.activated_at || license.user_id);
+
+    if (license.status === "expired" && alreadyActivated) {
       await supabaseAdmin.from("code_redemption_history").insert({
         user_id: context.userId,
         code: key,
@@ -320,12 +328,13 @@ export const activateLicense = createServerFn({ method: "POST" })
     }
 
     if (
+      alreadyActivated &&
       license.expires_at &&
-      new Date(license.expires_at).getTime() <= Date.now() &&
-      license.status === "active"
+      new Date(license.expires_at).getTime() <= Date.now()
     ) {
       throw new Error("Esta licença já expirou");
     }
+
 
     const { data: plan } = license.plan_id
       ? await supabaseAdmin
@@ -350,17 +359,23 @@ export const activateLicense = createServerFn({ method: "POST" })
       ? new Date(now.getTime() + trialDays * 24 * 60 * 60 * 1000)
       : addMonths(now, monthsFromCycle(license.billing_cycle));
 
+    // Uma licença ainda não ativada tem a validade recalculada agora (a partir
+    // da inserção do código), ignorando qualquer data antiga já gravada.
+    const nextExpiresAt =
+      trialDays || !alreadyActivated
+        ? expiresAt.toISOString()
+        : (license.expires_at ?? expiresAt.toISOString());
+
     const { error } = await supabaseAdmin
       .from("licenses")
       .update({
         user_id: context.userId,
         status: "active",
         activated_at: license.activated_at ?? now.toISOString(),
-        expires_at: trialDays
-          ? expiresAt.toISOString()
-          : (license.expires_at ?? expiresAt.toISOString()),
+        expires_at: nextExpiresAt,
       })
       .eq("id", license.id);
+
 
     if (error) throw new Error("Não foi possível ativar a licença");
 
@@ -466,4 +481,47 @@ export const adminDeleteAccessCode = createServerFn({ method: "POST" })
     });
 
     return { ok: true };
+  });
+
+/**
+ * Verificação pública de um código de acesso (sem login), usada na página
+ * inicial. Roda no servidor para não depender das políticas de leitura da
+ * tabela de licenças e trata códigos ainda não ativados como válidos —
+ * a contagem de validade só começa quando o cliente ativa a chave.
+ */
+export const verifyAccessCode = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ code: z.string().trim().min(5).max(32) }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const key = data.code.trim().toUpperCase();
+
+    const { data: license } = await supabaseAdmin
+      .from("licenses")
+      .select("status, activated_at, user_id, expires_at, trial_days, plans(name, slug)")
+      .eq("license_key", key)
+      .maybeSingle();
+
+    if (!license) {
+      return { valid: false as const, reason: "not_found" as const };
+    }
+
+    const activated = Boolean(license.activated_at || license.user_id);
+
+    if (license.status === "revoked") {
+      return { valid: false as const, reason: "revoked" as const };
+    }
+    if (activated) {
+      const expired =
+        license.status === "expired" ||
+        (license.expires_at && new Date(license.expires_at).getTime() <= Date.now());
+      return { valid: false as const, reason: expired ? ("expired" as const) : ("used" as const) };
+    }
+
+    return {
+      valid: true as const,
+      planName: (license.plans as { name?: string } | null)?.name ?? null,
+      trialDays: license.trial_days ?? null,
+    };
   });

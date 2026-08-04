@@ -29,6 +29,8 @@ import {
 import { formatDateTime } from "@/lib/format";
 import { adminCreateTrialLicenses, adminListLicenses, adminDeleteLicense } from "@/lib/licenses.functions";
 
+type TrialDays = 7 | 14 | 15 | 30 | 365;
+
 const STATUS_LABELS: Record<string, string> = {
   pending: "Aguardando ativação",
   active: "Ativa",
@@ -77,7 +79,7 @@ export function TrialLicensesPanel() {
   );
 
   const mutation = useMutation({
-    mutationFn: (input: { quantity: number; days: 14 | 15 | 30 }) =>
+    mutationFn: (input: { quantity: number; days: TrialDays }) =>
       create({
         data: {
           quantity: input.quantity,
@@ -157,7 +159,7 @@ export function TrialLicensesPanel() {
           event.preventDefault();
           mutation.mutate({
             quantity: Math.max(1, Math.min(50, Number(quantity) || 1)),
-            days: Number(trialDays) as 14 | 15 | 30,
+            days: Number(trialDays) as TrialDays,
           });
         }}
       >
@@ -178,9 +180,11 @@ export function TrialLicensesPanel() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="7">7 dias</SelectItem>
               <SelectItem value="14">14 dias</SelectItem>
               <SelectItem value="15">15 dias</SelectItem>
               <SelectItem value="30">30 dias</SelectItem>
+              <SelectItem value="365">1 ano</SelectItem>
             </SelectContent>
           </Select>
         </div>
