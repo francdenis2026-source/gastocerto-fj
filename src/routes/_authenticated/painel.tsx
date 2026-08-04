@@ -538,7 +538,7 @@ function DashboardPage() {
         </div>
 
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
-          <PeriodPicker value={period} onChange={handlePeriodChange} />
+          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
           
           <div className="h-8 w-px shrink-0 bg-border/40" />
 
