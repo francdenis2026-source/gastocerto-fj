@@ -51,7 +51,7 @@ export const basePlans = [
     slug: "premium_ia",
     name: "Enterprise IA",
     monthly: 34.9,
-    yearly: 29,
+    yearly: 29.9,
     description: "O poder máximo da IA no seu bolso.",
     highlighted: true,
     cta: "Assinar Enterprise",
