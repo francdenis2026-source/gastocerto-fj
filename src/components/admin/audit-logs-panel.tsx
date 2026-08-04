@@ -39,7 +39,7 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
       description: all 
         ? "Esta ação excluirá permanentemente todos os registros de auditoria sem possibilidade de restauração."
         : "Isso removerá permanentemente todos os logs de auditoria com mais de 30 dias.",
-      type: "destructive",
+      type: "warning",
       onConfirm: () => {
         if (all) {
           purgeMutation.mutate(null);
