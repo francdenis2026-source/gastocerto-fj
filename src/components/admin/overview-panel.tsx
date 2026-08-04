@@ -10,7 +10,11 @@ import {
   Target,
   FileText,
   Gift,
+  Activity,
+  Calendar,
 } from "lucide-react";
+import { InteractiveCard } from "@/components/ui/interactive-card";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from "recharts";
 
 import { StatTile } from "@/components/finance/stat-tile";
 import { Button } from "@/components/ui/button";
@@ -115,6 +119,75 @@ export function AdminOverviewPanel({
         />
       </div>
 
+      <div className="grid gap-4 lg:grid-cols-2">
+        <InteractiveCard
+          title="Atividades Recentes"
+          description="Log de ações administrativas"
+          icon={<Activity className="size-4" />}
+          items={logs.data ?? []}
+          maxVisibleItems={5}
+          renderItem={(log) => (
+            <div key={log.id} className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-muted/20 text-xs">
+              <span className="truncate font-medium">{log.action}</span>
+              <span className="shrink-0 text-muted-foreground">{formatDateTime(log.created_at)}</span>
+            </div>
+          )}
+        >
+          <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/10">
+            <p className="text-[10px] text-amber-600 leading-relaxed font-medium">
+              Ações críticas exigem autenticação adicional. Verifique a trilha de auditoria completa para detalhes técnicos.
+            </p>
+          </div>
+        </InteractiveCard>
+
+        <InteractiveCard
+          title="Métricas de Crescimento"
+          description="Evolução de novos usuários (últimos 30 dias)"
+          icon={<TrendingUp className="size-4" />}
+          chart={
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={[
+                { name: 'Semana 1', users: 12 },
+                { name: 'Semana 2', users: 19 },
+                { name: 'Semana 3', users: 15 },
+                { name: 'Semana 4', users: 24 },
+              ]}>
+                <XAxis dataKey="name" hide />
+                <YAxis hide />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '8px', border: '1px solid hsl(var(--border))', fontSize: '10px' }}
+                />
+                <Bar dataKey="users" radius={[4, 4, 0, 0]}>
+                  {[0, 1, 2, 3].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === 3 ? 'hsl(var(--brand))' : 'hsl(var(--brand)/0.3)'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          }
+        >
+          <div className="space-y-3">
+             <div className="flex items-center justify-between text-xs">
+               <span className="text-muted-foreground font-medium">Meta de Conversão</span>
+               <span className="font-bold text-brand">85%</span>
+             </div>
+             <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+               <div className="h-full w-[85%] bg-brand" />
+             </div>
+             <div className="grid grid-cols-2 gap-2 pt-1">
+                <div className="rounded-lg bg-muted/50 p-2 text-center border border-border/10">
+                  <p className="text-[9px] uppercase text-muted-foreground font-bold">LTV Médio</p>
+                  <p className="text-sm font-bold">{formatCurrency(149.90)}</p>
+                </div>
+                <div className="rounded-lg bg-muted/50 p-2 text-center border border-border/10">
+                  <p className="text-[9px] uppercase text-muted-foreground font-bold">Churn</p>
+                  <p className="text-sm font-bold text-destructive">2.4%</p>
+                </div>
+             </div>
+          </div>
+        </InteractiveCard>
+      </div>
+
       <section>
         <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Atalhos de operação
@@ -135,53 +208,15 @@ export function AdminOverviewPanel({
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <div>
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <FileText className="size-3" /> Últimas ações da equipe
-          </h3>
-          <ul className="mt-2 divide-y divide-border rounded-xl border border-border bg-card">
-            {(logs.data ?? []).length === 0 ? (
-              <li className="p-4 text-sm text-muted-foreground">Nenhuma ação registrada ainda.</li>
-            ) : (
-              (logs.data ?? []).map((log) => (
-                <li key={log.id} className="flex items-center justify-between gap-3 px-4 py-2.5">
-                  <span className="truncate text-sm font-medium">{log.action}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {formatDateTime(log.created_at)}
-                  </span>
-                </li>
-              ))
-            )}
-          </ul>
+      <div className="bg-brand/5 border border-brand/10 rounded-2xl p-4 flex items-center justify-between">
+        <div className="space-y-1">
+          <h4 className="text-xs font-bold text-brand uppercase tracking-wider">Manutenção Programada</h4>
+          <p className="text-[10px] text-muted-foreground">Próxima limpeza automática da lixeira: <strong>Hoje às 23:59</strong></p>
         </div>
-        
-        <div className="rounded-xl border border-border bg-card p-4 space-y-4">
-           <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status do Ecossistema</h3>
-           <div className="space-y-3">
-             <div className="flex items-center justify-between text-xs">
-               <span className="text-muted-foreground">Conversão Mensal (MRR)</span>
-               <span className="font-bold text-brand">{formatCurrency(overview.data?.totalMmr ?? 0)}</span>
-             </div>
-             <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-               <div className="h-full w-[72%] bg-brand" />
-             </div>
-             <p className="text-[10px] text-muted-foreground leading-relaxed">
-               O monitoramento de MRR, Churn e LTV foi movido para a aba <strong>"Adm. Financeiro"</strong>.
-             </p>
-             <div className="grid grid-cols-2 gap-2 pt-1">
-                <div className="rounded-lg bg-muted/50 p-2 text-center">
-                  <p className="text-[9px] uppercase text-muted-foreground">Novos (Mês)</p>
-                  <p className="text-sm font-bold">{overview.data?.newUsers30d ?? 0}</p>
-                </div>
-                <div className="rounded-lg bg-muted/50 p-2 text-center">
-                  <p className="text-[9px] uppercase text-muted-foreground">Retenção</p>
-                  <p className="text-sm font-bold text-success">94.2%</p>
-                </div>
-             </div>
-           </div>
-        </div>
-      </section>
+        <Button size="sm" variant="ghost" className="h-8 text-[10px] font-bold uppercase gap-2" onClick={() => onNavigate("operations")}>
+          Ver Logs <ArrowUpRight className="size-3" />
+        </Button>
+      </div>
     </div>
   );
 }
