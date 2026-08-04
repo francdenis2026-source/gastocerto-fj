@@ -97,7 +97,7 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
   })), [filtered]);
 
   return (
-    <section className="rounded-2xl border bg-card p-3 sm:p-4">
+    <section className="rounded-xl border bg-card p-3 sm:p-4">
       <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:justify-between">
         <div className="flex min-w-0 items-center gap-2">
           <div className="grid size-8 shrink-0 place-items-center rounded-xl bg-primary/10">
@@ -172,7 +172,7 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
         </div>
       ) : (
         <>
-          <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="mt-3 grid grid-cols-3 gap-1.5 sm:gap-2">
             <Tile label="Em carteira" value={totals.balance} tone="balance" />
             <Tile label="Enviado no mês" value={totals.monthReceived} tone="in" />
             <Tile label="Gasto no mês" value={totals.monthSpent} tone="out" />
@@ -244,13 +244,13 @@ function Tile({
   tone: "balance" | "in" | "out";
 }) {
   return (
-    <div className="rounded-xl border bg-background/60 p-2">
+    <div className="rounded-lg border bg-background/60 p-1.5 sm:p-2">
       <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
         {label}
       </p>
       <p
         className={cn(
-          "mt-0.5 text-sm font-black tabular-nums sm:text-base",
+          "mt-0.5 text-xs font-black tabular-nums sm:text-base",
           tone === "out" && "text-rose-600",
           tone === "in" && "text-emerald-600",
           tone === "balance" && (value < 0 ? "text-rose-600" : "text-foreground")
@@ -273,7 +273,7 @@ function WalletRow({
   const usage = limit > 0 ? Math.min(100, Math.round((wallet.monthSpent / limit) * 100)) : null;
 
   return (
-    <li className="rounded-xl border bg-background/50 p-2.5">
+    <li className="rounded-xl border bg-background/50 p-2 sm:p-2.5">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">{wallet.nickname?.trim() || wallet.name}</p>
