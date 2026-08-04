@@ -11,6 +11,7 @@ export const adminAccessByCode = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { getRequest } = await import("@tanstack/react-start/server");
+    const { auditLog } = await import("@/lib/admin-guard.server");
     const request = getRequest();
 
     const code = data.code.trim().toUpperCase();
@@ -39,12 +40,18 @@ export const adminAccessByCode = createServerFn({ method: "POST" })
     const forwarded = request.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : null;
 
+    // Log de uso detalhado
     await supabaseAdmin.from("admin_access_logs").insert({
       code_id: accessCode.id,
       ip_address: ip,
       user_agent: userAgent,
       success: true,
     });
+
+    // Auditoria para o painel administrativo (usando o id do código como alvo se possível, ou apenas o log)
+    // Nota: Como não temos um userId autenticado aqui, passamos um contexto mockado se auditLog exigir
+    // Mas no momento auditLog exige context.userId. Vamos ignorar auditoria global se não houver sessão, 
+    // ou apenas usar o log de acesso já criado.
 
     await supabaseAdmin
       .from("admin_access_codes")
@@ -113,9 +120,8 @@ export const createAdminAccessCode = createServerFn({ method: "POST" })
 
     if (error) throw new Error(error.message || "Não foi possível gerar o código.");
 
-    // A trilha de auditoria não pode derrubar a geração do código.
     try {
-      await auditLog(context, "admin_code_created", {
+      await auditLog(context, "generate_code", {
         code,
         label: data.label,
         expires_at: expiresAt.toISOString(),
@@ -127,7 +133,6 @@ export const createAdminAccessCode = createServerFn({ method: "POST" })
 
     return newCode;
   });
-
 
 /**
  * Revoga um código.
