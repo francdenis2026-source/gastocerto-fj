@@ -128,7 +128,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     }
   }, [isKid, pathname, navigate]);
 
-  const { data: recurrents } = useTanStackQuery({
+  const { data: recurrents } = useQuery({
     queryKey: ["recurrent-expenses-sidebar"],
     queryFn: () => getRecurrentExpenses()
   });
@@ -401,11 +401,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </div>
                 <div className="space-y-2">
                   {activeMetrics.map(metric => {
-                    const relevantRows = (recurrents ?? []).filter(r => 
+                    const relevantRows = (recurrents ?? []).filter((r: any) => 
                       r.categories?.name?.toLowerCase().includes(metric.label.toLowerCase()) ||
                       r.categories?.name?.toLowerCase().includes(metric.id.toLowerCase())
                     );
-                    const currentAmount = relevantRows.reduce((sum, r) => sum + Number(r.amount), 0);
+                    const currentAmount = relevantRows.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
                     const isHigh = currentAmount > metric.defaultAmount && metric.defaultAmount > 0;
 
                     return (
