@@ -75,7 +75,7 @@ export function StatTile({
     <Comp
       {...(onClick ? { type: "button" as const, onClick } : {})}
       className={cn(
-        "relative w-full overflow-hidden rounded-2xl border bg-card p-3 text-left shadow-soft transition-all sm:p-4 dark:bg-[#1a2233]",
+        "relative w-full overflow-hidden rounded-2xl border bg-card p-2.5 text-left shadow-soft transition-all sm:p-4 dark:bg-[#1a2233]",
         t.ring,
         onClick
           ? "hover:-translate-y-0.5 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -85,11 +85,11 @@ export function StatTile({
       style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 60%)` }}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="min-w-0 truncate text-[10.5px] font-semibold uppercase tracking-[0.09em] text-muted-foreground sm:text-[11.5px]">
+        <p className="min-w-0 truncate text-[9.5px] font-semibold uppercase tracking-[0.05em] text-muted-foreground sm:text-[11.5px] sm:tracking-[0.09em]">
           {label}
         </p>
         {Icon ? (
-          <span className={cn("grid size-7 shrink-0 place-items-center rounded-lg border", t.icon)}>
+          <span className={cn("grid size-6 sm:size-7 shrink-0 place-items-center rounded-lg border", t.icon)}>
             <Icon className="size-3.5" aria-hidden="true" />
           </span>
         ) : null}
