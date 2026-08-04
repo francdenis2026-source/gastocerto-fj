@@ -34,6 +34,6 @@ export async function auditLog(
     actor_id: context.userId,
     target_user_id: targetUserId,
     action,
-    details,
+    details: details as any,
   });
 }
