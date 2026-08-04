@@ -112,7 +112,10 @@ export const adminCreateLicense = createServerFn({ method: "POST" })
 
 const trialBatchSchema = z.object({
   quantity: z.number().int().min(1).max(50),
-  trialDays: z.union([z.literal(14), z.literal(15), z.literal(30)]).optional(),
+  /** Prazos disponíveis: 7, 14, 15, 30 dias ou 1 ano (365). */
+  trialDays: z
+    .union([z.literal(7), z.literal(14), z.literal(15), z.literal(30), z.literal(365)])
+    .optional(),
   notes: z.string().max(300).optional(),
 });
 
