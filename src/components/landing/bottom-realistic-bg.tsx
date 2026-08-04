@@ -15,7 +15,7 @@ export function BottomRealisticBg() {
         height={1080}
         loading="lazy"
         decoding="async"
-        className="hidden size-full object-cover object-top opacity-[0.4] dark:opacity-[0.5] mix-blend-overlay grayscale sm:block"
+        className="hidden size-full object-cover object-top opacity-[0.5] dark:opacity-[0.6] mix-blend-soft-light sm:block"
       />
       <img
         src={bottomMobileBg}
@@ -24,11 +24,11 @@ export function BottomRealisticBg() {
         height={800}
         loading="lazy"
         decoding="async"
-        className="size-full object-cover object-top opacity-[0.4] dark:opacity-[0.6] mix-blend-overlay grayscale sm:hidden"
+        className="size-full object-cover object-top opacity-[0.5] dark:opacity-[0.7] mix-blend-soft-light sm:hidden"
       />
-      {/* Véu denso no topo para garantir que a imagem não invada as seções superiores */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+      {/* Transição suave: o topo da imagem desaparece para não brigar com o conteúdo superior */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/20 to-transparent h-1/2" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
     </div>
   );
 }
