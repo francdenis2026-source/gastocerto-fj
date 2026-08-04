@@ -84,7 +84,7 @@ export function FamilySpendingDashboard() {
               />
               <Bar dataKey="total" radius={[0, 4, 4, 0]} barSize={32}>
                 {familyData.map((entry, index) => (
-                  <Cell key={index} fill={index === 0 ? CHART_TOKENS.brand : CHART_TOKENS.brand + "88"} />
+                  <Cell key={index} fill={index === 0 ? "var(--brand)" : "var(--brand-80)"} />
                 ))}
               </Bar>
             </BarChart>
