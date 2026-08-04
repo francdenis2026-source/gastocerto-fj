@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
 import { Button } from "@/components/ui/button";

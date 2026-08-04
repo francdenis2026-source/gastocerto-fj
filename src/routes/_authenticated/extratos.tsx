@@ -4,18 +4,24 @@ import { AppShell } from "@/components/app-shell";
 import { ArrowLeftRight, FileText, Download, FilterX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useTransactions } from "@/hooks/use-transactions"; // Hypothetical hook or use query directly
+import { useTransactions } from "@/lib/transactions";
 import { formatCurrency, formatDateTime } from "@/lib/format";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { usePeriodStore } from "@/lib/period-store";
+import { monthRange } from "@/lib/finance";
+import { useMemo } from "react";
 
 export const Route = createFileRoute("/_authenticated/extratos")({
   component: ExtratosPage,
 });
 
 function ExtratosPage() {
-  // In a real scenario, we would use useTransactions or similar
-  const transactions: any[] = []; 
+  const { year, month } = usePeriodStore();
+  const range = useMemo(() => monthRange(year, month), [year, month]);
+  const { data: transactions = [], isLoading } = useTransactions(range);
+
 
   return (
     <AppShell>
