@@ -684,7 +684,7 @@ function DashboardPage() {
           <StatTile
             label="Saldo"
             value={formatCurrency(metrics.balance)}
-            tone={metrics.balance >= 0 ? "brand" : "expense"}
+            tone={metrics.balance >= 0 ? "success" : "expense"}
             icon={WalletIcon}
             hint={
               <span className="flex items-center gap-1.5">
