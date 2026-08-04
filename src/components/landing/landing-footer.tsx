@@ -33,11 +33,11 @@ const focusRing =
 export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   return (
-    <footer className="mt-auto border-t border-border bg-secondary/20 dark:bg-black/40">
+    <footer className="mt-auto border-t border-border bg-secondary/20 dark:bg-black/40 print:hidden">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
-      <div className="section-shell py-8 sm:py-12">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5">
-          <div className="col-span-2 lg:col-span-2">
+      <div className="section-shell py-10 sm:py-16">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:grid-cols-5">
+          <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <Logo />
             <p className="mt-4 max-w-xs text-sm text-muted-foreground leading-relaxed">
               A plataforma definitiva para organizar suas finanças com tecnologia de ponta e inteligência artificial.
@@ -119,8 +119,8 @@ export function LandingFooter() {
         </div>
       </div>
 
-      <div className="border-t border-border/50">
-        <div className="section-shell flex items-center justify-between gap-x-3 py-2 text-[11px] text-foreground/70 sm:py-2.5 sm:text-[12.5px]">
+      <div className="border-t border-border/50 bg-secondary/30 dark:bg-black/60">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-4 py-4 text-[11px] text-foreground/70 sm:flex-row sm:py-6 sm:text-[12.5px]">
           <p className="truncate">© {new Date().getFullYear()} GastoCerto.</p>
           <div className="flex shrink-0 items-center gap-1">
             <p className="truncate">Dev. Franc D&apos;nis · Acre</p>

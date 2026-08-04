@@ -149,9 +149,9 @@ export function Hero() {
             <CodeAccessDialog>
               <Button
                 variant="outline"
-                className="press-feedback h-12 w-full justify-center rounded-xl border-hero-border-strong bg-hero-surface px-5 text-[15px] font-semibold text-hero-fg backdrop-blur-sm transition-colors hover:border-hero-accent/60 hover:bg-hero-surface hover:text-hero-fg focus-visible:ring-2 focus-visible:ring-hero-border-strong sm:w-auto sm:px-6"
+                className="press-feedback h-12 w-full justify-center rounded-xl border-hero-border-strong bg-hero-surface px-5 text-[15px] font-semibold text-hero-fg backdrop-blur-sm transition-all hover:border-hero-accent/60 hover:bg-hero-surface hover:text-hero-fg hover:shadow-[0_0_15px_rgba(23,164,95,0.15)] focus-visible:ring-2 focus-visible:ring-hero-border-strong sm:w-auto sm:px-6"
               >
-                <KeyRound className="size-4 shrink-0 text-hero-accent" aria-hidden="true" />
+                <KeyRound className="size-4 shrink-0 text-hero-accent animate-pulse" aria-hidden="true" />
                 <span className="truncate">Código de acesso</span>
               </Button>
             </CodeAccessDialog>
