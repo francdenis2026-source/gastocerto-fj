@@ -131,14 +131,15 @@ export function Benefits() {
                       </span>
                     </span>
                   </div>
-                  <h3 className="mt-2 font-display text-[13px] font-bold leading-snug tracking-tight sm:text-[15px]">
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-tight">
                     {benefit.title}
                   </h3>
-                  <p className="mt-1 line-clamp-3 text-[11.5px] leading-snug text-muted-foreground sm:line-clamp-none sm:text-[13px] sm:leading-relaxed">
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                     {benefit.text}
                   </p>
-                  <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                  <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary group-hover:gap-3 transition-all">
                     Ver detalhes
+                    <ArrowRight className="size-4" />
                   </span>
                 </button>
               </FeatureDetailDialog>
