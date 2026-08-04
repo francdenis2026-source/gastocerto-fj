@@ -127,7 +127,7 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
     setIsCleaning(true);
     try {
       const result = await cleanup();
-      toast.success(\`Limpeza concluída: \${result.count} contas expiradas removidas.\`);
+      toast.success(`Limpeza concluída: ${result.count} contas expiradas removidas.`);
       queryClient.invalidateQueries({ queryKey: ["admin", "temporary-accounts"] });
     } catch (err: any) {
       toast.error("Falha ao executar limpeza");
@@ -140,7 +140,7 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
     setIsSending(true);
     try {
       const result = await sendReminders();
-      toast.success(\`Lembretes enviados: \${result.sent3} (3 dias) e \${result.sent1} (1 dia).\`);
+      toast.success(`Lembretes enviados: ${result.sent3} (3 dias) e ${result.sent1} (1 dia).`);
     } catch (err: any) {
       toast.error("Falha ao enviar lembretes");
     } finally {
