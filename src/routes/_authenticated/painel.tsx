@@ -820,7 +820,7 @@ function DashboardPage() {
                       tone="success"
                       label="Projeção de Fim de Mês"
                       value={formatCurrency(metrics.projection)}
-                      className="!p-3 border-none bg-primary/5 dark:bg-primary/10 shadow-none ring-1 ring-primary/20"
+                      className="!p-3 border-none bg-primary/5 dark:bg-primary/10 shadow-none ring-1 ring-primary/20 hover:bg-primary/10 transition-colors"
                     />
                   </div>
                 </div>
