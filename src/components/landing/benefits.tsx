@@ -40,7 +40,7 @@ const benefits = [
     text: "Criptografia de ponta a ponta e isolamento total de dados para sua tranquilidade absoluta.",
     metric: "AES-256",
     label: "Criptografado",
-    color: "bg-purple-500/10 text-purple-500"
+    color: "bg-primary/10 text-primary"
   }
 ];
 
