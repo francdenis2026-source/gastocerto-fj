@@ -89,7 +89,7 @@ export function Hero() {
         {/* Mockup do Produto */}
         <div className="mt-16 w-full max-w-5xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
           <div className="relative mx-auto perspective-1000">
-            <div className="relative rotate-x-6 rounded-2xl border border-white/10 bg-black/40 p-2 shadow-[0_0_50px_-12px_rgba(34,197,94,0.3)] backdrop-blur-sm transition-transform duration-700 hover:rotate-x-0">
+            <div className="relative rotate-x-6 rounded-2xl border border-white/10 bg-black/40 p-2 shadow-[0_0_80px_-15px_rgba(34,197,94,0.4)] backdrop-blur-sm transition-transform duration-700 hover:rotate-x-0">
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
                 <Suspense fallback={<div className="h-[400px] w-full bg-muted/20 animate-pulse" />}>
                   <DashboardPreview />

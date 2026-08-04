@@ -5,15 +5,12 @@ import heroBg from "@/assets/hero-bg-2027.jpg";
 import heroMobileBg from "@/assets/hero-bg-2027.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
-import { CtaBanner } from "@/components/landing/cta-banner";
 import { Hero } from "@/components/landing/hero";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
 import { PricingMobile } from "@/components/landing/pricing-mobile";
-import { MobileHeroSection } from "@/components/landing/mobile-hero-section";
-import { BottomRealisticBg } from "@/components/landing/bottom-realistic-bg";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
