@@ -35,86 +35,88 @@ export function LandingFooter() {
   return (
     <footer className="mt-auto border-t border-border bg-secondary/10 dark:bg-black/20 print:hidden">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
-      <div className="section-shell py-8 sm:py-10">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4 lg:grid-cols-5">
-          <div className="col-span-1 md:col-span-2 lg:col-span-2">
-            <Logo className="scale-90 origin-left" />
-            <p className="mt-3 max-w-xs text-[13px] text-muted-foreground leading-relaxed">
+      <div className="section-shell py-8 sm:py-12 lg:py-16">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-20">
+          <div className="max-w-xs space-y-4">
+            <Logo className="scale-90 origin-left lg:scale-100" />
+            <p className="text-[13px] text-muted-foreground leading-relaxed lg:text-sm">
               A plataforma definitiva para organizar suas finanças com tecnologia de ponta e inteligência artificial.
             </p>
-            <div className="mt-4 flex gap-2">
+            <div className="flex gap-2 lg:gap-3">
               {socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
-                  className="flex size-8 items-center justify-center rounded-lg bg-secondary/40 text-muted-foreground transition-all hover:bg-brand hover:text-white"
+                  className="flex size-8 items-center justify-center rounded-lg bg-secondary/40 text-muted-foreground transition-all hover:bg-brand hover:text-white lg:size-9"
                   aria-label={social.label}
                 >
-                  <social.icon className="size-3.5" />
+                  <social.icon className="size-3.5 lg:size-4" />
                 </a>
               ))}
             </div>
           </div>
 
-          <div>
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/80">Produto</h4>
-            <ul className="mt-3 space-y-1.5">
-              {links.map((link) => (
-                <li key={link.label}>
-                  {"to" in link ? (
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:flex lg:gap-16 xl:gap-24">
+            <div className="space-y-4">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/80 lg:text-[12px]">Produto</h4>
+              <ul className="space-y-1.5 lg:space-y-2.5">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    {"to" in link ? (
+                      <Link
+                        to={link.to}
+                        className="text-[13px] text-muted-foreground transition-colors hover:text-brand lg:text-sm"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-[13px] text-muted-foreground transition-colors hover:text-brand lg:text-sm"
+                      >
+                        {link.label}
+                      </a>
+                    )}
+                  </li>
+                ))}
+                <li>
+                  <a href="#inicio" className="text-[13px] text-muted-foreground transition-colors hover:text-brand lg:text-sm">Início</a>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/80 lg:text-[12px]">Legal</h4>
+              <ul className="space-y-1.5 lg:space-y-2.5">
+                {legalLinks.map((link) => (
+                  <li key={link.label}>
                     <Link
                       to={link.to}
-                      className="text-[13px] text-muted-foreground transition-colors hover:text-brand"
+                      className="text-[13px] text-muted-foreground transition-colors hover:text-brand lg:text-sm"
                     >
                       {link.label}
                     </Link>
-                  ) : (
-                    <a
-                      href={link.href}
-                      className="text-[13px] text-muted-foreground transition-colors hover:text-brand"
-                    >
-                      {link.label}
-                    </a>
-                  )}
-                </li>
-              ))}
-              <li>
-                <a href="#inicio" className="text-[13px] text-muted-foreground transition-colors hover:text-brand">Início</a>
-              </li>
-            </ul>
-          </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div>
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/80">Legal</h4>
-            <ul className="mt-3 space-y-1.5">
-              {legalLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    to={link.to}
-                    className="text-[13px] text-muted-foreground transition-colors hover:text-brand"
+            <div className="space-y-4">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/80 lg:text-[12px]">Suporte</h4>
+              <ul className="space-y-1.5 lg:space-y-2.5">
+                <li>
+                  <button
+                    onClick={() => setContactOpen(true)}
+                    className="text-[13px] text-muted-foreground transition-colors hover:text-brand lg:text-sm"
                   >
-                    {link.label}
-                  </Link>
+                    Contato
+                  </button>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/80">Suporte</h4>
-            <ul className="mt-3 space-y-1.5">
-              <li>
-                <button
-                  onClick={() => setContactOpen(true)}
-                  className="text-[13px] text-muted-foreground transition-colors hover:text-brand"
-                >
-                  Contato
-                </button>
-              </li>
-              <li>
-                <Link to="/auth" className="text-[13px] text-muted-foreground transition-colors hover:text-brand">Área do Cliente</Link>
-              </li>
-            </ul>
+                <li>
+                  <Link to="/auth" className="text-[13px] text-muted-foreground transition-colors hover:text-brand lg:text-sm">Área do Cliente</Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
