@@ -1130,7 +1130,7 @@ function DashboardPage() {
                                <CartesianGrid {...gridProps} />
                                <XAxis dataKey="day" {...axisProps} />
                                <YAxis {...axisProps} width={40} />
-                               <Tooltip formatter={(v:any) => formatCurrency(v)} />
+                               <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
                                <Line type="monotone" dataKey="receita" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
                                <Line type="monotone" dataKey="gasto" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
                             </LineChart>
