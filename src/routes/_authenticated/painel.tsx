@@ -120,7 +120,7 @@ import { CheckSquare, Circle } from "lucide-react";
 export const Route = createFileRoute("/_authenticated/painel")({
   head: () => ({
     meta: [
-      { title: "Painel — GastoCerto" },
+      { title: "Painel — GameCarto" },
       { name: "description", content: "Resumo dos seus gastos e receitas no GastoCerto." },
       { property: "og:title", content: "Painel — GastoCerto" },
       { property: "og:description", content: "Resumo dos seus gastos e receitas no GastoCerto." },
