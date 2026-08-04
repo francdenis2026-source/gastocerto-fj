@@ -83,7 +83,7 @@ export function MobileHeroSection() {
                 <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Conformidade RGPD</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="size-1 rounded-full bg-brand" />
+                <div className="size-1 rounded-full bg-primary" />
                 <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Sem Cartão</span>
               </div>
             </div>
