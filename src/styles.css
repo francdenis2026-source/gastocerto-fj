@@ -257,29 +257,29 @@ body::-webkit-scrollbar {
   --card-foreground: oklch(0.98 0.01 259);
   --popover: oklch(0.16 0.03 259);
   --popover-foreground: oklch(0.98 0.01 259);
-  --primary: oklch(0.7 0.14 155); /* Esmeralda com brilho controlado no escuro */
-  --primary-foreground: oklch(0.1 0.03 259);
-  --brand: oklch(0.7 0.14 155); /* Harmonizado com a primary */
-  --brand-foreground: oklch(0.1 0.03 259);
-  --secondary: oklch(0.25 0.04 259);
+  --primary: oklch(0.65 0.14 150); /* Esmeralda brilhante para destaque no dark */
+  --primary-foreground: oklch(0.08 0.01 259);
+  --brand: var(--primary);
+  --brand-foreground: oklch(0.08 0.01 259);
+  --secondary: oklch(0.18 0.04 259);
   --secondary-foreground: oklch(0.98 0.01 259);
-  --muted: oklch(0.22 0.04 259);
-  --muted-foreground: oklch(0.85 0.02 259); /* Aumentado contraste para legibilidade em mobile */
-  --accent: oklch(0.28 0.05 259);
+  --muted: oklch(0.14 0.03 259);
+  --muted-foreground: oklch(0.8 0.02 259); /* Contraste alto para mobile */
+  --accent: oklch(0.22 0.05 259);
   --accent-foreground: oklch(0.98 0.01 259);
-  --destructive: oklch(0.60 0.15 25); /* Vermelho menos agressivo no escuro */
+  --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.98 0.01 259);
-  --success: oklch(0.75 0.14 155);
-  --success-foreground: oklch(0.1 0.03 259);
-  --warning: oklch(0.85 0.14 78);
-  --warning-foreground: oklch(0.1 0.03 259);
+  --success: var(--primary);
+  --success-foreground: oklch(0.08 0.01 259);
+  --warning: oklch(0.8 0.15 78);
+  --warning-foreground: oklch(0.08 0.01 259);
 
-  --expense: oklch(0.60 0.15 25); /* Calibrado para contraste WCAG no dark mode */
-  --expense-surface: oklch(0.22 0.04 25);
-  --expense-border: oklch(0.35 0.06 25);
-  --income: oklch(0.75 0.14 155);
-  --income-surface: oklch(0.22 0.04 155);
-  --income-border: oklch(0.35 0.06 155);
+  --expense: oklch(0.60 0.15 25);
+  --expense-surface: oklch(0.18 0.04 25 / 20%);
+  --expense-border: oklch(0.55 0.15 25 / 30%);
+  --income: oklch(0.65 0.14 150);
+  --income-surface: oklch(0.18 0.04 150 / 20%);
+  --income-border: oklch(0.65 0.14 150 / 30%);
 
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
