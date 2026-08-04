@@ -682,22 +682,44 @@ function MobileTabBar({
 
 
             {/* Áreas com suas subseções: qualquer página em 2 toques. */}
-            <div className="space-y-2 p-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3">
               {items.map((item) => {
                 const isActive = activeGroup === item.to;
                 return (
                   <section
                     key={item.to}
                     className={cn(
-                      "overflow-hidden rounded-2xl border bg-card",
-                      isActive ? "border-brand/40" : "border-border",
+                      "overflow-hidden rounded-2xl border bg-card transition-all active:scale-[0.98]",
+                      isActive ? "border-brand/40 shadow-sm bg-brand/5" : "border-border",
                     )}
                   >
                     <Link
                       to={item.to as never}
                       onClick={() => onOpenChange(false)}
                       className={cn(
-                        "flex min-h-11 items-center gap-2 px-3 text-[13px] font-bold transition-colors",
+                        "flex min-h-12 items-center gap-3 px-3 text-[13px] font-black transition-colors",
+                        isActive ? "text-brand" : "text-foreground",
+                      )}
+                    >
+                      <div className={cn(
+                        "grid size-9 place-items-center rounded-xl border transition-colors",
+                        isActive ? "bg-brand/10 border-brand/20" : "bg-secondary/50 border-border/50"
+                      )}>
+                        <item.icon className="size-5" />
+                      </div>
+                      <div className="flex flex-1 flex-col min-w-0">
+                        <span className="truncate leading-none">{item.label}</span>
+                        {item.hint && (
+                          <span className="truncate text-[10px] font-medium text-muted-foreground mt-1">
+                            {item.hint}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </section>
+                );
+              })}
+            </div>
                         isActive ? "bg-brand/10 text-foreground" : "text-foreground",
                       )}
                     >
