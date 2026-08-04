@@ -7,10 +7,10 @@ import { Reveal } from "@/components/landing/reveal";
 
 export function CtaBanner() {
   return (
-    <section className="py-24 lg:py-32 overflow-hidden relative">
+    <section className="py-16 lg:py-24 overflow-hidden relative">
       <div className="container mx-auto px-6 lg:px-12">
         <Reveal delay={100}>
-          <div className="relative isolate overflow-hidden rounded-[48px] bg-foreground px-8 py-20 text-background sm:px-16 sm:py-24 shadow-2xl">
+          <div className="relative isolate overflow-hidden rounded-[48px] bg-foreground px-8 py-16 text-background sm:px-16 sm:py-20 shadow-2xl">
             {/* High-Fidelity Background Effects */}
             <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.2),transparent_50%)]" />
             <div className="absolute -top-24 -left-24 size-[500px] bg-primary/20 blur-[150px] rounded-full -z-10 animate-pulse" />
