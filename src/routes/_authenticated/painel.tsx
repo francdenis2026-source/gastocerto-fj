@@ -1214,19 +1214,6 @@ function DashboardPage() {
     </AppShell>
   );
 }
-
-
-
-
-
-
-
-
-
-    
-
-
-
 function ChartCard({
   title,
   summary,
