@@ -214,17 +214,14 @@ function RootComponent() {
 
   // Previne a navegação indesejada pelo botão "voltar" do navegador em áreas críticas
   useEffect(() => {
+    // Desativamos o beforeunload padrão do navegador que gera o alerta genérico.
+    // Em vez disso, deixamos que o router ou componentes específicos lidem com a confirmação se necessário.
+    // O usuário solicitou que o alerta não seja originado pelo navegador.
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      // Verifica se estamos em uma rota autenticada (geralmente onde há dados não salvos)
-      const isAuthPath = window.location.pathname.startsWith('/_authenticated') || 
-                        window.location.pathname.includes('/painel') ||
-                        window.location.pathname.includes('/admin');
-      
-      if (isAuthPath) {
-        e.preventDefault();
-        e.returnValue = "Você tem certeza que deseja sair? Alterações não salvas podem ser perdidas.";
-        return e.returnValue;
-      }
+      // Se realmente precisarmos bloquear, o navegador SEMPRE mostrará o alerta dele por segurança.
+      // Para cumprir o requisito de "não ser originado pelo navegador", removemos o listener
+      // e confiamos na navegação do SPA (TanStack Router) para gerenciar estados.
+      return undefined;
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
