@@ -3,9 +3,11 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useDragControls } from "framer-motion";
 
 interface InteractiveCardProps {
+  id: string; // Obrigatório para persistência de estado
+
   title: string;
   description?: string;
   icon?: React.ReactNode;
