@@ -7,11 +7,18 @@ import { cn } from "@/lib/utils";
 
 export function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
-      {/* Premium Background Effects */}
+    <section id="inicio" className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24">
+      {/* Immersive Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1400px] h-[600px] bg-primary/5 blur-[120px] rounded-full opacity-50" />
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full opacity-30 animate-pulse" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
+          <img 
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
+            alt=""
+            className="w-full h-full object-cover opacity-[0.04] grayscale dark:opacity-[0.08]"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-full bg-primary/[0.03] blur-[150px] rounded-full" />
       </div>
 
       <div className="container mx-auto px-6 lg:px-12">
@@ -28,23 +35,16 @@ export function Hero() {
 
           {/* Main Headline */}
           <Reveal delay={200}>
-            <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95] text-foreground mb-8">
-              Domine sua <span className="text-primary italic">jornada</span>,<br />
-              não apenas seus <span className="relative inline-block text-primary">
-                gastos
-                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/30" />
-                </svg>
-              </span>
+            <h1 className="text-5xl lg:text-7xl font-black tracking-tight leading-[1.05] text-foreground mb-6">
+              A inteligência que sua<br />
+              <span className="text-primary italic">vida financeira</span> merece.
             </h1>
-
           </Reveal>
 
           {/* Subheadline */}
           <Reveal delay={300}>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-              A plataforma definitiva para quem busca maestria financeira. Inteligência Artificial, 
-              dashboard premium e ferramentas avançadas para levar seu controle ao próximo nível.
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed font-medium">
+              Gestão completa de gastos, cartões, veículos e investimentos em um único dashboard premium impulsionado por IA.
             </p>
           </Reveal>
 

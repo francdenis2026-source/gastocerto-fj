@@ -73,13 +73,13 @@ const mainFeatures = [
 
 export function Benefits() {
   return (
-    <section id="recursos" className="py-24 lg:py-32 relative overflow-hidden bg-background">
+    <section id="recursos" className="py-16 lg:py-24 relative overflow-hidden bg-background">
       {/* Decorative Blur */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -z-10" />
       
       <div className="container mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mb-20">
+        <div className="max-w-3xl mb-12">
           <Reveal delay={100}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
               <Sparkles className="size-4 text-primary" />
@@ -100,7 +100,7 @@ export function Benefits() {
         </div>
 
         {/* Big Feature Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           {benefits.map((benefit, index) => (
             <Reveal key={benefit.title} delay={index * 100 + 400}>
               <div className="group relative p-10 rounded-[32px] border border-border bg-card/50 backdrop-blur-sm transition-all hover:-translate-y-2 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5">
@@ -144,7 +144,7 @@ export function Benefits() {
         </div>
 
         {/* Mobile Experience Block */}
-        <Reveal delay={1000} className="mt-24 rounded-[40px] border border-primary/20 bg-primary/5 p-8 lg:p-16 overflow-hidden relative">
+        <Reveal delay={1000} className="mt-16 rounded-[40px] border border-primary/20 bg-primary/5 p-8 lg:p-16 overflow-hidden relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full -z-10" />
           
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">

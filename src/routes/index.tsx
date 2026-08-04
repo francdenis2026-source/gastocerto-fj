@@ -50,7 +50,7 @@ function LandingPage() {
     <div className="relative flex min-h-dvh flex-col bg-background overflow-x-hidden">
       <PageBackground />
       <LandingHeader />
-      <main id="conteudo" tabIndex={-1} className="flex-1 outline-none pt-20">
+      <main id="conteudo" tabIndex={-1} className="flex-1 outline-none pt-16">
         <Hero />
         <Benefits />
         <CompactOverview />

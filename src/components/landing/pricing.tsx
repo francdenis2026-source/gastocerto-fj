@@ -86,12 +86,12 @@ export function Pricing() {
   const savingsPercent = Math.max(0, Math.round((1 - premium.yearly / premium.monthly) * 100));
 
   return (
-    <section id="planos" className="py-24 lg:py-32 bg-background relative overflow-hidden">
+    <section id="planos" className="py-16 lg:py-24 bg-background relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10" />
 
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col items-center text-center mb-20">
+        <div className="flex flex-col items-center text-center mb-12">
           <Reveal delay={100}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
               <Star className="size-4 text-primary fill-primary" />
@@ -100,7 +100,7 @@ export function Pricing() {
           </Reveal>
           <Reveal delay={200}>
             <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-8">
-              Escolha seu nível de <span className="text-primary italic">domínio</span>.
+              Escolha o plano ideal para você.
             </h2>
           </Reveal>
           
