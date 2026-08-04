@@ -1,170 +1,178 @@
+
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  BellRing,
-  Fuel,
-  Gauge,
-  PiggyBank,
-  ShieldCheck,
-  Smartphone,
-  Sparkles,
-  type LucideIcon,
+import { 
+  Sparkles, 
+  ArrowRight, 
+  Bot, 
+  TrendingUp, 
+  ShieldCheck, 
+  Target, 
+  Smartphone, 
+  Zap,
+  LayoutDashboard,
+  BarChart3,
+  Flame,
+  CreditCard
 } from "lucide-react";
-
 import { Reveal } from "@/components/landing/reveal";
-import { Button } from "@/components/ui/button";
-import { DemoDialog } from "@/components/landing/demo-dialog";
-import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
+import { cn } from "@/lib/utils";
 
-type Benefit = {
-  icon: LucideIcon;
-  title: string;
-  text: string;
-  metric: string;
-  metricLabel: string;
-  accent: string;
-};
-
-const benefits: Benefit[] = [
+const benefits = [
   {
-    icon: Gauge,
-    title: "Visão mensal em um toque",
-    text: "Receitas, despesas, sobra e pendências consolidados assim que você abre o app.",
-    metric: "10 s",
-    metricLabel: "para lançar",
-    accent: "var(--acc-1)",
+    icon: Bot,
+    title: "IA Financeira Avançada",
+    text: "Nossa IA analisa cada centavo, identifica padrões e sugere economias personalizadas para você.",
+    metric: "24/7",
+    label: "Consultoria Ativa",
+    color: "bg-primary/10 text-primary"
   },
   {
-    icon: Fuel,
-    title: "Custo real do veículo",
-    text: "Abastecimentos, consumo médio, custo por km e alertas de desvio por veículo.",
-    metric: "R$/km",
-    metricLabel: "calculado",
-    accent: "var(--acc-3)",
-  },
-  {
-    icon: PiggyBank,
-    title: "Orçamentos inteligentes",
-    text: "Limite por categoria com barra de consumo e aviso antes de estourar o mês.",
-    metric: "80%",
-    metricLabel: "alerta do limite",
-    accent: "var(--acc-2)",
-  },
-  {
-    icon: BellRing,
-    title: "Contas sempre em dia",
-    text: "Recorrências lançadas sozinhas e lembretes três dias antes do vencimento.",
-    metric: "0",
-    metricLabel: "juros por atraso",
-    accent: "var(--acc-5)",
+    icon: LayoutDashboard,
+    title: "Dashboard de Alta Performance",
+    text: "Visualize sua vida financeira com clareza absoluta em uma interface premium de alto nível.",
+    metric: "Real-time",
+    label: "Dados Sincronizados",
+    color: "bg-primary/10 text-primary"
   },
   {
     icon: ShieldCheck,
-    title: "Dados isolados por conta",
-    text: "Cada usuário acessa apenas os próprios registros, com regras aplicadas no banco.",
-    metric: "LGPD",
-    metricLabel: "na prática",
-    accent: "var(--acc-6)",
-  },
-  {
-    icon: Smartphone,
-    title: "Funciona instalado no celular",
-    text: "Instale como aplicativo, use offline e continue lançando sem conexão.",
-    metric: "PWA",
-    metricLabel: "com modo offline",
-    accent: "var(--acc-4)",
-  },
+    title: "Segurança Nível Bancário",
+    text: "Criptografia de ponta a ponta e isolamento total de dados para sua tranquilidade absoluta.",
+    metric: "AES-256",
+    label: "Criptografado",
+    color: "bg-primary/10 text-primary"
+  }
 ];
 
-/**
- * Seção de benefícios e diferenciais logo abaixo do hero.
- * Cards responsivos: 1 coluna no mobile, 2 no tablet e 3 no desktop.
- */
+const mainFeatures = [
+  {
+    title: "Controle de Gastos Diários",
+    description: "Lançamentos ultra-rápidos, categorias automáticas e anexos de comprovantes.",
+    icon: Zap,
+    delay: 100
+  },
+  {
+    title: "Gestão de Metas",
+    description: "Defina objetivos financeiros, acompanhe o progresso e realize seus sonhos mais rápido.",
+    icon: Target,
+    delay: 200
+  },
+  {
+    title: "Hub de Cartões",
+    description: "Visualize faturas, limites e vencimentos de todos os seus cartões em um só lugar.",
+    icon: CreditCard,
+    delay: 300
+  },
+  {
+    title: "Análise Preditiva",
+    description: "Saiba quanto vai gastar com combustível, gás e energia antes mesmo da conta chegar.",
+    icon: Flame,
+    delay: 400
+  }
+];
+
 export function Benefits() {
   return (
-    <section
-      id="beneficios"
-      aria-labelledby="beneficios-titulo"
-      className="relative bg-background section-padding"
-    >
-      <div className="section-shell">
-        <Reveal className="flex flex-col items-center text-center">
-          <div className="max-w-3xl">
-            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-              <Sparkles className="size-4" aria-hidden="true" />
-              Diferenciais
-            </p>
-            <h2 id="beneficios-titulo" className="mt-6 text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
-              Por que o GastoCerto facilita o controle do seu dinheiro
+    <section id="recursos" className="py-24 lg:py-32 relative overflow-hidden bg-background">
+      {/* Decorative Blur */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -z-10" />
+      
+      <div className="container mx-auto px-6 lg:px-12">
+        {/* Section Header */}
+        <div className="max-w-3xl mb-20">
+          <Reveal delay={100}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
+              <Sparkles className="size-4 text-primary" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Recursos Premium</span>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-8">
+              Tudo o que você precisa para <span className="text-primary italic">dominar</span> suas finanças.
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
-              Seis diferenciais que separam um controle improvisado de uma gestão financeira
-              documentada — do lançamento diário ao relatório do mês.
+          </Reveal>
+          <Reveal delay={300}>
+            <p className="text-lg lg:text-xl text-muted-foreground font-medium leading-relaxed">
+              Desenvolvemos as ferramentas mais poderosas do mercado para que você tenha controle 
+              total e absoluto sobre seu patrimônio, de forma simples e elegante.
             </p>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
-        <ul className="mt-3 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3 lg:grid-cols-3">
+        {/* Big Feature Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
           {benefits.map((benefit, index) => (
-            <Reveal as="li" key={benefit.title} delay={index * 60}>
-              <FeatureDetailDialog
-                feature={{ title: benefit.title, text: benefit.text, tag: benefit.metricLabel }}
-              >
-                <button
-                  type="button"
-                  className="group flex h-full w-full flex-col rounded-[20px] border border-border bg-card p-8 text-left shadow-premium transition-all duration-300 hover:-translate-y-2 hover:border-primary/20 hover:shadow-2xl active:scale-[0.98] outline-none"
-                >
-                  <div className="flex w-full items-start justify-between gap-1.5">
-                    <span
-                      className="grid size-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
-                    >
-                      <benefit.icon className="size-6" aria-hidden="true" />
-                    </span>
-                    <span className="text-right">
-                      <span
-                        className="block font-display text-lg font-bold leading-none tabular text-primary"
-                      >
-                        {benefit.metric}
-                      </span>
-                      <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
-                        {benefit.metricLabel}
-                      </span>
-                    </span>
+            <Reveal key={benefit.title} delay={index * 100 + 400}>
+              <div className="group relative p-10 rounded-[32px] border border-border bg-card/50 backdrop-blur-sm transition-all hover:-translate-y-2 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5">
+                <div className={cn("size-16 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 group-hover:rotate-3", benefit.color)}>
+                  <benefit.icon className="size-8" />
+                </div>
+                
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-black text-foreground">{benefit.title}</h3>
+                  <div className="text-right">
+                    <span className="block text-xl font-black text-primary leading-none">{benefit.metric}</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">{benefit.label}</span>
                   </div>
-                  <h3 className="mt-6 font-display text-xl font-bold tracking-tight">
-                    {benefit.title}
-                  </h3>
-                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                    {benefit.text}
-                  </p>
-                  <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary group-hover:gap-3 transition-all">
-                    Ver detalhes
-                    <ArrowRight className="size-4" />
-                  </span>
-                </button>
-              </FeatureDetailDialog>
+                </div>
+                
+                <p className="text-muted-foreground font-medium leading-relaxed">
+                  {benefit.text}
+                </p>
+                
+                <div className="mt-10 pt-8 border-t border-border flex items-center gap-2 text-sm font-bold uppercase tracking-[0.15em] text-primary transition-all group-hover:gap-4">
+                  Saiba mais <ArrowRight className="size-4" />
+                </div>
+              </div>
             </Reveal>
           ))}
-        </ul>
+        </div>
 
-        <Reveal className="mt-16 rounded-[32px] border border-primary/20 bg-primary/5 p-8 lg:p-12">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <p className="text-lg font-medium leading-relaxed max-w-2xl">
-              Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
-              veículos e consultor com inteligência artificial.
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <DemoDialog>
-                <Button className="btn-secondary h-14 rounded-2xl">
-                  Ver demonstração
-                </Button>
-              </DemoDialog>
-              <Button asChild className="btn-primary h-14 rounded-2xl">
-                <Link to="/auth">
-                  Criar conta gratuita
-                  <ArrowRight className="ml-2 size-5" aria-hidden="true" />
-                </Link>
-              </Button>
+        {/* Feature Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {mainFeatures.map((feature) => (
+            <Reveal key={feature.title} delay={feature.delay + 600}>
+              <div className="p-8 rounded-3xl border border-border bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                <feature.icon className="size-6 text-primary mb-6" />
+                <h4 className="text-lg font-bold text-foreground mb-3">{feature.title}</h4>
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Mobile Experience Block */}
+        <Reveal delay={1000} className="mt-24 rounded-[40px] border border-primary/20 bg-primary/5 p-8 lg:p-16 overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full -z-10" />
+          
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div className="max-w-xl">
+              <h3 className="text-3xl lg:text-4xl font-black tracking-tight text-foreground mb-6">
+                Leve o GameCarto para qualquer lugar.
+              </h3>
+              <p className="text-lg text-muted-foreground font-medium leading-relaxed mb-8">
+                Nossa plataforma é 100% responsiva e PWA. Instale no seu smartphone e tenha o controle 
+                completo na palma da sua mão, mesmo sem conexão com a internet.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-foreground text-background font-bold">
+                  <Smartphone className="size-5" />
+                  Instalar App
+                </div>
+                <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-border bg-card font-bold">
+                  <ShieldCheck className="size-5 text-primary" />
+                  Privacidade Garantida
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative w-full lg:w-1/3 aspect-square lg:aspect-video rounded-2xl border border-white/10 bg-black/20 backdrop-blur-3xl overflow-hidden shadow-2xl flex items-center justify-center">
+               <div className="text-center">
+                 <Bot className="size-16 text-primary mx-auto mb-4 animate-bounce-subtle" />
+                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Interface Mobile Otimizada</p>
+               </div>
             </div>
           </div>
         </Reveal>

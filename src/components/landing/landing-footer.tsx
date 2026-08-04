@@ -1,120 +1,120 @@
-import { Lock, Mail, MessageSquare, Twitter, Github, Linkedin, ExternalLink } from "lucide-react";
+
 import { Link } from "@tanstack/react-router";
-
+import { ShieldCheck, ArrowRight, Mail, Lock } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { ContactModal } from "@/components/finance/contact-modal";
-import { useState } from "react";
 
-type FooterLink = 
-  | { label: string; to: any }
-  | { label: string; href: string }
-  | { label: string; action: 'contact' };
-
-const footerLinks: { title: string; links: FooterLink[] }[] = [
-  {
-    title: "Produto",
-    links: [
-      { label: "Recursos", to: "/recursos" as const },
-      { label: "Planos", href: "#planos" },
-      { label: "Demonstração", to: "/demonstracao" as const },
-    ],
-  },
-  {
-    title: "Empresa",
-    links: [
-      { label: "Sobre", to: "/sobre" as const },
-      { label: "Contato", action: "contact" },
-    ],
-  },
-  {
-    title: "Recursos",
-    links: [
-      { label: "Área do Cliente", to: "/auth" as const },
-      { label: "Suporte", action: "contact" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Termos", to: "/termos" as const },
-      { label: "Privacidade", to: "/privacidade" as const },
-    ],
-  },
-];
+const footerLinks = {
+  produto: [
+    { label: "Recursos", href: "#recursos" },
+    { label: "IA Financeira", href: "#ia" },
+    { label: "Segurança", href: "#seguranca" },
+    { label: "Planos", href: "#planos" },
+  ],
+  empresa: [
+    { label: "Sobre nós", href: "#" },
+    { label: "Blog", href: "#" },
+    { label: "Carreiras", href: "#" },
+    { label: "Contato", href: "#" },
+  ],
+  legal: [
+    { label: "Privacidade", href: "#" },
+    { label: "Termos de Uso", href: "#" },
+    { label: "Cookies", href: "#" },
+  ],
+};
 
 export function LandingFooter() {
-  const [contactOpen, setContactOpen] = useState(false);
-  
   return (
-    <footer className="border-t border-border bg-card section-padding pt-24 pb-12 print:hidden">
-      <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
-      
-      <div className="section-shell">
-        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
-          <div className="flex flex-col gap-6">
-            <Logo className="scale-110 origin-left" />
-            <p className="text-base leading-relaxed text-muted-foreground max-w-xs">
-              A nova geração da gestão financeira familiar. Elegante, inteligente e segura.
+    <footer className="bg-background pt-24 pb-12 border-t border-border/50">
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8 mb-20">
+          {/* Brand Column */}
+          <div className="lg:col-span-2">
+            <Logo className="mb-6" />
+            <p className="text-muted-foreground font-medium leading-relaxed max-w-xs mb-8">
+              Dominando a jornada financeira através da inteligência e design de alto nível.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="p-2 rounded-lg bg-secondary hover:bg-primary/10 hover:text-primary transition-all">
-                <Twitter className="size-5" />
-              </a>
-              <a href="#" className="p-2 rounded-lg bg-secondary hover:bg-primary/10 hover:text-primary transition-all">
-                <Linkedin className="size-5" />
-              </a>
-              <a href="#" className="p-2 rounded-lg bg-secondary hover:bg-primary/10 hover:text-primary transition-all">
-                <Github className="size-5" />
-              </a>
+            <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="size-3.5 text-primary" />
+                SSL Secure
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Lock className="size-3.5 text-primary" />
+                AES-256
+              </span>
             </div>
           </div>
 
-          {footerLinks.map((section) => (
-            <div key={section.title} className="flex flex-col gap-5">
-              <h4 className="text-sm font-bold uppercase tracking-widest text-foreground">
-                {section.title}
-              </h4>
-              <ul className="flex flex-col gap-3">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    {'to' in link ? (
-                      <Link to={link.to} className="text-base text-muted-foreground hover:text-primary transition-all flex items-center gap-1 group">
-                        {link.label}
-                        <ExternalLink className="size-3 opacity-0 group-hover:opacity-100 transition-all" />
-                      </Link>
-                    ) : 'href' in link ? (
-                      <a href={link.href} className="text-base text-muted-foreground hover:text-primary transition-all">
-                        {link.label}
-                      </a>
-                    ) : (
-                      <button 
-                        onClick={() => link.action === 'contact' && setContactOpen(true)}
-                        className="text-base text-muted-foreground hover:text-primary transition-all"
-                      >
-                        {link.label}
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
+          {/* Links Columns */}
+          <div>
+            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Produto</h4>
+            <ul className="space-y-4">
+              {footerLinks.produto.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Empresa</h4>
+            <ul className="space-y-4">
+              {footerLinks.empresa.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Legal</h4>
+            <ul className="space-y-4">
+              {footerLinks.legal.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Newsletter Column */}
+          <div className="lg:col-span-1">
+            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Newsletter IA</h4>
+            <div className="relative">
+              <input 
+                type="email" 
+                placeholder="Seu e-mail" 
+                className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
+              />
+              <button className="absolute right-2 top-1.5 p-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+                <ArrowRight className="size-4" />
+              </button>
             </div>
-          ))}
+            <p className="text-[10px] text-muted-foreground mt-4 leading-relaxed italic">
+              * Receba insights exclusivos gerados por nossa IA.
+            </p>
+          </div>
         </div>
 
-        <div className="mt-24 pt-8 border-t border-border flex flex-col items-center justify-between gap-6 sm:flex-row">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} GastoCerto. Todos os direitos reservados.
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">
+            © 2026 GameCarto · Mastery of Finances
           </p>
+          
           <div className="flex items-center gap-6">
-            <p className="text-sm font-medium text-muted-foreground">
-              Desenvolvido por <span className="text-foreground">Franc D&apos;nis</span>
+            <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-widest">
+              Dev. Franc D'nis · Feijó, AC
             </p>
-            <Link
-              to="/admin"
-              className="p-2 rounded-lg bg-secondary text-muted-foreground/40 hover:text-foreground transition-all"
-            >
-              <Lock className="size-4" />
-            </Link>
           </div>
         </div>
       </div>

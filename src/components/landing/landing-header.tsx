@@ -1,190 +1,110 @@
+
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { KeyRound, Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
 import { Logo } from "@/components/logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-import { handleAnchorClick } from "@/lib/scroll";
 
 const navItems = [
-  { label: "Início", href: "#inicio" },
   { label: "Recursos", href: "#recursos" },
+  { label: "IA Financeira", href: "#ia" },
   { label: "Planos", href: "#planos" },
+  { label: "Segurança", href: "#seguranca" },
 ];
 
-
-export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
+export function LandingHeader() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("#inicio");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    const sections = navItems
-      .map((item) => document.getElementById(item.href.slice(1)))
-      .filter((el): el is HTMLElement => Boolean(el));
-    if (!sections.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (visible) setActive(`#${visible.target.id}`);
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-in-out",
-        scrolled
-          ? "h-16 border-b border-border bg-background/80 backdrop-blur-xl shadow-[0_2px_20px_-10px_rgba(0,0,0,0.1)]"
-          : "h-20 border-b border-transparent bg-transparent",
+        "fixed inset-x-0 top-0 z-[100] transition-all duration-300",
+        scrolled 
+          ? "bg-background/80 backdrop-blur-md border-b border-border py-3" 
+          : "bg-transparent py-5"
       )}
     >
-      <div className="section-shell flex h-full items-center justify-between gap-4">
-        <Logo onDark={!scrolled} href="#inicio" className="group" />
+      <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
+        <Logo className="scale-90 lg:scale-100" />
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => {
-            const isActive = active === item.href;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={isActive ? "location" : undefined}
-                onClick={(event) => handleAnchorClick(event, item.href)}
-                className={cn(
-                  "nav-underline relative inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent after:bg-hero-accent",
-                  isActive && "after:scale-x-100",
-                  scrolled
-                    ? cn("text-[oklch(0.25_0.04_259)] dark:text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground font-bold")
-                    : cn("text-hero-fg-muted hover:bg-hero-surface-soft hover:text-hero-fg focus-visible:ring-hero-border-strong", isActive && "text-hero-fg"),
-                )}
-
-              >
-                {item.label}
-              </a>
-            );
-          })}
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className={cn("inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")} />
-          <CodeAccessDialog>
-            <Button
-              variant="ghost"
-              className={cn("hidden lg:inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")}
-            >
-              <KeyRound className="size-4" aria-hidden />
-              Código de acesso
-            </Button>
-          </CodeAccessDialog>
-          {/* Código: ícone compacto no celular, mantendo a ação sempre acessível. */}
-          <CodeAccessDialog>
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Entrar com código de teste"
-              className={cn(
-                "lg:hidden",
-                !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
-              )}
-            >
-              <KeyRound className="size-4" aria-hidden />
-            </Button>
-          </CodeAccessDialog>
-          {/* Entrar: presente no desktop e no mobile. */}
-          <Button
-            variant="outline"
-            className={cn(
-              "h-10 px-3 text-sm font-semibold",
-              !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
-            )}
-            asChild
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          <Link
+            to="/auth"
+            search={{ mode: "login" }}
+            className="hidden sm:inline-flex text-[13px] font-medium text-foreground px-4 py-2 rounded-full hover:bg-secondary transition-colors"
           >
-            <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
-          </Button>
-          {!hideActions && (
-            <>
-              <Button className="hidden shadow-soft lg:inline-flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Começar grátis</Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className={cn("lg:hidden", !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg")}
-                aria-expanded={open}
-                aria-label={open ? "Fechar menu" : "Abrir menu"}
-                onClick={() => setOpen((v) => !v)}
-              >
-                {open ? <X className="size-4" /> : <Menu className="size-4" />}
-              </Button>
-            </>
-          )}
+            Entrar
+          </Link>
+          <Link
+            to="/auth"
+            search={{ mode: "signup" }}
+            className="group relative inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground text-[13px] font-semibold px-5 py-2.5 rounded-full overflow-hidden transition-all hover:ring-4 hover:ring-primary/20 active:scale-95"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              Começar Grátis
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+            </span>
+          </Link>
+          
+          <button 
+            className="md:hidden p-2 text-foreground"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+          </button>
         </div>
-
       </div>
 
-      {open && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-md lg:hidden">
-          <nav aria-label="Navegação móvel" className="section-shell flex flex-col py-3">
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 top-[70px] z-[90] bg-background md:hidden animate-in fade-in slide-in-from-top-4 duration-300">
+          <nav className="flex flex-col p-6 gap-6">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                aria-current={active === item.href ? "location" : undefined}
-                onClick={(event) => handleAnchorClick(event, item.href, () => setOpen(false))}
-                className={cn(
-                  "flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  active === item.href
-                    ? "bg-accent text-foreground font-bold"
-                    : "text-[oklch(0.25_0.04_259)] dark:text-muted-foreground",
-                )}
+                className="text-lg font-medium border-b border-border pb-4"
+                onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
               </a>
             ))}
-            <div className="mt-3 grid gap-2">
-              <div className="flex items-center gap-2">
-                <Button variant="outline" className="flex-1" asChild>
-                  <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
-                </Button>
-                <Button className="flex-1" asChild>
-                  <a
-                    href="#planos"
-                    onClick={(event) => handleAnchorClick(event, "#planos", () => setOpen(false))}
-                  >
-                    Começar
-                  </a>
-                </Button>
+            <div className="flex flex-col gap-4 mt-4">
+              <Link
+                to="/auth"
+                search={{ mode: "login" }}
+                className="w-full text-center py-4 rounded-2xl bg-secondary font-semibold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Entrar
+              </Link>
+              <div className="flex items-center justify-center gap-2 text-muted-foreground py-4">
+                <ShieldCheck className="size-4 text-primary" />
+                <span className="text-xs font-medium uppercase tracking-widest">Seguro e Criptografado</span>
               </div>
-              <div className="flex items-center justify-between gap-2 rounded-lg border border-border bg-accent/30 p-2">
-                <span className="text-xs font-semibold text-[oklch(0.25_0.04_259)] dark:text-muted-foreground">Alternar tema</span>
-                <ThemeToggle className="h-9 w-9" />
-              </div>
-              <CodeAccessDialog>
-                <Button variant="ghost" className="w-full justify-center text-xs">
-                  <KeyRound className="size-3.5" aria-hidden />
-                  Código de acesso
-                </Button>
-              </CodeAccessDialog>
             </div>
           </nav>
         </div>

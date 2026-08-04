@@ -35,12 +35,13 @@ import { usePlanAccess } from "@/lib/plan-features";
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({
     meta: [
-      { title: "Meu perfil — GastoCerto" },
-      { name: "description", content: "Gerencie seus dados pessoais e foto no GastoCerto." },
-      { property: "og:title", content: "Meu perfil — GastoCerto" },
+      { title: "Meu perfil — GameCarto" },
+      { name: "description", content: "Gerencie seus dados pessoais e foto no GameCarto." },
+      { property: "og:title", content: "Meu perfil — GameCarto" },
+
       {
         property: "og:description",
-        content: "Gerencie seus dados pessoais e foto no GastoCerto.",
+        content: "Gerencie seus dados pessoais e foto no GameCarto.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -201,6 +202,7 @@ function ProfilePage() {
   }
 
   const initials = (profile?.full_name ?? "GC")
+
     .split(" ")
     .slice(0, 2)
     .map((part: string) => part.charAt(0).toUpperCase())

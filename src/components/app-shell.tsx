@@ -191,7 +191,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       onConfirm: async () => {
         const toastId = toast.loading("Finalizando acesso...", {
           description: "Sua segurança é nossa prioridade.",
-          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+          icon: <RefreshCcw className="size-4 animate-spin text-primary" />
+
         });
 
         try {
@@ -279,7 +280,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className={cn("grid gap-1.5", railCollapsed ? "grid-cols-1" : "grid-cols-2")}>
               <Button
                 onClick={() => setQuickEntry("expense")}
-                className="w-full gap-1.5 bg-brand text-brand-foreground hover:opacity-90"
+                className="w-full gap-1.5 bg-primary text-primary-foreground hover:opacity-90"
                 size={railCollapsed ? "icon" : "sm"}
                 aria-label="Adicionar despesa"
                 title="Adicionar despesa"
@@ -414,7 +415,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             {activeMetrics.length > 0 && !railCollapsed && (
               <div className="mx-2 p-3 rounded-xl border border-border bg-secondary/30 space-y-3">
                 <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                  <Settings className="size-3 text-brand" />
+                  <Settings className="size-3 text-primary" />
                   Métricas
                 </div>
                 <div className="space-y-2">
@@ -471,7 +472,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link
             to="/perfil"
             className={cn(
-              "flex items-center gap-2 rounded-xl px-2 py-2.5 transition-all hover:bg-brand/10 group/profile",
+              "flex items-center gap-2 rounded-xl px-2 py-2.5 transition-all hover:bg-primary/10 group/profile",
               railCollapsed && "justify-center px-0",
             )}
           >
@@ -484,7 +485,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
             {!railCollapsed && (
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-brand transition-colors">
+                <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-primary transition-colors">
                   {profile?.full_name ?? "Minha conta"}
                 </span>
                 {(access.planSlug === "premium_ia" || access.planSlug === "premium") && (
@@ -542,7 +543,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <NotificationCenter />
                   <Button
                     onClick={() => setQuickEntry("expense")}
-                    className="h-9 gap-2 rounded-xl bg-brand px-4 text-xs font-black uppercase tracking-wider text-brand-foreground shadow-soft transition-all hover:opacity-90 active:scale-95"
+                    className="h-9 gap-2 rounded-xl bg-primary px-4 text-xs font-black uppercase tracking-wider text-primary-foreground shadow-soft transition-all hover:opacity-90 active:scale-95"
                   >
                     <Plus className="size-4" />
                     Lançar
@@ -582,7 +583,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     className={cn(
                       "shrink-0 rounded-full px-3.5 py-1.5 text-[11px] font-black uppercase tracking-wider transition-all",
                       pathname === tab.to
-                        ? "bg-brand text-brand-foreground shadow-sm"
+                        ? "bg-primary text-primary-foreground shadow-sm"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                     )}
                   >

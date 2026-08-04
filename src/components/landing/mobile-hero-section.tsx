@@ -23,7 +23,7 @@ export function MobileHeroSection() {
         
         {/* Decorative Gradients */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90" />
-        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-brand/5 blur-[100px]" />
+        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-primary/5 blur-[100px]" />
         <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/5 blur-[100px]" />
 
         {/* Content Layer */}
@@ -43,7 +43,7 @@ export function MobileHeroSection() {
           
           {/* Headline */}
           <h2 className="animate-reveal font-display text-3xl font-black leading-[1.05] tracking-[-0.04em] text-white" style={{ animationDelay: '200ms' }}>
-            Controle <span className="text-brand">total</span>,<br />tranquilidade <span className="text-brand">sempre</span>
+            Controle <span className="text-primary">total</span>,<br />tranquilidade <span className="text-primary">sempre</span>
           </h2>
           
           <p className="mt-2 animate-reveal px-4 text-[11px] font-medium leading-relaxed text-white/50" style={{ animationDelay: '300ms' }}>
@@ -53,7 +53,7 @@ export function MobileHeroSection() {
           {/* Visual Highlight Cards */}
           <div className="mt-6 grid w-full grid-cols-2 gap-3 animate-reveal" style={{ animationDelay: '400ms' }}>
             <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md transition-all active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30 shadow-[0_0_15px_rgba(23,164,95,0.2)]">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30 shadow-[0_0_15px_rgba(23,164,95,0.2)]">
                 <Target className="size-5" />
               </div>
               <p className="text-xl font-black text-white">Metas</p>
@@ -71,7 +71,7 @@ export function MobileHeroSection() {
 
           {/* Enhanced CTA */}
           <div className="mt-6 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
-            <button className="group relative flex h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-brand font-display font-bold text-brand-foreground shadow-lg transition-all active:scale-[0.96]">
+            <button className="group relative flex h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-primary font-display font-bold text-primary-foreground shadow-lg transition-all active:scale-[0.96]">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               Começar Grátis
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
@@ -79,11 +79,11 @@ export function MobileHeroSection() {
             
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
               <div className="flex items-center gap-1">
-                <ShieldCheck className="size-3 text-brand" />
+                <ShieldCheck className="size-3 text-primary" />
                 <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Conformidade RGPD</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="size-1 rounded-full bg-brand" />
+                <div className="size-1 rounded-full bg-primary" />
                 <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Sem Cartão</span>
               </div>
             </div>
