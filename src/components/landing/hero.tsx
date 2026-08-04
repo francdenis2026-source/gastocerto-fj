@@ -106,12 +106,12 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/60 to-background/90"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/60 via-background/80 to-background"
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[2px] [mask-image:linear-gradient(to_right,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.4)_50%,rgba(0,0,0,0.8)_100%)]"
+        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[4px] [mask-image:linear-gradient(to_right,rgba(0,0,0,1)_0%,rgba(0,0,0,0.3)_50%,rgba(0,0,0,1)_100%)]"
       />
 
 

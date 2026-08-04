@@ -11,20 +11,20 @@ export function MobileHeroSection() {
 
   return (
     <section className="relative overflow-hidden px-4 py-8 md:hidden">
-      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl transition-all duration-700 max-h-[70vh] backdrop-blur-2xl">
+      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-black/40 shadow-2xl transition-all duration-700 max-h-[75vh] backdrop-blur-3xl">
         
         {/* Parallax Background Layer */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 mix-blend-overlay pointer-events-none transition-opacity duration-1000"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 mix-blend-overlay pointer-events-none transition-opacity duration-1000"
           style={{ 
             backgroundImage: `url(${heroAsset})`,
           }}
         />
         
         {/* Decorative Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90" />
-        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-brand/5 blur-[100px]" />
-        <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/5 blur-[100px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/95" />
+        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-brand/10 blur-[100px]" />
+        <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/10 blur-[100px]" />
 
         {/* Content Layer */}
         <div className="relative z-10 flex flex-col p-8 items-center text-center overflow-y-auto custom-scrollbar">
@@ -46,7 +46,7 @@ export function MobileHeroSection() {
             Controle <span className="text-brand">total</span>,<br />tranquilidade <span className="text-brand">sempre</span>
           </h2>
           
-          <p className="mt-2 animate-reveal px-4 text-[11px] font-medium leading-relaxed text-white/50" style={{ animationDelay: '300ms' }}>
+          <p className="mt-2 animate-reveal px-4 text-[12px] font-semibold leading-relaxed text-white/70" style={{ animationDelay: '300ms' }}>
             Tecnologia e simplicidade unidas para garantir o controle total de seus gastos e investimentos.
           </p>
           
