@@ -716,33 +716,14 @@ function MobileTabBar({
                         )}
                       </div>
                     </Link>
-                  </section>
-                );
-              })}
-            </div>
-                        isActive ? "bg-brand/10 text-foreground" : "text-foreground",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "grid size-7 shrink-0 place-items-center rounded-lg border",
-                          isActive
-                            ? "border-brand/40 bg-brand/15 text-brand"
-                            : "border-border bg-secondary text-brand",
-                        )}
-                      >
-                        <item.icon className="size-4" aria-hidden="true" />
-                      </span>
-                      <span className="truncate">{item.label}</span>
-                    </Link>
                     {item.children && item.children.length > 1 ? (
-                      <div className="flex flex-wrap gap-1.5 border-t border-border px-3 py-2">
+                      <div className="flex flex-wrap gap-1.5 border-t border-border px-3 py-2 bg-secondary/20">
                         {item.children.map((child) => (
                           <Link
                             key={child.to}
                             to={child.to as never}
                             onClick={() => onOpenChange(false)}
-                            className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-colors active:bg-brand/15 active:text-foreground"
+                            className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-colors active:bg-brand/15 active:text-foreground"
                           >
                             {child.label}
                           </Link>
