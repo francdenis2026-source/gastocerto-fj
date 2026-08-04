@@ -35,8 +35,9 @@ export const adminPurgeLogs = createServerFn({ method: "POST" })
     await auditLog(context, "purge_logs", { 
       before_date: data.beforeDate, 
       action_type: data.actionType || "all",
-      purged_count: count ?? 0 
-    }, null as any);
+      purged_count: count ?? 0,
+      scope: data.beforeDate ? `Anterior a ${data.beforeDate}` : "Todos os logs"
+    }, null);
 
     return { ok: true, count: count ?? 0 };
   });
@@ -72,4 +73,18 @@ export const adminUpdateAppSettings = createServerFn({ method: "POST" })
     }, null as any);
 
     return { ok: true };
+  });
+
+export const adminAutoPurgeLogs = createServerFn({ method: "POST" })
+  .inputValidator((d: unknown) => z.object({ retentionDays: z.number().default(90) }).parse(d ?? {}))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - data.retentionDays);
+    const { error, count } = await supabaseAdmin
+      .from("admin_logs")
+      .delete()
+      .lt("created_at", cutoffDate.toISOString());
+    if (error) throw new Error("Falha na limpeza automática");
+    return { ok: true, count: count ?? 0 };
   });

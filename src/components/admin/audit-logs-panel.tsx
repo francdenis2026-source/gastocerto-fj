@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight, Eye, Clock, ShieldCheck as ShieldInfo } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -12,12 +12,14 @@ import { adminPurgeLogs } from "@/lib/admin-ops.functions";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 import { adminListAuditLogs } from "@/lib/audit-logs.functions";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [page, setPage] = useState(1);
   const pageSize = 20;
+  const [selectedLog, setSelectedLog] = useState<any | null>(null);
 
   const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
@@ -186,7 +188,17 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
             filtered.map((log) => {
               const config = actionLabels[log.action] || { label: log.action, color: "bg-slate-500/10 text-slate-600" };
               return (
-                <div key={log.id} className="py-2.5 px-2 flex flex-col sm:flex-row sm:items-center gap-3 text-xs hover:bg-muted/5 transition-colors group">
+                <div key={log.id} className="py-2.5 px-2 flex flex-col sm:flex-row sm:items-center gap-3 text-xs hover:bg-muted/5 transition-colors group relative">
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="size-7 text-muted-foreground hover:text-brand"
+                      onClick={() => setSelectedLog(log)}
+                    >
+                      <Eye className="size-4" />
+                    </Button>
+                  </div>
                   <div className="w-28 shrink-0 flex items-center gap-1.5 text-[10px] text-muted-foreground/70">
                     <Calendar className="size-3" />
                     {formatDateTime(log.created_at)}
@@ -273,6 +285,76 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
           )}
         </div>
       )}
+
+      <Dialog open={!!selectedLog} onOpenChange={(open) => !open && setSelectedLog(null)}>
+        <DialogContent className="max-w-2xl bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-brand">
+              <ScrollText className="size-5" />
+              Detalhes do Log de Auditoria
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Informações completas sobre a ação executada no sistema.
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedLog && (
+            <div className="space-y-6 py-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1 p-3 rounded-lg bg-muted/20 border border-border/50">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <Clock className="size-3" />
+                    Data e Hora
+                  </div>
+                  <div className="text-sm font-medium">{formatDateTime(selectedLog.created_at)}</div>
+                </div>
+
+                <div className="space-y-1 p-3 rounded-lg bg-muted/20 border border-border/50">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <ShieldInfo className="size-3" />
+                    Ação Executada
+                  </div>
+                  <div>
+                    <Badge variant="outline" className={cn("text-[10px] py-0 h-5 border-none", actionLabels[selectedLog.action]?.color)}>
+                      {actionLabels[selectedLog.action]?.label || selectedLog.action}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="space-y-1 p-3 rounded-lg bg-muted/20 border border-border/50">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <User className="size-3 text-brand" />
+                    Executor (Ator)
+                  </div>
+                  <div className="text-sm font-medium">{selectedLog.actor?.full_name || "Sistema"}</div>
+                  <div className="text-[10px] text-muted-foreground font-mono truncate">{selectedLog.actor_id || "internal-process"}</div>
+                </div>
+
+                <div className="space-y-1 p-3 rounded-lg bg-muted/20 border border-border/50">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <User className="size-3 text-amber-500" />
+                    Alvo (Usuário Afetado)
+                  </div>
+                  <div className="text-sm font-medium">{selectedLog.target?.full_name || "—"}</div>
+                  <div className="text-[10px] text-muted-foreground font-mono truncate">{selectedLog.target_user_id || "—"}</div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <Info className="size-3" />
+                  Detalhes Técnicos (JSON)
+                </div>
+                <div className="bg-black/40 rounded-xl p-4 border border-border/40 font-mono text-[11px] leading-relaxed max-h-[250px] overflow-auto">
+                  <pre className="text-brand-foreground/80">
+                    {JSON.stringify(selectedLog.details, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

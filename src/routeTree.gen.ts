@@ -53,6 +53,7 @@ import { Route as AuthenticatedVeiculosRelatorioRouteImport } from './routes/_au
 import { Route as CompartilhadoTokenRouteImport } from './routes/compartilhado.$token'
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
 import { Route as AuthenticatedConsumoSlugRouteImport } from './routes/_authenticated/consumo.$slug'
+import { Route as AuthenticatedKidsExtratoRouteImport } from './routes/_authenticated/kids/extrato'
 import { Route as ApiPublicCronRouteImport } from './routes/api/public/cron'
 import { Route as ApiPublicExternalVerifyRouteImport } from './routes/api/public/external-verify'
 import { Route as ApiPublicMercadopagoRouteImport } from './routes/api/public/mercadopago'
@@ -289,6 +290,12 @@ const AuthenticatedConsumoSlugRoute =
     path: '/consumo/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedKidsExtratoRoute =
+  AuthenticatedKidsExtratoRouteImport.update({
+    id: '/extrato',
+    path: '/extrato',
+    getParentRoute: () => AuthenticatedKidsRoute,
+  } as any)
 const ApiPublicCronRoute = ApiPublicCronRouteImport.update({
   id: '/api/public/cron',
   path: '/api/public/cron',
@@ -333,7 +340,7 @@ export interface FileRoutesByFullPath {
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/filhos': typeof AuthenticatedFilhosRoute
   '/gas': typeof AuthenticatedGasRoute
-  '/kids': typeof AuthenticatedKidsRoute
+  '/kids': typeof AuthenticatedKidsRouteWithChildren
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/lancamentos': typeof AuthenticatedLancamentosRoute
   '/metas': typeof AuthenticatedMetasRoute
@@ -354,6 +361,7 @@ export interface FileRoutesByFullPath {
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
+  '/kids/extrato': typeof AuthenticatedKidsExtratoRoute
   '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
@@ -382,7 +390,7 @@ export interface FileRoutesByTo {
   '/fechamento': typeof AuthenticatedFechamentoRoute
   '/filhos': typeof AuthenticatedFilhosRoute
   '/gas': typeof AuthenticatedGasRoute
-  '/kids': typeof AuthenticatedKidsRoute
+  '/kids': typeof AuthenticatedKidsRouteWithChildren
   '/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/lancamentos': typeof AuthenticatedLancamentosRoute
   '/metas': typeof AuthenticatedMetasRoute
@@ -403,6 +411,7 @@ export interface FileRoutesByTo {
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
+  '/kids/extrato': typeof AuthenticatedKidsExtratoRoute
   '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
@@ -433,7 +442,7 @@ export interface FileRoutesById {
   '/_authenticated/fechamento': typeof AuthenticatedFechamentoRoute
   '/_authenticated/filhos': typeof AuthenticatedFilhosRoute
   '/_authenticated/gas': typeof AuthenticatedGasRoute
-  '/_authenticated/kids': typeof AuthenticatedKidsRoute
+  '/_authenticated/kids': typeof AuthenticatedKidsRouteWithChildren
   '/_authenticated/kids-auditoria': typeof AuthenticatedKidsAuditoriaRoute
   '/_authenticated/lancamentos': typeof AuthenticatedLancamentosRoute
   '/_authenticated/metas': typeof AuthenticatedMetasRoute
@@ -454,6 +463,7 @@ export interface FileRoutesById {
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/_authenticated/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
+  '/_authenticated/kids/extrato': typeof AuthenticatedKidsExtratoRoute
   '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
@@ -505,6 +515,7 @@ export interface FileRouteTypes {
     | '/compartilhado/$token'
     | '/pedido/$id'
     | '/consumo/$slug'
+    | '/kids/extrato'
     | '/api/public/cron'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
@@ -554,6 +565,7 @@ export interface FileRouteTypes {
     | '/compartilhado/$token'
     | '/pedido/$id'
     | '/consumo/$slug'
+    | '/kids/extrato'
     | '/api/public/cron'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
@@ -604,6 +616,7 @@ export interface FileRouteTypes {
     | '/compartilhado/$token'
     | '/pedido/$id'
     | '/_authenticated/consumo/$slug'
+    | '/_authenticated/kids/extrato'
     | '/api/public/cron'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
@@ -936,6 +949,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsumoSlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/kids/extrato': {
+      id: '/_authenticated/kids/extrato'
+      path: '/extrato'
+      fullPath: '/kids/extrato'
+      preLoaderRoute: typeof AuthenticatedKidsExtratoRouteImport
+      parentRoute: typeof AuthenticatedKidsRoute
+    }
     '/api/public/cron': {
       id: '/api/public/cron'
       path: '/api/public/cron'
@@ -967,6 +987,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedKidsRouteChildren {
+  AuthenticatedKidsExtratoRoute: typeof AuthenticatedKidsExtratoRoute
+}
+
+const AuthenticatedKidsRouteChildren: AuthenticatedKidsRouteChildren = {
+  AuthenticatedKidsExtratoRoute: AuthenticatedKidsExtratoRoute,
+}
+
+const AuthenticatedKidsRouteWithChildren =
+  AuthenticatedKidsRoute._addFileChildren(AuthenticatedKidsRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAjudaRoute: typeof AuthenticatedAjudaRoute
@@ -984,7 +1015,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFechamentoRoute: typeof AuthenticatedFechamentoRoute
   AuthenticatedFilhosRoute: typeof AuthenticatedFilhosRoute
   AuthenticatedGasRoute: typeof AuthenticatedGasRoute
-  AuthenticatedKidsRoute: typeof AuthenticatedKidsRoute
+  AuthenticatedKidsRoute: typeof AuthenticatedKidsRouteWithChildren
   AuthenticatedKidsAuditoriaRoute: typeof AuthenticatedKidsAuditoriaRoute
   AuthenticatedLancamentosRoute: typeof AuthenticatedLancamentosRoute
   AuthenticatedMetasRoute: typeof AuthenticatedMetasRoute
@@ -1022,7 +1053,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFechamentoRoute: AuthenticatedFechamentoRoute,
   AuthenticatedFilhosRoute: AuthenticatedFilhosRoute,
   AuthenticatedGasRoute: AuthenticatedGasRoute,
-  AuthenticatedKidsRoute: AuthenticatedKidsRoute,
+  AuthenticatedKidsRoute: AuthenticatedKidsRouteWithChildren,
   AuthenticatedKidsAuditoriaRoute: AuthenticatedKidsAuditoriaRoute,
   AuthenticatedLancamentosRoute: AuthenticatedLancamentosRoute,
   AuthenticatedMetasRoute: AuthenticatedMetasRoute,

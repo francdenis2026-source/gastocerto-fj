@@ -177,6 +177,7 @@ export const navSections: NavSection[] = [
           { key: "kids.hub", label: "Central da Família", to: "/filhos", highlight: true, keywords: "filho criança cadastro mesada acesso métricas" },
           { key: "kids.panel", label: "Códigos e metas", to: "/kids", keywords: "pin código qr metas" },
           { key: "kids.audit", label: "Auditoria Kids", to: "/kids-auditoria", keywords: "histórico criança" },
+          { key: "kids.statement", label: "Extrato Kids", to: "/kids/extrato", keywords: "extrato extrato criança", hidden: true },
         ],
       },
 
