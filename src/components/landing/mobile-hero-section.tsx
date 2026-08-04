@@ -79,7 +79,7 @@ export function MobileHeroSection() {
             
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
               <div className="flex items-center gap-1">
-                <ShieldCheck className="size-3 text-brand" />
+                <ShieldCheck className="size-3 text-primary" />
                 <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Conformidade RGPD</span>
               </div>
               <div className="flex items-center gap-1">
