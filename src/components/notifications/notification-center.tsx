@@ -35,22 +35,22 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
           size="icon"
           aria-label={unreadCount > 0 ? `Avisos (${unreadCount} não lidos)` : "Avisos"}
           className={cn(
-            "relative rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-            isKid ? "size-10" : "h-10 w-10",
+            "relative shrink-0 rounded-full p-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            isKid ? "size-9" : "size-8 sm:size-9",
           )}
         >
-          <Bell className={isKid ? "size-4" : "size-5"} />
+          <Bell className="size-4 shrink-0" aria-hidden="true" />
 
           {unreadCount > 0 && (
-            <Badge className={cn(
-              "absolute flex items-center justify-center rounded-full bg-destructive p-0 text-destructive-foreground ring-2 ring-background z-10 font-bold",
-              isKid ? "-top-0.5 -right-0.5 h-4 w-4 text-[9px]" : "-top-1 -right-1 h-5 w-5 text-[10px]",
-            )}>
-              {unreadCount}
-            </Badge>
+            <span
+              className="pointer-events-none absolute right-0 top-0 flex h-[15px] min-w-[15px] translate-x-[3px] -translate-y-[3px] items-center justify-center rounded-full bg-destructive px-[3px] text-[9px] font-bold leading-none text-destructive-foreground ring-2 ring-background"
+            >
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
           )}
         </Button>
       </PopoverTrigger>
+
       <PopoverContent className={cn("p-0 shadow-lg", isKid ? "w-[16rem]" : "w-80")} align="end">
         <div className={cn("flex items-center justify-between border-b border-border", isKid ? "px-3 py-2" : "p-4")}>
           <h3 className={cn("flex items-center gap-1.5 font-bold", isKid ? "text-[12px]" : "text-sm")}>
