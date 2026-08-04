@@ -85,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading,
       signOut: async (silent = false) => {
         if (!silent) {
-          const confirmed = window.confirm("Tem certeza que deseja sair?");
+          const confirmed = silent ? true : window.confirm("Tem certeza que deseja sair?");
           if (!confirmed) return;
         }
 
