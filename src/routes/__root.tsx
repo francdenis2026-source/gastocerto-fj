@@ -185,12 +185,11 @@ function RootShell({ children }: { children: ReactNode }) {
               (function() {
                 try {
                   var theme = localStorage.getItem('gastocerto-theme');
-                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  if (!theme && supportDarkMode) theme = 'dark';
-                  if (!theme) theme = 'dark';
+                  if (theme !== 'light') theme = 'dark';
                   document.documentElement.classList.toggle('dark', theme === 'dark');
                   document.documentElement.style.colorScheme = theme;
                 } catch (e) {}
+
               })();
             `,
           }}
