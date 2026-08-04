@@ -367,7 +367,17 @@ function AuthPage() {
                       </span>
                     </button>
 
-                    <CodeAccessInline onContinue={() => setMode("signup")} />
+                    <div className="mt-4 flex flex-col gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setMode("admin")}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-input bg-secondary/50 px-3 py-2 text-xs font-bold text-muted-foreground transition-all hover:bg-secondary hover:text-primary lg:hidden"
+                      >
+                        <ShieldAlert className="size-3.5" />
+                        Acesso Administrador
+                      </button>
+                      <CodeAccessInline onContinue={() => setMode("signup")} />
+                    </div>
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
