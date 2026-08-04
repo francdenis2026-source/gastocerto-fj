@@ -759,7 +759,7 @@ function DashboardPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 shadow-sm">
+              <div className="glass-morphism mobile-compact-card shadow-sm">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Evolução do Saldo</h3>
                 <div className="h-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
