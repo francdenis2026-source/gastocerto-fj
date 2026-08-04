@@ -116,7 +116,7 @@ function LandingPage() {
         <PricingMobile />
         <MobileHeroSection />
         <section className="px-4 pb-8 md:hidden" aria-label="Segurança e privacidade">
-          <ul className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card/70 p-3 text-center backdrop-blur-sm">
+          <ul className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card/40 p-3 text-center backdrop-blur-md shadow-soft">
             <li className="min-w-0">
               <p className="text-[13px] font-extrabold">14 dias</p>
               <p className="text-[10px] font-medium text-muted-foreground">teste completo</p>

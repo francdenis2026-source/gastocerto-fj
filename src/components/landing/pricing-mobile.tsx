@@ -62,7 +62,7 @@ export function PricingMobile() {
         </div>
       </div>
 
-      <div className="mt-3 rounded-2xl border border-border bg-card/85 p-3 shadow-soft backdrop-blur-sm">
+      <div className="mt-3 rounded-2xl border border-border bg-card/60 p-3 shadow-lifted backdrop-blur-xl">
         <div className="mb-2.5 px-1">
           <p className="text-[10px] font-medium leading-tight text-muted-foreground/80">
             {slug === "free" && "Recursos básicos para controle essencial."}
