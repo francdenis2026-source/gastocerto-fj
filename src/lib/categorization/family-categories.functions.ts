@@ -57,16 +57,16 @@ export const updateTransactionBeneficiary = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase } = context;
     
-    // Como ainda não temos colunas específicas no DB, anexamos às notas ou metadados se existirem
+    // Como ainda não temos colunas específicas no DB, anexamos às notas
     const { data: transaction } = await supabase
       .from("transactions")
-      .select("notes, metadata")
+      .select("notes")
       .eq("id", data.transactionId)
       .single();
       
     if (!transaction) throw new Error("Transação não encontrada");
 
-    let notes = transaction.notes || "";
+    let notes = (transaction as any).notes || "";
     if (data.beneficiaryType !== "none" && data.beneficiaryName) {
       const prefix = data.beneficiaryType === "adult_child" ? "[Filho Maior]" : "[Outro Familiar]";
       if (!notes.includes(prefix)) {
@@ -78,11 +78,6 @@ export const updateTransactionBeneficiary = createServerFn({ method: "POST" })
       .from("transactions")
       .update({ 
         notes,
-        metadata: { 
-          ...(transaction.metadata as any || {}), 
-          beneficiary_type: data.beneficiaryType,
-          beneficiary_name: data.beneficiaryName 
-        } 
       } as any)
       .eq("id", data.transactionId);
 
