@@ -210,39 +210,40 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
   return (
     <div className="space-y-3">
 
-      <div className="flex flex-wrap gap-3">
-        <div className="relative min-w-64 flex-1">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Buscar por nome, CPF ou e-mail"
-            className="pl-9"
+            className="pl-9 h-11 sm:h-10 rounded-xl"
           />
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-44">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todas as situações</SelectItem>
-            <SelectItem value="active">Ativos</SelectItem>
-            <SelectItem value="suspended">Suspensos</SelectItem>
-            <SelectItem value="canceled">Cancelados</SelectItem>
-          </SelectContent>
-        </Select>
-        <div className="flex gap-2">
-          {isAdmin ? <CreateUserDialog /> : null}
-          <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0} className="h-10">
-            <Download className="size-4 mr-2" />
-            CSV
-          </Button>
-          <Button variant="outline" size="sm" onClick={exportPdf} disabled={filtered.length === 0} className="h-10">
-            <FileText className="size-4 mr-2" />
-            PDF
-          </Button>
+        <div className="flex flex-wrap gap-2">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full sm:w-44 h-11 sm:h-10 rounded-xl">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="all">Todas as situações</SelectItem>
+              <SelectItem value="active">Ativos</SelectItem>
+              <SelectItem value="suspended">Suspensos</SelectItem>
+              <SelectItem value="canceled">Cancelados</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="flex w-full sm:w-auto gap-2">
+            {isAdmin ? <CreateUserDialog /> : null}
+            <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0} className="flex-1 sm:flex-none h-11 sm:h-10 rounded-xl">
+              <Download className="size-4 sm:mr-2" />
+              <span className="hidden sm:inline">CSV</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={exportPdf} disabled={filtered.length === 0} className="flex-1 sm:flex-none h-11 sm:h-10 rounded-xl">
+              <FileText className="size-4 sm:mr-2" />
+              <span className="hidden sm:inline">PDF</span>
+            </Button>
+          </div>
         </div>
-
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-border bg-card">
