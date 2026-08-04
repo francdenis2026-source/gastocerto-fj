@@ -1105,7 +1105,9 @@ function DashboardPage() {
                  yearly={<YearlyBalanceSection year={period.year} />}
                   insights={<InsightsPanel year={period.year} month={period.month} />}
                   recommendations={<DebtAdvisorPanel />}
-                 kids={<KidsManagementPanel />}
+                   kids={<KidsManagementPanel />}
+                   family={<FamilySpendingDashboard />}
+
                />
             </div>
           </div>

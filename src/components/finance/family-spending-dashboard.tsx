@@ -110,7 +110,7 @@ export function FamilySpendingDashboard() {
                 <div className="mt-1 h-1 w-24 overflow-hidden rounded-full bg-muted/60">
                   <div 
                     className="h-full bg-brand transition-all duration-1000" 
-                    style={{ width: \`\${(dep.total / totalFamilySpending) * 100}%\` }}
+                    style={{ width: `${(dep.total / totalFamilySpending) * 100}%` }}
                   />
                 </div>
               </div>
