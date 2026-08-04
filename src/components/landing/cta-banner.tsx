@@ -7,9 +7,9 @@ import { Reveal } from "@/components/landing/reveal";
 
 export function CtaBanner() {
   return (
-    <section className="py-16 sm:py-24">
+    <section className="section-padding">
       <Reveal className="section-shell">
-        <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-cta-bg px-6 py-10 text-cta-fg shadow-2xl sm:px-12 sm:py-14 border border-white/5 transition-all duration-500 hover:border-brand/30">
+        <div className="relative isolate overflow-hidden rounded-[32px] bg-card px-8 py-16 text-foreground shadow-premium sm:px-16 sm:py-20 border border-border transition-all duration-500 hover:shadow-2xl">
           <GridPattern className="absolute inset-0 -z-10 size-full text-cta-fg/5" />
           
           {/* Efeitos de Glow High-Tech */}
@@ -24,31 +24,29 @@ export function CtaBanner() {
 
           <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
             <div className="min-w-0">
-              <h2 className="font-display text-2xl font-black leading-tight tracking-tight text-cta-fg sm:text-4xl">
+              <h2 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl">
                 Decisões inteligentes começam com dados precisos.
               </h2>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-cta-fg-muted">
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
                 Junte-se à nova era da gestão financeira familiar. Comece grátis, sem cartão, 
                 seguro e pronto para uso em segundos.
               </p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <Button size="lg" className="h-14 w-full rounded-2xl bg-brand text-base font-bold shadow-[0_0_30px_rgba(23,164,95,0.2)] transition-transform hover:scale-105 active:scale-95" asChild>
+              <Button className="btn-primary h-14 w-full text-lg" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Agora
-                  <ArrowRight className="size-5 ml-1" aria-hidden="true" />
+                  <ArrowRight className="size-5 ml-2" aria-hidden="true" />
                 </Link>
               </Button>
               <Button
-                variant="outline"
-                size="lg"
-                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 text-base font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-brand/40"
+                className="btn-secondary h-14 w-full text-lg"
                 asChild
               >
                 <Link to="/demonstracao">
                   <PlayCircle className="size-5 mr-2" aria-hidden="true" />
-                  Ver Demo Interativa
+                  Ver Demo
                 </Link>
               </Button>
             </div>

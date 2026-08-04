@@ -52,13 +52,13 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-in-out",
         scrolled
-          ? "border-b border-white/5 bg-background/40 text-foreground backdrop-blur-2xl shadow-sm"
-          : "border-b border-transparent bg-transparent text-hero-fg",
+          ? "h-16 border-b border-border bg-background/80 backdrop-blur-xl shadow-[0_2px_20px_-10px_rgba(0,0,0,0.1)]"
+          : "h-20 border-b border-transparent bg-transparent",
       )}
     >
-      <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
+      <div className="section-shell flex h-full items-center justify-between gap-4">
         <Logo onDark={!scrolled} href="#inicio" className="group" />
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">

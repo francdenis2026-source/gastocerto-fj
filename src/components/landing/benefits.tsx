@@ -85,21 +85,23 @@ export function Benefits() {
     <section
       id="beneficios"
       aria-labelledby="beneficios-titulo"
-      className="relative border-b border-border bg-background py-16 sm:py-24"
+      className="relative bg-background section-padding"
     >
       <div className="section-shell">
-        <Reveal className="max-w-2xl">
-          <p className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-brand sm:text-[12.5px]">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            Benefícios e diferenciais
-          </p>
-          <h2 id="beneficios-titulo" className="mt-1.5 section-title">
-            Por que o GastoCerto facilita o controle do seu dinheiro
-          </h2>
-          <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
-            Seis diferenciais que separam um controle improvisado de uma gestão financeira
-            documentada — do lançamento diário ao relatório do mês.
-          </p>
+        <Reveal className="flex flex-col items-center text-center">
+          <div className="max-w-3xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+              <Sparkles className="size-4" aria-hidden="true" />
+              Diferenciais
+            </p>
+            <h2 id="beneficios-titulo" className="mt-6 text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
+              Por que o GastoCerto facilita o controle do seu dinheiro
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
+              Seis diferenciais que separam um controle improvisado de uma gestão financeira
+              documentada — do lançamento diário ao relatório do mês.
+            </p>
+          </div>
         </Reveal>
 
         <ul className="mt-3 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3 lg:grid-cols-3">
@@ -110,26 +112,17 @@ export function Benefits() {
               >
                 <button
                   type="button"
-                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/25 p-3 text-left shadow-lifted backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-[0_20px_40px_rgba(23,164,95,0.1)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
-                  style={{
-                    backgroundImage: `linear-gradient(150deg, color-mix(in oklab, ${benefit.accent} 10%, transparent), transparent 62%)`,
-                  }}
+                  className="group flex h-full w-full flex-col rounded-[20px] border border-border bg-card p-8 text-left shadow-premium transition-all duration-300 hover:-translate-y-2 hover:border-primary/20 hover:shadow-2xl active:scale-[0.98] outline-none"
                 >
                   <div className="flex w-full items-start justify-between gap-1.5">
                     <span
-                      className="grid size-9 shrink-0 place-items-center rounded-xl border sm:size-10"
-                      style={{
-                        borderColor: `color-mix(in oklab, ${benefit.accent} 30%, transparent)`,
-                        background: `color-mix(in oklab, ${benefit.accent} 14%, transparent)`,
-                        color: benefit.accent,
-                      }}
+                      className="grid size-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
                     >
-                      <benefit.icon className="size-4.5" aria-hidden="true" />
+                      <benefit.icon className="size-6" aria-hidden="true" />
                     </span>
                     <span className="text-right">
                       <span
-                        className="block font-display text-sm font-bold leading-none tabular"
-                        style={{ color: benefit.accent }}
+                        className="block font-display text-lg font-bold leading-none tabular text-primary"
                       >
                         {benefit.metric}
                       </span>
@@ -138,14 +131,15 @@ export function Benefits() {
                       </span>
                     </span>
                   </div>
-                  <h3 className="mt-2 font-display text-[13px] font-bold leading-snug tracking-tight sm:text-[15px]">
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-tight">
                     {benefit.title}
                   </h3>
-                  <p className="mt-1 line-clamp-3 text-[11.5px] leading-snug text-muted-foreground sm:line-clamp-none sm:text-[13px] sm:leading-relaxed">
+                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                     {benefit.text}
                   </p>
-                  <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                  <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary group-hover:gap-3 transition-all">
                     Ver detalhes
+                    <ArrowRight className="size-4" />
                   </span>
                 </button>
               </FeatureDetailDialog>
@@ -153,23 +147,25 @@ export function Benefits() {
           ))}
         </ul>
 
-        <Reveal className="mt-3.5 hidden gap-2 rounded-2xl border border-brand/25 bg-brand/8 p-3.5 sm:mt-4 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-4">
-          <p className="text-[13px] font-medium leading-relaxed sm:text-sm">
-            Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
-            veículos e consultor com inteligência artificial.
-          </p>
-          <div className="grid gap-2 sm:flex sm:items-center">
-            <DemoDialog>
-              <Button variant="outline" className="w-full sm:w-auto">
-                Ver demonstração
+        <Reveal className="mt-16 rounded-[32px] border border-primary/20 bg-primary/5 p-8 lg:p-12">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <p className="text-lg font-medium leading-relaxed max-w-2xl">
+              Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
+              veículos e consultor com inteligência artificial.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <DemoDialog>
+                <Button className="btn-secondary h-14 rounded-2xl">
+                  Ver demonstração
+                </Button>
+              </DemoDialog>
+              <Button asChild className="btn-primary h-14 rounded-2xl">
+                <Link to="/auth">
+                  Criar conta gratuita
+                  <ArrowRight className="ml-2 size-5" aria-hidden="true" />
+                </Link>
               </Button>
-            </DemoDialog>
-            <Button asChild className="w-full sm:w-auto">
-              <Link to="/auth">
-                Criar conta gratuita
-                <ArrowRight className="ml-2 size-4" aria-hidden="true" />
-              </Link>
-            </Button>
+            </div>
           </div>
         </Reveal>
       </div>
