@@ -113,6 +113,9 @@ export function KidsManagementPanel() {
   const [histEnd, setHistEnd] = useState<string>("");
 
   const fetchMetrics = useServerFn(getKidsFinancialMetrics);
+  const runDelete = useServerFn(deleteKidManagementTransaction);
+  const runUndo = useServerFn(undoKidTransactionDeletion);
+  const runUpdate = useServerFn(updateKidManagementTransaction);
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
@@ -145,8 +148,22 @@ export function KidsManagementPanel() {
 
   const giveMoneyMutation = useMutation({
     mutationFn: useServerFn(giveMoneyToKid),
-    onSuccess: () => {
-      toast.success("Valor enviado com sucesso!");
+    onSuccess: (result) => {
+      const createdAt = Date.now();
+      toast.success("Valor enviado com sucesso!", {
+        description: "O saldo da carteira já foi atualizado.",
+        duration: UNDO_WINDOW_MS,
+        action: {
+          label: "Desfazer",
+          onClick: () => {
+            if (Date.now() - createdAt > UNDO_WINDOW_MS) {
+              toast.error("O prazo para desfazer já passou.");
+              return;
+            }
+            deleteMutation.mutate({ data: { transactionId: result.transactionId } });
+          },
+        },
+      });
       setGiveMoneyOpen(false);
       queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -159,10 +176,6 @@ export function KidsManagementPanel() {
   });
 
   const deletePermission = useDeletePermission();
-  const runDelete = useServerFn(deleteKidManagementTransaction);
-  const runUndo = useServerFn(undoKidTransactionDeletion);
-  const runUpdate = useServerFn(updateKidManagementTransaction);
-
   const refreshKids = () => {
     queryClient.invalidateQueries({ queryKey: ["kids_financial_metrics"] });
     queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -1097,6 +1110,34 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
     type: "pix" as "pix" | "cash" | "gift" | "value",
     transactionDate: new Date().toISOString().split('T')[0]
   });
+  const [reviewing, setReviewing] = useState(false);
+  const selectedKid = kids.find((kid) => kid.id === formData.dependentId);
+
+  if (reviewing) {
+    return (
+      <div className="space-y-4">
+        <DialogHeader>
+          <DialogTitle>Confirmar envio?</DialogTitle>
+          <DialogDescription>Revise os dados para evitar alterações acidentais na carteira.</DialogDescription>
+        </DialogHeader>
+        <div className="rounded-xl border bg-muted/30 p-4 text-sm">
+          <p className="text-muted-foreground">Destino</p>
+          <p className="font-semibold">{selectedKid?.nickname || selectedKid?.name || "Filho"}</p>
+          <p className="mt-3 text-muted-foreground">Valor</p>
+          <p className="text-xl font-black text-primary">{formatCurrency(formData.amount)}</p>
+          <p className="mt-3 text-muted-foreground">Motivo</p>
+          <p className="font-medium">{formData.description}</p>
+        </div>
+        <DialogFooter className="grid grid-cols-2 gap-2 sm:grid-cols-2">
+          <Button variant="outline" disabled={isPending} onClick={() => setReviewing(false)}>Voltar</Button>
+          <Button disabled={isPending} onClick={() => onSubmit(formData)}>
+            {isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Plus className="mr-2 size-4" />}
+            Confirmar
+          </Button>
+        </DialogFooter>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -1182,10 +1223,10 @@ function GiveMoneyForm({ kids, initialKidId, onSubmit, isPending }: {
         <Button 
           className="w-full font-bold h-11" 
           disabled={isPending || !formData.amount || !formData.description || !formData.dependentId}
-          onClick={() => onSubmit(formData)}
+          onClick={() => setReviewing(true)}
         >
           {isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : <Plus className="size-4 mr-2" />}
-          Confirmar Envio
+          Revisar envio
         </Button>
       </DialogFooter>
     </div>

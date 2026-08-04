@@ -198,7 +198,7 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
               <div className="h-44 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={CHART_TOKENS.grid} vertical={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
                     <XAxis dataKey="name" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
                     <YAxis tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
                     <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />

@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated")({
         if (error?.status === 429 || (error instanceof Error && error.message.includes('429'))) {
           // Um limite temporário não prova que a sessão terminou. Manter a rota
           // evita expulsar o usuário enquanto o cliente recupera o token.
-          return {};
+          return { user: data.session?.user ?? null };
         } else {
           console.warn("[auth] sessão inválida ou expirada, redirecionando para login", error);
         }
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_authenticated")({
       // Se já for um objeto de redirecionamento do TanStack, apenas relançamos
       if (err && typeof err === 'object' && 'isRedirect' in err) throw err;
       
-      if (err instanceof Error && err.message.includes('429')) return {};
+      if (err instanceof Error && err.message.includes('429')) return { user: null };
       throw err;
     }
   },
