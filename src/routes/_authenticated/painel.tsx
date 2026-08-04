@@ -640,7 +640,7 @@ function DashboardPage() {
           <StatTile
             label="Receitas"
             value={formatCurrency(metrics.totalIncome)}
-            tone="success"
+            tone="primary"
             icon={TrendingUp}
             onClick={() => {
               setDetail({
