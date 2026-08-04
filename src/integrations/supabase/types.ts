@@ -133,7 +133,7 @@ export type Database = {
       admin_logs: {
         Row: {
           action: string
-          actor_id: string
+          actor_id: string | null
           created_at: string
           details: Json
           id: string
@@ -141,7 +141,7 @@ export type Database = {
         }
         Insert: {
           action: string
-          actor_id: string
+          actor_id?: string | null
           created_at?: string
           details?: Json
           id?: string
@@ -149,13 +149,21 @@ export type Database = {
         }
         Update: {
           action?: string
-          actor_id?: string
+          actor_id?: string | null
           created_at?: string
           details?: Json
           id?: string
           target_user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "admin_logs_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       ai_usage_log: {
         Row: {
