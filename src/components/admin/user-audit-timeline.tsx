@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { ScrollText, ShieldAlert, TrendingUp, UserMinus, ShieldCheck, History, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
-import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { useServerFn } from "@tanstack/react-start";
+import { adminListAuditLogs } from "@/lib/audit-logs.functions";
 
 const ACTION_MAP: Record<string, { label: string; icon: any; color: string }> = {
   set_status: { label: "Status alterado", icon: ShieldAlert, color: "text-amber-500 bg-amber-500/10" },
@@ -16,20 +17,19 @@ const ACTION_MAP: Record<string, { label: string; icon: any; color: string }> = 
 };
 
 export function UserAuditTimeline({ targetUserId }: { targetUserId: string }) {
+  const listLogs = useServerFn(adminListAuditLogs);
   const { data: logs, isLoading } = useQuery({
     queryKey: ["admin", "user-logs", targetUserId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("admin_logs")
-        .select(`
-          *,
-          actor:profiles!admin_logs_actor_id_fkey(full_name)
-        `)
-        .eq("target_user_id", targetUserId)
-        .order("created_at", { ascending: false })
-        .limit(20);
-      if (error) throw error;
-      return (data || []) as any[];
+      const result = await listLogs({ data: { limit: 200 } });
+      const names = new Map(result.people.map((person) => [person.user_id, person.full_name]));
+      return result.logs
+        .filter((log) => log.target_user_id === targetUserId)
+        .slice(0, 20)
+        .map((log) => ({
+          ...log,
+          actor: { full_name: log.actor_id ? names.get(log.actor_id) ?? null : null },
+        }));
     },
   });
 

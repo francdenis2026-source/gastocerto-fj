@@ -6,10 +6,13 @@ import { toast } from "sonner";
 import {
   Baby,
   History,
+  ChevronLeft,
+  ChevronRight,
   KeyRound,
   Loader2,
   Pencil,
   Plus,
+  Search,
   ShieldCheck,
   Trash2,
   Users,
@@ -112,8 +115,18 @@ function FamilyHubPage() {
   const [accessKid, setAccessKid] = useState<Dependent | null>(null);
   const [accessCode, setAccessCode] = useState("");
   const [accessPin, setAccessPin] = useState("");
+  const [kidSearch, setKidSearch] = useState("");
+  const [kidPage, setKidPage] = useState(1);
 
   const kids = useMemo(() => dependents ?? [], [dependents]);
+  const filteredKids = useMemo(() => {
+    const term = kidSearch.trim().toLocaleLowerCase("pt-BR");
+    return term
+      ? kids.filter((kid) => `${kid.name} ${kid.nickname ?? ""} ${relationLabel(kid.relation)}`.toLocaleLowerCase("pt-BR").includes(term))
+      : kids;
+  }, [kids, kidSearch]);
+  const kidPages = Math.max(1, Math.ceil(filteredKids.length / 8));
+  const visibleKids = filteredKids.slice((Math.min(kidPage, kidPages) - 1) * 8, Math.min(kidPage, kidPages) * 8);
 
   const accessMutation = useMutation({
     mutationFn: async (input: { dependentId: string; code: string; pin: string }) =>
@@ -270,6 +283,15 @@ function FamilyHubPage() {
 
 
           <TabsContent value="cadastro" className="space-y-3">
+            {kids.length > 0 ? (
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="relative w-full sm:max-w-sm">
+                  <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input value={kidSearch} onChange={(event) => { setKidSearch(event.target.value); setKidPage(1); }} placeholder="Buscar por nome, apelido ou relação..." className="h-9 pl-9 text-xs" />
+                </div>
+                <span className="text-[11px] text-muted-foreground">{filteredKids.length} cadastro(s)</span>
+              </div>
+            ) : null}
             {isLoading ? (
               <div className="space-y-2">
                 <Skeleton className="h-24 w-full" />
@@ -288,7 +310,7 @@ function FamilyHubPage() {
               </div>
             ) : (
               <div className="grid gap-3 md:grid-cols-2">
-                {kids.map((kid) => {
+                {visibleKids.map((kid) => {
                   const age = dependentAge(kid);
                   const expiry = describeKidCodeExpiry(kid.kid_code_expires_at);
                   return (
@@ -350,6 +372,15 @@ function FamilyHubPage() {
                 })}
               </div>
             )}
+            {kidPages > 1 ? (
+              <div className="flex items-center justify-between border-t pt-3">
+                <span className="text-xs text-muted-foreground">Página {Math.min(kidPage, kidPages)} de {kidPages}</span>
+                <div className="flex gap-1.5">
+                  <Button variant="outline" size="sm" className="h-8" disabled={kidPage <= 1} onClick={() => setKidPage((page) => Math.max(1, page - 1))}><ChevronLeft className="mr-1 size-3.5" /> Anterior</Button>
+                  <Button variant="outline" size="sm" className="h-8" disabled={kidPage >= kidPages} onClick={() => setKidPage((page) => Math.min(kidPages, page + 1))}>Próxima <ChevronRight className="ml-1 size-3.5" /></Button>
+                </div>
+              </div>
+            ) : null}
           </TabsContent>
         </Tabs>
       </div>

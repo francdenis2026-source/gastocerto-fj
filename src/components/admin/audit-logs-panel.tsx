@@ -4,19 +4,20 @@ import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { adminPurgeLogs } from "@/lib/admin-ops.functions";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
+import { adminListAuditLogs } from "@/lib/audit-logs.functions";
 
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
   const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const purgeLogs = useServerFn(adminPurgeLogs);
+  const listLogs = useServerFn(adminListAuditLogs);
 
   const purgeMutation = useMutation({
     mutationFn: (beforeDate: string) => purgeLogs({ data: { beforeDate, actionType: "all" } }),
@@ -43,17 +44,13 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
   const { data: logs, isLoading } = useQuery({
     queryKey: ["admin", "logs"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("admin_logs")
-        .select(`
-          *,
-          actor:profiles!admin_logs_actor_id_fkey(full_name),
-          target:profiles!admin_logs_target_user_id_fkey(full_name)
-        `)
-        .order("created_at", { ascending: false })
-        .limit(200);
-      if (error) throw error;
-      return (data || []) as any[];
+      const result = await listLogs({ data: { limit: 200 } });
+      const names = new Map(result.people.map((person) => [person.user_id, person.full_name]));
+      return result.logs.map((log) => ({
+        ...log,
+        actor: { full_name: log.actor_id ? names.get(log.actor_id) ?? null : null },
+        target: { full_name: log.target_user_id ? names.get(log.target_user_id) ?? null : null },
+      }));
     },
   });
 
