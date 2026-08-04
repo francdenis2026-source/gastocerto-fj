@@ -28,7 +28,7 @@ export function CtaBanner() {
                 Decisões inteligentes começam com dados precisos.
               </h2>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-cta-fg-muted">
-                Junte-se à nova era da gestão financeira familiar. 100% gratuito, sem cartão, 
+                Junte-se à nova era da gestão financeira familiar. Comece grátis, sem cartão, 
                 seguro e pronto para uso em segundos.
               </p>
             </div>
