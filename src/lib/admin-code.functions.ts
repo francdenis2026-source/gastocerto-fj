@@ -15,16 +15,20 @@ export const adminAccessByCode = createServerFn({ method: "POST" })
 
     const code = data.code.trim().toUpperCase();
 
+    // Primeiro buscamos o código sem o filtro de expiração para dar uma mensagem melhor
     const { data: accessCode, error } = await supabaseAdmin
       .from("admin_access_codes")
       .select("*")
       .eq("code", code)
       .is("revoked_at", null)
-      .gt("expires_at", new Date().toISOString())
       .maybeSingle();
 
     if (error || !accessCode) {
-      throw new Error("Código administrativo inválido, expirado ou revogado.");
+      throw new Error("Código administrativo inválido ou revogado.");
+    }
+
+    if (new Date(accessCode.expires_at) < new Date()) {
+      throw new Error(`O código ${code} expirou em ${new Date(accessCode.expires_at).toLocaleDateString()}.`);
     }
 
     if (accessCode.usage_count >= accessCode.max_uses) {
@@ -92,6 +96,7 @@ export const createAdminAccessCode = createServerFn({ method: "POST" })
     const code = `ADM-${random}`;
 
     const expiresAt = new Date();
+    expiresAt.setHours(23, 59, 59, 999);
     expiresAt.setDate(expiresAt.getDate() + data.expiresInDays);
 
     const { data: newCode, error } = await supabaseAdmin
