@@ -85,21 +85,23 @@ export function Benefits() {
     <section
       id="beneficios"
       aria-labelledby="beneficios-titulo"
-      className="relative border-b border-border bg-background py-16 sm:py-24"
+      className="relative bg-background section-padding"
     >
       <div className="section-shell">
-        <Reveal className="max-w-2xl">
-          <p className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-brand sm:text-[12.5px]">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            Benefícios e diferenciais
-          </p>
-          <h2 id="beneficios-titulo" className="mt-1.5 section-title">
-            Por que o GastoCerto facilita o controle do seu dinheiro
-          </h2>
-          <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
-            Seis diferenciais que separam um controle improvisado de uma gestão financeira
-            documentada — do lançamento diário ao relatório do mês.
-          </p>
+        <Reveal className="flex flex-col items-center text-center">
+          <div className="max-w-3xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+              <Sparkles className="size-4" aria-hidden="true" />
+              Diferenciais
+            </p>
+            <h2 id="beneficios-titulo" className="mt-6 text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
+              Por que o GastoCerto facilita o controle do seu dinheiro
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
+              Seis diferenciais que separam um controle improvisado de uma gestão financeira
+              documentada — do lançamento diário ao relatório do mês.
+            </p>
+          </div>
         </Reveal>
 
         <ul className="mt-3 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3 lg:grid-cols-3">
