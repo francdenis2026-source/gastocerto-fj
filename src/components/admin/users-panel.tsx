@@ -210,53 +210,54 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
   return (
     <div className="space-y-3">
 
-      <div className="flex flex-wrap gap-3">
-        <div className="relative min-w-64 flex-1">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Buscar por nome, CPF ou e-mail"
-            className="pl-9"
+            className="pl-9 h-11 sm:h-10 rounded-xl"
           />
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-44">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todas as situações</SelectItem>
-            <SelectItem value="active">Ativos</SelectItem>
-            <SelectItem value="suspended">Suspensos</SelectItem>
-            <SelectItem value="canceled">Cancelados</SelectItem>
-          </SelectContent>
-        </Select>
-        <div className="flex gap-2">
-          {isAdmin ? <CreateUserDialog /> : null}
-          <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0} className="h-10">
-            <Download className="size-4 mr-2" />
-            CSV
-          </Button>
-          <Button variant="outline" size="sm" onClick={exportPdf} disabled={filtered.length === 0} className="h-10">
-            <FileText className="size-4 mr-2" />
-            PDF
-          </Button>
+        <div className="flex flex-wrap gap-2">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full sm:w-44 h-11 sm:h-10 rounded-xl">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="all">Todas as situações</SelectItem>
+              <SelectItem value="active">Ativos</SelectItem>
+              <SelectItem value="suspended">Suspensos</SelectItem>
+              <SelectItem value="canceled">Cancelados</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="flex w-full sm:w-auto gap-2">
+            {isAdmin ? <CreateUserDialog /> : null}
+            <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0} className="flex-1 sm:flex-none h-11 sm:h-10 rounded-xl">
+              <Download className="size-4 sm:mr-2" />
+              <span className="hidden sm:inline">CSV</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={exportPdf} disabled={filtered.length === 0} className="flex-1 sm:flex-none h-11 sm:h-10 rounded-xl">
+              <FileText className="size-4 sm:mr-2" />
+              <span className="hidden sm:inline">PDF</span>
+            </Button>
+          </div>
         </div>
-
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-border bg-card">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>CPF</TableHead>
-              <TableHead>Contato</TableHead>
-              <TableHead>Papéis</TableHead>
-              <TableHead>Situação</TableHead>
-              <TableHead>Kids</TableHead>
-              <TableHead>Cadastro</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
+            <TableRow className="bg-secondary/20">
+              <TableHead className="font-black uppercase tracking-wider text-[10px]">Nome</TableHead>
+              <TableHead className="hidden md:table-cell font-black uppercase tracking-wider text-[10px]">CPF</TableHead>
+              <TableHead className="font-black uppercase tracking-wider text-[10px]">Contato</TableHead>
+              <TableHead className="hidden lg:table-cell font-black uppercase tracking-wider text-[10px]">Papéis</TableHead>
+              <TableHead className="hidden sm:table-cell font-black uppercase tracking-wider text-[10px]">Situação</TableHead>
+              <TableHead className="hidden md:table-cell font-black uppercase tracking-wider text-[10px] text-center">Kids</TableHead>
+              <TableHead className="hidden lg:table-cell font-black uppercase tracking-wider text-[10px]">Cadastro</TableHead>
+              <TableHead className="text-right font-black uppercase tracking-wider text-[10px]">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -274,50 +275,55 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
               </TableRow>
             ) : (
               filtered.map((profile) => (
-                <TableRow key={profile.id}>
+                <TableRow key={profile.id} className="group/row">
                   <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-1.5">
-                        {profile.full_name ?? "—"}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="truncate">{profile.full_name ?? "—"}</span>
                         {((profile as any).plan_slug === "premium_ia" || (profile as any).plan_slug === "premium") && (
                           <Badge 
                             variant="outline" 
-                            className="h-5 px-1.5 text-[9px] font-black uppercase tracking-tighter bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                            className="h-4 px-1 text-[8px] sm:h-5 sm:px-1.5 sm:text-[9px] font-black uppercase tracking-tighter bg-emerald-500/10 text-emerald-600 border-emerald-500/20 shrink-0"
                           >
-                            <Sparkles className="mr-1 size-2.5" />
+                            <Sparkles className="mr-0.5 size-2 sm:mr-1 sm:size-2.5" />
                             PRO
                           </Badge>
                         )}
                       </div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Badge
-                              variant={(profile as any).kid_user_id ? "outline" : "default"}
-                              className={cn(
-                                "h-5 px-1.5 text-[10px] font-bold uppercase tracking-wider",
-                                (profile as any).kid_user_id 
-                                  ? "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400" 
-                                  : "bg-brand/10 text-brand border-brand/20 hover:bg-brand/20"
-                              )}
-                            >
-                              {(profile as any).kid_user_id ? "Filho" : "Pai/Mãe"}
-                            </Badge>
-                          </TooltipTrigger>
-                          <TooltipContent side="right" className="max-w-xs">
-                            {(profile as any).kid_user_id 
-                              ? "Conta dependente vinculada a um responsável principal." 
-                              : "Conta principal com autonomia total e gestão de dependentes."}
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      <div className="flex items-center gap-1.5">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Badge
+                                variant={(profile as any).kid_user_id ? "outline" : "default"}
+                                className={cn(
+                                  "h-4 px-1 text-[8px] sm:h-5 sm:px-1.5 sm:text-[9px] font-bold uppercase tracking-wider shrink-0",
+                                  (profile as any).kid_user_id 
+                                    ? "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400" 
+                                    : "bg-brand/10 text-brand border-brand/20 hover:bg-brand/20"
+                                )}
+                              >
+                                {(profile as any).kid_user_id ? "Filho" : "Pai/Mãe"}
+                              </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" className="max-w-xs">
+                              {(profile as any).kid_user_id 
+                                ? "Conta dependente vinculada a um responsável principal." 
+                                : "Conta principal com autonomia total e gestão de dependentes."}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        <Badge variant={profile.status === "active" ? "secondary" : "destructive"} className="h-4 px-1 text-[8px] sm:hidden">
+                          {STATUS_LABELS[profile.status] ?? profile.status}
+                        </Badge>
+                      </div>
                     </div>
                   </TableCell>
-                  <TableCell>{profile.cpf ? maskCpf(profile.cpf) : "—"}</TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="hidden md:table-cell">{profile.cpf ? maskCpf(profile.cpf) : "—"}</TableCell>
+                  <TableCell className="text-muted-foreground text-xs sm:text-sm max-w-[120px] truncate sm:max-w-none">
                     {profile.contact_email ?? "—"}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden lg:table-cell">
                     <div className="flex flex-wrap gap-1">
                       {(rolesByUser.data?.get(profile.user_id) ?? ["user"]).map((role) => (
                         <Badge
@@ -330,14 +336,14 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden sm:table-cell">
                     <Badge variant={profile.status === "active" ? "secondary" : "destructive"}>
                       {STATUS_LABELS[profile.status] ?? profile.status}
                     </Badge>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden md:table-cell text-center">
                     {(profile as any).kids_count > 0 ? (
-                      <Badge variant="outline" className="gap-1 border-brand/30 bg-brand/5 text-brand">
+                      <Badge variant="outline" className="gap-1 border-brand/30 bg-brand/5 text-brand mx-auto">
                         <Baby className="size-3" />
                         {(profile as any).kids_count}
                       </Badge>
@@ -346,38 +352,41 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
                     )}
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="hidden lg:table-cell text-muted-foreground">
                     {formatDateTime(profile.created_at)}
                   </TableCell>
-                  <TableCell className="text-right flex items-center justify-end gap-2">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="size-8" 
-                          title="Permissões"
-                          disabled={!isAdmin}
-                        >
-                          <Shield className="size-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Permissões: {profile.full_name || profile.contact_email}</DialogTitle>
-                        </DialogHeader>
-                        <PermissionsPanel targetUserId={profile.user_id} />
-                      </DialogContent>
-                    </Dialog>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      onClick={() => setSelected(profile)}
-                      disabled={!isAdmin && profile.user_id !== user?.id}
-                    >
-                      <UserCog className="mr-2 size-4" />
-                      Gerenciar
-                    </Button>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-1 sm:gap-2">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="size-8 opacity-70 hover:opacity-100" 
+                            title="Permissões"
+                            disabled={!isAdmin}
+                          >
+                            <Shield className="size-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-[95vw] sm:max-w-md rounded-3xl">
+                          <DialogHeader>
+                            <DialogTitle>Permissões: {profile.full_name || profile.contact_email}</DialogTitle>
+                          </DialogHeader>
+                          <PermissionsPanel targetUserId={profile.user_id} />
+                        </DialogContent>
+                      </Dialog>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="h-8 rounded-lg px-2 sm:px-3 text-xs sm:text-sm"
+                        onClick={() => setSelected(profile)}
+                        disabled={!isAdmin && profile.user_id !== user?.id}
+                      >
+                        <UserCog className="sm:mr-2 size-4" />
+                        <span className="hidden sm:inline">Gerenciar</span>
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))

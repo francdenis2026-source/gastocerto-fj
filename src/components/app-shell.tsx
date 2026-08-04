@@ -276,90 +276,95 @@ export function AppShell({ children }: { children: ReactNode }) {
               ) : (
                 <div aria-hidden className="mx-auto h-px w-6 bg-border/50 my-3" />
               )}
-              {section.groups.map((item) => {
-                const isActive = activeGroup?.key === item.key;
-                const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
-                const hasChildren = visibleChildren.length > 1;
-                const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
-                
-                return (
-                  <div key={item.to} className="group/nav-item">
-                    <div
-                      className={cn(
-                        "group relative flex items-center gap-1 rounded-xl transition-all duration-200",
-                        isActive ? "bg-brand/10 shadow-sm shadow-brand/5" : "hover:bg-secondary/70",
-                      )}
-                    >
-                      {isActive && (
-                        <span
-                          aria-hidden
-                          className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand shadow-[0_0_8px_rgba(var(--brand),0.5)]"
-                        />
-                      )}
-                      <Link
-                        to={item.to as never}
-                        aria-current={isActive ? "page" : undefined}
-                        title={item.hint ? `${item.label} — ${item.hint}` : item.label}
+              <div className={cn(
+                "grid gap-1",
+                railCollapsed ? "grid-cols-1" : "lg:grid-cols-1 md:grid-cols-2 grid-cols-1"
+              )}>
+                {section.groups.map((item) => {
+                  const isActive = activeGroup?.key === item.key;
+                  const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
+                  const hasChildren = visibleChildren.length > 1;
+                  const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
+                  
+                  return (
+                    <div key={item.to} className="group/nav-item">
+                      <div
                         className={cn(
-                          "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[14px] font-bold transition-transform active:scale-[0.98]",
-                          isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
-                          railCollapsed && "justify-center px-0",
+                          "group relative flex items-center gap-1 rounded-xl transition-all duration-200",
+                          isActive ? "bg-brand/10 shadow-sm shadow-brand/5" : "hover:bg-secondary/70",
                         )}
                       >
-                        <span
+                        {isActive && (
+                          <span
+                            aria-hidden
+                            className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand shadow-[0_0_8px_rgba(var(--brand),0.5)]"
+                          />
+                        )}
+                        <Link
+                          to={item.to as never}
+                          aria-current={isActive ? "page" : undefined}
+                          title={item.hint ? `${item.label} — ${item.hint}` : item.label}
                           className={cn(
-                            "grid size-8 shrink-0 place-items-center rounded-lg border transition-all duration-300 group-hover/nav-item:scale-110",
-                            isActive
-                              ? "border-brand/40 bg-brand/15 text-brand shadow-inner"
-                              : "border-border/50 bg-secondary/60 text-muted-foreground group-hover:border-brand/30 group-hover:text-brand",
+                            "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[14px] font-bold transition-transform active:scale-[0.98]",
+                            isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
+                            railCollapsed && "justify-center px-0",
                           )}
                         >
-                          <item.icon className={cn("size-4 transition-transform", isActive && "scale-110")} aria-hidden="true" />
-                        </span>
-                        {!railCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
-                      </Link>
-                      
-                      {hasChildren && !railCollapsed && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleSetExpanded(expanded === item.key ? null : item.key);
-                          }}
-                          aria-expanded={isOpen}
-                          aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                          className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-all hover:bg-secondary active:scale-90"
-                        >
-                          <ChevronDown
-                            className={cn("size-4 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
-                          />
-                        </button>
-                      )}
-                    </div>
-
-                    {hasChildren && isOpen && (
-                      <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border/80 pl-2.5 animate-in slide-in-from-left-2 duration-200">
-                        {visibleChildren.map((child) => (
-                          <Link
-                            key={child.to}
-                            to={child.to as never}
-                            aria-current={pathname === child.to ? "page" : undefined}
+                          <span
                             className={cn(
-                              "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold transition-all relative",
-                              pathname === child.to
-                                ? "bg-secondary/80 text-foreground"
-                                : "text-muted-foreground hover:bg-secondary/40 hover:text-foreground hover:translate-x-0.5",
+                              "grid size-8 shrink-0 place-items-center rounded-lg border transition-all duration-300 group-hover/nav-item:scale-110",
+                              isActive
+                                ? "border-brand/40 bg-brand/15 text-brand shadow-inner"
+                                : "border-border/50 bg-secondary/60 text-muted-foreground group-hover:border-brand/30 group-hover:text-brand",
                             )}
                           >
-                            <span className="truncate tracking-tight">{child.label}</span>
-                          </Link>
-                        ))}
+                            <item.icon className={cn("size-4 transition-transform", isActive && "scale-110")} aria-hidden="true" />
+                          </span>
+                          {!railCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
+                        </Link>
+                        
+                        {hasChildren && !railCollapsed && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleSetExpanded(expanded === item.key ? null : item.key);
+                            }}
+                            aria-expanded={isOpen}
+                            aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
+                            className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-all hover:bg-secondary active:scale-90"
+                          >
+                            <ChevronDown
+                              className={cn("size-4 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
+                            />
+                          </button>
+                        )}
                       </div>
-                    )}
-                  </div>
-                );
-              })}
+
+                      {hasChildren && isOpen && (
+                        <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border/80 pl-2.5 animate-in slide-in-from-left-2 duration-200">
+                          {visibleChildren.map((child) => (
+                            <Link
+                              key={child.to}
+                              to={child.to as never}
+                              aria-current={pathname === child.to ? "page" : undefined}
+                              className={cn(
+                                "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold transition-all relative",
+                                pathname === child.to
+                                  ? "bg-secondary/80 text-foreground"
+                                  : "text-muted-foreground hover:bg-secondary/40 hover:text-foreground hover:translate-x-0.5",
+                              )}
+                            >
+                              <span className="truncate tracking-tight">{child.label}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           ))}
         </nav>
@@ -677,45 +682,48 @@ function MobileTabBar({
 
 
             {/* Áreas com suas subseções: qualquer página em 2 toques. */}
-            <div className="space-y-2 p-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3">
               {items.map((item) => {
                 const isActive = activeGroup === item.to;
                 return (
                   <section
                     key={item.to}
                     className={cn(
-                      "overflow-hidden rounded-2xl border bg-card",
-                      isActive ? "border-brand/40" : "border-border",
+                      "overflow-hidden rounded-2xl border bg-card transition-all active:scale-[0.98]",
+                      isActive ? "border-brand/40 shadow-sm bg-brand/5" : "border-border",
                     )}
                   >
                     <Link
                       to={item.to as never}
                       onClick={() => onOpenChange(false)}
                       className={cn(
-                        "flex min-h-11 items-center gap-2 px-3 text-[13px] font-bold transition-colors",
-                        isActive ? "bg-brand/10 text-foreground" : "text-foreground",
+                        "flex min-h-12 items-center gap-3 px-3 text-[13px] font-black transition-colors",
+                        isActive ? "text-brand" : "text-foreground",
                       )}
                     >
-                      <span
-                        className={cn(
-                          "grid size-7 shrink-0 place-items-center rounded-lg border",
-                          isActive
-                            ? "border-brand/40 bg-brand/15 text-brand"
-                            : "border-border bg-secondary text-brand",
+                      <div className={cn(
+                        "grid size-9 place-items-center rounded-xl border transition-colors",
+                        isActive ? "bg-brand/10 border-brand/20" : "bg-secondary/50 border-border/50"
+                      )}>
+                        <item.icon className="size-5" />
+                      </div>
+                      <div className="flex flex-1 flex-col min-w-0">
+                        <span className="truncate leading-none">{item.label}</span>
+                        {item.hint && (
+                          <span className="truncate text-[10px] font-medium text-muted-foreground mt-1">
+                            {item.hint}
+                          </span>
                         )}
-                      >
-                        <item.icon className="size-4" aria-hidden="true" />
-                      </span>
-                      <span className="truncate">{item.label}</span>
+                      </div>
                     </Link>
                     {item.children && item.children.length > 1 ? (
-                      <div className="flex flex-wrap gap-1.5 border-t border-border px-3 py-2">
+                      <div className="flex flex-wrap gap-1.5 border-t border-border px-3 py-2 bg-secondary/20">
                         {item.children.map((child) => (
                           <Link
                             key={child.to}
                             to={child.to as never}
                             onClick={() => onOpenChange(false)}
-                            className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-colors active:bg-brand/15 active:text-foreground"
+                            className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-colors active:bg-brand/15 active:text-foreground"
                           >
                             {child.label}
                           </Link>

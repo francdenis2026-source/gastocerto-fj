@@ -128,11 +128,83 @@ type ConfirmState = {
   input?: ConfirmInput;
 };
 
+function ConfirmDialogView({
+  state,
+  onClose,
+}: {
+  state: ConfirmState;
+  onClose: () => void;
+}) {
+  const [value, setValue] = React.useState(state.input?.defaultValue ?? "");
+
+  const Icon =
+    state.type === "warning" ? AlertCircle : state.type === "success" ? CheckCircle2 : HelpCircle;
+
+  const iconColor =
+    state.type === "warning"
+      ? "text-destructive bg-destructive/10"
+      : state.type === "success"
+        ? "text-emerald-500 bg-emerald-500/10"
+        : "text-primary bg-primary/10";
+
+  const blocked = Boolean(
+    state.input && (state.input.expected ? value.trim() !== state.input.expected : !value.trim()),
+  );
+
+  return (
+    <AlertDialog open={state.open} onOpenChange={(open) => !open && onClose()}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <div className={cn("mb-2 flex h-14 w-14 items-center justify-center rounded-2xl", iconColor)}>
+            <Icon className="size-8" />
+          </div>
+          <AlertDialogTitle>{state.title}</AlertDialogTitle>
+          <AlertDialogDescription>{state.description}</AlertDialogDescription>
+        </AlertDialogHeader>
+
+        {state.input ? (
+          <div className="space-y-1 text-left">
+            <label className="text-xs font-semibold text-muted-foreground">
+              {state.input.label}
+            </label>
+            <input
+              autoFocus
+              type={state.input.type ?? "text"}
+              autoComplete="off"
+              value={value}
+              placeholder={state.input.placeholder}
+              onChange={(event) => setValue(event.target.value)}
+              className="h-9 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+          </div>
+        ) : null}
+
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={onClose}>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={blocked}
+            className={cn(state.type === "warning" && "bg-destructive hover:bg-destructive/90")}
+            onClick={(event) => {
+              if (blocked) {
+                event.preventDefault();
+                return;
+              }
+              state.onConfirm(value);
+              onClose();
+            }}
+          >
+            {state.confirmLabel}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
 export function useConfirm() {
   const [state, setState] = React.useState<ConfirmState | null>(null);
-  const [value, setValue] = React.useState("");
 
-  const confirm = (options: {
+  const confirm = React.useCallback((options: {
     title: string;
     description: string;
     onConfirm: (value: string) => void;
@@ -140,7 +212,6 @@ export function useConfirm() {
     confirmLabel?: string;
     input?: ConfirmInput;
   }) => {
-    setValue(options.input?.defaultValue ?? "");
     setState({
       open: true,
       title: options.title,
@@ -150,77 +221,14 @@ export function useConfirm() {
       type: options.type || "question",
       input: options.input,
     });
-  };
+  }, []);
 
-  const close = () => setState(null);
+  const close = React.useCallback(() => setState(null), []);
 
-  const ConfirmDialog = () => {
-    if (!state) return null;
-
-    const Icon =
-      state.type === "warning" ? AlertCircle : state.type === "success" ? CheckCircle2 : HelpCircle;
-
-    const iconColor =
-      state.type === "warning"
-        ? "text-destructive bg-destructive/10"
-        : state.type === "success"
-          ? "text-emerald-500 bg-emerald-500/10"
-          : "text-primary bg-primary/10";
-
-    const blocked = Boolean(
-      state.input && (state.input.expected ? value.trim() !== state.input.expected : !value.trim()),
-    );
-
-    return (
-      <AlertDialog open={state.open} onOpenChange={(open) => !open && close()}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <div className={cn("mb-2 flex h-14 w-14 items-center justify-center rounded-2xl", iconColor)}>
-              <Icon className="size-8" />
-            </div>
-            <AlertDialogTitle>{state.title}</AlertDialogTitle>
-            <AlertDialogDescription>{state.description}</AlertDialogDescription>
-          </AlertDialogHeader>
-
-          {state.input ? (
-            <div className="space-y-1 text-left">
-              <label className="text-xs font-semibold text-muted-foreground">
-                {state.input.label}
-              </label>
-              <input
-                autoFocus
-                type={state.input.type ?? "text"}
-                autoComplete="off"
-                value={value}
-                placeholder={state.input.placeholder}
-                onChange={(event) => setValue(event.target.value)}
-                className="h-9 w-full rounded-lg border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              />
-            </div>
-          ) : null}
-
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={close}>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              disabled={blocked}
-              className={cn(state.type === "warning" && "bg-destructive hover:bg-destructive/90")}
-              onClick={(event) => {
-                if (blocked) {
-                  event.preventDefault();
-                  return;
-                }
-                const submitted = value;
-                state.onConfirm(submitted);
-                close();
-              }}
-            >
-              {state.confirmLabel}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    );
-  };
+  const ConfirmDialog = React.useCallback(
+    () => (state ? <ConfirmDialogView state={state} onClose={close} /> : null),
+    [state, close],
+  );
 
   return { confirm, ConfirmDialog };
 }
