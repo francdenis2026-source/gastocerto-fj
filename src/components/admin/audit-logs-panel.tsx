@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -16,13 +16,16 @@ import { adminListAuditLogs } from "@/lib/audit-logs.functions";
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+
   const { confirm, ConfirmDialog } = useConfirm();
   const queryClient = useQueryClient();
   const purgeLogs = useServerFn(adminPurgeLogs);
   const listLogs = useServerFn(adminListAuditLogs);
 
   const purgeMutation = useMutation({
-    mutationFn: (beforeDate: string) => purgeLogs({ data: { beforeDate, actionType: "all" } }),
+    mutationFn: (beforeDate: string | null) => purgeLogs({ data: { beforeDate, actionType: "all" } }),
     onSuccess: (res) => {
       toast.success(`Limpeza concluída: ${res.count} logs removidos.`);
       queryClient.invalidateQueries({ queryKey: ["admin", "logs"] });
@@ -30,31 +33,45 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
     onError: () => toast.error("Falha ao limpar logs.")
   });
 
-  const handlePurge = () => {
+  const handlePurge = (all: boolean = false) => {
     confirm({
-      title: "Limpar logs antigos?",
-      description: "Isso removerá permanentemente todos os logs de auditoria com mais de 30 dias.",
+      title: all ? "Excluir TODOS os logs?" : "Limpar logs antigos?",
+      description: all 
+        ? "Esta ação excluirá permanentemente todos os registros de auditoria sem possibilidade de restauração."
+        : "Isso removerá permanentemente todos os logs de auditoria com mais de 30 dias.",
       type: "warning",
       onConfirm: () => {
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        purgeMutation.mutate(thirtyDaysAgo.toISOString());
+        if (all) {
+          purgeMutation.mutate(null);
+        } else {
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          purgeMutation.mutate(thirtyDaysAgo.toISOString());
+        }
       }
     });
   };
   
-  const { data: logs, isLoading } = useQuery({
-    queryKey: ["admin", "logs"],
+  const { data: result, isLoading } = useQuery({
+    queryKey: ["admin", "logs", page],
     queryFn: async () => {
-      const result = await listLogs({ data: { limit: 200 } });
-      const names = new Map(result.people.map((person) => [person.user_id, person.full_name]));
-      return result.logs.map((log) => ({
-        ...log,
-        actor: { full_name: log.actor_id ? names.get(log.actor_id) ?? null : null },
-        target: { full_name: log.target_user_id ? names.get(log.target_user_id) ?? null : null },
-      }));
+      const res = await listLogs({ data: { page, pageSize } });
+      const names = new Map(res.people.map((person) => [person.user_id, person.full_name]));
+      return {
+        logs: res.logs.map((log) => ({
+          ...log,
+          actor: { full_name: log.actor_id ? names.get(log.actor_id) ?? null : null },
+          target: { full_name: log.target_user_id ? names.get(log.target_user_id) ?? null : null },
+        })),
+        totalPages: res.totalPages,
+        count: res.count
+      };
     },
   });
+
+  const logs = result?.logs ?? [];
+  const totalPages = result?.totalPages ?? 1;
+  const totalCount = result?.count ?? 0;
 
   const filtered = useMemo(() => {
     const term = (globalSearch || search).toLowerCase();
@@ -135,10 +152,20 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
               variant="outline" 
               size="sm" 
               className="h-8 gap-1.5 text-[10px] text-destructive hover:bg-destructive/5 hover:text-destructive border-destructive/20"
-              onClick={handlePurge}
+              onClick={() => handlePurge(true)}
               disabled={purgeMutation.isPending}
+              title="Excluir tudo"
             >
               {purgeMutation.isPending ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}
+              <span className="hidden sm:inline">Excluir Tudo</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8 gap-1.5 text-[10px] text-muted-foreground hover:bg-muted/50 border-border/40"
+              onClick={() => handlePurge(false)}
+              disabled={purgeMutation.isPending}
+            >
               <span className="hidden sm:inline">Limpar 30d</span>
             </Button>
           </div>
@@ -197,6 +224,52 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
                 </div>
               );
             })
+          )}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between gap-4 p-4 border-t border-border/30 bg-muted/5 mt-auto">
+              <span className="text-[10px] text-muted-foreground">
+                Total: <strong>{totalCount}</strong> logs · Página {page} de {totalPages}
+              </span>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-7 border-border/40"
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                >
+                  <ChevronLeft className="size-3.5" />
+                </Button>
+                <div className="flex items-center gap-1 px-1">
+                  {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                    const pageNum = totalPages <= 5 
+                      ? i + 1 
+                      : Math.min(Math.max(page - 2, 1), totalPages - 4) + i;
+                    
+                    return (
+                      <Button
+                        key={pageNum}
+                        variant={page === pageNum ? "default" : "ghost"}
+                        size="icon"
+                        className={cn("size-7 text-[10px]", page === pageNum ? "bg-brand" : "")}
+                        onClick={() => setPage(pageNum)}
+                      >
+                        {pageNum}
+                      </Button>
+                    );
+                  })}
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-7 border-border/40"
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                >
+                  <ChevronRight className="size-3.5" />
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       )}

@@ -7,7 +7,7 @@ export const adminPurgeLogs = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) =>
     z
       .object({
-        beforeDate: z.string().datetime(),
+        beforeDate: z.string().datetime().nullable().optional(),
         actionType: z.string().optional(),
       })
       .parse(d),
@@ -19,8 +19,11 @@ export const adminPurgeLogs = createServerFn({ method: "POST" })
 
     let query = supabaseAdmin
       .from("admin_logs")
-      .delete()
-      .lt("created_at", data.beforeDate);
+      .delete();
+
+    if (data.beforeDate) {
+      query = query.lt("created_at", data.beforeDate);
+    }
 
     if (data.actionType && data.actionType !== "all") {
       query = query.eq("action", data.actionType);
