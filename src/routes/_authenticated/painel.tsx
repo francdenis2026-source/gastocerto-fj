@@ -1323,7 +1323,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
                             </div>
                             <div className="flex justify-between gap-4 border-t pt-1 mt-1">
                               <span className="text-[10px] text-muted-foreground font-bold">Saldo:</span>
-                              <span className={cn("text-[10px] font-black", m.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                              <span className={cn("text-[10px] font-black", m.balance >= 0 ? "text-primary" : "text-rose-600")}>
                                 {formatCurrency(m.balance)}
                               </span>
                             </div>
