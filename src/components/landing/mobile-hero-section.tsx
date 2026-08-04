@@ -15,7 +15,7 @@ export function MobileHeroSection() {
         
         {/* Parallax Background Layer */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 mix-blend-overlay pointer-events-none transition-opacity duration-1000"
           style={{ 
             backgroundImage: `url(${heroAsset})`,
           }}
@@ -27,7 +27,7 @@ export function MobileHeroSection() {
         <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/5 blur-[100px]" />
 
         {/* Content Layer */}
-        <div className="relative z-10 flex flex-col p-6 items-center text-center overflow-y-auto custom-scrollbar">
+        <div className="relative z-10 flex flex-col p-8 items-center text-center overflow-y-auto custom-scrollbar">
           <div className="absolute inset-0 -z-10 bg-black/10 backdrop-blur-[2px]" />
           
           {/* Top Badge */}
@@ -52,19 +52,19 @@ export function MobileHeroSection() {
           
           {/* Visual Highlight Cards */}
           <div className="mt-6 grid w-full grid-cols-2 gap-3 animate-reveal" style={{ animationDelay: '400ms' }}>
-            <div className="group flex flex-col items-center rounded-xl border border-white/5 bg-white/5 p-3 backdrop-blur-md transition-all active:scale-95">
-              <div className="mb-2 flex size-8 items-center justify-center rounded-lg bg-white/5 text-brand">
-                <Target className="size-4" />
+            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all active:scale-95 shadow-lg">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/10 text-brand ring-1 ring-brand/20">
+                <Target className="size-5" />
               </div>
-              <p className="text-lg font-bold text-white">Metas</p>
-              <p className="text-[8px] font-bold uppercase tracking-wider text-white/30">Progresso Real</p>
+              <p className="text-xl font-black text-white">Metas</p>
+              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/40">Progresso Real</p>
             </div>
-            <div className="group flex flex-col items-center rounded-xl border border-white/5 bg-white/5 p-3 backdrop-blur-md transition-all active:scale-95">
-              <div className="mb-2 flex size-8 items-center justify-center rounded-lg bg-white/5 text-emerald-500">
-                <CreditCard className="size-4" />
+            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all active:scale-95 shadow-lg">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20">
+                <CreditCard className="size-5" />
               </div>
-              <p className="text-lg font-bold text-white">Cartões</p>
-              <p className="text-[8px] font-bold uppercase tracking-wider text-white/30">Visão Unificada</p>
+              <p className="text-xl font-black text-white">Cartões</p>
+              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/40">Visão Unificada</p>
             </div>
           </div>
 
