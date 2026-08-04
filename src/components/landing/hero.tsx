@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import heroBg from "@/assets/hero-bg-2027-v2.jpg";
-import heroMobileBg from "@/assets/hero-bg-2027-mobile-v2.jpg";
+import heroMobileBg from "@/assets/hero-bg-real-mobile.jpg";
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
