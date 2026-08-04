@@ -522,7 +522,7 @@ function DashboardPage() {
         
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center justify-between gap-3 sm:justify-start">
-          <PeriodPicker value={period} onChange={handlePeriodChange} />
+          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
           
           <div className="flex items-center gap-1.5 lg:hidden">
             <CommandPalette variant="icon" onQuickEntry={setDialogKind} />
@@ -541,6 +541,8 @@ function DashboardPage() {
 
         <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar sm:pb-0">
           <QuickCategoryMenu
+            kind="expense"
+            label="Lançar"
             onPick={(p) => {
               setPreset(p);
               setDialogKind("expense");

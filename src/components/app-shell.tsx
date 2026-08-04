@@ -4,20 +4,25 @@ import { monthRange } from "@/lib/finance";
 import { usePeriodStore } from "@/lib/period-store";
 import { useTransactions } from "@/lib/transactions";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
-import {
-  ChevronDown,
-  PanelLeftClose,
-  PanelLeftOpen,
-  LogOut,
-  Plus,
-  Menu,
-  RefreshCcw,
-  X,
-  TrendingUp,
-  TrendingDown,
-  Settings,
-  AlertCircle,
+import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+import { 
+  Sparkles, 
+  ShieldCheck, 
+  ChevronDown, 
+  PanelLeftClose, 
+  PanelLeftOpen, 
+  LogOut, 
+  Plus, 
+  Menu, 
+  RefreshCcw, 
+  X, 
+  TrendingUp, 
+  TrendingDown, 
+  Settings, 
+  AlertCircle 
 } from "lucide-react";
+import { usePlanAccess } from "@/lib/plan-features";
 import { toast } from "sonner";
 
 import { useState, type ReactNode, useEffect, useMemo } from "react";
@@ -68,10 +73,10 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   const metrics = useMemo(() => {
     const rows = transactions ?? [];
-    const expenses = rows.filter((r) => r.transaction_type === "expense");
-    const incomes = rows.filter((r) => r.transaction_type === "income");
-    const totalExpense = expenses.reduce((sum, r) => sum + Number(r.amount), 0);
-    const totalIncome = incomes.reduce((sum, r) => sum + Number(r.amount), 0);
+    const expenses = rows.filter((r: any) => r.transaction_type === "expense");
+    const incomes = rows.filter((r: any) => r.transaction_type === "income");
+    const totalExpense = expenses.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
+    const totalIncome = incomes.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
     return { totalExpense, balance: totalIncome - totalExpense };
   }, [transactions]);
 
