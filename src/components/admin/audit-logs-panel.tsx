@@ -285,8 +285,6 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
           )}
         </div>
       )}
-      </div>
-      )}
 
       <Dialog open={!!selectedLog} onOpenChange={(open) => !open && setSelectedLog(null)}>
         <DialogContent className="max-w-2xl bg-card border-border">
