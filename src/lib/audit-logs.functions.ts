@@ -28,7 +28,8 @@ export const adminListAuditLogs = createServerFn({ method: "POST" })
     let query = supabaseAdmin
       .from("admin_logs")
       .select("id, created_at, actor_id, target_user_id, action, details", { count: "exact" })
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .order("actor_id", { ascending: true });
 
     if (data.from) query = query.gte("created_at", `${data.from}T00:00:00.000Z`);
     if (data.to) query = query.lte("created_at", `${data.to}T23:59:59.999Z`);
