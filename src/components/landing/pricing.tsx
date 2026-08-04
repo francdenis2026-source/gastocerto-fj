@@ -152,14 +152,17 @@ export function Pricing() {
               <div
                 key={plan.slug}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted",
-                  plan.highlighted && "border-brand/50 ring-1 ring-brand/30",
+                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted overflow-hidden",
+                  plan.highlighted && "border-brand/50 ring-2 ring-brand/10 bg-gradient-to-b from-brand/[0.03] to-card/80",
                 )}
               >
                 {plan.highlighted && (
-                  <Badge className="absolute -top-2.5 right-5 gap-1 bg-brand text-brand-foreground">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--color-brand)_0%,transparent_25%)] opacity-[0.08]" />
+                )}
+                {plan.highlighted && (
+                  <Badge className="absolute -top-2.5 right-5 gap-1 bg-brand text-brand-foreground shadow-lg shadow-brand/20 border-brand/50 px-2.5 py-0.5 animate-in fade-in zoom-in duration-500">
                     <Sparkles className="size-3" aria-hidden="true" />
-                    Populares
+                    Mais Escolhido
                   </Badge>
                 )}
                 <div className="flex items-baseline justify-between gap-3">
@@ -208,17 +211,20 @@ export function Pricing() {
                   <button
                     type="button"
                     className={cn(
-                      "group flex w-full flex-col rounded-xl border border-border bg-card/80 p-3 text-left transition-all active:scale-[0.98]",
-                      plan.highlighted && "border-brand/40 bg-brand/5 shadow-sm"
+                      "group relative flex w-full flex-col rounded-xl border border-border bg-card/80 p-3 text-left transition-all active:scale-[0.98] overflow-hidden",
+                      plan.highlighted && "border-brand/50 bg-brand/[0.03] ring-1 ring-brand/10 shadow-sm shadow-brand/5"
                     )}
                   >
+                    {plan.highlighted && (
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--color-brand)_0%,transparent_30%)] opacity-[0.06]" />
+                    )}
                     <div className="flex w-full items-center justify-between gap-2">
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm font-bold">{plan.name}</span>
                           {plan.highlighted && (
-                            <span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-brand">
-                              IA
+                            <span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-brand border border-brand/20">
+                              RECOMENDADO
                             </span>
                           )}
                         </div>
