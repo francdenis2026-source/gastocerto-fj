@@ -123,14 +123,13 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 const SECTIONS: AdminSection[] = [
-  { id: "overview", label: "Início", hint: "Indicadores principais", icon: LayoutDashboard },
-  { id: "users", label: "Contas", hint: "Usuários e permissões", icon: Users },
-  { id: "temporary", label: "Trials", hint: "Acessos temporários", icon: KeyRound, adminOnly: true },
-  { id: "business", label: "Negócio", hint: "MRR e faturamento", icon: TrendingUp, adminOnly: true },
-  { id: "licenses", label: "Licenças", hint: "Emissão de chaves", icon: ShieldCheck, adminOnly: true },
-  { id: "operations", label: "Operações", hint: "Suporte e catálogo", icon: LifeBuoy, adminOnly: true },
-  { id: "security", label: "Segurança", hint: "Acesso e infra", icon: Lock, adminOnly: true },
-  { id: "audit", label: "Auditoria", hint: "Logs e histórico", icon: FileClock },
+  { id: "overview", label: "Dashboard", hint: "Métricas globais de negócio", icon: LayoutDashboard },
+  { id: "users", label: "Contas & Usuários", hint: "Gestão e permissões", icon: Users },
+  { id: "financial", label: "Administrador Financeiro", hint: "Planos e receitas", icon: Wallet, adminOnly: true },
+  { id: "temporary", label: "Acessos Temporários", hint: "Trials e chaves", icon: KeyRound, adminOnly: true },
+  { id: "operations", label: "Operações & Suporte", hint: "Notificações e catálogo", icon: LifeBuoy, adminOnly: true },
+  { id: "security", label: "Segurança & Infra", icon: Lock, hint: "Acessos e integrações", adminOnly: true },
+  { id: "audit", label: "Auditoria & Logs", hint: "Histórico de ações", icon: FileClock },
 ];
 
 function AdminPage() {
@@ -207,6 +206,17 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
       >
         {current === "overview" ? <AdminOverviewPanel isAdmin={isAdmin} onNavigate={setActive} /> : null}
         {current === "users" ? <UsersPanel isAdmin={isAdmin} globalSearch={search} /> : null}
+        
+        {current === "financial" ? (
+          <div className="space-y-4">
+            <BusinessDashboard />
+            <PlanConfigsPanel />
+            <SalesPanel globalSearch={search} />
+            <PaymentsAuditPanel globalSearch={search} />
+            <LicensesPanel globalSearch={search} />
+          </div>
+        ) : null}
+
         {current === "temporary" ? (
           <div className="space-y-4">
             <TemporaryAccountsPanel globalSearch={search} />
@@ -215,15 +225,7 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
             <ClientCodesPanel globalSearch={search} />
           </div>
         ) : null}
-        {current === "business" ? (
-          <div className="space-y-4">
-            <BusinessDashboard />
-            <SalesPanel globalSearch={search} />
-            <PaymentsAuditPanel globalSearch={search} />
-            <PlanConfigsPanel />
-          </div>
-        ) : null}
-        {current === "licenses" ? <LicensesPanel globalSearch={search} /> : null}
+
         {current === "operations" ? (
           <div className="space-y-4">
             <SupportTicketsPanel />
@@ -234,15 +236,21 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
             <ReopenRequestsPanel />
           </div>
         ) : null}
+
         {current === "security" ? (
           <div className="space-y-4">
             <MasterCodePanel />
+            <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Gerenciamento Global de Permissões</h3>
+              <p className="text-xs text-muted-foreground mb-4 italic">Selecione um usuário no painel de Contas para gerenciar permissões individuais ou use o menu de Auditoria para limpezas globais.</p>
+            </div>
             <AdminAccessPanel />
             <BlockedIpsPanel />
             <IntegrationsPanel />
             <AiSettingsPanel />
           </div>
         ) : null}
+
         {current === "audit" ? (
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">

@@ -1,13 +1,44 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search, ScrollText, User, Calendar, Info } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { adminPurgeLogs } from "@/lib/admin-ops.functions";
+import { toast } from "sonner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
   const [search, setSearch] = useState("");
+  const { confirm, ConfirmDialog } = useConfirm();
+  const queryClient = useQueryClient();
+  const purgeLogs = useServerFn(adminPurgeLogs);
+
+  const purgeMutation = useMutation({
+    mutationFn: (beforeDate: string) => purgeLogs({ data: { beforeDate, actionType: "all" } }),
+    onSuccess: (res) => {
+      toast.success(`Limpeza concluída: ${res.count} logs removidos.`);
+      queryClient.invalidateQueries({ queryKey: ["admin", "logs"] });
+    },
+    onError: () => toast.error("Falha ao limpar logs.")
+  });
+
+  const handlePurge = () => {
+    confirm({
+      title: "Limpar logs antigos?",
+      description: "Isso removerá permanentemente todos os logs de auditoria com mais de 30 dias.",
+      type: "warning",
+      onConfirm: () => {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        purgeMutation.mutate(thirtyDaysAgo.toISOString());
+      }
+    });
+  };
   
   const { data: logs, isLoading } = useQuery({
     queryKey: ["admin", "logs"],
@@ -63,15 +94,28 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
             <p className="text-xs text-muted-foreground">Registro de ações administrativas</p>
           </div>
         </div>
-        <div className="relative w-64">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input 
-            placeholder="Filtrar logs..." 
-            value={search} 
-            onChange={e => setSearch(e.target.value)}
-            className="h-9 pl-9" 
-          />
+        <div className="flex items-center gap-2">
+          <div className="relative w-48 sm:w-64">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input 
+              placeholder="Filtrar logs..." 
+              value={search} 
+              onChange={e => setSearch(e.target.value)}
+              className="h-9 pl-9" 
+            />
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="h-9 gap-2 text-destructive hover:text-destructive"
+            onClick={handlePurge}
+            disabled={purgeMutation.isPending}
+          >
+            {purgeMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+            <span className="hidden sm:inline">Limpar 30d</span>
+          </Button>
         </div>
+        <ConfirmDialog />
       </header>
 
       <div className="divide-y divide-border/50">
