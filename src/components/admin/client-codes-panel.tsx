@@ -163,8 +163,8 @@ export function ClientCodesPanel({ globalSearch = "" }: { globalSearch?: string 
                           disabled={deleteMutation.isPending}
                           onClick={() => {
                             confirm({
-                              title: "Excluir código do cliente",
-                              description: "O código será removido definitivamente e deixará de liberar acesso.",
+                              title: "Excluir código",
+                              description: "Tem certeza que deseja remover este código definitivamente? Esta ação não pode ser desfeita.",
                               type: "warning",
                               confirmLabel: "Excluir",
                               onConfirm: () => deleteMutation.mutate(license.id),
