@@ -818,7 +818,7 @@ function DashboardPage() {
                       tone="neutral"
                       label="Projeção de Fim de Mês"
                       value={formatCurrency(metrics.projection)}
-                      className="!p-3 border-none bg-emerald-500/5 dark:bg-emerald-500/10 shadow-none ring-1 ring-emerald-500/20"
+                      className="!p-3 border-none bg-primary/5 dark:bg-primary/10 shadow-none ring-1 ring-primary/20"
                     />
                   </div>
                 </div>
