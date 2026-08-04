@@ -240,6 +240,3 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
   );
 }
 
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(" ");
-}
