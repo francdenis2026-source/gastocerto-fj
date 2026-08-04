@@ -42,8 +42,8 @@ export function MobileHeroSection() {
           </div>
           
           {/* Headline */}
-          <h2 className="animate-reveal font-display text-xl font-bold leading-tight tracking-tight text-white" style={{ animationDelay: '200ms' }}>
-            Organização <span className="text-brand">inteligente</span> para o seu <span className="text-brand">dia a dia</span>
+          <h2 className="animate-reveal font-display text-2xl font-black leading-[1.1] tracking-[-0.04em] text-white" style={{ animationDelay: '200ms' }}>
+            Controle <span className="text-brand">total</span>,<br />tranquilidade <span className="text-brand">sempre</span>
           </h2>
           
           <p className="mt-2 animate-reveal px-4 text-[11px] font-medium leading-relaxed text-white/50" style={{ animationDelay: '300ms' }}>
