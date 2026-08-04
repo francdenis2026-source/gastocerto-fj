@@ -79,35 +79,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* ## Otimização da Homepage Mobile
- 
- **Objetivo:** Tornar a homepage mais profissional e compacta, removendo elementos desnecessários na versão mobile.
- 
- **Funcionalidades Solicitadas:**
- 
- 1.  **Aplicação de Efeito "Blur" (Desfoque):**
-     *   Aplicar um efeito de desfoque sutil em elementos específicos da homepage para criar um contraste mais profissional com as informações principais.
-     *   Definir quais elementos receberão o desfoque e a intensidade do mesmo.
- 
- 2.  **Revisão e Remoção de Conteúdo na Versão Mobile:**
-     *   Analisar todos os elementos presentes na homepage da versão mobile.
-     *   Identificar e remover conteúdos que não são essenciais para a experiência do usuário na versão mobile, visando a compactação e um visual mais profissional.
-     *   Priorizar a clareza e a facilidade de navegação.
- 
- **Requisitos Técnicos:**
- 
- *   Implementação do efeito blur utilizando CSS (ex: filter: blur()) ou JavaScript, dependendo da necessidade e performance.
- *   A remoção de elementos deve ser feita de forma condicional para a versão mobile (ex: usando media queries em CSS ou lógica em JavaScript).
- *   Garantir que a remoção de conteúdo não afete a funcionalidade principal do site.
- 
- **Passos Necessários:**
- 
- 1.  **Análise Visual:** Avaliar a homepage atual em dispositivos móveis para identificar gargalos de espaço e elementos redundantes.
- 2.  **Definição de Elementos para Desfoque:** Determinar quais seções ou elementos visuais se beneficiariam do efeito blur para realçar o conteúdo principal.
- 3.  **Implementação do Desfoque:** Aplicar o efeito blur conforme definido, ajustando a intensidade para um resultado esteticamente agradável e profissional.
- 4.  **Seleção de Conteúdo para Remoção:** Criar uma lista de elementos a serem removidos na versão mobile.
- 5.  **Implementação da Remoção Condicional:** Remover os elementos selecionados utilizando técnicas apropriadas para a versão mobile.
- 6.  **Testes:** Testar a homepage otimizada em diversos dispositivos móveis para garantir a responsividade, performance e usabilidade. */}
+        {/* nao mudou nada na homepage da versao mobile */}
       </div>
 
       <PageBackground />
