@@ -105,6 +105,44 @@ export const permanentDeleteFromTrash = createServerFn({ method: "POST" })
       })
       .eq("id", data.logId);
 
-    if (error) throw error;
     return { success: true };
+  });
+
+export const purgeExpiredTrash = createServerFn({ method: "POST" })
+  .handler(async () => {
+    const now = new Date().toISOString();
+    
+    // Busca itens expirados que ainda estão em quarentena
+    const { data: expiredLogs, error: fetchError } = await supabaseAdmin
+      .from("admin_logs")
+      .select("id, details")
+      .order("created_at", { ascending: true });
+
+    if (fetchError) throw fetchError;
+
+    const toPurge = (expiredLogs || []).filter(log => {
+      const d = log.details as any;
+      return d && d.quarantine === true && d.status === "in_quarantine" && d.expires_at && d.expires_at < now;
+    });
+
+    if (toPurge.length === 0) return { purged: 0 };
+
+    let purgedCount = 0;
+    for (const item of toPurge) {
+      const { error: purgeError } = await supabaseAdmin
+        .from("admin_logs")
+        .update({
+          details: {
+            ...(item.details as any),
+            status: "purged_auto",
+            purged_at: now,
+            quarantine: false
+          }
+        })
+        .eq("id", item.id);
+      
+      if (!purgeError) purgedCount++;
+    }
+
+    return { purged: purgedCount };
   });

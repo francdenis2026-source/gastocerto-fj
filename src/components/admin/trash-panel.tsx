@@ -88,7 +88,12 @@ export function TrashPanel() {
   const handleRestore = (id: string) => {
     confirm({
       title: "Restaurar Item",
-      description: "Deseja reverter a exclusão deste item? Ele sairá da quarentena e voltará a ser visível nos logs de auditoria como restaurado.",
+      description: "Esta ação requer confirmação reforçada. Digite RESTAURAR para reverter a exclusão deste item. Ele sairá da quarentena e voltará a ser visível.",
+      input: {
+        label: "Digite a palavra de segurança",
+        expected: "RESTAURAR",
+        placeholder: "RESTAURAR"
+      },
       onConfirm: () => restoreMutation.mutate(id),
     });
   };
@@ -96,9 +101,14 @@ export function TrashPanel() {
   const handlePermanentDelete = (id: string) => {
     confirm({
       title: "Exclusão Permanente",
-      description: "Esta ação NÃO pode ser desfeita. O item será removido definitivamente do banco de dados.",
+      description: "ESTA AÇÃO É IRREVERSÍVEL. O item será removido definitivamente. Digite EXCLUIR para confirmar.",
+      type: "warning",
+      input: {
+        label: "Confirmação Crítica",
+        expected: "EXCLUIR",
+        placeholder: "EXCLUIR"
+      },
       onConfirm: () => deleteMutation.mutate(id),
-      type: "warning"
     });
   };
 
