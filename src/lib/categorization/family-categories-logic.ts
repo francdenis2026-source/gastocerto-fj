@@ -3,7 +3,7 @@ export function categorizeLogic(description: string, beneficiaryType?: string) {
   const desc = description.toLowerCase();
   
   const childKeywords = [
-    "mesada", "presente", "roupa", "tenis", "escola", "faculdade", 
+    "mesada", "roupa", "tenis", "escola", "faculdade", 
     "curso", "brinquedo", "game", "jogo", "cinema", "lanche", 
     "transferencia", "pix", "filho", "filha", "neto", "neta"
   ];
