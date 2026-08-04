@@ -32,7 +32,7 @@ export function LandingFooter() {
           <div className="lg:col-span-2">
             <Logo className="mb-6" />
             <p className="text-muted-foreground font-medium leading-relaxed max-w-xs mb-8">
-              Organizando sua vida financeira através da inteligência e design de alto nível.
+              Dominando a jornada financeira através da inteligência e design de alto nível.
             </p>
             <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
               <span className="flex items-center gap-1.5">

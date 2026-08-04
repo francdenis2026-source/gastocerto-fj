@@ -88,13 +88,13 @@ export function Benefits() {
           </Reveal>
           <Reveal delay={200}>
             <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-8">
-              Tudo o que você precisa para <span className="text-primary italic">organizar</span> suas finanças.
+              Tudo o que você precisa para <span className="text-primary italic">dominar</span> suas finanças.
             </h2>
           </Reveal>
           <Reveal delay={300}>
             <p className="text-lg lg:text-xl text-muted-foreground font-medium leading-relaxed">
               Desenvolvemos as ferramentas mais poderosas do mercado para que você tenha controle 
-              total e absoluto sobre seu dinheiro, de forma simples e elegante.
+              total e absoluto sobre seu patrimônio, de forma simples e elegante.
             </p>
           </Reveal>
         </div>
