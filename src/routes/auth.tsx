@@ -603,7 +603,13 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
+    <form 
+      onSubmit={handleSubmit} 
+      className="space-y-3" 
+      noValidate 
+      aria-busy={loading} 
+      autoComplete="off"
+    >
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
@@ -616,12 +622,17 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
         <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
           Esqueci minha senha
         </button>
-        <button type="button" onClick={onAdmin} className="text-xs text-muted-foreground">
+        <button 
+          type="button" 
+          onClick={onAdmin} 
+          className="group inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground/80 hover:text-primary transition-colors"
+        >
+          <ShieldAlert className="size-3.5" />
           Acesso administrativo
         </button>
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
         Entrar
       </Button>
     </form>
