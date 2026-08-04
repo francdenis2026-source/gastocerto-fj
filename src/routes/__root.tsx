@@ -212,6 +212,28 @@ function RootComponent() {
     void setupServiceWorker();
   }, []);
 
+  // Previne a navegação indesejada pelo botão "voltar" do navegador em áreas críticas
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Verifica se estamos em uma rota autenticada (geralmente onde há dados não salvos)
+      const isAuthPath = window.location.pathname.startsWith('/_authenticated') || 
+                        window.location.pathname.includes('/painel') ||
+                        window.location.pathname.includes('/admin');
+      
+      if (isAuthPath) {
+        e.preventDefault();
+        e.returnValue = "Você tem certeza que deseja sair? Alterações não salvas podem ser perdidas.";
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
       // INITIAL_SESSION e TOKEN_REFRESHED não alteram identidade. Invalidá-los
