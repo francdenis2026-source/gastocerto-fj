@@ -29,7 +29,7 @@ export function Hero() {
           {/* Main Headline */}
           <Reveal delay={200}>
             <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95] text-foreground mb-8">
-              Domine sua <span className="text-primary italic">jornada</span>,<br />
+              A nova geração em <span className="text-primary italic">controle financeiro</span>
               não apenas seus <span className="relative inline-block text-primary">
                 gastos
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
