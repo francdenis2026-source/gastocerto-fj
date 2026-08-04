@@ -586,6 +586,7 @@ function MobileTabBar({
   onSignOut,
   adminArea = false,
   onQuickEntry,
+  pathname,
 }: {
   items: NavGroup[];
   activeGroup?: string;
@@ -594,6 +595,7 @@ function MobileTabBar({
   onSignOut: () => void;
   adminArea?: boolean;
   onQuickEntry: (kind: Kind) => void;
+  pathname: string;
 }) {
   const navigate = useNavigate();
   const primary = adminArea
