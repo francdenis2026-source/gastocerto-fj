@@ -30,8 +30,8 @@ export function Hero() {
           <Reveal delay={200}>
             <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95] text-foreground mb-8">
               A nova geração em <span className="text-primary italic">controle financeiro</span>
-              não apenas seus <span className="relative inline-block text-primary">
-                gastos
+              pessoal e <span className="relative inline-block text-primary">
+                profissional
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
                   <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/30" />
                 </svg>
@@ -115,7 +115,7 @@ export function Hero() {
         <Reveal delay={600} className="mt-32">
           <div className="flex flex-col items-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground mb-12">
-              Ecossistema Completo de Gestão
+              Gestão inteligente para sua vida
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
                <div className="flex items-center gap-3">
