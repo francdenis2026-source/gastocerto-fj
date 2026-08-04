@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, ListChecks, Sparkles } from "lucide-react";
+import { useState, type ReactNode, useEffect, useRef } from "react";
+import { ArrowLeft, ArrowRight, BookOpen, ListChecks, Sparkles, Loader2, AlertCircle } from "lucide-react";
 
 import { getFeatureDetail } from "@/lib/feature-details";
 import { Button } from "@/components/ui/button";
