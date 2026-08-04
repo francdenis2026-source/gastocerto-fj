@@ -21,14 +21,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    // Padrão do produto: modo escuro. Só saímos dele quando o próprio usuário
+    // escolheu o tema claro (preferência salva). A preferência do sistema
+    // operacional é intencionalmente ignorada.
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    if (stored) {
+    if (stored === "light" || stored === "dark") {
       setThemeState(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setThemeState("light");
+    } else {
+      setThemeState("dark");
     }
     setIsHydrated(true);
   }, []);
+
 
   useEffect(() => {
     if (!isHydrated) return;
