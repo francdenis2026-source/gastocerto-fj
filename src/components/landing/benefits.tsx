@@ -73,7 +73,7 @@ const mainFeatures = [
 
 export function Benefits() {
   return (
-    <section id="recursos" className="py-24 lg:py-32 relative overflow-hidden bg-background">
+    <section id="recursos" className="py-16 lg:py-24 relative overflow-hidden bg-background">
       {/* Decorative Blur */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -z-10" />
       
