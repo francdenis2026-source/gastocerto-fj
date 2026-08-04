@@ -325,20 +325,21 @@ body::-webkit-scrollbar {
 @utility section-title {
   font-family: var(--font-display, inherit);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
-  font-size: 1.75rem; /* ~28px mobile */
+  font-size: 2rem;
   color: var(--foreground);
   text-wrap: balance;
 
   @media (min-width: 640px) {
-    font-size: 2.25rem; /* ~36px */
+    font-size: 2.25rem;
   }
 
   @media (min-width: 1024px) {
-    font-size: 2.5rem; /* ~40px */
+    font-size: 2.5rem;
   }
 }
+
 
 /* Micro-interações profissionais: link de navegação com sublinhado animado. */
 @utility nav-underline {

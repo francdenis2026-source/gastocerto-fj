@@ -282,7 +282,7 @@ function AuthPage() {
             </div>
 
             <div className="max-w-sm">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-emerald-300">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-emerald-400">
                 {mode === "login" ? (
                   <>
                     <LayoutDashboard className="size-3" /> Acesso ao Painel
@@ -301,7 +301,7 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-2 text-[15px] font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:mt-3 sm:text-xl xl:text-2xl">
+              <h2 className="font-display mt-2 text-[15px] font-bold leading-tight tracking-tight text-white sm:mt-3 sm:text-xl xl:text-2xl">
                 {mode === "login"
                   ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
@@ -323,7 +323,7 @@ function AuthPage() {
           </div>
 
           <div className="hidden p-5 pt-0 sm:block">
-            <p className="relative z-10 text-[9px] font-medium uppercase tracking-[0.25em] text-white/60">
+            <p className="relative z-10 text-[9px] font-medium uppercase tracking-widest text-white/30">
               &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
             </p>
           </div>
