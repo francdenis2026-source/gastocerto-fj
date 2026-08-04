@@ -879,9 +879,10 @@ function DashboardPage() {
                          </div>
                        </InteractiveCard>
 
-                       <InteractiveCard
-                         id="client-upcoming-bills"
-                         title="Próximos Vencimentos"
+                        <InteractiveCard
+                          id="client-upcoming-bills"
+                          className="glass-morphism"
+                          title="Próximos Vencimentos"
                          description="Contas pendentes e recorrentes"
                          icon={<CalendarClock className="size-4" />}
                          items={metrics.upcoming}
@@ -1040,6 +1041,7 @@ function DashboardPage() {
                     <div className="grid gap-6 md:grid-cols-2">
                       <InteractiveCard
                         id="client-analytics-categories"
+                        className="glass-morphism"
                         title="Categorias"
                         description="Distribuição percentual de gastos"
                         icon={<PieChartIcon className="size-4" />}
