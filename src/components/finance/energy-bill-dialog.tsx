@@ -71,7 +71,7 @@ export function EnergyBillDialog({
         due_date: dueDate || null,
         notes: notes.trim() || null,
       });
-      toast.success(bill ? "Fatura atualizada." : "Fatura lançada.");
+      toast.success(bill ? "Fatura atualizada." : "Fatura adicionada.");
       onOpenChange(false);
     } catch (error) {
       toast.error("Erro ao salvar fatura.");

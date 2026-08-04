@@ -225,7 +225,7 @@ export function FuelDialog({
         })
         .catch((error) => console.error("[auditoria] falha ao registrar", error));
 
-      toast.success(entry ? "Abastecimento atualizado." : "Abastecimento registrado.");
+      toast.success(entry ? "Abastecimento atualizado." : "Abastecimento adicionado.");
       onOpenChange(false);
     } catch (error) {
       console.error("[abastecimentos] falha ao salvar", error);

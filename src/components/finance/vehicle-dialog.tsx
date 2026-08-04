@@ -89,7 +89,7 @@ export function VehicleDialog({
           initial_odometer: initialOdometer,
         },
       });
-      toast.success(vehicle ? "Veículo atualizado." : "Veículo cadastrado.");
+      toast.success(vehicle ? "Veículo atualizado." : "Veículo adicionado.");
       onOpenChange(false);
     } catch (error) {
       console.error("[veiculos] falha ao salvar", error);

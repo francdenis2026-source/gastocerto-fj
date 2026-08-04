@@ -112,7 +112,7 @@ export function GasRefillDialog({
           transaction_id: transactionId,
         },
       });
-      toast.success(refill ? "Troca atualizada!" : "Troca de gás registrada!");
+      toast.success(refill ? "Troca atualizada!" : "Troca de gás adicionada!");
       onOpenChange(false);
     } catch (error) {
       console.error("[gas] falha ao salvar", error);
