@@ -1,37 +1,46 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-const categorizeSchema = z.object({
+const categorizationInput = z.object({
   description: z.string(),
-  beneficiaryName: z.string().optional(),
-  beneficiaryType: z.enum(["adult_child", "family_member", "other"]).optional(),
-  amount: z.number().optional(),
+  beneficiaryType: z.enum(["adult_child", "family_member"]).optional()
 });
 
 export const autoCategorizeFamilyExpense = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d) => categorizeSchema.parse(d))
+  .inputValidator((data: unknown) => categorizationInput.parse(data))
   .handler(async ({ data }) => {
-    // Lógica inteligente de categorização
-    const { beneficiaryType, description } = data;
+    const desc = data.description.toLowerCase();
     
-    if (beneficiaryType === "adult_child") {
-      return { categoryName: "Gastos com Filhos", subCategoryName: "Filho Maior" };
+    // Palavras-chave para "Gastos com Filhos"
+    const childKeywords = [
+      "mesada", "presente", "roupa", "tenis", "escola", "faculdade", 
+      "curso", "brinquedo", "game", "jogo", "cinema", "lanche", 
+      "transferencia", "pix", "filho", "filha", "neto", "neta"
+    ];
+
+    // Palavras-chave para "Outros Familiares"
+    const familyKeywords = [
+      "pai", "mãe", "mae", "tio", "tia", "sobrinho", "sobrinha", 
+      "avô", "avó", "avo", "esposo", "esposa", "marido", "mulher", 
+      "enteado", "enteada", "cunhado", "cunhada", "familiar", "parente"
+    ];
+
+    // Se o usuário explicitamente marcou o tipo de beneficiário
+    if (data.beneficiaryType === "adult_child") {
+      return { categoryName: "Filhos", subCategoryName: "Gastos com Filhos" };
     }
     
-    if (beneficiaryType === "family_member") {
-      return { categoryName: "Outros Familiares", subCategoryName: "Geral" };
+    if (data.beneficiaryType === "family_member") {
+      return { categoryName: "Outros Familiares" };
     }
-    
-    // Heurísticas baseadas em palavras-chave se o beneficiário não foi explícito
-    const desc = description.toLowerCase();
-    if (desc.includes("filho") || desc.includes("mesada") || desc.includes("faculdade")) {
-      return { categoryName: "Gastos com Filhos", subCategoryName: "Educação/Manutenção" };
+
+    // Detecção automática por palavras-chave
+    if (childKeywords.some(k => desc.includes(k))) {
+      return { categoryName: "Filhos", subCategoryName: "Gastos com Filhos" };
     }
-    
-    if (desc.includes("mãe") || desc.includes("pai") || desc.includes("sobrinho") || desc.includes("avó")) {
-      return { categoryName: "Outros Familiares", subCategoryName: "Ajuda Familiar" };
+
+    if (familyKeywords.some(k => desc.includes(k))) {
+      return { categoryName: "Outros Familiares" };
     }
 
     return null;

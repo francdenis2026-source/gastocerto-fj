@@ -405,6 +405,8 @@ export function TransactionDialog({
     setErrors({});
     setSuggestion(null);
     setItems([]);
+    setBeneficiaryType("none");
+    setBeneficiaryName("");
 
 
   }
@@ -448,8 +450,18 @@ export function TransactionDialog({
     const isPast = selectedDate < todayStart;
     const isFuture = selectedDate > now;
     const isDifferentDay = selectedDate.getDate() !== now.getDate() || 
-                          selectedDate.getMonth() !== now.getMonth() ||
-                          selectedDate.getFullYear() !== now.getFullYear();
+                           selectedDate.getMonth() !== now.getMonth() ||
+                           selectedDate.getFullYear() !== now.getFullYear();
+
+    // Se houver beneficiário familiar, anexamos às notas se não houver um campo específico no DB ainda
+    let finalNotes = notes;
+    if (beneficiaryType !== "none" && beneficiaryName) {
+      const prefix = beneficiaryType === "adult_child" ? "[Filho Maior]" : "[Outro Familiar]";
+      if (!finalNotes.includes(prefix)) {
+        finalNotes = `${prefix} ${beneficiaryName}${finalNotes ? ` - ${finalNotes}` : ""}`;
+      }
+    }
+
     
     if (!editing && isDifferentDay) {
       const msg = `Você selecionou a data ${formatDate(date)}, que é diferente de hoje.${isPast ? " Isso afetará o saldo de meses anteriores." : isFuture ? " Isso ficará pendente no saldo futuro." : ""}`;
