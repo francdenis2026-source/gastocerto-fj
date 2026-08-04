@@ -23,7 +23,7 @@ export function MobileHeroSection() {
         
         {/* Decorative Gradients */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90" />
-        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-brand/5 blur-[100px]" />
+        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-primary/5 blur-[100px]" />
         <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/5 blur-[100px]" />
 
         {/* Content Layer */}
