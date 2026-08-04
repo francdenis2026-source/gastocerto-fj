@@ -1,4 +1,4 @@
-import { Lock, Mail } from "lucide-react";
+import { Lock } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 import { Logo } from "@/components/logo";
@@ -16,9 +16,7 @@ const legalLinks = [
   { label: "Privacidade", to: "/privacidade" as const },
 ];
 
-const socials = [
-  { label: "E-mail", icon: Mail, href: "mailto:contato@gastocerto.app" },
-];
+const socials: { label: string; icon: any; href: string }[] = [];
 
 // Tap target ≥44px via invisible overlay
 const tapTarget =
