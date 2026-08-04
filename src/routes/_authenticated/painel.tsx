@@ -780,7 +780,7 @@ function DashboardPage() {
                   <div className="p-3 rounded-xl bg-secondary/20 border border-border/30">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Resumo do Mês</p>
                     <div className="flex items-end justify-between">
-                      <p className={cn("text-lg font-black", metrics.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                      <p className={cn("text-lg font-black", metrics.balance >= 0 ? "text-primary" : "text-rose-600")}>
                         {formatCurrency(metrics.balance)}
                       </p>
                       <span className="text-[10px] text-muted-foreground font-medium">Líquido</span>
