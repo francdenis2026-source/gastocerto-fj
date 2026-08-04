@@ -60,12 +60,17 @@ export function useRoles() {
   return useQuery({
     queryKey: ["roles", user?.id],
     enabled: Boolean(user?.id),
+    staleTime: 10 * 60_000, // Roles mudam raramente, 10min de cache é seguro
+    gcTime: 30 * 60_000,   // Mantém no cache por 30min mesmo sem uso
     queryFn: async (): Promise<AppRole[]> => {
       const { data, error } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", user!.id);
-      if (error) throw error;
+      if (error) {
+        console.error("[queries] Erro ao buscar roles:", error);
+        throw error;
+      }
       return (data ?? []).map((row) => row.role as AppRole);
     },
   });

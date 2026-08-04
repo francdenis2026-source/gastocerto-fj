@@ -133,31 +133,33 @@ const SECTIONS: AdminSection[] = [
 ];
 
 function AdminPage() {
-  const { data: roles, isLoading, error } = useRoles();
+  const { data: roles, isLoading, isError, error } = useRoles();
   const isAdmin = (roles ?? []).includes("admin");
   const isStaff = isAdmin || (roles ?? []).includes("support");
   const navigate = useNavigate();
 
-  // Caso ocorra erro 401/403 ou o usuário não seja staff, redireciona
   useEffect(() => {
-    // Se ainda está carregando, não tomamos decisão para evitar loops falsos
+    // Só redireciona se tivermos certeza que NÃO é staff
+    // Se isLoading ou se ocorreu um erro de rede temporário, aguardamos
     if (isLoading) return;
 
-    if (error) {
-      console.error("[admin] falha ao carregar permissões:", error);
-      // Se for um erro de rede/rate limit, não redirecionamos imediatamente para evitar loops
-      if (error instanceof Error && error.message.includes("429")) return;
-      
-      navigate({ to: "/painel", replace: true });
+    if (isError) {
+      const err = error as any;
+      console.error("[admin] falha ao verificar permissões:", err);
+      // Se for erro de autenticação/token, volta pro login
+      if (err?.status === 401) {
+        navigate({ to: "/auth", replace: true });
+        return;
+      }
+      // Outros erros (rede, rate limit): não redireciona para não quebrar a sessão do admin
       return;
     }
     
     if (!isStaff) {
-      console.warn("[admin] acesso negado: usuário não possui papel administrativo");
-      // Importante: use replace para não empilhar a rota proibida no histórico
+      console.warn("[admin] acesso negado: usuário comum tentando acessar área staff");
       navigate({ to: "/painel", replace: true });
     }
-  }, [isLoading, isStaff, error, navigate]);
+  }, [isLoading, isStaff, isError, error, navigate]);
 
   if (isLoading) {
     return (

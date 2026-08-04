@@ -26,7 +26,7 @@ export const adminPurgeLogs = createServerFn({ method: "POST" })
       query = query.eq("action", data.actionType);
     }
 
-    const { error, count } = await query.select("*", { count: "exact" });
+    const { error, count } = await query;
     if (error) throw new Error("Falha ao limpar logs de auditoria");
 
     await auditLog(context, "purge_logs", { 
