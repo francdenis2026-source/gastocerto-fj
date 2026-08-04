@@ -854,12 +854,12 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ShieldAlert className="mr-2 size-4" />}
         Entrar como Admin
       </Button>
 
-      <Button type="button" onClick={onBack} variant="ghost" className="w-full text-xs">
+      <Button type="button" onClick={onBack} variant="ghost" className="h-9 w-full text-xs">
         Voltar para login comum
       </Button>
     </form>
