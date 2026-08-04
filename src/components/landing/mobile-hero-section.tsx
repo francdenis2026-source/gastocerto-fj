@@ -11,11 +11,11 @@ export function MobileHeroSection() {
 
   return (
     <section className="relative overflow-hidden px-4 py-8 md:hidden">
-      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-border/50 bg-card shadow-lifted transition-all duration-700">
+      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-border/50 bg-card shadow-lifted transition-all duration-700 max-h-[85vh]">
         
         {/* Parallax Background Layer */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay pointer-events-none"
           style={{ 
             backgroundImage: `url(${heroAsset})`,
             backgroundAttachment: 'fixed'
@@ -28,7 +28,7 @@ export function MobileHeroSection() {
         <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/10 blur-[80px]" />
 
         {/* Content Layer */}
-        <div className="relative z-10 flex flex-col p-6 items-center text-center">
+        <div className="relative z-10 flex flex-col p-6 items-center text-center overflow-y-auto custom-scrollbar">
           
           {/* Top Badge */}
           <div className="mb-4 flex animate-reveal items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-brand backdrop-blur-md">
