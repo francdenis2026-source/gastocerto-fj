@@ -37,20 +37,17 @@ export function LandingFooter() {
     <footer className="mt-auto border-t border-border bg-secondary/10 dark:bg-black/20 print:hidden">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
-      <div className="section-shell py-6 sm:py-8 lg:py-10">
-        <div className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:items-start lg:gap-16">
-          {/* Brand & Description */}
-          <div className="flex flex-col items-center gap-3 text-center lg:items-start lg:text-left">
-            <Logo className="scale-[0.85] origin-center lg:origin-left" />
-            <p className="max-w-[28ch] text-[12px] leading-relaxed text-muted-foreground">
-              Gestão inteligente de finanças com tecnologia de ponta e IA.
-            </p>
-            <div className="flex gap-2">
+      <div className="section-shell py-4 sm:py-6">
+        <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-start lg:gap-16">
+          {/* Brand & Socials - Ultra Compact */}
+          <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
+            <Logo className="scale-75 origin-center lg:origin-left" />
+            <div className="flex gap-3">
               {socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
-                  className="flex size-7 items-center justify-center rounded-lg bg-secondary/40 text-muted-foreground transition-all hover:bg-brand hover:text-white"
+                  className="text-muted-foreground transition-colors hover:text-brand"
                   aria-label={social.label}
                 >
                   <social.icon className="size-3.5" />
@@ -59,56 +56,36 @@ export function LandingFooter() {
             </div>
           </div>
 
-          {/* Navigation Links - Compact Grid */}
-          <nav className="grid grid-cols-2 gap-x-10 gap-y-6 sm:grid-cols-3 lg:gap-x-16">
-            <div className="space-y-3">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/40">Produto</h4>
-              <ul className="space-y-1.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    {"to" in link ? (
-                      <Link to={link.to} className="text-[12px] text-muted-foreground transition-colors hover:text-brand">
-                        {link.label}
-                      </Link>
-                    ) : (
-                      <a href={link.href} className="text-[12px] text-muted-foreground transition-colors hover:text-brand">
-                        {link.label}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/40">Legal</h4>
-              <ul className="space-y-1.5">
-                {legalLinks.map((link) => (
-                  <li key={link.label}>
-                    <Link to={link.to} className="text-[12px] text-muted-foreground transition-colors hover:text-brand">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/40">Suporte</h4>
-              <ul className="space-y-1.5">
-                <li>
-                  <button
-                    onClick={() => setContactOpen(true)}
-                    className="text-[12px] text-muted-foreground transition-colors hover:text-brand"
-                  >
-                    Contato
-                  </button>
-                </li>
-                <li>
-                  <Link to="/auth" className="text-[12px] text-muted-foreground transition-colors hover:text-brand">Privado</Link>
-                </li>
-              </ul>
-            </div>
+          {/* Navigation Links - Single Row/Grid Mobile */}
+          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-medium sm:gap-x-10">
+            {links.map((link) => (
+              <li key={link.label} className="list-none">
+                {"to" in link ? (
+                  <Link to={link.to} className="text-muted-foreground transition-colors hover:text-brand">
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a href={link.href} className="text-muted-foreground transition-colors hover:text-brand">
+                    {link.label}
+                  </a>
+                )}
+              </li>
+            ))}
+            {legalLinks.map((link) => (
+              <li key={link.label} className="list-none">
+                <Link to={link.to} className="text-muted-foreground transition-colors hover:text-brand">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li className="list-none">
+              <button
+                onClick={() => setContactOpen(true)}
+                className="text-muted-foreground transition-colors hover:text-brand"
+              >
+                Contato
+              </button>
+            </li>
           </nav>
         </div>
       </div>
