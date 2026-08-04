@@ -17,6 +17,8 @@ import {
 
 import { AppShell } from "@/components/app-shell";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
+import { KidsWalletPanel } from "@/components/kids/kids-wallet-panel";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
