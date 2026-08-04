@@ -90,7 +90,7 @@ export function MobileTabBar() {
         menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
       )} onClick={() => setMenuOpen(false)}>
         <div className={cn(
-          "fixed inset-y-0 right-0 w-[300px] bg-card border-l border-border shadow-2xl transition-transform duration-300 lg:hidden flex flex-col",
+          "fixed inset-y-0 right-0 w-[300px] glass-morphism border-l border-border/10 shadow-2xl transition-transform duration-300 lg:hidden flex flex-col",
           menuOpen ? "translate-x-0" : "translate-x-full"
         )} onClick={e => e.stopPropagation()}>
           <div className="flex h-14 items-center justify-between border-b border-border px-4">
@@ -170,7 +170,7 @@ export function MobileTabBar() {
       </div>
 
       {/* Tab Bar Fixo Inferior */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/20 bg-background/80 p-1 pb-safe backdrop-blur-2xl lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/10 bg-background/50 p-1 pb-safe backdrop-blur-2xl lg:hidden">
         <div className="mx-auto flex max-w-md items-center justify-around">
           {mainActions.map((item) => {
             const isActive = pathname === item.to;
