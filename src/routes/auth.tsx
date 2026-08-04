@@ -1116,10 +1116,11 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
           required
         />
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : "Ver Relatório"}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
+        Ver Relatório
       </Button>
-      <Button type="button" variant="ghost" className="w-full" onClick={onBack}>
+      <Button type="button" variant="ghost" className="h-9 w-full text-xs" onClick={onBack}>
         Voltar
       </Button>
     </form>
