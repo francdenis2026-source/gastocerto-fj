@@ -29,9 +29,9 @@ export function Hero() {
           {/* Main Headline */}
           <Reveal delay={200}>
             <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95] text-foreground mb-8">
-              Domine sua <span className="text-primary italic">jornada</span>,<br />
-              não apenas seus <span className="relative inline-block text-primary">
-                gastos
+              A nova geração em <span className="text-primary italic">controle financeiro</span>
+              pessoal e <span className="relative inline-block text-primary">
+                profissional
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
                   <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/30" />
                 </svg>
@@ -43,7 +43,7 @@ export function Hero() {
           {/* Subheadline */}
           <Reveal delay={300}>
             <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-              A plataforma definitiva para quem busca maestria financeira. Inteligência Artificial, 
+              A plataforma definitiva para quem busca organização financeira. Inteligência Artificial, 
               dashboard premium e ferramentas avançadas para levar seu controle ao próximo nível.
             </p>
           </Reveal>
@@ -56,7 +56,7 @@ export function Hero() {
               className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-primary text-primary-foreground text-base font-bold px-10 py-5 rounded-2xl overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-2xl shadow-primary/20"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              Começar agora — É Grátis
+              Comece Grátis
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
             </Link>
             
@@ -115,7 +115,7 @@ export function Hero() {
         <Reveal delay={600} className="mt-32">
           <div className="flex flex-col items-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground mb-12">
-              Ecossistema Completo de Gestão
+              Gestão inteligente para sua vida
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
                <div className="flex items-center gap-3">

@@ -10,12 +10,12 @@ import { LandingHeader } from "@/components/landing/landing-header";
 import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
 
-const title = "GameCarto — O Futuro da Gestão Financeira com IA";
+const title = "GastoCerto — O Futuro da Gestão Financeira com IA";
 const description =
   "A plataforma definitiva para maestria financeira. Inteligência Artificial, dashboard premium e ferramentas avançadas para controle total de gastos e investimentos.";
 
-const siteUrl = "https://gamecarto.lovable.app";
-const ogImage = `${siteUrl}/og-gamecarto.jpg`;
+const siteUrl = "https://gastocerto-fj.lovable.app";
+const ogImage = `${siteUrl}/og-gastocerto-v2.jpg`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,13 +29,13 @@ export const Route = createFileRoute("/")({
       { property: "og:image", content: ogImage },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "GameCarto Dashboard Preview" },
+      { property: "og:image:alt", content: "GastoCerto Dashboard Preview" },
       { property: "og:locale", content: "pt_BR" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: ogImage },
-      { name: "twitter:image:alt", content: "GameCarto Dashboard Preview" },
+      { name: "twitter:image:alt", content: "GastoCerto Dashboard Preview" },
     ],
     links: [
       { rel: "canonical", href: `${siteUrl}/` },

@@ -32,7 +32,7 @@ export function LandingFooter() {
           <div className="lg:col-span-2">
             <Logo className="mb-6" />
             <p className="text-muted-foreground font-medium leading-relaxed max-w-xs mb-8">
-              Dominando a jornada financeira através da inteligência e design de alto nível.
+              Organizando sua vida financeira através da inteligência e design de alto nível.
             </p>
             <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
               <span className="flex items-center gap-1.5">
@@ -108,7 +108,7 @@ export function LandingFooter() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">
-            © 2026 GameCarto · Mastery of Finances
+            © 2026 GastoCerto · Mastery of Finances
           </p>
           
           <div className="flex items-center gap-6">

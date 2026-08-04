@@ -19,7 +19,7 @@ import { setupServiceWorker } from "@/lib/pwa";
 import { OfflineBanner } from "@/components/offline-banner";
 
 
-export const SITE_URL = "https://gamecarto.lovable.app";
+export const SITE_URL = "https://gastocerto-fj.lovable.app";
 
 function NotFoundComponent() {
   return (
@@ -86,15 +86,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GameCarto — O Futuro da Gestão Financeira com IA" },
+      { title: "GastoCerto — O Futuro da Gestão Financeira com IA" },
       { name: "description", content: "A plataforma definitiva para maestria financeira. Inteligência Artificial, dashboard premium e ferramentas avançadas." },
-      { name: "author", content: "GameCarto" },
+      { name: "author", content: "GastoCerto" },
       { name: "theme-color", content: "#09090b" },
-      { name: "application-name", content: "GameCarto" },
-      { name: "apple-mobile-web-app-title", content: "GameCarto" },
-      { property: "og:site_name", content: "GameCarto" },
-      { property: "og:title", content: "GameCarto — O Futuro da Gestão Financeira com IA" },
-      { property: "og:description", content: "Domine suas finanças com o GameCarto. Inteligência Artificial e design premium." },
+      { name: "application-name", content: "GastoCerto" },
+      { name: "apple-mobile-web-app-title", content: "GastoCerto" },
+      { property: "og:site_name", content: "GastoCerto" },
+      { property: "og:title", content: "GastoCerto — O Futuro da Gestão Financeira com IA" },
+      { property: "og:description", content: "Domine suas finanças com o GastoCerto. Inteligência Artificial e design premium." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "mobile-web-app-capable", content: "yes" },
@@ -135,7 +135,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             {
               "@type": "Organization",
               "@id": `${SITE_URL}/#organization`,
-              name: "GameCarto",
+              name: "GastoCerto",
               url: SITE_URL,
 
               logo: {
@@ -160,7 +160,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "WebSite",
               "@id": `${SITE_URL}/#website`,
               url: SITE_URL,
-              name: "GameCarto",
+              name: "GastoCerto",
               inLanguage: "pt-BR",
               description: "A plataforma definitiva para maestria financeira com Inteligência Artificial e design premium.",
 
@@ -187,7 +187,7 @@ function RootShell({ children }: { children: ReactNode }) {
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('gamecarto-theme');
+                  var theme = localStorage.getItem('gastocerto-theme');
                   if (theme !== 'light') theme = 'dark';
                   document.documentElement.classList.toggle('dark', theme === 'dark');
                   document.documentElement.style.colorScheme = theme;

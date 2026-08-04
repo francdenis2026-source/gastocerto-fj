@@ -88,13 +88,13 @@ export function Benefits() {
           </Reveal>
           <Reveal delay={200}>
             <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-8">
-              Tudo o que você precisa para <span className="text-primary italic">dominar</span> suas finanças.
+              Tudo o que você precisa para <span className="text-primary italic">organizar</span> suas finanças.
             </h2>
           </Reveal>
           <Reveal delay={300}>
             <p className="text-lg lg:text-xl text-muted-foreground font-medium leading-relaxed">
               Desenvolvemos as ferramentas mais poderosas do mercado para que você tenha controle 
-              total e absoluto sobre seu patrimônio, de forma simples e elegante.
+              total e absoluto sobre seu dinheiro, de forma simples e elegante.
             </p>
           </Reveal>
         </div>
@@ -150,7 +150,7 @@ export function Benefits() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="max-w-xl">
               <h3 className="text-3xl lg:text-4xl font-black tracking-tight text-foreground mb-6">
-                Leve o GameCarto para qualquer lugar.
+                Leve o GastoCerto para qualquer lugar.
               </h3>
               <p className="text-lg text-muted-foreground font-medium leading-relaxed mb-8">
                 Nossa plataforma é 100% responsiva e PWA. Instale no seu smartphone e tenha o controle 

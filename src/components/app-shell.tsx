@@ -222,7 +222,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         <div className="flex items-center h-16 border-b border-border/50 px-6 gap-3">
           <Logo compact={railCollapsed} href={isAdminArea ? "/admin" : "/painel"} className="scale-110"/>
-          {!railCollapsed && <span className="font-bold text-base tracking-tight truncate">GameCarto</span>}
+          {!railCollapsed && <span className="font-bold text-base tracking-tight truncate">GastoCerto</span>}
           <button onClick={toggleRail} className="ml-auto p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground">
              {railCollapsed ? <PanelLeftOpen size={18}/> : <PanelLeftClose size={18}/>}
           </button>
