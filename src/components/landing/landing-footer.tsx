@@ -25,9 +25,9 @@ const footerLinks = {
 
 export function LandingFooter() {
   return (
-    <footer className="bg-background pt-24 pb-12 border-t border-border/50">
+    <footer className="bg-background pt-16 pb-10 border-t border-border/50">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Logo className="mb-6" />
