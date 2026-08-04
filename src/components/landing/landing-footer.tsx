@@ -37,12 +37,12 @@ export function LandingFooter() {
     <footer className="mt-auto border-t border-border bg-secondary/10 dark:bg-black/20 print:hidden">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
-      <div className="section-shell py-4 sm:py-6">
-        <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-start lg:gap-16">
+      <div className="section-shell py-3 sm:py-5">
+        <div className="flex flex-col items-center justify-between gap-3 lg:flex-row lg:items-center lg:gap-16">
           {/* Brand & Socials - Ultra Compact */}
-          <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
-            <Logo className="scale-75 origin-center lg:origin-left" />
-            <div className="flex gap-3">
+          <div className="flex items-center gap-4 lg:gap-6">
+            <Logo className="scale-[0.7] origin-center" />
+            <div className="flex gap-2.5">
               {socials.map((social) => (
                 <a
                   key={social.label}
@@ -50,22 +50,22 @@ export function LandingFooter() {
                   className="text-muted-foreground transition-colors hover:text-brand"
                   aria-label={social.label}
                 >
-                  <social.icon className="size-3.5" />
+                  <social.icon className="size-3" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navigation Links - Single Row/Grid Mobile */}
-          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-medium sm:gap-x-10">
+          {/* Navigation Links - Single Row Ultra Compact */}
+          <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] font-medium sm:gap-x-6 sm:text-[11px]">
             {links.map((link) => (
               <li key={link.label} className="list-none">
                 {"to" in link ? (
-                  <Link to={link.to} className="text-muted-foreground transition-colors hover:text-brand">
+                  <Link to={link.to} className="text-muted-foreground/80 transition-colors hover:text-brand">
                     {link.label}
                   </Link>
                 ) : (
-                  <a href={link.href} className="text-muted-foreground transition-colors hover:text-brand">
+                  <a href={link.href} className="text-muted-foreground/80 transition-colors hover:text-brand">
                     {link.label}
                   </a>
                 )}
@@ -73,7 +73,7 @@ export function LandingFooter() {
             ))}
             {legalLinks.map((link) => (
               <li key={link.label} className="list-none">
-                <Link to={link.to} className="text-muted-foreground transition-colors hover:text-brand">
+                <Link to={link.to} className="text-muted-foreground/80 transition-colors hover:text-brand">
                   {link.label}
                 </Link>
               </li>
@@ -81,7 +81,7 @@ export function LandingFooter() {
             <li className="list-none">
               <button
                 onClick={() => setContactOpen(true)}
-                className="text-muted-foreground transition-colors hover:text-brand"
+                className="text-muted-foreground/80 transition-colors hover:text-brand"
               >
                 Contato
               </button>
@@ -90,18 +90,17 @@ export function LandingFooter() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-border/40 bg-secondary/20 dark:bg-black/40">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-3 text-[10px] text-foreground/50 sm:flex-row sm:text-[11px]">
+      {/* Bottom Bar - Minimal */}
+      <div className="border-t border-border/20 bg-secondary/10 dark:bg-black/20">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-1 py-2 text-[9px] text-foreground/40 sm:flex-row sm:text-[10px]">
           <p>© {new Date().getFullYear()} GastoCerto.</p>
           <div className="flex shrink-0 items-center gap-1">
-            <p>Dev. Franc D&apos;nis · Acre</p>
+            <p className="opacity-70">Dev. Franc D&apos;nis</p>
             <Link
               to="/admin"
-              aria-label="Acesso restrito"
-              className={`grid size-3.5 shrink-0 place-items-center text-muted-foreground/30 transition-colors hover:text-foreground ${tapTarget} ${focusRing}`}
+              className={`grid size-3 shrink-0 place-items-center text-muted-foreground/20 transition-colors hover:text-foreground ${tapTarget} ${focusRing}`}
             >
-              <Lock className="size-2.5" aria-hidden="true" />
+              <Lock className="size-2" aria-hidden="true" />
             </Link>
           </div>
         </div>
