@@ -5,7 +5,12 @@ import { Logo } from "@/components/logo";
 import { ContactModal } from "@/components/finance/contact-modal";
 import { useState } from "react";
 
-const footerLinks = [
+type FooterLink = 
+  | { label: string; to: any }
+  | { label: string; href: string }
+  | { label: string; action: 'contact' };
+
+const footerLinks: { title: string; links: FooterLink[] }[] = [
   {
     title: "Produto",
     links: [
@@ -72,12 +77,12 @@ export function LandingFooter() {
               <ul className="flex flex-col gap-3">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    {link.to ? (
+                    {'to' in link ? (
                       <Link to={link.to} className="text-base text-muted-foreground hover:text-primary transition-all flex items-center gap-1 group">
                         {link.label}
                         <ExternalLink className="size-3 opacity-0 group-hover:opacity-100 transition-all" />
                       </Link>
-                    ) : link.href ? (
+                    ) : 'href' in link ? (
                       <a href={link.href} className="text-base text-muted-foreground hover:text-primary transition-all">
                         {link.label}
                       </a>
