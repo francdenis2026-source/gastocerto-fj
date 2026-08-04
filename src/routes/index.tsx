@@ -105,6 +105,7 @@ function LandingPage() {
         <div className="hidden sm:block">
           <CtaBanner />
         </div>
+        <BottomRealisticBg />
       </main>
       <LandingFooter />
     </div>
