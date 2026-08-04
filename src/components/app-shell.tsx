@@ -2,6 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
 import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { Sparkles, ShieldCheck } from "lucide-react";
 import { usePlanAccess } from "@/lib/plan-features";
 import {
@@ -60,6 +61,7 @@ type Kind = "expense" | "income";
 
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const { confirm, ConfirmDialog } = useConfirm();
   const [open, setOpen] = useState(false);
   const [quickEntry, setQuickEntry] = useState<Kind | null>(null);
   const [railCollapsed, setRailCollapsed] = useState(() => {
@@ -162,43 +164,49 @@ export function AppShell({ children }: { children: ReactNode }) {
     .join("");
 
   async function handleSignOut() {
-    const confirmed = window.confirm("Tem certeza que deseja encerrar sua sessão com segurança?");
-    if (!confirmed) return;
+    confirm({
+      title: "Encerrar Sessão",
+      description: "Tem certeza que deseja encerrar sua sessão com segurança?",
+      type: "warning",
+      confirmLabel: "Sair agora",
+      onConfirm: async () => {
+        const toastId = toast.loading("Encerrando sessão e limpando dados...", {
+          description: "Seus dados estão sendo removidos com segurança.",
+          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+        });
 
-    const toastId = toast.loading("Encerrando sessão e limpando dados...", {
-      description: "Seus dados estão sendo removidos com segurança.",
-      icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+        try {
+          await queryClient.cancelQueries();
+          queryClient.clear();
+          
+          // Limpeza completa e segura
+          clearBrowserCredentials();
+          window.localStorage.clear();
+          window.sessionStorage.clear();
+          
+          await supabase.auth.signOut();
+          
+          toast.success("Sessão encerrada!", {
+            id: toastId,
+            description: "Seus dados foram removidos do navegador.",
+            icon: <AlertCircle className="size-4 text-emerald-500" />
+          });
+
+          // Pequeno delay para o usuário ver o toast antes do redirecionamento
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 1000);
+        } catch (error) {
+          toast.error("Erro ao sair", { id: toastId });
+          window.location.replace("/");
+        }
+      }
     });
-
-    try {
-      await queryClient.cancelQueries();
-      queryClient.clear();
-      
-      // Limpeza completa e segura
-      clearBrowserCredentials();
-      window.localStorage.clear();
-      window.sessionStorage.clear();
-      
-      await supabase.auth.signOut();
-      
-      toast.success("Sessão encerrada!", {
-        id: toastId,
-        description: "Seus dados foram removidos do navegador.",
-        icon: <AlertCircle className="size-4 text-emerald-500" />
-      });
-
-      // Pequeno delay para o usuário ver o toast antes do redirecionamento
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 1000);
-    } catch (error) {
-      toast.error("Erro ao sair", { id: toastId });
-      window.location.replace("/");
-    }
   }
 
   return (
     <div className="min-h-screen bg-secondary/20 lg:flex">
+      <ConfirmDialog />
       <TemporaryLicenseBanner />
       <aside
         className={cn(

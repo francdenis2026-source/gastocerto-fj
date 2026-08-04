@@ -43,7 +43,7 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
 
           {unreadCount > 0 && (
             <Badge className={cn(
-              "absolute justify-center rounded-full bg-destructive p-0 text-destructive-foreground ring-2 ring-background",
+              "absolute flex items-center justify-center rounded-full bg-destructive p-0 text-destructive-foreground ring-2 ring-background z-10 font-bold",
               isKid ? "-top-0.5 -right-0.5 h-4 w-4 text-[9px]" : "-top-1 -right-1 h-5 w-5 text-[10px]",
             )}>
               {unreadCount}
