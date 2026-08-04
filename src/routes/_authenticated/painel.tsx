@@ -830,6 +830,7 @@ function DashboardPage() {
                    <div className="space-y-6">
                      <div className="grid gap-6 sm:grid-cols-2">
                        <InteractiveCard
+                         id="client-top-expenses"
                          title="Maiores Gastos por Categoria"
                          description="Detalhamento das despesas do período"
                          icon={<ShoppingBag className="size-4" />}
@@ -875,6 +876,7 @@ function DashboardPage() {
                        </InteractiveCard>
 
                        <InteractiveCard
+                         id="client-upcoming-bills"
                          title="Próximos Vencimentos"
                          description="Contas pendentes e recorrentes"
                          icon={<CalendarClock className="size-4" />}

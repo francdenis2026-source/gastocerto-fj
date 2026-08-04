@@ -121,6 +121,7 @@ export function AdminOverviewPanel({
 
       <div className="grid gap-4 lg:grid-cols-2">
         <InteractiveCard
+          id="admin-recent-activities"
           title="Atividades Recentes"
           description="Log de ações administrativas"
           icon={<Activity className="size-4" />}
@@ -141,6 +142,7 @@ export function AdminOverviewPanel({
         </InteractiveCard>
 
         <InteractiveCard
+          id="admin-growth-metrics"
           title="Métricas de Crescimento"
           description="Evolução de novos usuários (últimos 30 dias)"
           icon={<TrendingUp className="size-4" />}
