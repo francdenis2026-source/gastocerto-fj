@@ -240,7 +240,10 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
         {current === "security" ? (
           <div className="space-y-4">
             <MasterCodePanel />
-            <PermissionsPanel />
+            <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Gerenciamento Global de Permissões</h3>
+              <p className="text-xs text-muted-foreground mb-4 italic">Selecione um usuário no painel de Contas para gerenciar permissões individuais ou use o menu de Auditoria para limpezas globais.</p>
+            </div>
             <AdminAccessPanel />
             <BlockedIpsPanel />
             <IntegrationsPanel />
