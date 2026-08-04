@@ -27,7 +27,13 @@ import {
   Gift,
   PiggyBank,
   Baby,
-} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
@@ -523,46 +529,85 @@ function DashboardPage() {
         )}
         
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center justify-between gap-3 sm:justify-start">
-          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-          
-          <div className="flex items-center gap-1.5 lg:hidden">
-            <CommandPalette variant="icon" onQuickEntry={setDialogKind} />
-            <NotificationCenter />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-9 rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-              onClick={handleSignOut}
-              aria-label="Sair"
-            >
-              <LogOut className="size-4" />
-            </Button>
-          </div>
+        <div className="flex flex-col">
+          <h1 className="text-xl font-black tracking-tight sm:text-2xl">
+            Olá, {profile?.full_name?.split(" ")[0] ?? "Usuário"}!
+          </h1>
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+            {MONTH_NAMES[period.month - 1]} de {period.year}
+          </p>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar sm:pb-0">
-          <QuickCategoryMenu
-            kind="expense"
-            label="Lançar"
-            onPick={(p) => {
-              setPreset(p);
-              setDialogKind("expense");
-              setDialogOpen(true);
-            }}
-          />
-          <Button
-            size="sm"
-            onClick={() => {
-              setDialogKind("income");
-              setDialogOpen(true);
-            }}
-            className="shrink-0 gap-1.5 bg-brand text-brand-foreground hover:opacity-90 shadow-sm"
-          >
-            <TrendingUpIcon className="size-3.5" />
-            <span className="text-[11px] font-bold uppercase tracking-wider">Lançar</span>
-          </Button>
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
+          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
+          
+          <div className="h-8 w-px shrink-0 bg-border/40" />
+
+          <div className="flex shrink-0 items-center gap-1.5">
+            <Button
+              size="sm"
+              onClick={() => {
+                setDialogKind("expense");
+                setDialogOpen(true);
+              }}
+              className="h-9 rounded-xl bg-rose-500 px-4 font-bold text-white shadow-lg shadow-rose-500/10 transition-all hover:bg-rose-600 active:scale-95"
+            >
+              <Plus className="mr-1.5 size-4" />
+              Lançar
+            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-9 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm"
+                >
+                  <ChevronDown className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => {
+                  setDialogKind("income");
+                  setDialogOpen(true);
+                }}>
+                  <TrendingUp className="mr-2 size-4 text-success" />
+                  Lançar Receita
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setCardsOpen(true)}>
+                  <ShoppingBag className="mr-2 size-4 text-brand" />
+                  Gasto no Cartão
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTaxOpen(true)}>
+                  <FileText className="mr-2 size-4 text-warning" />
+                  Lançar Imposto
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => exportDashboardToPDF("dashboard-content", "Painel Financeiro")}>
+                  <Printer className="mr-2 size-4" />
+                  Exportar PDF
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:hidden">
+        <StatTile
+          label="Saldo Geral"
+          value={formatCurrency(metrics.balance)}
+          tone={metrics.balance >= 0 ? "success" : "expense"}
+          icon={Wallet}
+          className="bg-background/40"
+        />
+        <StatTile
+          label="Total Gasto"
+          value={formatCurrency(metrics.totalExpense)}
+          tone="expense"
+          icon={TrendingDown}
+          className="bg-background/40"
+        />
       </div>
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
@@ -597,108 +642,6 @@ function DashboardPage() {
           </div>
         )}
 
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
-          <div className="min-w-0">
-            <h1 className="page-title truncate text-lg sm:text-2xl">
-              Olá, {firstName}!
-            </h1>
-            <p className="page-subtitle mt-0.5 truncate text-[11px] sm:mt-1 sm:text-sm">
-              <span className="sm:hidden">
-                {MONTH_NAMES[period.month - 1]} de {period.year}
-              </span>
-              <span className="hidden sm:inline">
-                {MONTH_NAMES[period.month - 1]} de {period.year} · Clique nos dias do calendário ou nas categorias para detalhes profissionais
-              </span>
-            </p>
-          </div>
-          <div className="col-span-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
-
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="h-9 rounded-xl px-2 text-xs font-bold text-muted-foreground hover:text-foreground border-border/40"
-              onClick={() => {
-                reset();
-                navigate({
-                  search: {
-                    ano: new Date().getFullYear(),
-                    mes: new Date().getMonth() + 1,
-                  } as any,
-                  replace: true,
-                });
-              }}
-            >
-              <RefreshCw className="mr-1.5 size-3" />
-              Redefinir
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="h-9 rounded-xl px-2 text-xs font-bold text-muted-foreground hover:text-foreground border-border/40"
-              onClick={() => exportDashboardToPDF("dashboard-content", "Painel Financeiro")}
-            >
-              <Printer className="mr-1.5 size-3" />
-              Imprimir
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="h-9 rounded-xl px-2.5 text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200 lg:hidden"
-              onClick={() => signOut()}
-            >
-              <LogOut className="mr-1.5 size-3.5" />
-              Sair
-            </Button>
-            <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-            <Button 
-              className="rounded-xl h-9 text-[11px] font-black uppercase tracking-wider shadow-md bg-emerald-600 hover:bg-emerald-700 text-white border-none sm:text-xs" 
-              onClick={() => setCardsOpen(true)}
-            >
-              <Zap className="mr-2 size-3.5 fill-current" />
-              Lançar Rápido
-            </Button>
-
-            <div className="hidden items-center gap-2 lg:flex">
-              <QuickCategoryMenu
-                kind="expense"
-                label="Adicionar Gasto"
-                onPick={(pick) => {
-                  setEditingTx(null);
-                  setDialogKind("expense");
-                  setPreset(pick);
-                  setDialogOpen(true);
-                }}
-              />
-
-              <QuickCategoryMenu
-                kind="income"
-                label="Adicionar Receita"
-                onPick={(pick) => {
-                  setEditingTx(null);
-                  setDialogKind("income");
-                  setPreset(pick);
-                  setDialogOpen(true);
-                }}
-              />
-            </div>
-
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => navigate({ to: "/veiculos" })}>
-              <Car className="mr-2 size-3.5 text-muted-foreground" />
-              Veículos
-            </Button>
-
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => setDependentOpen(true)}>
-              <Baby className="mr-2 size-3.5 text-muted-foreground" />
-              Kids
-            </Button>
-
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => setTaxOpen(true)}>
-              <Landmark className="mr-2 size-3.5 text-muted-foreground" />
-              I.R.
-            </Button>
-          </div>
-
-        </header>
 
         <GlobalAnnouncementsBanner />
 
@@ -921,7 +864,7 @@ function DashboardPage() {
                          </div>
                        </InteractiveCard>
                      </div>
-                      <div className="grid gap-3 auto-cards-sm">
+                      <div className="hidden sm:grid gap-3 auto-cards-sm">
                         <StatTile
                           label="Minha Assinatura"
                           value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}

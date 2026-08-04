@@ -93,8 +93,8 @@ export function MobileTabBar() {
       </div>
 
       {/* Tab Bar Fixo Inferior */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/40 bg-background/80 p-1 pb-safe backdrop-blur-xl lg:hidden">
-        <div className="mx-auto flex max-w-md items-center justify-around gap-0">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/30 bg-background/90 p-1 pb-safe backdrop-blur-xl lg:hidden">
+        <div className="mx-auto flex max-w-md items-center justify-around">
           {mainActions.map((item) => {
             const isActive = pathname === item.to;
             const Icon = item.icon;
@@ -103,32 +103,32 @@ export function MobileTabBar() {
                 key={item.to}
                 to={item.to as any}
                 className={cn(
-                  "flex flex-1 flex-col items-center gap-0.5 rounded-lg py-1 transition-all active:scale-90",
+                  "flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 transition-all active:scale-90",
                   isActive ? "text-brand" : "text-muted-foreground/60"
                 )}
               >
                 <div className={cn(
-                  "relative grid size-9 place-items-center rounded-xl transition-all duration-300",
+                  "relative grid size-8 place-items-center rounded-xl transition-all duration-300",
                   isActive ? "bg-brand/10 shadow-sm border border-brand/20" : "hover:bg-secondary/40"
                 )}>
-                  <Icon className={cn("size-5", isActive && "animate-pulse")} />
+                  <Icon className={cn("size-4.5", isActive && "animate-pulse")} />
                   {isActive && (
-                    <span className="absolute -bottom-0.5 size-1 rounded-full bg-brand shadow-[0_0_8px_var(--brand)]" />
+                    <span className="absolute -bottom-1 size-1 rounded-full bg-brand shadow-[0_0_8px_var(--brand)]" />
                   )}
                 </div>
-                <span className="text-[8px] font-black uppercase tracking-tighter leading-none">{item.label}</span>
+                <span className="text-[9px] font-black uppercase tracking-tighter leading-none">{item.label}</span>
               </Link>
             );
           })}
           
           <button
             onClick={() => setMenuOpen(true)}
-            className="flex flex-1 flex-col items-center gap-0.5 rounded-lg py-1 text-muted-foreground/60 active:scale-90"
+            className="flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-muted-foreground/60 active:scale-90"
           >
-            <div className="grid size-9 place-items-center rounded-xl hover:bg-secondary/40 border border-transparent">
-              <Menu className="size-5" />
+            <div className="grid size-8 place-items-center rounded-xl hover:bg-secondary/40 border border-transparent">
+              <Menu className="size-4.5" />
             </div>
-            <span className="text-[8px] font-black uppercase tracking-tighter leading-none">Mais</span>
+            <span className="text-[9px] font-black uppercase tracking-tighter leading-none">Mais</span>
           </button>
         </div>
       </div>
