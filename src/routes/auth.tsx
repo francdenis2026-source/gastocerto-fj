@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn, useServerFn } from "@tanstack/react-start";
 import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight, Fingerprint, UserCircle, User, LogIn } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -720,6 +720,17 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     setErrors({});
     setFormError(null);
     setLoading(true);
+    
+    try {
+      await checkRateLimit({ data: { identifier: parsed.data.cpf } });
+    } catch (e: any) {
+      setLoading(false);
+      const msg = e.status === 429 ? e.message : "Falha na validação. Tente novamente.";
+      setFormError(msg);
+      toast.error(msg);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email: cpfToLoginEmail(parsed.data.cpf),
       password: pinToPassword(parsed.data.cpf, parsed.data.pin),
@@ -739,6 +750,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
+
+  const checkRateLimit = useServerFn(authRateLimiter);
 
   return (
     <form 

@@ -75,6 +75,7 @@ import { StatTile } from "@/components/finance/stat-tile";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
+import { FamilySpendingDashboard } from "@/components/finance/family-spending-dashboard";
 import { DashboardTabs } from "@/components/finance/dashboard-tabs";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
 import { getYearlyBalance } from "@/lib/yearly-balance.functions";
