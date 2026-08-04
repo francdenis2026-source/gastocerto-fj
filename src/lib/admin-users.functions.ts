@@ -139,6 +139,7 @@ export const adminCancelSubscription = createServerFn({ method: "POST" })
       details: { revoked: revoked?.length ?? 0, reason: data.reason ?? null },
     });
 
+    const { sendAdminNotification } = await import("./admin-notifications.server");
     await sendAdminNotification(
       data.targetUserId,
       "subscription_canceled",
@@ -263,11 +264,6 @@ export const adminListBlockedIps = createServerFn({ method: "GET" })
     return data ?? [];
   });
 
-const promoteSchema = z.object({
-  targetUserId: z.string().uuid(),
-  planSlug: z.enum(["premium", "premium_ia"]).default("premium_ia"),
-});
-
 /**
  * Promove qualquer conta para a versão paga usando o cliente administrativo
  * (o update direto pelo navegador era bloqueado pelas políticas de acesso).
@@ -364,14 +360,6 @@ export const adminSetAccessLimit = createServerFn({ method: "POST" })
 
     return { ok: true, days: data.days };
   });
-
-const createUserSchema = z.object({
-  fullName: z.string().trim().min(2).max(120),
-  cpf: z.string().min(11).max(14),
-  pin: z.string().regex(/^\d{6}$/),
-  contactEmail: z.string().email().max(160).optional().or(z.literal("")),
-  planSlug: z.enum(["free", "premium", "premium_ia"]).default("free"),
-});
 
 /** Cria uma conta de cliente diretamente pelo painel administrativo. */
 export const adminCreateUser = createServerFn({ method: "POST" })
