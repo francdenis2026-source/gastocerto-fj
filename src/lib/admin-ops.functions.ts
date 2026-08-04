@@ -35,8 +35,9 @@ export const adminPurgeLogs = createServerFn({ method: "POST" })
     await auditLog(context, "purge_logs", { 
       before_date: data.beforeDate, 
       action_type: data.actionType || "all",
-      purged_count: count ?? 0 
-    }, null as any);
+      purged_count: count ?? 0,
+      scope: data.beforeDate ? `Anterior a ${data.beforeDate}` : "Todos os logs"
+    }, null);
 
     return { ok: true, count: count ?? 0 };
   });
