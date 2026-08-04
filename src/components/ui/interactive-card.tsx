@@ -68,7 +68,7 @@ export function InteractiveCard({
   return (
     <Card 
       className={cn(
-        "overflow-hidden transition-all duration-300 hover:shadow-md border-border/50 bg-card/50 backdrop-blur-sm cursor-pointer focus-within:ring-2 focus-within:ring-brand/50",
+        "overflow-hidden transition-all duration-300 hover:shadow-lg border-border/40 bg-card/40 backdrop-blur-md cursor-pointer focus-within:ring-2 focus-within:ring-brand/50",
         className
       )}
       onClick={handleCardClick}
@@ -114,7 +114,7 @@ export function InteractiveCard({
         <CardContent className="p-4 pt-0 space-y-4">
           {chart && (
             <div 
-              className="h-32 w-full rounded-xl bg-muted/30 p-2 flex items-center justify-center border border-border/20"
+              className="h-32 w-full rounded-2xl bg-muted/20 p-3 flex items-center justify-center border border-border/10 shadow-inner"
               role="img"
               aria-label="Gráfico de dados"
             >

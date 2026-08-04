@@ -701,7 +701,7 @@ function DashboardPage() {
         ) : (
           <div className="flex flex-col gap-3 lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-2 sm:mt-6 w-full max-w-full overflow-x-hidden">
             <aside className="hidden lg:block space-y-6">
-              <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+              <div className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="size-8 rounded-lg bg-brand/10 flex items-center justify-center">
                     <Sparkles className="size-4 text-brand" />
@@ -757,7 +757,7 @@ function DashboardPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+              <div className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 shadow-sm">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Evolução do Saldo</h3>
                 <div className="h-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -778,8 +778,9 @@ function DashboardPage() {
                         contentStyle={{ 
                           fontSize: '10px', 
                           borderRadius: '12px', 
-                          backgroundColor: 'var(--card)', 
-                          border: '1px solid var(--border)' 
+                          backgroundColor: 'var(--popover)', 
+                          border: '1px solid var(--border)',
+                          boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' 
                         }}
                         formatter={(value: number, name: string) => [formatCurrency(value), name === 'receita' ? 'Ganhos' : 'Gastos']}
                         labelFormatter={(label) => `Dia ${label}`}
@@ -836,9 +837,9 @@ function DashboardPage() {
                          icon={<ShoppingBag className="size-4" />}
                          items={byCategory}
                          maxVisibleItems={4}
-                         chart={
-                           <ResponsiveContainer width="100%" height="100%">
-                             <BarChart data={byCategory.slice(0, 5)}>
+                          chart={
+                            <ResponsiveContainer width="100%" height="100%">
+                              <BarChart data={byCategory.slice(0, 5)} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                                <XAxis dataKey="name" hide />
                                <YAxis hide />
                                <Tooltip 

@@ -93,7 +93,7 @@ export function MobileTabBar() {
       </div>
 
       {/* Tab Bar Fixo Inferior */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 p-0.5 pb-safe backdrop-blur-md lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/40 bg-background/80 p-1 pb-safe backdrop-blur-xl lg:hidden">
         <div className="mx-auto flex max-w-md items-center justify-around gap-0">
           {mainActions.map((item) => {
             const isActive = pathname === item.to;
