@@ -121,9 +121,10 @@ export const Route = createFileRoute("/_authenticated/painel")({
   head: () => ({
     meta: [
       { title: "Painel — GameCarto" },
-      { name: "description", content: "Resumo dos seus gastos e receitas no GastoCerto." },
-      { property: "og:title", content: "Painel — GastoCerto" },
-      { property: "og:description", content: "Resumo dos seus gastos e receitas no GastoCerto." },
+      { name: "description", content: "Resumo dos seus gastos e receitas no GameCarto." },
+      { property: "og:title", content: "Painel — GameCarto" },
+      { property: "og:description", content: "Resumo dos seus gastos e receitas no GameCarto." },
+
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
