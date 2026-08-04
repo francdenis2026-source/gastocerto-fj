@@ -6,7 +6,7 @@ import { ContactModal } from "@/components/finance/contact-modal";
 import { useState } from "react";
 
 const links = [
-  { label: "Recursos", href: "#recursos" },
+  { label: "Recursos", to: "/recursos" as const },
   { label: "Planos", href: "#planos" },
 ];
 
@@ -33,7 +33,7 @@ const focusRing =
 export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   return (
-    <footer className="mt-auto border-t border-border/50 bg-secondary/10 dark:bg-black/20">
+    <footer className="mt-auto border-t border-border bg-secondary/20 dark:bg-black/40">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       <div className="section-shell grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 py-2 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:gap-x-5 sm:py-2.5">
         <div className="flex min-w-0 shrink-0 scale-[0.8] items-center justify-self-start sm:scale-90">
@@ -59,25 +59,35 @@ export function LandingFooter() {
             <Link
               key={link.label}
               to={link.to}
-              className={`shrink-0 py-1 text-[11px] text-muted-foreground/70 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-[10px] ${focusRing}`}
+              className={`shrink-0 py-1 text-[12.5px] text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
             >
               {link.label}
             </Link>
           ))}
           {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`shrink-0 py-1 text-[11px] text-muted-foreground/70 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-[10px] ${focusRing}`}
-            >
-              {link.label}
-            </a>
+            "to" in link ? (
+              <Link
+                key={link.label}
+                to={link.to}
+                className={`shrink-0 py-1 text-[12.5px] text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`shrink-0 py-1 text-[12.5px] text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
+              >
+                {link.label}
+              </a>
+            )
           ))}
         </nav>
       </div>
 
-      <div className="border-t border-border/30">
-        <div className="section-shell flex items-center justify-between gap-x-3 py-1 text-[9px] text-muted-foreground/60 sm:py-1.5 sm:text-[10px]">
+      <div className="border-t border-border/50">
+        <div className="section-shell flex items-center justify-between gap-x-3 py-2 text-[11px] text-foreground/70 sm:py-2.5 sm:text-[12.5px]">
           <p className="truncate">© {new Date().getFullYear()} GastoCerto.</p>
           <div className="flex shrink-0 items-center gap-1">
             <p className="truncate">Dev. Franc D&apos;nis · Acre</p>

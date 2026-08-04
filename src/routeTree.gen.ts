@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DemonstracaoRouteImport } from './routes/demonstracao'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as RecursosRouteImport } from './routes/recursos'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -81,6 +82,11 @@ const DemonstracaoRoute = DemonstracaoRouteImport.update({
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecursosRoute = RecursosRouteImport.update({
+  id: '/recursos',
+  path: '/recursos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
@@ -322,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/demonstracao': typeof DemonstracaoRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/recursos': typeof RecursosRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -372,6 +379,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/demonstracao': typeof DemonstracaoRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/recursos': typeof RecursosRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -424,6 +432,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/demonstracao': typeof DemonstracaoRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/recursos': typeof RecursosRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/termos': typeof TermosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -476,6 +485,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/demonstracao'
     | '/privacidade'
+    | '/recursos'
     | '/redefinir-senha'
     | '/termos'
     | '/admin'
@@ -526,6 +536,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/demonstracao'
     | '/privacidade'
+    | '/recursos'
     | '/redefinir-senha'
     | '/termos'
     | '/admin'
@@ -577,6 +588,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/demonstracao'
     | '/privacidade'
+    | '/recursos'
     | '/redefinir-senha'
     | '/termos'
     | '/_authenticated/admin'
@@ -629,6 +641,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DemonstracaoRoute: typeof DemonstracaoRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  RecursosRoute: typeof RecursosRoute
   RedefinirSenhaRoute: typeof RedefinirSenhaRoute
   TermosRoute: typeof TermosRoute
   CompartilhadoTokenRoute: typeof CompartilhadoTokenRoute
@@ -674,6 +687,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recursos': {
+      id: '/recursos'
+      path: '/recursos'
+      fullPath: '/recursos'
+      preLoaderRoute: typeof RecursosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/redefinir-senha': {
@@ -1084,6 +1104,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DemonstracaoRoute: DemonstracaoRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  RecursosRoute: RecursosRoute,
   RedefinirSenhaRoute: RedefinirSenhaRoute,
   TermosRoute: TermosRoute,
   CompartilhadoTokenRoute: CompartilhadoTokenRoute,
