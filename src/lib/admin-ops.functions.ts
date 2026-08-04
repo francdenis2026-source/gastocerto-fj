@@ -74,3 +74,17 @@ export const adminUpdateAppSettings = createServerFn({ method: "POST" })
 
     return { ok: true };
   });
+
+export const adminAutoPurgeLogs = createServerFn({ method: "POST" })
+  .inputValidator((d: unknown) => z.object({ retentionDays: z.number().default(90) }).parse(d ?? {}))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - data.retentionDays);
+    const { error, count } = await supabaseAdmin
+      .from("admin_logs")
+      .delete()
+      .lt("created_at", cutoffDate.toISOString());
+    if (error) throw new Error("Falha na limpeza automática");
+    return { ok: true, count: count ?? 0 };
+  });
