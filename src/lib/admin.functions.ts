@@ -181,15 +181,15 @@ export const adminOverview = createServerFn({ method: "GET" })
     since.setDate(since.getDate() - 30);
 
     const [users, active, transactions, recent] = await Promise.all([
-      supabaseAdmin.from("profiles").select("id", { count: "exact" }),
+      supabaseAdmin.from("profiles").select("id", { count: "exact", head: true }),
       supabaseAdmin
         .from("profiles")
-        .select("id", { count: "exact" })
+        .select("id", { count: "exact", head: true })
         .eq("status", "active"),
-      supabaseAdmin.from("transactions").select("id", { count: "exact" }),
+      supabaseAdmin.from("transactions").select("id", { count: "exact", head: true }),
       supabaseAdmin
         .from("profiles")
-        .select("id", { count: "exact" })
+        .select("id", { count: "exact", head: true })
         .gte("created_at", since.toISOString()),
     ]);
 
