@@ -1071,6 +1071,7 @@ function DashboardPage() {
 
                       <InteractiveCard
                         id="client-analytics-flow"
+                        className="glass-morphism"
                         title="Receitas x Despesas"
                         description="Fluxo mensal consolidado"
                         icon={<Activity className="size-4" />}
@@ -1088,11 +1089,11 @@ function DashboardPage() {
                         }
                       >
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                          <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                             <p className="text-[9px] font-bold text-emerald-600 uppercase">Total Receitas</p>
                             <p className="text-sm font-black text-emerald-700">{formatCurrency(metrics.totalIncome)}</p>
                           </div>
-                          <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <p className="text-[9px] font-bold text-rose-600 uppercase">Total Despesas</p>
                             <p className="text-sm font-black text-rose-700">{formatCurrency(metrics.totalExpense)}</p>
                           </div>
