@@ -376,7 +376,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             {/* Atalho do Espaço Kids saiu daqui: agora é um grupo próprio no menu. */}
 
 
-            <EnergySidebarWidget collapsed={railCollapsed} />
+            {!isAdminArea && <EnergySidebarWidget collapsed={railCollapsed} />}
             
             {activeMetrics.length > 0 && !railCollapsed && (
               <div className="mx-2 p-3 rounded-xl border border-border bg-secondary/30 space-y-3">
