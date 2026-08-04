@@ -9,6 +9,7 @@ const filtersSchema = z.object({
   limit: z.number().min(1).max(2000).optional(),
   page: z.number().min(1).optional(),
   pageSize: z.number().min(1).max(100).optional(),
+  search: z.string().optional(),
 });
 
 /** Lista os logs de auditoria administrativos, com filtro opcional por período. */
@@ -28,11 +29,18 @@ export const adminListAuditLogs = createServerFn({ method: "POST" })
     let query = supabaseAdmin
       .from("admin_logs")
       .select("id, created_at, actor_id, target_user_id, action, details", { count: "exact" })
-      .order("created_at", { ascending: false })
-      .order("actor_id", { ascending: true });
+      .order("created_at", { ascending: false });
 
     if (data.from) query = query.gte("created_at", `${data.from}T00:00:00.000Z`);
     if (data.to) query = query.lte("created_at", `${data.to}T23:59:59.999Z`);
+    
+    if (data.search) {
+      // Usando textSearch ou or() para filtrar logs
+      // Como o campo details é JSON, o filtro é mais limitado no or() do PostgREST sem extensões complexas
+      // Mas podemos filtrar por action e actor_id/target_user_id se necessário. 
+      // Para simplificar, filtramos pela action (que é texto) ou detalhes (se for convertido)
+      query = query.or(`action.ilike.%${data.search}%,details.cast.text.ilike.%${data.search}%`);
+    }
 
     const { data: logs, error, count } = await query.range(from, to);
     if (error) throw error;

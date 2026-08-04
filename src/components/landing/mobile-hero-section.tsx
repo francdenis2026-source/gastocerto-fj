@@ -8,29 +8,13 @@ type Variation = "glass" | "minimal" | "split";
 
 export function MobileHeroSection() {
   const hydrated = useHydrated();
-  const [variation, setVariation] = useState<Variation>("glass");
+  const [variation] = useState<Variation>("glass");
 
   if (!hydrated) return null;
 
   return (
     <section className="relative overflow-hidden px-4 py-8 md:hidden">
-      {/* Variation Switcher - For comparison as requested */}
-      <div className="mb-6 flex justify-center gap-2">
-        {(["glass", "minimal", "split"] as const).map((v) => (
-          <button
-            key={v}
-            onClick={() => setVariation(v)}
-            className={cn(
-              "rounded-full px-4 py-1.5 text-[11px] font-bold transition-all",
-              variation === v 
-                ? "bg-brand text-brand-foreground shadow-lg shadow-brand/20" 
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
-            )}
-          >
-            {v.charAt(0).toUpperCase() + v.slice(1)}
-          </button>
-        ))}
-      </div>
+      {/* Variation Switcher removed - fixed to "glass" variation as default/compact */}
 
       <div className={cn(
         "relative flex flex-col overflow-hidden transition-all duration-700",
@@ -78,7 +62,7 @@ export function MobileHeroSection() {
             variation === "split" && "size-16 bg-white/5 border border-white/10 text-brand backdrop-blur-xl"
           )}>
             {variation === "minimal" ? (
-              "Novo GastoCerto"
+              "GastoCerto"
             ) : (
               <TrendingUp className={cn(variation === "split" ? "size-7" : "size-6")} />
             )}
@@ -94,7 +78,7 @@ export function MobileHeroSection() {
             {variation === "minimal" ? (
               <>Sua <span className="text-brand">prosperidade</span>, simplificada.</>
             ) : (
-              <>Controle <span className="text-brand">total</span>, tranquilidade <span className="text-brand italic">sempre</span></>
+              <>Sua vida <span className="text-brand">financeira</span> em <span className="text-brand italic">ordem</span></>
             )}
           </h2>
           
