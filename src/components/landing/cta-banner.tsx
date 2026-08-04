@@ -7,7 +7,7 @@ import { Reveal } from "@/components/landing/reveal";
 
 export function CtaBanner() {
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-16 sm:py-20">
       <Reveal className="section-shell">
         <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-cta-bg px-6 py-10 text-cta-fg shadow-2xl sm:px-12 sm:py-14 border border-white/5 transition-all duration-500 hover:border-brand/30">
           <GridPattern className="absolute inset-0 -z-10 size-full text-cta-fg/5" />
