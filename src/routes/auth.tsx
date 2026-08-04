@@ -231,7 +231,7 @@ function AuthPage() {
       <div aria-hidden="true" className="auth-veil absolute inset-0 -z-10" />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-border/60 bg-card/95 shadow-lifted ring-1 ring-black/5 backdrop-blur-xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)] dark:border-white/10 dark:ring-white/5">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-white/5 bg-background shadow-2xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
 
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
         <section className="relative flex min-h-[110px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">

@@ -161,7 +161,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                     {items.map((item, index) => (
                       <li
                         key={item}
-                        className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card select-none"
+                        className="flex gap-3 rounded-2xl border border-white/5 bg-white/[0.015] p-4 text-[13.5px] font-normal leading-relaxed text-foreground transition-all hover:bg-white/[0.03] select-none"
                       >
                         <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
                           {index + 1}

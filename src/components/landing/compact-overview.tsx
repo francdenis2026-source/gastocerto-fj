@@ -248,7 +248,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-white/5 bg-white/[0.01] py-16 sm:py-20">
+    <section id="explorar" className="relative border-y border-white/5 bg-white/[0.01] section-y">
       <span id="seguranca" className="block" />
       <div
         aria-hidden="true"
@@ -257,7 +257,7 @@ export function CompactOverview() {
       <div className="section-shell">
         <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
+            <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
               <Sparkles className="size-3.5" aria-hidden="true" />
               Recursos da plataforma
             </p>
@@ -272,7 +272,7 @@ export function CompactOverview() {
             <DemoDialog>
               <button
                 type="button"
-                className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-bold text-brand transition-all hover:bg-brand hover:text-brand-foreground"
               >
                 <LayoutDashboard className="size-3.5" aria-hidden="true" />
                 Ver demonstração
@@ -283,7 +283,7 @@ export function CompactOverview() {
                 key={item.label}
                 href={item.href}
                 onClick={(event) => handleAnchorClick(event, item.href)}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-white/5 bg-white/[0.02] px-3 text-xs font-medium text-muted-foreground transition-all hover:border-white/20 hover:text-foreground"
               >
                 <item.icon className="size-3.5" aria-hidden="true" />
                 {item.label}
@@ -337,7 +337,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-[1.5rem] border border-white/5 bg-white/[0.02] p-6 backdrop-blur-md"
+                  className="rounded-3xl border border-white/5 bg-white/[0.015] p-6"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -379,7 +379,7 @@ export function CompactOverview() {
                   >
                     <button
                       type="button"
-                      className="interactive-card h-full w-full rounded-xl border border-border bg-card p-3 text-left hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-3.5"
+                      className="interactive-card h-full w-full rounded-2xl border border-white/5 bg-white/[0.015] p-5 text-left transition-all hover:border-white/20 sm:p-6"
                     >
                       <span className="grid size-9 place-items-center rounded-lg bg-brand/10 text-brand">
                         <pillar.icon className="size-4" aria-hidden="true" />
