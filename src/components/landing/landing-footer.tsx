@@ -35,55 +35,88 @@ export function LandingFooter() {
   return (
     <footer className="mt-auto border-t border-border bg-secondary/20 dark:bg-black/40">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
-      <div className="section-shell grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 py-2 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:gap-x-5 sm:py-2.5">
-        <div className="flex min-w-0 shrink-0 scale-[0.8] items-center justify-self-start sm:scale-90">
-          <Logo />
-        </div>
+      <div className="section-shell py-8 sm:py-12">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5">
+          <div className="col-span-2 lg:col-span-2">
+            <Logo />
+            <p className="mt-4 max-w-xs text-sm text-muted-foreground leading-relaxed">
+              A plataforma definitiva para organizar suas finanças com tecnologia de ponta e inteligência artificial.
+            </p>
+            <div className="mt-6 flex gap-3">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="flex size-9 items-center justify-center rounded-lg bg-secondary/50 text-muted-foreground transition-all hover:bg-brand hover:text-white"
+                  aria-label={social.label}
+                >
+                  <social.icon className="size-4" />
+                </a>
+              ))}
+            </div>
+          </div>
 
-        <div className="flex shrink-0 items-center gap-0.5 justify-self-end sm:order-last">
-          <button
-            type="button"
-            onClick={() => setContactOpen(true)}
-            aria-label="Entre em contato via e-mail"
-            className={`grid size-6 shrink-0 place-items-center text-foreground transition-colors hover:text-foreground focus-visible:text-foreground sm:size-7 ${tapTarget} ${focusRing}`}
-          >
-            <Mail className="size-3.5" aria-hidden="true" />
-          </button>
-        </div>
+          <div>
+            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Produto</h4>
+            <ul className="mt-4 space-y-2">
+              {links.map((link) => (
+                <li key={link.label}>
+                  {"to" in link ? (
+                    <Link
+                      to={link.to}
+                      className="text-sm text-muted-foreground transition-colors hover:text-brand"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-brand"
+                    >
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+              <li>
+                <a href="#inicio" className="text-sm text-muted-foreground transition-colors hover:text-brand">Início</a>
+              </li>
+            </ul>
+          </div>
 
-        <nav
-          aria-label="Links do rodapé"
-          className="col-span-2 -mx-4 flex h-7 min-w-0 items-center gap-x-3 overflow-x-auto whitespace-nowrap px-4 sm:col-span-1 sm:mx-0 sm:h-auto sm:justify-center sm:gap-x-4 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {legalLinks.map((link) => (
-            <Link
-              key={link.label}
-              to={link.to}
-              className={`shrink-0 py-1 text-[12.5px] text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          {links.map((link) => (
-            "to" in link ? (
-              <Link
-                key={link.label}
-                to={link.to}
-                className={`shrink-0 py-1 text-[12.5px] text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
-              >
-                {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`shrink-0 py-1 text-[12.5px] text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground sm:text-xs ${focusRing}`}
-              >
-                {link.label}
-              </a>
-            )
-          ))}
-        </nav>
+          <div>
+            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Legal</h4>
+            <ul className="mt-4 space-y-2">
+              {legalLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.to}
+                    className="text-sm text-muted-foreground transition-colors hover:text-brand"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Suporte</h4>
+            <ul className="mt-4 space-y-2">
+              <li>
+                <button
+                  onClick={() => setContactOpen(true)}
+                  className="text-sm text-muted-foreground transition-colors hover:text-brand"
+                >
+                  Contato
+                </button>
+              </li>
+              <li>
+                <Link to="/auth" className="text-sm text-muted-foreground transition-colors hover:text-brand">Área do Cliente</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className="border-t border-border/50">
