@@ -63,6 +63,7 @@ export const navSections: NavSection[] = [
         children: [
           { key: "overview.panel", label: "Painel de controle", to: "/painel", keywords: "dashboard saldo resumo" },
           { key: "overview.daily", label: "Histórico detalhado", to: "/diario", keywords: "extrato diário" },
+          { key: "overview.statements", label: "Extratos Bancários", to: "/extratos", keywords: "extrato banco download pdf csv" },
         ],
       },
       {
