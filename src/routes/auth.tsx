@@ -439,6 +439,7 @@ function CpfInput({
   onChange,
   invalid,
   describedById,
+  autoComplete,
 }: {
   id: string;
   name: string;
@@ -446,6 +447,7 @@ function CpfInput({
   onChange: (value: string) => void;
   invalid?: boolean;
   describedById?: string;
+  autoComplete?: string;
 }) {
   return (
     <Input
@@ -453,7 +455,7 @@ function CpfInput({
       name={name}
       value={value}
       inputMode="numeric"
-      autoComplete="username"
+      autoComplete={autoComplete || "username"}
       placeholder="000.000.000-00"
       maxLength={14}
       required
@@ -596,6 +598,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       toast.error(message);
       return;
     }
+    clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
 
@@ -623,6 +626,19 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       </Button>
     </form>
   );
+}
+
+function useClearAuthFields() {
+  return () => {
+    // Busca todos os inputs de texto, e-mail e CPF e limpa os valores
+    const inputs = document.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"])');
+    inputs.forEach((input) => {
+      const el = input as HTMLInputElement;
+      el.value = '';
+      // Dispara evento de input para sincronizar com estados de bibliotecas (se houver)
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  };
 }
 
 function useClearAuthFields() {
@@ -716,6 +732,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
     }
 
     toast.success("Conta criada! Bem-vindo ao GastoCerto.");
+    clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
 

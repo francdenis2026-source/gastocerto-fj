@@ -89,6 +89,7 @@ function OnboardingPage() {
   }
 
   async function handleFinish() {
+    // Redirecionamento direto ignorando tela de boas-vindas se necessário (já implementado no loader/guards)
     if (!user) return;
     setSaving(true);
 
