@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight, Fingerprint, UserCircle, User, LogIn } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -311,7 +311,56 @@ function AuthPage() {
           </div>
 
           <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
-            {mode === "forgot" ? (
+            {pendingCode ? (
+              <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="rounded-2xl border border-brand/20 bg-brand/5 p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="grid size-10 place-items-center rounded-xl bg-brand/10 text-brand">
+                      <Fingerprint className="size-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-brand">Acesso via código detectado</h3>
+                      <p className="text-[11px] text-muted-foreground">Insira seu CPF e defina sua identificação para entrar.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="code-cpf" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Seu CPF</Label>
+                    <div className="relative">
+                      <UserCircle className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input id="code-cpf" placeholder="000.000.000-00" className="h-11 rounded-xl pl-10 text-sm" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="code-name" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Como devemos te chamar?</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input id="code-name" placeholder="Ex: João Silva" className="h-11 rounded-xl pl-10 text-sm" />
+                    </div>
+                  </div>
+
+                  <Button className="w-full h-12 rounded-xl text-sm font-black uppercase tracking-widest gap-2 bg-brand text-brand-foreground hover:opacity-90 shadow-lg shadow-brand/20" onClick={() => toast.info("Validando acesso...")}>
+                    <LogIn className="size-4" />
+                    Acessar Painel
+                  </Button>
+
+                  <div className="pt-2 text-center">
+                    <button 
+                      onClick={() => {
+                        setPendingCode(null);
+                        sessionStorage.removeItem(PENDING_LICENSE_KEY);
+                      }} 
+                      className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-brand transition-colors"
+                    >
+                      Usar e-mail e senha convencional
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
               <AdminSignInForm onBack={() => setMode("login")} />
