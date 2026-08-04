@@ -8,7 +8,7 @@ export function MobileHeroSection() {
 
   return (
     <section className="relative overflow-hidden px-4 py-8 md:hidden">
-      <div className="relative flex flex-col gap-6 overflow-hidden rounded-[2.5rem] border border-border/50 bg-card shadow-lifted">
+      <div className="relative flex flex-col gap-6 overflow-hidden rounded-[2.5rem] border border-border/50 bg-card shadow-lifted animate-in fade-in slide-in-from-bottom-4 duration-1000">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
           <img
