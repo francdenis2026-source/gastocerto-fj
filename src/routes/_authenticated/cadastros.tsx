@@ -174,7 +174,7 @@ function RegistrationsPage() {
               </div>
               <Button size="sm" onClick={() => setVehicleDialog({ open: true, item: null })}>
                 <Plus className="mr-1.5 size-4" />
-                Novo
+                Adicionar
               </Button>
             </div>
             <ul className="mt-3 divide-y divide-border">
@@ -239,7 +239,7 @@ function RegistrationsPage() {
               </div>
               <Button size="sm" onClick={() => setAccountDialog({ open: true, item: null })}>
                 <Plus className="mr-1.5 size-4" />
-                Novo
+                Adicionar
               </Button>
             </div>
             <ul className="mt-3 divide-y divide-border">
@@ -313,7 +313,7 @@ function RegistrationsPage() {
               </div>
               <Button size="sm" onClick={() => setCommitmentDialog({ open: true, item: null })}>
                 <Plus className="mr-1.5 size-4" />
-                Novo
+                Adicionar
               </Button>
             </div>
             <ul className="mt-3 divide-y divide-border">
@@ -389,7 +389,7 @@ function RegistrationsPage() {
               </div>
               <Button size="sm" onClick={() => setDependentDialog({ open: true, item: null })}>
                 <Plus className="mr-1.5 size-4" />
-                Novo
+                Adicionar
               </Button>
             </div>
             <ul className="mt-3 divide-y divide-border">

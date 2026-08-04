@@ -78,24 +78,26 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {`## Otimização da Área do Cliente (Web)
+        {`## Otimização de Nomenclatura e Estado Vazio
 
 **Funcionalidade:**
 
-*   **Redundância de Opções:** Identificar e resolver a redundância entre as opções "Novo Cartão" e "Adicionar Cartão" na área do cliente.
-*   **Otimização de Espaço:** Reduzir o espaço vertical excessivo na seção "Nenhum Cartão Cadastrado".
+*   **Padronização de Nomenclatura:** Atualização de todos os botões e títulos de cadastro de "Novo [Item]" para "Adicionar [Item]", garantindo consistência em contas, veículos, dependentes e compromissos.
+*   **Melhoria do Estado Vazio:** Refinamento visual da seção de cartões quando não há itens cadastrados, com ilustrações leves e CTAs mais claros.
+*   **Qualidade Visual:** Implementação de ajustes para garantir que o layout compacto se comporte corretamente em diferentes resoluções.
 
 **Requisitos Técnicos:**
 
-*   **Análise de UI/UX:** Avaliar a nomenclatura e o fluxo do usuário para determinar a melhor abordagem para a adição de cartões.
-*   **Ajuste de Layout:** Implementar ajustes no CSS para compactar o espaço na área de exibição de cartões quando nenhum estiver cadastrado.
+*   **Refatoração de Texto:** Substituição sistemática de strings de interface em componentes de diálogo e rotas de cadastro.
+*   **Regressão Visual:** Verificação de alinhamento e contraste após a compactação do layout.
+*   **Consistência de Marca:** Alinhamento com o slogan "Controle hoje, tranquilidade sempre" através de orientações claras ao usuário.
 
 **Passos Necessários:**
 
-1.  **Revisão das Opções:** Analisar as funcionalidades associadas a "Novo Cartão" e "Adicionar Cartão" para consolidar em uma única opção clara e intuitiva.
-2.  **Implementação da Correção:** Remover a opção redundante e garantir que a funcionalidade de adição de cartão esteja acessível de forma eficiente.
-3.  **Ajuste de Espaçamento:** Modificar os estilos CSS para reduzir o padding/margin da área que exibe a mensagem "Nenhum Cartão Cadastrado", tornando o layout mais compacto.
-4.  **Testes:** Validar as alterações em diferentes navegadores e resoluções de tela para garantir a consistência visual e funcional.`}
+1.  **Padronização:** Alterar "Novo" para "Adicionar" em Veículos, Contas, Compromissos e Dependentes.
+2.  **Atualização de Diálogos:** Refletir a nova nomenclatura nos títulos dos modais (DialogTitle).
+3.  **Refinamento de Cartões:** Ajustar o componente de cartões para guiar o usuário com mensagens mais intuitivas.
+4.  **Verificação:** Testar a responsividade e o fluxo de inclusão em todas as seções afetadas.`}
       </div>
 
       <PageBackground />

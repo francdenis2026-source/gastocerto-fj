@@ -137,7 +137,7 @@ export function DependentDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{dependent ? "Editar dependente" : "Novo filho / dependente"}</DialogTitle>
+          <DialogTitle>{dependent ? "Editar dependente" : "Adicionar filho / dependente"}</DialogTitle>
           <DialogDescription>
             Cadastre cada filho para acompanhar os gastos extras. Defina um PIN de 4 dígitos para que a criança possa entrar no Modo Criança sozinha. 
             Contas Kids podem ser migradas para contas independentes automaticamente ao atingirem 14 anos.

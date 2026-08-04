@@ -79,7 +79,7 @@ export function AccountDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{account ? "Editar conta" : "Nova conta, banco ou cartão"}</DialogTitle>
+          <DialogTitle>{account ? "Editar conta" : "Adicionar conta, banco ou cartão"}</DialogTitle>
           <DialogDescription>
             Cadastre onde o dinheiro entra e sai para acompanhar cada saldo separadamente.
           </DialogDescription>
