@@ -38,6 +38,10 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
   const [search, setSearch] = useState("");
   const [editingAccount, setEditingAccount] = useState<any>(null);
   const updateUser = useServerFn(adminUpdateUser);
+  const cleanup = useServerFn(adminCleanupExpiredAccounts);
+  const sendReminders = useServerFn(adminSendExpirationReminders);
+  const [isCleaning, setIsCleaning] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const { data: accounts, isLoading } = useQuery({
     queryKey: ["admin", "temporary-accounts"],
