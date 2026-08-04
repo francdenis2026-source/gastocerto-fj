@@ -528,46 +528,85 @@ function DashboardPage() {
         )}
         
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center justify-between gap-3 sm:justify-start">
-          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-          
-          <div className="flex items-center gap-1.5 lg:hidden">
-            <CommandPalette variant="icon" onQuickEntry={setDialogKind} />
-            <NotificationCenter />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-9 rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-              onClick={handleSignOut}
-              aria-label="Sair"
-            >
-              <LogOut className="size-4" />
-            </Button>
-          </div>
+        <div className="flex flex-col">
+          <h1 className="text-xl font-black tracking-tight sm:text-2xl">
+            Olá, {profile?.full_name?.split(" ")[0] ?? "Usuário"}!
+          </h1>
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+            {MONTH_NAMES[period.month - 1]} de {period.year}
+          </p>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar sm:pb-0">
-          <QuickCategoryMenu
-            kind="expense"
-            label="Lançar"
-            onPick={(p) => {
-              setPreset(p);
-              setDialogKind("expense");
-              setDialogOpen(true);
-            }}
-          />
-          <Button
-            size="sm"
-            onClick={() => {
-              setDialogKind("income");
-              setDialogOpen(true);
-            }}
-            className="shrink-0 gap-1.5 bg-brand text-brand-foreground hover:opacity-90 shadow-sm"
-          >
-            <TrendingUpIcon className="size-3.5" />
-            <span className="text-[11px] font-bold uppercase tracking-wider">Lançar</span>
-          </Button>
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
+          <PeriodPicker value={period} onChange={handlePeriodChange} />
+          
+          <div className="h-8 w-px shrink-0 bg-border/40" />
+
+          <div className="flex shrink-0 items-center gap-1.5">
+            <Button
+              size="sm"
+              onClick={() => {
+                setDialogKind("expense");
+                setDialogOpen(true);
+              }}
+              className="h-9 rounded-xl bg-rose-500 px-4 font-bold text-white shadow-lg shadow-rose-500/10 transition-all hover:bg-rose-600 active:scale-95"
+            >
+              <Plus className="mr-1.5 size-4" />
+              Lançar
+            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-9 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm"
+                >
+                  <ChevronDown className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => {
+                  setDialogKind("income");
+                  setDialogOpen(true);
+                }}>
+                  <TrendingUp className="mr-2 size-4 text-success" />
+                  Lançar Receita
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setCardsOpen(true)}>
+                  <ShoppingBag className="mr-2 size-4 text-brand" />
+                  Gasto no Cartão
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTaxOpen(true)}>
+                  <FileText className="mr-2 size-4 text-warning" />
+                  Lançar Imposto
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => exportDashboardToPDF("dashboard-content")}>
+                  <Printer className="mr-2 size-4" />
+                  Exportar PDF
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:hidden">
+        <StatTile
+          label="Saldo Geral"
+          value={formatCurrency(metrics.balance)}
+          tone={metrics.balance >= 0 ? "success" : "expense"}
+          icon={Wallet}
+          className="bg-background/40"
+        />
+        <StatTile
+          label="Total Gasto"
+          value={formatCurrency(metrics.totalExpense)}
+          tone="expense"
+          icon={TrendingDown}
+          className="bg-background/40"
+        />
       </div>
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
