@@ -26,6 +26,7 @@ import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { adminOverview } from "@/lib/admin.functions";
 import { formatDateTime, formatCurrency } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export function AdminOverviewPanel({
   isAdmin,
