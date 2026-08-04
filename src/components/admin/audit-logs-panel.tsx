@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight, Eye, Clock, ShieldInfo } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight, Eye, Clock, ShieldCheck as ShieldInfo } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
