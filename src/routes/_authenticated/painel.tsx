@@ -651,7 +651,7 @@ function DashboardPage() {
             <div className="hidden items-center gap-2 lg:flex">
               <QuickCategoryMenu
                 kind="expense"
-                label="Novo Gasto"
+                label="Adicionar Gasto"
                 onPick={(pick) => {
                   setEditingTx(null);
                   setDialogKind("expense");
@@ -662,7 +662,7 @@ function DashboardPage() {
 
               <QuickCategoryMenu
                 kind="income"
-                label="Nova Receita"
+                label="Adicionar Receita"
                 onPick={(pick) => {
                   setEditingTx(null);
                   setDialogKind("income");

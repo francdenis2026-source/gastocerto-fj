@@ -281,8 +281,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                 onClick={() => setQuickEntry("expense")}
                 className="w-full gap-1.5 bg-brand text-brand-foreground hover:opacity-90"
                 size={railCollapsed ? "icon" : "sm"}
-                aria-label="Nova despesa"
-                title="Nova despesa"
+                aria-label="Adicionar despesa"
+                title="Adicionar despesa"
               >
                 <TrendingDown className="size-4" aria-hidden="true" />
                 {!railCollapsed ? <span className="text-[12px]">Despesa</span> : null}

@@ -238,7 +238,7 @@ function DailyPage() {
                 </Button>
                 <Button size="sm" onClick={() => setDialogOpen(true)} className="rounded-xl">
                   <Plus className="mr-1.5 size-4" />
-                  Novo gasto
+                  Adicionar gasto
                 </Button>
               </div>
             </div>
@@ -357,7 +357,7 @@ function DailyPage() {
             </div>
           ) : groups.length === 0 ? (
             <p className="p-6 text-sm text-muted-foreground">
-              Nenhum lançamento neste período. Use “Novo gasto” para registrar agora.
+              Nenhum lançamento neste período. Use “Adicionar gasto” para registrar agora.
             </p>
           ) : (
             <ul className="divide-y divide-border">

@@ -240,7 +240,7 @@ function CategoriesPage() {
                 }}
               >
                 <Plus className="mr-2 size-4" />
-                Nova categoria
+                Adicionar categoria
               </Button>
             ) : (
               <Badge variant="secondary" className="gap-1.5">
@@ -487,7 +487,7 @@ function CategoriesPage() {
       <Dialog open={draft !== null} onOpenChange={(open) => !open && setDraft(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{draft?.id ? "Editar categoria" : "Nova categoria"}</DialogTitle>
+            <DialogTitle>{draft?.id ? "Editar categoria" : "Adicionar categoria"}</DialogTitle>
             <DialogDescription>
               Categorias ajudam a entender para onde seu dinheiro está indo.
             </DialogDescription>

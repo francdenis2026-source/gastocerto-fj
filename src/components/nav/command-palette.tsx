@@ -105,7 +105,7 @@ export function CommandPalette({
                   }}
                 >
                   <TrendingDown className="mr-2 size-4 text-destructive" />
-                  Nova despesa
+                  Adicionar despesa
                 </CommandItem>
                 <CommandItem
                   value="nova receita entrada salário"
@@ -115,7 +115,7 @@ export function CommandPalette({
                   }}
                 >
                   <TrendingUp className="mr-2 size-4 text-success" />
-                  Nova receita
+                  Adicionar receita
                 </CommandItem>
                 <CommandItem value="novo fixo assinatura recorrente" onSelect={() => go("/recorrencia")}>
                   <Plus className="mr-2 size-4 text-brand" />

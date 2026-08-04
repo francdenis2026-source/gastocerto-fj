@@ -254,7 +254,7 @@ function FamilyHubPage() {
             </Button>
             <Button size="sm" className="h-8 px-2.5 sm:h-9 sm:px-3" onClick={openCreate}>
               <Plus className="size-4 sm:mr-1" />
-              <span className="hidden sm:inline">Novo filho</span>
+              <span className="hidden sm:inline">Adicionar filho</span>
             </Button>
           </div>
         </header>

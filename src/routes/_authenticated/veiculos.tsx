@@ -247,7 +247,7 @@ function VehiclesPage() {
                 }}
               >
                 <Car className="mr-1.5 size-4" />
-                Novo veículo
+                Adicionar veículo
               </Button>
               <Button
                 size="sm"

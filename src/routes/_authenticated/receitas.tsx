@@ -103,7 +103,7 @@ function IncomePage() {
                 }}
               >
                 <Plus className="mr-2 size-4" />
-                Nova receita
+                Adicionar receita
               </Button>
             </>
           }

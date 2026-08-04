@@ -1353,12 +1353,12 @@ function KidGoalsSection({ selectedKidId, kids }: { selectedKidId: string, kids:
             }
             saveMutation.mutate({
               dependentId: selectedKidId,
-              title: "Nova Meta",
+              title: "Adicionar Meta",
               targetAmount: 100,
               period: "monthly"
             });
           }}>
-            <Plus className="size-3 mr-1" /> Nova Meta
+            <Plus className="size-3 mr-1" /> Adicionar Meta
           </Button>
         </div>
 

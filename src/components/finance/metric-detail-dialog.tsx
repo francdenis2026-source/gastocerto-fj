@@ -186,7 +186,7 @@ export function MetricDetailDialog({
   onOpenChange,
   onEditTransaction,
   onAddTransaction,
-  addLabel = "Novo lançamento",
+  addLabel = "Adicionar lançamento",
 }: {
   detail: MetricDetail | null;
   categories: Category[];

@@ -132,7 +132,7 @@ const VIEWS = [
     key: "expense",
     tab: "Despesas",
     title: "Despesas",
-    newLabel: "Nova despesa",
+    newLabel: "Adicionar despesa",
     icon: TrendingDown,
     description: "Somente saídas do período: filtre, audite e corrija cada gasto.",
   },
@@ -140,7 +140,7 @@ const VIEWS = [
     key: "income",
     tab: "Receitas",
     title: "Receitas",
-    newLabel: "Nova receita",
+    newLabel: "Adicionar receita",
     icon: TrendingUp,
     description: "Somente entradas do período, com status de recebimento.",
   },
@@ -148,7 +148,7 @@ const VIEWS = [
     key: "all",
     tab: "Tudo",
     title: "Extrato completo",
-    newLabel: "Novo lançamento",
+    newLabel: "Adicionar lançamento",
     icon: ArrowLeftRight,
     description: "Entradas e saídas juntas, em ordem cronológica.",
   },
@@ -965,7 +965,7 @@ function TransactionsPage() {
                 }}
               >
                 <Plus className="mr-2 size-4" />
-                Novo lançamento
+                Adicionar lançamento
               </Button>
             </div>
           ) : (
@@ -1092,7 +1092,7 @@ function TransactionsPage() {
                 }}
               >
                 <Plus className="mr-2 size-4" />
-                Novo lançamento
+                Adicionar lançamento
               </Button>
             </div>
           ) : (

@@ -157,7 +157,7 @@ function CompromissosPage() {
               }}
             >
               <Plus className="mr-1.5 size-4" />
-              Novo compromisso
+              Adicionar compromisso
             </Button>
           }
         />

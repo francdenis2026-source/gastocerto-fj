@@ -262,7 +262,7 @@ function AuthPage() {
                   </>
                 ) : mode === "signup" ? (
                   <>
-                    <UserPlus className="size-3" /> Nova Conta
+                    <UserPlus className="size-3" /> Adicionar Conta
                   </>
                 ) : mode === "forgot" ? (
                   <>

@@ -121,7 +121,7 @@ export function CategoriesCatalogPanel() {
 
       <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto]">
         <div>
-          <Label htmlFor="catalog-name">Nova categoria</Label>
+          <Label htmlFor="catalog-name">Adicionar categoria</Label>
           <Input
             id="catalog-name"
             className="mt-1.5"

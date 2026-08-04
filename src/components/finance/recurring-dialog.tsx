@@ -171,7 +171,7 @@ export function RecurringDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{rule ? "Editar recorrência" : "Nova despesa recorrente"}</DialogTitle>
+          <DialogTitle>{rule ? "Editar recorrência" : "Adicionar despesa recorrente"}</DialogTitle>
           <DialogDescription>
             Os próximos lançamentos são gerados automaticamente até o fim do mês seguinte, sem
             duplicar o que já existe.
