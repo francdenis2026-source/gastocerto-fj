@@ -178,7 +178,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     ]);
     const doc = new jsPDF({ orientation: "landscape" });
     doc.setFontSize(16);
-    doc.text("GastoCerto — Relatório de Usuários", 14, 15);
+    doc.text("Relatório de Usuários", 14, 15);
     doc.setFontSize(9);
     doc.text(`Gerado em: ${new Date().toLocaleString("pt-BR")} · Filtro: ${statusFilter === "all" ? "Todos" : STATUS_LABELS[statusFilter]}`, 14, 22);
 

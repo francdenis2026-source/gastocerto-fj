@@ -15,7 +15,7 @@ export function TemporaryLicenseBanner() {
       </div>
       <div className="h-4 w-px bg-amber-500/20 hidden sm:block" />
       <p className="text-[11px] text-amber-700 dark:text-amber-400 font-medium max-w-md text-center">
-        Você está usando uma licença de teste limitada. Recursos de IA e edição de dados pessoais estão bloqueados nesta modalidade.
+        Sua licença temporária está ativa. A IA e a edição de dados pessoais são exclusivas para planos pagos.
       </p>
       <div className="hidden lg:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
         <ShieldAlert className="size-3" />
