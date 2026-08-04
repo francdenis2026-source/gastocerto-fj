@@ -308,7 +308,7 @@ function AuthPage() {
             </Link>
           </div>
 
-          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
+          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
             {mode === "forgot" ? (
               <ForgotPasswordForm onBack={() => setMode("login")} />
             ) : mode === "admin" ? (
