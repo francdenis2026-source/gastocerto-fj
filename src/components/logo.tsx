@@ -6,7 +6,7 @@ export function BrandMark({ className }: { className?: string }) {
     <img
       src={markAsset.url}
       alt="GastoCerto"
-      className={cn("shrink-0 object-contain", className)}
+      className={cn("shrink-0 object-contain cursor-pointer", className)}
     />
   );
 }
@@ -25,7 +25,7 @@ export function Logo({
   }
 
   return (
-    <span className={cn("inline-flex min-w-0 items-center gap-2 transition-transform duration-200 group-hover:scale-105 sm:gap-2.5", className)}>
+    <span className={cn("inline-flex min-w-0 items-center gap-2 transition-transform duration-200 group-hover:scale-105 sm:gap-2.5 cursor-pointer", className)}>
       <BrandMark className="size-9 transition-transform duration-200 group-hover:rotate-3 sm:size-11" />
       <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
         <span
