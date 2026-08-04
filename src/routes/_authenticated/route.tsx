@@ -12,6 +12,11 @@ export const Route = createFileRoute("/_authenticated")({
       console.warn("[auth] sessão inválida ou expirada, redirecionando para login", error);
       throw redirect({ to: "/auth" });
     }
+
+    // Redirecionamento automático se já concluiu ou se queremos pular
+    // (O Onboarding em si já redireciona se onboarding_completed for true, 
+    // mas o requisito pede para pular a tela de boas-vindas pós-cadastro)
+
     return { user: data.session.user };
   },
   component: () => <Outlet />,

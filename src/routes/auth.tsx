@@ -439,6 +439,7 @@ function CpfInput({
   onChange,
   invalid,
   describedById,
+  autoComplete,
 }: {
   id: string;
   name: string;
@@ -446,6 +447,7 @@ function CpfInput({
   onChange: (value: string) => void;
   invalid?: boolean;
   describedById?: string;
+  autoComplete?: string;
 }) {
   return (
     <Input
@@ -453,7 +455,7 @@ function CpfInput({
       name={name}
       value={value}
       inputMode="numeric"
-      autoComplete="username"
+      autoComplete={autoComplete || "username"}
       placeholder="000.000.000-00"
       maxLength={14}
       required
@@ -565,6 +567,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   const [loading, setLoading] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
 
+  const clearFields = useClearAuthFields();
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -594,6 +598,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       toast.error(message);
       return;
     }
+    clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
 
@@ -603,7 +608,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div>
         <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
         <div className="mt-1">
-          <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} />
+          <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
         </div>
       </div>
       <PinInput id="login-pin" name="pin" autoComplete="current-password" />
@@ -623,6 +628,20 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
   );
 }
 
+function useClearAuthFields() {
+  return () => {
+    // Busca todos os inputs de texto, e-mail e CPF e limpa os valores
+    const inputs = document.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"])');
+    inputs.forEach((input) => {
+      const el = input as HTMLInputElement;
+      el.value = '';
+      // Dispara evento de input para sincronizar com estados de bibliotecas (se houver)
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  };
+}
+
+
 function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   const navigate = useNavigate();
   const [cpf, setCpf] = useState("");
@@ -630,6 +649,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
+  const clearFields = useClearAuthFields();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -700,7 +720,8 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
     }
 
     toast.success("Conta criada! Bem-vindo ao GastoCerto.");
-    navigate({ to: await resolveHomeRouteForSession(), replace: true });
+    clearFields();
+    navigate({ to: "/painel", replace: true });
   }
 
 
@@ -714,12 +735,12 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div>
         <Label htmlFor="signup-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
         <div className="mt-1">
-          <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} />
+          <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
         </div>
       </div>
       <div>
         <Label htmlFor="signup-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail de contato (opcional)</Label>
-        <Input id="signup-email" name="contactEmail" type="email" className="mt-1" />
+        <Input id="signup-email" name="contactEmail" type="email" className="mt-1" autoComplete="off" />
       </div>
       <div>
         <Label htmlFor="signup-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
@@ -755,6 +776,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const clearFields = useClearAuthFields();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -781,6 +803,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       return;
     }
 
+    clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
 
@@ -801,6 +824,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
             name="email" 
             type="email" 
             placeholder="admin@exemplo.com"
+            autoComplete="off"
             required
             className="mt-1"
           />
@@ -855,6 +879,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [lockSeconds, setLockSeconds] = useState(0);
+  const clearFields = useClearAuthFields();
 
   // Conta o tempo restante do bloqueio temporário.
   useEffect(() => {
@@ -944,6 +969,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       console.warn("Falha ao registrar log de sessão:", e);
     }
 
+    clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
 
@@ -962,7 +988,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           value={code}
           onChange={(event) => setCode(normalizeKidCode(event.target.value))}
           placeholder="EX: JOAO-A1B"
-          autoComplete="username"
+          autoComplete="off"
           className="mt-1 font-mono tracking-wide uppercase"
         />
       </div>
