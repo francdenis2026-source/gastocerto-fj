@@ -560,16 +560,22 @@ function DashboardPage() {
           </div>
         )}
 
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
           <div className="min-w-0">
-            <h1 className="page-title truncate">
+            <h1 className="page-title truncate text-lg sm:text-2xl">
               Olá, {firstName}!
             </h1>
-            <p className="page-subtitle mt-1">
-              {MONTH_NAMES[period.month - 1]} de {period.year} · Clique nos dias do calendário ou nas categorias para detalhes profissionais
+            <p className="page-subtitle mt-0.5 truncate text-[11px] sm:mt-1 sm:text-sm">
+              <span className="sm:hidden">
+                {MONTH_NAMES[period.month - 1]} de {period.year}
+              </span>
+              <span className="hidden sm:inline">
+                {MONTH_NAMES[period.month - 1]} de {period.year} · Clique nos dias do calendário ou nas categorias para detalhes profissionais
+              </span>
             </p>
           </div>
-          <div className="col-span-2 flex flex-wrap items-center gap-2">
+          <div className="col-span-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
+
             <Button 
               variant="outline" 
               size="sm" 
