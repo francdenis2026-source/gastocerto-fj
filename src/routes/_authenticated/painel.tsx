@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -460,6 +460,7 @@ function DashboardPage() {
   }, [dependents, profile?.tags]);
 
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
+  const { signOut } = useAuth();
 
   if (!profile || loadingTransactions || loadingCategories) {
     return (
@@ -594,6 +595,15 @@ function DashboardPage() {
             >
               <RefreshCw className="mr-1.5 size-3" />
               Redefinir
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-9 rounded-xl px-2.5 text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200 lg:hidden"
+              onClick={() => signOut()}
+            >
+              <LogOut className="mr-1.5 size-3.5" />
+              Sair
             </Button>
             <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
             
