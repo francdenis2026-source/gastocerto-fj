@@ -20,18 +20,20 @@ import {
   TrendingUp, 
   TrendingDown, 
   Settings, 
-  AlertCircle 
+  AlertCircle,
+  Search,
+  Bell,
+  Sun,
+  Moon,
+  ChevronRight
 } from "lucide-react";
 import { usePlanAccess } from "@/lib/plan-features";
 import { toast } from "sonner";
-
 import { useState, type ReactNode, useEffect, useMemo } from "react";
-
 import { Logo } from "@/components/logo";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { Badge } from "@/components/ui/badge";
 import { TransactionDialog } from "@/components/finance/transaction-dialog";
-
 import { useKidSession } from "@/lib/kids-session";
 import { useKidsRealtimeAlerts } from "@/lib/kids-realtime";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -46,7 +48,6 @@ import { useNotifications } from "@/lib/notifications";
 import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
 import { formatCurrency } from "@/lib/format";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
-// useQuery duplicate removed
 import type { SidebarMetric } from "./settings/sidebar-config";
 import { CommandPalette } from "@/components/nav/command-palette";
 import {
@@ -59,11 +60,9 @@ import {
   type NavSection,
 } from "@/lib/nav-model";
 import { cn } from "@/lib/utils";
-
-
+import { useTheme } from "@/components/theme-provider";
 
 type Kind = "expense" | "income";
-
 
 export function AppShell({ children }: { children: ReactNode }) {
   const routerState = useRouterState();
@@ -117,11 +116,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   const avatarUrl = useAvatarUrl(profile?.avatar_url);
   const access = usePlanAccess();
   usePlanRealtimeSync();
-  // Avisos e conquistas do Espaço Kids chegam sem recarregar a tela.
   useKidsRealtimeAlerts();
-
-  // Conta de criança nunca vê o painel do responsável.
   const { isKid } = useKidSession();
+  const { theme, toggleTheme } = useTheme();
+
   useEffect(() => {
     if (isKid && pathname !== "/meu-espaco") {
       navigate({ to: "/meu-espaco", replace: true });
@@ -156,8 +154,6 @@ export function AppShell({ children }: { children: ReactNode }) {
   const unreadCount = (notifications ?? []).filter((item) => !item.read_at).length;
   const isStaff = (roles ?? []).some((role) => role === "admin" || role === "support");
   const isAdminArea = pathname.startsWith("/admin");
-  // Uma única fonte de verdade (src/lib/nav-model.ts) alimenta sidebar,
-  // menu mobile, abas do header e a busca rápida.
   const sections: NavSection[] = isAdminArea
     ? [{ key: "admin", label: "Equipe", groups: adminNavGroups }]
     : isStaff
@@ -169,12 +165,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const activeGroup = items.find(
     (group) => group.to === pathname || group.children?.some((child) => child.to === pathname),
   );
-  // Rotas de detalhe ficam fora das abas para não poluir o header.
+  
   const subTabs = (activeGroup?.children ?? []).filter((child) => !child.hidden);
-
-
-
-
 
   const initials = (profile?.full_name ?? "GC")
     .split(" ")
@@ -192,46 +184,19 @@ export function AppShell({ children }: { children: ReactNode }) {
         const toastId = toast.loading("Finalizando acesso...", {
           description: "Sua segurança é nossa prioridade.",
           icon: <RefreshCcw className="size-4 animate-spin text-primary" />
-
         });
 
         try {
-          // Cancela queries pendentes e limpa o cache para evitar leaks
           await queryClient.cancelQueries();
           queryClient.clear();
-          
-          // Signout no backend primeiro
           await supabase.auth.signOut();
-
-          // Limpeza completa e segura do navegador
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
-          
           toast.success("Até logo!", {
             id: toastId,
             description: "Você foi desconectado com segurança.",
-            icon: (
-              <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-sm border border-emerald-500/20">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="animate-in zoom-in duration-300"
-                >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-              </div>
-            ),
           });
-
-          // Redirecionamento forçado para a raiz (limpa o estado do react-router)
           setTimeout(() => {
             window.location.replace("/");
           }, 800);
@@ -245,383 +210,92 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-w-[320px] min-h-screen bg-background lg:flex selection:bg-primary/20">
+    <div className="min-h-screen bg-background flex text-foreground antialiased selection:bg-primary/20 selection:text-primary">
       <ConfirmDialog />
-      <TemporaryLicenseBanner />
+      
+      {/* Sidebar - Redesenhada como Enterprise Standard */}
       <aside
         className={cn(
-          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-card/30 backdrop-blur-xl transition-[width] duration-300 ease-in-out lg:flex z-50",
-          railCollapsed ? "w-[76px]" : "w-[280px]",
+          "hidden lg:flex flex-col border-r border-border bg-card/50 backdrop-blur-3xl transition-[width] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
+          railCollapsed ? "w-[80px]" : "w-[280px]",
         )}
       >
-        <div className="flex h-14 items-center gap-2 border-b border-border px-3">
-          <Logo 
-            compact={railCollapsed} 
-            href={isAdminArea ? "/admin" : "/painel"}
-            className="group"
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-auto size-8 text-muted-foreground"
-            onClick={toggleRail}
-            aria-label={railCollapsed ? "Expandir menu" : "Recolher menu"}
-          >
-            {railCollapsed ? (
-              <PanelLeftOpen className="size-5" />
-            ) : (
-              <PanelLeftClose className="size-5" />
-            )}
-          </Button>
+        <div className="flex items-center h-16 border-b border-border/50 px-6 gap-3">
+          <Logo compact={railCollapsed} href={isAdminArea ? "/admin" : "/painel"} className="scale-110"/>
+          {!railCollapsed && <span className="font-bold text-base tracking-tight truncate">GameCarto</span>}
+          <button onClick={toggleRail} className="ml-auto p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground">
+             {railCollapsed ? <PanelLeftOpen size={18}/> : <PanelLeftClose size={18}/>}
+          </button>
         </div>
 
-        {!isAdminArea ? (
-          <div className={cn("space-y-2 border-b border-border p-3", railCollapsed && "px-2")}>
-            <div className={cn("grid gap-1.5", railCollapsed ? "grid-cols-1" : "grid-cols-2")}>
-              <Button
-                onClick={() => setQuickEntry("expense")}
-                className="w-full gap-1.5 bg-primary text-primary-foreground hover:opacity-90"
-                size={railCollapsed ? "icon" : "sm"}
-                aria-label="Adicionar despesa"
-                title="Adicionar despesa"
-              >
-                <TrendingDown className="size-5" aria-hidden="true" />
-                {!railCollapsed ? <span className="text-[12px]">Despesa</span> : null}
-              </Button>
-              {!railCollapsed ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setQuickEntry("income")}
-                  className="w-full gap-1.5 border-success/35 text-foreground"
-                >
-                  <TrendingUp className="size-5 text-success" aria-hidden="true" />
-                  <span className="text-[12px]">Receita</span>
-                </Button>
-              ) : null}
-            </div>
-            {!railCollapsed ? <CommandPalette onQuickEntry={setQuickEntry} /> : null}
-          </div>
-        ) : null}
-
-        <nav aria-label="Menu principal" className="flex-1 space-y-3 overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-muted">
+        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-8 scrollbar-hide">
           {sections.map((section) => (
-            <div key={section.key} className="space-y-1">
-              {!railCollapsed ? (
-                <p className="px-2.5 pt-1 text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">
-                  {section.label}
-                </p>
-              ) : (
-                <div aria-hidden className="mx-auto h-px w-6 bg-border/50 my-3" />
-              )}
-              <div className={cn(
-                "grid gap-1",
-                railCollapsed ? "grid-cols-1" : "lg:grid-cols-1 md:grid-cols-2 grid-cols-1"
-              )}>
-                {section.groups.map((item) => {
-                  const isActive = activeGroup?.key === item.key;
-                  const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
-                  const hasChildren = visibleChildren.length > 1;
-                  const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
-                  
-                  return (
-                    <div key={item.to} className="group/nav-item px-2">
-                      <div
-                        className={cn(
-                          "group relative flex items-center gap-2 rounded-xl transition-all duration-300",
-                          isActive ? "bg-primary/10 text-primary shadow-[0_2px_8px_rgba(16,185,129,0.1)]" : "hover:bg-secondary/80 text-muted-foreground hover:text-foreground",
-                          railCollapsed ? "justify-center p-2" : "p-2"
-                        )}
-                      >
-                        {isActive && (
-                          <div
-                            aria-hidden
-                            className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary shadow-[0_0_12px_rgba(16,185,129,0.5)]"
-                          />
-                        )}
-                        <Link
-                          to={item.to as never}
-                          aria-current={isActive ? "page" : undefined}
-                          title={item.hint ? `${item.label} — ${item.hint}` : item.label}
-                          className={cn(
-                            "flex min-w-0 flex-1 items-center gap-3 transition-transform duration-200 active:scale-[0.98]",
-                            railCollapsed && "justify-center",
-                          )}
-                        >
-                          <div
-                            className={cn(
-                              "grid size-9 shrink-0 place-items-center rounded-xl border transition-all duration-300 group-hover/nav-item:scale-105",
-                              isActive
-                                ? "border-primary/30 bg-primary/20 text-primary shadow-inner"
-                                : "border-border/50 bg-secondary/50 text-muted-foreground group-hover:border-primary/20 group-hover:text-primary",
-                            )}
-                          >
-                            <item.icon className={cn("size-5 transition-transform duration-300", isActive && "scale-110")} aria-hidden="true" />
-                          </div>
-                          {!railCollapsed && <span className="truncate text-[14px] font-semibold tracking-tight leading-none">{item.label}</span>}
-                        </Link>
-                        
-                        {hasChildren && !railCollapsed && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleSetExpanded(expanded === item.key ? null : item.key);
-                            }}
-                            aria-expanded={isOpen}
-                            aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                            className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-all hover:bg-secondary active:scale-90"
-                          >
-                            <ChevronDown
-                              className={cn("size-5 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
-                            />
-                          </button>
-                        )}
-                      </div>
-
-                      {hasChildren && isOpen && (
-                        <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border/80 pl-2.5 animate-in slide-in-from-left-2 duration-200">
-                          {visibleChildren.map((child) => (
-                            <Link
-                              key={child.to}
-                              to={child.to as never}
-                              aria-current={pathname === child.to ? "page" : undefined}
-                              className={cn(
-                                "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold transition-all relative",
-                                pathname === child.to
-                                  ? "bg-secondary/80 text-foreground"
-                                  : "text-muted-foreground hover:bg-secondary/40 hover:text-foreground hover:translate-x-0.5",
-                              )}
-                            >
-                              <span className="truncate tracking-tight">{child.label}</span>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </nav>
-
-
-        {!isAdminArea && !isKid && (
-          <div className="mb-4 space-y-2">
-            {!isAdminArea && <EnergySidebarWidget collapsed={railCollapsed} />}
-            
-            {activeMetrics.length > 0 && !railCollapsed && (
-              <div className="mx-2 p-3 rounded-xl border border-border bg-secondary/30 space-y-3">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                  <Settings className="size-3 text-primary" />
-                  Métricas
-                </div>
-                <div className="space-y-2">
-                  {activeMetrics.map(metric => {
-                    const relevantRows = (recurrents ?? []).filter((r: any) => 
-                      r.categories?.name?.toLowerCase().includes(metric.label.toLowerCase()) ||
-                      r.categories?.name?.toLowerCase().includes(metric.id.toLowerCase())
-                    );
-                    const currentAmount = relevantRows.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
-                    const isHigh = currentAmount > metric.defaultAmount && metric.defaultAmount > 0;
-
+             <div key={section.key} className="space-y-2">
+                {!railCollapsed && <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 px-2">{section.label}</p>}
+                <div className="space-y-0.5">
+                  {section.groups.map((group) => {
+                    const isActive = activeGroup?.key === group.key;
                     return (
-                      <div key={metric.id} className="space-y-0.5">
-                        <div className="flex items-center justify-between text-[10px]">
-                          <span className="text-muted-foreground">{metric.label}</span>
-                          {isHigh ? (
-                            <span className="text-orange-500 font-bold">Alta</span>
-                          ) : (
-                            <span className="text-emerald-500 font-bold">Ok</span>
-                          )}
-                        </div>
-                        <p className="text-sm font-bold tabular-nums">
-                          {formatCurrency(currentAmount)}
-                        </p>
-                      </div>
-                    );
+                      <Link key={group.to} to={group.to as never} className={cn(
+                        "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group text-[14px]",
+                        isActive ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      )}>
+                        <group.icon size={18} className={cn("shrink-0", isActive && "text-primary")} />
+                        {!railCollapsed && <span className="truncate">{group.label}</span>}
+                        {isActive && !railCollapsed && <ChevronRight className="ml-auto size-4 opacity-50" />}
+                      </Link>
+                    )
                   })}
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        <div className="mt-auto border-t border-border p-2 space-y-1">
-          {!isAdminArea && !isKid && (
-            <div className="mb-2 px-2">
-               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 mb-2">Resumo Rápido</p>
-               <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
-                    <p className="text-[8px] uppercase text-muted-foreground">Gastos</p>
-                    <p className="text-[11px] font-bold text-rose-500 tabular-nums">
-                      {formatCurrency(metrics.totalExpense)}
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
-                    <p className="text-[8px] uppercase text-muted-foreground">Saldo</p>
-                    <p className="text-[11px] font-bold text-emerald-500 tabular-nums">
-                      {formatCurrency(metrics.balance)}
-                    </p>
-                  </div>
-               </div>
-            </div>
-          )}
-          <Link
-            to="/perfil"
-            className={cn(
-              "flex items-center gap-2 rounded-xl px-2 py-2.5 transition-all hover:bg-primary/10 group/profile",
-              railCollapsed && "justify-center px-0",
-            )}
-          >
-            <div className="relative shrink-0">
-              <Avatar className="size-8 transition-transform group-hover/profile:scale-105 border border-border/50">
-                {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-                <AvatarFallback className="text-xs bg-secondary text-muted-foreground">{initials}</AvatarFallback>
-              </Avatar>
-              <div className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-emerald-500 border-2 border-background" />
-            </div>
-            {!railCollapsed && (
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-primary transition-colors">
-                  {profile?.full_name ?? "Minha conta"}
-                </span>
-                {(access.planSlug === "premium_ia" || access.planSlug === "premium") && (
-                  <Badge 
-                    variant="outline" 
-                    className="mt-0.5 h-4 px-1 text-[8px] font-black uppercase tracking-tighter bg-emerald-500/10 text-emerald-600 border-emerald-500/20 w-fit"
-                  >
-                    <ShieldCheck className="mr-0.5 size-2" />
-                    Conta PRO
-                  </Badge>
-                )}
-                <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
-                  Meu perfil e plano
-                </span>
-              </span>
-            )}
-          </Link>
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full justify-start gap-2 h-10 px-2 rounded-xl text-muted-foreground hover:text-rose-500 hover:bg-rose-500/5 transition-all group/logout",
-              railCollapsed && "justify-center",
-            )}
-            onClick={handleSignOut}
-            aria-label="Sair"
-          >
-            <LogOut className="size-4 transition-transform group-hover/logout:-translate-x-0.5" />
-            {!railCollapsed && <span className="text-[12.5px] font-bold">Encerrar Sessão</span>}
-          </Button>
-        </div>
+             </div>
+          ))}
+        </nav>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        {/* pt safe-area: no mobile a faixa do notch acompanha o tema (claro/escuro). */}
-        <header className="sticky top-0 z-40 border-b border-border/10 bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-md">
-          <div className="flex h-12 items-center justify-between px-3 sm:px-6 sm:h-14">
-            <div className="flex min-w-0 items-center gap-3">
-              <Link to="/painel" className="lg:hidden scale-90 -ml-1">
-                <Logo compact />
-              </Link>
-              <div className="hidden flex-col lg:flex">
-                <p className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">
-                  {isAdminArea ? "Administração" : "Painel do Cliente"}
-                </p>
-                <h1 className="text-base font-black tracking-tight text-foreground">
-                  {activeGroup ? activeGroup.label : "Visão Geral"}
-                </h1>
+      {/* Content Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+         {/* Premium Header */}
+         <header className="h-16 border-b border-border/50 flex items-center px-6 gap-4 bg-background/50 backdrop-blur-md sticky top-0 z-10">
+            {subTabs.length > 0 && !railCollapsed && (
+              <div className="flex items-center gap-1">
+                 {subTabs.map(tab => (
+                   <Link key={tab.to} to={tab.to as never} className="text-[13px] px-3 py-1.5 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+                     {tab.label}
+                   </Link>
+                 ))}
               </div>
-            </div>
+            )}
+
+            <div className="flex-1" />
 
             <div className="flex items-center gap-2">
-              {!isAdminArea && (
-                <div className="hidden items-center gap-2 sm:flex">
-                  <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
-                  <NotificationCenter />
-                  <Button
-                    onClick={() => setQuickEntry("expense")}
-                    className="h-9 gap-2 rounded-xl bg-primary px-4 text-xs font-black uppercase tracking-wider text-primary-foreground shadow-soft transition-all hover:opacity-90 active:scale-95"
-                  >
-                    <Plus className="size-4" />
-                    Lançar
-                  </Button>
-                </div>
-              )}
-              
-              <div className="flex items-center gap-1 sm:hidden">
-                 <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
-                 <NotificationCenter />
-              </div>
-
-              <div className="mx-1 h-6 w-px bg-border/60" />
-              <ThemeToggle />
-              
-              <Link to="/perfil" className="ml-1 transition-transform hover:scale-105 active:scale-95">
-                <Avatar className="size-8 border-2 border-border/50 shadow-sm">
-                  {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-                  <AvatarFallback className="bg-secondary text-[10px] font-black">{initials}</AvatarFallback>
-                </Avatar>
-              </Link>
+               <button className="p-2 rounded-lg text-muted-foreground hover:bg-muted"><Search size={18} /></button>
+               <button className="p-2 rounded-lg text-muted-foreground hover:bg-muted relative">
+                  <Bell size={18} />
+                  {unreadCount > 0 && <span className="absolute top-2 right-2 size-2 rounded-full bg-primary" />}
+               </button>
+               <button onClick={toggleTheme} className="p-2 rounded-lg text-muted-foreground hover:bg-muted">
+                 {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+               </button>
+               <div className="h-6 w-px bg-border mx-2" />
+               <Avatar className="size-8">
+                 <AvatarImage src={avatarUrl ?? ""} />
+                 <AvatarFallback className="bg-muted text-[12px]">{initials}</AvatarFallback>
+               </Avatar>
             </div>
-          </div>
+         </header>
 
-          {/* Subtabs compact and elegant */}
-          {subTabs.length > 1 && (
-            <div className="border-t border-border/40 bg-secondary/10">
-              <nav
-                aria-label="Subnavegação"
-                className="mx-auto flex w-full max-w-6xl items-center gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              >
-                {subTabs.map((tab) => (
-                  <Link
-                    key={tab.to}
-                    to={tab.to as any}
-                    aria-current={pathname === tab.to ? "page" : undefined}
-                    className={cn(
-                      "shrink-0 rounded-full px-3.5 py-1.5 text-[11px] font-black uppercase tracking-wider transition-all",
-                      pathname === tab.to
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-                    )}
-                  >
-                    {tab.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          )}
-        </header>
-
-        <main className="mx-auto w-full min-w-0 max-w-full flex-1 px-3 py-2.5 pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-6 lg:pb-8 overflow-x-hidden">
-          {!isAdminArea ? <ReadOnlyBanner /> : null}
-          <div className="mx-auto max-w-7xl w-full">
-            {children}
-          </div>
-        </main>
-
-        <footer className="mt-auto border-t border-border py-6 text-center lg:px-8">
-          <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60">
-          &lt;Dev. Franc D&apos;nis&gt; · Acre
-          </p>
-        </footer>
+         {/* Main Content with Padding */}
+         <main className="flex-1 overflow-y-auto p-8 bg-[#05070B]/2">
+           <div className="max-w-7xl mx-auto">
+             {children}
+           </div>
+         </main>
       </div>
-
-      {quickEntry ? (
-        <TransactionDialog
-          open
-          kind={quickEntry}
-          onOpenChange={(value) => {
-            if (!value) setQuickEntry(null);
-          }}
-        />
-      ) : null}
-
+      
+      {/* Mobile Bar */}
       <NewMobileTabBar />
+      <TransactionDialog open={!!quickEntry} onOpenChange={(o) => setQuickEntry(o ? "expense" : null)} kind={quickEntry ?? "expense"} />
     </div>
   );
 }
-
-export { X };
