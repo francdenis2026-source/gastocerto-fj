@@ -23,6 +23,8 @@ import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog"
 import { RingChart, Sparkline } from "@/components/landing/decor";
 import { formatCurrency } from "@/lib/format";
 
+import { cn } from "@/lib/utils";
+
 const DashboardPreview = lazy(() =>
   import("@/components/landing/dashboard-preview").then((m) => ({ default: m.DashboardPreview })),
 );
