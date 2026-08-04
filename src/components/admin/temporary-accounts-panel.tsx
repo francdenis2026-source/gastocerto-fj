@@ -28,6 +28,7 @@ import { formatDateTime } from "@/lib/format";
 import { supabase } from "@/integrations/supabase/client";
 import { adminUpdateUser } from "@/lib/admin-users.functions";
 import { useServerFn } from "@tanstack/react-start";
+import { cn } from "@/lib/utils";
 
 export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: string }) {
   const { confirm, ConfirmDialog } = useConfirm();
