@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import markAsset from "@/assets/gastocerto-mark.png.asset.json";
 import { cn } from "@/lib/utils";
 
@@ -15,16 +16,14 @@ export function Logo({
   className,
   compact = false,
   onDark = false,
+  href = "/",
 }: {
   className?: string;
   compact?: boolean;
   onDark?: boolean;
+  href?: string;
 }) {
-  if (compact) {
-    return <BrandMark className={cn("size-9", className)} />;
-  }
-
-  return (
+  const content = (
     <span className={cn("inline-flex min-w-0 items-center gap-2 transition-transform duration-200 group-hover:scale-105 sm:gap-2.5 cursor-pointer", className)}>
       <BrandMark className="size-9 transition-transform duration-200 group-hover:rotate-3 sm:size-11" />
       <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
@@ -55,6 +54,19 @@ export function Logo({
         </span>
       </span>
     </span>
+  );
 
+  if (compact) {
+    return (
+      <Link to={href as any}>
+        <BrandMark className={cn("size-9", className)} />
+      </Link>
+    );
+  }
+
+  return (
+    <Link to={href as any} className="focus:outline-none">
+      {content}
+    </Link>
   );
 }
