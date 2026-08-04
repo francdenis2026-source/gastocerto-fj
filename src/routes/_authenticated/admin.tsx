@@ -123,14 +123,14 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 const SECTIONS: AdminSection[] = [
-  { id: "overview", label: "Visão geral", hint: "Indicadores e atalhos da operação", icon: LayoutDashboard },
-  { id: "users", label: "Contas e Usuários", hint: "Gestão completa de perfis e papéis", icon: Users },
-  { id: "temporary", label: "Contas Temporárias", hint: "Gestão de trials e acessos por código", icon: KeyRound, adminOnly: true },
-  { id: "business", label: "Negócio e Vendas", hint: "MRR, Churn e faturamento", icon: TrendingUp, adminOnly: true },
-  { id: "licenses", label: "Licenças", hint: "Emissão e controle de chaves", icon: ShieldCheck, adminOnly: true },
-  { id: "operations", label: "Operações", hint: "Suporte, avisos e catálogo", icon: LifeBuoy, adminOnly: true },
-  { id: "security", label: "Segurança", hint: "Infraestrutura e acessos", icon: Lock, adminOnly: true },
-  { id: "audit", label: "Auditoria e Logs", hint: "Trilha completa de ações", icon: FileClock },
+  { id: "overview", label: "Início", hint: "Indicadores principais", icon: LayoutDashboard },
+  { id: "users", label: "Contas", hint: "Usuários e permissões", icon: Users },
+  { id: "temporary", label: "Trials", hint: "Acessos temporários", icon: KeyRound, adminOnly: true },
+  { id: "business", label: "Negócio", hint: "MRR e faturamento", icon: TrendingUp, adminOnly: true },
+  { id: "licenses", label: "Licenças", hint: "Emissão de chaves", icon: ShieldCheck, adminOnly: true },
+  { id: "operations", label: "Operações", hint: "Suporte e catálogo", icon: LifeBuoy, adminOnly: true },
+  { id: "security", label: "Segurança", hint: "Acesso e infra", icon: Lock, adminOnly: true },
+  { id: "audit", label: "Auditoria", hint: "Logs e histórico", icon: FileClock },
 ];
 
 function AdminPage() {
