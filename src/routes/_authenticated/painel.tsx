@@ -27,7 +27,13 @@ import {
   Gift,
   PiggyBank,
   Baby,
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
@@ -858,7 +864,7 @@ function DashboardPage() {
                          </div>
                        </InteractiveCard>
                      </div>
-                      <div className="grid gap-3 auto-cards-sm">
+                      <div className="hidden sm:grid gap-3 auto-cards-sm">
                         <StatTile
                           label="Minha Assinatura"
                           value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
