@@ -71,8 +71,10 @@ export function UserAuditTimeline({ targetUserId }: { targetUserId: string }) {
                 
                 {log.details && (
                   <div className="mt-1.5 text-[9px] font-medium bg-muted/40 p-2 rounded-lg border border-border/30 text-muted-foreground group-hover:bg-muted/60 transition-colors">
-                    <code className="block whitespace-pre-wrap leading-relaxed">
-                      {typeof log.details === 'string' ? log.details : JSON.stringify(log.details, null, 1)}
+                    <code className="block truncate leading-relaxed">
+                      {typeof log.details === 'object' 
+                        ? Object.entries(log.details).map(([k, v]) => `${k}: ${v}`).join(" | ")
+                        : String(log.details)}
                     </code>
                   </div>
                 )}

@@ -83,7 +83,7 @@ export function ProfileAuditPanel() {
   });
 
   return (
-    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden">
+    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden max-h-[400px]">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b p-4">
         <div className="flex items-center gap-2">
           <Shield className="size-4 text-primary" />
@@ -167,14 +167,14 @@ export function ProfileAuditPanel() {
                       {formatDateTime(log.changed_at)}
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 mt-1">
-                    <div className="rounded bg-muted/50 p-1">
-                      <span className="block text-[9px] uppercase text-muted-foreground">Anterior</span>
-                      <span className="truncate block">{log.old_value || "—"}</span>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    <div className="flex-1 min-w-[100px] rounded bg-muted/50 p-1.5 border border-border/30">
+                      <span className="block text-[8px] uppercase font-bold text-muted-foreground mb-0.5">De</span>
+                      <span className="truncate block leading-tight">{log.old_value || "—"}</span>
                     </div>
-                    <div className="rounded bg-emerald-500/10 p-1">
-                      <span className="block text-[9px] uppercase text-emerald-600">Novo</span>
-                      <span className="truncate block font-medium">{log.new_value || "—"}</span>
+                    <div className="flex-1 min-w-[100px] rounded bg-emerald-500/5 p-1.5 border border-emerald-500/20">
+                      <span className="block text-[8px] uppercase font-bold text-emerald-600 mb-0.5">Para</span>
+                      <span className="truncate block font-medium leading-tight text-emerald-700 dark:text-emerald-400">{log.new_value || "—"}</span>
                     </div>
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export function RedemptionHistoryPanel() {
   });
 
   return (
-    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden">
+    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden max-h-[400px]">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b p-4">
         <div className="flex items-center gap-2">
           <Key className="size-4 text-primary" />
@@ -329,9 +329,12 @@ export function RedemptionHistoryPanel() {
                       {status.label}
                     </Badge>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                    <span>{item.code_type.toUpperCase()}</span>
-                    <span>{formatDateTime(item.redeemed_at)}</span>
+                  <div className="flex items-center justify-between text-[9px] text-muted-foreground/80 mt-0.5">
+                    <span className="font-medium tracking-wider">{item.code_type.toUpperCase()}</span>
+                    <span className="flex items-center gap-1 opacity-70">
+                      <Clock className="size-2.5" />
+                      {formatDateTime(item.redeemed_at)}
+                    </span>
                   </div>
                 </div>
               );

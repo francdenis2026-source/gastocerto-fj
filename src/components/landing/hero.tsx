@@ -81,8 +81,8 @@ export function Hero() {
         src={heroBg}
         alt=""
         aria-hidden="true"
-        width={1920}
-        height={1080}
+        width={1280}
+        height={720}
         fetchPriority="high"
         decoding="async"
         className="absolute inset-0 -z-20 hidden size-full object-cover object-right sm:block"
@@ -91,9 +91,9 @@ export function Hero() {
         src={heroMobileBg}
         alt=""
         aria-hidden="true"
-        width={828}
-        height={1472}
-        fetchPriority="high"
+        width={400}
+        height={700}
+        loading="lazy"
         decoding="async"
         className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%] sm:hidden"
       />
@@ -167,34 +167,34 @@ export function Hero() {
           </ul>
 
           {/* resumo compacto: aparece no lugar da arte no celular */}
-          <div className="mt-5 rounded-2xl border border-hero-border bg-hero-surface p-3.5 backdrop-blur-sm lg:hidden">
+          <div className="mt-5 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm lg:hidden shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[oklch(0.25_0.04_259)] dark:text-hero-fg-muted">
                   Mês atual
                 </p>
-                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-bold text-hero-fg sm:text-xl">
+                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-extrabold text-hero-fg sm:text-xl">
                   {formatCurrency(3782.45)}
                 </p>
 
-                <p className="text-[12.5px] font-medium text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft">despesas consolidadas</p>
+                <p className="text-[12.5px] font-medium text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft leading-tight">consolidado automaticamente</p>
               </div>
-              <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-2.5 py-2">
-                <RingChart className="size-9 shrink-0 text-hero-accent" value={45} />
+              <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
+                <RingChart className="size-10 shrink-0 text-hero-accent" value={45} />
                 <div className="min-w-0">
                   <p className="text-[10px] font-semibold text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft">Orçamento</p>
-                  <p className="tabular text-[13px] font-bold text-hero-fg">45%</p>
+                  <p className="tabular text-[14px] font-bold text-hero-fg">45%</p>
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-2.5 py-2">
+            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
               <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[oklch(0.25_0.04_259)] dark:text-hero-fg-muted">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-                Despesas vs. mês anterior
+                Economia vs. Junho
               </span>
               <span className="inline-flex items-center gap-2">
                 <Sparkline className="h-6 w-16 text-success" />
-                <span className="tabular text-[12.5px] font-semibold text-success">-12,4%</span>
+                <span className="tabular text-[13px] font-extrabold text-success">-12,4%</span>
               </span>
             </div>
           </div>
