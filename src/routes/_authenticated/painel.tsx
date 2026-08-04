@@ -804,9 +804,9 @@ function DashboardPage() {
                         </p>
                       </div>
                     ) : (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                        <CheckSquare className="size-4 text-emerald-500 shrink-0 mt-0.5" />
-                        <p className="text-[10px] leading-tight text-emerald-700 font-bold">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-primary/10 border border-primary/20">
+                        <CheckSquare className="size-4 text-primary shrink-0 mt-0.5" />
+                        <p className="text-[10px] leading-tight text-primary font-bold">
                           Orçamento sob controle ({metrics.usedPercent.toFixed(1)}%). Ótimo trabalho!
                         </p>
                       </div>
