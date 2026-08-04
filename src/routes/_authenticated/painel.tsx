@@ -553,6 +553,17 @@ function DashboardPage() {
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
           <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
           
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleRefresh}
+            className="size-9 shrink-0 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm sm:hidden"
+            aria-label="Atualizar dados"
+            title="Atualizar dados"
+          >
+            <RefreshCw className="size-4 text-muted-foreground" />
+          </Button>
+          
           <div className="h-8 w-px shrink-0 bg-border/40" />
 
           <div className="flex shrink-0 items-center gap-1.5">
