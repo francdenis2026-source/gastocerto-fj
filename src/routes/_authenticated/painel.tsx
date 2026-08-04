@@ -831,7 +831,7 @@ function DashboardPage() {
                      <div className="grid gap-6 sm:grid-cols-2">
                        <InteractiveCard
                          id="client-top-expenses"
-                         title="Maiores Gastos por Categoria"
+                         title="Valores Gastos por Categoria"
                          description="Detalhamento das despesas do período"
                          icon={<ShoppingBag className="size-4" />}
                          items={byCategory}
