@@ -79,31 +79,35 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* ## Melhoria de Microinterações na Homepage
-
-**Objetivo:** Aprimorar as microinterações existentes na página inicial para conferir um aspecto mais profissional e polido à experiência do usuário.
-
-**Funcionalidades Solicitadas:**
-
-1.  **Animações Sutis:** Implementar animações discretas e elegantes em elementos interativos como botões, links e cards.
-2.  **Feedback Visual Claro:** Garantir que cada interação do usuário receba um feedback visual imediato e compreensível (ex: hover states, press states).
-3.  **Transições Suaves:** Utilizar transições suaves entre estados de elementos ou ao carregar novos conteúdos para uma navegação mais fluida.
-4.  **Consistência Visual:** Manter a consistência das microinterações em toda a homepage, alinhadas com a identidade visual da marca.
-
-**Requisitos Técnicos:**
-
-*   Utilizar CSS (transições, animações) e JavaScript (animações mais complexas, controle de eventos).
-*   Otimizar as animações para garantir bom desempenho e não impactar o tempo de carregamento da página.
-*   Considerar a acessibilidade, garantindo que as animações não prejudiquem usuários com sensibilidade a movimentos.
-
-**Passos Necessários:**
-
-1.  Analisar as microinterações atuais da homepage.
-2.  Identificar os elementos que se beneficiarão de melhorias.
-3.  Definir o tipo de animação e feedback visual para cada elemento.
-4.  Implementar as microinterações utilizando CSS e JavaScript.
-5.  Testar o desempenho e a experiência do usuário.
-6.  Realizar ajustes conforme necessário. */}
+        {/* ## Otimização da Homepage Mobile
+ 
+ **Objetivo:** Tornar a homepage mais profissional e compacta, removendo elementos desnecessários na versão mobile.
+ 
+ **Funcionalidades Solicitadas:**
+ 
+ 1.  **Aplicação de Efeito "Blur" (Desfoque):**
+     *   Aplicar um efeito de desfoque sutil em elementos específicos da homepage para criar um contraste mais profissional com as informações principais.
+     *   Definir quais elementos receberão o desfoque e a intensidade do mesmo.
+ 
+ 2.  **Revisão e Remoção de Conteúdo na Versão Mobile:**
+     *   Analisar todos os elementos presentes na homepage da versão mobile.
+     *   Identificar e remover conteúdos que não são essenciais para a experiência do usuário na versão mobile, visando a compactação e um visual mais profissional.
+     *   Priorizar a clareza e a facilidade de navegação.
+ 
+ **Requisitos Técnicos:**
+ 
+ *   Implementação do efeito blur utilizando CSS (ex: filter: blur()) ou JavaScript, dependendo da necessidade e performance.
+ *   A remoção de elementos deve ser feita de forma condicional para a versão mobile (ex: usando media queries em CSS ou lógica em JavaScript).
+ *   Garantir que a remoção de conteúdo não afete a funcionalidade principal do site.
+ 
+ **Passos Necessários:**
+ 
+ 1.  **Análise Visual:** Avaliar a homepage atual em dispositivos móveis para identificar gargalos de espaço e elementos redundantes.
+ 2.  **Definição de Elementos para Desfoque:** Determinar quais seções ou elementos visuais se beneficiariam do efeito blur para realçar o conteúdo principal.
+ 3.  **Implementação do Desfoque:** Aplicar o efeito blur conforme definido, ajustando a intensidade para um resultado esteticamente agradável e profissional.
+ 4.  **Seleção de Conteúdo para Remoção:** Criar uma lista de elementos a serem removidos na versão mobile.
+ 5.  **Implementação da Remoção Condicional:** Remover os elementos selecionados utilizando técnicas apropriadas para a versão mobile.
+ 6.  **Testes:** Testar a homepage otimizada em diversos dispositivos móveis para garantir a responsividade, performance e usabilidade. */}
       </div>
 
       <PageBackground />
@@ -125,22 +129,6 @@ function LandingPage() {
         </div>
         <PricingMobile />
         <MobileHeroSection />
-        <section className="px-4 pb-8 md:hidden" aria-label="Segurança e privacidade">
-          <ul className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card/40 p-3 text-center backdrop-blur-md shadow-soft">
-            <li className="min-w-0">
-              <p className="text-[13px] font-extrabold">14 dias</p>
-              <p className="text-[10px] font-medium text-muted-foreground">teste completo</p>
-            </li>
-            <li className="min-w-0 border-x border-border/60">
-              <p className="text-[13px] font-extrabold">Dados seus</p>
-              <p className="text-[10px] font-medium text-muted-foreground">exporte ou exclua</p>
-            </li>
-            <li className="min-w-0">
-              <p className="text-[13px] font-extrabold">Sem cartão</p>
-              <p className="text-[10px] font-medium text-muted-foreground">no plano grátis</p>
-            </li>
-          </ul>
-        </section>
         <div className="hidden sm:block">
           <CtaBanner />
         </div>
