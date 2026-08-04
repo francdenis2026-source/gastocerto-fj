@@ -299,7 +299,12 @@ export const activateLicense = createServerFn({ method: "POST" })
       throw new Error("Licença revogada");
     }
 
-    if (license.status === "expired") {
+    // Código nunca ativado (pendente) continua válido: a contagem de tempo só
+    // começa quando o cliente insere a chave. Só recusamos por expiração quando
+    // a licença já foi ativada anteriormente.
+    const alreadyActivated = Boolean(license.activated_at || license.user_id);
+
+    if (license.status === "expired" && alreadyActivated) {
       await supabaseAdmin.from("code_redemption_history").insert({
         user_id: context.userId,
         code: key,
@@ -320,12 +325,13 @@ export const activateLicense = createServerFn({ method: "POST" })
     }
 
     if (
+      alreadyActivated &&
       license.expires_at &&
-      new Date(license.expires_at).getTime() <= Date.now() &&
-      license.status === "active"
+      new Date(license.expires_at).getTime() <= Date.now()
     ) {
       throw new Error("Esta licença já expirou");
     }
+
 
     const { data: plan } = license.plan_id
       ? await supabaseAdmin
