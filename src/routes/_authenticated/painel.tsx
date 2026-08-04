@@ -600,9 +600,9 @@ function DashboardPage() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
-                    className="h-11 w-11 p-0 rounded-xl border-border/50 bg-background/50 backdrop-blur-sm"
+                    className="h-11 w-11 p-0 rounded-xl border-border/50 bg-background/50 backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-primary/5"
                   >
-                    <ChevronDown className="size-5" />
+                    <Plus className="size-5 text-primary" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl border-border/50 shadow-2xl backdrop-blur-xl">
