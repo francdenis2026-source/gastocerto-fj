@@ -42,25 +42,27 @@ export function FeatureDetailDialog({ feature, children }: Props) {
   return (
     <Dialog onOpenChange={(open) => !open && setStep(0)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl sm:p-6 p-4 gap-4 overflow-y-auto max-h-[90vh]">
+        <DialogHeader className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             {detail.tag ? (
-              <span className="rounded-full border border-brand/30 bg-brand/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-brand">
+              <span className="rounded-full border border-brand/30 bg-brand/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand">
                 {detail.tag}
               </span>
             ) : null}
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
               Recurso {step + 1} de {sections.length} · {current.label}
             </span>
           </div>
-          <DialogTitle className="text-left text-lg font-bold">{detail.title}</DialogTitle>
-          <DialogDescription className="text-left text-[13px] leading-relaxed">
+          <DialogTitle className="text-left text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
+            {detail.title}
+          </DialogTitle>
+          <DialogDescription className="text-left text-[14px] font-medium leading-relaxed text-muted-foreground sm:text-[15px]">
             {detail.summary}
           </DialogDescription>
         </DialogHeader>
 
-        <nav aria-label="Seções do recurso" className="flex flex-wrap gap-1.5">
+        <nav aria-label="Seções do recurso" className="flex flex-wrap gap-2">
           {sections.map((section, index) => {
             const active = index === step;
             return (
@@ -71,8 +73,8 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                 aria-current={active ? "step" : undefined}
                 className={
                   active
-                    ? "inline-flex min-h-9 items-center gap-1.5 rounded-full border border-primary bg-primary px-3 text-xs font-semibold text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    : "inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    ? "inline-flex h-9 items-center gap-2 rounded-full border border-primary bg-primary px-4 text-[12px] font-bold text-primary-foreground shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    : "inline-flex h-9 items-center gap-2 rounded-full border border-border bg-card px-4 text-[12px] font-semibold text-muted-foreground transition-all hover:border-primary/40 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 }
               >
                 <section.icon className="size-3.5" aria-hidden="true" />
@@ -82,30 +84,33 @@ export function FeatureDetailDialog({ feature, children }: Props) {
           })}
         </nav>
 
-        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_11rem] sm:items-start">
-          <ul className="grid gap-2 panel-enter">
-            {items.map((item, index) => (
-              <li
-                key={item}
-                className="flex gap-2 rounded-xl border border-border bg-card/70 p-2.5 text-[13px] leading-relaxed"
-              >
-                <span className="grid size-5 shrink-0 place-items-center rounded-full bg-primary/12 text-[10px] font-bold text-primary">
-                  {index + 1}
-                </span>
-                <span className="min-w-0">{item}</span>
-              </li>
-            ))}
-          </ul>
-          <figure className="order-first overflow-hidden rounded-xl border border-border sm:order-none">
+        <div className="grid gap-5 sm:grid-cols-[1fr_200px] sm:items-start">
+          <div className="space-y-4">
+            <ul className="grid gap-2.5 panel-enter">
+              {items.map((item, index) => (
+                <li
+                  key={item}
+                  className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card"
+                >
+                  <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
+                    {index + 1}
+                  </span>
+                  <span className="min-w-0">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <figure className="order-first overflow-hidden rounded-2xl border border-border shadow-sm sm:order-none">
             <img
               src={detail.screenshot}
               alt={detail.screenshotAlt}
               loading="lazy"
               decoding="async"
-              className="h-28 w-full object-cover sm:h-32"
+              className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-40"
             />
-            <figcaption className="border-t border-border bg-secondary/50 px-2 py-1 text-[10px] text-muted-foreground">
-              Prévia da tela do recurso
+            <figcaption className="border-t border-border bg-muted/30 px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">
+              Visualização Real
             </figcaption>
           </figure>
         </div>
