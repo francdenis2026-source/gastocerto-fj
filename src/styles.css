@@ -16,6 +16,13 @@
   }
 }
 
+/* Desativar pull-to-refresh nativo em mobile */
+@media (max-width: 1024px) {
+  body {
+    overscroll-behavior-y: contain;
+  }
+}
+
 
 @custom-variant dark (&:is(.dark *));
 

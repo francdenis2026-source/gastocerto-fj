@@ -147,6 +147,17 @@ function DashboardPage() {
     setPeriod(next);
     setStoredPeriod(next);
   };
+
+  const handleRefresh = async () => {
+    const toastId = toast.loading("Atualizando dados...");
+    try {
+      await queryClient.invalidateQueries();
+      toast.success("Dados atualizados!", { id: toastId });
+    } catch (e) {
+      toast.error("Erro ao atualizar dados", { id: toastId });
+    }
+  };
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [cardsOpen, setCardsOpen] = useState(false);
   const [dialogKind, setDialogKind] = useState<"expense" | "income">("expense");
@@ -541,6 +552,17 @@ function DashboardPage() {
 
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
           <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
+          
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleRefresh}
+            className="size-9 shrink-0 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm sm:hidden"
+            aria-label="Atualizar dados"
+            title="Atualizar dados"
+          >
+            <RefreshCw className="size-4 text-muted-foreground" />
+          </Button>
           
           <div className="h-8 w-px shrink-0 bg-border/40" />
 
