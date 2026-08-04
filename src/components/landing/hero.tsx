@@ -187,7 +187,7 @@ export function Hero() {
           {/* resumo compacto: aparece no lugar da arte no celular */}
           <div className="mt-4 grid gap-3 lg:hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Card Principal: Mês Atual */}
-            <div className="rounded-2xl border border-hero-border bg-hero-surface p-4 shadow-lg backdrop-blur-md">
+            <div className="rounded-2xl border border-white/5 bg-white/[0.015] p-5 shadow-2xl">
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-hero-fg-muted">
@@ -217,7 +217,8 @@ export function Hero() {
                   tag: "Objetivos" 
                 }}
               >
-                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-hero-border bg-hero-surface/80 p-3 text-center backdrop-blur-sm transition-all hover:bg-hero-surface">
+                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-white/[0.015] p-4 text-center transition-all hover:bg-white/[0.03]">
+
                   <div className="mb-2 grid size-8 place-items-center rounded-lg bg-brand/10 text-brand">
                     <Target className="size-4" />
                   </div>
@@ -233,7 +234,7 @@ export function Hero() {
                   tag: "Cartões" 
                 }}
               >
-                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-hero-border bg-hero-surface/80 p-3 text-center backdrop-blur-sm transition-all hover:bg-hero-surface">
+                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-white/[0.015] p-4 text-center transition-all hover:bg-white/[0.03]">
                   <div className="mb-2 grid size-8 place-items-center rounded-lg bg-purple-500/10 text-purple-500">
                     <CreditCard className="size-4" />
                   </div>
@@ -243,7 +244,7 @@ export function Hero() {
               </FeatureDetailDialog>
             </div>
 
-            <div className="flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
+            <div className="flex items-center justify-between gap-2 rounded-xl border border-white/5 bg-white/[0.015] px-4 py-3">
               <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-hero-fg-muted">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Economia vs. Junho
@@ -278,7 +279,7 @@ export function Hero() {
             </Suspense>
           </div>
 
-          <div className="absolute -left-8 bottom-14 w-44 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm">
+          <div className="absolute -left-8 bottom-14 w-44 rounded-2xl border border-white/5 bg-background/80 p-4 shadow-2xl backdrop-blur-md">
             <div className="flex items-center justify-between text-[12.5px]">
               <span className="inline-flex items-center gap-1.5 font-medium text-hero-fg-muted">
                 <TrendingDown className="size-3.5 text-success" aria-hidden="true" />
@@ -289,7 +290,7 @@ export function Hero() {
             <Sparkline className="mt-2 h-12 w-full text-success" />
           </div>
 
-          <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm">
+          <div className="absolute right-0 top-24 flex w-44 items-center gap-3 rounded-2xl border border-white/5 bg-background/80 p-4 shadow-2xl backdrop-blur-md">
             <RingChart className="size-12 shrink-0 text-hero-accent" value={45} />
             <div className="min-w-0">
               <p className="text-[12.5px] text-hero-fg-soft">Orçamento</p>
