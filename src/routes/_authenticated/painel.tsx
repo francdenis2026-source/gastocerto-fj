@@ -598,45 +598,49 @@ function DashboardPage() {
               Sair
             </Button>
             <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-            
-            <Button className="rounded-xl h-9 text-xs font-bold shadow-sm" onClick={() => setCardsOpen(true)}>
-              <Zap className="mr-2 size-3.5" />
+            <Button 
+              className="rounded-xl h-9 text-[11px] font-black uppercase tracking-wider shadow-md bg-emerald-600 hover:bg-emerald-700 text-white border-none sm:text-xs" 
+              onClick={() => setCardsOpen(true)}
+            >
+              <Zap className="mr-2 size-3.5 fill-current" />
               Lançar Rápido
             </Button>
 
-            <QuickCategoryMenu
-              kind="expense"
-              label="Novo Gasto"
-              onPick={(pick) => {
-                setEditingTx(null);
-                setDialogKind("expense");
-                setPreset(pick);
-                setDialogOpen(true);
-              }}
-            />
+            <div className="hidden items-center gap-2 lg:flex">
+              <QuickCategoryMenu
+                kind="expense"
+                label="Novo Gasto"
+                onPick={(pick) => {
+                  setEditingTx(null);
+                  setDialogKind("expense");
+                  setPreset(pick);
+                  setDialogOpen(true);
+                }}
+              />
 
-            <QuickCategoryMenu
-              kind="income"
-              label="Nova Receita"
-              onPick={(pick) => {
-                setEditingTx(null);
-                setDialogKind("income");
-                setPreset(pick);
-                setDialogOpen(true);
-              }}
-            />
+              <QuickCategoryMenu
+                kind="income"
+                label="Nova Receita"
+                onPick={(pick) => {
+                  setEditingTx(null);
+                  setDialogKind("income");
+                  setPreset(pick);
+                  setDialogOpen(true);
+                }}
+              />
+            </div>
 
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => navigate({ to: "/veiculos" })}>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => navigate({ to: "/veiculos" })}>
               <Car className="mr-2 size-3.5 text-muted-foreground" />
               Veículos
             </Button>
 
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setDependentOpen(true)}>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => setDependentOpen(true)}>
               <Baby className="mr-2 size-3.5 text-muted-foreground" />
               Kids
             </Button>
 
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setTaxOpen(true)}>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => setTaxOpen(true)}>
               <Landmark className="mr-2 size-3.5 text-muted-foreground" />
               I.R.
             </Button>
