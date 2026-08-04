@@ -98,7 +98,7 @@ export function TrashPanel() {
       title: "Exclusão Permanente",
       description: "Esta ação NÃO pode ser desfeita. O item será removido definitivamente do banco de dados.",
       onConfirm: () => deleteMutation.mutate(id),
-      variant: "destructive"
+      type: "warning"
     });
   };
 
@@ -189,7 +189,7 @@ export function TrashPanel() {
                       )}>
                         <Calendar className="size-3" />
                         {formatDateTime(details.expires_at)}
-                        {isExpiringSoon && <AlertCircle className="size-3 animate-pulse" title="Purga em breve" />}
+                        {isExpiringSoon && <AlertCircle className="size-3 animate-pulse" />}
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
