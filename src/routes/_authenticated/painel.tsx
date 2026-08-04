@@ -1356,7 +1356,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
                   <span className="text-[10px] font-bold uppercase text-muted-foreground">{MONTH_NAMES[m.month-1]}</span>
                   <ChevronRight className="size-3 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </div>
-                <p className={cn("text-sm font-black", m.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                <p className={cn("text-sm font-black", m.balance >= 0 ? "text-primary" : "text-rose-600")}>
                   {formatCurrency(m.balance)}
                 </p>
               </div>
