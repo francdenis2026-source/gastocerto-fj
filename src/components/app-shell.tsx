@@ -244,13 +244,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-background lg:flex">
+    <div className="min-w-[320px] min-h-screen bg-background lg:flex selection:bg-primary/20">
       <ConfirmDialog />
       <TemporaryLicenseBanner />
       <aside
         className={cn(
-          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-background transition-[width] duration-200 lg:flex",
-          railCollapsed ? "w-[76px]" : "w-[268px]",
+          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-card/30 backdrop-blur-xl transition-[width] duration-300 ease-in-out lg:flex z-50",
+          railCollapsed ? "w-[76px]" : "w-[280px]",
         )}
       >
         <div className="flex h-14 items-center gap-2 border-b border-border px-3">
