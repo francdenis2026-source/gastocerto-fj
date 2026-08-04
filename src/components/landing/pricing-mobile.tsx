@@ -31,8 +31,7 @@ export function PricingMobile() {
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
-    <section id="planos-mobile" className="px-4 py-16 md:hidden bg-background">
-      <span id="planos-mobile" className="sr-only" />
+    <section id="planos-mobile" className="section-y md:hidden bg-background border-t border-white/5">
       <div className="flex flex-col gap-4 mb-8">
         <div className="min-w-0">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>

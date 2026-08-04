@@ -138,8 +138,8 @@ export function Pricing() {
 
               <div className="mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black tracking-tight text-white tabular">
-                    {plan.monthly === 0 ? "R$ 0" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
+                  <span className="text-5xl font-black tracking-tight text-white tabular">
+                    {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
                   <span className="text-sm font-medium text-muted-foreground">/mês</span>
                 </div>
