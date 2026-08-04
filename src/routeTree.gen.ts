@@ -52,6 +52,7 @@ import { Route as AuthenticatedVeiculosRelatorioRouteImport } from './routes/_au
 import { Route as CompartilhadoTokenRouteImport } from './routes/compartilhado.$token'
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
 import { Route as AuthenticatedConsumoSlugRouteImport } from './routes/_authenticated/consumo.$slug'
+import { Route as ApiPublicCronRouteImport } from './routes/api/public/cron'
 import { Route as ApiPublicExternalVerifyRouteImport } from './routes/api/public/external-verify'
 import { Route as ApiPublicMercadopagoRouteImport } from './routes/api/public/mercadopago'
 import { Route as ApiPublicMercadopagoPixRouteImport } from './routes/api/public/mercadopago-pix'
@@ -282,6 +283,11 @@ const AuthenticatedConsumoSlugRoute =
     path: '/consumo/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicCronRoute = ApiPublicCronRouteImport.update({
+  id: '/api/public/cron',
+  path: '/api/public/cron',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicExternalVerifyRoute = ApiPublicExternalVerifyRouteImport.update({
   id: '/api/public/external-verify',
   path: '/api/public/external-verify',
@@ -341,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
+  '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
@@ -388,6 +395,7 @@ export interface FileRoutesByTo {
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
+  '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
@@ -437,6 +445,7 @@ export interface FileRoutesById {
   '/compartilhado/$token': typeof CompartilhadoTokenRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/_authenticated/consumo/$slug': typeof AuthenticatedConsumoSlugRoute
+  '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
@@ -486,6 +495,7 @@ export interface FileRouteTypes {
     | '/compartilhado/$token'
     | '/pedido/$id'
     | '/consumo/$slug'
+    | '/api/public/cron'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
@@ -533,6 +543,7 @@ export interface FileRouteTypes {
     | '/compartilhado/$token'
     | '/pedido/$id'
     | '/consumo/$slug'
+    | '/api/public/cron'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
@@ -581,6 +592,7 @@ export interface FileRouteTypes {
     | '/compartilhado/$token'
     | '/pedido/$id'
     | '/_authenticated/consumo/$slug'
+    | '/api/public/cron'
     | '/api/public/external-verify'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
@@ -596,6 +608,7 @@ export interface RootRouteChildren {
   TermosRoute: typeof TermosRoute
   CompartilhadoTokenRoute: typeof CompartilhadoTokenRoute
   PedidoIdRoute: typeof PedidoIdRoute
+  ApiPublicCronRoute: typeof ApiPublicCronRoute
   ApiPublicExternalVerifyRoute: typeof ApiPublicExternalVerifyRoute
   ApiPublicMercadopagoRoute: typeof ApiPublicMercadopagoRoute
   ApiPublicMercadopagoPixRoute: typeof ApiPublicMercadopagoPixRoute
@@ -904,6 +917,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsumoSlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/cron': {
+      id: '/api/public/cron'
+      path: '/api/public/cron'
+      fullPath: '/api/public/cron'
+      preLoaderRoute: typeof ApiPublicCronRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/external-verify': {
       id: '/api/public/external-verify'
       path: '/api/public/external-verify'
@@ -1016,6 +1036,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermosRoute: TermosRoute,
   CompartilhadoTokenRoute: CompartilhadoTokenRoute,
   PedidoIdRoute: PedidoIdRoute,
+  ApiPublicCronRoute: ApiPublicCronRoute,
   ApiPublicExternalVerifyRoute: ApiPublicExternalVerifyRoute,
   ApiPublicMercadopagoRoute: ApiPublicMercadopagoRoute,
   ApiPublicMercadopagoPixRoute: ApiPublicMercadopagoPixRoute,
@@ -1023,3 +1044,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
