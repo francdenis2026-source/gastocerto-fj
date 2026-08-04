@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle, Baby, KeyRound, Loader2, Users, UserPlus } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 
 import { CategoryPicker, readRecentCategories, rememberCategory } from "@/components/finance/category-picker";
@@ -746,6 +747,46 @@ export function TransactionDialog({
               {errors.date ? <p className="mt-1 text-xs text-destructive">{errors.date}</p> : null}
             </div>
 
+
+            {/* Categorização Inteligente Familiar */}
+            {kind === "expense" && !editing && (
+              <div className="space-y-3 rounded-xl border border-border/50 bg-muted/20 p-3 mb-4">
+                <Label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">Este gasto foi para alguém?</Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant={beneficiaryType === "adult_child" ? "default" : "outline"}
+                    size="sm"
+                    className="h-8 gap-1.5 text-[10px]"
+                    onClick={() => setBeneficiaryType(beneficiaryType === "adult_child" ? "none" : "adult_child")}
+                  >
+                    <Baby className="size-3" />
+                    Filho Maior
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={beneficiaryType === "family_member" ? "default" : "outline"}
+                    size="sm"
+                    className="h-8 gap-1.5 text-[10px]"
+                    onClick={() => setBeneficiaryType(beneficiaryType === "family_member" ? "none" : "family_member")}
+                  >
+                    <Users className="size-3" />
+                    Outro Familiar
+                  </Button>
+                </div>
+                
+                {beneficiaryType !== "none" && (
+                  <div className="pt-1 animate-in fade-in slide-in-from-top-2">
+                    <Input
+                      placeholder={beneficiaryType === "adult_child" ? "Nome do filho..." : "Nome do familiar..."}
+                      value={beneficiaryName}
+                      onChange={(e) => setBeneficiaryName(e.target.value)}
+                      className="h-8 text-xs bg-background/50"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="space-y-1.5">
               <Label>Categoria</Label>
