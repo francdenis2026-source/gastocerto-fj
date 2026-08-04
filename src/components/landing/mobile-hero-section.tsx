@@ -39,15 +39,21 @@ export function MobileHeroSection() {
         variation === "split" && "rounded-[3rem] border-2 border-brand/10 bg-card/40 p-2"
       )}>
         
-        {/* Background Layer */}
+        {/* Dashboard Preview Layer (The "Real" Background) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div 
-            className={cn(
-              "absolute inset-0 bg-cover bg-center transition-opacity duration-1000 bg-fixed",
-              variation === "glass" ? "opacity-30" : "opacity-20"
-            )}
-            style={{ backgroundImage: `url(${heroMobileAlt})` }}
-          />
+          {/* Dashboard Screenshot Mockup - Representing the app interface */}
+          <div className="absolute -right-12 -top-12 h-[140%] w-[120%] rotate-[-6deg] opacity-[0.15] blur-[1px]">
+            <div className="h-full w-full rounded-[3rem] border-[8px] border-border/20 bg-card p-4 shadow-2xl">
+              <div className="h-full w-full space-y-4 rounded-2xl bg-muted/30 p-4">
+                <div className="h-8 w-1/2 rounded-lg bg-brand/20" />
+                <div className="h-32 rounded-xl bg-card/80" />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="h-24 rounded-xl bg-card/80" />
+                  <div className="h-24 rounded-xl bg-card/80" />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className={cn(
             "absolute inset-0 bg-gradient-to-b transition-all duration-700",
             variation === "glass" && "from-card/40 via-card/80 to-card",
@@ -122,15 +128,27 @@ export function MobileHeroSection() {
             </div>
           </div>
 
-          {/* Enhanced CTA for all variations */}
-          <div className="mt-8 flex w-full flex-col gap-3">
+          {/* Enhanced CTA with Trust Badges */}
+          <div className="mt-8 flex w-full flex-col gap-4">
             <button className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-lg shadow-brand/20 transition-all active:scale-[0.96] hover:brightness-110">
               Começar agora gratuito
               <Sparkles className="size-4" />
             </button>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
-              Sem cartão de crédito necessário
-            </p>
+            
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+              <div className="flex items-center gap-1">
+                <ShieldCheck className="size-3 text-brand" />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Privacidade protegida</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="size-1 rounded-full bg-brand" />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Sem cartão</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="size-1 rounded-full bg-brand" />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">Cancelamento fácil</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
