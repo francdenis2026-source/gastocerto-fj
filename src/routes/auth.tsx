@@ -164,7 +164,7 @@ function AuthPage() {
       }
       const to = await resolveHomeRoute(session.user?.id);
       if (!cancelled) {
-        navigate({ to, replace: true });
+        navigate({ to: "/painel", replace: true });
       }
     };
 
