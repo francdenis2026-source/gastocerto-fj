@@ -1,4 +1,5 @@
 import { useState, type ReactNode, useEffect, useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, BookOpen, ListChecks, Sparkles, Loader2, AlertCircle } from "lucide-react";
 
 import { getFeatureDetail } from "@/lib/feature-details";
