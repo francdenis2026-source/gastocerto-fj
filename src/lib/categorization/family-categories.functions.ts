@@ -23,8 +23,28 @@ export const autoCategorizeFamilyExpense = createServerFn({ method: "POST" })
     const familyKeywords = [
       "pai", "mãe", "mae", "tio", "tia", "sobrinho", "sobrinha", 
       "avô", "avó", "avo", "esposo", "esposa", "marido", "mulher", 
-      "enteado", "enteada", "cunhado", "cunhada", "familiar", "parente"
+      "enteado", "enteada", "cunhado", "cunhada", "familiar", "parente",
+      "sobrinho", "sobrinha", "tio", "tia", "primo", "prima", "vovô", "vovó"
     ];
+
+    const familySubcategories: Record<string, string> = {
+      "pai": "Pai",
+      "mãe": "Mãe",
+      "mae": "Mãe",
+      "tio": "Tio/Tia",
+      "tia": "Tio/Tia",
+      "sobrinho": "Sobrinho(a)",
+      "sobrinha": "Sobrinho(a)",
+      "esposo": "Cônjuge",
+      "esposa": "Cônjuge",
+      "marido": "Cônjuge",
+      "mulher": "Cônjuge",
+      "enteado": "Enteado(a)",
+      "enteada": "Enteado(a)",
+      "avô": "Avô(ó)",
+      "avó": "Avô(ó)",
+      "avo": "Avô(ó)",
+    };
 
     // Se o usuário explicitamente marcou o tipo de beneficiário
     if (data.beneficiaryType === "adult_child") {
@@ -40,8 +60,12 @@ export const autoCategorizeFamilyExpense = createServerFn({ method: "POST" })
       return { categoryName: "Filhos", subCategoryName: "Gastos com Filhos" };
     }
 
-    if (familyKeywords.some(k => desc.includes(k))) {
-      return { categoryName: "Outros Familiares" };
+    const matchedFamilyKey = familyKeywords.find(k => desc.includes(k));
+    if (matchedFamilyKey) {
+      return { 
+        categoryName: "Outros Familiares", 
+        subCategoryName: familySubcategories[matchedFamilyKey] || "Geral" 
+      };
     }
 
     return null;
