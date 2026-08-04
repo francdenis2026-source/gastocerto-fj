@@ -43,7 +43,7 @@ export function Hero() {
           {/* Subheadline */}
           <Reveal delay={300}>
             <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-              A plataforma definitiva para quem busca maestria financeira. Inteligência Artificial, 
+              A plataforma definitiva para quem busca organização financeira. Inteligência Artificial, 
               dashboard premium e ferramentas avançadas para levar seu controle ao próximo nível.
             </p>
           </Reveal>
