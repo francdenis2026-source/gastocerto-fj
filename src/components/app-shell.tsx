@@ -31,7 +31,7 @@ import { TransactionDialog } from "@/components/finance/transaction-dialog";
 import { useKidSession } from "@/lib/kids-session";
 import { useKidsRealtimeAlerts } from "@/lib/kids-realtime";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { MobileTabBar } from "@/components/finance/mobile-tab-bar";
+import { MobileTabBar as NewMobileTabBar } from "@/components/finance/mobile-tab-bar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { usePlanRealtimeSync } from "@/hooks/use-plan";
