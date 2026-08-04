@@ -8,18 +8,25 @@ export function TemporaryLicenseBanner() {
   if (!access.courtesyTrial || !access.trialActive) return null;
 
   return (
-    <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex items-center justify-center gap-3 animate-in fade-in slide-in-from-top duration-500">
-      <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-bold text-xs uppercase tracking-wider">
-        <Clock className="size-4" />
-        Acesso Temporário Ativo
+    <div className="sticky top-0 z-[60] bg-brand/5 border-b border-brand/20 px-4 py-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 backdrop-blur-md">
+      <div className="flex items-center gap-3">
+        <div className="flex size-7 items-center justify-center rounded-lg bg-brand/10 text-brand">
+          <Clock className="size-4" />
+        </div>
+        <div className="flex flex-col">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand leading-none">Acesso em Teste</span>
+          <span className="text-[9px] font-bold text-muted-foreground mt-0.5">Expira em {access.trialDaysLeft} dias</span>
+        </div>
       </div>
-      <div className="h-4 w-px bg-amber-500/20 hidden sm:block" />
-      <p className="text-[11px] text-amber-700 dark:text-amber-400 font-medium max-w-md text-center">
-        Sua licença temporária está ativa. A IA e a edição de dados pessoais são exclusivas para planos pagos.
-      </p>
-      <div className="hidden lg:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
-        <ShieldAlert className="size-3" />
-        RESTRITO
+      
+      <div className="flex items-center gap-3">
+        <p className="text-[10px] text-muted-foreground font-medium hidden md:block">
+          Alguns recursos e edições de perfil estão restritos neste modo.
+        </p>
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/80 text-foreground text-[9px] font-black uppercase tracking-widest border border-border shadow-sm">
+          <ShieldAlert className="size-3 text-brand" />
+          Modo Restrito
+        </div>
       </div>
     </div>
   );

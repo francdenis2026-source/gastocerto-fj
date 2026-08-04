@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText } from "lucide-react";
+import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText, Menu } from "lucide-react";
 import { useState } from "react";
+import { MobileAdminTabBar } from "./mobile-admin-tab-bar";
 
 import consoleBg from "@/assets/admin-console-bg.jpg";
 import { cn } from "@/lib/utils";
@@ -191,6 +192,11 @@ export function AdminConsoleShell({
           </main>
         </div>
       </div>
+      <MobileAdminTabBar 
+        sections={sections} 
+        active={current?.id || active} 
+        onSelect={onSelect} 
+      />
       <ConfirmDialog />
     </div>
   );
