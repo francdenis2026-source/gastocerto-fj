@@ -356,17 +356,23 @@ export const activateLicense = createServerFn({ method: "POST" })
       ? new Date(now.getTime() + trialDays * 24 * 60 * 60 * 1000)
       : addMonths(now, monthsFromCycle(license.billing_cycle));
 
+    // Uma licença ainda não ativada tem a validade recalculada agora (a partir
+    // da inserção do código), ignorando qualquer data antiga já gravada.
+    const nextExpiresAt =
+      trialDays || !alreadyActivated
+        ? expiresAt.toISOString()
+        : (license.expires_at ?? expiresAt.toISOString());
+
     const { error } = await supabaseAdmin
       .from("licenses")
       .update({
         user_id: context.userId,
         status: "active",
         activated_at: license.activated_at ?? now.toISOString(),
-        expires_at: trialDays
-          ? expiresAt.toISOString()
-          : (license.expires_at ?? expiresAt.toISOString()),
+        expires_at: nextExpiresAt,
       })
       .eq("id", license.id);
+
 
     if (error) throw new Error("Não foi possível ativar a licença");
 
