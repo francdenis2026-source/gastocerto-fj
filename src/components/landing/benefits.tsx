@@ -24,7 +24,7 @@ const benefits = [
     text: "Nossa IA analisa cada centavo, identifica padrões e sugere economias personalizadas para você.",
     metric: "24/7",
     label: "Consultoria Ativa",
-    color: "bg-blue-500/10 text-blue-500"
+    color: "bg-primary/10 text-primary"
   },
   {
     icon: LayoutDashboard,
