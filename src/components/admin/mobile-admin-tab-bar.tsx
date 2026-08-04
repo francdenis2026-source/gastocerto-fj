@@ -18,10 +18,10 @@ export function MobileAdminTabBar({
 
   // Define as seções principais para o tab bar fixo
   const mainActions = [
-    { id: "overview", icon: LayoutDashboard, label: "Início" },
+    { id: "overview", icon: LayoutDashboard, label: "Dashboard" },
     { id: "users", icon: Users, label: "Contas" },
+    { id: "financial", icon: Wallet, label: "Financeiro" },
     { id: "temporary", icon: KeyRound, label: "Trials" },
-    { id: "business", icon: TrendingUp, label: "Negócio" },
   ];
 
   return (
