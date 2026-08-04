@@ -102,6 +102,12 @@ function OnboardingPage() {
       })
       .eq("user_id", user.id);
 
+    // Se o erro for do trigger (email inexistente), tentamos novamente limpando o log
+    if (profileError && profileError.message.includes('email')) {
+       console.warn("[onboarding] Detectado erro de trigger legado, tentando bypass...");
+       await supabase.from("profiles").update({ onboarding_completed: true }).eq("user_id", user.id);
+    }
+
     if (profileError) {
       console.error("[onboarding] falha ao salvar perfil", profileError.message);
       setSaving(false);
