@@ -56,7 +56,7 @@ export function Hero() {
               className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-primary text-primary-foreground text-base font-bold px-10 py-5 rounded-2xl overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-2xl shadow-primary/20"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              Começar agora — É Grátis
+              Comece Grátis
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
             </Link>
             
