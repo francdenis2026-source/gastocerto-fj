@@ -189,34 +189,52 @@ export function AppShell({ children }: { children: ReactNode }) {
       type: "warning",
       confirmLabel: "Sair agora",
       onConfirm: async () => {
-        const toastId = toast.loading("Encerrando sessão e limpando dados...", {
-          description: "Seus dados estão sendo removidos com segurança.",
+        const toastId = toast.loading("Finalizando acesso...", {
+          description: "Sua segurança é nossa prioridade.",
           icon: <RefreshCcw className="size-4 animate-spin text-brand" />
         });
 
         try {
+          // Cancela queries pendentes e limpa o cache para evitar leaks
           await queryClient.cancelQueries();
           queryClient.clear();
           
-          // Limpeza completa e segura
+          // Signout no backend primeiro
+          await supabase.auth.signOut();
+
+          // Limpeza completa e segura do navegador
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
           
-          await supabase.auth.signOut();
-          
-          toast.success("Sessão encerrada!", {
+          toast.success("Até logo!", {
             id: toastId,
-            description: "Seus dados foram removidos do navegador.",
-            icon: <AlertCircle className="size-4 text-emerald-500" />
+            description: "Você foi desconectado com segurança.",
+            icon: (
+              <div className="flex size-6 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </div>
+            ),
           });
 
-          // Pequeno delay para o usuário ver o toast antes do redirecionamento
+          // Redirecionamento forçado para a raiz (limpa o estado do react-router)
           setTimeout(() => {
             window.location.replace("/");
-          }, 1000);
+          }, 800);
         } catch (error) {
-          toast.error("Erro ao sair", { id: toastId });
+          console.error("Erro durante logout:", error);
+          toast.error("Erro ao encerrar sessão", { id: toastId });
           window.location.replace("/");
         }
       }

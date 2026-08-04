@@ -87,9 +87,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           if (!confirmed) return;
         }
 
-        const toastId = silent ? undefined : toast.loading("Saindo com segurança...", {
-          description: "Limpando dados do navegador.",
-          icon: <RefreshCcw className="size-4 animate-spin" />
+        const toastId = silent ? undefined : toast.loading("Encerrando sessão...", {
+          description: "Sua segurança é nossa prioridade.",
+          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
         });
 
         try {
@@ -111,17 +111,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           document.documentElement.classList.add("dark");
           document.documentElement.style.colorScheme = "dark";
 
-          
           if (toastId) {
             toast.success("Até logo!", {
               id: toastId,
-              description: "Sua sessão foi encerrada com sucesso.",
-              icon: <AlertCircle className="size-4 text-emerald-500" />
+              description: "Você foi desconectado com segurança.",
+              icon: (
+                <div className="flex size-6 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+              ),
             });
           }
 
           setTimeout(() => {
-            window.location.href = "/";
+            window.location.replace("/");
           }, 800);
         } catch (error) {
           if (toastId) toast.error("Erro ao encerrar sessão", { id: toastId });
