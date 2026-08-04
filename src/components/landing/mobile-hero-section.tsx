@@ -10,8 +10,8 @@ export function MobileHeroSection() {
   if (!hydrated) return null;
 
   return (
-    <section className="relative overflow-hidden px-4 py-6 md:hidden">
-      <div className="relative flex flex-col overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/20 shadow-2xl transition-all duration-700 max-h-[65vh] backdrop-blur-xl">
+    <section className="relative overflow-hidden px-4 py-8 md:hidden">
+      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl transition-all duration-700 max-h-[70vh] backdrop-blur-2xl">
         
         {/* Parallax Background Layer */}
         <div 
@@ -31,7 +31,7 @@ export function MobileHeroSection() {
           <div className="absolute inset-0 -z-10 bg-black/10 backdrop-blur-[2px]" />
           
           {/* Top Badge */}
-          <div className="mb-4 flex animate-reveal items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/60 backdrop-blur-md">
+          <div className="mb-5 flex animate-reveal items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/80 backdrop-blur-md">
             <Zap className="size-2.5" />
             Sua jornada financeira
           </div>
@@ -42,7 +42,7 @@ export function MobileHeroSection() {
           </div>
           
           {/* Headline */}
-          <h2 className="animate-reveal font-display text-2xl font-black leading-[1.1] tracking-[-0.04em] text-white" style={{ animationDelay: '200ms' }}>
+          <h2 className="animate-reveal font-display text-3xl font-black leading-[1.05] tracking-[-0.04em] text-white" style={{ animationDelay: '200ms' }}>
             Controle <span className="text-brand">total</span>,<br />tranquilidade <span className="text-brand">sempre</span>
           </h2>
           

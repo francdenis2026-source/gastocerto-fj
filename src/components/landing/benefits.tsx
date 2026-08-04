@@ -85,7 +85,7 @@ export function Benefits() {
     <section
       id="beneficios"
       aria-labelledby="beneficios-titulo"
-      className="relative border-b border-border bg-background section-y"
+      className="relative border-b border-border bg-background py-16 sm:py-24"
     >
       <div className="section-shell">
         <Reveal className="max-w-2xl">
