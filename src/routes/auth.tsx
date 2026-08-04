@@ -1063,14 +1063,22 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           Bloqueado por {Math.floor(lockSeconds / 60)}:{String(lockSeconds % 60).padStart(2, "0")}
         </p>
       ) : null}
-      <Button
-        type="submit"
-        className="h-11 w-full text-sm font-bold shadow-soft"
-        disabled={loading || lockSeconds > 0}
-      >
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-        Entrar no meu espaço
-      </Button>
+      <div className="pt-2">
+        <Button 
+          type="submit" 
+          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          disabled={loading || lockSeconds > 0}
+        >
+          {loading ? (
+            <Loader2 className="mr-2 size-5 animate-spin" />
+          ) : (
+            <>
+              Entrar no Meu Espaço
+              <Sparkles className="ml-2 size-5" />
+            </>
+          )}
+        </Button>
+      </div>
       
       <div className="mt-2 flex flex-col gap-2 border-t border-border pt-2">
         <Button
