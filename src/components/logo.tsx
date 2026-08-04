@@ -47,7 +47,7 @@ export function Logo({
         </span>
         <span
           className={cn(
-            "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block",
+            "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block max-w-[200px] leading-tight",
             onDark ? "text-white" : "text-[oklch(0.25_0.04_259)] dark:text-white/60",
           )}
         >
