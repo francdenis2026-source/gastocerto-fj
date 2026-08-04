@@ -371,7 +371,7 @@ function AuthPage() {
                       <button
                         type="button"
                         onClick={() => setMode("admin")}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-input bg-secondary/50 px-3 py-2 text-xs font-bold text-muted-foreground transition-all hover:bg-secondary hover:text-primary lg:hidden"
+                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-input bg-secondary/50 px-3 py-2 text-xs font-bold text-muted-foreground transition-all hover:bg-secondary hover:text-primary sm:hidden"
                       >
                         <ShieldAlert className="size-3.5" />
                         Acesso Administrador
