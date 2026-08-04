@@ -68,14 +68,16 @@ export function InteractiveCard({
   return (
     <Card 
       className={cn(
-        "overflow-hidden transition-all duration-300 hover:shadow-lg border-border/40 bg-card/40 backdrop-blur-md cursor-pointer focus-within:ring-2 focus-within:ring-brand/50",
+        "overflow-hidden transition-all duration-300 hover:shadow-lg border-border/40 bg-card/40 backdrop-blur-md cursor-pointer focus-within:ring-2 focus-within:ring-brand/50 outline-none focus-visible:ring-2 focus-visible:ring-brand",
         className
       )}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      role="region"
+      role="button"
       aria-labelledby={`card-title-${id}`}
+      aria-describedby={description ? `card-desc-${id}` : undefined}
+      aria-expanded={isExpanded}
     >
       <CardHeader className="p-4 pb-2">
         <div className="flex items-center justify-between mb-1">
@@ -86,9 +88,10 @@ export function InteractiveCard({
           <Button 
             variant="ghost" 
             size="icon" 
-            className="size-8 rounded-full hover:bg-primary/10 transition-colors"
+            className="size-8 rounded-full hover:bg-primary/10 transition-colors focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-expanded={isExpanded}
             aria-controls={`card-content-${id}`}
+            aria-label={isExpanded ? `Recolher ${title}` : `Expandir ${title}`}
             onClick={(e) => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
@@ -97,7 +100,7 @@ export function InteractiveCard({
             {isExpanded ? <ChevronUp className="size-5" /> : <ChevronDown className="size-5" />}
           </Button>
         </div>
-        {description && <CardDescription className="text-[10px] leading-tight">{description}</CardDescription>}
+        {description && <CardDescription id={`card-desc-${id}`} className="text-[10px] leading-tight">{description}</CardDescription>}
       </CardHeader>
 
       {/* Swipe Gestures para Mobile usando Framer Motion */}

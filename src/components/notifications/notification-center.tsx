@@ -16,9 +16,9 @@ import { useRef, useState } from "react";
 
 function NotificationItem({ n, onMarkRead, onDelete }: { n: any, onMarkRead: () => void, onDelete: () => void }) {
   const x = useMotionValue(0);
-  const opacity = useTransform(x, [-100, 0], [0, 1]);
-  const background = useTransform(x, [-100, 0], ["#ef4444", "rgba(0,0,0,0)"]);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showUndo, setShowUndo] = useState(false);
+  const undoTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const getIcon = (severity: string) => {
     switch (severity) {
@@ -31,12 +31,58 @@ function NotificationItem({ n, onMarkRead, onDelete }: { n: any, onMarkRead: () 
   const handleDragEnd = (_: any, info: any) => {
     if (info.offset.x < -60) {
       setIsDeleting(true);
-      setTimeout(onDelete, 200);
+      // Inicia o processo de "desfazer"
+      setTimeout(() => {
+        setShowUndo(true);
+        // Timer de 5 segundos para confirmação final
+        undoTimerRef.current = setTimeout(() => {
+          onDelete();
+        }, 5000);
+      }, 200);
     }
   };
 
+  const handleUndo = () => {
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    setShowUndo(false);
+    setIsDeleting(false);
+    x.set(0);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (!n.read_at) onMarkRead();
+    }
+    if (e.key === "Delete" || e.key === "Backspace") {
+      e.preventDefault();
+      onDelete();
+    }
+  };
+
+  if (showUndo) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
+        exit={{ opacity: 0, height: 0 }}
+        className="flex items-center justify-between p-3 bg-muted/30 border-b border-border"
+      >
+        <span className="text-[10px] text-muted-foreground font-medium">Aviso removido.</span>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-7 px-3 text-[10px] font-bold text-primary hover:bg-primary/10"
+          onClick={handleUndo}
+        >
+          DESFAZER
+        </Button>
+      </motion.div>
+    );
+  }
+
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden group">
       <div 
         className="absolute inset-y-0 right-0 flex w-20 items-center justify-center bg-destructive text-destructive-foreground"
         style={{ opacity: x.get() < 0 ? Math.abs(x.get()) / 100 : 0 }}
@@ -52,10 +98,14 @@ function NotificationItem({ n, onMarkRead, onDelete }: { n: any, onMarkRead: () 
         onDragEnd={handleDragEnd}
         animate={isDeleting ? { x: -400, opacity: 0 } : { x: 0, opacity: 1 }}
         className={cn(
-          "relative z-10 flex flex-col gap-1 p-4 bg-background transition-colors hover:bg-muted/50 border-b border-border",
+          "relative z-10 flex flex-col gap-1 p-4 bg-background transition-colors hover:bg-muted/50 border-b border-border cursor-pointer focus-visible:outline-none focus-visible:bg-muted/50 focus-visible:ring-1 focus-visible:ring-brand/30",
           !n.read_at && "bg-primary/5"
         )}
         onClick={() => !n.read_at && onMarkRead()}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-label={`${n.title}. ${n.message}. ${!n.read_at ? "Não lido" : "Lido"}. Arraste para a esquerda para excluir.`}
       >
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
