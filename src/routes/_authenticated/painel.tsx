@@ -147,6 +147,17 @@ function DashboardPage() {
     setPeriod(next);
     setStoredPeriod(next);
   };
+
+  const handleRefresh = async () => {
+    const toastId = toast.loading("Atualizando dados...");
+    try {
+      await queryClient.invalidateQueries();
+      toast.success("Dados atualizados!", { id: toastId });
+    } catch (e) {
+      toast.error("Erro ao atualizar dados", { id: toastId });
+    }
+  };
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [cardsOpen, setCardsOpen] = useState(false);
   const [dialogKind, setDialogKind] = useState<"expense" | "income">("expense");
