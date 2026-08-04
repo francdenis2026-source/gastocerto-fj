@@ -108,7 +108,7 @@ function GoalsPage() {
             }}
           >
             <Plus className="mr-2 size-4" />
-            Nova meta
+            Adicionar meta
           </Button>
         </header>
 
@@ -332,7 +332,7 @@ function GoalDialog({
     >
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>{goal ? "Editar meta" : "Nova meta"}</DialogTitle>
+          <DialogTitle>{goal ? "Editar meta" : "Adicionar meta"}</DialogTitle>
           <DialogDescription>
             Defina o objetivo, o prazo e acompanhe quanto falta a cada mês.
           </DialogDescription>

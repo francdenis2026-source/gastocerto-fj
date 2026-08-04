@@ -79,7 +79,7 @@ export function KidsGoalDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>{goal ? "Editar meta" : "Nova meta mágica"}</DialogTitle>
+          <DialogTitle>{goal ? "Editar meta" : "Adicionar meta"}</DialogTitle>
           <DialogDescription>
             Defina o objetivo, quanto já foi guardado e a recompensa da conquista.
           </DialogDescription>

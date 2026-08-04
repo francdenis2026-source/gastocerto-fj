@@ -535,7 +535,7 @@ export function TransactionDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            {editing ? "Editar lançamento" : kind === "income" ? "Nova receita" : "Novo gasto"}
+            {editing ? "Editar lançamento" : kind === "income" ? "Adicionar receita" : "Adicionar gasto"}
           </DialogTitle>
           <DialogDescription>
             {kind === "income"

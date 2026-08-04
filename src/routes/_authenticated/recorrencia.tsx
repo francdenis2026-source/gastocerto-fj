@@ -251,7 +251,7 @@ function RecurringPage() {
               }}
             >
               <Plus className="mr-2 size-4" />
-              Nova recorrência
+              Adicionar recorrência
             </Button>
 
           </div>

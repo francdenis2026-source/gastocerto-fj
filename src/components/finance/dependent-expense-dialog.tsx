@@ -535,7 +535,7 @@ export function DependentExpenseDialog({
                     }}
                   >
                     <Plus className="mr-1 size-3" />
-                    Nova meta
+                    Adicionar meta
                   </Button>
                 </div>
                 <KidsGoalsList

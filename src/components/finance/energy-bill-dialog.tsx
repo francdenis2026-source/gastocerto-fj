@@ -82,7 +82,7 @@ export function EnergyBillDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{bill ? "Editar fatura" : "Nova fatura de energia"}</DialogTitle>
+          <DialogTitle>{bill ? "Editar fatura" : "Adicionar fatura de energia"}</DialogTitle>
           <DialogDescription>
             Registre o consumo e valor da sua conta de luz para acompanhar a evolução.
           </DialogDescription>

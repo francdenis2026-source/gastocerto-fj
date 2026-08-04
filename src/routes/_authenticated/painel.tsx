@@ -651,7 +651,7 @@ function DashboardPage() {
             <div className="hidden items-center gap-2 lg:flex">
               <QuickCategoryMenu
                 kind="expense"
-                label="Novo Gasto"
+                label="Adicionar Gasto"
                 onPick={(pick) => {
                   setEditingTx(null);
                   setDialogKind("expense");
@@ -662,7 +662,7 @@ function DashboardPage() {
 
               <QuickCategoryMenu
                 kind="income"
-                label="Nova Receita"
+                label="Adicionar Receita"
                 onPick={(pick) => {
                   setEditingTx(null);
                   setDialogKind("income");
@@ -831,7 +831,7 @@ function DashboardPage() {
                      <div className="grid gap-6 sm:grid-cols-2">
                        <InteractiveCard
                          id="client-top-expenses"
-                         title="Maiores Gastos por Categoria"
+                         title="Valores Gastos por Categoria"
                          description="Detalhamento das despesas do período"
                          icon={<ShoppingBag className="size-4" />}
                          items={byCategory}

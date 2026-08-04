@@ -83,7 +83,7 @@ export function CreateUserDialog() {
       <DialogTrigger asChild>
         <Button size="sm" className="h-10">
           <UserPlus className="mr-2 size-4" />
-          Nova conta
+          Adicionar conta
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[95vw] sm:max-w-md max-h-[90dvh] overflow-y-auto rounded-3xl p-6">
@@ -91,7 +91,7 @@ export function CreateUserDialog() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand">
             <UserPlus className="size-6" />
           </div>
-          <DialogTitle className="text-xl font-black text-center">Nova conta de cliente</DialogTitle>
+          <DialogTitle className="text-xl font-black text-center">Adicionar conta de cliente</DialogTitle>
           <DialogDescription className="text-center text-sm">
             A conta já entra ativa e o cliente acessa com o CPF e a senha de 6 números.
           </DialogDescription>
