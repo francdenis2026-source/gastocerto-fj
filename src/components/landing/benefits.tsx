@@ -32,7 +32,7 @@ const benefits = [
     text: "Visualize sua vida financeira com clareza absoluta em uma interface premium de alto nível.",
     metric: "Real-time",
     label: "Dados Sincronizados",
-    color: "bg-emerald-500/10 text-emerald-500"
+    color: "bg-primary/10 text-primary"
   },
   {
     icon: ShieldCheck,
