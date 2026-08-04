@@ -101,7 +101,7 @@ export function VehicleDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{vehicle ? "Editar veículo" : "Novo veículo"}</DialogTitle>
+          <DialogTitle>{vehicle ? "Editar veículo" : "Adicionar veículo"}</DialogTitle>
           <DialogDescription>
             Cadastre os dados do veículo para acompanhar consumo e custos por quilômetro.
           </DialogDescription>

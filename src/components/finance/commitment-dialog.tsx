@@ -268,7 +268,7 @@ export function CommitmentDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[88vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{commitment ? "Editar compromisso" : "Novo compromisso"}</DialogTitle>
+          <DialogTitle>{commitment ? "Editar compromisso" : "Adicionar compromisso"}</DialogTitle>
           <DialogDescription>
             Financiamentos, fiado no comércio, açougue, empréstimos, cartão de crédito, compras a
             prazo, pensão alimentícia e outras saídas com controle próprio.
