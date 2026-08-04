@@ -154,6 +154,16 @@ export const revokeAdminAccessCode = createServerFn({ method: "POST" })
       label: revoked?.label ?? null,
     });
 
+    // Log access attempt
+    await supabaseAdmin.from("admin_access_logs").insert({
+      code_id: accessCode.id,
+      ip_address: context.request.headers.get("x-real-ip") || context.request.headers.get("x-forwarded-for"),
+      user_agent: context.request.headers.get("user-agent"),
+    });
+
+    // Auditoria para o painel consolidado
+    await auditLog(context, "verify_code", { code: accessCode.code, label: accessCode.label });
+
     return { success: true };
   });
 

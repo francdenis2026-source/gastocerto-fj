@@ -46,6 +46,9 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
     delete_user: { label: "Excluir Conta", color: "bg-rose-600 text-white" },
     promote: { label: "Promover Pago", color: "bg-purple-500/10 text-purple-600 border-purple-500/20" },
     grant_trial: { label: "Conceder Teste", color: "bg-brand/10 text-brand border-brand/20" },
+    create_user: { label: "Criar Usuário", color: "bg-cyan-500/10 text-cyan-600 border-cyan-500/20" },
+    generate_code: { label: "Gerar Código", color: "bg-indigo-500/10 text-indigo-600 border-indigo-500/20" },
+    verify_code: { label: "Validar Código", color: "bg-teal-500/10 text-teal-600 border-teal-500/20" },
   };
 
   return (
