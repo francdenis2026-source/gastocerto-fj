@@ -17,14 +17,21 @@ const ThemeContext = createContext<ThemeContextValue>({
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "dark";
-    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    if (stored) return stored;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "dark"; // Default para dark no sistema
-  });
+  const [theme, setThemeState] = useState<Theme>("dark");
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
+    if (stored) {
+      setThemeState(stored);
+    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+      setThemeState("light");
+    }
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
     // Sync inicial do classList para evitar flashes se o estado mudou
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.style.colorScheme = theme;
