@@ -81,7 +81,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-20 pb-12 text-hero-fg sm:min-h-[50svh] sm:max-h-[650px] sm:pb-16 sm:pt-32 lg:pt-36"
+      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-20 pb-12 text-hero-fg sm:min-h-[60svh] sm:max-h-[700px] sm:pb-20 sm:pt-36 lg:pt-40"
     >
       <img
         src={heroBg}
