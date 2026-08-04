@@ -478,7 +478,8 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="space-y-6">
+      <div className="space-y-3 sm:space-y-6">
+
         {profile?.cpf === "69598193268" && profile?.tags?.includes('fixed_enzo_error') && (
           <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 rounded-3xl border border-dashed border-emerald-500/30 bg-emerald-500/5 animate-in fade-in zoom-in duration-500 mb-6">
             <div className="size-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
