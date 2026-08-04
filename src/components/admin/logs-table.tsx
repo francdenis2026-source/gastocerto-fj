@@ -82,7 +82,7 @@ export function LogsTable({ globalSearch = "" }: { globalSearch?: string }) {
             filteredLogs.map((log) => (
               <TableRow key={log.id}>
                 <TableCell>{formatDateTime(log.created_at)}</TableCell>
-                <TableCell>{nameByUser.get(log.actor_id) ?? "Equipe"}</TableCell>
+                <TableCell>{(log.actor_id ? nameByUser.get(log.actor_id) : null) ?? "Equipe"}</TableCell>
                 <TableCell>{log.action}</TableCell>
                 <TableCell>
                   {log.target_user_id ? (nameByUser.get(log.target_user_id) ?? "—") : "—"}
