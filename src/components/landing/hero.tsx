@@ -100,7 +100,7 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[6px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[3px] dark:opacity-80 opacity-60"
+        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[4px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[3px] dark:opacity-80 opacity-60"
       />
 
       <div
