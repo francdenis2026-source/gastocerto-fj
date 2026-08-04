@@ -81,7 +81,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-20 pb-12 text-hero-fg sm:min-h-[60svh] sm:max-h-[700px] sm:pb-20 sm:pt-36 lg:pt-40"
+      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-20 pb-0 text-hero-fg sm:min-h-[45svh] sm:max-h-[550px] sm:pb-0 sm:pt-28 lg:pt-32"
     >
       <img
         src={heroBg}
@@ -106,28 +106,21 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[2px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[2px] dark:opacity-80 opacity-60"
-      />
-
-      {/* camada extra de desfoque progressivo sobre a área do notebook (direita),
-          intensificando o contraste com os textos sem lavar a imagem inteira */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[3px] [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.15)_38%,rgba(0,0,0,0.45)_68%,rgba(0,0,0,0.6)_100%)] sm:backdrop-blur-[4px]"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/60 to-background/90"
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-16 bg-[image:var(--hero-fade)]"
+        className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-[2px] [mask-image:linear-gradient(to_right,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.4)_50%,rgba(0,0,0,0.8)_100%)]"
       />
 
 
-      <div className="section-shell relative grid w-full items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+      <div className="section-shell relative grid w-full items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 pb-24">
         <div className="min-w-0">
 
 
 
-          <h1 className="font-display mt-4 text-[clamp(2.1rem,8vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-hero-fg [text-wrap:balance] sm:text-[3.25rem] lg:text-[3.75rem] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
+          <h1 className="font-display mt-4 text-[clamp(2.5rem,10vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-hero-fg [text-wrap:balance] sm:text-[3.75rem] lg:text-[4rem] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
             <span className="bg-gradient-to-br from-[oklch(0.50_0.16_155)] via-[oklch(0.55_0.18_155)] to-[oklch(0.60_0.16_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-115">
@@ -135,7 +128,7 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="mt-4 max-w-[50ch] text-[15px] font-medium leading-[1.62] text-hero-fg-muted sm:text-[17px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
+          <p className="mt-4 max-w-[50ch] text-[16px] font-medium leading-[1.62] text-hero-fg-muted sm:text-[18px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
             A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
           </p>
 
@@ -173,19 +166,13 @@ export function Hero() {
                   <button
                     type="button"
                     className={cn(
-                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12.5px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong",
+                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
                       "highlight" in mod && mod.highlight
-                        ? "border-hero-accent/50 bg-hero-accent/20 text-hero-fg shadow-[0_0_12px_rgba(23,164,95,0.2)] hover:border-hero-accent hover:bg-hero-accent/30 dark:border-hero-accent/40 dark:bg-hero-accent/15"
-                        : "border-hero-border-strong/30 bg-hero-surface/40 text-hero-fg hover:border-hero-border-strong/60 hover:bg-hero-surface/70 shadow-sm dark:border-white/5 dark:bg-white/5"
+                        ? "border-brand/30 bg-brand/10 text-brand shadow-[0_0_15px_rgba(23,164,95,0.1)] hover:bg-brand/20"
+                        : "border-white/5 bg-white/[0.03] text-hero-fg-muted hover:bg-white/[0.08]"
                     )}
                   >
-                    <mod.icon 
-                      className={cn(
-                        "size-3.5 shrink-0",
-                        "highlight" in mod && mod.highlight ? "text-hero-accent brightness-125" : "text-hero-accent"
-                      )} 
-                      aria-hidden="true" 
-                    />
+                    <mod.icon className="size-3.5" />
                     {mod.label}
                   </button>
                 </FeatureDetailDialog>

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   BellRing,
@@ -85,7 +86,7 @@ export function Benefits() {
     <section
       id="beneficios"
       aria-labelledby="beneficios-titulo"
-      className="relative border-b border-border bg-background py-16 sm:py-24"
+      className="relative border-b border-border bg-background py-16 sm:py-20"
     >
       <div className="section-shell">
         <Reveal className="max-w-2xl">
@@ -102,51 +103,41 @@ export function Benefits() {
           </p>
         </Reveal>
 
-        <ul className="mt-3 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3 lg:grid-cols-3">
+        <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
           {benefits.map((benefit, index) => (
-            <Reveal as="li" key={benefit.title} delay={index * 60}>
+            <Reveal 
+              as="li" 
+              key={benefit.title} 
+              delay={index * 60}
+              className={cn(
+                "h-full",
+                index === 0 || index === 1 ? "lg:col-span-3 lg:row-span-1" : "lg:col-span-3 lg:row-span-1"
+              )}
+            >
               <FeatureDetailDialog
                 feature={{ title: benefit.title, text: benefit.text, tag: benefit.metricLabel }}
               >
                 <button
                   type="button"
-                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/25 p-3 text-left shadow-lifted backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-[0_20px_40px_rgba(23,164,95,0.1)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
-                  style={{
-                    backgroundImage: `linear-gradient(150deg, color-mix(in oklab, ${benefit.accent} 10%, transparent), transparent 62%)`,
-                  }}
+                  className="group flex h-full w-full flex-col rounded-[2rem] border border-white/5 bg-white/[0.03] p-8 text-left transition-all duration-300 hover:bg-white/[0.05] hover:border-brand/30 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                 >
-                  <div className="flex w-full items-start justify-between gap-1.5">
-                    <span
-                      className="grid size-9 shrink-0 place-items-center rounded-xl border sm:size-10"
-                      style={{
-                        borderColor: `color-mix(in oklab, ${benefit.accent} 30%, transparent)`,
-                        background: `color-mix(in oklab, ${benefit.accent} 14%, transparent)`,
-                        color: benefit.accent,
-                      }}
-                    >
-                      <benefit.icon className="size-4.5" aria-hidden="true" />
-                    </span>
-                    <span className="text-right">
-                      <span
-                        className="block font-display text-sm font-bold leading-none tabular"
-                        style={{ color: benefit.accent }}
-                      >
-                        {benefit.metric}
-                      </span>
-                      <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
-                        {benefit.metricLabel}
-                      </span>
-                    </span>
+                  <div className="flex w-full items-start justify-between">
+                    <div className="grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand">
+                      <benefit.icon className="size-6" />
+                    </div>
+                    {benefit.metric && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-brand leading-none">{benefit.metric}</p>
+                        <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground mt-1">{benefit.metricLabel}</p>
+                      </div>
+                    )}
                   </div>
-                  <h3 className="mt-2 font-display text-[13px] font-bold leading-snug tracking-tight sm:text-[15px]">
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-tight">
                     {benefit.title}
                   </h3>
-                  <p className="mt-1 line-clamp-3 text-[11.5px] leading-snug text-muted-foreground sm:line-clamp-none sm:text-[13px] sm:leading-relaxed">
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
                     {benefit.text}
                   </p>
-                  <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
-                    Ver detalhes
-                  </span>
                 </button>
               </FeatureDetailDialog>
             </Reveal>

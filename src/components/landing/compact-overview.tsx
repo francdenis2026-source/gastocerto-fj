@@ -248,7 +248,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-border bg-secondary/30 py-16 sm:py-24">
+    <section id="explorar" className="relative border-y border-white/5 bg-white/[0.01] py-16 sm:py-20">
       <span id="seguranca" className="block" />
       <div
         aria-hidden="true"
@@ -332,34 +332,33 @@ export function CompactOverview() {
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {featureGroups.map((group, groupIndex) => (
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-xl border border-border bg-card/60 p-2 backdrop-blur"
+                  className="rounded-[1.5rem] border border-white/5 bg-white/[0.02] p-6 backdrop-blur-md"
                 >
-                  <p className="px-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
                   </p>
-                  <ul className="mt-1.5 grid gap-1">
+                  <ul className="grid gap-2">
                     {group.items.map((item) => (
-                      <li key={item.title} className="min-w-0">
+                      <li key={item.title}>
                         <FeatureDetailDialog
                           feature={{ title: item.title, text: item.text, tag: item.tag }}
                         >
                           <button
                             type="button"
-                            title={item.text}
-                            className="group flex w-full min-w-0 items-center gap-2 rounded-lg border border-transparent px-1.5 py-1.5 text-left transition-colors hover:border-border hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="group flex w-full items-center gap-3 rounded-xl border border-transparent p-2 text-left transition-all hover:bg-white/[0.03] hover:border-white/5"
                           >
-                            <span className="grid size-7 shrink-0 place-items-center rounded-md bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
-                              <item.icon className="size-3.5" aria-hidden="true" />
-                            </span>
-                            <span className="truncate text-[13px] font-medium">{item.title}</span>
-                            <span className="ml-auto shrink-0 rounded-full border border-border bg-secondary/60 px-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
-                              {item.tag}
-                            </span>
+                            <div className="grid size-8 place-items-center rounded-lg bg-brand/10 text-brand">
+                              <item.icon className="size-4" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate text-sm font-semibold">{item.title}</p>
+                              <p className="truncate text-[11px] text-muted-foreground">{item.tag}</p>
+                            </div>
                           </button>
                         </FeatureDetailDialog>
                       </li>
@@ -367,17 +366,6 @@ export function CompactOverview() {
                   </ul>
                 </Reveal>
               ))}
-              <Reveal
-                delay={featureGroups.length * 50}
-                className="hidden rounded-xl border border-dashed border-brand/30 bg-brand/5 p-3 lg:flex lg:flex-col lg:justify-center"
-              >
-                <p className="text-[13px] font-semibold leading-snug">
-                  Toque em qualquer recurso para ver detalhes, prints e como usar.
-                </p>
-                <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
-                  20 recursos, 5 frentes — tudo no mesmo painel.
-                </p>
-              </Reveal>
             </div>
           </TabsContent>
 

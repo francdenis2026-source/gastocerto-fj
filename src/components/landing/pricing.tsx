@@ -88,7 +88,7 @@ export function Pricing() {
 
 
   return (
-    <section id="planos" className="py-20 sm:py-32">
+    <section id="planos" className="py-16 sm:py-20 bg-background border-t border-white/5">
       <div className="section-shell">
         <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
@@ -152,15 +152,15 @@ export function Pricing() {
               <div
                 key={plan.slug}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted overflow-hidden",
-                  plan.highlighted && "border-brand/50 ring-2 ring-brand/10 bg-gradient-to-b from-brand/[0.03] to-card/80",
+                  "relative flex flex-col rounded-[2rem] border border-white/5 bg-white/[0.02] p-8 shadow-2xl backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-brand/30 overflow-hidden",
+                  plan.highlighted && "border-brand/40 ring-1 ring-brand/20 bg-brand/[0.03]",
                 )}
               >
                 {plan.highlighted && (
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--color-brand)_0%,transparent_25%)] opacity-[0.08]" />
                 )}
                 {plan.highlighted && (
-                  <Badge className="absolute -top-2.5 right-5 gap-1 bg-brand text-brand-foreground shadow-lg shadow-brand/20 border-brand/50 px-2.5 py-0.5 animate-in fade-in zoom-in duration-500">
+                  <Badge className="absolute -top-3 right-8 gap-1 bg-brand text-brand-foreground shadow-xl shadow-brand/20 border-none px-4 py-1 animate-in fade-in zoom-in duration-500 rounded-full text-[10px] font-black tracking-widest uppercase">
                     <Sparkles className="size-3" aria-hidden="true" />
                     Mais Escolhido
                   </Badge>

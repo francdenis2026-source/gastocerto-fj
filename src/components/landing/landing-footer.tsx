@@ -1,4 +1,4 @@
-import { Lock } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 import { Logo } from "@/components/logo";
@@ -29,60 +29,51 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="mt-12 border-t border-border bg-background dark:bg-black/20 print:hidden">
+    <footer className="mt-20 border-t border-white/5 bg-background dark:bg-black/20 print:hidden py-12">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
-      <div className="section-shell py-3 sm:py-5">
-        <div className="flex flex-col items-center justify-between gap-3 lg:flex-row lg:items-center lg:gap-16">
-          {/* Brand & Socials - Ultra Compact */}
-          <div className="flex items-center gap-4 lg:gap-6">
-            <Logo className="scale-[0.7] origin-center" />
-            <div className="flex gap-2.5">
-              {socials.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-[10px] font-medium text-brand transition-all hover:bg-brand hover:text-white"
-                  aria-label={social.label}
-                >
-                  <social.icon className="size-3" />
-                  <span>Fale Conosco</span>
-                </a>
-              ))}
-            </div>
+      <div className="section-shell">
+        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+          <div className="flex flex-col items-start gap-4">
+            <Logo className="scale-100" />
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+              Gestão financeira inteligente para quem busca clareza, 
+              controle e resultados reais.
+            </p>
           </div>
 
-          {/* Navigation Links - Single Row Ultra Compact */}
-          <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] font-medium sm:gap-x-6 sm:text-[11px]">
-            {links.map((link) => (
-              <li key={link.label} className="list-none">
-                {"to" in link ? (
-                  <Link to={link.to} className="text-muted-foreground/80 transition-colors hover:text-brand">
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a href={link.href} className="text-muted-foreground/80 transition-colors hover:text-brand">
-                    {link.label}
-                  </a>
-                )}
-              </li>
-            ))}
-            {legalLinks.map((link) => (
-              <li key={link.label} className="list-none">
-                <Link to={link.to} className="text-muted-foreground/80 transition-colors hover:text-brand">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <li className="list-none">
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Produto</h4>
+            <nav className="flex flex-col gap-2">
+              <Link to="/recursos" className="text-sm text-muted-foreground transition-colors hover:text-brand">Recursos</Link>
+              <a href="#planos" className="text-sm text-muted-foreground transition-colors hover:text-brand">Planos</a>
+              <Link to="/auth" className="text-sm text-muted-foreground transition-colors hover:text-brand">Área do Cliente</Link>
+            </nav>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Empresa</h4>
+            <nav className="flex flex-col gap-2">
+              <Link to="/sobre" className="text-sm text-muted-foreground transition-colors hover:text-brand">Sobre nós</Link>
+              <Link to="/contato" className="text-sm text-muted-foreground transition-colors hover:text-brand">Central de Ajuda</Link>
+            </nav>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand">Contato</h4>
+            <div className="flex flex-col gap-2">
               <button
                 onClick={() => setContactOpen(true)}
-                className="text-muted-foreground/80 transition-colors hover:text-brand"
+                className="text-sm text-muted-foreground transition-colors hover:text-brand text-left"
               >
-                Contato
+                Fale Conosco
               </button>
-            </li>
-          </nav>
+              <a href="mailto:contato@precocerto.shop" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-brand">
+                <Mail className="size-4" />
+                contato@precocerto.shop
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -133,8 +133,8 @@ body::-webkit-scrollbar {
 
 :root {
   --radius: 0.85rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.02 0.01 259);
+  --background: oklch(0.08 0.01 259); /* #0B0F14 equivalente aproximado */
+  --foreground: oklch(0.98 0.01 259);
   --surface: oklch(1 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.08 0.03 259);
@@ -244,7 +244,7 @@ body::-webkit-scrollbar {
 
 
 .dark {
-  --background: oklch(0.05 0.01 259); /* Navy ultra profundo estável */
+  --background: oklch(0.08 0.01 259); /* #0B0F14 */
   --foreground: oklch(0.98 0.01 259);
   --surface: oklch(0.16 0.03 259);
   --card: oklch(0.16 0.03 259);
@@ -377,14 +377,14 @@ body::-webkit-scrollbar {
 
 /* Ritmo vertical único para todas as seções da homepage. */
 @utility section-y {
-  padding-block: 1.25rem;
+  padding-block: 2.5rem;
 
   @media (min-width: 640px) {
-    padding-block: 1.75rem;
+    padding-block: 4rem;
   }
 
   @media (min-width: 1024px) {
-    padding-block: 2.25rem;
+    padding-block: 6rem;
   }
 }
 
@@ -407,17 +407,17 @@ body::-webkit-scrollbar {
   font-family: var(--font-display, inherit);
   font-weight: 700;
   letter-spacing: -0.025em;
-  line-height: 1.15;
-  font-size: 1.45rem;
+  line-height: 1.1;
+  font-size: 1.75rem; /* ~28px mobile */
   color: var(--foreground);
   text-wrap: balance;
 
   @media (min-width: 640px) {
-    font-size: 1.75rem;
+    font-size: 2.25rem; /* ~36px */
   }
 
   @media (min-width: 1024px) {
-    font-size: 2.05rem;
+    font-size: 2.5rem; /* ~40px */
   }
 }
 
