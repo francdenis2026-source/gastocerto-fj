@@ -39,13 +39,13 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
             isKid ? "size-9" : "size-8 sm:size-9",
           )}
         >
-          <Bell className="size-4 shrink-0" aria-hidden="true" />
+          <Bell className={cn("shrink-0", isKid ? "size-5" : "size-4.5")} aria-hidden="true" />
 
           {unreadCount > 0 && (
             <span
-              className="pointer-events-none absolute right-0 top-0 flex h-[15px] min-w-[15px] translate-x-[3px] -translate-y-[3px] items-center justify-center rounded-full bg-destructive px-[3px] text-[9px] font-bold leading-none text-destructive-foreground ring-2 ring-background"
+              className="absolute -right-0.5 -top-0.5 z-10 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-destructive px-[4px] text-[10px] font-black leading-none text-destructive-foreground ring-2 ring-background animate-in zoom-in-50 duration-200"
             >
-              {unreadCount > 9 ? "9+" : unreadCount}
+              {unreadCount > 99 ? "99+" : unreadCount}
             </span>
           )}
         </Button>

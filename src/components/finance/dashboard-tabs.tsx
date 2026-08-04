@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { BarChart3, Calendar, PieChart, TrendingUp, Sparkles, Activity } from "lucide-react";
+import { BarChart3, PieChart, TrendingUp, Sparkles, Activity, Baby } from "lucide-react";
 
 interface DashboardTabsProps {
   overview: ReactNode;
@@ -24,49 +24,49 @@ export function DashboardTabs({
 }: DashboardTabsProps) {
   return (
     <Tabs defaultValue="overview" className={cn("w-full space-y-6", className)}>
-      <div className="sticky top-[72px] z-20 bg-background/80 backdrop-blur-md pb-2 -mx-2 px-2 border-b border-border/40 sm:static sm:bg-transparent sm:pb-0 sm:border-none sm:mx-0 sm:px-0">
+      <div className="sticky top-[72px] z-30 bg-background/95 backdrop-blur-md pb-2 -mx-3 px-3 border-b border-border/40 sm:static sm:bg-transparent sm:pb-0 sm:border-none sm:mx-0 sm:px-0">
         <TabsList className="w-full justify-start h-12 bg-muted/40 p-1 rounded-2xl border border-border/50 overflow-x-auto overflow-y-hidden scrollbar-none flex-nowrap">
           <TabsTrigger 
             value="overview" 
-            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-3 sm:px-4 text-[12px] sm:text-[13.5px] font-bold gap-1.5 sm:gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
-            <Activity className="size-3.5" />
-            Visão Geral
+            <Activity className="size-3.5 sm:size-4" />
+            Resumo
           </TabsTrigger>
           <TabsTrigger 
             value="analytics" 
-            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-3 sm:px-4 text-[12px] sm:text-[13.5px] font-bold gap-1.5 sm:gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
-            <PieChart className="size-3.5" />
-            Análises
+            <PieChart className="size-3.5 sm:size-4" />
+            Gráficos
           </TabsTrigger>
           <TabsTrigger 
             value="yearly" 
-            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-3 sm:px-4 text-[12px] sm:text-[13.5px] font-bold gap-1.5 sm:gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
-            <BarChart3 className="size-3.5" />
-            Balanço Anual
+            <BarChart3 className="size-3.5 sm:size-4" />
+            Anual
           </TabsTrigger>
           <TabsTrigger 
             value="insights" 
-            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-3 sm:px-4 text-[12px] sm:text-[13.5px] font-bold gap-1.5 sm:gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
-            <Sparkles className="size-3.5" />
-            Insights
+            <Sparkles className="size-3.5 sm:size-4" />
+            IA
           </TabsTrigger>
           <TabsTrigger 
             value="recommendations" 
-            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-3 sm:px-4 text-[12px] sm:text-[13.5px] font-bold gap-1.5 sm:gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
-            <TrendingUp className="size-3.5" />
-            Conselhos & Planos
+            <TrendingUp className="size-3.5 sm:size-4" />
+            Dicas
           </TabsTrigger>
           <TabsTrigger 
             value="kids" 
-            className="rounded-xl px-4 text-[13.5px] font-bold gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
+            className="rounded-xl px-3 sm:px-4 text-[12px] sm:text-[13.5px] font-bold gap-1.5 sm:gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all whitespace-nowrap"
           >
-            <TrendingUp className="size-3.5" />
-            Família & Kids
+            <Baby className="size-3.5 sm:size-4" />
+            Kids
           </TabsTrigger>
         </TabsList>
       </div>

@@ -542,9 +542,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           )}
         </header>
 
-        <main className="app-main mx-auto w-full min-w-0 max-w-7xl flex-1 px-3 py-2.5 pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-6 lg:pb-8">
+        <main className="mx-auto w-full min-w-0 max-w-full flex-1 px-3 py-2.5 pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-6 lg:pb-8 overflow-x-hidden">
           {!isAdminArea ? <ReadOnlyBanner /> : null}
-          {children}
+          <div className="mx-auto max-w-7xl w-full">
+            {children}
+          </div>
         </main>
 
         <footer className="mt-auto border-t border-border py-6 text-center lg:px-8">

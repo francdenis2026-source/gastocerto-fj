@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -460,13 +460,17 @@ function DashboardPage() {
   }, [dependents, profile?.tags]);
 
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "por aqui";
+  const { signOut } = useAuth();
 
   if (!profile || loadingTransactions || loadingCategories) {
     return (
       <AppShell>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+      <div className="flex min-h-[40vh] items-center justify-center p-8">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="size-8 animate-spin text-brand" />
+          <p className="text-xs font-bold text-muted-foreground animate-pulse">Carregando painel profissional...</p>
         </div>
+      </div>
       </AppShell>
     );
   }
@@ -502,20 +506,6 @@ function DashboardPage() {
           </div>
         )}
         
-        {/* Adiciona o gatilho de busca global no topo se necessário */}
-        
-        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-           <div className="flex-1 w-full max-w-md">
-              <div className="relative group">
-                <Input 
-                  placeholder="Pesquisar no painel (⌘K)..." 
-                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm transition-all focus:ring-2 focus:ring-brand/20 group-hover:border-brand/30"
-                />
-                <Search className="absolute left-3 top-3 size-4 text-muted-foreground transition-colors group-hover:text-brand" />
-              </div>
-           </div>
-        </div>
-
         {!hasFeature(access, "financial_help") && (
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
             <div className="flex items-center gap-2.5">
@@ -537,10 +527,6 @@ function DashboardPage() {
             </Button>
           </div>
         )}
-
-
-
-
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
           <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg/50 p-4 shadow-sm backdrop-blur-sm">
@@ -574,9 +560,6 @@ function DashboardPage() {
           </div>
         )}
 
-
-
-
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
           <div className="min-w-0">
             <h1 className="page-title truncate">
@@ -605,46 +588,59 @@ function DashboardPage() {
               <RefreshCw className="mr-1.5 size-3" />
               Redefinir
             </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-9 rounded-xl px-2.5 text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200 lg:hidden"
+              onClick={() => signOut()}
+            >
+              <LogOut className="mr-1.5 size-3.5" />
+              Sair
+            </Button>
             <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-            
-            <Button className="rounded-xl h-9 text-xs font-bold shadow-sm" onClick={() => setCardsOpen(true)}>
-              <Zap className="mr-2 size-3.5" />
+            <Button 
+              className="rounded-xl h-9 text-[11px] font-black uppercase tracking-wider shadow-md bg-emerald-600 hover:bg-emerald-700 text-white border-none sm:text-xs" 
+              onClick={() => setCardsOpen(true)}
+            >
+              <Zap className="mr-2 size-3.5 fill-current" />
               Lançar Rápido
             </Button>
 
-            <QuickCategoryMenu
-              kind="expense"
-              label="Novo Gasto"
-              onPick={(pick) => {
-                setEditingTx(null);
-                setDialogKind("expense");
-                setPreset(pick);
-                setDialogOpen(true);
-              }}
-            />
+            <div className="hidden items-center gap-2 lg:flex">
+              <QuickCategoryMenu
+                kind="expense"
+                label="Novo Gasto"
+                onPick={(pick) => {
+                  setEditingTx(null);
+                  setDialogKind("expense");
+                  setPreset(pick);
+                  setDialogOpen(true);
+                }}
+              />
 
-            <QuickCategoryMenu
-              kind="income"
-              label="Nova Receita"
-              onPick={(pick) => {
-                setEditingTx(null);
-                setDialogKind("income");
-                setPreset(pick);
-                setDialogOpen(true);
-              }}
-            />
+              <QuickCategoryMenu
+                kind="income"
+                label="Nova Receita"
+                onPick={(pick) => {
+                  setEditingTx(null);
+                  setDialogKind("income");
+                  setPreset(pick);
+                  setDialogOpen(true);
+                }}
+              />
+            </div>
 
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => navigate({ to: "/veiculos" })}>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => navigate({ to: "/veiculos" })}>
               <Car className="mr-2 size-3.5 text-muted-foreground" />
               Veículos
             </Button>
 
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setDependentOpen(true)}>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => setDependentOpen(true)}>
               <Baby className="mr-2 size-3.5 text-muted-foreground" />
               Kids
             </Button>
 
-            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40" onClick={() => setTaxOpen(true)}>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl text-xs font-bold border-border/40 hidden sm:flex" onClick={() => setTaxOpen(true)}>
               <Landmark className="mr-2 size-3.5 text-muted-foreground" />
               I.R.
             </Button>
@@ -655,13 +651,13 @@ function DashboardPage() {
         <GlobalAnnouncementsBanner />
 
         {loadingTransactions ? (
-          <div className="grid gap-3 auto-cards-sm opacity-50 transition-opacity duration-300">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <Skeleton key={index} className="h-20 rounded-2xl" />
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 opacity-50 transition-opacity duration-300">
+            {Array.from({ length: 12 }).map((_, index) => (
+              <Skeleton key={index} className="h-24 rounded-2xl" />
             ))}
           </div>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[340px_1fr_360px] mt-6">
+          <div className="flex flex-col lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-6 w-full max-w-full overflow-x-hidden">
             <aside className="hidden lg:block space-y-6">
               <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
@@ -938,289 +934,9 @@ function DashboardPage() {
             </div>
           </div>
         )}
-
-      
-        {!loadingTransactions && (
-          <div className="space-y-4 mt-4">
-            <section className="rounded-2xl border border-border bg-card p-4">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h2 className="text-sm font-semibold">Orçamento do mês</h2>
-                <Button asChild variant="ghost" size="sm">
-                  <Link to="/orcamentos">
-                    Gerenciar
-                    <ArrowRight className="ml-1 size-4" />
-                  </Link>
-                </Button>
-              </div>
-              {metrics.limit > 0 ? (
-                <div className="mt-4 space-y-2">
-                  <Progress value={Math.min(100, metrics.usedPercent)} />
-                  <div className="flex flex-wrap justify-between gap-2 text-sm text-muted-foreground">
-                    <span>
-                      Utilizado: <strong className="text-foreground">{formatCurrency(metrics.totalExpense)}</strong> de{" "}
-                      {formatCurrency(metrics.limit)}
-                    </span>
-                    <span>
-                      Disponível:{" "}
-                      <strong className="text-foreground">{formatCurrency(metrics.available)}</strong> (
-                      {metrics.usedPercent.toFixed(0)}% consumido)
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <p className="mt-3 text-sm text-muted-foreground">
-                  Você ainda não definiu um orçamento mensal.{" "}
-                  <Link to="/orcamentos" className="font-medium text-primary underline">
-                    Definir agora
-                  </Link>
-                </p>
-              )}
-            </section>
-
-            <PastMonthsLockNotice
-              monthKey={`${period.year}-${String(period.month).padStart(2, "0")}`}
-            />
-
-            <RecurringAlerts days={7} />
-
-            {budgetAlerts.length > 0 ? (
-              <section className="space-y-2">
-                {budgetAlerts.map((alert) => (
-                  <div
-                    key={alert.id}
-                    className="flex items-start gap-3 rounded-xl border border-border bg-card p-4 text-sm"
-                  >
-                    <AlertTriangle className="mt-0.5 size-4 shrink-0 text-[oklch(0.75_0.15_75)]" />
-                    <p>
-                      Você já utilizou <strong>{alert.percent.toFixed(0)}%</strong> do orçamento de{" "}
-                      <strong>{alert.name}</strong> ({formatCurrency(alert.spent)} de{" "}
-                      {formatCurrency(alert.limit)}).
-                    </p>
-                  </div>
-                ))}
-              </section>
-            ) : null}
-
-            <YearlyBalanceSection year={period.year} />
-
-            <section className="grid gap-4 md:grid-cols-2">
-              <ChartCard
-                title="Evolução Diária"
-                summary={`Maior pico: ${formatCurrency(Math.max(0, ...byDay.map((item) => item.gasto)))}. Toque na barra para ver os lançamentos do dia.`}
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={byDay}
-                    onClick={(state: { activeLabel?: string | number }) => {
-                      const day = Number(state?.activeLabel);
-                      if (day) openDayDetail(day);
-                    }}
-                  >
-                    <CartesianGrid {...gridProps} />
-                    <XAxis dataKey="day" {...axisProps} />
-                    <YAxis {...axisProps} width={40} />
-                    <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
-                    <Bar
-                      dataKey="gasto"
-                      name="Gasto"
-                      fill={CHART_TOKENS.neutral}
-                      radius={barRadius}
-                      className="cursor-pointer"
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </ChartCard>
-
-              <ChartCard
-                title="Categorias"
-                summary={
-                  byCategory.length > 0
-                    ? `Foco em: ${byCategory[0].name}. Toque na fatia para filtrar.`
-                    : "Sem gastos neste período."
-                }
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={byCategory}
-                      dataKey="value"
-                      nameKey="name"
-                      innerRadius={45}
-                      outerRadius={75}
-                      className="cursor-pointer"
-                      onClick={(entry: { id?: string; name?: string }) => {
-                        if (entry?.id) openCategoryDetail(entry.id, entry.name ?? "Categoria");
-                      }}
-                    >
-                      {byCategory.map((entry, index) => (
-                        <Cell
-                          key={entry.name}
-                          fill={entry.color ?? seriesColor(index)}
-                          stroke="var(--card)"
-                          strokeWidth={2}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      {...tooltipProps} 
-                      formatter={(value: number, name: string, props: any) => {
-                        const total = byCategory.reduce((a, b) => a + b.value, 0);
-                        const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                        return [formatCurrency(value), `${name} (${percent}%)`];
-                      }} 
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartCard>
-            </section>
-
-            <section className="grid gap-4 md:grid-cols-2">
-              <ChartCard
-                title="Receitas x despesas"
-                summary={`Receitas ${formatCurrency(metrics.totalIncome)} contra despesas ${formatCurrency(metrics.totalExpense)}.`}
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={byDay}
-                    onClick={(state: { activeLabel?: string | number }) => {
-                      const day = Number(state?.activeLabel);
-                      if (day) openDayDetail(day);
-                    }}
-                  >
-                    <CartesianGrid {...gridProps} />
-                    <XAxis dataKey="day" {...axisProps} />
-                    <YAxis {...axisProps} width={44} />
-                    <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
-                    <Legend {...legendProps} />
-                    <Line
-                      type="monotone"
-                      dataKey="receita"
-                      name="Receitas"
-                      stroke={CHART_TOKENS.income}
-                      strokeWidth={2}
-                      dot={false}
-                      className="cursor-pointer"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="gasto"
-                      name="Despesas"
-                      stroke={CHART_TOKENS.expense}
-                      strokeWidth={2}
-                      dot={false}
-                      className="cursor-pointer"
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </ChartCard>
-
-              <ChartCard
-                title="Essenciais x não essenciais"
-                summary={`Essenciais representam ${
-                  metrics.totalExpense > 0
-                    ? ((essentialSplit[0].value / metrics.totalExpense) * 100).toFixed(0)
-                    : 0
-                }% dos gastos.`}
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={essentialSplit}
-                      dataKey="value"
-                      nameKey="name"
-                      outerRadius={72}
-                      className="cursor-pointer"
-                      onClick={(entry: { name?: string }) =>
-                        openEssentialDetail(entry?.name === "Essenciais")
-                      }
-                    >
-                      {essentialSplit.map((entry) => (
-                        <Cell key={entry.name} fill={entry.color} stroke="var(--card)" strokeWidth={2} />
-                      ))}
-                    </Pie>
-                    <Tooltip {...tooltipProps} formatter={(value: number) => formatCurrency(value)} />
-                    <Legend {...legendProps} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartCard>
-            </section>
-
-
-            <InsightsPanel year={period.year} month={period.month} />
-
-            <CardMonthSummary
-              transactions={transactions ?? []}
-              categories={categories ?? []}
-              monthLabel={`${MONTH_NAMES[period.month - 1]}/${period.year}`}
-
-            />
-
-            <section className="auto-cards-lg">
-              <div className="rounded-2xl border border-border bg-card p-4">
-                <h2 className="text-sm font-semibold">Últimos lançamentos</h2>
-                {(transactions ?? []).length === 0 ? (
-                  <EmptyState onAdd={() => setDialogOpen(true)} />
-                ) : (
-                  <ul className="mt-3 space-y-2">
-                    {(transactions ?? []).slice(0, 6).map((row) => (
-                      <li key={row.id} className="flex items-center justify-between gap-3 text-sm">
-                        <span className="min-w-0 truncate">{row.description}</span>
-                        <span
-                          className={
-                            row.transaction_type === "income"
-                              ? "shrink-0 font-semibold tabular-nums text-primary"
-                              : "shrink-0 font-semibold tabular-nums"
-                          }
-                        >
-                          {row.transaction_type === "income" ? "+" : "−"}
-                          {formatCurrency(Number(row.amount))}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <Button asChild variant="ghost" size="sm" className="mt-4">
-                  <Link to="/lancamentos" search={() => ({})}>
-                    Ver todas
-                    <ArrowRight className="ml-1 size-4" />
-                  </Link>
-                </Button>
-              </div>
-
-              <div className="rounded-2xl border border-border bg-card p-4">
-                <h2 className="text-sm font-semibold">Próximas contas</h2>
-                {metrics.upcoming.length === 0 ? (
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    Nenhuma conta pendente neste período.
-                  </p>
-                ) : (
-                  <ul className="mt-3 space-y-2">
-                    {metrics.upcoming.slice(0, 6).map((row) => (
-                      <li key={row.id} className="flex items-center justify-between gap-3 text-sm">
-                        <span className="flex min-w-0 items-center gap-2">
-                          <CalendarClock className="size-4 shrink-0 text-muted-foreground" />
-                          <span className="truncate">{row.description}</span>
-                        </span>
-                        <span className="flex shrink-0 items-center gap-2">
-                          <Badge variant={row.status === "overdue" ? "destructive" : "secondary"}>
-                            {row.status === "overdue" ? "Atrasado" : "Pendente"}
-                          </Badge>
-                          <span className="font-semibold tabular-nums">
-                            {formatCurrency(Number(row.amount))}
-                          </span>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Gastos recorrentes previstos: {formatCurrency(metrics.recurring)}
-                </p>
-              </div>
-            </section>
-          </div>
-        )}
       </div>
+
+
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
@@ -1273,6 +989,8 @@ function DashboardPage() {
     </AppShell>
   );
 }
+
+
 
 
 
