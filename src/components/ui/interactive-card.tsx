@@ -68,7 +68,7 @@ export function InteractiveCard({
   return (
     <Card 
       className={cn(
-        "overflow-hidden transition-all duration-300 hover:shadow-md border-border/50 bg-card/50 backdrop-blur-sm cursor-pointer focus-within:ring-2 focus-within:ring-brand/50",
+        "overflow-hidden transition-all duration-300 hover:shadow-lg border-border/40 bg-card/40 backdrop-blur-md cursor-pointer focus-within:ring-2 focus-within:ring-brand/50",
         className
       )}
       onClick={handleCardClick}

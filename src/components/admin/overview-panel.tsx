@@ -67,7 +67,7 @@ export function AdminOverviewPanel({
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-brand/20 bg-brand/5 p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="rounded-2xl border border-brand/20 bg-brand/5 backdrop-blur-sm p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="grid size-10 place-items-center rounded-xl bg-brand/10 text-brand">
             <ShieldCheck className="size-5" />

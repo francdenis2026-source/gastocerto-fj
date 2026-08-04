@@ -6,14 +6,14 @@
 
 /** Paleta de séries — use sempre nesta ordem para manter consistência visual. */
 export const CHART_SERIES = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-  "var(--acc-6)",
-  "var(--acc-3)",
-  "var(--acc-5)",
+  "#17A45F", // Emerald/Brand
+  "#3B82F6", // Blue
+  "#F59E0B", // Amber
+  "#EF4444", // Red/Destructive
+  "#8B5CF6", // Violet
+  "#06B6D4", // Cyan
+  "#EC4899", // Pink
+  "#10B981", // Emerald-500
 ] as const;
 
 /** Cores semânticas fixas por tipo de valor. */
@@ -44,17 +44,19 @@ export const gridProps = {
 } as const;
 
 export const tooltipProps = {
-  cursor: { fill: "color-mix(in oklab, var(--muted-foreground) 12%, transparent)" },
+  cursor: { fill: "color-mix(in oklab, var(--muted-foreground) 8%, transparent)" },
   contentStyle: {
     background: "var(--popover)",
     border: "1px solid var(--border)",
-    borderRadius: "0.75rem",
+    borderRadius: "1rem",
     color: "var(--popover-foreground)",
     fontSize: 12,
-    boxShadow: "0 8px 24px oklch(0 0 0 / 12%)",
+    boxShadow: "0 10px 30px -10px oklch(0 0 0 / 15%)",
+    padding: "10px 14px",
+    backdropFilter: "blur(8px)",
   },
-  labelStyle: { color: "var(--muted-foreground)", fontSize: 11, marginBottom: 2 },
-  itemStyle: { color: "var(--popover-foreground)", fontSize: 12 },
+  labelStyle: { color: "var(--muted-foreground)", fontSize: 11, fontWeight: "700", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" },
+  itemStyle: { color: "var(--popover-foreground)", fontSize: 13, fontWeight: "600", padding: "2px 0" },
 } as const;
 
 export const legendProps = {
