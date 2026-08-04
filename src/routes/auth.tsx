@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
+import { createServerFn, useServerFn } from "@tanstack/react-start";
 import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight, Fingerprint, UserCircle, User, LogIn } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -15,6 +15,34 @@ import { PENDING_LICENSE_KEY } from "@/components/landing/code-access-dialog";
 
 import { CodeAccessInline } from "@/components/landing/code-access-inline";
 import { activateLicense, verifyAccessCode } from "@/lib/licenses.functions";
+
+// Implementação simples de Rate Limiting para Auth no servidor (em memória/simulado para o ambiente)
+const ATTEMPT_LIMIT = 5;
+const WINDOW_MS = 60 * 1000; // 1 minuto
+const attemptsMap = new Map<string, { count: number; lastReset: number }>();
+
+export const authRateLimiter = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => z.object({ identifier: z.string() }).parse(data))
+  .handler(async ({ data }) => {
+    const { identifier } = data;
+    const now = Date.now();
+    const entry = attemptsMap.get(identifier) || { count: 0, lastReset: now };
+
+    if (now - entry.lastReset > WINDOW_MS) {
+      entry.count = 0;
+      entry.lastReset = now;
+    }
+
+    entry.count++;
+    attemptsMap.set(identifier, entry);
+
+    if (entry.count > ATTEMPT_LIMIT) {
+      throw new Response("Muitas tentativas. Tente novamente em 1 minuto.", { status: 429 });
+    }
+    
+    return { ok: true };
+  });
+
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -692,6 +720,17 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     setErrors({});
     setFormError(null);
     setLoading(true);
+    
+    try {
+      await checkRateLimit({ data: { identifier: parsed.data.cpf } });
+    } catch (e: any) {
+      setLoading(false);
+      const msg = e.status === 429 ? e.message : "Falha na validação. Tente novamente.";
+      setFormError(msg);
+      toast.error(msg);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email: cpfToLoginEmail(parsed.data.cpf),
       password: pinToPassword(parsed.data.cpf, parsed.data.pin),
@@ -711,6 +750,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     clearFields();
     navigate({ to: await resolveHomeRouteForSession(), replace: true });
   }
+
+  const checkRateLimit = useServerFn(authRateLimiter);
 
   return (
     <form 

@@ -1,12 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { BarChart3, PieChart, TrendingUp, Sparkles, Activity, Baby } from "lucide-react";
+import { BarChart3, PieChart, TrendingUp, Sparkles, Activity, Baby, Users } from "lucide-react";
 
 interface DashboardTabsProps {
   overview: ReactNode;
   analytics: ReactNode;
   kids: ReactNode;
+  family: ReactNode;
   yearly: ReactNode;
   insights: ReactNode;
   recommendations: ReactNode;
@@ -17,6 +18,7 @@ export function DashboardTabs({
   overview,
   analytics,
   kids,
+  family,
   yearly,
   insights,
   recommendations,
@@ -68,6 +70,13 @@ export function DashboardTabs({
             <Baby className="size-3.5 sm:size-4" />
             Kids
           </TabsTrigger>
+          <TabsTrigger 
+            value="family" 
+            className="h-7 gap-1.5 rounded-lg px-2.5 text-[10px] font-black uppercase tracking-wider transition-all data-[state=active]:bg-background data-[state=active]:text-brand data-[state=active]:shadow-md sm:h-9 sm:px-6 sm:text-[13px]"
+          >
+            <Users className="size-3.5 sm:size-4" />
+            Família
+          </TabsTrigger>
         </TabsList>
       </div>
 
@@ -93,6 +102,10 @@ export function DashboardTabs({
 
       <TabsContent value="kids" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
         {kids}
+      </TabsContent>
+
+      <TabsContent value="family" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
+        {family}
       </TabsContent>
     </Tabs>
   );

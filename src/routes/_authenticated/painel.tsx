@@ -75,6 +75,7 @@ import { StatTile } from "@/components/finance/stat-tile";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
+import { FamilySpendingDashboard } from "@/components/finance/family-spending-dashboard";
 import { DashboardTabs } from "@/components/finance/dashboard-tabs";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
 import { getYearlyBalance } from "@/lib/yearly-balance.functions";
@@ -1104,7 +1105,9 @@ function DashboardPage() {
                  yearly={<YearlyBalanceSection year={period.year} />}
                   insights={<InsightsPanel year={period.year} month={period.month} />}
                   recommendations={<DebtAdvisorPanel />}
-                 kids={<KidsManagementPanel />}
+                   kids={<KidsManagementPanel />}
+                   family={<FamilySpendingDashboard />}
+
                />
             </div>
           </div>
