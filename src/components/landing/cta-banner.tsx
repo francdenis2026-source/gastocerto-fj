@@ -22,10 +22,10 @@ export function CtaBanner() {
                   <span className="text-[10px] font-black uppercase tracking-[0.2em]">Pronto para evoluir?</span>
                 </div>
                 <h2 className="text-4xl lg:text-6xl font-black tracking-tight leading-[0.95] mb-8">
-                  A sua liberdade financeira começa <span className="text-primary italic">agora</span>.
+                  O futuro da sua liberdade financeira começa <span className="text-primary italic">agora</span>.
                 </h2>
                 <p className="text-lg lg:text-xl text-background/70 font-medium leading-relaxed mb-4">
-                  Junte-se a milhares de usuários que já organizaram sua vida financeira. 
+                  Junte-se a milhares de usuários que já transformaram sua relação com o dinheiro. 
                   Sem letras miúdas, sem complicações.
                 </p>
                 <div className="flex items-center justify-center lg:justify-start gap-3 text-background/50">
