@@ -147,23 +147,25 @@ export function Benefits() {
           ))}
         </ul>
 
-        <Reveal className="mt-3.5 hidden gap-2 rounded-2xl border border-brand/25 bg-brand/8 p-3.5 sm:mt-4 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-4">
-          <p className="text-[13px] font-medium leading-relaxed sm:text-sm">
-            Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
-            veículos e consultor com inteligência artificial.
-          </p>
-          <div className="grid gap-2 sm:flex sm:items-center">
-            <DemoDialog>
-              <Button variant="outline" className="w-full sm:w-auto">
-                Ver demonstração
+        <Reveal className="mt-16 rounded-[32px] border border-primary/20 bg-primary/5 p-8 lg:p-12">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <p className="text-lg font-medium leading-relaxed max-w-2xl">
+              Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
+              veículos e consultor com inteligência artificial.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <DemoDialog>
+                <Button className="btn-secondary h-14 rounded-2xl">
+                  Ver demonstração
+                </Button>
+              </DemoDialog>
+              <Button asChild className="btn-primary h-14 rounded-2xl">
+                <Link to="/auth">
+                  Criar conta gratuita
+                  <ArrowRight className="ml-2 size-5" aria-hidden="true" />
+                </Link>
               </Button>
-            </DemoDialog>
-            <Button asChild className="w-full sm:w-auto">
-              <Link to="/auth">
-                Criar conta gratuita
-                <ArrowRight className="ml-2 size-4" aria-hidden="true" />
-              </Link>
-            </Button>
+            </div>
           </div>
         </Reveal>
       </div>
