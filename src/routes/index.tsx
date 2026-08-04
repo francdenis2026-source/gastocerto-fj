@@ -89,6 +89,7 @@ function LandingPage() {
         <Hero />
         <Benefits />
         <Pricing />
+        <PricingMobile />
         <LandingFooter />
       </main>
     </div>
