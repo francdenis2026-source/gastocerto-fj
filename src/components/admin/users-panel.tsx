@@ -813,6 +813,37 @@ function ManageUserDialog({
                 </Button>
                 <Button
                   size="sm"
+                  variant="destructive"
+                  className="gap-2"
+                  disabled={pending !== null || isSelf}
+                  onClick={() => {
+                    confirm({
+                      title: "Exclusão Permanente",
+                      description: `Esta ação removerá DEFINITIVAMENTE todos os dados de ${profile.full_name || 'este usuário'}. Esta ação NÃO pode ser desfeita.`,
+                      type: "destructive",
+                      confirmLabel: "EXCLUIR PERMANENTEMENTE",
+                      input: { label: "Digite 'EXCLUIR' para confirmar", placeholder: "EXCLUIR" },
+                      onConfirm: (value) => {
+                        if (value !== "EXCLUIR") {
+                          toast.error("Confirmação inválida.");
+                          return;
+                        }
+                        void run(
+                          "permanent-delete",
+                          () => adminDeleteUser({
+                            data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" }
+                          }),
+                          "Usuário excluído permanentemente do sistema."
+                        ).then(() => onClose());
+                      },
+                    });
+                  }}
+                >
+                  <Trash2 className="size-4" />
+                  Excluir Permanente
+                </Button>
+                <Button
+                  size="sm"
                   variant="outline"
                   className="gap-2 border-rose-500/30 text-rose-600 hover:bg-rose-50"
                   disabled={pending !== null}
