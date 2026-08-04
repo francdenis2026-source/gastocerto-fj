@@ -136,35 +136,57 @@ export function FeatureDetailDialog({ feature, children }: Props) {
           })}
         </nav>
 
-        <div className="grid gap-5 sm:grid-cols-[1fr_200px] sm:items-start">
-          <div className="space-y-4">
-            <ul className="grid gap-2.5 panel-enter">
-              {items.map((item, index) => (
-                <li
-                  key={item}
-                  className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card"
+        <div className="grid gap-5 sm:grid-cols-[1fr_200px] sm:items-start relative min-h-[160px]">
+          {isLoading ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/50 backdrop-blur-[1px] z-10 rounded-2xl animate-in fade-in duration-300">
+              <Loader2 className="size-8 text-primary animate-spin mb-2" />
+              <p className="text-[12px] font-bold tracking-wider text-muted-foreground uppercase">Carregando detalhes...</p>
+            </div>
+          ) : error ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-destructive/5 backdrop-blur-[1px] z-10 rounded-2xl border border-destructive/20 animate-in zoom-in-95 duration-300">
+              <AlertCircle className="size-8 text-destructive mb-2" />
+              <p className="text-[13px] font-bold text-destructive">{error}</p>
+              <Button variant="outline" size="sm" className="mt-3" onClick={() => setIsLoading(true)}>Tentar novamente</Button>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-4">
+                <div 
+                  ref={scrollRef}
+                  onMouseDown={handleMouseDown}
+                  className="overflow-x-auto overflow-y-hidden cursor-grab active:cursor-grabbing scrollbar-none pb-2"
+                  style={{ touchAction: 'pan-y' }}
                 >
-                  <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
-                    {index + 1}
-                  </span>
-                  <span className="min-w-0">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+                  <ul className="grid gap-2.5 panel-enter sm:grid-cols-1 grid-flow-col auto-cols-[85%] sm:auto-cols-auto">
+                    {items.map((item, index) => (
+                      <li
+                        key={item}
+                        className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card select-none"
+                      >
+                        <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
+                          {index + 1}
+                        </span>
+                        <span className="min-w-0">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
 
-          <figure className="order-first overflow-hidden rounded-2xl border border-border shadow-sm sm:order-none">
-            <img
-              src={detail.screenshot}
-              alt={detail.screenshotAlt}
-              loading="lazy"
-              decoding="async"
-              className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-40"
-            />
-            <figcaption className="border-t border-border bg-muted/30 px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">
-              Visualização Real
-            </figcaption>
-          </figure>
+              <figure className="order-first overflow-hidden rounded-2xl border border-border shadow-sm sm:order-none sm:block">
+                <img
+                  src={detail.screenshot}
+                  alt={detail.screenshotAlt}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-40"
+                />
+                <figcaption className="border-t border-border bg-muted/30 px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">
+                  Visualização Real
+                </figcaption>
+              </figure>
+            </>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
