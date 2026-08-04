@@ -82,9 +82,8 @@ export function LicenseDetailPanel() {
     current?.plans?.name ??
     (access?.tier === "paid"
       ? access.aiIncluded
-        ? "Enterprise IA"
-        : "Pro"
-
+        ? "Premium IA"
+        : "Premium"
       : access?.tier === "trial"
         ? "Teste gratuito"
         : "Gratuito");

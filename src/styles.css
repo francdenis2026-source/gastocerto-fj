@@ -5,41 +5,49 @@
 @layer base {
   *, ::before, ::after {
     @apply cursor-default;
-    border-color: var(--border);
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  body::-webkit-scrollbar {
-    display: none;
   }
 
   a, button, [role="button"], input[type="submit"], input[type="button"], label, select, summary, [tabindex]:not([tabindex="-1"]) {
-    @apply cursor-pointer outline-none transition-all;
+    @apply cursor-pointer;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold tracking-tight text-foreground;
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="url"], textarea {
+    @apply cursor-text;
   }
 }
 
+/* Ocultar barra de rolagem lateral (y) mantendo funcionalidade de scroll nativa */
+body {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  overscroll-behavior-y: contain; /* Desativar pull-to-refresh em mobile */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Safari e Chrome */
+}
+
+
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * GastoCerto design system.
+ * Fintech identity: deep navy primary, emerald for positive, coral for alerts,
+ * amber for warnings, neutral light surfaces.
+ * All colors MUST use oklch.
+ */
+
 @theme inline {
-  --font-sans: "Inter", "Satoshi", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Manrope", "Satoshi", ui-sans-serif, system-ui, sans-serif;
-
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
-  --radius-3xl: 32px;
-
+  --font-sans: "Inter Tight", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Sans", "Sora", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -56,91 +64,782 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  /* Tons calibrados de dinheiro: legíveis sem saturação agressiva. */
+  --color-expense: var(--expense);
+  --color-expense-surface: var(--expense-surface);
+  --color-expense-border: var(--expense-border);
+  --color-income: var(--income);
+  --color-income-surface: var(--income-surface);
+  --color-income-border: var(--income-border);
+  --color-surface: var(--surface);
+  /* Hero da landing: tokens próprios para funcionar nos dois temas. */
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-fg: var(--hero-fg);
+  --color-hero-fg-muted: var(--hero-fg-muted);
+  --color-hero-fg-soft: var(--hero-fg-soft);
+  --color-hero-border: var(--hero-border);
+  --color-hero-border-strong: var(--hero-border-strong);
+  --color-hero-surface: var(--hero-surface);
+  --color-hero-surface-soft: var(--hero-surface-soft);
+  --color-hero-accent: var(--hero-accent);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-premium: 0 0 0 1px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05), 0 12px 24px rgba(0,0,0,0.05);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-acc-1: var(--acc-1);
+  --color-acc-2: var(--acc-2);
+  --color-acc-3: var(--acc-3);
+  --color-acc-4: var(--acc-4);
+  --color-acc-5: var(--acc-5);
+  --color-acc-6: var(--acc-6);
+  --shadow-soft: 0 1px 2px oklch(0.22 0.07 258 / 3%), 0 4px 12px oklch(0.22 0.07 258 / 4%);
+  --shadow-lifted: 0 2px 4px oklch(0.22 0.07 258 / 4%), 0 12px 32px oklch(0.22 0.07 258 / 8%);
+  --color-banner-amber-bg: var(--banner-amber-bg);
+  --color-banner-amber-border: var(--banner-amber-border);
+  --color-banner-amber-text: var(--banner-amber-text);
+  --color-banner-amber-icon: var(--banner-amber-icon);
+  --color-banner-primary-bg: var(--banner-primary-bg);
+  --color-banner-primary-border: var(--banner-primary-border);
+  --color-banner-primary-text: var(--banner-primary-text);
+  --color-banner-primary-icon: var(--banner-primary-icon);
+
+  --color-cta-bg: var(--cta-bg);
+  --color-cta-fg: var(--cta-fg);
+  --color-cta-fg-muted: var(--cta-fg-muted);
+  --color-cta-border: var(--cta-border);
+  --color-cta-surface: var(--cta-surface);
+  --color-cta-accent-glow: var(--cta-accent-glow);
 }
 
-:root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
-  --primary: #17A45F; /* Refined Brand Emerald */
-  --primary-foreground: #FFFFFF;
-  --secondary: #F1F5F9;
-  --secondary-foreground: #475569;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-  --accent: #F1F5F9;
-  --accent-foreground: #0F172A;
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #17A45F;
 
-  --radius: 1rem;
+:root {
+  --radius: 0.85rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.02 0.01 259);
+  --surface: oklch(1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.08 0.03 259);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.08 0.03 259);
+  --primary: oklch(0.12 0.03 259);
+  --primary-foreground: oklch(0.99 0.005 0);
+  --brand: oklch(0.55 0.18 158); /* Brilho levemente ajustado para o modo claro */
+  --brand-foreground: oklch(0.99 0.004 0);
+  --secondary: oklch(0.97 0.01 259);
+  --secondary-foreground: oklch(0.25 0.06 259);
+  --muted: oklch(0.97 0.01 259);
+  --muted-foreground: oklch(0.3 0.03 259);
+  --accent: oklch(0.94 0.02 259);
+  --accent-foreground: oklch(0.25 0.06 259);
+  --destructive: oklch(0.58 0.18 25);
+  --destructive-foreground: oklch(0.99 0.004 0);
+  --success: oklch(0.58 0.17 158);
+  --success-foreground: oklch(0.99 0.004 0);
+  --warning: oklch(0.68 0.16 78);
+  --warning-foreground: oklch(0.99 0.004 0);
+
+  --expense: oklch(0.52 0.17 25);
+  --expense-surface: oklch(0.97 0.02 25);
+  --expense-border: oklch(0.9 0.05 25);
+  --income: oklch(0.55 0.16 155);
+  --income-surface: oklch(0.97 0.03 155);
+  --income-border: oklch(0.9 0.06 155);
+
+  --border: oklch(0.89 0.02 259);
+  --input: oklch(0.85 0.02 259); /* Borda de input levemente mais escura */
+  --ring: oklch(0.18 0.04 259);
+  --chart-1: oklch(0.25 0.06 259);
+  --chart-2: oklch(0.55 0.16 155);
+  --chart-3: oklch(0.7 0.12 78);
+  --chart-4: oklch(0.58 0.18 25);
+  --chart-5: oklch(0.62 0.13 300);
+
+  --sidebar: oklch(0.99 0.004 0);
+  --sidebar-foreground: oklch(0.2 0.04 259);
+  --sidebar-primary: oklch(0.25 0.06 259);
+  --sidebar-primary-foreground: oklch(0.99 0.004 0);
+  --sidebar-accent: oklch(0.96 0.01 259);
+  --sidebar-accent-foreground: oklch(0.25 0.06 259);
+  --sidebar-border: oklch(0.92 0.02 259);
+  --sidebar-ring: oklch(0.25 0.06 259);
+
+  --acc-1: oklch(0.25 0.06 259);
+  --acc-2: oklch(0.55 0.16 155);
+  --acc-3: oklch(0.72 0.16 55);
+  --acc-4: oklch(0.58 0.18 25);
+  --acc-5: oklch(0.58 0.19 300);
+  --acc-6: oklch(0.63 0.13 210);
+
+  /* ---- Hero (tema claro) ---- */
+  --hero-bg: oklch(0.97 0.012 259);
+  --hero-fg: oklch(0.22 0.05 259);
+  --hero-fg-muted: oklch(0.34 0.04 259);
+  --hero-fg-soft: oklch(0.42 0.03 259);
+  --hero-border: oklch(0.22 0.05 259 / 12%);
+  --hero-border-strong: oklch(0.22 0.05 259 / 30%);
+  --hero-surface: oklch(1 0 0 / 78%);
+  --hero-surface-soft: oklch(1 0 0 / 58%);
+  --hero-accent: oklch(0.55 0.16 155);
+
+  /* Banners informativos e áreas de alerta */
+  --banner-amber-bg: oklch(0.97 0.02 75 / 80%);
+  --banner-amber-border: oklch(0.65 0.15 75 / 30%);
+  --banner-amber-text: oklch(0.25 0.05 75);
+  --banner-amber-icon: oklch(0.55 0.15 75);
+
+  --banner-primary-bg: oklch(0.97 0.01 259 / 80%);
+  --banner-primary-border: oklch(0.25 0.06 259 / 20%);
+  --banner-primary-text: oklch(0.25 0.04 158); /* Forçado para verde esmeralda com contraste */
+  --banner-primary-icon: oklch(0.35 0.14 158);
+
+  --hero-veil-mobile: linear-gradient(
+    180deg,
+    oklch(0.99 0.008 259 / 0.94),
+    oklch(0.98 0.01 259 / 0.86) 50%,
+    oklch(0.97 0.012 259 / 0.96)
+  );
+  --hero-veil-desktop: linear-gradient(
+    100deg,
+    oklch(0.99 0.008 259 / 0.95) 0%,
+    oklch(0.98 0.01 259 / 0.82) 46%,
+    oklch(0.97 0.012 259 / 0.42) 100%
+  );
+  --hero-fade: linear-gradient(180deg, transparent, oklch(0.97 0.012 259));
+}
+
+/* CTA Banner: semantic tokens for dark background with theme adaptation */
+:root {
+  --cta-bg: oklch(0.18 0.05 259);
+  --cta-fg: oklch(1 0 0);
+  --cta-fg-muted: oklch(1 0 0 / 90%);
+  --cta-border: oklch(1 0 0 / 15%);
+  --cta-surface: oklch(1 0 0 / 5%);
+  --cta-accent-glow: oklch(0.55 0.16 155 / 30%);
 }
 
 .dark {
-  --background: #05070A; /* Deeper black */
-  --foreground: #F8FAFC;
-  --card: #09090B; 
-  --card-foreground: #F8FAFC;
-  --popover: #09090B;
-  --popover-foreground: #F8FAFC;
-  --primary: #17A45F; 
-  --primary-foreground: #FFFFFF;
-  --secondary: #161618;
-  --secondary-foreground: #94A3B8;
-  --muted: #161618;
-  --muted-foreground: #64748B;
-  --accent: #17A45F1A;
-  --accent-foreground: #17A45F;
-  --destructive: #EF4444;
-  --destructive-foreground: #F8FAFC;
-  --border: rgba(255, 255, 255, 0.05);
-  --input: rgba(255, 255, 255, 0.05);
-  --ring: #17A45F;
+  --cta-bg: oklch(0.15 0.03 259);
+  --cta-accent-glow: oklch(0.65 0.14 155 / 20%);
 }
 
-@utility glass {
-  @apply backdrop-blur-md bg-white/70 dark:bg-black/40 border border-white/20 dark:border-white/10;
+
+
+.dark {
+  --background: oklch(0.05 0.01 259); /* Navy ultra profundo estável */
+  --foreground: oklch(0.98 0.01 259);
+  --surface: oklch(0.16 0.03 259);
+  --card: oklch(0.16 0.03 259);
+  --card-foreground: oklch(0.98 0.01 259);
+  --popover: oklch(0.16 0.03 259);
+  --popover-foreground: oklch(0.98 0.01 259);
+  --primary: oklch(0.7 0.14 155); /* Esmeralda com brilho controlado no escuro */
+  --primary-foreground: oklch(0.1 0.03 259);
+  --brand: oklch(0.7 0.14 155); /* Harmonizado com a primary */
+  --brand-foreground: oklch(0.1 0.03 259);
+  --secondary: oklch(0.25 0.04 259);
+  --secondary-foreground: oklch(0.98 0.01 259);
+  --muted: oklch(0.22 0.04 259);
+  --muted-foreground: oklch(0.85 0.02 259); /* Aumentado contraste para legibilidade em mobile */
+  --accent: oklch(0.28 0.05 259);
+  --accent-foreground: oklch(0.98 0.01 259);
+  --destructive: oklch(0.60 0.15 25); /* Vermelho menos agressivo no escuro */
+  --destructive-foreground: oklch(0.98 0.01 259);
+  --success: oklch(0.75 0.14 155);
+  --success-foreground: oklch(0.1 0.03 259);
+  --warning: oklch(0.85 0.14 78);
+  --warning-foreground: oklch(0.1 0.03 259);
+
+  --expense: oklch(0.60 0.15 25); /* Calibrado para contraste WCAG no dark mode */
+  --expense-surface: oklch(0.22 0.04 25);
+  --expense-border: oklch(0.35 0.06 25);
+  --income: oklch(0.75 0.14 155);
+  --income-surface: oklch(0.22 0.04 155);
+  --income-border: oklch(0.35 0.06 155);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.65 0.14 155);
+  --chart-1: oklch(0.65 0.14 155);
+  --chart-2: oklch(0.75 0.14 155);
+  --chart-3: oklch(0.85 0.14 78);
+  --chart-4: oklch(0.66 0.18 25);
+  --chart-5: oklch(0.7 0.13 300);
+
+  --sidebar: oklch(0.14 0.03 259);
+  --sidebar-foreground: oklch(0.98 0.01 259);
+  --sidebar-primary: oklch(0.65 0.14 155);
+  --sidebar-primary-foreground: oklch(0.1 0.03 259);
+  --sidebar-accent: oklch(0.25 0.04 259);
+  --sidebar-accent-foreground: oklch(0.98 0.01 259);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.65 0.14 155);
+
+  --acc-1: oklch(0.75 0.14 155);
+  --acc-2: oklch(0.6 0.1 259);
+  --acc-3: oklch(0.8 0.14 55);
+  --acc-4: oklch(0.7 0.17 25);
+  --acc-5: oklch(0.72 0.16 300);
+  --acc-6: oklch(0.74 0.12 210);
+
+  /* ---- Hero (tema escuro) ---- */
+  --hero-bg: oklch(0.15 0.026 252);
+  --hero-fg: oklch(1 0 0);
+  --hero-fg-muted: oklch(1 0 0 / 90%);
+  --hero-fg-soft: oklch(1 0 0 / 72%);
+  --hero-border: oklch(1 0 0 / 14%);
+  --hero-border-strong: oklch(1 0 0 / 35%);
+  --hero-surface: oklch(0.2 0.03 252 / 72%);
+  --hero-surface-soft: oklch(1 0 0 / 7%);
+  --hero-accent: oklch(0.86 0.11 165);
+
+  --banner-amber-bg: oklch(0.2 0.04 75 / 20%);
+  --banner-amber-border: oklch(0.65 0.15 75 / 40%);
+  --banner-amber-text: oklch(0.92 0.02 75);
+  --banner-amber-icon: oklch(0.8 0.15 75);
+
+  --banner-primary-bg: oklch(0.2 0.04 259 / 30%);
+  --banner-primary-border: oklch(0.65 0.14 155 / 30%);
+  --banner-primary-text: oklch(0.98 0.01 259);
+  --banner-primary-icon: oklch(0.65 0.14 155);
+
+  --hero-veil-mobile: linear-gradient(
+    180deg,
+    oklch(0.14 0.02 252 / 0.8),
+    oklch(0.14 0.02 252 / 0.6) 50%,
+    oklch(0.14 0.02 252 / 0.85)
+  );
+  --hero-veil-desktop: linear-gradient(
+    100deg,
+    oklch(0.13 0.02 252 / 0.9) 0%,
+    oklch(0.13 0.02 252 / 0.6) 46%,
+    oklch(0.14 0.02 252 / 0.25) 100%
+  );
+  --hero-fade: linear-gradient(180deg, transparent, oklch(0.15 0.026 252));
+
 }
 
-@utility premium-card {
-  @apply bg-card text-card-foreground border border-border rounded-xl shadow-premium transition-all duration-300;
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--acc-1), var(--acc-5) 45%, var(--acc-2));
+  background-clip: text;
+  color: transparent;
+  filter: brightness(0.95);
+}
+
+@utility accent-tile {
+  --tile: var(--acc-1);
+  border: 1px solid color-mix(in oklab, var(--tile) 26%, transparent);
+  background:
+    linear-gradient(150deg, color-mix(in oklab, var(--tile) 12%, transparent), transparent 62%),
+    var(--color-card);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+
   &:hover {
-    @apply -translate-y-1 shadow-xl border-primary/20;
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--tile) 48%, transparent);
+    box-shadow: 0 16px 40px color-mix(in oklab, var(--tile) 22%, transparent);
   }
 }
 
-@utility btn-primary {
-  @apply h-12 px-8 rounded-lg bg-primary text-primary-foreground font-semibold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-[0.98] transition-all;
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
-@utility btn-secondary {
-  @apply h-12 px-8 rounded-lg bg-secondary text-secondary-foreground font-semibold border border-border hover:bg-accent hover:text-foreground active:scale-[0.98] transition-all;
+@utility section-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
 }
 
-@utility input-modern {
-  @apply h-14 px-4 rounded-lg bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
+/* Ritmo vertical único para todas as seções da homepage. */
+@utility section-y {
+  padding-block: 1.25rem;
+
+  @media (min-width: 640px) {
+    padding-block: 1.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding-block: 2.25rem;
+  }
 }
 
-@utility section-padding {
-  @apply py-20 lg:py-32;
-}
-
+/* Título de seção consistente entre mobile e desktop. */
 @utility reveal {
-  @apply opacity-0 translate-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-forwards;
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
 }
+
+@utility reveal-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@utility section-title {
+  font-family: var(--font-display, inherit);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  font-size: 1.45rem;
+  color: var(--foreground);
+  text-wrap: balance;
+
+  @media (min-width: 640px) {
+    font-size: 1.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.05rem;
+  }
+}
+
+/* Micro-interações profissionais: link de navegação com sublinhado animado. */
+@utility nav-underline {
+  position: relative;
+  transition: color 200ms ease, background-color 200ms ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Cartões e superfícies clicáveis com elevação suave. */
+@utility interactive-card {
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease,
+    border-color 240ms ease;
+
+  &:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    box-shadow: 0 20px 40px -12px oklch(0 0 0 / 15%), 0 10px 15px -3px oklch(0 0 0 / 5%);
+    background-color: color-mix(in oklab, var(--accent) 5%, var(--card));
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(0.99);
+    transition-duration: 100ms;
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+/* Feedback de clique universal */
+@utility press-feedback {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Botões com brilho interno no hover */
+@utility btn-hover-shine {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, oklch(1 0 0 / 10%), transparent);
+    transform: translateX(-100%);
+    transition: transform 600ms ease;
+  }
+  &:hover::after {
+    transform: translateX(100%);
+  }
+}
+
+/* CTA principal: elevação sutil, brilho de foco e retorno tátil no clique. */
+@utility cta-lift {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease,
+    filter 220ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    filter: saturate(1.06);
+    box-shadow: 0 14px 30px -12px color-mix(in oklab, var(--brand) 55%, transparent);
+  }
+  &:active {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 110ms;
+  }
+}
+
+/* Superfície de vidro do login, adaptada ao modo claro e escuro. */
+@utility auth-veil {
+  background-image: linear-gradient(
+    165deg,
+    oklch(0.99 0.005 259 / 0.82) 0%,
+    oklch(0.96 0.012 259 / 0.7) 52%,
+    oklch(0.99 0.005 259 / 0.88) 100%
+  );
+}
+
+.dark .auth-veil {
+  background-image: linear-gradient(
+    165deg,
+    oklch(0.16 0.03 258 / 0.92) 0%,
+    oklch(0.16 0.03 258 / 0.85) 50%,
+    oklch(0.16 0.03 258 / 0.95) 100%
+  );
+}
+
+
+/* Grades fluidas: os cartões se reorganizam sozinhos conforme a largura. 
+   Otimizado para manter visibilidade sem quebras bruscas. */
+@utility auto-cards-sm {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+}
+
+@utility auto-cards-md {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+}
+
+@utility auto-cards-lg {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+/* Altura de gráfico que acompanha o tamanho da tela, garantindo que não suma em telas pequenas. */
+@utility chart-frame {
+  width: 100%;
+  height: clamp(200px, 35vh, 360px);
+}
+
+/* Área de conteúdo do app com altura mínima estável entre navegações,
+   para a janela ativa não mudar de forma ao alternar menus e painéis. */
+@utility app-main {
+  min-height: calc(100svh - 8.75rem);
+}
+
+/* Faixa de abas com altura fixa: alternar seção não muda a altura do header. */
+@utility subnav-strip {
+  height: 2.375rem;
+}
+
+@utility glass-morphism {
+  background: color-mix(in oklab, var(--card) 45%, transparent);
+  backdrop-filter: blur(32px) saturate(220%);
+  -webkit-backdrop-filter: blur(32px) saturate(220%);
+  border: 1px solid color-mix(in oklab, var(--border) 40%, transparent);
+}
+
+@utility mobile-compact-card {
+  padding: 0.85rem;
+  border-radius: 1.25rem;
+}
+
+/* Título e subtítulo padrão das telas internas: compacto no celular,
+   generoso no desktop — mesma hierarquia em todas as páginas. */
+@utility page-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  font-size: 1.125rem;
+  color: var(--foreground);
+
+  @media (width >= 40rem) {
+    font-size: 1.375rem;
+  }
+}
+
+@utility page-subtitle {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--muted-foreground);
+
+  @media (width >= 40rem) {
+    font-size: 0.8125rem;
+  }
+}
+
+
+
+/* Revelação suave ao entrar na viewport. */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+@utility reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Conteúdo de aba entrando: fade + leve deslize. */
+@utility panel-enter {
+  animation: panel-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Pulse discreto: variação suave de opacidade/escala, sem piscar */
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 3.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-soft-pulse {
+    animation: none;
+  }
+}
+
+/* Rolagem sem barra visível (telas de login) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+@layer base {
+  /* Setas dos botões avançam levemente no hover. */
+  button:hover > svg:last-child,
+  a:hover > svg:last-child {
+    transform: translateX(2px);
+  }
+
+  a:not([class*="button"]) {
+    transition: color 200ms ease, opacity 200ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    /* Garante altura total estável em mobile */
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    /* Evita quebras de texto agressivas em telas muito estreitas */
+    word-break: break-word;
+  }
+
+  body {
+    /* Nunca criar um segundo scroller aqui: travava a rolagem da página. */
+    overflow: visible;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Áreas roláveis internas não devolvem o gesto à página (evita travas). */
+  [data-scroll-area],
+  [data-radix-scroll-area-viewport],
+  .overflow-y-auto,
+  .overflow-auto {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  /* Desktop: rolagem apenas pela roda do mouse/trackpad, sem barras visíveis. */
+  /* Desktop e Mobile: rolagem sem barras visíveis para uma estética clean. */
+  html,
+  body,
+  [data-scroll-area],
+  [data-radix-scroll-area-viewport],
+  .overflow-y-auto,
+  .overflow-auto,
+  .overflow-x-auto {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  [data-scroll-area]::-webkit-scrollbar,
+  [data-radix-scroll-area-viewport]::-webkit-scrollbar,
+  .overflow-y-auto::-webkit-scrollbar,
+  .overflow-auto::-webkit-scrollbar,
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    height: 0;
+  }
+
+
+  img,
+  svg,
+  video,
+  canvas,
+  table {
+    max-width: 100%;
+  }
+
+
+  /* Toques confortáveis no celular sem inflar o layout. */
+  @media (max-width: 639px) {
+    .chart-frame {
+      height: clamp(138px, 40vw, 190px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    /* Fundo fintech: brilhos radiais + malha sutil de grade. */
+    background-image:
+      radial-gradient(at 8% -5%, oklch(0.68 0.13 255 / 0.16) 0px, transparent 55%),
+      radial-gradient(at 95% 0%, oklch(0.72 0.14 162 / 0.14) 0px, transparent 55%),
+      radial-gradient(at 50% 110%, oklch(0.7 0.12 300 / 0.1) 0px, transparent 60%),
+      linear-gradient(oklch(1 0 0 / 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 0.022) 1px, transparent 1px);
+    background-size:
+      auto,
+      auto,
+      auto,
+      32px 32px,
+      32px 32px;
+    background-attachment: fixed;
+  }
+
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* NEXUS-PRO:WATERMARK-HIDE:START */
+/* Overlay do badge oficial ocultado por conflito com UI custom.
+   Bloco idempotente gerenciado pela extensão Nexus Pro.
+   NÃO EDITAR manualmente — para reverter, remova o bloco inteiro. */
+#lovable-badge,
+#lovable-badge-v2,
+[id^="lovable-badge"],
+[data-testid="lovable-badge"],
+a[href*="lovable.dev/?via="],
+a[href*="lovable.dev?via="],
+a[href*="gpteng.co"],
+iframe[src*="lovable.dev/badge"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+/* NEXUS-PRO:WATERMARK-HIDE:END */

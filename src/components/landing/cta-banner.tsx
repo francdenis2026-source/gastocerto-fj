@@ -1,66 +1,60 @@
-
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, PlayCircle, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, PlayCircle, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { GridPattern } from "@/components/landing/decor";
 import { Reveal } from "@/components/landing/reveal";
 
 export function CtaBanner() {
   return (
-    <section className="py-16 lg:py-24 overflow-hidden relative">
-      <div className="container mx-auto px-6 lg:px-12">
-        <Reveal delay={100}>
-          <div className="relative isolate overflow-hidden rounded-[48px] bg-foreground px-8 py-16 text-background sm:px-16 sm:py-20 shadow-2xl">
-            {/* High-Fidelity Background Effects */}
-            <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.2),transparent_50%)]" />
-            <div className="absolute -top-24 -left-24 size-[500px] bg-primary/20 blur-[150px] rounded-full -z-10 animate-pulse" />
-            
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
-              <div className="max-w-2xl text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 text-primary mb-8">
-                  <Sparkles className="size-4" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">Pronto para evoluir?</span>
-                </div>
-                <h2 className="text-4xl lg:text-6xl font-black tracking-tight leading-[0.95] mb-8">
-                  O futuro da sua liberdade financeira começa <span className="text-primary italic">agora</span>.
-                </h2>
-                <p className="text-lg lg:text-xl text-background/70 font-medium leading-relaxed mb-4">
-                  Junte-se a milhares de usuários que já transformaram sua relação com o dinheiro. 
-                  Sem letras miúdas, sem complicações.
-                </p>
-                <div className="flex items-center justify-center lg:justify-start gap-3 text-background/50">
-                   <ShieldCheck className="size-5 text-primary" />
-                   <span className="text-xs font-bold uppercase tracking-widest">100% Seguro & Privado</span>
-                </div>
-              </div>
+    <section className="py-16 sm:py-24">
+      <Reveal className="section-shell">
+        <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-cta-bg px-6 py-10 text-cta-fg shadow-2xl sm:px-12 sm:py-14 border border-white/5 transition-all duration-500 hover:border-brand/30">
+          <GridPattern className="absolute inset-0 -z-10 size-full text-cta-fg/5" />
+          
+          {/* Efeitos de Glow High-Tech */}
+          <div
+            aria-hidden="true"
+            className="absolute -right-32 -top-32 -z-10 size-[400px] rounded-full bg-cta-accent-glow blur-[140px] animate-pulse"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -left-32 -bottom-32 -z-10 size-[400px] rounded-full bg-brand/10 blur-[140px]"
+          />
 
-              <div className="flex flex-col sm:flex-row lg:flex-col gap-4 w-full sm:w-auto min-w-[320px]">
-                <Link
-                  to="/auth"
-                  search={{ mode: "signup" }}
-                  className="group relative flex h-16 w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-primary px-10 text-lg font-black text-primary-foreground shadow-2xl transition-all hover:scale-[1.02] active:scale-95"
-                >
-                  Comece Grátis
-                  <ArrowRight className="size-6 transition-transform group-hover:translate-x-1" />
-                </Link>
-                
-                <Link
-                  to="/demonstracao"
-                  className="flex h-16 w-full items-center justify-center gap-3 rounded-2xl border border-background/20 bg-background/10 px-10 text-lg font-black text-background backdrop-blur-sm transition-all hover:bg-background/20 active:scale-95"
-                >
-                  <PlayCircle className="size-6" />
-                  Ver Demo
-                </Link>
-              </div>
+          <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
+            <div className="min-w-0">
+              <h2 className="font-display text-2xl font-black leading-tight tracking-tight text-cta-fg sm:text-4xl">
+                Decisões inteligentes começam com dados precisos.
+              </h2>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-cta-fg-muted">
+                Junte-se à nova era da gestão financeira familiar. Comece grátis, sem cartão, 
+                seguro e pronto para uso em segundos.
+              </p>
             </div>
 
-            {/* Floating Brand Elements */}
-            <div className="absolute top-10 right-10 opacity-5 hidden lg:block">
-              <Sparkles className="size-32" />
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <Button size="lg" className="h-14 w-full rounded-2xl bg-brand text-base font-bold shadow-[0_0_30px_rgba(23,164,95,0.2)] transition-transform hover:scale-105 active:scale-95" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}>
+                  Começar Agora
+                  <ArrowRight className="size-5 ml-1" aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 text-base font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-brand/40"
+                asChild
+              >
+                <Link to="/demonstracao">
+                  <PlayCircle className="size-5 mr-2" aria-hidden="true" />
+                  Ver Demo Interativa
+                </Link>
+              </Button>
             </div>
           </div>
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </section>
   );
 }

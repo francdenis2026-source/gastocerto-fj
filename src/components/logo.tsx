@@ -1,13 +1,14 @@
-
 import { Link } from "@tanstack/react-router";
-import { Bot } from "lucide-react";
+import markAsset from "@/assets/gastocerto-mark.png.asset.json";
 import { cn } from "@/lib/utils";
 
 export function BrandMark({ className }: { className?: string }) {
   return (
-    <div className={cn("shrink-0 flex items-center justify-center bg-primary rounded-xl text-primary-foreground transition-transform duration-300 group-hover:rotate-6", className)}>
-      <Bot className="size-2/3" />
-    </div>
+    <img
+      src={markAsset.url}
+      alt="GastoCerto"
+      className={cn("shrink-0 object-contain cursor-pointer", className)}
+    />
   );
 }
 
@@ -23,24 +24,33 @@ export function Logo({
   href?: string;
 }) {
   const content = (
-    <span className={cn("inline-flex min-w-0 items-center gap-3 transition-transform duration-200 group-hover:scale-105 cursor-pointer", className)}>
-      <BrandMark className="size-10 lg:size-12" />
+    <span className={cn("inline-flex min-w-0 items-center gap-2 transition-transform duration-200 group-hover:scale-105 sm:gap-2.5 cursor-pointer", className)}>
+      <BrandMark className="size-9 transition-transform duration-200 group-hover:rotate-3 sm:size-11" />
       <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
         <span
           className={cn(
-            "font-display whitespace-nowrap text-[1.4rem] font-black tracking-tighter lg:text-[1.6rem]",
-            onDark ? "text-white" : "text-foreground",
+            "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
+            onDark ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : "text-[oklch(0.25_0.04_259)] dark:text-white",
           )}
         >
-          Gasto<span className="text-primary italic">Certo</span>
+          Gasto
+          <span
+            className={cn(
+              onDark
+                ? "text-[oklch(0.78_0.17_152)] drop-shadow-[0_1px_3px_rgba(0,0,0,0.75)]"
+                : "text-[oklch(0.52_0.15_150)] dark:text-[oklch(0.78_0.17_152)]",
+            )}
+          >
+            Certo
+          </span>
         </span>
         <span
           className={cn(
-            "mt-1 hidden text-[9px] font-bold uppercase tracking-[0.3em] min-[360px]:block leading-tight",
-            onDark ? "text-white/60" : "text-muted-foreground",
+            "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block max-w-[200px] leading-tight",
+            onDark ? "text-white" : "text-[oklch(0.25_0.04_259)] dark:text-white/60",
           )}
         >
-          AI Financial Mastery
+          Controle hoje, tranquilidade sempre
         </span>
       </span>
     </span>
@@ -49,13 +59,13 @@ export function Logo({
   if (compact) {
     return (
       <Link to={href as any}>
-        <BrandMark className={cn("size-10", className)} />
+        <BrandMark className={cn("size-9", className)} />
       </Link>
     );
   }
 
   return (
-    <Link to={href as any} className="focus:outline-none group">
+    <Link to={href as any} className="focus:outline-none">
       {content}
     </Link>
   );

@@ -1,120 +1,103 @@
-
+import { Lock } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { ShieldCheck, ArrowRight, Mail, Lock } from "lucide-react";
-import { Logo } from "@/components/logo";
 
-const footerLinks = {
-  produto: [
-    { label: "Recursos", href: "#recursos" },
-    { label: "IA Financeira", href: "#ia" },
-    { label: "Segurança", href: "#seguranca" },
-    { label: "Planos", href: "#planos" },
-  ],
-  empresa: [
-    { label: "Sobre nós", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Carreiras", href: "#" },
-    { label: "Contato", href: "#" },
-  ],
-  legal: [
-    { label: "Privacidade", href: "#" },
-    { label: "Termos de Uso", href: "#" },
-    { label: "Cookies", href: "#" },
-  ],
-};
+import { Logo } from "@/components/logo";
+import { ContactModal } from "@/components/finance/contact-modal";
+import { useState } from "react";
+
+const links = [
+  { label: "Recursos", to: "/recursos" as const },
+  { label: "Planos", href: "#planos" },
+  { label: "Área do Cliente", to: "/auth" as const },
+];
+
+const legalLinks = [
+  { label: "Termos de uso", to: "/termos" as const },
+  { label: "Privacidade", to: "/privacidade" as const },
+];
+
+const socials: { label: string; icon: any; href: string }[] = [];
+
+// Tap target ≥44px via invisible overlay
+const tapTarget =
+  "relative after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']";
+
+const focusRing =
+  "rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 export function LandingFooter() {
+  const [contactOpen, setContactOpen] = useState(false);
+  
   return (
-    <footer className="bg-background pt-16 pb-10 border-t border-border/50">
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8 mb-16">
-          {/* Brand Column */}
-          <div className="lg:col-span-2">
-            <Logo className="mb-6" />
-            <p className="text-muted-foreground font-medium leading-relaxed max-w-xs mb-8">
-              Dominando a jornada financeira através da inteligência e design de alto nível.
-            </p>
-            <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="size-3.5 text-primary" />
-                SSL Secure
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Lock className="size-3.5 text-primary" />
-                AES-256
-              </span>
+    <footer className="mt-12 border-t border-border bg-background dark:bg-black/20 print:hidden">
+      <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
+      
+      <div className="section-shell py-3 sm:py-5">
+        <div className="flex flex-col items-center justify-between gap-3 lg:flex-row lg:items-center lg:gap-16">
+          {/* Brand & Socials - Ultra Compact */}
+          <div className="flex items-center gap-4 lg:gap-6">
+            <Logo className="scale-[0.7] origin-center" />
+            <div className="flex gap-2.5">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-[10px] font-medium text-brand transition-all hover:bg-brand hover:text-white"
+                  aria-label={social.label}
+                >
+                  <social.icon className="size-3" />
+                  <span>Fale Conosco</span>
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Links Columns */}
-          <div>
-            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Produto</h4>
-            <ul className="space-y-4">
-              {footerLinks.produto.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+          {/* Navigation Links - Single Row Ultra Compact */}
+          <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] font-medium sm:gap-x-6 sm:text-[11px]">
+            {links.map((link) => (
+              <li key={link.label} className="list-none">
+                {"to" in link ? (
+                  <Link to={link.to} className="text-muted-foreground/80 transition-colors hover:text-brand">
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a href={link.href} className="text-muted-foreground/80 transition-colors hover:text-brand">
                     {link.label}
                   </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Empresa</h4>
-            <ul className="space-y-4">
-              {footerLinks.empresa.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Legal</h4>
-            <ul className="space-y-4">
-              {footerLinks.legal.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Newsletter Column */}
-          <div className="lg:col-span-1">
-            <h4 className="font-bold text-foreground mb-6 uppercase text-[10px] tracking-[0.2em]">Newsletter IA</h4>
-            <div className="relative">
-              <input 
-                type="email" 
-                placeholder="Seu e-mail" 
-                className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
-              />
-              <button className="absolute right-2 top-1.5 p-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
-                <ArrowRight className="size-4" />
+                )}
+              </li>
+            ))}
+            {legalLinks.map((link) => (
+              <li key={link.label} className="list-none">
+                <Link to={link.to} className="text-muted-foreground/80 transition-colors hover:text-brand">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li className="list-none">
+              <button
+                onClick={() => setContactOpen(true)}
+                className="text-muted-foreground/80 transition-colors hover:text-brand"
+              >
+                Contato
               </button>
-            </div>
-            <p className="text-[10px] text-muted-foreground mt-4 leading-relaxed italic">
-              * Receba insights exclusivos gerados por nossa IA.
-            </p>
-          </div>
+            </li>
+          </nav>
         </div>
+      </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">
-            © 2026 GastoCerto · Mastery of Finances
-          </p>
-          
-          <div className="flex items-center gap-6">
-            <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-widest">
-              Dev. Franc D'nis · Feijó, AC
-            </p>
+      {/* Bottom Bar - Minimal */}
+      <div className="border-t border-border/20 bg-secondary/10 dark:bg-black/20">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-1 py-2 text-[9px] text-foreground/40 sm:flex-row sm:text-[10px]">
+          <p>© {new Date().getFullYear()} GastoCerto.</p>
+          <div className="flex shrink-0 items-center gap-1">
+            <p className="opacity-70">Dev. Franc D&apos;nis</p>
+            <Link
+              to="/admin"
+              className={`grid size-3 shrink-0 place-items-center text-muted-foreground/20 transition-colors hover:text-foreground ${tapTarget} ${focusRing}`}
+            >
+              <Lock className="size-2" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>

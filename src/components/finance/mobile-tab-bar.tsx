@@ -35,7 +35,7 @@ export function MobileTabBar() {
       onConfirm: async () => {
         const toastId = toast.loading("Finalizando acesso...", {
           description: "Sua segurança é nossa prioridade.",
-          icon: <RefreshCcw className="size-4 animate-spin text-primary" />
+          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
         });
 
         try {
@@ -94,7 +94,7 @@ export function MobileTabBar() {
           menuOpen ? "translate-x-0" : "translate-x-full"
         )} onClick={e => e.stopPropagation()}>
           <div className="flex h-14 items-center justify-between border-b border-border px-4">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">Navegação</span>
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-brand">Navegação</span>
             <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)} className="rounded-full size-10">
               <X className="size-5" />
             </Button>
@@ -118,13 +118,13 @@ export function MobileTabBar() {
                         className={cn(
                           "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[12px] font-bold transition-all active:scale-[0.98]",
                           isActive 
-                            ? "bg-primary/10 text-primary shadow-inner border border-primary/20" 
+                            ? "bg-brand/10 text-brand shadow-inner border border-brand/20" 
                             : "bg-secondary/40 text-muted-foreground hover:bg-secondary/60"
                         )}
                       >
                         <div className={cn(
                           "grid size-7 place-items-center rounded-lg border",
-                          isActive ? "border-primary/30 bg-primary/10" : "border-border/50 bg-background/50"
+                          isActive ? "border-brand/30 bg-brand/10" : "border-border/50 bg-background/50"
                         )}>
                           <Icon className="size-5" />
                         </div>
@@ -181,16 +181,16 @@ export function MobileTabBar() {
                 to={item.to as any}
                 className={cn(
                   "flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 transition-all active:scale-90",
-                  isActive ? "text-primary" : "text-muted-foreground/60"
+                  isActive ? "text-brand" : "text-muted-foreground/60"
                 )}
               >
                 <div className={cn(
                   "relative grid size-8 place-items-center rounded-xl transition-all duration-300",
-                  isActive ? "bg-primary/10 shadow-sm border border-primary/20" : "hover:bg-secondary/40"
+                  isActive ? "bg-brand/10 shadow-sm border border-brand/20" : "hover:bg-secondary/40"
                 )}>
                   <Icon className={cn("size-5", isActive && "animate-pulse")} />
                   {isActive && (
-                    <span className="absolute -bottom-1 size-1 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+                    <span className="absolute -bottom-1 size-1 rounded-full bg-brand shadow-[0_0_8px_var(--brand)]" />
                   )}
                 </div>
                 <span className="text-[9px] font-black uppercase tracking-tighter leading-none">{item.label}</span>

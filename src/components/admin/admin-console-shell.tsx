@@ -1,24 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-import { 
-  Search, 
-  ShieldCheck, 
-  Sun, 
-  Moon, 
-  LogOut, 
-  FileDown, 
-  FileText, 
-  Menu, 
-  RefreshCcw,
-  Bell,
-  Command,
-  Plus,
-  ArrowRight
-} from "lucide-react";
+import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText, Menu, RefreshCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { clearBrowserCredentials } from "@/lib/local-session";
 import { useState } from "react";
 import { MobileAdminTabBar } from "./mobile-admin-tab-bar";
 
+import consoleBg from "@/assets/admin-console-bg.jpg";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 import { Input } from "@/components/ui/input";
@@ -27,7 +14,6 @@ import { toast } from "sonner";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useConfirm } from "@/components/ui/confirm-dialog";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export type AdminSection = {
   id: string;
@@ -37,6 +23,10 @@ export type AdminSection = {
   adminOnly?: boolean;
 };
 
+/**
+ * Casca visual exclusiva da central administrativa: fundo próprio, hero
+ * institucional e navegação lateral por seções (nada da área do cliente).
+ */
 export function AdminConsoleShell({
   sections,
   active,
@@ -63,19 +53,53 @@ export function AdminConsoleShell({
   function handleLogout() {
     confirm({
       title: "Encerrar Sessão",
-      description: "Deseja sair do sistema completamente?",
+      description: "Deseja sair do sistema completamente? Você será desconectado da administração e da área do cliente.",
       type: "warning",
       confirmLabel: "Sair agora",
       onConfirm: async () => {
-        const toastId = toast.loading("Finalizando acesso...", { icon: <RefreshCcw className="size-4 animate-spin text-primary" /> });
+        const toastId = toast.loading("Finalizando acesso administrativo...", {
+          description: "Encerrando sessão com segurança.",
+          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+        });
+
         try {
+          // Signout direto do backend
           await supabase.auth.signOut();
+
+          // Limpeza profunda
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
-          toast.success("Até logo!");
-          setTimeout(() => window.location.replace("/"), 800);
+          
+          toast.success("Até logo!", {
+            id: toastId,
+            description: "Acesso administrativo encerrado com segurança.",
+            icon: (
+              <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-sm border border-emerald-500/20">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="animate-in zoom-in duration-300"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+            ),
+          });
+
+          // Redirecionamento forçado para a raiz (limpa o estado do react-router)
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 800);
         } catch (error) {
+          console.error("Erro no logout admin:", error);
           toast.error("Erro ao encerrar sessão", { id: toastId });
           window.location.replace("/");
         }
@@ -84,126 +108,138 @@ export function AdminConsoleShell({
   }
 
   const exportSearchPdf = () => {
-    if (!searchTerm) return;
+    if (!searchTerm) {
+      toast.error("Insira um termo de busca para exportar os resultados globais.");
+      return;
+    }
     const doc = new jsPDF();
-    doc.text(`GastoCerto — Central Administrativa: "${searchTerm}"`, 14, 15);
-    doc.save(`admin-export-${searchTerm}.pdf`);
+    doc.text(`GastoCerto — Resultados da Busca Global: "${searchTerm}"`, 14, 15);
+    doc.setFontSize(10);
+    doc.text(`Gerado em: ${new Date().toLocaleString("pt-BR")}`, 14, 22);
+    doc.text("Nota: Este PDF contém uma captura dos dados filtrados na sessão atual.", 14, 28);
+    doc.save(`busca-global-${searchTerm}.pdf`);
+    toast.success("PDF de busca gerado.");
   };
 
   return (
-    <div className="min-h-screen bg-[#09090B] flex text-foreground antialiased selection:bg-primary/20">
-      {/* Redesigned Enterprise Sidebar */}
-      <aside className="hidden lg:flex flex-col w-[260px] border-r border-border/50 bg-[#09090B] sticky top-0 h-screen">
-        <div className="h-16 flex items-center px-6 border-b border-border/50">
-          <div className="flex items-center gap-2">
-             <div className="size-7 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">G</div>
-             <span className="font-bold text-base tracking-tight">GastoCerto Admin</span>
-          </div>
-        </div>
-
-        <nav className="flex-1 p-4 space-y-8 overflow-y-auto mt-4">
-           <div className="space-y-1">
-             <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 px-3 mb-2">Central de Controle</p>
-             {sections.map(section => {
-               const Icon = section.icon;
-               const isActive = section.id === active;
-               return (
-                 <button
-                   key={section.id}
-                   onClick={() => onSelect(section.id)}
-                   className={cn(
-                     "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-[14px] cursor-pointer group",
-                     isActive ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
-                   )}
-                 >
-                   <Icon size={18} className={cn(isActive && "text-primary")} />
-                   <span className="flex-1 text-left">{section.label}</span>
-                   {isActive && <div className="size-1.5 rounded-full bg-primary" />}
-                 </button>
-               )
-             })}
-           </div>
-        </nav>
-
-        <div className="p-4 border-t border-border/50 bg-[#0C0C0E]">
-           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:bg-white/5 hover:text-destructive transition-colors text-[13px] cursor-pointer">
-              <LogOut size={16} />
-              <span>Encerrar Sessão</span>
-           </button>
-        </div>
-      </aside>
-
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Modern Glass Header */}
-        <header className="h-16 border-b border-border/50 flex items-center px-8 gap-6 bg-[#09090B]/80 backdrop-blur-xl sticky top-0 z-50">
-           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Admin</span>
-              <span className="opacity-30">/</span>
-              <span className="text-foreground font-medium">{current?.label}</span>
-           </div>
-
-           <div className="flex-1 max-w-xl mx-auto hidden md:block">
-              <div className="relative group">
-                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                 <Input 
-                   value={searchTerm}
-                   onChange={(e) => onSearchChange(e.target.value)}
-                   placeholder="Busca global em toda a central..." 
-                   className="h-10 pl-10 bg-white/5 border-border/40 focus:border-primary/50 transition-all rounded-xl text-sm"
-                 />
-                 <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                    <kbd className="px-1.5 py-0.5 rounded border border-border/50 text-[10px] bg-muted font-sans font-medium text-muted-foreground flex items-center gap-1">
-                       <Command size={10} /> K
-                    </kbd>
-                 </div>
-              </div>
-           </div>
-
-           <div className="flex items-center gap-2">
-              <button onClick={toggleTheme} className="p-2 rounded-xl text-muted-foreground hover:bg-white/5 transition-colors">
-                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-              <button className="p-2 rounded-xl text-muted-foreground hover:bg-white/5 transition-colors relative">
-                 <Bell size={18} />
-                 <span className="absolute top-2.5 right-2.5 size-1.5 bg-primary rounded-full" />
-              </button>
-              <div className="h-6 w-px bg-border/50 mx-2" />
-              <div className="flex items-center gap-3">
-                 <div className="hidden text-right lg:block">
-                    <p className="text-[13px] font-semibold leading-none">{operatorName}</p>
-                    <p className="text-[11px] text-muted-foreground mt-1">{role}</p>
-                 </div>
-                 <Avatar className="size-9 rounded-xl border border-border/50 shadow-lg">
-                    <AvatarFallback className="bg-primary/10 text-primary font-bold text-[13px]">OP</AvatarFallback>
-                 </Avatar>
-              </div>
-           </div>
-        </header>
-
-        <main className="flex-1 p-8 bg-[#05070B]">
-           <div className="max-w-[1400px] mx-auto space-y-8">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                 <div className="space-y-1">
-                    <h1 className="text-3xl font-bold tracking-tight text-white">{current?.label}</h1>
-                    <p className="text-muted-foreground text-[15px]">{current?.hint}</p>
-                 </div>
-                 <div className="flex items-center gap-3">
-                    <Button variant="outline" className="rounded-xl px-4 text-xs font-semibold uppercase tracking-wider h-10 border-border/50 hover:bg-white/5 transition-all">
-                       <FileDown size={14} className="mr-2" /> Exportar
-                    </Button>
-                    <Button className="rounded-xl px-4 text-xs font-semibold uppercase tracking-wider h-10 shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-95 transition-all">
-                       <Plus size={16} className="mr-2" /> Novo Acesso
-                    </Button>
-                 </div>
-              </div>
-
-              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                {children}
-              </div>
-           </div>
-        </main>
+    <div className="relative min-h-dvh">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-50">
+        <img
+          src={consoleBg}
+          alt=""
+          width={1920}
+          height={1080}
+          loading="lazy"
+          decoding="async"
+          className="size-full object-cover opacity-[0.18] dark:opacity-[0.35]"
+        />
+        <div className="absolute inset-0 bg-background/88" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_70%_at_10%_0%,color-mix(in_oklab,var(--brand)_18%,transparent),transparent_60%)]" />
       </div>
 
+      <div className="mx-auto w-full max-w-[1400px] px-3 py-4 sm:px-6 sm:py-6">
+        {/* Hero da central */}
+        <header className="overflow-hidden rounded-2xl border border-border/70 bg-card/70 backdrop-blur">
+          <div className="relative p-4 sm:p-6">
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,color-mix(in_oklab,var(--brand)_16%,transparent),transparent_55%)]" />
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-3">
+                <span className="grid size-12 place-items-center rounded-xl border border-border/70 bg-background/70 shadow-sm">
+                  <ShieldCheck className="size-7 text-brand" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+                    Central de controle
+                  </p>
+                  <h1 className="truncate text-xl font-bold sm:text-2xl">GastoCerto — Administração</h1>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {operatorName} · {role}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-1 items-center gap-2 sm:ml-auto">
+                <div className="relative flex-1 sm:max-w-md">
+                  <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    placeholder="Busca global (usuários, chaves, logs...)"
+                    value={searchTerm}
+                    onChange={(e) => onSearchChange(e.target.value)}
+                    className="h-10 pl-9 pr-10 bg-background/50 border-border/50"
+                  />
+                  {searchTerm && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-1 top-1/2 size-8 -translate-y-1/2 text-muted-foreground hover:text-brand"
+                      onClick={exportSearchPdf}
+                      title="Exportar resultados da busca para PDF"
+                    >
+                      <FileText className="size-4" />
+                    </Button>
+                  )}
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-10 bg-background/50"
+                  onClick={toggleTheme}
+                  title="Alternar tema claro/escuro"
+                >
+                  {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-10 bg-background/50 text-muted-foreground hover:text-foreground"
+                  onClick={handleLogout}
+                  title="Voltar ao painel do cliente"
+                >
+                  <LogOut className="size-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="mt-4 grid gap-4 lg:grid-cols-[248px_minmax(0,1fr)]">
+          {/* Navegação por seções */}
+          <nav
+            aria-label="Seções administrativas"
+            className="flex gap-2 overflow-x-auto rounded-2xl border border-border/70 bg-card/70 p-2 backdrop-blur lg:sticky lg:top-4 lg:h-fit lg:flex-col lg:overflow-visible"
+          >
+            {sections.map((section) => {
+              const Icon = section.icon;
+              const isActive = section.id === active;
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  onClick={() => onSelect(section.id)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors lg:w-full",
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  )}
+                >
+                  <Icon className="size-5 shrink-0" />
+                  <span className="whitespace-nowrap lg:whitespace-normal">{section.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <main className="min-w-0 rounded-2xl border border-border/70 bg-card/70 p-3 backdrop-blur sm:p-5">
+            <div className="mb-3 hidden items-baseline justify-between gap-3 sm:flex">
+              <h2 className="text-lg font-semibold">{current?.label}</h2>
+              <p className="text-xs text-muted-foreground">{current?.hint}</p>
+            </div>
+            {children}
+          </main>
+        </div>
+      </div>
       <MobileAdminTabBar 
         sections={sections} 
         active={current?.id || active} 

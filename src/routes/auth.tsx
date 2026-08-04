@@ -87,12 +87,10 @@ export const Route = createFileRoute("/auth")({
     const title = isKid
       ? "Entrar no Meu Espaço — GastoCerto Kids"
       : "Acesse sua conta — GastoCerto";
-
     const description = isKid
       ? "Acesso do Espaço Kids: a criança entra com o código do responsável para ver a mesada, as metas e os próprios gastos."
       : "Entre no GastoCerto para acompanhar despesas, receitas, cartões, veículos e metas em um só painel.";
     const image = `https://gastocerto-fj.lovable.app/${isKid ? "og-kids.jpg" : "og-gastocerto-v2.jpg"}`;
-
     return {
       meta: [
         { title },
@@ -110,7 +108,6 @@ export const Route = createFileRoute("/auth")({
           content: isKid
             ? "Espaço Kids do GastoCerto: cofrinho e meta de poupança"
             : "Painel do GastoCerto com gráfico de gastos",
-
         },
         { property: "og:locale", content: "pt_BR" },
         { name: "twitter:card", content: "summary_large_image" },
@@ -305,16 +302,16 @@ function AuthPage() {
               </span>
               <h2 className="font-display mt-2 text-[15px] font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:mt-3 sm:text-xl xl:text-2xl">
                 {mode === "login"
-                  ? "Sua vida financeira organizada de forma inteligente."
+                  ? "Suas finanças organizadas em um só sistema."
                   : mode === "signup"
-                    ? "Comece hoje sua jornada de controle financeiro."
+                    ? "Comece hoje sua jornada para a liberdade financeira."
                     : mode === "forgot"
                       ? "Não se preocupe, vamos te ajudar a voltar."
                       : "Área de administração técnica e suporte."}
               </h2>
               <p className="mt-2 hidden text-[11px] font-semibold leading-relaxed text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] sm:mt-3 sm:block sm:text-[12px]">
                 {mode === "login"
-                  ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta a ponta."
+                  ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta."
                   : mode === "signup"
                     ? "Crie sua conta em segundos. Teste grátis por 14 dias com todos os recursos liberados."
                     : mode === "forgot"
@@ -378,7 +375,7 @@ function AuthPage() {
                   </div>
 
                   <Button 
-                    className="w-full h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest gap-2 bg-primary text-primary-foreground shadow-lg shadow-primary/20 active:scale-[0.98] transition-all" 
+                    className="w-full h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest gap-2 bg-brand text-brand-foreground hover:opacity-90 shadow-lg shadow-brand/20 active:scale-[0.98] transition-all" 
                     onClick={async () => {
                       const cpfInput = document.getElementById("code-cpf") as HTMLInputElement;
                       const nameInput = document.getElementById("code-name") as HTMLInputElement;
@@ -777,8 +774,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div className="space-y-3">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-primary text-base font-bold text-primary-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--primary)_70%,transparent)] hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2" 
-
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -886,7 +882,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       return;
     }
 
-    toast.success("Conta criada! Bem-vindo ao GameCarto.");
+    toast.success("Conta criada! Bem-vindo ao GastoCerto.");
     clearFields();
     navigate({ to: "/painel", replace: true });
   }
@@ -924,8 +920,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-primary text-base font-bold text-primary-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--primary)_70%,transparent)] hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2" 
-
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -1026,8 +1021,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-primary text-base font-bold text-primary-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--primary)_70%,transparent)] hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2" 
-
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -1201,8 +1195,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-primary text-base font-bold text-primary-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--primary)_70%,transparent)] hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2" 
-
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading || lockSeconds > 0}
         >
           {loading ? (
@@ -1300,7 +1293,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-primary text-base font-bold text-primary-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--primary)_70%,transparent)] hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (

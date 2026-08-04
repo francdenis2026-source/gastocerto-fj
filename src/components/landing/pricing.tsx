@@ -1,78 +1,74 @@
-
 import { Link } from "@tanstack/react-router";
-import { Check, Sparkles, Zap, Bot, Star, ShieldCheck, ArrowRight } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
+
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
 import { annualMonthlyEquivalent } from "@/lib/plan-pricing";
 import { livePrice, usePublicPlans } from "@/hooks/use-public-plans";
 import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/landing/reveal";
 
 type Cycle = "monthly" | "yearly";
 
 export const basePlans = [
   {
     slug: "free",
-    name: "Standard",
-
+    name: "Gratuito",
     monthly: 0,
     yearly: 0,
-    description: "Perfeito para começar sua jornada financeira.",
+    description: "Para conhecer o sistema sem pagar nada.",
     highlighted: false,
-    cta: "Começar Grátis",
+    cta: "Criar conta grátis",
     features: [
       "Até 30 lançamentos por mês",
-      "Dashboard simplificado",
-      "Categorias essenciais",
-      "Controle de 1 veículo",
-      "Segurança SSL"
+      "Categorias, painel e balancete do mês",
+      "Inclui 14 dias de teste completo",
+      "Sem cartão de crédito",
     ],
   },
   {
     slug: "premium",
-    name: "Pro",
+    name: "Premium",
     monthly: 24.9,
-    yearly: 19.9,
-    description: "Para quem leva o controle a sério.",
+    yearly: 20.75,
+    description: "Controle total, previsões e relatórios.",
     highlighted: false,
-    cta: "Assinar Pro",
+    cta: "Assinar o Premium",
     features: [
       "Lançamentos ilimitados",
-      "Gestão de múltiplos cartões",
-      "Relatórios detalhados PDF/CSV",
-      "Até 5 veículos e metas",
-      "Suporte prioritário"
+      "Até 2 veículos, 5 metas e 2 links compartilhados",
+      "Histórico de 24 meses e exportação CSV/PDF",
+      "Combustível, gás e orçamentos",
     ],
   },
   {
     slug: "premium_ia",
-    name: "Enterprise IA",
+    name: "Premium IA",
     monthly: 34.9,
-    yearly: 29.9,
-    description: "O poder máximo da IA no seu bolso.",
+    yearly: 29,
+    description: "Tudo do Premium + Consultor de IA integrado.",
     highlighted: true,
-    cta: "Assinar Enterprise",
+    cta: "Assinar o Premium IA",
     features: [
-      "Tudo do plano Pro",
-      "Consultor Financeiro de IA",
-      "Análise preditiva de gastos",
-      "Insights de economia",
-      "Acesso antecipado a betas",
-      "Sincronização premium"
+      "Tudo do Premium, agora sem cotas",
+      "Veículos, metas, links e histórico ilimitados",
+      "Consultor de IA que analisa seus gastos",
+      "Créditos mensais de IA inclusos",
+      "Recibos e auditoria de cada análise",
     ],
   },
 ];
 
+
+
 export function Pricing() {
   const { data: livePlans } = usePublicPlans();
-  const [cycle, setCycle] = useState<Cycle>("monthly");
-  const isYearly = cycle === "yearly";
-  const [checkoutPlan, setCheckoutPlan] = useState<"free" | "premium" | "premium_ia" | null>(null);
 
+  // Preços vigentes do banco: qualquer ajuste do administrador aparece na hora.
   const plans = basePlans.map((plan) => {
     if (plan.monthly === 0) return plan;
     const live = livePrice(livePlans, plan.slug, {
@@ -84,124 +80,190 @@ export function Pricing() {
 
   const premium = plans[plans.length - 1];
   const savingsPercent = Math.max(0, Math.round((1 - premium.yearly / premium.monthly) * 100));
+  const savingsPerYear = premium.monthly * 12 - premium.yearly * 12;
+
+  const [cycle, setCycle] = useState<Cycle>("monthly");
+  const isYearly = cycle === "yearly";
+  const [checkoutPlan, setCheckoutPlan] = useState<"free" | "premium" | "premium_ia" | null>(null);
+
 
   return (
-    <section id="planos" className="py-16 lg:py-24 bg-background relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10" />
-
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col items-center text-center mb-12">
-          <Reveal delay={100}>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
-              <Star className="size-4 text-primary fill-primary" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Planos Flexíveis</span>
-            </div>
-          </Reveal>
-          <Reveal delay={200}>
-            <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-8">
-              Escolha o plano ideal para você.
+    <section id="planos" className="py-20 sm:py-32">
+      <div className="section-shell">
+        <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+          <div className="min-w-0">
+            <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
+              Planos de Assinatura
+            </p>
+            <h2 className="section-title mt-1.5">
+              Escolha seu nível de controle
             </h2>
-          </Reveal>
-          
-          <Reveal delay={300} className="mt-4">
-            <div className="inline-flex items-center p-1.5 rounded-2xl bg-secondary/50 border border-border">
-              <button
-                onClick={() => setCycle("monthly")}
-                className={cn(
-                  "px-8 py-2.5 rounded-xl text-sm font-bold transition-all",
-                  cycle === "monthly" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                Mensal
-              </button>
-              <button
-                onClick={() => setCycle("yearly")}
-                className={cn(
-                  "px-8 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2",
-                  cycle === "yearly" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                Anual
-                <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-tighter">
-                  -{savingsPercent}%
-                </span>
-              </button>
+            <p className="mt-1.5 text-sm text-muted-foreground sm:block hidden">
+              Sem fidelidade contratual. Exportação e exclusão de dados disponíveis a qualquer momento.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start gap-1 sm:items-end">
+            <div
+              role="group"
+              aria-label="Ciclo de cobrança"
+              className="inline-flex items-center rounded-full border border-border bg-card/80 p-1 shadow-soft backdrop-blur-sm"
+            >
+              {[
+                { key: "monthly" as const, label: "Mensal" },
+                { key: "yearly" as const, label: "Anual" },
+              ].map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  aria-pressed={cycle === option.key}
+                  onClick={() => setCycle(option.key)}
+                  className={cn(
+                    "inline-flex min-h-8 items-center rounded-full px-3 text-[11px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    cycle === option.key
+                      ? "bg-brand text-brand-foreground shadow-soft"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {option.label}
+                  {option.key === "yearly" && (
+                    <span
+                      className={cn(
+                        "ml-1 rounded-full px-1 py-0.5 text-[9px]",
+                        cycle === "yearly"
+                          ? "bg-brand-foreground text-brand"
+                          : "bg-success/15 text-success",
+                      )}
+                    >
+                      -{savingsPercent}%
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
-          </Reveal>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-7xl mx-auto">
-          {plans.map((plan, index) => {
+        {/* Versão Desktop: Cards Expandidos */}
+        <div className="mx-auto mt-6 hidden max-w-5xl gap-3 md:grid md:grid-cols-3">
+          {plans.map((plan) => {
             const price = isYearly ? plan.yearly : plan.monthly;
             return (
-              <Reveal key={plan.slug} delay={index * 100 + 400} className="flex h-full">
-                <div className={cn(
-                  "relative flex flex-col w-full p-10 rounded-[40px] border border-border bg-card transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl h-full",
-                  plan.highlighted && "border-primary/50 shadow-2xl shadow-primary/10 ring-1 ring-primary/20 scale-105 z-10"
-                )}>
-                  {plan.highlighted && (
-                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-primary text-primary-foreground text-[10px] font-black uppercase tracking-[0.2em] shadow-xl whitespace-nowrap">
-                      Dominância Máxima
-                    </div>
-
-                  )}
-
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-black text-foreground mb-2">{plan.name}</h3>
-                    <p className="text-sm text-muted-foreground font-medium">{plan.description}</p>
-                  </div>
-
-                  <div className="mb-10 flex items-baseline gap-1">
-                    <span className="text-5xl font-black tracking-tight text-foreground">
-                      {price === 0 ? "Grátis" : formatCurrency(price)}
-                    </span>
-                    <span className="text-muted-foreground font-bold text-sm">/mês</span>
-                  </div>
-
-                  <ul className="space-y-5 mb-12 flex-grow">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-4">
-                        <div className="size-5 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-0.5">
-                          <Check className="size-3 stroke-[3px]" />
-                        </div>
-                        <span className="text-[15px] font-medium text-muted-foreground leading-snug">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    onClick={() => setCheckoutPlan(plan.slug as any)}
+              <div
+                key={plan.slug}
+                className={cn(
+                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted overflow-hidden",
+                  plan.highlighted && "border-brand/50 ring-2 ring-brand/10 bg-gradient-to-b from-brand/[0.03] to-card/80",
+                )}
+              >
+                {plan.highlighted && (
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--color-brand)_0%,transparent_25%)] opacity-[0.08]" />
+                )}
+                {plan.highlighted && (
+                  <Badge className="absolute -top-2.5 right-5 gap-1 bg-brand text-brand-foreground shadow-lg shadow-brand/20 border-brand/50 px-2.5 py-0.5 animate-in fade-in zoom-in duration-500">
+                    <Sparkles className="size-3" aria-hidden="true" />
+                    Mais Escolhido
+                  </Badge>
+                )}
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="text-base font-semibold">{plan.name}</h3>
+                  <p className="tabular text-2xl font-extrabold tracking-tight">
+                    {price === 0 ? "Grátis" : formatCurrency(price)}
+                    <span className="ml-1 text-xs font-medium text-muted-foreground">/mês</span>
+                  </p>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">{plan.description}</p>
+                <ul className="mt-4 flex-1 space-y-1.5">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-[13px]">
+                      <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true" />
+                      <span className="text-muted-foreground">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4">
+                  <Button
                     className={cn(
-                      "w-full py-5 rounded-2xl font-black text-base transition-all active:scale-[0.98] flex items-center justify-center gap-2",
+                      "w-full font-bold shadow-soft transition-all active:scale-[0.98]",
                       plan.highlighted 
-                        ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20 hover:brightness-110" 
-                        : "bg-secondary text-foreground hover:bg-secondary/80"
+                        ? "bg-brand text-brand-foreground hover:bg-brand/90 hover:shadow-brand/20 shadow-lg" 
+                        : "border-brand/30 text-brand hover:bg-brand/[0.03]"
                     )}
+                    variant={plan.highlighted ? "default" : "outline"}
+                    onClick={() => setCheckoutPlan(plan.slug as any)}
                   >
                     {plan.cta}
-                    <ArrowRight className="size-5" />
-                  </button>
+                  </Button>
                 </div>
-              </Reveal>
+              </div>
             );
           })}
         </div>
 
-        <div className="mt-20 text-center">
-          <Reveal delay={800}>
-            <div className="inline-flex items-center gap-6 px-8 py-4 rounded-3xl border border-border bg-secondary/20">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="size-5 text-primary" />
-                <span className="text-sm font-bold text-muted-foreground">Pagamento 100% Seguro</span>
+        {/* Versão Mobile: Cards Compactos (Click para ver detalhes) */}
+        <div className="mt-4 grid grid-cols-1 gap-2 md:hidden">
+          {plans.map((plan) => {
+            const price = isYearly ? plan.yearly : plan.monthly;
+            return (
+              <div key={plan.slug} className="flex flex-col gap-1.5">
+                <FeatureDetailDialog
+                  feature={{
+                    title: `Plano ${plan.name}`,
+                    text: plan.features.join(". "),
+                    tag: plan.highlighted ? "Destaque" : "Assinatura"
+                  }}
+                >
+                  <button
+                    type="button"
+                    className={cn(
+                      "group relative flex w-full flex-col rounded-xl border border-border bg-card/80 p-3 text-left transition-all active:scale-[0.98] overflow-hidden",
+                      plan.highlighted && "border-brand/50 bg-brand/[0.03] ring-1 ring-brand/10 shadow-sm shadow-brand/5"
+                    )}
+                  >
+                    {plan.highlighted && (
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--color-brand)_0%,transparent_30%)] opacity-[0.06]" />
+                    )}
+                    <div className="flex w-full items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-bold">{plan.name}</span>
+                          {plan.highlighted && (
+                            <span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-brand border border-brand/20">
+                              RECOMENDADO
+                            </span>
+                          )}
+                        </div>
+                        <p className="truncate text-[11px] text-muted-foreground">{plan.description}</p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="text-base font-black text-foreground">
+                          {price === 0 ? "R$ 0" : formatCurrency(price)}
+                        </p>
+                        <p className="text-[9px] font-medium text-muted-foreground">/mês</p>
+                      </div>
+                    </div>
+                    <div className="mt-2 flex items-center justify-between border-t border-border/50 pt-2">
+                      <span className="text-[10px] font-semibold text-brand">Ver detalhes e benefícios</span>
+                      <Sparkles className={cn("size-3", plan.highlighted ? "text-brand" : "text-muted-foreground/40")} />
+                    </div>
+                  </button>
+                </FeatureDetailDialog>
+                
+                <Button
+                  className={cn(
+                    "h-10 w-full rounded-xl text-[13px] font-black shadow-soft transition-all active:scale-[0.97]",
+                    plan.highlighted
+                      ? "bg-brand text-brand-foreground hover:bg-brand/90 shadow-lg shadow-brand/10 border-none"
+                      : "border-2 border-brand/20 bg-card text-brand hover:bg-brand/[0.02]"
+                  )}
+                  variant={plan.highlighted ? "default" : "outline"}
+                  onClick={() => setCheckoutPlan(plan.slug as any)}
+                >
+                  Selecionar {plan.name}
+                </Button>
               </div>
-              <div className="w-px h-4 bg-border hidden sm:block" />
-              <div className="flex items-center gap-2">
-                <Star className="size-5 text-yellow-500 fill-yellow-500" />
-                <span className="text-sm font-bold text-muted-foreground">Garantia de 7 Dias</span>
-              </div>
-            </div>
-          </Reveal>
+            );
+          })}
         </div>
       </div>
 
@@ -214,3 +276,4 @@ export function Pricing() {
     </section>
   );
 }
+

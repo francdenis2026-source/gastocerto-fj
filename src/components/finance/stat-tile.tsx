@@ -5,37 +5,37 @@ import { cn } from "@/lib/utils";
 
 const tones = {
   brand: {
-    ring: "border-primary/20",
-    glow: "rgba(16, 185, 129, 0.05)",
-    icon: "border-primary/20 bg-primary/10 text-primary",
-    value: "text-primary font-bold",
-    bar: "bg-primary",
+    ring: "border-brand/25",
+    glow: "color-mix(in oklab, var(--brand) 16%, transparent)",
+    icon: "border-brand/25 bg-brand/12 text-brand",
+    value: "text-foreground",
+    bar: "bg-brand",
   },
   success: {
-    ring: "border-primary/20",
-    glow: "rgba(16, 185, 129, 0.05)",
-    icon: "border-primary/20 bg-primary/10 text-primary",
-    value: "text-primary",
-    bar: "bg-primary",
+    ring: "border-success/25",
+    glow: "color-mix(in oklab, var(--success) 16%, transparent)",
+    icon: "border-success/30 bg-success/12 text-success",
+    value: "text-success",
+    bar: "bg-success",
   },
   expense: {
-    ring: "border-rose-500/20",
-    glow: "rgba(244, 63, 94, 0.05)",
+    ring: "border-rose-500/30",
+    glow: "oklch(0.68 0.18 25 / 8%)",
     icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
-    value: "text-rose-500 font-bold",
+    value: "text-rose-600 font-bold dark:text-rose-400 dark:font-black",
     bar: "bg-rose-500",
   },
   warning: {
-    ring: "border-amber-500/20",
-    glow: "rgba(245, 158, 11, 0.05)",
-    icon: "border-amber-500/20 bg-amber-500/10 text-amber-500",
-    value: "text-amber-500",
-    bar: "bg-amber-500",
+    ring: "border-warning/30",
+    glow: "color-mix(in oklab, var(--warning) 18%, transparent)",
+    icon: "border-warning/35 bg-warning/14 text-warning",
+    value: "text-warning",
+    bar: "bg-warning",
   },
   neutral: {
     ring: "border-border",
-    glow: "rgba(255, 255, 255, 0.02)",
-    icon: "border-border bg-muted/50 text-muted-foreground",
+    glow: "color-mix(in oklab, var(--foreground) 6%, transparent)",
+    icon: "border-border bg-muted text-muted-foreground",
     value: "text-foreground",
     bar: "bg-muted-foreground",
   },
@@ -75,40 +75,40 @@ export function StatTile({
     <Comp
       {...(onClick ? { type: "button" as const, onClick } : {})}
       className={cn(
-        "relative w-full overflow-hidden premium-card text-left p-6 border-transparent bg-card/50 backdrop-blur-sm",
+        "relative w-full overflow-hidden glass-morphism mobile-compact-card text-left shadow-soft transition-all hover:bg-card/80",
         t.ring,
-        onClick ? "active:scale-[0.98]" : "hover:translate-y-0",
+        onClick
+          ? "hover:-translate-y-0.5 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          : null,
         className,
       )}
-      style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 70%)` }}
+      style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 60%)` }}
     >
-      <div className="flex items-start justify-between gap-3">
-        <p className="min-w-0 truncate text-xs font-bold uppercase tracking-widest text-muted-foreground">
+      <div className="flex items-start justify-between gap-2">
+        <p className="min-w-0 truncate text-[9.5px] font-semibold uppercase tracking-[0.05em] text-muted-foreground sm:text-[11.5px] sm:tracking-[0.09em]">
           {label}
         </p>
         {Icon ? (
-          <div className={cn("grid size-10 shrink-0 place-items-center rounded-xl border transition-colors", t.icon)}>
-            <Icon className="size-5" aria-hidden="true" />
-          </div>
+          <span className={cn("grid size-6 sm:size-7 shrink-0 place-items-center rounded-lg border", t.icon)}>
+            <Icon className="size-3.5" aria-hidden="true" />
+          </span>
         ) : null}
       </div>
       <p
         title={value}
         className={cn(
-          "mt-4 truncate font-sans text-3xl lg:text-4xl font-extrabold leading-none tabular tracking-tight",
+          "mt-1.5 truncate font-display text-[clamp(0.95rem,4.1vw,1.3rem)] font-bold leading-tight tabular tracking-tight",
           t.value,
         )}
       >
         {value}
       </p>
       {hint ? (
-        <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground font-medium">
-          {hint}
-        </div>
+        <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground sm:text-xs">{hint}</p>
       ) : null}
-      {badge ? <div className="mt-4">{badge}</div> : null}
+      {badge ? <div className="mt-2">{badge}</div> : null}
       {typeof progress === "number" ? (
-        <div className="mt-5 h-2 overflow-hidden rounded-full bg-secondary/50">
+        <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-muted">
           <div
             className={cn("h-full rounded-full transition-[width] duration-500", t.bar)}
             style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}

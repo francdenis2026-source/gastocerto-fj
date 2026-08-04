@@ -1,179 +1,175 @@
-
 import { Link } from "@tanstack/react-router";
-import { 
-  Sparkles, 
-  ArrowRight, 
-  Bot, 
-  TrendingUp, 
-  ShieldCheck, 
-  Target, 
-  Smartphone, 
-  Zap,
-  LayoutDashboard,
-  BarChart3,
-  Flame,
-  CreditCard
+import {
+  ArrowRight,
+  BellRing,
+  Fuel,
+  Gauge,
+  PiggyBank,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  type LucideIcon,
 } from "lucide-react";
-import { Reveal } from "@/components/landing/reveal";
-import { cn } from "@/lib/utils";
 
-const benefits = [
+import { Reveal } from "@/components/landing/reveal";
+import { Button } from "@/components/ui/button";
+import { DemoDialog } from "@/components/landing/demo-dialog";
+import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
+
+type Benefit = {
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  metric: string;
+  metricLabel: string;
+  accent: string;
+};
+
+const benefits: Benefit[] = [
   {
-    icon: Bot,
-    title: "IA Financeira Avançada",
-    text: "Nossa IA analisa cada centavo, identifica padrões e sugere economias personalizadas para você.",
-    metric: "24/7",
-    label: "Consultoria Ativa",
-    color: "bg-primary/10 text-primary"
+    icon: Gauge,
+    title: "Visão mensal em um toque",
+    text: "Receitas, despesas, sobra e pendências consolidados assim que você abre o app.",
+    metric: "10 s",
+    metricLabel: "para lançar",
+    accent: "var(--acc-1)",
   },
   {
-    icon: LayoutDashboard,
-    title: "Dashboard de Alta Performance",
-    text: "Visualize sua vida financeira com clareza absoluta em uma interface premium de alto nível.",
-    metric: "Real-time",
-    label: "Dados Sincronizados",
-    color: "bg-primary/10 text-primary"
+    icon: Fuel,
+    title: "Custo real do veículo",
+    text: "Abastecimentos, consumo médio, custo por km e alertas de desvio por veículo.",
+    metric: "R$/km",
+    metricLabel: "calculado",
+    accent: "var(--acc-3)",
+  },
+  {
+    icon: PiggyBank,
+    title: "Orçamentos inteligentes",
+    text: "Limite por categoria com barra de consumo e aviso antes de estourar o mês.",
+    metric: "80%",
+    metricLabel: "alerta do limite",
+    accent: "var(--acc-2)",
+  },
+  {
+    icon: BellRing,
+    title: "Contas sempre em dia",
+    text: "Recorrências lançadas sozinhas e lembretes três dias antes do vencimento.",
+    metric: "0",
+    metricLabel: "juros por atraso",
+    accent: "var(--acc-5)",
   },
   {
     icon: ShieldCheck,
-    title: "Segurança Nível Bancário",
-    text: "Criptografia de ponta a ponta e isolamento total de dados para sua tranquilidade absoluta.",
-    metric: "AES-256",
-    label: "Criptografado",
-    color: "bg-primary/10 text-primary"
-  }
+    title: "Dados isolados por conta",
+    text: "Cada usuário acessa apenas os próprios registros, com regras aplicadas no banco.",
+    metric: "LGPD",
+    metricLabel: "na prática",
+    accent: "var(--acc-6)",
+  },
+  {
+    icon: Smartphone,
+    title: "Funciona instalado no celular",
+    text: "Instale como aplicativo, use offline e continue lançando sem conexão.",
+    metric: "PWA",
+    metricLabel: "com modo offline",
+    accent: "var(--acc-4)",
+  },
 ];
 
-const mainFeatures = [
-  {
-    title: "Controle de Gastos Diários",
-    description: "Lançamentos ultra-rápidos, categorias automáticas e anexos de comprovantes.",
-    icon: Zap,
-    delay: 100
-  },
-  {
-    title: "Gestão de Metas",
-    description: "Defina objetivos financeiros, acompanhe o progresso e realize seus sonhos mais rápido.",
-    icon: Target,
-    delay: 200
-  },
-  {
-    title: "Hub de Cartões",
-    description: "Visualize faturas, limites e vencimentos de todos os seus cartões em um só lugar.",
-    icon: CreditCard,
-    delay: 300
-  },
-  {
-    title: "Análise Preditiva",
-    description: "Saiba quanto vai gastar com combustível, gás e energia antes mesmo da conta chegar.",
-    icon: Flame,
-    delay: 400
-  }
-];
-
+/**
+ * Seção de benefícios e diferenciais logo abaixo do hero.
+ * Cards responsivos: 1 coluna no mobile, 2 no tablet e 3 no desktop.
+ */
 export function Benefits() {
   return (
-    <section id="recursos" className="py-16 lg:py-24 relative overflow-hidden bg-background">
-      {/* Decorative Blur */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -z-10" />
-      
-      <div className="container mx-auto px-6 lg:px-12">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-12">
-          <Reveal delay={100}>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
-              <Sparkles className="size-4 text-primary" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Recursos Premium</span>
-            </div>
-          </Reveal>
-          <Reveal delay={200}>
-            <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-8">
-              Tudo o que você precisa para <span className="text-primary italic">dominar</span> suas finanças.
-            </h2>
-          </Reveal>
-          <Reveal delay={300}>
-            <p className="text-lg lg:text-xl text-muted-foreground font-medium leading-relaxed">
-              Desenvolvemos as ferramentas mais poderosas do mercado para que você tenha controle 
-              total e absoluto sobre seu patrimônio, de forma simples e elegante.
-            </p>
-          </Reveal>
-        </div>
+    <section
+      id="beneficios"
+      aria-labelledby="beneficios-titulo"
+      className="relative border-b border-border bg-background py-16 sm:py-24"
+    >
+      <div className="section-shell">
+        <Reveal className="max-w-2xl">
+          <p className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-brand sm:text-[12.5px]">
+            <Sparkles className="size-3.5" aria-hidden="true" />
+            Benefícios e diferenciais
+          </p>
+          <h2 id="beneficios-titulo" className="mt-1.5 section-title">
+            Por que o GastoCerto facilita o controle do seu dinheiro
+          </h2>
+          <p className="mt-2 hidden text-[13px] leading-relaxed text-muted-foreground sm:block sm:text-sm">
+            Seis diferenciais que separam um controle improvisado de uma gestão financeira
+            documentada — do lançamento diário ao relatório do mês.
+          </p>
+        </Reveal>
 
-        {/* Big Feature Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <ul className="mt-3 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3 lg:grid-cols-3">
           {benefits.map((benefit, index) => (
-            <Reveal key={benefit.title} delay={index * 100 + 400}>
-              <div className="group relative p-10 rounded-[32px] border border-border bg-card/50 backdrop-blur-sm transition-all hover:-translate-y-2 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5">
-                <div className={cn("size-16 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 group-hover:rotate-3", benefit.color)}>
-                  <benefit.icon className="size-8" />
-                </div>
-                
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black text-foreground">{benefit.title}</h3>
-                  <div className="text-right">
-                    <span className="block text-xl font-black text-primary leading-none">{benefit.metric}</span>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">{benefit.label}</span>
+            <Reveal as="li" key={benefit.title} delay={index * 60}>
+              <FeatureDetailDialog
+                feature={{ title: benefit.title, text: benefit.text, tag: benefit.metricLabel }}
+              >
+                <button
+                  type="button"
+                  className="group flex h-full w-full flex-col rounded-3xl border border-border bg-card/25 p-3 text-left shadow-lifted backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-[0_20px_40px_rgba(23,164,95,0.1)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
+                  style={{
+                    backgroundImage: `linear-gradient(150deg, color-mix(in oklab, ${benefit.accent} 10%, transparent), transparent 62%)`,
+                  }}
+                >
+                  <div className="flex w-full items-start justify-between gap-1.5">
+                    <span
+                      className="grid size-9 shrink-0 place-items-center rounded-xl border sm:size-10"
+                      style={{
+                        borderColor: `color-mix(in oklab, ${benefit.accent} 30%, transparent)`,
+                        background: `color-mix(in oklab, ${benefit.accent} 14%, transparent)`,
+                        color: benefit.accent,
+                      }}
+                    >
+                      <benefit.icon className="size-4.5" aria-hidden="true" />
+                    </span>
+                    <span className="text-right">
+                      <span
+                        className="block font-display text-sm font-bold leading-none tabular"
+                        style={{ color: benefit.accent }}
+                      >
+                        {benefit.metric}
+                      </span>
+                      <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+                        {benefit.metricLabel}
+                      </span>
+                    </span>
                   </div>
-                </div>
-                
-                <p className="text-muted-foreground font-medium leading-relaxed">
-                  {benefit.text}
-                </p>
-                
-                <div className="mt-10 pt-8 border-t border-border flex items-center gap-2 text-sm font-bold uppercase tracking-[0.15em] text-primary transition-all group-hover:gap-4">
-                  Saiba mais <ArrowRight className="size-4" />
-                </div>
-              </div>
+                  <h3 className="mt-2 font-display text-[13px] font-bold leading-snug tracking-tight sm:text-[15px]">
+                    {benefit.title}
+                  </h3>
+                  <p className="mt-1 line-clamp-3 text-[11.5px] leading-snug text-muted-foreground sm:line-clamp-none sm:text-[13px] sm:leading-relaxed">
+                    {benefit.text}
+                  </p>
+                  <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                    Ver detalhes
+                  </span>
+                </button>
+              </FeatureDetailDialog>
             </Reveal>
           ))}
-        </div>
+        </ul>
 
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mainFeatures.map((feature) => (
-            <Reveal key={feature.title} delay={feature.delay + 600}>
-              <div className="p-8 rounded-3xl border border-border bg-secondary/20 hover:bg-secondary/40 transition-colors">
-                <feature.icon className="size-6 text-primary mb-6" />
-                <h4 className="text-lg font-bold text-foreground mb-3">{feature.title}</h4>
-                <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        {/* Mobile Experience Block */}
-        <Reveal delay={1000} className="mt-16 rounded-[40px] border border-primary/20 bg-primary/5 p-8 lg:p-16 overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full -z-10" />
-          
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="max-w-xl">
-              <h3 className="text-3xl lg:text-4xl font-black tracking-tight text-foreground mb-6">
-                Leve o GastoCerto para qualquer lugar.
-              </h3>
-              <p className="text-lg text-muted-foreground font-medium leading-relaxed mb-8">
-                Nossa plataforma é 100% responsiva e PWA. Instale no seu smartphone e tenha o controle 
-                completo na palma da sua mão, mesmo sem conexão com a internet.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-foreground text-background font-bold">
-                  <Smartphone className="size-5" />
-                  Instalar App
-                </div>
-                <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-border bg-card font-bold">
-                  <ShieldCheck className="size-5 text-primary" />
-                  Privacidade Garantida
-                </div>
-              </div>
-            </div>
-            
-            <div className="relative w-full lg:w-1/3 aspect-square lg:aspect-video rounded-2xl border border-white/10 bg-black/20 backdrop-blur-3xl overflow-hidden shadow-2xl flex items-center justify-center">
-               <div className="text-center">
-                 <Bot className="size-16 text-primary mx-auto mb-4 animate-bounce-subtle" />
-                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Interface Mobile Otimizada</p>
-               </div>
-            </div>
+        <Reveal className="mt-3.5 hidden gap-2 rounded-2xl border border-brand/25 bg-brand/8 p-3.5 sm:mt-4 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-4">
+          <p className="text-[13px] font-medium leading-relaxed sm:text-sm">
+            Comece com o plano Gratuito e evolua quando precisar de relatórios detalhados, múltiplos
+            veículos e consultor com inteligência artificial.
+          </p>
+          <div className="grid gap-2 sm:flex sm:items-center">
+            <DemoDialog>
+              <Button variant="outline" className="w-full sm:w-auto">
+                Ver demonstração
+              </Button>
+            </DemoDialog>
+            <Button asChild className="w-full sm:w-auto">
+              <Link to="/auth">
+                Criar conta gratuita
+                <ArrowRight className="ml-2 size-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
         </Reveal>
       </div>

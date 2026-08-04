@@ -26,7 +26,7 @@ export function TrialCard() {
   const mutation = useMutation({
     mutationFn: (slug: TrialSlug) => activate({ data: { slug } }),
     onSuccess: (result) => {
-      toast.success(`Teste de ${result.days} dias ativado! Tudo liberado até ${formatDateTime(result.endsAt)}. Bem-vindo ao GameCarto!`);
+      toast.success(`Teste de ${result.days} dias ativado! Tudo liberado até ${formatDateTime(result.endsAt)}.`);
       void queryClient.invalidateQueries({ queryKey: ["plan-access"] });
       void queryClient.invalidateQueries({ queryKey: ["advisor-access"] });
     },

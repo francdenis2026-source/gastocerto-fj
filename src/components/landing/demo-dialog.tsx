@@ -66,7 +66,7 @@ export function DemoDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-h-[90svh] gap-4 overflow-y-auto sm:max-w-3xl">
         <DialogHeader className="text-left">
-          <DialogTitle className="font-display text-xl">Demonstração do GameCarto</DialogTitle>
+          <DialogTitle className="font-display text-xl">Demonstração do GastoCerto</DialogTitle>
           <DialogDescription>
             Navegue pelo painel agora mesmo ou agende uma apresentação guiada — sem sair da
             homepage.
