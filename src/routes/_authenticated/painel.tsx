@@ -508,7 +508,7 @@ function DashboardPage() {
         )}
         
         {!hasFeature(access, "financial_help") && (
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border bg-card px-3 py-2 sm:px-4 sm:py-3">
             <div className="flex items-center gap-2.5">
               <Sparkles className="size-4 shrink-0 text-muted-foreground" />
               <div>
@@ -530,8 +530,8 @@ function DashboardPage() {
         )}
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg/50 p-4 shadow-sm backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-2xl border border-banner-primary-border bg-banner-primary-bg/50 p-3 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-4">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className="flex items-center gap-2">
                 <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Baby className="size-4 text-primary" />
@@ -664,7 +664,7 @@ function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-6 w-full max-w-full overflow-x-hidden">
+          <div className="flex flex-col gap-3 lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-2 sm:mt-6 w-full max-w-full overflow-x-hidden">
             <aside className="hidden lg:block space-y-6">
               <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
