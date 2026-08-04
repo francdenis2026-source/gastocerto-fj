@@ -13,6 +13,7 @@ import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
 import { PricingMobile } from "@/components/landing/pricing-mobile";
 import { MobileHeroSection } from "@/components/landing/mobile-hero-section";
+import { BottomRealisticBg } from "@/components/landing/bottom-realistic-bg";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
