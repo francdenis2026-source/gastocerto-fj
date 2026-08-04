@@ -832,9 +832,10 @@ function DashboardPage() {
                  overview={
                    <div className="space-y-6">
                      <div className="grid gap-6 sm:grid-cols-2">
-                       <InteractiveCard
-                         id="client-top-expenses"
-                         title="Valores Gastos por Categoria"
+                        <InteractiveCard
+                          id="client-top-expenses"
+                          className="glass-morphism"
+                          title="Valores Gastos por Categoria"
                          description="Detalhamento das despesas do período"
                          icon={<ShoppingBag className="size-4" />}
                          items={byCategory}
