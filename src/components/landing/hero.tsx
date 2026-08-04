@@ -121,12 +121,13 @@ export function Hero() {
 
 
           <h1 className="font-display mt-4 text-[clamp(2.75rem,8vw,4.5rem)] font-bold leading-[1.05] tracking-tight text-hero-fg [text-wrap:balance] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
-            Meu Controle Financeiro
+            Meu Controle
             <br className="hidden sm:block" />{" "}
             <span className="text-brand">
-              inteligente e simples.
+              Financeiro.
             </span>
           </h1>
+
 
 
           <p className="mt-6 max-w-[50ch] text-[16px] font-normal leading-relaxed text-hero-fg-muted sm:text-[20px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
