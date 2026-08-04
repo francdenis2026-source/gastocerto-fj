@@ -112,7 +112,7 @@ export function Hero() {
         <div className="min-w-0">
           <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3 py-1.5 text-[11px] font-bold uppercase leading-tight tracking-[0.15em] text-brand sm:text-[13px]">
             <Sparkles className="size-3.5 shrink-0 animate-pulse text-brand" aria-hidden="true" />
-            <span className="min-w-0">The Next Gen Financial Control</span>
+            <span className="min-w-0">A Nova Geração em Controle Financeiro</span>
           </span>
 
           <h1 className="font-display mt-3 text-[clamp(2rem,8vw,2.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.2rem] lg:text-[3.75rem]">
