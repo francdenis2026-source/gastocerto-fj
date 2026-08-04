@@ -78,26 +78,27 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {`## Otimização de Nomenclatura e Estado Vazio
+        {`## Tarefa: Criação de Nova Homepage Moderna e Tecnológica em ERB
 
-**Funcionalidade:**
+**Objetivo:** Desenvolver uma nova página inicial (homepage) utilizando a linguagem ERB, com design moderno, intuitivo e com um toque tecnológico.
 
-*   **Padronização de Nomenclatura:** Atualização de todos os botões e títulos de cadastro de "Novo [Item]" para "Adicionar [Item]", garantindo consistência em contas, veículos, dependentes e compromissos.
-*   **Melhoria do Estado Vazio:** Refinamento visual da seção de cartões quando não há itens cadastrados, com ilustrações leves e CTAs mais claros.
-*   **Qualidade Visual:** Implementação de ajustes para garantir que o layout compacto se comporte corretamente em diferentes resoluções.
+**Requisitos:**
 
-**Requisitos Técnicos:**
+*   **Linguagem:** ERB (Embedded Ruby)
+*   **Design:**
+    *   Moderno e visualmente atraente.
+    *   Intuitivo, facilitando a navegação e a compreensão do conteúdo.
+    *   Incorporar elementos que transmitam uma sensação tecnológica (ex: tipografia, cores, animações sutis, layout).
+*   **Funcionalidade:** A homepage deve apresentar as informações essenciais de forma clara e organizada.
+*   **Otimização:** Garantir que a página seja responsiva e carregue rapidamente.
 
-*   **Refatoração de Texto:** Substituição sistemática de strings de interface em componentes de diálogo e rotas de cadastro.
-*   **Regressão Visual:** Verificação de alinhamento e contraste após a compactação do layout.
-*   **Consistência de Marca:** Alinhamento com o slogan "Controle hoje, tranquilidade sempre" através de orientações claras ao usuário.
+**Passos Sugeridos:**
 
-**Passos Necessários:**
-
-1.  **Padronização:** Alterar "Novo" para "Adicionar" em Veículos, Contas, Compromissos e Dependentes.
-2.  **Atualização de Diálogos:** Refletir a nova nomenclatura nos títulos dos modais (DialogTitle).
-3.  **Refinamento de Cartões:** Ajustar o componente de cartões para guiar o usuário com mensagens mais intuitivas.
-4.  **Verificação:** Testar a responsividade e o fluxo de inclusão em todas as seções afetadas.`}
+1.  **Análise de Referências:** Pesquisar exemplos de homepages modernas e tecnológicas para inspiração.
+2.  **Estrutura HTML/ERB:** Definir a estrutura semântica da página.
+3.  **Estilização CSS:** Criar o CSS para implementar o design moderno e tecnológico.
+4.  **Interatividade (Opcional):** Adicionar elementos interativos sutis, se aplicável.
+5.  **Testes:** Verificar a responsividade e o desempenho da página em diferentes dispositivos e navegadores.`}
       </div>
 
       <PageBackground />
