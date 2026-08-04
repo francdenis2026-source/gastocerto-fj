@@ -159,8 +159,8 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className={cn("p-0 shadow-lg overflow-hidden", isKid ? "w-[16rem]" : "w-80")} align="end">
-        <div className={cn("flex items-center justify-between border-b border-border", isKid ? "px-3 py-2" : "p-4 bg-background")}>
+      <PopoverContent className={cn("p-0 shadow-lg overflow-hidden glass-morphism", isKid ? "w-[16rem]" : "w-80")} align="end">
+        <div className={cn("flex items-center justify-between border-b border-border/10", isKid ? "px-3 py-2" : "p-4 bg-background/50")}>
           <h3 className={cn("flex items-center gap-1.5 font-bold", isKid ? "text-[12px]" : "text-sm")}>
             <Bell className={cn("text-primary", isKid ? "size-3.5" : "size-4")} /> Avisos
           </h3>
@@ -186,7 +186,7 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
               <p className="text-[11px] text-muted-foreground">Você não tem avisos recentes.</p>
             </div>
           ) : (
-            <div className="flex flex-col bg-background">
+            <div className="flex flex-col bg-transparent">
               <AnimatePresence initial={false}>
                 {notifications.map((n) => (
                   <NotificationItem 
@@ -201,7 +201,7 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
           )}
         </ScrollArea>
         {!isKid && (
-          <div className="border-t border-border p-2 bg-background">
+          <div className="border-t border-border/10 p-2 bg-background/50">
             <Button variant="ghost" size="sm" className="w-full text-[10px] font-bold uppercase tracking-wider" asChild>
               <a href="/perfil">Ver tudo no perfil</a>
             </Button>
