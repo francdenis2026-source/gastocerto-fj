@@ -152,8 +152,8 @@ export function Pricing() {
               <div
                 key={plan.slug}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border border-border bg-card/80 p-4 shadow-soft backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-lifted overflow-hidden",
-                  plan.highlighted && "border-brand/50 ring-2 ring-brand/10 bg-gradient-to-b from-brand/[0.03] to-card/80",
+                  "relative flex flex-col rounded-[2rem] border border-white/5 bg-white/[0.02] p-8 shadow-2xl backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-brand/30 overflow-hidden",
+                  plan.highlighted && "border-brand/40 ring-1 ring-brand/20 bg-brand/[0.03]",
                 )}
               >
                 {plan.highlighted && (
