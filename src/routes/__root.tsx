@@ -196,7 +196,7 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <HeadContent />
       </head>
-      <body>
+      <body className="overscroll-none select-none md:select-auto">
         {children}
         <Scripts />
       </body>

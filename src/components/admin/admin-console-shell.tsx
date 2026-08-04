@@ -143,7 +143,7 @@ export function AdminConsoleShell({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <div className="flex items-center gap-3">
                 <span className="grid size-12 place-items-center rounded-xl border border-border/70 bg-background/70 shadow-sm">
-                  <ShieldCheck className="size-6 text-brand" />
+                  <ShieldCheck className="size-7 text-brand" />
                 </span>
                 <div className="min-w-0">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
@@ -158,7 +158,7 @@ export function AdminConsoleShell({
 
               <div className="flex flex-1 items-center gap-2 sm:ml-auto">
                 <div className="relative flex-1 sm:max-w-md">
-                  <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     placeholder="Busca global (usuários, chaves, logs...)"
                     value={searchTerm}
@@ -222,7 +222,7 @@ export function AdminConsoleShell({
                       : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
-                  <Icon className="size-4 shrink-0" />
+                  <Icon className="size-5 shrink-0" />
                   <span className="whitespace-nowrap lg:whitespace-normal">{section.label}</span>
                 </button>
               );
