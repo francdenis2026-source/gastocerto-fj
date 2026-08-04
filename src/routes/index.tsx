@@ -79,7 +79,33 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* Implemente microinterações e transições suaves na homepage para enriquecer a experiência e aumentar a conversão. */}
+        {/* ## Melhoria da Homepage do Site
+
+**Objetivo:** Otimizar a homepage do site para uma experiência de usuário mais moderna, eficiente e visualmente atraente.
+
+**Funcionalidades Solicitadas:**
+
+1.  **Nova Imagem de Fundo:** Substituir a imagem de fundo atual por uma imagem realista e de alta qualidade.
+2.  **Novo Hero:** Criar e implementar um novo "hero section" (seção principal/destaque) com um design profissional e impactante.
+3.  **Remodelagem Geral da Página:** Realizar uma revisão e atualização completa do layout e design da página.
+4.  **Otimização de Espaço:** Tornar a página mais compacta, eliminando espaços vazios e desnecessários para melhorar a densidade de informação e a navegação.
+5.  **Atualização de Estilo e Visual:** Elevar o estilo geral e a identidade visual do site, alinhando-o com as tendências de design atuais.
+
+**Requisitos Técnicos:**
+
+*   A nova imagem de fundo deve ser otimizada para web, garantindo tempos de carregamento rápidos.
+*   O design do "hero section" deve ser responsivo e adaptável a diferentes tamanhos de tela.
+*   A eliminação de espaços vazios deve ser feita de forma a não comprometer a legibilidade e a usabilidade.
+*   As atualizações de estilo devem ser consistentes com a marca do site.
+
+**Passos Necessários:**
+
+1.  Seleção e otimização da nova imagem de fundo.
+2.  Criação do design e conteúdo do novo "hero section".
+3.  Revisão e ajuste do layout geral da homepage.
+4.  Implementação das mudanças de design e conteúdo.
+5.  Testes de responsividade e usabilidade em diferentes dispositivos.
+6.  Otimização final de performance. */}
       </div>
 
       <PageBackground />
