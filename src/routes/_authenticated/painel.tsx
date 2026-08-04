@@ -1098,9 +1098,9 @@ function DashboardPage() {
                           <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                               <Pie data={byCategory} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} onClick={(e:any) => e?.id && openCategoryDetail(e.id, e.name)}>
-                                {byCategory.map((e, i) => <Cell key={e.name} fill={e.color ?? seriesColor(i)} stroke="var(--card)" strokeWidth={2} />)}
+                                {byCategory.map((e, i) => <Cell key={e.name} fill={e.color ?? seriesColor(i)} stroke="hsl(var(--card))" strokeWidth={2} />)}
                               </Pie>
-                              <Tooltip formatter={(v:any, n:any) => [formatCurrency(v), n]} />
+                              <Tooltip {...tooltipProps} formatter={(v:any, n:any) => [formatCurrency(v), n]} />
                             </PieChart>
                           </ResponsiveContainer>
                         }
