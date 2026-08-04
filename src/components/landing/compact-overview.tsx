@@ -104,7 +104,7 @@ export function CompactOverview() {
                 value="faq"
                 className="px-8 py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground font-bold transition-all"
               >
-                <HelpCircle className="size-4 mr-2" />
+                <ShieldCheck className="size-4 mr-2" />
                 Dúvidas
               </TabsTrigger>
             </TabsList>
