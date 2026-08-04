@@ -13,6 +13,7 @@ import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
 import { PricingMobile } from "@/components/landing/pricing-mobile";
 import { MobileHeroSection } from "@/components/landing/mobile-hero-section";
+import { BottomRealisticBg } from "@/components/landing/bottom-realistic-bg";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
@@ -90,7 +91,7 @@ function LandingPage() {
         Pular para o conteúdo
       </a>
       <LandingHeader hideActions />
-      <main id="conteudo" tabIndex={-1} className="flex-1 outline-none">
+      <main id="conteudo" tabIndex={-1} className="relative flex-1 outline-none">
         <Hero />
         <div className="hidden sm:block">
           <Benefits />
@@ -104,6 +105,7 @@ function LandingPage() {
         <div className="hidden sm:block">
           <CtaBanner />
         </div>
+        <BottomRealisticBg />
       </main>
       <LandingFooter />
     </div>
