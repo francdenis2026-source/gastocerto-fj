@@ -100,7 +100,7 @@ export function Hero() {
       {/* véu e blur: garante contraste AA e evita conflito visual com os textos */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[6px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[3px]"
+        className="absolute inset-0 -z-10 bg-[image:var(--hero-veil-mobile)] backdrop-blur-[6px] sm:bg-[image:var(--hero-veil-desktop)] sm:backdrop-blur-[3px] dark:opacity-80 opacity-60"
       />
 
       <div
@@ -170,25 +170,25 @@ export function Hero() {
           <div className="mt-5 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm lg:hidden shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[oklch(0.25_0.04_259)] dark:text-hero-fg-muted">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-hero-fg-muted">
                   Mês atual
                 </p>
                 <p className="tabular mt-0.5 whitespace-nowrap text-lg font-extrabold text-hero-fg sm:text-xl">
                   {formatCurrency(3782.45)}
                 </p>
 
-                <p className="text-[12.5px] font-medium text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft leading-tight">consolidado automaticamente</p>
+                <p className="text-[12.5px] font-medium text-hero-fg-soft leading-tight">consolidado automaticamente</p>
               </div>
               <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
                 <RingChart className="size-10 shrink-0 text-hero-accent" value={45} />
                 <div className="min-w-0">
-                  <p className="text-[10px] font-semibold text-[oklch(0.35_0.04_259)] dark:text-hero-fg-soft">Orçamento</p>
+                  <p className="text-[10px] font-semibold text-hero-fg-soft">Orçamento</p>
                   <p className="tabular text-[14px] font-bold text-hero-fg">45%</p>
                 </div>
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[oklch(0.25_0.04_259)] dark:text-hero-fg-muted">
+              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-hero-fg-muted">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Economia vs. Junho
               </span>
