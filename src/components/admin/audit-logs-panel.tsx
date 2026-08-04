@@ -37,11 +37,17 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
 
   const handlePurge = (all: boolean = false) => {
     confirm({
-      title: all ? "Excluir TODOS os logs?" : "Limpar logs antigos?",
+      title: all ? "EXCLUIR TUDO?" : "LIMPAR ANTIGOS?",
       description: all 
-        ? "Esta ação excluirá permanentemente todos os registros de auditoria sem possibilidade de restauração."
-        : "Isso removerá permanentemente todos os logs de auditoria com mais de 30 dias.",
+        ? "Esta ação excluirá permanentemente TODOS os registros de auditoria do sistema. Para confirmar, digite EXCLUIR no campo abaixo."
+        : "Isso removerá permanentemente os logs de auditoria com mais de 30 dias.",
       type: "warning",
+      confirmLabel: all ? "EXCLUIR DEFINITIVAMENTE" : "LIMPAR AGORA",
+      input: all ? {
+        label: "Digite EXCLUIR para confirmar",
+        placeholder: "EXCLUIR",
+        expected: "EXCLUIR"
+      } : undefined,
       onConfirm: () => {
         if (all) {
           purgeMutation.mutate(null);

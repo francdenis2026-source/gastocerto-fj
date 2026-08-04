@@ -171,13 +171,21 @@ export function validateAvatarFile(file: File): string | null {
   return null;
 }
 
-/** Mensagens de erro amigáveis, sem vazar detalhes internos. */
+/** Mensagens de erro amigáveis e profissionais, ocultando detalhes sensíveis sobre a validade de credenciais. */
 export function friendlyAuthError(message?: string): string {
   const raw = (message ?? "").toLowerCase();
-  if (raw.includes("invalid login credentials")) return "CPF/e-mail ou senha incorretos.";
-  if (raw.includes("email not confirmed")) return "Confirme seu e-mail antes de entrar.";
+  // Alerta genérico para qualquer falha de credencial (CPF/Email/Senha) para evitar enumeração de contas
+  if (
+    raw.includes("invalid login credentials") || 
+    raw.includes("invalid_grant") || 
+    raw.includes("email not confirmed")
+  ) {
+    return "Credenciais inválidas. Por favor, tente novamente.";
+  }
+  
   if (raw.includes("user already registered")) return "Já existe uma conta com este CPF ou e-mail.";
   if (raw.includes("pwned") || raw.includes("compromised"))
     return "Esta senha já apareceu em vazamentos. Escolha outra.";
-  return message ?? "Erro ao processar solicitação.";
+    
+  return "Ocorreu um erro ao processar sua solicitação. Tente novamente em instantes.";
 }
