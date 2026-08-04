@@ -29,6 +29,7 @@ export function MobileHeroSection() {
 
         {/* Content Layer */}
         <div className="relative z-10 flex flex-col p-6 items-center text-center overflow-y-auto custom-scrollbar">
+          <div className="absolute inset-0 -z-10 bg-black/10 backdrop-blur-[2px]" />
           
           {/* Top Badge */}
           <div className="mb-4 flex animate-reveal items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/60 backdrop-blur-md">
@@ -68,23 +69,6 @@ export function MobileHeroSection() {
             </div>
           </div>
 
-          {/* Social Proof / Stats */}
-          <div className="mt-6 flex items-center gap-6 animate-reveal" style={{ animationDelay: '500ms' }}>
-            <div className="text-center">
-              <p className="text-base font-bold text-white">+24k</p>
-              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Usuários</p>
-            </div>
-            <div className="h-8 w-px bg-border/40" />
-            <div className="text-center">
-              <p className="text-base font-bold text-white">4.9/5</p>
-              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Avaliação</p>
-            </div>
-            <div className="h-8 w-px bg-border/40" />
-            <div className="text-center">
-              <p className="text-base font-bold text-white">100%</p>
-              <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Seguro</p>
-            </div>
-          </div>
 
           {/* Enhanced CTA */}
           <div className="mt-6 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
