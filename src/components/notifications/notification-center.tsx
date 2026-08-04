@@ -1,7 +1,7 @@
 import { Bell, Info, ShieldAlert, History } from "lucide-react";
 import { useNotifications, useMarkNotifications, useDeleteNotification } from "@/lib/notifications";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Popover,
