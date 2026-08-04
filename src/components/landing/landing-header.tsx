@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 import { handleAnchorClick } from "@/lib/scroll";
 
 const navItems = [
-  { label: "Início", href: "#inicio" },
   { label: "Recursos", href: "#recursos" },
   { label: "Planos", href: "#planos" },
+  { label: "Segurança", href: "#seguranca" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 
@@ -49,17 +50,35 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
   }, []);
 
 
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
+
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "border-b border-white/5 bg-background/40 text-foreground backdrop-blur-2xl shadow-sm"
-          : "border-b border-transparent bg-transparent text-hero-fg",
+    <>
+      {announcementVisible && (
+        <div className="fixed inset-x-0 top-0 z-[60] flex h-9 items-center justify-center bg-gradient-to-r from-emerald-600/20 to-emerald-500/20 px-4 text-center backdrop-blur-md border-b border-emerald-500/20">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 sm:text-[11px]">
+            🎉 Novo: sincronização automática com Pix e cartões — experimente grátis por 7 dias
+          </p>
+          <button 
+            onClick={() => setAnnouncementVisible(false)}
+            className="absolute right-2 p-1 text-emerald-400/60 hover:text-emerald-400 transition-colors"
+            aria-label="Fechar anúncio"
+          >
+            <X className="size-3.5" />
+          </button>
+        </div>
       )}
-    >
-      <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
-        <Logo onDark={!scrolled} href="#inicio" className="group" />
+      <header
+        className={cn(
+          "fixed inset-x-0 z-50 transition-all duration-300",
+          announcementVisible ? "top-9" : "top-0",
+          scrolled
+            ? "border-b border-white/5 bg-background/40 text-foreground backdrop-blur-2xl shadow-sm"
+            : "border-b border-transparent bg-transparent text-hero-fg",
+        )}
+      >
+        <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
+          <Logo onDark={!scrolled} href="#inicio" className="group" />
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {
@@ -112,10 +131,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           </CodeAccessDialog>
           {/* Entrar: presente no desktop e no mobile. */}
           <Button
-            variant="outline"
+            variant="ghost"
             className={cn(
-              "h-10 px-3 text-sm font-semibold",
-              !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
+              "h-10 px-4 text-sm font-semibold border border-white/10 hover:bg-white/5",
+              !scrolled && "text-hero-fg",
             )}
             asChild
           >
@@ -123,8 +142,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           </Button>
           {!hideActions && (
             <>
-              <Button className="cta-lift btn-hover-shine hidden h-10 items-center rounded-full bg-brand px-5 text-sm font-bold text-brand-foreground shadow-lg shadow-brand/10 transition-all hover:scale-105 active:scale-95 sm:flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Começar grátis</Link>
+              <Button className="cta-lift group hidden h-10 items-center rounded-lg bg-emerald-500 px-6 text-sm font-bold text-black shadow-lg shadow-emerald-500/10 transition-all hover:bg-emerald-400 sm:flex" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}>Criar conta grátis</Link>
               </Button>
               <Button
                 variant="outline"
@@ -189,6 +208,6 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           </nav>
         </div>
       )}
-    </header>
+    </>
   );
 }
