@@ -31,8 +31,8 @@ export function MobileTabBar() {
         )} onClick={e => e.stopPropagation()}>
           <div className="flex h-14 items-center justify-between border-b border-border px-4">
             <span className="text-[11px] font-black uppercase tracking-[0.2em] text-brand">Navegação</span>
-            <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)} className="rounded-full size-9">
-              <X className="size-4" />
+            <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)} className="rounded-full size-10">
+              <X className="size-5" />
             </Button>
           </div>
           
@@ -62,7 +62,7 @@ export function MobileTabBar() {
                           "grid size-7 place-items-center rounded-lg border",
                           isActive ? "border-brand/30 bg-brand/10" : "border-border/50 bg-background/50"
                         )}>
-                          <Icon className="size-4" />
+                          <Icon className="size-5" />
                         </div>
                         <div className="flex flex-col">
                           <span>{group.label}</span>
@@ -113,7 +113,7 @@ export function MobileTabBar() {
                   "relative grid size-8 place-items-center rounded-xl transition-all duration-300",
                   isActive ? "bg-brand/10 shadow-sm border border-brand/20" : "hover:bg-secondary/40"
                 )}>
-                  <Icon className={cn("size-4.5", isActive && "animate-pulse")} />
+                  <Icon className={cn("size-5", isActive && "animate-pulse")} />
                   {isActive && (
                     <span className="absolute -bottom-1 size-1 rounded-full bg-brand shadow-[0_0_8px_var(--brand)]" />
                   )}
@@ -128,7 +128,7 @@ export function MobileTabBar() {
             className="flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-muted-foreground/60 active:scale-90"
           >
             <div className="grid size-8 place-items-center rounded-xl hover:bg-secondary/40 border border-transparent">
-              <Menu className="size-4.5" />
+              <Menu className="size-5" />
             </div>
             <span className="text-[9px] font-black uppercase tracking-tighter leading-none">Mais</span>
           </button>

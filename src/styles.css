@@ -460,7 +460,7 @@
 /* Altura de gráfico que acompanha o tamanho da tela, garantindo que não suma em telas pequenas. */
 @utility chart-frame {
   width: 100%;
-  height: clamp(180px, 30vh, 320px);
+  height: clamp(200px, 35vh, 360px);
 }
 
 /* Área de conteúdo do app com altura mínima estável entre navegações,
