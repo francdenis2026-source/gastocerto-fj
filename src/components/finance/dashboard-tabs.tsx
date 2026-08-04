@@ -24,7 +24,7 @@ export function DashboardTabs({
 }: DashboardTabsProps) {
   return (
     <Tabs defaultValue="overview" className={cn("w-full space-y-6", className)}>
-      <div className="sticky top-[72px] z-20 bg-background/80 backdrop-blur-md pb-2 -mx-2 px-2 border-b border-border/40 sm:static sm:bg-transparent sm:pb-0 sm:border-none sm:mx-0 sm:px-0">
+      <div className="sticky top-[72px] z-30 bg-background/95 backdrop-blur-md pb-2 -mx-3 px-3 border-b border-border/40 sm:static sm:bg-transparent sm:pb-0 sm:border-none sm:mx-0 sm:px-0">
         <TabsList className="w-full justify-start h-12 bg-muted/40 p-1 rounded-2xl border border-border/50 overflow-x-auto overflow-y-hidden scrollbar-none flex-nowrap">
           <TabsTrigger 
             value="overview" 
