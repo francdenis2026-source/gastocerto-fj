@@ -52,19 +52,19 @@ export function MobileHeroSection() {
           
           {/* Visual Highlight Cards */}
           <div className="mt-6 grid w-full grid-cols-2 gap-3 animate-reveal" style={{ animationDelay: '400ms' }}>
-            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all active:scale-95 shadow-lg">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/10 text-brand ring-1 ring-brand/20">
+            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md transition-all active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30 shadow-[0_0_15px_rgba(23,164,95,0.2)]">
                 <Target className="size-5" />
               </div>
               <p className="text-xl font-black text-white">Metas</p>
-              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/40">Progresso Real</p>
+              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/50">Progresso Real</p>
             </div>
-            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all active:scale-95 shadow-lg">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20">
+            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md transition-all active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-500 ring-1 ring-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                 <CreditCard className="size-5" />
               </div>
               <p className="text-xl font-black text-white">Cartões</p>
-              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/40">Visão Unificada</p>
+              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/50">Visão Unificada</p>
             </div>
           </div>
 
