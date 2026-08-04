@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, KeyRound, TrendingUp, ShieldCheck, LifeBuoy, Lock, FileClock, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, KeyRound, TrendingUp, ShieldCheck, LifeBuoy, Lock, FileClock, Menu, X, Wallet } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

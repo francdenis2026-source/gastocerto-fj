@@ -33,7 +33,7 @@ export const adminPurgeLogs = createServerFn({ method: "POST" })
       before_date: data.beforeDate, 
       action_type: data.actionType || "all",
       purged_count: count ?? 0 
-    });
+    }, null);
 
     return { ok: true, count: count ?? 0 };
   });
@@ -66,7 +66,7 @@ export const adminUpdateAppSettings = createServerFn({ method: "POST" })
     await auditLog(context, "update_app_setting", { 
       key: data.key, 
       value: data.value 
-    });
+    }, null);
 
     return { ok: true };
   });
