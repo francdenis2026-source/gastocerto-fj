@@ -170,9 +170,20 @@ export function Hero() {
                 >
                   <button
                     type="button"
-                    className="press-feedback inline-flex items-center gap-1.5 rounded-full border border-hero-border bg-hero-surface-soft px-2.5 py-1 text-[12.5px] font-semibold text-hero-fg transition-all hover:border-hero-border-strong hover:bg-hero-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong"
+                    className={cn(
+                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12.5px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong",
+                      "highlight" in mod && mod.highlight
+                        ? "border-hero-accent/40 bg-hero-accent/15 text-hero-fg shadow-[0_0_12px_rgba(23,164,95,0.1)] hover:border-hero-accent hover:bg-hero-accent/25"
+                        : "border-hero-border bg-hero-surface-soft text-hero-fg hover:border-hero-border-strong hover:bg-hero-surface"
+                    )}
                   >
-                    <mod.icon className="size-3.5 shrink-0 text-hero-accent" aria-hidden="true" />
+                    <mod.icon 
+                      className={cn(
+                        "size-3.5 shrink-0",
+                        "highlight" in mod && mod.highlight ? "text-hero-accent brightness-125" : "text-hero-accent"
+                      )} 
+                      aria-hidden="true" 
+                    />
                     {mod.label}
                   </button>
                 </FeatureDetailDialog>
