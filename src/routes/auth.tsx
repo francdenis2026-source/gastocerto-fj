@@ -331,11 +331,8 @@ function AuthPage() {
 
         {/* Painel do formulário rolável */}
         <section className="flex min-h-0 flex-col px-4 py-4 sm:px-5 lg:h-full">
-          <div className="mb-3 flex justify-center lg:hidden">
-            <Link to="/" className="w-fit">
-              <Logo />
-            </Link>
-          </div>
+          {/* O logotipo já aparece no painel visual acima; evitamos repetição. */}
+
 
           <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
             {pendingCode ? (
