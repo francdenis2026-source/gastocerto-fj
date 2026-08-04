@@ -63,6 +63,9 @@ const TrialGrantPanel = lazy(() =>
 const TrialLicensesPanel = lazy(() =>
   import("@/components/admin/trial-licenses-panel").then((m) => ({ default: m.TrialLicensesPanel })),
 );
+const TemporaryAccountsPanel = lazy(() =>
+  import("@/components/admin/temporary-accounts-panel").then((m) => ({ default: m.TemporaryAccountsPanel })),
+);
 const AdminAccessPanel = lazy(() =>
   import("@/components/admin/admin-access-panel").then((m) => ({ default: m.AdminAccessPanel })),
 );
