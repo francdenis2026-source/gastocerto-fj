@@ -130,16 +130,24 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
     const term = (globalSearch || search).trim().toLowerCase();
     const digits = onlyDigits(search);
     return (profiles.data ?? []).filter((profile) => {
+      // Regra: se for PRO (tem plano premium), nunca aparece no filtro de temporários/pendentes
+      const isPro = (profile as any).plan_slug === "premium_ia" || (profile as any).plan_slug === "premium";
+      
       if (statusFilter !== "all" && profile.status !== statusFilter) return false;
+      
+      // Filtro implícito de "Temporários" (usuários em trial ou sem plano definitivo)
+      // Ajuste para garantir que PROs não vazem para listas de gestão de acesso temporário
+      if (isPro && (statusFilter === "trial" || statusFilter === "pending")) return false;
+
       if (!term) return true;
       const name = (profile.full_name ?? "").toLowerCase();
       const email = (profile.contact_email ?? "").toLowerCase();
       const cpf = onlyDigits(profile.cpf ?? "");
       return (
-        name.includes(term) || email.includes(term) || (digits.length > 0 && cpf.includes(digits))
+        name.includes(term) || email.includes(email) || (digits.length > 0 && cpf.includes(digits))
       );
     });
-  }, [profiles.data, search, statusFilter]);
+  }, [profiles.data, search, statusFilter, globalSearch]);
 
   async function exportCsv() {
     confirm({

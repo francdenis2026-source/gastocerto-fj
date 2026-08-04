@@ -97,16 +97,16 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
   })), [filtered]);
 
   return (
-    <section className="rounded-xl border bg-card p-3 sm:p-4">
-      <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:justify-between">
+    <section className="rounded-xl border bg-card p-2.5 sm:p-4 shadow-sm">
+      <header className="flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2">
-          <div className="grid size-8 shrink-0 place-items-center rounded-xl bg-primary/10">
-            <Wallet className="size-4 text-primary" />
+          <div className="grid size-7 sm:size-8 shrink-0 place-items-center rounded-lg sm:rounded-xl bg-primary/10">
+            <Wallet className="size-3.5 sm:size-4 text-primary" />
           </div>
           <div className="min-w-0">
-            <h2 className="truncate text-sm font-bold">Carteiras dos filhos</h2>
-            <p className="truncate text-[11px] text-muted-foreground">
-              Saldo e gastos atualizados em tempo real
+            <h2 className="truncate text-xs sm:text-sm font-bold tracking-tight">Carteiras dos filhos</h2>
+            <p className="truncate text-[9px] sm:text-[11px] text-muted-foreground font-medium">
+              Saldo e gastos em tempo real
             </p>
           </div>
         </div>
@@ -244,13 +244,13 @@ function Tile({
   tone: "balance" | "in" | "out";
 }) {
   return (
-    <div className="rounded-lg border bg-background/60 p-1.5 sm:p-2">
-      <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+    <div className="rounded-lg border bg-background/60 p-1.5 sm:p-2 flex flex-col justify-center min-h-[48px] sm:min-h-[56px]">
+      <p className="truncate text-[8px] sm:text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">
         {label}
       </p>
       <p
         className={cn(
-          "mt-0.5 text-xs font-black tabular-nums sm:text-base",
+          "mt-0.5 text-[11px] font-black tabular-nums leading-none sm:text-sm md:text-base",
           tone === "out" && "text-rose-600",
           tone === "in" && "text-emerald-600",
           tone === "balance" && (value < 0 ? "text-rose-600" : "text-foreground")
