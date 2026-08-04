@@ -101,6 +101,7 @@ export function CreateUserDialog() {
               id="new-user-name"
               className="mt-1.5"
               value={fullName}
+              autoComplete="off"
               onChange={(event) => setFullName(event.target.value)}
             />
           </div>
@@ -111,6 +112,7 @@ export function CreateUserDialog() {
                 id="new-user-cpf"
                 className="mt-1.5"
                 inputMode="numeric"
+                autoComplete="off"
                 value={maskCpf(cpf)}
                 onChange={(event) => setCpf(onlyDigits(event.target.value).slice(0, 11))}
               />
@@ -121,6 +123,7 @@ export function CreateUserDialog() {
                 id="new-user-pin"
                 className="mt-1.5"
                 inputMode="numeric"
+                autoComplete="new-password"
                 value={pin}
                 onChange={(event) => setPin(onlyDigits(event.target.value).slice(0, 6))}
               />
@@ -132,6 +135,7 @@ export function CreateUserDialog() {
               id="new-user-email"
               className="mt-1.5"
               type="email"
+              autoComplete="off"
               value={contactEmail}
               onChange={(event) => setContactEmail(event.target.value)}
             />
