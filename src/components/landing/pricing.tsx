@@ -35,7 +35,7 @@ export const basePlans = [
     slug: "premium",
     name: "Pro",
     monthly: 24.9,
-    yearly: 20.75,
+    yearly: 19.9,
     description: "Para quem leva o controle a sério.",
     highlighted: false,
     cta: "Assinar Pro",
