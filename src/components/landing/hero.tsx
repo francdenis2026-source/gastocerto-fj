@@ -81,7 +81,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-[5.5rem] pb-5 text-hero-fg sm:min-h-[42svh] sm:max-h-[500px] sm:pb-8 sm:pt-24 lg:pt-28"
+      className="relative isolate flex items-center overflow-hidden bg-hero-bg pt-[6.5rem] pb-8 text-hero-fg sm:min-h-[50svh] sm:max-h-[650px] sm:pb-12 sm:pt-32 lg:pt-36"
     >
       <img
         src={heroBg}
@@ -122,7 +122,7 @@ export function Hero() {
       />
 
 
-      <div className="section-shell relative grid w-full items-center gap-6 lg:grid-cols-[1.06fr_1fr] lg:gap-10">
+      <div className="section-shell relative grid w-full items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
         <div className="min-w-0">
 
 
