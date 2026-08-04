@@ -1087,7 +1087,7 @@ function DashboardPage() {
                    </div>
                  }
                   analytics={
-                    <div className="grid gap-6 md:grid-cols-2">
+                    <div className="grid gap-8 md:grid-cols-2">
                       <InteractiveCard
                         id="client-analytics-categories"
                         className="glass-morphism"
