@@ -71,7 +71,7 @@ export function MobileHeroSection() {
 
           {/* Enhanced CTA */}
           <div className="mt-6 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
-            <button className="group relative flex h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-brand font-display font-bold text-brand-foreground shadow-lg transition-all active:scale-[0.96]">
+            <button className="group relative flex h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-primary font-display font-bold text-primary-foreground shadow-lg transition-all active:scale-[0.96]">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               Começar Grátis
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
