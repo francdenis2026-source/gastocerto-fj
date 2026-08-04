@@ -27,6 +27,7 @@ export default defineConfig({
           globDirectory: "dist/client",
           globPatterns: ["**/*.{js,css,html,ico,png,jpg,svg,webmanifest,woff2}"],
           globIgnores: ["**/node_modules/**", "_headers", "**/*.map"],
+          navigateFallback: null,
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
           cleanupOutdatedCaches: true,
           clientsClaim: true,
