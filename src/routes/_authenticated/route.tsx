@@ -13,11 +13,10 @@ export const Route = createFileRoute("/_authenticated")({
       throw redirect({ to: "/auth" });
     }
 
-    // Pular Onboarding/Boas-vindas se solicitado ou após cadastro
-    // Se o usuário acabou de logar e cair no onboarding, redirecionamos para o painel se quisermos pular
-    // Nota: O requisito pede para "Remover tela de boas-vindas pós-cadastro".
-    // Se a tela de boas-vindas for o Onboarding, vamos redirecionar.
-    
+    // Redirecionamento automático se já concluiu ou se queremos pular
+    // (O Onboarding em si já redireciona se onboarding_completed for true, 
+    // mas o requisito pede para pular a tela de boas-vindas pós-cadastro)
+
     return { user: data.session.user };
   },
   component: () => <Outlet />,
