@@ -80,38 +80,44 @@ function LandingPage() {
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
         {/* 
-          ## Análise e Melhoria de Design Gráfico
+          ## Refatoração Completa da Homepage Mobile
 
-          **Objetivo:** Realizar uma análise aprofundada do design gráfico do site e propor melhorias abrangentes, desde a página inicial até os painéis de cliente e administrador.
+          **Objetivo:** Transformar a homepage da versão mobile em uma experiência de nível aplicativo global, com estética avançada, design aprimorado, contrastes marcantes, tipografia refinada e uma seção "hero" impactante.
 
-          **Funcionalidades Solicitadas:**
+          **Funcionalidades e Requisitos:**
 
-          1.  **Análise Detalhada:**
-              *   Avaliar a identidade visual atual (cores, tipografia, logo, etc.).
-              *   Examinar a usabilidade e a experiência do usuário (UX) em todas as seções.
-              *   Analisar a consistência do design em diferentes páginas e dispositivos.
-              *   Identificar pontos fortes e fracos do design existente.
+          1.  **Design de Nível Aplicativo Global:**
+              *   Adotar uma estética moderna, limpa e intuitiva, similar às melhores aplicações mobile do mercado.
+              *   Priorizar a experiência do usuário (UX) e a interface do usuário (UI) com foco em usabilidade e apelo visual.
 
-          2.  **Propostas de Melhoria:**
-              *   Sugerir refinamentos na homepage para aumentar o engajamento e a clareza da proposta de valor.
-              *   Propor otimizações nos elementos gráficos e na navegação dos painéis de cliente e administrador para melhorar a eficiência e a experiência do usuário.
-              *   Recomendar atualizações na paleta de cores, tipografia e iconografia para modernizar e fortalecer a identidade visual.
-              *   Apresentar sugestões para aprimorar a hierarquia visual e a legibilidade do conteúdo.
+          2.  **Estética Avançada e Melhorias de Design:**
+              *   Implementar um design visualmente sofisticado e contemporâneo.
+              *   Explorar o uso de microinterações, animações sutis e transições suaves para enriquecer a experiência.
+              *   Garantir a responsividade e adaptabilidade perfeita para diferentes tamanhos de tela mobile.
 
-          **Requisitos Técnicos:**
+          3.  **Contraste e Tipografia:**
+              *   Definir uma paleta de cores com contrastes fortes e bem definidos para melhorar a legibilidade e o impacto visual.
+              *   Selecionar e aplicar tipografias modernas e legíveis, garantindo hierarquia clara e consistência em toda a página.
 
-          *   A análise deve considerar princípios de design centrado no usuário (UCD).
-          *   As sugestões de melhoria devem ser práticas e alinhadas com as tendências atuais de design web.
-          *   A comunicação das propostas deve ser clara e objetiva, com exemplos visuais, se possível.
+          4.  **Compactação e Otimização:**
+              *   Otimizar todos os elementos da página (imagens, scripts, CSS) para garantir tempos de carregamento rápidos e performance fluida.
+              *   Minimizar o uso de recursos sem comprometer a qualidade visual.
+
+          5.  **Seção "Hero" Incrível:**
+              *   Criar uma seção "hero" (a primeira parte visível da página) que seja visualmente deslumbrante, cativante e comunique claramente a proposta de valor principal.
+              *   Utilizar elementos visuais fortes (imagens de alta qualidade, vídeos curtos, gráficos animados) e um call-to-action (CTA) proeminente.
 
           **Passos Necessários:**
 
-          1.  Acessar e navegar por todas as áreas do site, incluindo a homepage, áreas de cliente e áreas de administrador.
-          2.  Documentar observações sobre o design gráfico atual.
-          3.  Realizar pesquisa de referências e tendências de design relevantes.
-          4.  Desenvolver um relatório de análise com os pontos identificados.
-          5.  Criar um conjunto de propostas de melhoria detalhadas, com justificativas para cada sugestão.
-          6.  (Opcional) Criar mockups ou wireframes para ilustrar as propostas de design.
+          1.  Análise da homepage mobile atual para identificar pontos fracos e oportunidades de melhoria.
+          2.  Pesquisa de referências de design de aplicativos globais e tendências de UI/UX.
+          3.  Criação de wireframes e protótipos focados na nova experiência mobile.
+          4.  Definição da nova paleta de cores, tipografia e guias de estilo.
+          5.  Desenvolvimento da nova estrutura HTML, CSS e JavaScript.
+          6.  Implementação da seção "hero" com foco em impacto visual e clareza da mensagem.
+          7.  Otimização de todos os ativos e código para performance.
+          8.  Testes rigorosos em diversos dispositivos e navegadores mobile.
+          9.  Refinamento com base no feedback dos testes.
         */}
       </div>
 
