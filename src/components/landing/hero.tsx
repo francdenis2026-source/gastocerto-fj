@@ -33,16 +33,19 @@ const modules = [
     label: "Lançamentos",
     icon: BarChart3,
     text: "Despesa ou receita com categoria, anexo, parcelas e data retroativa.",
+    highlight: true,
   },
   {
     label: "Combustível",
     icon: Fuel,
     text: "Litros, preço por litro, odômetro validado e custo por km por veículo.",
+    highlight: true,
   },
   {
     label: "Gás",
     icon: Flame,
     text: "Histórico de botijões, duração média e aviso quando estiver acabando.",
+    highlight: true,
   },
   {
     label: "Cartões",
