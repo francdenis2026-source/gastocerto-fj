@@ -1,5 +1,8 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { monthRange } from "@/lib/finance";
+import { usePeriodStore } from "@/lib/period-store";
+import { useTransactions } from "@/lib/transactions";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
 import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -62,6 +65,20 @@ type Kind = "expense" | "income";
 
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const routerState = useRouterState();
+  const { year, month } = usePeriodStore();
+  const range = useMemo(() => monthRange(year, month), [year, month]);
+  const { data: transactions } = useTransactions(range);
+
+  const metrics = useMemo(() => {
+    const rows = transactions ?? [];
+    const expenses = rows.filter((r) => r.transaction_type === "expense");
+    const incomes = rows.filter((r) => r.transaction_type === "income");
+    const totalExpense = expenses.reduce((sum, r) => sum + Number(r.amount), 0);
+    const totalIncome = incomes.reduce((sum, r) => sum + Number(r.amount), 0);
+    return { totalExpense, balance: totalIncome - totalExpense };
+  }, [transactions]);
+
   const { confirm, ConfirmDialog } = useConfirm();
   const [open, setOpen] = useState(false);
   const [quickEntry, setQuickEntry] = useState<Kind | null>(null);
@@ -371,11 +388,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         </nav>
 
 
-        {!isAdminArea && (
+        {!isAdminArea && !isKid && (
           <div className="mb-4 space-y-2">
-            {/* Atalho do Espaço Kids saiu daqui: agora é um grupo próprio no menu. */}
-
-
             {!isAdminArea && <EnergySidebarWidget collapsed={railCollapsed} />}
             
             {activeMetrics.length > 0 && !railCollapsed && (
@@ -416,6 +430,25 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
 
         <div className="mt-auto border-t border-border p-2 space-y-1">
+          {!isAdminArea && !isKid && (
+            <div className="mb-2 px-2">
+               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 mb-2">Resumo Rápido</p>
+               <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
+                    <p className="text-[8px] uppercase text-muted-foreground">Gastos</p>
+                    <p className="text-[11px] font-bold text-rose-500 tabular-nums">
+                      {formatCurrency(metrics.totalExpense)}
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
+                    <p className="text-[8px] uppercase text-muted-foreground">Saldo</p>
+                    <p className="text-[11px] font-bold text-emerald-500 tabular-nums">
+                      {formatCurrency(metrics.balance)}
+                    </p>
+                  </div>
+               </div>
+            </div>
+          )}
           <Link
             to="/perfil"
             className={cn(

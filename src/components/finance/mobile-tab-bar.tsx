@@ -14,8 +14,8 @@ export function MobileTabBar() {
   const mainActions = [
     { to: "/painel", icon: LayoutDashboard, label: "Início" },
     { to: "/lancamentos", icon: ArrowLeftRight, label: "Lançamentos" },
-    { to: "/orcamentos", icon: PiggyBank, label: "Planejar" },
-    { to: "/relatorios", icon: BarChart3, label: "Análise" },
+    { to: "/relatorios", icon: BarChart3, label: "Relatórios" },
+    { to: "/filhos", icon: Baby, label: "Kids" },
   ];
 
   return (

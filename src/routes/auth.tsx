@@ -165,7 +165,8 @@ function AuthPage() {
       }
       const to = await resolveHomeRoute(session.user?.id);
       if (!cancelled) {
-        navigate({ to: "/painel", replace: true });
+        // Garantir que não redirecionamos para o painel de admin se o código for de cliente
+        navigate({ to: to, replace: true });
       }
     };
 
