@@ -248,23 +248,19 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-border bg-secondary/30 py-16 sm:py-24">
+    <section id="explorar" className="relative border-y border-border bg-background section-padding">
       <span id="seguranca" className="block" />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--brand)_45%,transparent),transparent)]"
-      />
       <div className="section-shell">
-        <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold uppercase tracking-[0.16em] text-brand">
-              <Sparkles className="size-3.5" aria-hidden="true" />
+        <Reveal className="flex flex-col items-center text-center">
+          <div className="max-w-3xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+              <Sparkles className="size-4" aria-hidden="true" />
               Recursos da plataforma
             </p>
-            <h2 className="mt-1 section-title">
+            <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
               Um sistema completo para o seu controle financeiro
             </h2>
-            <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
               Recursos integrados para o dia a dia, veículos, planejamento, família e análise.
             </p>
           </div>
