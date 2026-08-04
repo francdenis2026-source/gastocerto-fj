@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp, Sparkles } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp, Sparkles, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -810,6 +810,37 @@ function ManageUserDialog({
                 >
                   <TrendingUp className="size-4" />
                   Promover para Pago
+                </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  className="gap-2"
+                  disabled={pending !== null || isSelf}
+                  onClick={() => {
+                    confirm({
+                      title: "Exclusão Permanente",
+                      description: `Esta ação removerá DEFINITIVAMENTE todos os dados de ${profile.full_name || 'este usuário'}. Esta ação NÃO pode ser desfeita.`,
+                      type: "warning",
+                      confirmLabel: "EXCLUIR PERMANENTEMENTE",
+                      input: { label: "Digite 'EXCLUIR' para confirmar", placeholder: "EXCLUIR" },
+                      onConfirm: (value) => {
+                        if (value !== "EXCLUIR") {
+                          toast.error("Confirmação inválida.");
+                          return;
+                        }
+                        void run(
+                          "permanent-delete",
+                          () => adminDeleteUser({
+                            data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" }
+                          }),
+                          "Usuário excluído permanentemente do sistema."
+                        ).then(() => onClose());
+                      },
+                    });
+                  }}
+                >
+                  <Trash2 className="size-4" />
+                  Excluir Permanente
                 </Button>
                 <Button
                   size="sm"
