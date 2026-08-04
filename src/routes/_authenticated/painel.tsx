@@ -778,8 +778,9 @@ function DashboardPage() {
                         contentStyle={{ 
                           fontSize: '10px', 
                           borderRadius: '12px', 
-                          backgroundColor: 'var(--card)', 
-                          border: '1px solid var(--border)' 
+                          backgroundColor: 'var(--popover)', 
+                          border: '1px solid var(--border)',
+                          boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' 
                         }}
                         formatter={(value: number, name: string) => [formatCurrency(value), name === 'receita' ? 'Ganhos' : 'Gastos']}
                         labelFormatter={(label) => `Dia ${label}`}

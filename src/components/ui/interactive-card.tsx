@@ -114,7 +114,7 @@ export function InteractiveCard({
         <CardContent className="p-4 pt-0 space-y-4">
           {chart && (
             <div 
-              className="h-32 w-full rounded-xl bg-muted/30 p-2 flex items-center justify-center border border-border/20"
+              className="h-32 w-full rounded-2xl bg-muted/20 p-3 flex items-center justify-center border border-border/10 shadow-inner"
               role="img"
               aria-label="Gráfico de dados"
             >

@@ -69,7 +69,7 @@ export function AdminOverviewPanel({
     <div className="space-y-6">
       <div className="rounded-2xl border border-brand/20 bg-brand/5 backdrop-blur-sm p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="grid size-10 place-items-center rounded-xl bg-brand/10 text-brand">
+          <div className="grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand border border-brand/20 shadow-sm">
             <ShieldCheck className="size-5" />
           </div>
           <div>
@@ -128,7 +128,7 @@ export function AdminOverviewPanel({
           items={logs.data ?? []}
           maxVisibleItems={5}
           renderItem={(log) => (
-            <div key={log.id} className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-muted/20 text-xs">
+            <div key={log.id} className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-muted/20 text-[11px] hover:bg-muted/40 transition-colors">
               <span className="truncate font-medium">{log.action}</span>
               <span className="shrink-0 text-muted-foreground">{formatDateTime(log.created_at)}</span>
             </div>
@@ -157,7 +157,7 @@ export function AdminOverviewPanel({
                 <XAxis dataKey="name" hide />
                 <YAxis hide />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '8px', border: '1px solid hsl(var(--border))', fontSize: '10px' }}
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '12px', border: '1px solid hsl(var(--border))', fontSize: '10px', boxShadow: '0 8px 16px -4px rgba(0,0,0,0.1)' }}
                 />
                 <Bar dataKey="users" radius={[4, 4, 0, 0]}>
                   {[0, 1, 2, 3].map((entry, index) => (
