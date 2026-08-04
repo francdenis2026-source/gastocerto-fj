@@ -12,6 +12,7 @@ import { LandingHeader } from "@/components/landing/landing-header";
 import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
 import { PricingMobile } from "@/components/landing/pricing-mobile";
+import { MobileHeroSection } from "@/components/landing/mobile-hero-section";
 
 const title = "GastoCerto — Controle hoje, tranquilidade sempre";
 const description =
@@ -113,6 +114,7 @@ function LandingPage() {
           <Pricing />
         </div>
         <PricingMobile />
+        <MobileHeroSection />
         <section className="px-4 pb-8 md:hidden" aria-label="Segurança e privacidade">
           <ul className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card/70 p-3 text-center backdrop-blur-sm">
             <li className="min-w-0">
