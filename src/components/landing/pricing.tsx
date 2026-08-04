@@ -18,6 +18,7 @@ export const basePlans = [
   {
     slug: "free",
     name: "Standard",
+
     monthly: 0,
     yearly: 0,
     description: "Perfeito para começar sua jornada financeira.",
@@ -141,8 +142,9 @@ export function Pricing() {
                 )}>
                   {plan.highlighted && (
                     <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-primary text-primary-foreground text-[10px] font-black uppercase tracking-[0.2em] shadow-xl whitespace-nowrap">
-                      Recomendado pela IA
+                      Dominância Máxima
                     </div>
+
                   )}
 
                   <div className="mb-8">
