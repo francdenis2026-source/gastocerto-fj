@@ -737,7 +737,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
 
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5" noValidate autoComplete="off">
+    <form onSubmit={handleSubmit} className="space-y-3" noValidate autoComplete="off">
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
@@ -765,8 +765,8 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
           <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
         </div>
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
+        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
         Criar conta
       </Button>
     </form>
