@@ -730,7 +730,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <FormAlert message={formError} />
       <div>
         <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
-        <Input id="signup-name" name="fullName" required className="mt-1" />
+        <Input id="signup-name" name="fullName" required className="mt-1" autoComplete="off" />
       </div>
       <div>
         <Label htmlFor="signup-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
@@ -836,6 +836,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
             name="password" 
             type="password"
             placeholder="••••••••"
+            autoComplete="current-password"
             required
             className="mt-1"
           />

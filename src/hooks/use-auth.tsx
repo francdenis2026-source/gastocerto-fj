@@ -59,6 +59,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         try {
           await supabase.auth.signOut();
+          
+          // Limpeza profunda de campos de formulário antes de limpar o storage
+          const inputs = document.querySelectorAll('input:not([type="hidden"])');
+          inputs.forEach((input) => {
+            const el = input as HTMLInputElement;
+            el.value = '';
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+          });
+
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
