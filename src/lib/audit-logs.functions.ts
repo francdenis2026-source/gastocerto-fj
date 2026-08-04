@@ -71,3 +71,43 @@ export const adminListAuditLogs = createServerFn({ method: "POST" })
       totalPages: Math.ceil((count ?? 0) / pageSize)
     };
   });
+
+export const adminExportAuditLogsCsv = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => filtersSchema.parse(input ?? {}))
+  .handler(async ({ data, context }) => {
+    const { assertStaffCtx } = await import("@/lib/admin-guard.server");
+    await assertStaffCtx(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    let query = supabaseAdmin
+      .from("admin_logs")
+      .select("created_at, action, actor_id, target_user_id, details")
+      .order("created_at", { ascending: false });
+
+    if (data.from) query = query.gte("created_at", `${data.from}T00:00:00.000Z`);
+    if (data.to) query = query.lte("created_at", `${data.to}T23:59:59.999Z`);
+    if (data.search) {
+      query = query.or(`action.ilike.%${data.search}%,details.cast.text.ilike.%${data.search}%`);
+    }
+
+    const { data: logs, error } = await query.limit(2000); // Limite razoável para export
+    if (error) throw error;
+
+    const ids = Array.from(new Set(logs.flatMap(l => [l.actor_id, l.target_user_id].filter(Boolean))));
+    let namesMap = new Map();
+    if (ids.length > 0) {
+      const { data: profiles } = await supabaseAdmin.from("profiles").select("user_id, full_name").in("user_id", ids as string[]);
+      profiles?.forEach(p => namesMap.set(p.user_id, p.full_name));
+    }
+
+    const csvHeader = "Data;Ação;Ator;Alvo;Detalhes\n";
+    const csvRows = (logs ?? []).map(log => {
+      const actor = log.actor_id ? namesMap.get(log.actor_id) || log.actor_id : "Sistema";
+      const target = log.target_user_id ? namesMap.get(log.target_user_id) || log.target_user_id : "-";
+      const details = JSON.stringify(log.details).replace(/"/g, '""');
+      return `${log.created_at};${log.action};${actor};${target};"${details}"`;
+    }).join("\n");
+
+    return { csv: csvHeader + csvRows };
+  });
