@@ -569,8 +569,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         onSignOut={handleSignOut}
         adminArea={isAdminArea}
         onQuickEntry={(kind) => setQuickEntry(kind)}
-
-        
+        pathname={pathname}
       />
     </div>
   );
