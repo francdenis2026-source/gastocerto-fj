@@ -1,15 +1,22 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut, Baby } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut, Baby, RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { navSections } from "@/lib/nav-model";
 import { useAuth } from "@/hooks/use-auth";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { clearBrowserCredentials } from "@/lib/local-session";
+import { toast } from "sonner";
 
 export function MobileTabBar() {
   const { signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { confirm, ConfirmDialog } = useConfirm();
+  const queryClient = useQueryClient();
 
   const mainActions = [
     { to: "/painel", icon: LayoutDashboard, label: "Início" },
@@ -18,8 +25,65 @@ export function MobileTabBar() {
     { to: "/filhos", icon: Baby, label: "Kids" },
   ];
 
+  async function handleSignOut() {
+    setMenuOpen(false);
+    confirm({
+      title: "Encerrar Sessão",
+      description: "Tem certeza que deseja encerrar sua sessão com segurança?",
+      type: "warning",
+      confirmLabel: "Sair agora",
+      onConfirm: async () => {
+        const toastId = toast.loading("Finalizando acesso...", {
+          description: "Sua segurança é nossa prioridade.",
+          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+        });
+
+        try {
+          await queryClient.cancelQueries();
+          queryClient.clear();
+          await supabase.auth.signOut();
+          clearBrowserCredentials();
+          window.localStorage.clear();
+          window.sessionStorage.clear();
+          
+          toast.success("Até logo!", {
+            id: toastId,
+            description: "Você foi desconectado com segurança.",
+            icon: (
+              <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-sm border border-emerald-500/20">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="animate-in zoom-in duration-300"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+            ),
+          });
+
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 800);
+        } catch (error) {
+          console.error("Erro durante logout mobile:", error);
+          toast.error("Erro ao encerrar sessão", { id: toastId });
+          window.location.replace("/");
+        }
+      }
+    });
+  }
+
   return (
     <>
+      <ConfirmDialog />
       {/* Menu Drawer Mobile */}
       <div className={cn(
         "fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm transition-opacity lg:hidden",
@@ -79,10 +143,7 @@ export function MobileTabBar() {
               <Button 
                 variant="destructive" 
                 className="w-full justify-start gap-3 rounded-xl py-6 text-[14px] font-bold shadow-lg shadow-destructive/10 active:scale-[0.98] transition-all hover:bg-destructive/90"
-                onClick={() => {
-                  setMenuOpen(false);
-                  signOut();
-                }}
+                onClick={handleSignOut}
               >
                 <div className="flex size-8 items-center justify-center rounded-lg bg-white/20">
                   <svg 
