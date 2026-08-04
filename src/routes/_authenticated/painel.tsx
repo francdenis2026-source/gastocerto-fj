@@ -724,37 +724,6 @@ function DashboardPage() {
             }}
           />
         </div>
-              hint: "Resultado do mês atual",
-              formula: "Receitas totais menos despesas totais do período selecionado.",
-              extra: [
-                { label: "Receitas", value: formatCurrency(metrics.totalIncome) },
-                { label: "Despesas", value: formatCurrency(metrics.totalExpense) }
-              ],
-              rows: transactions ?? []
-            });
-          }}
-        />
-        <StatTile
-          label="Gasto"
-          value={formatCurrency(metrics.totalExpense)}
-          tone="expense"
-          icon={TrendingDown}
-          className="mobile-compact-card"
-          onClick={() => {
-            setDetail({
-              label: "Total de Despesas",
-              value: formatCurrency(metrics.totalExpense),
-              hint: "Soma de todos os gastos",
-              formula: "Total faturado no cartão + pagamentos à vista + contas fixas do período.",
-              extra: [
-                { label: "Média diária", value: formatCurrency(metrics.dailyAverage) },
-                { label: "Projeção final", value: formatCurrency(metrics.projection) }
-              ],
-              rows: metrics.expenses
-            });
-          }}
-        />
-      </div>
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
           <div className="glass-morphism mobile-compact-card shadow-sm sm:rounded-3xl sm:p-4">
