@@ -1,4 +1,4 @@
-import { Bell, Info, ShieldAlert, History } from "lucide-react";
+import { Bell, Info, ShieldAlert, History, Trash2 } from "lucide-react";
 import { useNotifications, useMarkNotifications, useDeleteNotification } from "@/lib/notifications";
 import { Button } from "@/components/ui/button";
 
@@ -11,13 +11,14 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
 
-export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
-  const { data: notifications, isLoading } = useNotifications();
-  const markRead = useMarkNotifications();
-  const deleteNotification = useDeleteNotification();
-
-  const unreadCount = notifications?.filter(n => !n.read_at).length ?? 0;
+function NotificationItem({ n, onMarkRead, onDelete }: { n: any, onMarkRead: () => void, onDelete: () => void }) {
+  const x = useMotionValue(0);
+  const opacity = useTransform(x, [-100, 0], [0, 1]);
+  const background = useTransform(x, [-100, 0], ["#ef4444", "rgba(0,0,0,0)"]);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const getIcon = (severity: string) => {
     switch (severity) {
@@ -26,6 +27,59 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
       default: return <Info className="size-4 text-primary" />;
     }
   };
+
+  const handleDragEnd = (_: any, info: any) => {
+    if (info.offset.x < -60) {
+      setIsDeleting(true);
+      setTimeout(onDelete, 200);
+    }
+  };
+
+  return (
+    <div className="relative overflow-hidden">
+      <div 
+        className="absolute inset-y-0 right-0 flex w-20 items-center justify-center bg-destructive text-destructive-foreground"
+        style={{ opacity: x.get() < 0 ? Math.abs(x.get()) / 100 : 0 }}
+      >
+        <Trash2 className="size-5" />
+      </div>
+
+      <motion.div 
+        style={{ x }}
+        drag="x"
+        dragConstraints={{ left: -100, right: 0 }}
+        dragElastic={0.1}
+        onDragEnd={handleDragEnd}
+        animate={isDeleting ? { x: -400, opacity: 0 } : { x: 0, opacity: 1 }}
+        className={cn(
+          "relative z-10 flex flex-col gap-1 p-4 bg-background transition-colors hover:bg-muted/50 border-b border-border",
+          !n.read_at && "bg-primary/5"
+        )}
+        onClick={() => !n.read_at && onMarkRead()}
+      >
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2">
+            {getIcon(n.severity || 'info')}
+            <span className="text-[12px] font-bold leading-tight">{n.title}</span>
+          </div>
+          <span className="text-[9px] text-muted-foreground whitespace-nowrap">
+            {formatDistanceToNow(new Date(n.created_at), { addSuffix: true, locale: ptBR })}
+          </span>
+        </div>
+        <p className="text-[11px] text-muted-foreground leading-normal">
+          {n.message}
+        </p>
+      </motion.div>
+    </div>
+  );
+}
+
+export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
+  const { data: notifications, isLoading } = useNotifications();
+  const markRead = useMarkNotifications();
+  const deleteNotification = useDeleteNotification();
+
+  const unreadCount = notifications?.filter(n => !n.read_at).length ?? 0;
 
   return (
     <Popover>
@@ -51,8 +105,8 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className={cn("p-0 shadow-lg", isKid ? "w-[16rem]" : "w-80")} align="end">
-        <div className={cn("flex items-center justify-between border-b border-border", isKid ? "px-3 py-2" : "p-4")}>
+      <PopoverContent className={cn("p-0 shadow-lg overflow-hidden", isKid ? "w-[16rem]" : "w-80")} align="end">
+        <div className={cn("flex items-center justify-between border-b border-border", isKid ? "px-3 py-2" : "p-4 bg-background")}>
           <h3 className={cn("flex items-center gap-1.5 font-bold", isKid ? "text-[12px]" : "text-sm")}>
             <Bell className={cn("text-primary", isKid ? "size-3.5" : "size-4")} /> Avisos
           </h3>
@@ -68,10 +122,9 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
           )}
         </div>
         <ScrollArea className={isKid ? "h-60" : "h-80"}>
-
           {isLoading ? (
             <div className="flex h-40 items-center justify-center">
-              <span className="text-[11px] text-muted-foreground">Carregando...</span>
+              <span className="text-[11px] text-muted-foreground animate-pulse">Carregando...</span>
             </div>
           ) : !notifications?.length ? (
             <div className="flex h-40 flex-col items-center justify-center gap-2 px-6 text-center">
@@ -79,35 +132,22 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
               <p className="text-[11px] text-muted-foreground">Você não tem avisos recentes.</p>
             </div>
           ) : (
-            <div className="divide-y divide-border">
-              {notifications.map((n) => (
-                <div 
-                  key={n.id} 
-                  className={cn(
-                    "flex flex-col gap-1 p-4 transition-colors hover:bg-muted/50",
-                    !n.read_at && "bg-primary/5"
-                  )}
-                  onClick={() => !n.read_at && markRead.mutate({ ids: [n.id] })}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      {getIcon(n.severity || 'info')}
-                      <span className="text-[12px] font-bold leading-tight">{n.title}</span>
-                    </div>
-                    <span className="text-[9px] text-muted-foreground whitespace-nowrap">
-                      {formatDistanceToNow(new Date(n.created_at), { addSuffix: true, locale: ptBR })}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground leading-normal">
-                    {n.message}
-                  </p>
-                </div>
-              ))}
+            <div className="flex flex-col bg-background">
+              <AnimatePresence initial={false}>
+                {notifications.map((n) => (
+                  <NotificationItem 
+                    key={n.id} 
+                    n={n} 
+                    onMarkRead={() => markRead.mutate({ ids: [n.id] })}
+                    onDelete={() => deleteNotification.mutate(n.id)}
+                  />
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </ScrollArea>
         {!isKid && (
-          <div className="border-t border-border p-2">
+          <div className="border-t border-border p-2 bg-background">
             <Button variant="ghost" size="sm" className="w-full text-[10px] font-bold uppercase tracking-wider" asChild>
               <a href="/perfil">Ver tudo no perfil</a>
             </Button>

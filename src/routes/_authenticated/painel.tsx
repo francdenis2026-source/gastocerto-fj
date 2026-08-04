@@ -623,6 +623,19 @@ function DashboardPage() {
           tone={metrics.balance >= 0 ? "success" : "expense"}
           icon={Wallet}
           className="bg-background/40"
+          onClick={() => {
+            setDetail({
+              label: "Saldo Geral",
+              value: formatCurrency(metrics.balance),
+              hint: "Resultado do mês atual",
+              formula: "Receitas totais menos despesas totais do período selecionado.",
+              extra: [
+                { label: "Receitas", value: formatCurrency(metrics.totalIncome) },
+                { label: "Despesas", value: formatCurrency(metrics.totalExpense) }
+              ],
+              rows: transactions ?? []
+            });
+          }}
         />
         <StatTile
           label="Total Gasto"
@@ -630,6 +643,19 @@ function DashboardPage() {
           tone="expense"
           icon={TrendingDown}
           className="bg-background/40"
+          onClick={() => {
+            setDetail({
+              label: "Total de Despesas",
+              value: formatCurrency(metrics.totalExpense),
+              hint: "Soma de todos os gastos",
+              formula: "Total faturado no cartão + pagamentos à vista + contas fixas do período.",
+              extra: [
+                { label: "Média diária", value: formatCurrency(metrics.dailyAverage) },
+                { label: "Projeção final", value: formatCurrency(metrics.projection) }
+              ],
+              rows: metrics.expenses
+            });
+          }}
         />
       </div>
 
@@ -980,6 +1006,18 @@ function DashboardPage() {
                           label="Saldo disponível"
                           value={formatCurrency(metrics.balance)}
                           icon={Wallet}
+                          onClick={() =>
+                            setDetail({
+                              label: "Saldo disponível",
+                              value: formatCurrency(metrics.balance),
+                              formula: "Resultado líquido do mês (Receitas - Despesas).",
+                              rows: transactions ?? [],
+                              extra: [
+                                { label: "Receitas", value: formatCurrency(metrics.totalIncome) },
+                                { label: "Despesas", value: formatCurrency(metrics.totalExpense) },
+                              ],
+                            })
+                          }
                         />
                       </div>
                       <ChartCard title="Evolução Diária" summary="Pico de gastos diários">
