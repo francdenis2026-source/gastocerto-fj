@@ -395,7 +395,7 @@ function AuthPage() {
                       onClick={() => {
                         setPendingCode(null);
                         sessionStorage.removeItem(PENDING_LICENSE_KEY);
-                        navigate({ search: (prev: any) => ({ ...prev, code: undefined }) });
+                        navigate({ to: "/auth", search: { mode: "login" }, replace: true });
                       }} 
                       className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-brand transition-colors p-2"
                     >
