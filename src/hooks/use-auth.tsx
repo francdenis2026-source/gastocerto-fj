@@ -106,6 +106,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
+
+          // Ao voltar para a homepage o app sempre reabre em modo escuro.
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+
           
           if (toastId) {
             toast.success("Até logo!", {
