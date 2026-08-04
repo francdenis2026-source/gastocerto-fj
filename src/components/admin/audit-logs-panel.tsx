@@ -61,7 +61,7 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
       const action = (log.action || "").toLowerCase();
       const actor = (log.actor?.full_name || "").toLowerCase();
       const target = (log.target?.full_name || "").toLowerCase();
-      const details = JSON.stringify(log.details || "").toLowerCase();
+      const details = typeof log.details === 'object' ? Object.values(log.details || {}).join(" ").toLowerCase() : String(log.details || "").toLowerCase();
       return action.includes(term) || actor.includes(term) || target.includes(term) || details.includes(term);
     });
   }, [logs, search, globalSearch]);
@@ -149,11 +149,13 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
                     </span>
                   </div>
                   {log.details && (
-                    <div className="flex items-start gap-1 text-[11px] text-muted-foreground bg-muted/30 p-1.5 rounded border border-border/50">
-                      <Info className="size-3 mt-0.5 shrink-0" />
-                      <pre className="whitespace-pre-wrap font-sans">
-                        {JSON.stringify(log.details, null, 2)}
-                      </pre>
+                    <div className="flex items-start gap-1 text-[10px] text-muted-foreground bg-muted/30 px-1.5 py-1 rounded border border-border/40 max-w-md">
+                      <Info className="size-2.5 mt-0.5 shrink-0" />
+                      <span className="truncate">
+                        {typeof log.details === 'object' 
+                          ? Object.entries(log.details).map(([k, v]) => `${k}: ${v}`).join(" | ")
+                          : String(log.details)}
+                      </span>
                     </div>
                   )}
                 </div>

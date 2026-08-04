@@ -83,7 +83,7 @@ export function ProfileAuditPanel() {
   });
 
   return (
-    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden">
+    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden max-h-[400px]">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b p-4">
         <div className="flex items-center gap-2">
           <Shield className="size-4 text-primary" />
@@ -252,7 +252,7 @@ export function RedemptionHistoryPanel() {
   });
 
   return (
-    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden">
+    <div className="rounded-xl border bg-card shadow-sm h-full flex flex-col overflow-hidden max-h-[400px]">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b p-4">
         <div className="flex items-center gap-2">
           <Key className="size-4 text-primary" />

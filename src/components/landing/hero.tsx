@@ -81,8 +81,8 @@ export function Hero() {
         src={heroBg}
         alt=""
         aria-hidden="true"
-        width={1920}
-        height={1080}
+        width={1280}
+        height={720}
         fetchPriority="high"
         decoding="async"
         className="absolute inset-0 -z-20 hidden size-full object-cover object-right sm:block"
@@ -91,9 +91,9 @@ export function Hero() {
         src={heroMobileBg}
         alt=""
         aria-hidden="true"
-        width={828}
-        height={1472}
-        fetchPriority="high"
+        width={400}
+        height={700}
+        loading="lazy"
         decoding="async"
         className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%] sm:hidden"
       />

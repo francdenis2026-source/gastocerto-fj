@@ -92,8 +92,8 @@ export function LogsTable({ globalSearch = "" }: { globalSearch?: string }) {
                 <TableCell className="hidden sm:table-cell py-2.5">
                   {log.target_user_id ? (nameByUser.get(log.target_user_id) ?? "—") : "—"}
                 </TableCell>
-                <TableCell className="hidden md:table-cell py-2.5 max-w-64 truncate text-[10px] text-muted-foreground">
-                  {JSON.stringify(log.details)}
+                <TableCell className="hidden md:table-cell py-2.5 max-w-64 truncate text-[9px] text-muted-foreground italic">
+                  {typeof log.details === 'object' ? Object.values(log.details || {}).join(", ") : String(log.details)}
                 </TableCell>
               </TableRow>
             ))
