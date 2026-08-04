@@ -14,7 +14,7 @@ import { KidsLoginScreen } from "@/components/kids/kids-login-screen";
 import { PENDING_LICENSE_KEY } from "@/components/landing/code-access-dialog";
 
 import { CodeAccessInline } from "@/components/landing/code-access-inline";
-import { activateLicense } from "@/lib/licenses.functions";
+import { activateLicense, verifyAccessCode } from "@/lib/licenses.functions";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -395,7 +395,7 @@ function AuthPage() {
                       onClick={() => {
                         setPendingCode(null);
                         sessionStorage.removeItem(PENDING_LICENSE_KEY);
-                        navigate({ search: (prev) => ({ ...prev, code: undefined }) });
+                        navigate({ search: (prev: any) => ({ ...prev, code: undefined }) as any });
                       }} 
                       className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-brand transition-colors p-2"
                     >
