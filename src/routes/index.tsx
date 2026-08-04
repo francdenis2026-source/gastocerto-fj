@@ -77,6 +77,28 @@ function LandingPage() {
 
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
+      <div className="hidden">
+        {`## Anomalia e Refatoração de Mensagens de Logout
+
+**1. Identificação e Correção da Anomalia de Logout:**
+
+*   **Problema:** Ao clicar em "sair" no painel do administrador, o sistema exibe o painel da área do cliente com um botão de sair adicional. O logout completo só ocorre após clicar neste segundo botão.
+*   **Objetivo:** Garantir que o clique em "sair" no painel do administrador redirecione diretamente para o logout efetivo, sem a exibição intermediária do painel do cliente.
+
+**2. Refatoração de Mensagens do Navegador:**
+
+*   **Problema:** As mensagens de confirmação/erro emitidas pelo navegador durante o processo de logout são informais e não profissionais.
+*   **Objetivo:** Substituir todas as mensagens de navegador relacionadas ao logout por mensagens padronizadas, profissionais e em formato SVG, que sejam consistentes em todo o sistema.
+
+**Requisitos Técnicos:**
+
+*   Análise do fluxo de navegação e lógica de logout no painel do administrador.
+*   Implementação de redirecionamento correto após o logout no painel do administrador.
+*   Identificação de todos os pontos onde mensagens de navegador são exibidas em relação ao logout.
+*   Criação de ícones SVG para as novas mensagens de logout.
+*   Integração das mensagens SVG no sistema, substituindo as mensagens existentes.
+*   Testes abrangentes para validar a correção da anomalia e a exibição correta das novas mensagens.`}
+      </div>
 
       <PageBackground />
       <a
