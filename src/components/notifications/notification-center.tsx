@@ -30,15 +30,19 @@ function NotificationItem({ n, onMarkRead, onDelete }: { n: any, onMarkRead: () 
 
   const handleDragEnd = (_: any, info: any) => {
     if (info.offset.x < -60) {
-      setIsDeleting(true);
-      // Inicia o processo de "desfazer"
-      setTimeout(() => {
-        setShowUndo(true);
-        // Timer de 5 segundos para confirmação final
-        undoTimerRef.current = setTimeout(() => {
-          onDelete();
-        }, 5000);
-      }, 200);
+      if (window.confirm("Deseja realmente remover esta notificação?")) {
+        setIsDeleting(true);
+        // Inicia o processo de "desfazer"
+        setTimeout(() => {
+          setShowUndo(true);
+          // Timer de 5 segundos para confirmação final
+          undoTimerRef.current = setTimeout(() => {
+            onDelete();
+          }, 5000);
+        }, 200);
+      } else {
+        x.set(0);
+      }
     }
   };
 
