@@ -79,33 +79,31 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* ## Melhoria da Homepage do Site
+        {/* ## Melhoria de Microinterações na Homepage
 
-**Objetivo:** Otimizar a homepage do site para uma experiência de usuário mais moderna, eficiente e visualmente atraente.
+**Objetivo:** Aprimorar as microinterações existentes na página inicial para conferir um aspecto mais profissional e polido à experiência do usuário.
 
 **Funcionalidades Solicitadas:**
 
-1.  **Nova Imagem de Fundo:** Substituir a imagem de fundo atual por uma imagem realista e de alta qualidade.
-2.  **Novo Hero:** Criar e implementar um novo "hero section" (seção principal/destaque) com um design profissional e impactante.
-3.  **Remodelagem Geral da Página:** Realizar uma revisão e atualização completa do layout e design da página.
-4.  **Otimização de Espaço:** Tornar a página mais compacta, eliminando espaços vazios e desnecessários para melhorar a densidade de informação e a navegação.
-5.  **Atualização de Estilo e Visual:** Elevar o estilo geral e a identidade visual do site, alinhando-o com as tendências de design atuais.
+1.  **Animações Sutis:** Implementar animações discretas e elegantes em elementos interativos como botões, links e cards.
+2.  **Feedback Visual Claro:** Garantir que cada interação do usuário receba um feedback visual imediato e compreensível (ex: hover states, press states).
+3.  **Transições Suaves:** Utilizar transições suaves entre estados de elementos ou ao carregar novos conteúdos para uma navegação mais fluida.
+4.  **Consistência Visual:** Manter a consistência das microinterações em toda a homepage, alinhadas com a identidade visual da marca.
 
 **Requisitos Técnicos:**
 
-*   A nova imagem de fundo deve ser otimizada para web, garantindo tempos de carregamento rápidos.
-*   O design do "hero section" deve ser responsivo e adaptável a diferentes tamanhos de tela.
-*   A eliminação de espaços vazios deve ser feita de forma a não comprometer a legibilidade e a usabilidade.
-*   As atualizações de estilo devem ser consistentes com a marca do site.
+*   Utilizar CSS (transições, animações) e JavaScript (animações mais complexas, controle de eventos).
+*   Otimizar as animações para garantir bom desempenho e não impactar o tempo de carregamento da página.
+*   Considerar a acessibilidade, garantindo que as animações não prejudiquem usuários com sensibilidade a movimentos.
 
 **Passos Necessários:**
 
-1.  Seleção e otimização da nova imagem de fundo.
-2.  Criação do design e conteúdo do novo "hero section".
-3.  Revisão e ajuste do layout geral da homepage.
-4.  Implementação das mudanças de design e conteúdo.
-5.  Testes de responsividade e usabilidade em diferentes dispositivos.
-6.  Otimização final de performance. */}
+1.  Analisar as microinterações atuais da homepage.
+2.  Identificar os elementos que se beneficiarão de melhorias.
+3.  Definir o tipo de animação e feedback visual para cada elemento.
+4.  Implementar as microinterações utilizando CSS e JavaScript.
+5.  Testar o desempenho e a experiência do usuário.
+6.  Realizar ajustes conforme necessário. */}
       </div>
 
       <PageBackground />

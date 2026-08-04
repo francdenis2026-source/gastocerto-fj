@@ -129,7 +129,7 @@ export function Hero() {
 
           <div className="mt-5 grid gap-2 sm:flex sm:flex-wrap sm:items-center">
             <Button
-              className="h-12 w-full justify-center rounded-xl bg-brand px-6 text-sm font-bold shadow-[0_0_20px_rgba(23,164,95,0.3)] transition-all hover:scale-[1.02] hover:bg-brand/90 sm:h-12 sm:w-auto sm:px-8"
+              className="press-feedback btn-hover-shine h-12 w-full justify-center rounded-xl bg-brand px-6 text-sm font-bold shadow-[0_0_20px_rgba(23,164,95,0.3)] transition-all hover:scale-[1.02] hover:bg-brand/90 sm:h-12 sm:w-auto sm:px-8"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
@@ -156,7 +156,7 @@ export function Hero() {
                 >
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-hero-border bg-hero-surface-soft px-2.5 py-1 text-[12.5px] font-semibold text-hero-fg transition-colors hover:border-hero-border-strong hover:bg-hero-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong"
+                    className="press-feedback inline-flex items-center gap-1.5 rounded-full border border-hero-border bg-hero-surface-soft px-2.5 py-1 text-[12.5px] font-semibold text-hero-fg transition-all hover:border-hero-border-strong hover:bg-hero-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-border-strong"
                   >
                     <mod.icon className="size-3.5 shrink-0 text-hero-accent" aria-hidden="true" />
                     {mod.label}
