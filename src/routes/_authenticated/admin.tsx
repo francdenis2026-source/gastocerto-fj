@@ -207,27 +207,40 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
       >
         {current === "overview" ? <AdminOverviewPanel isAdmin={isAdmin} onNavigate={setActive} /> : null}
         {current === "users" ? <UsersPanel isAdmin={isAdmin} globalSearch={search} /> : null}
-        {current === "business" ? <BusinessDashboard /> : null}
-        {current === "sales" ? <SalesPanel globalSearch={search} /> : null}
-        {current === "payments-audit" ? <PaymentsAuditPanel globalSearch={search} /> : null}
-        {current === "plans" ? <PlanConfigsPanel /> : null}
-        {current === "licenses" ? <LicensesPanel globalSearch={search} /> : null}
-        {current === "codes" ? <ClientCodesPanel globalSearch={search} /> : null}
-        {current === "trials" ? (
+        {current === "temporary" ? (
           <div className="space-y-4">
+            <TemporaryAccountsPanel globalSearch={search} />
             <TrialGrantPanel />
             <TrialLicensesPanel />
+            <ClientCodesPanel globalSearch={search} />
           </div>
         ) : null}
-        {current === "ai" ? <AiSettingsPanel /> : null}
-        {current === "tickets" ? <SupportTicketsPanel /> : null}
-        {current === "announcements" ? <AnnouncementsPanel /> : null}
-        {current === "emails" ? <EmailSetupPanel /> : null}
-        {current === "categories" ? <CategoriesCatalogPanel /> : null}
-        {current === "closing" ? (
+        {current === "business" ? (
           <div className="space-y-4">
+            <BusinessDashboard />
+            <SalesPanel globalSearch={search} />
+            <PaymentsAuditPanel globalSearch={search} />
+            <PlanConfigsPanel />
+          </div>
+        ) : null}
+        {current === "licenses" ? <LicensesPanel globalSearch={search} /> : null}
+        {current === "operations" ? (
+          <div className="space-y-4">
+            <SupportTicketsPanel />
+            <AnnouncementsPanel />
+            <EmailSetupPanel />
+            <CategoriesCatalogPanel />
             <ClosingPolicyPanel />
             <ReopenRequestsPanel />
+          </div>
+        ) : null}
+        {current === "security" ? (
+          <div className="space-y-4">
+            <MasterCodePanel />
+            <AdminAccessPanel />
+            <BlockedIpsPanel />
+            <IntegrationsPanel />
+            <AiSettingsPanel />
           </div>
         ) : null}
         {current === "audit" ? (
@@ -237,18 +250,9 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
               <RedemptionHistoryPanel />
             </div>
             <AuditLogsPanelComponent globalSearch={search} />
+            <LogsTable globalSearch={search} />
           </div>
         ) : null}
-        {current === "security" ? (
-          <div className="space-y-4">
-            <MasterCodePanel />
-            <AdminAccessPanel />
-            <BlockedIpsPanel />
-
-          </div>
-        ) : null}
-        {current === "integrations" ? <IntegrationsPanel /> : null}
-        {current === "logs" ? <LogsTable globalSearch={search} /> : null}
       </Suspense>
     </AdminConsoleShell>
   );
