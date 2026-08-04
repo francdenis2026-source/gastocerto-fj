@@ -18,7 +18,6 @@ export function MobileHeroSection() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay pointer-events-none"
           style={{ 
             backgroundImage: `url(${heroAsset})`,
-            backgroundAttachment: 'fixed'
           }}
         />
         
