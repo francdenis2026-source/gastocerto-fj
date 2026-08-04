@@ -256,14 +256,14 @@
   --muted-foreground: oklch(0.9 0.01 259); /* Próximo ao branco para legibilidade */
   --accent: oklch(0.28 0.05 259);
   --accent-foreground: oklch(0.98 0.01 259);
-  --destructive: oklch(0.66 0.18 25);
+  --destructive: oklch(0.60 0.15 25); /* Vermelho menos agressivo no escuro */
   --destructive-foreground: oklch(0.98 0.01 259);
   --success: oklch(0.75 0.14 155);
   --success-foreground: oklch(0.1 0.03 259);
   --warning: oklch(0.85 0.14 78);
   --warning-foreground: oklch(0.1 0.03 259);
 
-  --expense: oklch(0.65 0.16 25);
+  --expense: oklch(0.60 0.15 25); /* Calibrado para contraste WCAG no dark mode */
   --expense-surface: oklch(0.22 0.04 25);
   --expense-border: oklch(0.35 0.06 25);
   --income: oklch(0.75 0.14 155);

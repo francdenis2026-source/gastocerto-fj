@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, Baby, ChevronLeft, ChevronRight, Plus, RefreshCw, Search, Trash2, Wallet } from "lucide-react";
+import { AlertTriangle, Baby, ChevronLeft, ChevronRight, Plus, RefreshCw, Search, Trash2, Wallet, UserCircle } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { Badge } from "@/components/ui/badge";
@@ -82,10 +82,18 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
 
   const alerts = useMemo(() => filtered.flatMap((wallet) => {
     const name = wallet.nickname?.trim() || wallet.name;
-    const lowThreshold = Math.max(wallet.monthlyAllowance * 0.2, 20);
     const usage = wallet.monthlyLimit > 0 ? (wallet.monthSpent / wallet.monthlyLimit) * 100 : 0;
     const items: string[] = [];
-    if (wallet.balance <= lowThreshold) items.push(`${name} está com saldo baixo (${formatCurrency(wallet.balance)}).`);
+    
+    // Alerta de Saldo Zerado
+    if (wallet.balance === 0) {
+      items.push(`${name} está com saldo ZERADO!`);
+    } 
+    // Alerta de Saldo Baixo (abaixo de R$ 5,00)
+    else if (wallet.balance < 5) {
+      items.push(`${name} está com saldo muito baixo (${formatCurrency(wallet.balance)}).`);
+    }
+    
     if (usage >= 80) items.push(`${name} já utilizou ${Math.round(usage)}% do limite mensal.`);
     return items;
   }), [filtered]);
@@ -211,8 +219,14 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
           ) : null}
 
           <ul className="mt-3 space-y-2">
-            {visible.map((wallet) => (
-              <WalletRow key={wallet.dependentId} wallet={wallet} onRemove={onRemove} />
+            {visible.map((wallet, idx) => (
+              <WalletRow 
+                key={wallet.dependentId} 
+                wallet={wallet} 
+                onRemove={onRemove} 
+                index={idx}
+                isSelected={selected === wallet.dependentId}
+              />
             ))}
           </ul>
           {pages > 1 ? (
@@ -265,16 +279,38 @@ function Tile({
 function WalletRow({
   wallet,
   onRemove,
+  index,
+  isSelected,
 }: {
   wallet: KidWallet;
   onRemove?: (dependentId: string) => void;
+  index: number;
+  isSelected?: boolean;
 }) {
   const limit = wallet.monthlyLimit;
   const usage = limit > 0 ? Math.min(100, Math.round((wallet.monthSpent / limit) * 100)) : null;
 
+  // Cores distintas para identificação visual por filho
+  const childColors = [
+    "border-l-brand",
+    "border-l-blue-500",
+    "border-l-purple-500",
+    "border-l-amber-500",
+    "border-l-rose-500",
+    "border-l-cyan-500"
+  ];
+  const borderClass = childColors[index % childColors.length];
+
   return (
-    <li className="rounded-xl border bg-background/50 p-2 sm:p-2.5">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+    <li className={cn(
+      "rounded-xl border border-l-4 bg-background/50 p-2 sm:p-2.5 transition-all focus-within:ring-2 focus-within:ring-brand/30 outline-none",
+      borderClass,
+      isSelected && "ring-2 ring-brand/20 bg-muted/30"
+    )}>
+      <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2">
+        <div className={cn("size-8 rounded-full flex items-center justify-center bg-muted/50 text-muted-foreground", isSelected && "bg-brand/10 text-brand")}>
+          <UserCircle className="size-5" />
+        </div>
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">{wallet.nickname?.trim() || wallet.name}</p>
           <p className="truncate text-[11px] text-muted-foreground">
