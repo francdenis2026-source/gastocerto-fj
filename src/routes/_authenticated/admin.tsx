@@ -125,11 +125,11 @@ export const Route = createFileRoute("/_authenticated/admin")({
 const SECTIONS: AdminSection[] = [
   { id: "overview", label: "Dashboard", hint: "Métricas globais de negócio", icon: LayoutDashboard },
   { id: "users", label: "Contas & Usuários", hint: "Gestão e permissões", icon: Users },
-  { id: "financial", label: "Administrador Financeiro", hint: "Planos e receitas", icon: Wallet, adminOnly: true },
+  { id: "financial", label: "Adm. Financeiro", hint: "Planos e receitas", icon: Wallet, adminOnly: true },
   { id: "temporary", label: "Acessos Temporários", hint: "Trials e chaves", icon: KeyRound, adminOnly: true },
-  { id: "operations", label: "Operações & Suporte", hint: "Notificações e catálogo", icon: LifeBuoy, adminOnly: true },
-  { id: "security", label: "Segurança & Infra", icon: Lock, hint: "Acessos e integrações", adminOnly: true },
-  { id: "audit", label: "Auditoria & Logs", hint: "Histórico de ações", icon: FileClock },
+  { id: "operations", label: "Operações", hint: "Suporte e catálogo", icon: LifeBuoy, adminOnly: true },
+  { id: "security", label: "Segurança", icon: Lock, hint: "Acessos e infra", adminOnly: true },
+  { id: "audit", label: "Auditoria", hint: "Histórico de logs", icon: FileClock },
 ];
 
 function AdminPage() {
