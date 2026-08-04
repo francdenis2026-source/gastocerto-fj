@@ -830,29 +830,15 @@ function DashboardPage() {
                 <div className="h-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={byDay}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.3} />
+                      <CartesianGrid {...gridProps} vertical={false} strokeOpacity={0.1} />
                       <XAxis 
                         dataKey="day" 
+                        {...axisProps}
                         tick={{ fontSize: 9 }}
                         interval="preserveStartEnd"
-                        axisLine={false}
-                        tickLine={false}
                       />
-                      <YAxis 
-                        hide 
-                        domain={['auto', 'auto']} 
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          fontSize: '10px', 
-                          borderRadius: '12px', 
-                          backgroundColor: 'var(--popover)', 
-                          border: '1px solid var(--border)',
-                          boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' 
-                        }}
-                        formatter={(value: number, name: string) => [formatCurrency(value), name === 'receita' ? 'Ganhos' : 'Gastos']}
-                        labelFormatter={(label) => `Dia ${label}`}
-                      />
+                      <YAxis hide domain={['auto', 'auto']} />
+                      <Tooltip {...tooltipProps} />
                       <Legend 
                         verticalAlign="top" 
                         align="right" 
