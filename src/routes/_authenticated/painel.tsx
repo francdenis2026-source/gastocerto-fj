@@ -633,7 +633,7 @@ function DashboardPage() {
                 { label: "Receitas", value: formatCurrency(metrics.totalIncome) },
                 { label: "Despesas", value: formatCurrency(metrics.totalExpense) }
               ],
-              rows: metrics.all
+              rows: transactions ?? []
             });
           }}
         />
