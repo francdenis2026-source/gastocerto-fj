@@ -44,10 +44,11 @@ export function LandingFooter() {
                 <a
                   key={social.label}
                   href={social.href}
-                  className="text-muted-foreground transition-colors hover:text-brand"
+                  className="flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-[10px] font-medium text-brand transition-all hover:bg-brand hover:text-white"
                   aria-label={social.label}
                 >
                   <social.icon className="size-3" />
+                  <span>Fale Conosco</span>
                 </a>
               ))}
             </div>
