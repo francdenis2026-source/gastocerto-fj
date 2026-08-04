@@ -392,6 +392,7 @@ export const adminCreateUser = createServerFn({ method: "POST" })
         full_name: data.fullName,
         cpf,
         contact_email: data.contactEmail || null,
+        created_by_admin: true,
       },
     });
 

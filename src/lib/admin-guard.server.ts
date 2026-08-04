@@ -29,10 +29,11 @@ export async function auditLog(
   details: Record<string, unknown> = {},
   targetUserId: string | null = null,
 ) {
-  await context.supabase.from("admin_logs").insert({
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  await supabaseAdmin.from("admin_logs").insert({
     actor_id: context.userId,
     target_user_id: targetUserId,
     action,
-    details,
+    details: details as any,
   });
 }
