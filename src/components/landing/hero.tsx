@@ -177,27 +177,65 @@ export function Hero() {
           </ul>
 
           {/* resumo compacto: aparece no lugar da arte no celular */}
-          <div className="mt-4 rounded-2xl border border-hero-border bg-hero-surface p-3 shadow-lg backdrop-blur-md lg:hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-hero-fg-muted">
-                  Mês atual
-                </p>
-                <p className="tabular mt-0.5 whitespace-nowrap text-lg font-extrabold text-hero-fg sm:text-xl">
-                  {formatCurrency(3782.45)}
-                </p>
-
-                <p className="text-[12.5px] font-medium text-hero-fg-soft leading-tight">consolidado automaticamente</p>
-              </div>
-              <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
-                <RingChart className="size-10 shrink-0 text-hero-accent" value={45} />
+          <div className="mt-4 grid gap-3 lg:hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {/* Card Principal: Mês Atual */}
+            <div className="rounded-2xl border border-hero-border bg-hero-surface p-4 shadow-lg backdrop-blur-md">
+              <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-[10px] font-semibold text-hero-fg-soft">Orçamento</p>
-                  <p className="tabular text-[14px] font-bold text-hero-fg">45%</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-hero-fg-muted">
+                    Mês atual
+                  </p>
+                  <p className="tabular mt-1 whitespace-nowrap text-xl font-extrabold text-hero-fg">
+                    {formatCurrency(3782.45)}
+                  </p>
+                  <p className="text-[12.5px] font-medium text-hero-fg-soft leading-tight mt-1">Consolidação automática</p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
+                  <RingChart className="size-10 shrink-0 text-hero-accent" value={45} />
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold text-hero-fg-soft">Budget</p>
+                    <p className="tabular text-[14px] font-bold text-hero-fg">45%</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
+
+            {/* Grid de Cards Secundários clicáveis */}
+            <div className="grid grid-cols-2 gap-3">
+              <FeatureDetailDialog
+                feature={{ 
+                  title: "Metas Financeiras", 
+                  text: "Acompanhe seus objetivos de poupança em tempo real. Veja o progresso de cada sonho e receba dicas de como chegar lá mais rápido.", 
+                  tag: "Objetivos" 
+                }}
+              >
+                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-hero-border bg-hero-surface/80 p-3 text-center backdrop-blur-sm transition-all hover:bg-hero-surface">
+                  <div className="mb-2 grid size-8 place-items-center rounded-lg bg-brand/10 text-brand">
+                    <Target className="size-4" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-hero-fg-muted">Metas</span>
+                  <span className="mt-1 text-sm font-extrabold text-hero-fg">65%</span>
+                </button>
+              </FeatureDetailDialog>
+
+              <FeatureDetailDialog
+                feature={{ 
+                  title: "Gestão de Cartões", 
+                  text: "Controle faturas de múltiplos cartões, limites disponíveis e datas de vencimento em uma visão unificada e inteligente.", 
+                  tag: "Cartões" 
+                }}
+              >
+                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-hero-border bg-hero-surface/80 p-3 text-center backdrop-blur-sm transition-all hover:bg-hero-surface">
+                  <div className="mb-2 grid size-8 place-items-center rounded-lg bg-purple-500/10 text-purple-500">
+                    <CreditCard className="size-4" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-hero-fg-muted">Cartões</span>
+                  <span className="mt-1 text-sm font-extrabold text-hero-fg">R$ 1.250</span>
+                </button>
+              </FeatureDetailDialog>
+            </div>
+
+            <div className="flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
               <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-hero-fg-muted">
                 <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
                 Economia vs. Junho
