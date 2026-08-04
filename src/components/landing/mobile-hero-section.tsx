@@ -43,7 +43,7 @@ export function MobileHeroSection() {
           
           {/* Headline */}
           <h2 className="animate-reveal font-display text-3xl font-black leading-[1.05] tracking-[-0.04em] text-white" style={{ animationDelay: '200ms' }}>
-            Controle <span className="text-brand">total</span>,<br />tranquilidade <span className="text-brand">sempre</span>
+            Controle <span className="text-primary">total</span>,<br />tranquilidade <span className="text-primary">sempre</span>
           </h2>
           
           <p className="mt-2 animate-reveal px-4 text-[11px] font-medium leading-relaxed text-white/50" style={{ animationDelay: '300ms' }}>
