@@ -80,31 +80,38 @@ function LandingPage() {
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
         {/* 
-          ## Análise e Refinamento de Design da Homepage
+          ## Análise e Melhoria de Design Gráfico
 
-          **Objetivo:** Otimizar o design da homepage para torná-la mais compacta, profissional e sofisticada, com foco em melhorias visuais e de contraste.
+          **Objetivo:** Realizar uma análise aprofundada do design gráfico do site e propor melhorias abrangentes, desde a página inicial até os painéis de cliente e administrador.
 
-          **Pontos a serem analisados e aprimorados:**
+          **Funcionalidades Solicitadas:**
 
-          1.  **Layout Geral e Pontos Visuais:**
-              *   Identificar elementos visuais que podem ser simplificados ou reorganizados para maior compacidade e clareza.
-              *   Avaliar a hierarquia visual e a distribuição de elementos para garantir um fluxo de usuário intuitivo.
-              *   Propor mudanças que elevem o profissionalismo geral da página.
+          1.  **Análise Detalhada:**
+              *   Avaliar a identidade visual atual (cores, tipografia, logo, etc.).
+              *   Examinar a usabilidade e a experiência do usuário (UX) em todas as seções.
+              *   Analisar a consistência do design em diferentes páginas e dispositivos.
+              *   Identificar pontos fortes e fracos do design existente.
 
-          2.  **Efeito Blur:**
-              *   Analisar a aplicação atual do efeito blur.
-              *   Ajustar o blur para aumentar o contraste entre os elementos, conferindo maior profundidade e sofisticação ao design.
+          2.  **Propostas de Melhoria:**
+              *   Sugerir refinamentos na homepage para aumentar o engajamento e a clareza da proposta de valor.
+              *   Propor otimizações nos elementos gráficos e na navegação dos painéis de cliente e administrador para melhorar a eficiência e a experiência do usuário.
+              *   Recomendar atualizações na paleta de cores, tipografia e iconografia para modernizar e fortalecer a identidade visual.
+              *   Apresentar sugestões para aprimorar a hierarquia visual e a legibilidade do conteúdo.
 
-          3.  **Modos Claro e Escuro:**
-              *   Verificar a consistência e a adequação dos contrastes em ambos os modos (claro e escuro).
-              *   Garantir que a legibilidade e a experiência do usuário sejam ótimas em todas as condições de iluminação.
+          **Requisitos Técnicos:**
 
-          **Requisito Adicional:**
-          *   Implementar mudanças radicais, se necessário, para atingir um alto nível de profissionalismo e impacto visual.
+          *   A análise deve considerar princípios de design centrado no usuário (UCD).
+          *   As sugestões de melhoria devem ser práticas e alinhadas com as tendências atuais de design web.
+          *   A comunicação das propostas deve ser clara e objetiva, com exemplos visuais, se possível.
 
-          **Entregáveis:**
-          *   Sugestões detalhadas de alterações de design.
-          *   Justificativas para as melhorias propostas, com foco em usabilidade, estética e profissionalismo.
+          **Passos Necessários:**
+
+          1.  Acessar e navegar por todas as áreas do site, incluindo a homepage, áreas de cliente e áreas de administrador.
+          2.  Documentar observações sobre o design gráfico atual.
+          3.  Realizar pesquisa de referências e tendências de design relevantes.
+          4.  Desenvolver um relatório de análise com os pontos identificados.
+          5.  Criar um conjunto de propostas de melhoria detalhadas, com justificativas para cada sugestão.
+          6.  (Opcional) Criar mockups ou wireframes para ilustrar as propostas de design.
         */}
       </div>
 
