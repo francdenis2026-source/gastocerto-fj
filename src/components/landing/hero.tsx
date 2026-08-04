@@ -33,23 +33,16 @@ export function Hero() {
 
           {/* Main Headline */}
           <Reveal delay={200}>
-            <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95] text-foreground mb-8">
-              Domine sua <span className="text-primary italic">jornada</span>,<br />
-              não apenas seus <span className="relative inline-block text-primary">
-                gastos
-                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/30" />
-                </svg>
-              </span>
+            <h1 className="text-5xl lg:text-7xl font-black tracking-tight leading-[1.05] text-foreground mb-6">
+              A inteligência que sua<br />
+              <span className="text-primary italic">vida financeira</span> merece.
             </h1>
-
           </Reveal>
 
           {/* Subheadline */}
           <Reveal delay={300}>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-              A plataforma definitiva para quem busca maestria financeira. Inteligência Artificial, 
-              dashboard premium e ferramentas avançadas para levar seu controle ao próximo nível.
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed font-medium">
+              Gestão completa de gastos, cartões, veículos e investimentos em um único dashboard premium impulsionado por IA.
             </p>
           </Reveal>
 
