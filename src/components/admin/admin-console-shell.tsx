@@ -192,6 +192,11 @@ export function AdminConsoleShell({
           </main>
         </div>
       </div>
+      <MobileAdminTabBar 
+        sections={sections} 
+        active={current?.id || active} 
+        onSelect={onSelect} 
+      />
       <ConfirmDialog />
     </div>
   );
