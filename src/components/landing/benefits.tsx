@@ -116,19 +116,13 @@ export function Benefits() {
                 >
                   <div className="flex w-full items-start justify-between gap-1.5">
                     <span
-                      className="grid size-9 shrink-0 place-items-center rounded-xl border sm:size-10"
-                      style={{
-                        borderColor: `color-mix(in oklab, ${benefit.accent} 30%, transparent)`,
-                        background: `color-mix(in oklab, ${benefit.accent} 14%, transparent)`,
-                        color: benefit.accent,
-                      }}
+                      className="grid size-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
                     >
-                      <benefit.icon className="size-4.5" aria-hidden="true" />
+                      <benefit.icon className="size-6" aria-hidden="true" />
                     </span>
                     <span className="text-right">
                       <span
-                        className="block font-display text-sm font-bold leading-none tabular"
-                        style={{ color: benefit.accent }}
+                        className="block font-display text-lg font-bold leading-none tabular text-primary"
                       >
                         {benefit.metric}
                       </span>
