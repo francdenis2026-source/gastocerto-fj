@@ -721,7 +721,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
 
     toast.success("Conta criada! Bem-vindo ao GastoCerto.");
     clearFields();
-    navigate({ to: await resolveHomeRouteForSession(), replace: true });
+    navigate({ to: "/painel", replace: true });
   }
 
 
