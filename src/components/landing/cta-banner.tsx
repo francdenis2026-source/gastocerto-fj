@@ -34,21 +34,19 @@ export function CtaBanner() {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <Button size="lg" className="h-14 w-full rounded-2xl bg-brand text-base font-bold shadow-[0_0_30px_rgba(23,164,95,0.2)] transition-transform hover:scale-105 active:scale-95" asChild>
+              <Button className="btn-primary h-14 w-full text-lg" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Agora
-                  <ArrowRight className="size-5 ml-1" aria-hidden="true" />
+                  <ArrowRight className="size-5 ml-2" aria-hidden="true" />
                 </Link>
               </Button>
               <Button
-                variant="outline"
-                size="lg"
-                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 text-base font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-brand/40"
+                className="btn-secondary h-14 w-full text-lg"
                 asChild
               >
                 <Link to="/demonstracao">
                   <PlayCircle className="size-5 mr-2" aria-hidden="true" />
-                  Ver Demo Interativa
+                  Ver Demo
                 </Link>
               </Button>
             </div>
