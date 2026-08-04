@@ -36,8 +36,8 @@ export function Hero() {
                   <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/30" />
                 </svg>
               </span>
-
             </h1>
+
           </Reveal>
 
           {/* Subheadline */}
