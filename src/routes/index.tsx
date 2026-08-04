@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 import heroBg from "@/assets/hero-bg-2027.jpg";
-import heroMobileBg from "@/assets/hero-bg-2027-mobile-v2.jpg";
+import heroMobileBg from "@/assets/hero-bg-2027.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
 import { CtaBanner } from "@/components/landing/cta-banner";
@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: `${siteUrl}/` },
       { rel: "preload", as: "image", href: heroBg, fetchPriority: "high", media: "(min-width: 640px)" },
-      { rel: "preload", as: "image", href: heroMobileBg, fetchPriority: "high", media: "(max-width: 639px)" },
+      { rel: "preload", as: "image", href: heroBg, fetchPriority: "high" },
     ],
   }),
 

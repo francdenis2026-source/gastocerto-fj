@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { cn } from "@/lib/utils";
 import { Sparkles, TrendingUp, ShieldCheck, Users, ArrowRight, Zap, Target, CreditCard } from "lucide-react";
-import heroAsset from "@/assets/hero-bg-2027-mobile-v2.jpg";
+import heroAsset from "@/assets/hero-bg-2027.jpg";
 
 export function MobileHeroSection() {
   const hydrated = useHydrated();
