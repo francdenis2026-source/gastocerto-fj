@@ -221,20 +221,18 @@ function AuthPage() {
           alt=""
           aria-hidden="true"
           decoding="async"
-          className="size-full object-cover blur-[2px] transition-all duration-700 brightness-[0.7] contrast-[1.1]"
+          className="size-full object-cover blur-[2px] brightness-100 contrast-[1.03] transition-all duration-700 dark:brightness-[0.7] dark:contrast-[1.1]"
         />
-        <div 
-          className="absolute inset-0 bg-gradient-to-tr from-brand/20 to-transparent mix-blend-overlay" 
+        <div
+          className="absolute inset-0 bg-gradient-to-tr from-brand/15 to-transparent mix-blend-overlay"
           aria-hidden="true"
         />
       </div>
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.92)_0%,oklch(0.16_0.03_258/0.85)_50%,oklch(0.16_0.03_258/0.95)_100%)]"
-      />
+      <div aria-hidden="true" className="auth-veil absolute inset-0 -z-10" />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-border/60 bg-card/95 shadow-lifted ring-1 ring-black/5 backdrop-blur-xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)] dark:border-white/10 dark:ring-white/5">
+
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
         <section className="relative flex min-h-[110px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
           {/* Imagem Hero específica para cada modo */}
