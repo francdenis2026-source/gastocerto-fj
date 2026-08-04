@@ -768,6 +768,14 @@ function ManageUserDialog({
                           () =>
                             adminPromoteToPaid({
                               data: { targetUserId: profile.user_id, planSlug: "premium_ia" },
+                            }).then(() => {
+                              // Se o usuário promovido for o próprio administrador (teste), recarrega
+                              // Se o usuário promovido for o próprio administrador logado, recarrega para atualizar painel
+                              supabase.auth.getUser().then(({ data }) => {
+                                if (data.user?.id === profile.user_id) {
+                                  window.location.href = "/painel";
+                                }
+                              });
                             }),
                           "Conta atualizada com sucesso! O usuário agora é PRO e tem acesso total aos recursos Premium IA.",
                         );

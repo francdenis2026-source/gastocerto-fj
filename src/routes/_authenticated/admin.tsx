@@ -134,6 +134,7 @@ const SECTIONS: AdminSection[] = [
 
 function AdminPage() {
   const { data: roles, isLoading, isError, error } = useRoles();
+  const { user } = useAuth();
   const isAdmin = (roles ?? []).includes("admin");
   const isStaff = isAdmin || (roles ?? []).includes("support");
   const navigate = useNavigate();
@@ -141,7 +142,7 @@ function AdminPage() {
   useEffect(() => {
     // Só redireciona se tivermos certeza que NÃO é staff
     // Se isLoading ou se ocorreu um erro de rede temporário, aguardamos
-    if (isLoading) return;
+    if (isLoading || !user) return;
 
     if (isError) {
       const err = error as any;
