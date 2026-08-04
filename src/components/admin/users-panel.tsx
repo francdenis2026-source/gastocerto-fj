@@ -436,6 +436,7 @@ function ManageUserDialog({
   onChanged: () => Promise<void>;
 }) {
   const { confirm, ConfirmDialog } = useConfirm();
+  const moveToTrashFn = useServerFn(moveToTrash);
   const [pending, setPending] = useState<string | null>(null);
 
 
