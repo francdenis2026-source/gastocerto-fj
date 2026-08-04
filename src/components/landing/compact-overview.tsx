@@ -333,9 +333,9 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-xl border border-border bg-card/60 p-2 backdrop-blur"
+                  className="rounded-[20px] border border-border bg-card p-8 shadow-premium"
                 >
-                  <p className="px-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                  <p className="text-sm font-bold uppercase tracking-widest text-primary">
                     {group.group}
                   </p>
                   <ul className="mt-1.5 grid gap-1">
