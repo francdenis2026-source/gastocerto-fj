@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
+import { handleAnchorClick } from "@/lib/scroll";
 
 export interface PricingPlan {
   slug: string;
@@ -71,8 +72,15 @@ export function Pricing() {
   const [isYearly, setIsYearly] = useState(true);
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
 
+  useEffect(() => {
+    const section = document.getElementById("planos");
+    if (section) {
+      // Logic for anchor visibility if needed
+    }
+  }, []);
+
   return (
-    <section id="planos" className="section-y bg-background relative overflow-hidden">
+    <section id="planos" className="section-y bg-background relative overflow-hidden border-t border-white/5">
       <div className="section-shell">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="section-title">Planos objetivos e transparentes</h2>

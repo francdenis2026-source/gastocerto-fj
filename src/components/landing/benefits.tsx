@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 import {
   ArrowRight,
   BarChart3,
@@ -103,6 +104,12 @@ const securitySeals = [
   { icon: ShieldCheck, title: "Criptografia de ponta a ponta", text: "Tráfego seguro HTTPS" },
   { icon: Lock, title: "Conformidade com LGPD", text: "Dados 100% seus" },
   { icon: ShieldCheck, title: "Dados nunca compartilhados", text: "Privacidade absoluta" },
+];
+
+const faqItems = [
+  { q: "O GastoCerto é seguro?", a: "Sim, utilizamos criptografia de ponta a ponta e seguimos a LGPD rigorosamente." },
+  { q: "Posso cancelar a qualquer momento?", a: "Sim, sem multas ou taxas escondidas. Você tem controle total." },
+  { q: "Existe versão gratuita?", a: "Sim, nosso plano grátis é funcional e perfeito para quem está começando." },
 ];
 
 export function Benefits() {
