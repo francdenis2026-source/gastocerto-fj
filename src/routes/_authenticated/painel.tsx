@@ -817,7 +817,7 @@ function DashboardPage() {
 
                   <div className="pt-2">
                     <StatTile
-                      tone="neutral"
+                      tone="success"
                       label="Projeção de Fim de Mês"
                       value={formatCurrency(metrics.projection)}
                       className="!p-3 border-none bg-primary/5 dark:bg-primary/10 shadow-none ring-1 ring-primary/20"
