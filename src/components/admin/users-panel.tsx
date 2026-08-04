@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp, Sparkles } from "lucide-react";
+import { Download, FileText, KeyRound, Loader2, Search, UserCog, Shield, Baby, Info, ShieldCheck, TrendingUp, Sparkles, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -820,7 +820,7 @@ function ManageUserDialog({
                     confirm({
                       title: "Exclusão Permanente",
                       description: `Esta ação removerá DEFINITIVAMENTE todos os dados de ${profile.full_name || 'este usuário'}. Esta ação NÃO pode ser desfeita.`,
-                      type: "destructive",
+                      type: "warning",
                       confirmLabel: "EXCLUIR PERMANENTEMENTE",
                       input: { label: "Digite 'EXCLUIR' para confirmar", placeholder: "EXCLUIR" },
                       onConfirm: (value) => {
