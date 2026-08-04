@@ -157,6 +157,9 @@ function DashboardPage() {
   const { data: transactions, isLoading: loadingTransactions } = useTransactions(range);
   const { data: budgets } = useBudgets(period.year, period.month);
 
+  const isAdminArea = false; // Add check if needed
+
+
   // Contabiliza automaticamente as contas recorrentes do período.
   useAutoRecurring();
 
@@ -517,27 +520,46 @@ function DashboardPage() {
           </div>
         )}
         
-        {!hasFeature(access, "financial_help") && (
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border bg-card px-3 py-2 sm:px-4 sm:py-3">
-            <div className="flex items-center gap-2.5">
-              <Sparkles className="size-4 shrink-0 text-muted-foreground" />
-              <div>
-                <p className="text-sm font-semibold">
-                  Consultoria IA
-                  <span className="ml-2 rounded-md border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                    Premium
-                  </span>
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Análise técnica de dívidas, orçamento e projeções disponível nos planos pagos.
-                </p>
-              </div>
-            </div>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/perfil">Ver planos</Link>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center justify-between gap-3 sm:justify-start">
+          <PeriodPicker value={period} onChange={handlePeriodChange} />
+          
+          <div className="flex items-center gap-1.5 lg:hidden">
+            <CommandPalette variant="icon" onQuickEntry={setDialogKind} />
+            <NotificationCenter />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-9 rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+              onClick={handleSignOut}
+              aria-label="Sair"
+            >
+              <LogOut className="size-4" />
             </Button>
           </div>
-        )}
+        </div>
+
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar sm:pb-0">
+          <QuickCategoryMenu
+            onPick={(p) => {
+              setPreset(p);
+              setDialogKind("expense");
+              setDialogOpen(true);
+            }}
+          />
+          <Button
+            size="sm"
+            onClick={() => {
+              setDialogKind("income");
+              setDialogOpen(true);
+            }}
+            className="shrink-0 gap-1.5 bg-brand text-brand-foreground hover:opacity-90 shadow-sm"
+          >
+            <TrendingUpIcon className="size-3.5" />
+            <span className="text-[11px] font-bold uppercase tracking-wider">Lançar</span>
+          </Button>
+        </div>
+      </div>
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
           <div className="rounded-2xl border border-banner-primary-border bg-banner-primary-bg/50 p-3 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-4">

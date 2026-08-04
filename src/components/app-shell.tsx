@@ -41,7 +41,7 @@ import { useNotifications } from "@/lib/notifications";
 import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
 import { formatCurrency } from "@/lib/format";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
-import { useQuery } from "@tanstack/react-query";
+// useQuery duplicate removed
 import type { SidebarMetric } from "./settings/sidebar-config";
 import { CommandPalette } from "@/components/nav/command-palette";
 import {
@@ -123,7 +123,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     }
   }, [isKid, pathname, navigate]);
 
-  const { data: recurrents } = useQuery({
+  const { data: recurrents } = useTanStackQuery({
     queryKey: ["recurrent-expenses-sidebar"],
     queryFn: () => getRecurrentExpenses()
   });
