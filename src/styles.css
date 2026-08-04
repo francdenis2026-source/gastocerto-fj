@@ -485,6 +485,41 @@
   }
 }
 
+/* CTA principal: elevação sutil, brilho de foco e retorno tátil no clique. */
+@utility cta-lift {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease,
+    filter 220ms ease;
+  &:hover {
+    transform: translateY(-2px);
+    filter: saturate(1.06);
+    box-shadow: 0 14px 30px -12px color-mix(in oklab, var(--brand) 55%, transparent);
+  }
+  &:active {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 110ms;
+  }
+}
+
+/* Superfície de vidro do login, adaptada ao modo claro e escuro. */
+@utility auth-veil {
+  background-image: linear-gradient(
+    165deg,
+    oklch(0.99 0.005 259 / 0.82) 0%,
+    oklch(0.96 0.012 259 / 0.7) 52%,
+    oklch(0.99 0.005 259 / 0.88) 100%
+  );
+}
+
+.dark .auth-veil {
+  background-image: linear-gradient(
+    165deg,
+    oklch(0.16 0.03 258 / 0.92) 0%,
+    oklch(0.16 0.03 258 / 0.85) 50%,
+    oklch(0.16 0.03 258 / 0.95) 100%
+  );
+}
+
+
 /* Grades fluidas: os cartões se reorganizam sozinhos conforme a largura. 
    Otimizado para manter visibilidade sem quebras bruscas. */
 @utility auto-cards-sm {

@@ -221,20 +221,18 @@ function AuthPage() {
           alt=""
           aria-hidden="true"
           decoding="async"
-          className="size-full object-cover blur-[2px] transition-all duration-700 brightness-[0.7] contrast-[1.1]"
+          className="size-full object-cover blur-[2px] brightness-100 contrast-[1.03] transition-all duration-700 dark:brightness-[0.7] dark:contrast-[1.1]"
         />
-        <div 
-          className="absolute inset-0 bg-gradient-to-tr from-brand/20 to-transparent mix-blend-overlay" 
+        <div
+          className="absolute inset-0 bg-gradient-to-tr from-brand/15 to-transparent mix-blend-overlay"
           aria-hidden="true"
         />
       </div>
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(165deg,oklch(0.16_0.03_258/0.92)_0%,oklch(0.16_0.03_258/0.85)_50%,oklch(0.16_0.03_258/0.95)_100%)]"
-      />
+      <div aria-hidden="true" className="auth-veil absolute inset-0 -z-10" />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-card/95 shadow-lifted backdrop-blur-md max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-border/60 bg-card/95 shadow-lifted ring-1 ring-black/5 backdrop-blur-xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)] dark:border-white/10 dark:ring-white/5">
+
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
         <section className="relative flex min-h-[110px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
           {/* Imagem Hero específica para cada modo */}
@@ -333,11 +331,8 @@ function AuthPage() {
 
         {/* Painel do formulário rolável */}
         <section className="flex min-h-0 flex-col px-4 py-4 sm:px-5 lg:h-full">
-          <div className="mb-3 flex justify-center lg:hidden">
-            <Link to="/" className="w-fit">
-              <Logo />
-            </Link>
-          </div>
+          {/* O logotipo já aparece no painel visual acima; evitamos repetição. */}
+
 
           <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
             {pendingCode ? (
@@ -491,17 +486,10 @@ function AuthPage() {
                       </span>
                     </button>
 
-                    <div className="mt-4 flex flex-col gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setMode("admin")}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl border border-input bg-secondary/50 px-3 py-2 text-xs font-bold text-muted-foreground transition-all hover:bg-secondary hover:text-primary sm:hidden"
-                      >
-                        <ShieldAlert className="size-3.5" />
-                        Acesso Administrador
-                      </button>
+                    <div className="mt-4">
                       <CodeAccessInline onContinue={() => setMode("signup")} />
                     </div>
+
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
@@ -786,7 +774,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div className="space-y-3">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -932,7 +920,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -1033,7 +1021,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -1207,7 +1195,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading || lockSeconds > 0}
         >
           {loading ? (
@@ -1305,7 +1293,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
