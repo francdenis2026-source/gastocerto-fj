@@ -2,6 +2,14 @@
 @source "../src";
 @import "tw-animate-css";
 
+/* Reset para garantir que o corpo não carregue estilizações globais agressivas */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
 @layer base {
   *, ::before, ::after {
     @apply cursor-default;
