@@ -1183,7 +1183,7 @@ function ChartCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="glass-morphism mobile-compact-card">
       <h2 className="text-sm font-semibold">{title}</h2>
       <p className="mt-1 text-xs text-muted-foreground">{summary}</p>
       <div className="chart-frame mt-2">{children}</div>
