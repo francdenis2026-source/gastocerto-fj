@@ -25,8 +25,8 @@ export function Logo({
   }
 
   return (
-    <span className={cn("inline-flex min-w-0 items-center gap-2 sm:gap-2.5", className)}>
-      <BrandMark className="size-9 sm:size-11" />
+    <span className={cn("inline-flex min-w-0 items-center gap-2 transition-transform duration-200 group-hover:scale-105 sm:gap-2.5", className)}>
+      <BrandMark className="size-9 transition-transform duration-200 group-hover:rotate-3 sm:size-11" />
       <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
         <span
           className={cn(
