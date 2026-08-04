@@ -109,8 +109,17 @@ export function PricingMobile() {
           ))}
         </ul>
 
-        <Button className="mt-3 h-11 w-full rounded-xl text-[13px] font-bold" onClick={() => setCheckoutOpen(true)}>
-          {plan.highlighted ? <Sparkles className="size-4" aria-hidden="true" /> : null}
+        <Button
+          className={cn(
+            "mt-3 h-12 w-full rounded-xl text-[14px] font-black shadow-soft transition-all active:scale-[0.97]",
+            plan.highlighted
+              ? "bg-brand text-brand-foreground hover:bg-brand/90 shadow-lg shadow-brand/20 border-none"
+              : "border-2 border-brand/20 bg-card text-brand hover:bg-brand/[0.02]"
+          )}
+          onClick={() => setCheckoutOpen(true)}
+          variant={plan.highlighted ? "default" : "outline"}
+        >
+          {plan.highlighted ? <Sparkles className="mr-1.5 size-4 animate-pulse" aria-hidden="true" /> : null}
           {plan.cta}
         </Button>
         <p className="mt-2 text-center text-[10px] font-medium text-muted-foreground">

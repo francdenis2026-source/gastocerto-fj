@@ -183,7 +183,12 @@ export function Pricing() {
                 </ul>
                 <div className="mt-4">
                   <Button
-                    className="w-full"
+                    className={cn(
+                      "w-full font-bold shadow-soft transition-all active:scale-[0.98]",
+                      plan.highlighted 
+                        ? "bg-brand text-brand-foreground hover:bg-brand/90 hover:shadow-brand/20 shadow-lg" 
+                        : "border-brand/30 text-brand hover:bg-brand/[0.03]"
+                    )}
                     variant={plan.highlighted ? "default" : "outline"}
                     onClick={() => setCheckoutPlan(plan.slug as any)}
                   >
@@ -245,8 +250,13 @@ export function Pricing() {
                 </FeatureDetailDialog>
                 
                 <Button
-                  className="h-9 w-full rounded-xl text-xs font-bold"
-                  variant={plan.highlighted ? "default" : "secondary"}
+                  className={cn(
+                    "h-10 w-full rounded-xl text-[13px] font-black shadow-soft transition-all active:scale-[0.97]",
+                    plan.highlighted
+                      ? "bg-brand text-brand-foreground hover:bg-brand/90 shadow-lg shadow-brand/10 border-none"
+                      : "border-2 border-brand/20 bg-card text-brand hover:bg-brand/[0.02]"
+                  )}
+                  variant={plan.highlighted ? "default" : "outline"}
                   onClick={() => setCheckoutPlan(plan.slug as any)}
                 >
                   Selecionar {plan.name}
