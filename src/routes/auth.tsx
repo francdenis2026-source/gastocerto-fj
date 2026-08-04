@@ -641,10 +641,23 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
           Acesso administrativo
         </button>
       </div>
-      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
-        Entrar
-      </Button>
+
+      <div className="space-y-3">
+        <Button 
+          type="submit" 
+          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          disabled={loading}
+        >
+          {loading ? (
+            <Loader2 className="mr-2 size-5 animate-spin" />
+          ) : (
+            <>
+              Entrar
+              <ArrowRight className="ml-2 size-5" />
+            </>
+          )}
+        </Button>
+      </div>
     </form>
   );
 }
@@ -775,10 +788,22 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
           <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
         </div>
       </div>
-      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ArrowRight className="mr-2 size-4" />}
-        Criar conta
-      </Button>
+      <div className="pt-2">
+        <Button 
+          type="submit" 
+          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          disabled={loading}
+        >
+          {loading ? (
+            <Loader2 className="mr-2 size-5 animate-spin" />
+          ) : (
+            <>
+              Criar conta
+              <ArrowRight className="ml-2 size-5" />
+            </>
+          )}
+        </Button>
+      </div>
     </form>
   );
 }
@@ -864,10 +889,22 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      <Button type="submit" className="h-11 w-full text-sm font-bold shadow-soft" disabled={loading}>
-        {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <ShieldAlert className="mr-2 size-4" />}
-        Entrar como Admin
-      </Button>
+      <div className="pt-2">
+        <Button 
+          type="submit" 
+          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          disabled={loading}
+        >
+          {loading ? (
+            <Loader2 className="mr-2 size-5 animate-spin" />
+          ) : (
+            <>
+              Entrar como Admin
+              <ShieldAlert className="ml-2 size-5" />
+            </>
+          )}
+        </Button>
+      </div>
 
       <Button type="button" onClick={onBack} variant="ghost" className="h-9 w-full text-xs">
         Voltar para login comum
