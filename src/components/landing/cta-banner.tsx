@@ -25,7 +25,7 @@ export function CtaBanner() {
                   A sua liberdade financeira começa <span className="text-primary italic">agora</span>.
                 </h2>
                 <p className="text-lg lg:text-xl text-background/70 font-medium leading-relaxed mb-4">
-                  Junte-se a milhares de usuários que já transformaram sua relação com o dinheiro. 
+                  Junte-se a milhares de usuários que já organizaram sua vida financeira. 
                   Sem letras miúdas, sem complicações.
                 </p>
                 <div className="flex items-center justify-center lg:justify-start gap-3 text-background/50">
