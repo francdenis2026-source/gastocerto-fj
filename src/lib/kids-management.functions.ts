@@ -76,7 +76,7 @@ export const giveMoneyToKid = createServerFn({ method: "POST" })
     } as any);
     if (auditError) console.error("Erro ao registrar auditoria:", auditError.message);
 
-    return { success: true };
+    return { success: true, transactionId: parentTx.id };
   });
 
 export const getKidsFinancialMetrics = createServerFn({ method: "GET" })

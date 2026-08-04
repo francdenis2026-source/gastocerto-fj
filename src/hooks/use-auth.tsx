@@ -1,5 +1,5 @@
 import type { Session, User } from "@supabase/supabase-js";
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { AlertCircle, RefreshCcw } from "lucide-react";
 
@@ -23,11 +23,12 @@ const AuthContext = createContext<AuthContextValue>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const sessionRef = useRef<Session | null>(null);
 
   useEffect(() => {
     let mounted = true;
 
-    // 1. Carregar sessão inicial de forma resiliente
+    // Uma única leitura e uma única assinatura durante toda a vida do provider.
     const loadSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
@@ -42,6 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         const currentUserId = data.session?.user?.id ?? null;
         ensureLocalDataOwner(currentUserId);
+        sessionRef.current = data.session;
         setSession(data.session);
       } catch (err) {
         console.error("[auth] Falha crítica ao carregar sessão:", err);
@@ -52,23 +54,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     void loadSession();
 
-    // 2. Escutar mudanças de estado (login/logout/token refreshed)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, nextSession) => {
       if (!mounted) return;
-      
-      console.log(`[auth] Evento: ${event}`, nextSession?.user?.id);
-      
+
       const nextUserId = nextSession?.user?.id ?? null;
-      
-      // Se o ID do usuário mudou (incluindo login ou troca de conta)
-      if (nextUserId !== (session?.user?.id ?? null)) {
+      const current = sessionRef.current;
+
+      if (nextUserId !== (current?.user?.id ?? null)) {
         ensureLocalDataOwner(nextUserId);
-        setSession(nextSession);
-      } else if (nextSession?.access_token !== session?.access_token) {
-        // Apenas refresh de token, mantendo o mesmo usuário
+      }
+      if (nextSession?.access_token !== current?.access_token || nextUserId !== current?.user?.id) {
+        sessionRef.current = nextSession;
         setSession(nextSession);
       }
-      
       setLoading(false);
     });
 
@@ -76,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [session?.user?.id, session?.access_token]);
+  }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({
