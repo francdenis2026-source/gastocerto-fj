@@ -768,34 +768,55 @@ function MobileTabBar({
 
       <nav
         aria-label="Navegação principal"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
       >
-        <div className={cn("grid", adminArea ? "grid-cols-3" : "grid-cols-5")}>
-          {primary.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to as never}
-              aria-current={activeGroup === item.to ? "page" : undefined}
-              className={cn(
-                "flex min-h-14 flex-col items-center justify-center gap-0.5 px-1 text-[10px] font-medium transition-colors",
-                activeGroup === item.to ? "text-brand" : "text-muted-foreground",
-              )}
-            >
-              <item.icon className="size-5 shrink-0" />
-              <span className="w-full truncate text-center leading-tight">{item.label}</span>
-            </Link>
-          ))}
+        <div className={cn("grid h-16", adminArea ? "grid-cols-3" : "grid-cols-5")}>
+          {primary.map((item) => {
+            const isActive = activeGroup === item.to && !open;
+            return (
+              <Link
+                key={item.to}
+                to={item.to as any}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "relative flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-90",
+                  isActive ? "text-brand" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <div className={cn(
+                  "flex size-9 items-center justify-center rounded-xl transition-all",
+                  isActive && "bg-brand/10 shadow-inner"
+                )}>
+                  <item.icon className={cn("size-5 shrink-0 transition-transform", isActive && "scale-110")} />
+                </div>
+                <span className="w-full truncate px-1 text-center text-[10px] font-black uppercase tracking-tighter leading-none">
+                  {item.label}
+                </span>
+                {isActive && (
+                  <span className="absolute top-0 h-0.5 w-6 rounded-full bg-brand animate-in fade-in zoom-in duration-300" />
+                )}
+              </Link>
+            );
+          })}
           <button
             type="button"
             onClick={() => onOpenChange(!open)}
             aria-expanded={open}
             className={cn(
-              "flex min-h-14 flex-col items-center justify-center gap-0.5 px-1 text-[10px] font-medium transition-colors",
-              open ? "text-brand" : "text-muted-foreground",
+              "relative flex flex-col items-center justify-center gap-1 transition-all active:scale-90",
+              open ? "text-brand" : "text-muted-foreground hover:text-foreground",
             )}
           >
-            <Menu className="size-5 shrink-0" />
-            <span>Menu</span>
+            <div className={cn(
+              "flex size-9 items-center justify-center rounded-xl transition-all",
+              open && "bg-brand/10 shadow-inner"
+            )}>
+              {open ? <X className="size-5 shrink-0" /> : <Menu className="size-5 shrink-0" />}
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-tighter leading-none">Menu</span>
+            {open && (
+              <span className="absolute top-0 h-0.5 w-6 rounded-full bg-brand animate-in fade-in zoom-in duration-300" />
+            )}
           </button>
         </div>
       </nav>
