@@ -249,15 +249,15 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
       <div className="overflow-x-auto rounded-xl border border-border bg-card">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>CPF</TableHead>
-              <TableHead>Contato</TableHead>
-              <TableHead>Papéis</TableHead>
-              <TableHead>Situação</TableHead>
-              <TableHead>Kids</TableHead>
-              <TableHead>Cadastro</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
+            <TableRow className="bg-secondary/20">
+              <TableHead className="font-black uppercase tracking-wider text-[10px]">Nome</TableHead>
+              <TableHead className="hidden md:table-cell font-black uppercase tracking-wider text-[10px]">CPF</TableHead>
+              <TableHead className="font-black uppercase tracking-wider text-[10px]">Contato</TableHead>
+              <TableHead className="hidden lg:table-cell font-black uppercase tracking-wider text-[10px]">Papéis</TableHead>
+              <TableHead className="hidden sm:table-cell font-black uppercase tracking-wider text-[10px]">Situação</TableHead>
+              <TableHead className="hidden md:table-cell font-black uppercase tracking-wider text-[10px] text-center">Kids</TableHead>
+              <TableHead className="hidden lg:table-cell font-black uppercase tracking-wider text-[10px]">Cadastro</TableHead>
+              <TableHead className="text-right font-black uppercase tracking-wider text-[10px]">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
