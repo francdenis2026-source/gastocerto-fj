@@ -17,6 +17,8 @@ import {
 
 import { AppShell } from "@/components/app-shell";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
+import { KidsWalletPanel } from "@/components/kids/kids-wallet-panel";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -219,38 +221,53 @@ function FamilyHubPage() {
 
   return (
     <AppShell>
-      <div className="space-y-4">
-        <header className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h1 className="flex items-center gap-2 text-lg font-semibold">
-              <Users className="size-5 text-primary" /> Central da Família
+      <div className="space-y-3 sm:space-y-4">
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:flex-wrap sm:items-start sm:justify-between sm:gap-3">
+          <div className="min-w-0">
+            <h1 className="flex items-center gap-2 text-base font-semibold sm:text-lg">
+              <Users className="size-4 shrink-0 text-primary sm:size-5" />
+              <span className="truncate">Central da Família</span>
             </h1>
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              Cadastre os filhos, libere o acesso do Espaço Kids e registre mesadas e presentes.
-              Todo envio entra automaticamente como despesa no seu controle.
+            <p className="mt-0.5 line-clamp-2 text-[11px] text-muted-foreground sm:text-xs">
+              Acompanhe as carteiras dos filhos em tempo real, libere o Espaço Kids e registre
+              mesadas e presentes.
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
+          <div className="flex shrink-0 gap-1.5 sm:gap-2">
+            <Button asChild variant="outline" size="sm" className="h-8 px-2 sm:h-9 sm:px-3">
               <Link to="/kids-auditoria">
-                <History className="mr-1 size-4" /> Histórico
+                <History className="size-4 sm:mr-1" />
+                <span className="hidden sm:inline">Histórico</span>
               </Link>
             </Button>
-            <Button size="sm" onClick={openCreate}>
-              <Plus className="mr-1 size-4" /> Novo filho
+            <Button size="sm" className="h-8 px-2.5 sm:h-9 sm:px-3" onClick={openCreate}>
+              <Plus className="size-4 sm:mr-1" />
+              <span className="hidden sm:inline">Novo filho</span>
             </Button>
           </div>
         </header>
 
         <Tabs defaultValue="registros" className="space-y-3">
-          <TabsList>
-            <TabsTrigger value="registros">Registros e métricas</TabsTrigger>
-            <TabsTrigger value="cadastro">Filhos e acessos</TabsTrigger>
+          <TabsList className="w-full justify-start overflow-x-auto sm:w-auto">
+            <TabsTrigger value="registros" className="text-xs sm:text-sm">
+              Registros e métricas
+            </TabsTrigger>
+            <TabsTrigger value="cadastro" className="text-xs sm:text-sm">
+              Filhos e acessos
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="registros" className="space-y-3">
+            <KidsWalletPanel
+              onCreate={openCreate}
+              onRemove={(id) => {
+                const kid = kids.find((item) => item.id === id);
+                if (kid) void handleDelete(kid);
+              }}
+            />
             <KidsManagementPanel />
           </TabsContent>
+
 
           <TabsContent value="cadastro" className="space-y-3">
             {isLoading ? (

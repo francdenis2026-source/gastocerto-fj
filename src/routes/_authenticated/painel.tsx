@@ -478,7 +478,8 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="space-y-6">
+      <div className="space-y-3 sm:space-y-6">
+
         {profile?.cpf === "69598193268" && profile?.tags?.includes('fixed_enzo_error') && (
           <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 rounded-3xl border border-dashed border-emerald-500/30 bg-emerald-500/5 animate-in fade-in zoom-in duration-500 mb-6">
             <div className="size-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
@@ -507,7 +508,7 @@ function DashboardPage() {
         )}
         
         {!hasFeature(access, "financial_help") && (
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border bg-card px-3 py-2 sm:px-4 sm:py-3">
             <div className="flex items-center gap-2.5">
               <Sparkles className="size-4 shrink-0 text-muted-foreground" />
               <div>
@@ -529,8 +530,8 @@ function DashboardPage() {
         )}
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg/50 p-4 shadow-sm backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-2xl border border-banner-primary-border bg-banner-primary-bg/50 p-3 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-4">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className="flex items-center gap-2">
                 <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Baby className="size-4 text-primary" />
@@ -560,16 +561,22 @@ function DashboardPage() {
           </div>
         )}
 
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
           <div className="min-w-0">
-            <h1 className="page-title truncate">
+            <h1 className="page-title truncate text-lg sm:text-2xl">
               Olá, {firstName}!
             </h1>
-            <p className="page-subtitle mt-1">
-              {MONTH_NAMES[period.month - 1]} de {period.year} · Clique nos dias do calendário ou nas categorias para detalhes profissionais
+            <p className="page-subtitle mt-0.5 truncate text-[11px] sm:mt-1 sm:text-sm">
+              <span className="sm:hidden">
+                {MONTH_NAMES[period.month - 1]} de {period.year}
+              </span>
+              <span className="hidden sm:inline">
+                {MONTH_NAMES[period.month - 1]} de {period.year} · Clique nos dias do calendário ou nas categorias para detalhes profissionais
+              </span>
             </p>
           </div>
-          <div className="col-span-2 flex flex-wrap items-center gap-2">
+          <div className="col-span-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
+
             <Button 
               variant="outline" 
               size="sm" 
@@ -657,7 +664,7 @@ function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-6 w-full max-w-full overflow-x-hidden">
+          <div className="flex flex-col gap-3 lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-2 sm:mt-6 w-full max-w-full overflow-x-hidden">
             <aside className="hidden lg:block space-y-6">
               <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
