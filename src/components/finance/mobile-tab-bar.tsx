@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut, Baby } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -14,8 +14,8 @@ export function MobileTabBar() {
   const mainActions = [
     { to: "/painel", icon: LayoutDashboard, label: "Início" },
     { to: "/lancamentos", icon: ArrowLeftRight, label: "Lançamentos" },
-    { to: "/orcamentos", icon: PiggyBank, label: "Planejar" },
-    { to: "/relatorios", icon: BarChart3, label: "Análise" },
+    { to: "/relatorios", icon: BarChart3, label: "Relatórios" },
+    { to: "/filhos", icon: Baby, label: "Kids" },
   ];
 
   return (

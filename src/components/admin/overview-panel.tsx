@@ -107,7 +107,7 @@ export function AdminOverviewPanel({
         />
         <StatTile
           tone="neutral"
-          label="Lançamentos"
+          label="Lançamentos (30 dias)"
           value={String(overview.data?.totalTransactions ?? 0)}
           icon={Database}
           onClick={() => onNavigate("financial")}

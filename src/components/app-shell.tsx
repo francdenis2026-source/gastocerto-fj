@@ -1,24 +1,28 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { monthRange } from "@/lib/finance";
+import { usePeriodStore } from "@/lib/period-store";
+import { useTransactions } from "@/lib/transactions";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
 import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
-import { Sparkles, ShieldCheck } from "lucide-react";
-import { usePlanAccess } from "@/lib/plan-features";
-import {
-  ChevronDown,
-  PanelLeftClose,
-  PanelLeftOpen,
-  LogOut,
-  Plus,
-  Menu,
-  RefreshCcw,
-  X,
-  TrendingUp,
-  TrendingDown,
-  Settings,
-  AlertCircle,
+import { 
+  Sparkles, 
+  ShieldCheck, 
+  ChevronDown, 
+  PanelLeftClose, 
+  PanelLeftOpen, 
+  LogOut, 
+  Plus, 
+  Menu, 
+  RefreshCcw, 
+  X, 
+  TrendingUp, 
+  TrendingDown, 
+  Settings, 
+  AlertCircle 
 } from "lucide-react";
+import { usePlanAccess } from "@/lib/plan-features";
 import { toast } from "sonner";
 
 import { useState, type ReactNode, useEffect, useMemo } from "react";
@@ -42,7 +46,7 @@ import { useNotifications } from "@/lib/notifications";
 import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
 import { formatCurrency } from "@/lib/format";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
-import { useQuery } from "@tanstack/react-query";
+// useQuery duplicate removed
 import type { SidebarMetric } from "./settings/sidebar-config";
 import { CommandPalette } from "@/components/nav/command-palette";
 import {
@@ -62,6 +66,20 @@ type Kind = "expense" | "income";
 
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const routerState = useRouterState();
+  const { year, month } = usePeriodStore();
+  const range = useMemo(() => monthRange(year, month), [year, month]);
+  const { data: transactions } = useTransactions(range);
+
+  const metrics = useMemo(() => {
+    const rows = transactions ?? [];
+    const expenses = rows.filter((r: any) => r.transaction_type === "expense");
+    const incomes = rows.filter((r: any) => r.transaction_type === "income");
+    const totalExpense = expenses.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
+    const totalIncome = incomes.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
+    return { totalExpense, balance: totalIncome - totalExpense };
+  }, [transactions]);
+
   const { confirm, ConfirmDialog } = useConfirm();
   const [open, setOpen] = useState(false);
   const [quickEntry, setQuickEntry] = useState<Kind | null>(null);
@@ -371,11 +389,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         </nav>
 
 
-        {!isAdminArea && (
+        {!isAdminArea && !isKid && (
           <div className="mb-4 space-y-2">
-            {/* Atalho do Espaço Kids saiu daqui: agora é um grupo próprio no menu. */}
-
-
             {!isAdminArea && <EnergySidebarWidget collapsed={railCollapsed} />}
             
             {activeMetrics.length > 0 && !railCollapsed && (
@@ -386,11 +401,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </div>
                 <div className="space-y-2">
                   {activeMetrics.map(metric => {
-                    const relevantRows = (recurrents ?? []).filter(r => 
+                    const relevantRows = (recurrents ?? []).filter((r: any) => 
                       r.categories?.name?.toLowerCase().includes(metric.label.toLowerCase()) ||
                       r.categories?.name?.toLowerCase().includes(metric.id.toLowerCase())
                     );
-                    const currentAmount = relevantRows.reduce((sum, r) => sum + Number(r.amount), 0);
+                    const currentAmount = relevantRows.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
                     const isHigh = currentAmount > metric.defaultAmount && metric.defaultAmount > 0;
 
                     return (
@@ -416,6 +431,25 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
 
         <div className="mt-auto border-t border-border p-2 space-y-1">
+          {!isAdminArea && !isKid && (
+            <div className="mb-2 px-2">
+               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 mb-2">Resumo Rápido</p>
+               <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
+                    <p className="text-[8px] uppercase text-muted-foreground">Gastos</p>
+                    <p className="text-[11px] font-bold text-rose-500 tabular-nums">
+                      {formatCurrency(metrics.totalExpense)}
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
+                    <p className="text-[8px] uppercase text-muted-foreground">Saldo</p>
+                    <p className="text-[11px] font-bold text-emerald-500 tabular-nums">
+                      {formatCurrency(metrics.balance)}
+                    </p>
+                  </div>
+               </div>
+            </div>
+          )}
           <Link
             to="/perfil"
             className={cn(
