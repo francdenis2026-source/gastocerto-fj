@@ -367,11 +367,11 @@ function AuthPage() {
                         return;
                       }
 
-                      toast.promise(
+                        toast.promise(
                         (async () => {
-                          const { data: license, error: verifyError } = await verifyAccessCode({ data: { code: pendingCode } });
-                          if (verifyError || !license || license.status !== "pending") {
-                            throw new Error(license?.status === "revoked" ? "Código bloqueado" : "Código inválido ou expirado");
+                          const result = await verifyAccessCode({ data: { code: pendingCode } });
+                          if (!result.valid) {
+                            throw new Error(result.reason === "revoked" ? "Código bloqueado" : "Código inválido ou expirado");
                           }
                           // Aqui o fluxo real de login simplificado seria disparado
                           // No MVP, redirecionamos para o fluxo convencional com os dados pré-preenchidos
@@ -395,7 +395,7 @@ function AuthPage() {
                       onClick={() => {
                         setPendingCode(null);
                         sessionStorage.removeItem(PENDING_LICENSE_KEY);
-                        navigate({ search: (prev: any) => ({ ...prev, code: undefined }) as any });
+                        navigate({ search: (prev: any) => ({ ...prev, code: undefined }) });
                       }} 
                       className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-brand transition-colors p-2"
                     >
