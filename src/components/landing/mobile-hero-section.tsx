@@ -10,8 +10,8 @@ export function MobileHeroSection() {
   if (!hydrated) return null;
 
   return (
-    <section className="relative overflow-hidden px-4 py-12 md:hidden">
-      <div className="relative flex flex-col overflow-hidden rounded-[2.5rem] border border-border/50 bg-card shadow-lifted transition-all duration-700">
+    <section className="relative overflow-hidden px-4 py-8 md:hidden">
+      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-border/50 bg-card shadow-lifted transition-all duration-700">
         
         {/* Parallax Background Layer */}
         <div 
@@ -28,38 +28,38 @@ export function MobileHeroSection() {
         <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/10 blur-[80px]" />
 
         {/* Content Layer */}
-        <div className="relative z-10 flex flex-col p-8 items-center text-center">
+        <div className="relative z-10 flex flex-col p-6 items-center text-center">
           
           {/* Top Badge */}
-          <div className="mb-6 flex animate-reveal items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-brand backdrop-blur-md">
+          <div className="mb-4 flex animate-reveal items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-brand backdrop-blur-md">
             <Zap className="size-3" />
             Nova Geração 2027
           </div>
           
           {/* Main Icon */}
-          <div className="mb-6 flex size-16 items-center justify-center rounded-2xl bg-brand/10 text-brand shadow-inner ring-1 ring-brand/20 animate-reveal" style={{ animationDelay: '100ms' }}>
-            <TrendingUp className="size-8" />
+          <div className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-brand/10 text-brand shadow-inner ring-1 ring-brand/20 animate-reveal" style={{ animationDelay: '100ms' }}>
+            <TrendingUp className="size-7" />
           </div>
           
           {/* Headline */}
-          <h2 className="animate-reveal font-display text-3xl font-black leading-tight tracking-tight text-foreground" style={{ animationDelay: '200ms' }}>
-            Sua vida <span className="text-brand">financeira</span> em <span className="text-brand italic">ordem</span>
+          <h2 className="animate-reveal font-display text-2xl font-black leading-tight tracking-tight text-foreground" style={{ animationDelay: '200ms' }}>
+            Sua vida <span className="text-brand">financeira</span> em <span className="text-brand">ordem</span>
           </h2>
           
-          <p className="mt-5 animate-reveal px-2 text-sm font-medium leading-relaxed text-muted-foreground" style={{ animationDelay: '300ms' }}>
+          <p className="mt-3 animate-reveal px-2 text-xs font-medium leading-relaxed text-muted-foreground" style={{ animationDelay: '300ms' }}>
             Uma inteligência dedicada à sua tranquilidade diária e metas de longo prazo. Controle hoje, tranquilidade sempre.
           </p>
           
           {/* Visual Highlight Cards */}
-          <div className="mt-10 grid w-full grid-cols-2 gap-4 animate-reveal" style={{ animationDelay: '400ms' }}>
-            <div className="group flex flex-col items-center rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all active:scale-95">
+          <div className="mt-6 grid w-full grid-cols-2 gap-3 animate-reveal" style={{ animationDelay: '400ms' }}>
+            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl transition-all active:scale-95">
               <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/20 text-brand">
                 <Target className="size-5" />
               </div>
               <p className="text-xl font-black text-foreground">Metas</p>
               <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Alcançadas</p>
             </div>
-            <div className="group flex flex-col items-center rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all active:scale-95">
+            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl transition-all active:scale-95">
               <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-500">
                 <CreditCard className="size-5" />
               </div>
@@ -69,7 +69,7 @@ export function MobileHeroSection() {
           </div>
 
           {/* Social Proof / Stats */}
-          <div className="mt-8 flex items-center gap-6 animate-reveal" style={{ animationDelay: '500ms' }}>
+          <div className="mt-6 flex items-center gap-6 animate-reveal" style={{ animationDelay: '500ms' }}>
             <div className="text-center">
               <p className="text-lg font-black text-foreground">+24k</p>
               <p className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">Usuários</p>
@@ -87,8 +87,8 @@ export function MobileHeroSection() {
           </div>
 
           {/* Enhanced CTA */}
-          <div className="mt-10 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
-            <button className="group relative flex h-16 w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-xl shadow-brand/20 transition-all active:scale-[0.96] hover:brightness-110">
+          <div className="mt-6 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
+            <button className="group relative flex h-14 w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-brand font-display font-black text-brand-foreground shadow-xl shadow-brand/20 transition-all active:scale-[0.96] hover:brightness-110">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               Começar Grátis
               <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
