@@ -254,13 +254,11 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       >
         <div className="flex h-14 items-center gap-2 border-b border-border px-3">
-          <Link
-            to={isAdminArea ? "/admin" : "/painel"}
-            aria-label="Ir para o painel"
-            className="min-w-0 transition-transform hover:scale-[1.02]"
-          >
-            <Logo compact={railCollapsed} />
-          </Link>
+          <Logo 
+            compact={railCollapsed} 
+            href={isAdminArea ? "/admin" : "/painel"}
+            className="group"
+          />
           <Button
             variant="ghost"
             size="icon"
