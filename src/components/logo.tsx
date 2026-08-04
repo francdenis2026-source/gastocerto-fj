@@ -6,7 +6,7 @@ export function BrandMark({ className }: { className?: string }) {
     <img
       src={markAsset.url}
       alt="GastoCerto"
-      className={cn("shrink-0 object-contain", className)}
+      className={cn("shrink-0 object-contain cursor-pointer", className)}
     />
   );
 }
