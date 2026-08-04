@@ -51,7 +51,7 @@ export function LogsTable({ globalSearch = "" }: { globalSearch?: string }) {
     const term = globalSearch.trim().toLowerCase();
     if (!term) return rows;
     return rows.filter((log) => {
-      const actor = (nameByUser.get(log.actor_id) ?? "").toLowerCase();
+      const actor = (log.actor_id ? nameByUser.get(log.actor_id) ?? "" : "").toLowerCase();
       const target = log.target_user_id ? (nameByUser.get(log.target_user_id) ?? "").toLowerCase() : "";
       const action = (log.action || "").toLowerCase();
       const details = JSON.stringify(log.details || "").toLowerCase();
