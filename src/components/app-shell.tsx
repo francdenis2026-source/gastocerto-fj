@@ -466,77 +466,79 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* pt safe-area: no mobile a faixa do notch acompanha o tema (claro/escuro). */}
-        <header className="sticky top-0 z-40 border-b border-border bg-background/90 pt-[env(safe-area-inset-top)] backdrop-blur">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2 sm:px-4 sm:py-3">
-            <div className="flex min-w-0 items-center gap-2">
-              <Link to="/painel" className="min-w-0 lg:hidden">
+        <header className="sticky top-0 z-40 border-b border-border bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+          <div className="flex items-center justify-between px-4 py-2.5 sm:px-6 sm:py-3.5">
+            <div className="flex min-w-0 items-center gap-3">
+              <Link to="/painel" className="lg:hidden">
                 <Logo compact />
               </Link>
-              <p className="hidden min-w-0 truncate text-sm font-semibold lg:block">
-                {activeGroup ? activeGroup.label : "Painel"}
-              </p>
+              <div className="hidden flex-col lg:flex">
+                <p className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">
+                  {isAdminArea ? "Administração" : "Painel do Cliente"}
+                </p>
+                <h1 className="text-base font-black tracking-tight text-foreground">
+                  {activeGroup ? activeGroup.label : "Visão Geral"}
+                </h1>
+              </div>
             </div>
 
-            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-              {!isAdminArea ? (
-                <>
+            <div className="flex items-center gap-2">
+              {!isAdminArea && (
+                <div className="hidden items-center gap-2 sm:flex">
                   <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
                   <NotificationCenter />
-
-
-                  <button
-                    type="button"
+                  <Button
                     onClick={() => setQuickEntry("expense")}
-                    aria-label="Novo lançamento"
-                    title="Novo lançamento"
-                    className="inline-flex h-8 items-center gap-1.5 rounded-md bg-brand px-2.5 text-[12px] font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:h-9 sm:px-3"
+                    className="h-9 gap-2 rounded-xl bg-brand px-4 text-xs font-black uppercase tracking-wider text-brand-foreground shadow-soft transition-all hover:opacity-90 active:scale-95"
                   >
-                    <Plus className="size-4" aria-hidden="true" />
-                    <span className="hidden sm:inline">Lançar</span>
-                  </button>
-                </>
-              ) : null}
-              <ThemeToggle />
+                    <Plus className="size-4" />
+                    Lançar
+                  </Button>
+                </div>
+              )}
+              
+              <div className="flex items-center gap-1 sm:hidden">
+                 <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
+                 <NotificationCenter />
+              </div>
 
-              <Link to="/perfil" aria-label="Meu perfil">
-                <Avatar className="size-7 sm:size-8">
+              <div className="mx-1 h-6 w-px bg-border/60" />
+              <ThemeToggle />
+              
+              <Link to="/perfil" className="ml-1 transition-transform hover:scale-105 active:scale-95">
+                <Avatar className="size-8 border-2 border-border/50 shadow-sm">
                   {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-                  <AvatarFallback className="text-xs">{initials}</AvatarFallback>
+                  <AvatarFallback className="bg-secondary text-[10px] font-black">{initials}</AvatarFallback>
                 </Avatar>
               </Link>
             </div>
           </div>
 
-          {/* Faixa sempre presente e com altura fixa: alternar seção nunca
-              muda a altura do header nem "redimensiona" a janela ativa. */}
-          <div className="border-t border-border bg-background/80">
-            <nav
-              aria-label="Seções da área"
-              className="subnav-strip mx-auto flex w-full max-w-6xl items-center gap-1 overflow-x-auto px-3 sm:px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            >
-              {subTabs.length > 1 ? (
-                subTabs.map((tab) => (
+          {/* Subtabs compact and elegant */}
+          {subTabs.length > 1 && (
+            <div className="border-t border-border/40 bg-secondary/10">
+              <nav
+                aria-label="Subnavegação"
+                className="mx-auto flex w-full max-w-6xl items-center gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {subTabs.map((tab) => (
                   <Link
                     key={tab.to}
-                    to={tab.to as never}
+                    to={tab.to as any}
                     aria-current={pathname === tab.to ? "page" : undefined}
                     className={cn(
-                      "shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors sm:px-3 sm:text-xs",
+                      "shrink-0 rounded-full px-3.5 py-1.5 text-[11px] font-black uppercase tracking-wider transition-all",
                       pathname === tab.to
-                        ? "bg-brand text-brand-foreground"
+                        ? "bg-brand text-brand-foreground shadow-sm"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                     )}
                   >
                     {tab.label}
                   </Link>
-                ))
-              ) : (
-                <span className="truncate text-[11px] font-medium text-muted-foreground">
-                  {activeGroup?.label ?? "Painel"}
-                </span>
-              )}
-            </nav>
-          </div>
+                ))}
+              </nav>
+            </div>
+          )}
         </header>
 
         <main className="app-main mx-auto w-full min-w-0 max-w-7xl flex-1 px-3 py-2.5 pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-6 lg:pb-8">
