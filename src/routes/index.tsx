@@ -15,7 +15,7 @@ const description =
   "A plataforma definitiva para maestria financeira. Inteligência Artificial, dashboard premium e ferramentas avançadas para controle total de gastos e investimentos.";
 
 const siteUrl = "https://gamecarto.lovable.app";
-const ogImage = `${siteUrl}/og-gastocerto-v4.jpg`;
+const ogImage = `${siteUrl}/og-gamecarto.jpg`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
