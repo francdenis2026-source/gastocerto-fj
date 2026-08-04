@@ -23,7 +23,7 @@ export function useProfile() {
       const { data, error } = await supabase
         .from("profiles")
         .select("*, plan:plans(id, name, slug, monthly_price, annual_price, tier)")
-        .eq("user_id", user?.id)
+        .eq("user_id", user!.id)
         .maybeSingle();
       if (error) throw error;
       if (!data) return null;
