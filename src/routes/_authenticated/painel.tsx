@@ -464,9 +464,12 @@ function DashboardPage() {
   if (!profile || loadingTransactions || loadingCategories) {
     return (
       <AppShell>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+      <div className="flex min-h-[40vh] items-center justify-center p-8">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="size-8 animate-spin text-brand" />
+          <p className="text-xs font-bold text-muted-foreground animate-pulse">Carregando painel profissional...</p>
         </div>
+      </div>
       </AppShell>
     );
   }
@@ -502,19 +505,6 @@ function DashboardPage() {
           </div>
         )}
         
-        {/* Adiciona o gatilho de busca global no topo se necessário */}
-        
-        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-           <div className="flex-1 w-full max-w-md">
-              <div className="relative group">
-                <Input 
-                  placeholder="Pesquisar no painel (⌘K)..." 
-                  className="pl-9 h-10 rounded-2xl bg-card border-border/50 shadow-sm transition-all focus:ring-2 focus:ring-brand/20 group-hover:border-brand/30"
-                />
-                <Search className="absolute left-3 top-3 size-4 text-muted-foreground transition-colors group-hover:text-brand" />
-              </div>
-           </div>
-        </div>
 
         {!hasFeature(access, "financial_help") && (
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
@@ -655,13 +645,13 @@ function DashboardPage() {
         <GlobalAnnouncementsBanner />
 
         {loadingTransactions ? (
-          <div className="grid gap-3 auto-cards-sm opacity-50 transition-opacity duration-300">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <Skeleton key={index} className="h-20 rounded-2xl" />
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 opacity-50 transition-opacity duration-300">
+            {Array.from({ length: 12 }).map((_, index) => (
+              <Skeleton key={index} className="h-24 rounded-2xl" />
             ))}
           </div>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[340px_1fr_360px] mt-6">
+          <div className="flex flex-col lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-6 w-full max-w-full overflow-x-hidden">
             <aside className="hidden lg:block space-y-6">
               <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
