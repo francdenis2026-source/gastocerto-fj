@@ -216,8 +216,9 @@ export function Hero() {
           </dl>
         </div>
 
-        <div className="relative hidden pt-8 lg:block">
-          <div className="relative origin-top scale-[0.58] text-foreground -mb-[34%] xl:-mb-[30%] xl:scale-[0.63]">
+        <div className="relative hidden pt-4 lg:block">
+          <div className="relative origin-top scale-[0.58] text-foreground -mb-[38%] xl:-mb-[34%] xl:scale-[0.63]">
+
             <Suspense fallback={<div className="h-[420px] rounded-2xl bg-hero-surface-soft" />}>
               <DashboardPreview />
             </Suspense>
