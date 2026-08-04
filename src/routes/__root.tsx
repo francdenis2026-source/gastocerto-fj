@@ -97,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Domine suas finanças com o GastoCerto. Controle hoje, tranquilidade sempre." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
     ],
     links: [
@@ -214,8 +214,12 @@ function RootComponent() {
   }, []);
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED" && event !== "TOKEN_REFRESHED") return;
+      
+      // Evitar redirects infinitos ou loops de 429 se o token falhar repetidamente
+      if (event === "TOKEN_REFRESHED" && !session) return;
+
       router.invalidate();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
     });

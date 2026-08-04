@@ -96,7 +96,10 @@ function OnboardingPage() {
 
     const { error: profileError } = await supabase
       .from("profiles")
-      .update({ monthly_income: parsedIncome, onboarding_completed: true })
+      .update({ 
+        monthly_income: parsedIncome, 
+        onboarding_completed: true 
+      })
       .eq("user_id", user.id);
 
     if (profileError) {
