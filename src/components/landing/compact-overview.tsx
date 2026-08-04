@@ -1,428 +1,190 @@
-import { useEffect, useState } from "react";
-import {
-  Baby,
-  Banknote,
-  Send,
-  BarChart3,
-  Bell,
-  CalendarClock,
-  Car,
+
+import { Link } from "@tanstack/react-router";
+import { 
+  Sparkles, 
+  ArrowRight, 
+  PlayCircle, 
+  ShieldCheck, 
+  Zap, 
+  Bot, 
+  Target, 
   CreditCard,
-  Droplets,
-  Dumbbell,
-  Fingerprint,
-  Flame,
-  Fuel,
-  HelpCircle,
-  LayoutDashboard,
-  Lock,
-  PiggyBank,
+  Car,
   Receipt,
-  Repeat,
-  ScrollText,
-  ShieldCheck,
-  ShoppingBasket,
-  Sparkles,
-  Star,
-  Target,
-  Tv,
+  Flame,
+  BarChart3,
+  CalendarClock,
   Wallet,
-  type LucideIcon,
+  Lock,
+  ChevronRight,
+  Plus
 } from "lucide-react";
-
-import { DemoDialog } from "@/components/landing/demo-dialog";
-import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 import { Reveal } from "@/components/landing/reveal";
-import { handleAnchorClick } from "@/lib/scroll";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { DemoDialog } from "@/components/landing/demo-dialog";
 
-type Feature = { icon: LucideIcon; title: string; text: string; tag: string };
-
-const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
+const featureGroups = [
   {
-    group: "Dia a dia",
-    caption: "Registros e contas do dia a dia",
-    items: [
-      {
-        icon: Receipt,
-        title: "Lançamentos em 10s",
-        text: "Despesa ou receita com categoria, anexo, parcelas e data retroativa.",
-        tag: "Rápido",
-      },
-      {
-        icon: ShoppingBasket,
-        title: "Mercado e alimentação",
-        text: "Compras do mês, feira, delivery e água mineral separados por categoria.",
-        tag: "Casa",
-      },
-      {
-        icon: Repeat,
-        title: "Contas recorrentes",
-        text: "Água, energia, internet e mensalidades lançadas sozinhas todo mês.",
-        tag: "Automático",
-      },
-      {
-        icon: Flame,
-        title: "Gás de cozinha",
-        text: "Histórico de botijões, duração média e aviso quando estiver acabando.",
-        tag: "Casa",
-      },
-    ],
+    id: "dia-a-dia",
+    label: "Controle Diário",
+    icon: Zap,
+    description: "Gerencie cada centavo com velocidade e precisão absoluta.",
+    features: [
+      { icon: Receipt, title: "Lançamentos Rápidos", desc: "Registre gastos em menos de 10 segundos com IA." },
+      { icon: CreditCard, title: "Gestão de Cartões", desc: "Faturas, limites e parcelas de todos os seus bancos." },
+      { icon: CalendarClock, title: "Contas Fixas", desc: "Automação de aluguel, internet e assinaturas mensais." },
+      { icon: Flame, title: "Previsão de Gás", desc: "Saiba exatamente quando o seu botijão vai acabar." }
+    ]
   },
   {
-    group: "Veículos e trabalho",
-    caption: "Custos de veículos e rodagem",
-    items: [
-      {
-        icon: Fuel,
-        title: "Abastecimentos",
-        text: "Litros, preço por litro, odômetro validado e detecção de anomalias.",
-        tag: "Combustível",
-      },
-      {
-        icon: Car,
-        title: "Custo por km",
-        text: "Consumo médio por veículo, metas de eficiência e alertas de desvio.",
-        tag: "Frota",
-      },
-      {
-        icon: ScrollText,
-        title: "Auditoria de odômetro",
-        text: "Histórico de alterações, comparação antes/depois e alertas acionados.",
-        tag: "Rastreável",
-      },
-      {
-        icon: Banknote,
-        title: "Receitas variáveis",
-        text: "Ideal para autônomos: entradas por dia, semana ou corrida.",
-        tag: "Autônomo",
-      },
-    ],
-  },
-  {
-    group: "Planejamento",
-    caption: "Orçamentos, metas e previsibilidade",
-    items: [
-      {
-        icon: PiggyBank,
-        title: "Orçamentos por categoria",
-        text: "Limite mensal com barra de consumo e aviso antes de estourar.",
-        tag: "Limites",
-      },
-      {
-        icon: Target,
-        title: "Metas e aportes",
-        text: "Objetivos com progresso mensal, prazo e quanto falta guardar.",
-        tag: "Objetivos",
-      },
-      {
-        icon: CreditCard,
-        title: "Cartões de crédito e débito",
-        text: "Faturas, limites, vencimentos e parcelas em aberto de cada cartão.",
-        tag: "Cartões",
-      },
-      {
-        icon: Tv,
-        title: "Assinaturas e academia",
-        text: "Streaming, apps e mensalidades: veja o total escondido do mês.",
-        tag: "Recorrente",
-      },
-    ],
-  },
-  {
-    group: "Família e Kids",
-    caption: "Gestão e educação financeira",
-    items: [
-      {
-        icon: Baby,
-        title: "Espaço Kids",
-        text: "Painel simplificado por criança, com PIN, avatar e tema próprio.",
-        tag: "Kids",
-      },
-      {
-        icon: Send,
-        title: "PIX",
-        text: "Envie dinheiro por PIX, com histórico, comprovante e aviso na hora.",
-        tag: "PIX",
-      },
-      {
-        icon: Target,
-        title: "Metas e recompensas",
-        text: "Objetivos de poupança da criança com progresso visual e conquistas.",
-        tag: "Metas",
-      },
-      {
-        icon: Repeat,
-        title: "Envio automático",
-        text: "Recorrência semanal ou mensal lançada sozinha no orçamento da casa.",
-        tag: "Automático",
-      },
-    ],
-  },
-  {
-    group: "Inteligência e relatórios",
-    caption: "IA, análises e compartilhamento",
-    items: [
-      {
-        icon: Sparkles,
-        title: "Consultor financeiro com IA",
-        text: "Diagnóstico do mês, plano de saída de dívidas e dicas sob medida.",
-        tag: "IA",
-      },
-      {
-        icon: BarChart3,
-        title: "Balanço anual e relatórios",
-        text: "Tendências, comparativos e exportação em CSV, Excel e PDF.",
-        tag: "Análise",
-      },
-      {
-        icon: CalendarClock,
-        title: "Fechamento e conciliação",
-        text: "Feche o mês, bloqueie períodos com senha e confira saldo por conta.",
-        tag: "Fechamento",
-      },
-      {
-        icon: Bell,
-        title: "Compartilhamento seguro",
-        text: "Link com senha e validade para alguém ver seus gastos sem cadastro.",
-        tag: "Link",
-      },
-    ],
-  },
-];
-
-const highlights = [
-  { icon: Droplets, value: "20+", label: "categorias prontas", hint: "gás, combustível, água, roupas…" },
-  { icon: Dumbbell, value: "12", label: "módulos integrados", hint: "de lançamentos ao Espaço Kids" },
-  { icon: ShieldCheck, value: "100%", label: "dados isolados", hint: "cada conta vê só o que é seu" },
-];
-
-const pillars = [
-  { icon: ScrollText, title: "LGPD na prática", text: "Coletamos só o necessário e você pode exportar ou excluir tudo." },
-  { icon: Lock, title: "Criptografia", text: "HTTPS no tráfego, banco criptografado e comprovantes privados." },
-  { icon: Fingerprint, title: "Controle de acesso", text: "Cada conta enxerga apenas os próprios registros." },
+    id: "inteligencia",
+    label: "IA & Análise",
+    icon: Bot,
+    description: "Deixe nossa IA trabalhar para o seu futuro financeiro.",
+    features: [
+      { icon: Bot, title: "Consultor de IA", desc: "Insights personalizados baseados no seu perfil de gastos." },
+      { icon: BarChart3, title: "Balanço Anual", desc: "Visão macro da sua evolução patrimonial ao longo dos meses." },
+      { icon: Target, title: "Metas de Longo Prazo", desc: "Planeje sua aposentadoria ou a compra do seu imóvel." },
+      { icon: Car, title: "Custo por Quilômetro", desc: "Análise profunda da eficiência e gastos do seu veículo." }
+    ]
+  }
 ];
 
 const faqs = [
-  { q: "O sistema é gratuito?", a: "Sim. O plano Gratuito cobre lançamentos, painel mensal, categorias, um veículo e relatórios simplificados." },
-  { q: "Meus dados ficam seguros?", a: "Sim. Cada conta acessa apenas os próprios registros, com regras aplicadas no banco de dados." },
-  { q: "Posso controlar despesas recorrentes?", a: "Sim, com vencimento, frequência, lançamento automático e alertas antes de vencer." },
-  { q: "Posso exportar relatórios?", a: "Sim, em PDF e CSV, com métricas, gráficos e a lista completa do período." },
-  { q: "Mensal ou anual?", a: "O conteúdo é o mesmo; no anual o Premium sai por R$ 20,75/mês em vez de R$ 24,90, e o Premium IA por R$ 29,00/mês em vez de R$ 34,90." },
-  { q: "Preciso de conta para a demonstração?", a: "Não. A demonstração é aberta, com dados fictícios e sem cartão de crédito." },
+  { q: "O GameCarto é realmente gratuito?", a: "Sim! Oferecemos um plano gratuito robusto que permite que você comece sua jornada financeira sem custos. À medida que suas necessidades crescem, você pode migrar para planos Premium." },
+  { q: "Meus dados bancários estão seguros?", a: "Segurança é nossa prioridade #1. Utilizamos criptografia de nível militar (AES-256) e não armazenamos senhas bancárias. Seus dados são seus e de mais ninguém." },
+  { q: "Posso acessar pelo celular?", a: "Com certeza. Nossa plataforma é PWA de alta performance, funcionando como um app nativo no iOS e Android, inclusive com modo offline." }
 ];
 
-const shortcuts = [
-  { label: "Recursos", href: "#recursos", icon: Wallet },
-  { label: "Planos", href: "#planos", icon: Sparkles },
-  { label: "Segurança", href: "#seguranca", icon: Lock },
-  { label: "FAQ", href: "#faq", icon: HelpCircle },
-] as const;
-
-const tabs = ["recursos", "seguranca", "faq"] as const;
-type TabValue = (typeof tabs)[number];
-
-const tabMeta: Record<TabValue, { label: string; description: string }> = {
-  recursos: { label: "Recursos", description: "Vinte e quatro recursos organizados em seis frentes" },
-  seguranca: { label: "Segurança", description: "LGPD, criptografia e controle de acesso" },
-  faq: { label: "FAQ", description: "Perguntas frequentes: seis dúvidas comuns sobre planos e demonstração" },
-};
-
 export function CompactOverview() {
-  const [tab, setTab] = useState<TabValue>("recursos");
-
-  useEffect(() => {
-    const sync = () => {
-      const hash = window.location.hash.replace("#", "") as TabValue;
-      if (tabs.includes(hash)) setTab(hash);
-    };
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, []);
-
   return (
-    <section id="explorar" className="relative border-y border-border bg-background section-padding">
-      <span id="seguranca" className="block" />
-      <div className="section-shell">
-        <Reveal className="flex flex-col items-center text-center">
-          <div className="max-w-3xl">
-            <p className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-              <Sparkles className="size-4" aria-hidden="true" />
-              Recursos da plataforma
-            </p>
-            <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
-              Um sistema completo para o seu controle financeiro
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground lg:text-xl">
-              Recursos integrados para o dia a dia, veículos, planejamento, família e análise.
-            </p>
+    <section id="explorar" className="py-24 lg:py-32 bg-secondary/20">
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-8 mb-20">
+          <div className="max-w-2xl">
+            <Reveal delay={100}>
+              <h2 className="text-4xl lg:text-6xl font-black tracking-tight text-foreground mb-6">
+                Poderoso por dentro. <span className="text-primary italic">Simples</span> por fora.
+              </h2>
+            </Reveal>
+            <Reveal delay={200}>
+              <p className="text-lg text-muted-foreground font-medium leading-relaxed">
+                Combinamos as ferramentas mais avançadas de gestão com uma experiência de usuário 
+                fluida e minimalista. Tudo o que você precisa, sem a complexidade desnecessária.
+              </p>
+            </Reveal>
           </div>
-          <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
-            <DemoDialog>
-              <button
-                type="button"
-                className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Ver demonstração
-              </button>
-            </DemoDialog>
-            {shortcuts.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(event) => handleAnchorClick(event, item.href)}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <item.icon className="size-3.5" aria-hidden="true" />
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </Reveal>
+          
+          <Reveal delay={300} className="hidden lg:block pb-2">
+             <DemoDialog>
+               <button className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-background font-bold hover:scale-105 transition-transform active:scale-95 shadow-xl">
+                 <PlayCircle className="size-5" />
+                 Ver demonstração interativa
+               </button>
+             </DemoDialog>
+          </Reveal>
+        </div>
 
-        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/70 px-3 py-2 backdrop-blur">
-          {highlights.map((item) => (
-            <div key={item.label} className="flex min-w-0 items-center gap-1.5">
-              <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
-              <p className="tabular text-[13px] font-bold leading-none">{item.value}</p>
-              <p className="truncate text-[12.5px] leading-none text-muted-foreground">{item.label}</p>
-            </div>
-          ))}
-        </Reveal>
-
-        <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-3.5">
-          <div role="region" aria-label="Navegação das seções do produto" className="w-full">
-            <p id="tabs-hint" className="sr-only">
-              Lista de 4 seções em rolagem horizontal. Use as setas esquerda e direita para trocar de seção; o conteúdo é atualizado automaticamente.
-            </p>
-            <TabsList
-              id="recursos"
-              aria-label="Seções do produto"
-              aria-describedby="tabs-hint"
-              className="flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto p-1 [scrollbar-width:none] sm:flex-wrap [&::-webkit-scrollbar]:hidden"
-            >
-              {tabs.map((value) => (
-                <TabsTrigger
-                  key={value}
-                  value={value}
-                  id={value === "faq" ? "faq" : undefined}
-                  className="shrink-0"
+        <Tabs defaultValue="dia-a-dia" className="w-full">
+          <div className="flex justify-center mb-12">
+            <TabsList className="bg-card border border-border p-1.5 h-auto rounded-2xl">
+              {featureGroups.map(group => (
+                <TabsTrigger 
+                  key={group.id} 
+                  value={group.id}
+                  className="px-8 py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground font-bold transition-all"
                 >
-                  {tabMeta[value].label}
+                  <group.icon className="size-4 mr-2" />
+                  {group.label}
                 </TabsTrigger>
               ))}
+              <TabsTrigger 
+                value="faq"
+                className="px-8 py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground font-bold transition-all"
+              >
+                <HelpCircle className="size-4 mr-2" />
+                Dúvidas
+              </TabsTrigger>
             </TabsList>
           </div>
 
-          <p className="sr-only" role="status" aria-live="polite">
-            {`Seção ativa: ${tabMeta[tab].label}. ${tabMeta[tab].description}.`}
-          </p>
+          {featureGroups.map(group => (
+            <TabsContent key={group.id} value={group.id} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-8">
+                  <div className="p-8 rounded-[32px] bg-card border border-border shadow-xl">
+                    <h3 className="text-2xl font-black text-foreground mb-4">{group.label}</h3>
+                    <p className="text-muted-foreground font-medium mb-8">{group.description}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {group.features.map((f, i) => (
+                        <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-secondary/50 transition-colors group">
+                          <div className="size-10 shrink-0 rounded-xl bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            <f.icon className="size-5" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-foreground text-sm mb-1">{f.title}</h4>
+                            <p className="text-xs text-muted-foreground font-medium leading-relaxed">{f.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="relative group">
+                   <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                   <div className="relative rounded-[40px] border border-border bg-card p-4 shadow-2xl overflow-hidden aspect-[4/3] lg:aspect-auto">
+                      <div className="w-full h-full bg-secondary/50 rounded-[32px] flex items-center justify-center">
+                        <group.icon className="size-24 text-primary opacity-20 animate-pulse" />
+                        <div className="absolute bottom-12 left-12 right-12 p-6 rounded-2xl bg-background/80 backdrop-blur border border-border">
+                           <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Destaque do Módulo</p>
+                           <p className="text-base font-bold text-foreground">{group.description}</p>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            </TabsContent>
+          ))}
 
-          <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
-            <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {featureGroups.map((group, groupIndex) => (
-                <Reveal
-                  key={group.group}
-                  delay={groupIndex * 50}
-                  className="rounded-[20px] border border-border bg-card p-8 shadow-premium"
-                >
-                  <p className="text-sm font-bold uppercase tracking-widest text-primary">
-                    {group.group}
-                  </p>
-                  <ul className="mt-1.5 grid gap-1">
-                    {group.items.map((item) => (
-                      <li key={item.title} className="min-w-0">
-                        <FeatureDetailDialog
-                          feature={{ title: item.title, text: item.text, tag: item.tag }}
-                        >
-                          <button
-                            type="button"
-                            title={item.text}
-                            className="group flex w-full min-w-0 items-center gap-2 rounded-lg border border-transparent px-1.5 py-1.5 text-left transition-colors hover:border-border hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                          >
-                            <span className="grid size-7 shrink-0 place-items-center rounded-md bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
-                              <item.icon className="size-3.5" aria-hidden="true" />
-                            </span>
-                            <span className="truncate text-[13px] font-medium">{item.title}</span>
-                            <span className="ml-auto shrink-0 rounded-full border border-border bg-secondary/60 px-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
-                              {item.tag}
-                            </span>
-                          </button>
-                        </FeatureDetailDialog>
-                      </li>
-                    ))}
-                  </ul>
-                </Reveal>
-              ))}
-              <Reveal
-                delay={featureGroups.length * 50}
-                className="hidden rounded-xl border border-dashed border-brand/30 bg-brand/5 p-3 lg:flex lg:flex-col lg:justify-center"
-              >
-                <p className="text-[13px] font-semibold leading-snug">
-                  Toque em qualquer recurso para ver detalhes, prints e como usar.
-                </p>
-                <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
-                  20 recursos, 5 frentes — tudo no mesmo painel.
-                </p>
-              </Reveal>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="seguranca" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
-            <h3 className="sr-only">{tabMeta["seguranca"].label}</h3>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-2.5">
-              {pillars.map((pillar, index) => (
-                <Reveal key={pillar.title} delay={index * 70}>
-                  <FeatureDetailDialog
-                    feature={{ title: pillar.title, text: pillar.text, tag: "Segurança" }}
-                  >
-                    <button
-                      type="button"
-                      className="interactive-card h-full w-full rounded-xl border border-border bg-card p-3 text-left hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-3.5"
-                    >
-                      <span className="grid size-9 place-items-center rounded-lg bg-brand/10 text-brand">
-                        <pillar.icon className="size-4" aria-hidden="true" />
-                      </span>
-                      <p className="mt-2 text-sm font-semibold">{pillar.title}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pillar.text}</p>
-                      <span className="mt-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wide text-primary">
-                        Ver detalhes
-                      </span>
-                    </button>
-                  </FeatureDetailDialog>
-                </Reveal>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="faq" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
-            <h3 className="sr-only">{tabMeta["faq"].label}</h3>
-            <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, index) => (
-                <Reveal key={faq.q} delay={index * 50}>
-                  <AccordionItem value={`faq-${index}`} className="border-border/60">
-                    <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
+          <TabsContent value="faq" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="max-w-3xl mx-auto py-8">
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                {faqs.map((faq, i) => (
+                  <AccordionItem key={i} value={`faq-${i}`} className="border border-border bg-card rounded-2xl px-6">
+                    <AccordionTrigger className="text-lg font-bold py-6 hover:no-underline hover:text-primary transition-colors">
                       {faq.q}
                     </AccordionTrigger>
-                    <AccordionContent className="px-1 text-[12.5px] leading-relaxed text-muted-foreground sm:text-sm">
+                    <AccordionContent className="text-muted-foreground font-medium text-base pb-6 leading-relaxed">
                       {faq.a}
                     </AccordionContent>
                   </AccordionItem>
-                </Reveal>
-              ))}
-            </Accordion>
+                ))}
+              </Accordion>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
     </section>
+  );
+}
+
+function HelpCircle({ className }: { className?: string }) {
+  return (
+    <svg 
+      className={className} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
   );
 }

@@ -1,305 +1,142 @@
+
 import { Link } from "@tanstack/react-router";
-import { Suspense, lazy } from "react";
-import {
-  ArrowRight,
-  BarChart3,
-  Baby,
-  CreditCard,
-  Flame,
-  Fuel,
-  KeyRound,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  TrendingDown,
-} from "lucide-react";
-
-import heroBg from "@/assets/hero-bg-2027.jpg";
-import heroMobileBg from "@/assets/hero-bg-2027.jpg";
-import { Button } from "@/components/ui/button";
-import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
-import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
-import { RingChart, Sparkline } from "@/components/landing/decor";
-import { formatCurrency } from "@/lib/format";
-
+import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap, Bot, Target, CreditCard } from "lucide-react";
+import { Reveal } from "@/components/landing/reveal";
+import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { cn } from "@/lib/utils";
-
-const DashboardPreview = lazy(() =>
-  import("@/components/landing/dashboard-preview").then((m) => ({ default: m.DashboardPreview })),
-);
-
-/** módulos reais do sistema, resumidos em pílulas legíveis */
-const modules = [
-  {
-    label: "Lançamentos",
-    icon: BarChart3,
-    text: "Despesa ou receita com categoria, anexo, parcelas e data retroativa.",
-    highlight: true,
-  },
-  {
-    label: "Combustível",
-    icon: Fuel,
-    text: "Litros, preço por litro, odômetro validado e custo por km por veículo.",
-    highlight: true,
-  },
-  {
-    label: "Gás",
-    icon: Flame,
-    text: "Histórico de botijões, duração média e aviso quando estiver acabando.",
-    highlight: true,
-  },
-  {
-    label: "Cartões",
-    icon: CreditCard,
-    text: "Faturas, limites, vencimentos e parcelas em aberto de cada cartão.",
-  },
-  {
-    label: "Espaço Kids",
-    icon: Baby,
-    text: "Painel simplificado por criança, com PIN, avatar e tema próprio.",
-  },
-  {
-    label: "PIX Kids",
-    icon: Send,
-    text: "Envie mesada por PIX, com histórico, comprovante e aviso na hora.",
-  },
-  {
-    label: "Consultor IA",
-    icon: Sparkles,
-    text: "Diagnóstico do mês, plano de saída de dívidas e dicas sob medida.",
-  },
-] as const;
-
-const stats = [
-  { label: "Despesas do mês", value: formatCurrency(3782.45), hint: "consolidação automática" },
-  { label: "Sobra do mês", value: formatCurrency(640), hint: "receitas menos despesas" },
-  { label: "Novo lançamento", value: "10 s", hint: "categoria, data e anexo" },
-] as const;
 
 export function Hero() {
   return (
-    <section
-      id="inicio"
-      className="relative isolate flex items-center overflow-hidden bg-background pt-24 pb-20 sm:pt-32 sm:pb-32 lg:pt-48 lg:pb-48"
-    >
-      <img
-        src={heroBg}
-        alt=""
-        aria-hidden="true"
-        width={1280}
-        height={720}
-        fetchPriority="high"
-        decoding="async"
-        className="absolute inset-0 -z-20 hidden size-full object-cover object-right sm:block"
-      />
-      <img
-        src={heroMobileBg}
-        alt=""
-        aria-hidden="true"
-        width={400}
-        height={700}
-        loading="lazy"
-        decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%] sm:hidden"
-      />
-      {/* Fundo com gradientes e profundidade premium */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-20 overflow-hidden"
-      >
-        <div className="absolute -top-[25%] -left-[10%] h-[100%] w-[100%] rounded-full bg-primary/5 blur-[120px] dark:bg-primary/10" />
-        <div className="absolute top-[20%] -right-[15%] h-[80%] w-[80%] rounded-full bg-secondary/5 blur-[100px] dark:bg-secondary/10" />
-        <div className="absolute -bottom-[20%] left-[20%] h-[60%] w-[60%] rounded-full bg-accent/5 blur-[100px] dark:bg-accent/10" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] brightness-100 contrast-150" />
+    <section id="inicio" className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
+      {/* Premium Background Effects */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1400px] h-[600px] bg-primary/5 blur-[120px] rounded-full opacity-50" />
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full opacity-30 animate-pulse" />
       </div>
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-background to-transparent"
-      />
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+          {/* Animated Badge */}
+          <Reveal delay={100}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-sm mb-8 transition-transform hover:scale-105">
+              <Sparkles className="size-4 text-primary animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                O Futuro da Gestão Financeira com IA
+              </span>
+            </div>
+          </Reveal>
 
+          {/* Main Headline */}
+          <Reveal delay={200}>
+            <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95] text-foreground mb-8">
+              Domine sua <span className="text-primary italic">jornada</span>,<br />
+              não apenas seus <span className="relative inline-block text-primary">
+                gastos
+                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/30" />
+                </svg>
+              </span>
 
-      <div className="section-shell relative grid w-full items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-        <div className="min-w-0">
+            </h1>
+          </Reveal>
 
+          {/* Subheadline */}
+          <Reveal delay={300}>
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+              A plataforma definitiva para quem busca maestria financeira. Inteligência Artificial, 
+              dashboard premium e ferramentas avançadas para levar seu controle ao próximo nível.
+            </p>
+          </Reveal>
 
-
-          <h1 className="reveal font-display text-[clamp(2.5rem,10vw,4.5rem)] font-extrabold leading-[1.02] tracking-tight text-foreground [text-wrap:balance]">
-            Controle financeiro
-            <br />{" "}
-            <span className="bg-gradient-to-br from-primary via-emerald-500 to-primary/80 bg-clip-text text-transparent">
-              inteligente e simples.
-            </span>
-          </h1>
-
-          <p className="reveal mt-6 max-w-[55ch] text-lg font-medium leading-relaxed text-muted-foreground lg:text-xl" style={{ animationDelay: '200ms' }}>
-            A plataforma definitiva para organizar gastos familiar com tecnologia de ponta, 
-            design minimalista e insights poderosos por IA.
-          </p>
-
-          <div className="reveal mt-10 flex flex-col gap-4 sm:flex-row sm:items-center" style={{ animationDelay: '400ms' }}>
-            <Button
-              className="btn-primary h-14 rounded-2xl text-lg font-bold"
-              asChild
+          {/* Main Actions */}
+          <Reveal delay={400} className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-20">
+            <Link
+              to="/auth"
+              search={{ mode: "signup" }}
+              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-primary text-primary-foreground text-base font-bold px-10 py-5 rounded-2xl overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-2xl shadow-primary/20"
             >
-              <Link to="/auth" search={{ mode: "signup" }}>
-                <span>Começar agora — é grátis</span>
-                <ArrowRight className="ml-2 size-5" aria-hidden="true" />
-              </Link>
-            </Button>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              Começar agora — É Grátis
+              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+            </Link>
             
-            <CodeAccessDialog>
-              <Button
-                className="btn-secondary h-14 rounded-2xl text-lg font-semibold"
-              >
-                <KeyRound className="mr-2 size-5" aria-hidden="true" />
-                <span>Entrar com código</span>
-              </Button>
-            </CodeAccessDialog>
-          </div>
-
-
-          <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Módulos disponíveis">
-            {modules.map((mod) => (
-              <li key={mod.label}>
-                <FeatureDetailDialog
-                  feature={{ title: mod.label, text: mod.text, tag: "Módulo" }}
-                >
-                  <button
-                    type="button"
-                    className={cn(
-                      "group flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md",
-                      "highlight" in mod && mod.highlight && "border-primary/20 bg-primary/5 text-primary"
-                    )}
-                  >
-                    <mod.icon 
-                      className={cn(
-                        "size-3.5 shrink-0",
-                        "highlight" in mod && mod.highlight ? "text-hero-accent brightness-125" : "text-hero-accent"
-                      )} 
-                      aria-hidden="true" 
-                    />
-                    {mod.label}
-                  </button>
-                </FeatureDetailDialog>
-              </li>
-            ))}
-          </ul>
-
-          {/* resumo compacto: aparece no lugar da arte no celular */}
-          <div className="mt-4 grid gap-3 lg:hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Card Principal: Mês Atual */}
-            <div className="rounded-2xl border border-hero-border bg-hero-surface p-4 shadow-lg backdrop-blur-md">
-              <div className="flex items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-hero-fg-muted">
-                    Mês atual
-                  </p>
-                  <p className="tabular mt-1 whitespace-nowrap text-xl font-extrabold text-hero-fg">
-                    {formatCurrency(3782.45)}
-                  </p>
-                  <p className="text-[12.5px] font-medium text-hero-fg-soft leading-tight mt-1">Consolidação automática</p>
-                </div>
-                <div className="flex shrink-0 items-center gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
-                  <RingChart className="size-10 shrink-0 text-hero-accent" value={45} />
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-semibold text-hero-fg-soft">Budget</p>
-                    <p className="tabular text-[14px] font-bold text-hero-fg">45%</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Grid de Cards Secundários clicáveis */}
-            <div className="grid grid-cols-2 gap-3">
-              <FeatureDetailDialog
-                feature={{ 
-                  title: "Metas Financeiras", 
-                  text: "Acompanhe seus objetivos de poupança em tempo real. Veja o progresso de cada sonho e receba dicas de como chegar lá mais rápido.", 
-                  tag: "Objetivos" 
-                }}
-              >
-                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-hero-border bg-hero-surface/80 p-3 text-center backdrop-blur-sm transition-all hover:bg-hero-surface">
-                  <div className="mb-2 grid size-8 place-items-center rounded-lg bg-brand/10 text-brand">
-                    <Target className="size-4" />
-                  </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-hero-fg-muted">Metas</span>
-                  <span className="mt-1 text-sm font-extrabold text-hero-fg">65%</span>
-                </button>
-              </FeatureDetailDialog>
-
-              <FeatureDetailDialog
-                feature={{ 
-                  title: "Gestão de Cartões", 
-                  text: "Controle faturas de múltiplos cartões, limites disponíveis e datas de vencimento em uma visão unificada e inteligente.", 
-                  tag: "Cartões" 
-                }}
-              >
-                <button className="press-feedback flex flex-col items-center justify-center rounded-2xl border border-hero-border bg-hero-surface/80 p-3 text-center backdrop-blur-sm transition-all hover:bg-hero-surface">
-                  <div className="mb-2 grid size-8 place-items-center rounded-lg bg-purple-500/10 text-purple-500">
-                    <CreditCard className="size-4" />
-                  </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-hero-fg-muted">Cartões</span>
-                  <span className="mt-1 text-sm font-extrabold text-hero-fg">R$ 1.250</span>
-                </button>
-              </FeatureDetailDialog>
-            </div>
-
-            <div className="flex items-center justify-between gap-2 rounded-xl border border-hero-border bg-hero-surface-soft px-3 py-2.5 shadow-sm">
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-hero-fg-muted">
-                <TrendingDown className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-                Economia vs. Junho
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <Sparkline className="h-6 w-16 text-success" />
-                <span className="tabular text-[13px] font-extrabold text-success">-12,4%</span>
-              </span>
-            </div>
-          </div>
-
-          <dl className="mt-4 hidden grid-cols-3 gap-3 border-t border-hero-border pt-3 sm:grid">
-            {stats.map((stat) => (
-              <div key={stat.label} className="min-w-0">
-                <dt className="truncate text-[10px] uppercase tracking-wide text-hero-fg-soft sm:text-[12.5px]">
-                  {stat.label}
-                </dt>
-                <dd className="tabular mt-0.5 truncate text-sm font-bold text-hero-fg sm:text-base">
-                  {stat.value}
-                </dd>
-                <p className="truncate text-[12.5px] text-hero-fg-soft">{stat.hint}</p>
-              </div>
-            ))}
-          </dl>
+            <a
+              href="#recursos"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-5 rounded-2xl border border-border bg-secondary/50 font-bold hover:bg-secondary transition-all"
+            >
+              Ver recursos
+            </a>
+          </Reveal>
         </div>
 
-        <div className="relative hidden pt-4 lg:block overflow-hidden">
-          <div className="relative origin-top scale-[0.55] text-foreground -mb-[42%] xl:-mb-[38%] xl:scale-[0.6]">
-
-            <Suspense fallback={<div className="h-[420px] rounded-2xl bg-hero-surface-soft" />}>
+        {/* Hero Dashboard Preview with Perspective */}
+        <Reveal delay={500} className="relative max-w-6xl mx-auto perspective-2000">
+          <div className="relative z-10 transition-transform duration-1000 hover:rotate-x-1 transform-gpu">
+            <div className="rounded-3xl border border-white/10 bg-black/40 backdrop-blur-3xl p-4 lg:p-6 shadow-[0_32px_120px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
               <DashboardPreview />
-            </Suspense>
+            </div>
+
+            {/* Floating Decorative Elements */}
+            <div className="absolute -top-12 -right-12 z-20 hidden lg:block animate-bounce-subtle">
+              <div className="bg-background/80 backdrop-blur-xl border border-border rounded-2xl p-6 shadow-2xl">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <TrendingUp className="size-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Economia Total</p>
+                    <p className="text-2xl font-black text-foreground">+ R$ 2.450,00</p>
+                  </div>
+                </div>
+                <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
+                  <div className="bg-primary h-full w-[75%]" />
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute -bottom-10 -left-10 z-20 hidden lg:block animate-float">
+              <div className="bg-background/80 backdrop-blur-xl border border-border rounded-2xl p-6 shadow-2xl flex items-center gap-5">
+                <div className="size-12 rounded-full bg-primary/20 flex items-center justify-center border border-primary/20">
+                  <Bot className="size-7 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Análise de IA</p>
+                  <p className="text-base font-bold text-foreground">"Sua saúde financeira está excelente!"</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="absolute -left-8 bottom-14 w-44 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm">
-            <div className="flex items-center justify-between text-[12.5px]">
-              <span className="inline-flex items-center gap-1.5 font-medium text-hero-fg-muted">
-                <TrendingDown className="size-3.5 text-success" aria-hidden="true" />
-                Despesas
-              </span>
-              <span className="font-semibold text-success">-12,4%</span>
-            </div>
-            <Sparkline className="mt-2 h-12 w-full text-success" />
-          </div>
+          {/* Underglow */}
+          <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[80%] h-40 bg-primary/20 blur-[100px] -z-10 rounded-full" />
+        </Reveal>
 
-          <div className="absolute right-0 top-24 flex w-40 items-center gap-3 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm">
-            <RingChart className="size-12 shrink-0 text-hero-accent" value={45} />
-            <div className="min-w-0">
-              <p className="text-[12.5px] text-hero-fg-soft">Orçamento</p>
-              <p className="tabular text-sm font-bold text-hero-fg">45% usado</p>
+        {/* Trust/Module Badges */}
+        <Reveal delay={600} className="mt-32">
+          <div className="flex flex-col items-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground mb-12">
+              Ecossistema Completo de Gestão
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+               <div className="flex items-center gap-3">
+                 <Zap className="size-5 text-primary" />
+                 <span className="font-display font-black text-lg">Lançamentos</span>
+               </div>
+               <div className="flex items-center gap-3">
+                 <Target className="size-5 text-primary" />
+                 <span className="font-display font-black text-lg">Metas</span>
+               </div>
+               <div className="flex items-center gap-3">
+                 <CreditCard className="size-5 text-primary" />
+                 <span className="font-display font-black text-lg">Cartões</span>
+               </div>
+               <div className="flex items-center gap-3">
+                 <ShieldCheck className="size-5 text-primary" />
+                 <span className="font-display font-black text-lg">Segurança</span>
+               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
