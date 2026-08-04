@@ -79,46 +79,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* 
-          ## Refatoração Completa da Homepage Mobile
-
-          **Objetivo:** Transformar a homepage da versão mobile em uma experiência de nível aplicativo global, com estética avançada, design aprimorado, contrastes marcantes, tipografia refinada e uma seção "hero" impactante.
-
-          **Funcionalidades e Requisitos:**
-
-          1.  **Design de Nível Aplicativo Global:**
-              *   Adotar uma estética moderna, limpa e intuitiva, similar às melhores aplicações mobile do mercado.
-              *   Priorizar a experiência do usuário (UX) e a interface do usuário (UI) com foco em usabilidade e apelo visual.
-
-          2.  **Estética Avançada e Melhorias de Design:**
-              *   Implementar um design visualmente sofisticado e contemporâneo.
-              *   Explorar o uso de microinterações, animações sutis e transições suaves para enriquecer a experiência.
-              *   Garantir a responsividade e adaptabilidade perfeita para diferentes tamanhos de tela mobile.
-
-          3.  **Contraste e Tipografia:**
-              *   Definir uma paleta de cores com contrastes fortes e bem definidos para melhorar a legibilidade e o impacto visual.
-              *   Selecionar e aplicar tipografias modernas e legíveis, garantindo hierarquia clara e consistência em toda a página.
-
-          4.  **Compactação e Otimização:**
-              *   Otimizar todos os elementos da página (imagens, scripts, CSS) para garantir tempos de carregamento rápidos e performance fluida.
-              *   Minimizar o uso de recursos sem comprometer a qualidade visual.
-
-          5.  **Seção "Hero" Incrível:**
-              *   Criar uma seção "hero" (a primeira parte visível da página) que seja visualmente deslumbrante, cativante e comunique claramente a proposta de valor principal.
-              *   Utilizar elementos visuais fortes (imagens de alta qualidade, vídeos curtos, gráficos animados) e um call-to-action (CTA) proeminente.
-
-          **Passos Necessários:**
-
-          1.  Análise da homepage mobile atual para identificar pontos fracos e oportunidades de melhoria.
-          2.  Pesquisa de referências de design de aplicativos globais e tendências de UI/UX.
-          3.  Criação de wireframes e protótipos focados na nova experiência mobile.
-          4.  Definição da nova paleta de cores, tipografia e guias de estilo.
-          5.  Desenvolvimento da nova estrutura HTML, CSS e JavaScript.
-          6.  Implementação da seção "hero" com foco em impacto visual e clareza da mensagem.
-          7.  Otimização de todos os ativos e código para performance.
-          8.  Testes rigorosos em diversos dispositivos e navegadores mobile.
-          9.  Refinamento com base no feedback dos testes.
-        */}
+        {/* Crie uma nova versão da homepage para a aplicação web. Analise a versão atual e proponha a melhoria mais profissional possível, focando em usabilidade, design e performance. */}
       </div>
 
       <PageBackground />
