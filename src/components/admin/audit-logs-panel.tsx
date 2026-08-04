@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight, Eye, Clock, ShieldCheck as ShieldInfo } from "lucide-react";
+import { Search, ScrollText, User, Calendar, Info, Trash2, Loader2, ChevronDown, FilterX, ChevronLeft, ChevronRight, Eye, Clock, ShieldCheck as ShieldInfo, FileSpreadsheet } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { adminPurgeLogs } from "@/lib/admin-ops.functions";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
-import { adminListAuditLogs } from "@/lib/audit-logs.functions";
+import { adminListAuditLogs, adminExportAuditLogsCsv } from "@/lib/audit-logs.functions";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {
@@ -25,6 +25,8 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
   const queryClient = useQueryClient();
   const purgeLogs = useServerFn(adminPurgeLogs);
   const listLogs = useServerFn(adminListAuditLogs);
+  const exportCsv = useServerFn(adminExportAuditLogsCsv);
+  const [isExporting, setIsExporting] = useState(false);
 
   const purgeMutation = useMutation({
     mutationFn: (beforeDate: string | null) => purgeLogs({ data: { beforeDate, actionType: "all" } }),
@@ -58,6 +60,27 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
         }
       }
     });
+  };
+
+  const handleExport = async () => {
+    try {
+      setIsExporting(true);
+      const res = await exportCsv({ data: { search: (globalSearch || search).trim() } });
+      const blob = new Blob([res.csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `audit_logs_${new Date().toISOString().slice(0, 10)}.csv`);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Logs exportados com sucesso!");
+    } catch (err) {
+      toast.error("Falha ao exportar logs.");
+    } finally {
+      setIsExporting(false);
+    }
   };
   
   const { data: result, isLoading } = useQuery({
@@ -168,6 +191,16 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
               disabled={purgeMutation.isPending}
             >
               <span className="hidden sm:inline">Limpar 30d</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8 gap-1.5 text-[10px] text-brand hover:bg-brand/5 border-brand/20"
+              onClick={handleExport}
+              disabled={isExporting}
+            >
+              {isExporting ? <Loader2 className="size-3 animate-spin" /> : <FileSpreadsheet className="size-3" />}
+              <span className="hidden sm:inline">Exportar CSV</span>
             </Button>
           </div>
         )}
