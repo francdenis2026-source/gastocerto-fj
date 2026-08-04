@@ -1,5 +1,6 @@
 import { Check, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
 import { basePlans, type PricingPlan } from "@/components/landing/pricing";
@@ -31,6 +32,7 @@ export function PricingMobile() {
 
   return (
     <section id="planos-mobile" className="px-4 py-16 md:hidden bg-background">
+      <span id="planos-mobile" className="sr-only" />
       <div className="flex flex-col gap-4 mb-8">
         <div className="min-w-0">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>
