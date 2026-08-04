@@ -169,7 +169,7 @@ export function Hero() {
           </ul>
 
           {/* resumo compacto: aparece no lugar da arte no celular */}
-          <div className="mt-5 rounded-2xl border border-hero-border bg-hero-surface p-3 backdrop-blur-sm lg:hidden shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="mt-4 rounded-2xl border border-hero-border bg-hero-surface p-3 shadow-lg backdrop-blur-md lg:hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-hero-fg-muted">
