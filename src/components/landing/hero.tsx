@@ -11,6 +11,7 @@ import {
   Send,
   ShieldCheck,
   Sparkles,
+  Target,
   TrendingDown,
 } from "lucide-react";
 
