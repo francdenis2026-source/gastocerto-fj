@@ -211,18 +211,20 @@ export function AppShell({ children }: { children: ReactNode }) {
             id: toastId,
             description: "Você foi desconectado com segurança.",
             icon: (
-              <div className="flex size-6 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500">
+              <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-sm border border-emerald-500/20">
                 <svg
-                  width="14"
-                  height="14"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="3"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  className="animate-in zoom-in duration-300"
                 >
-                  <path d="M20 6 9 17l-5-5" />
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
               </div>
             ),
