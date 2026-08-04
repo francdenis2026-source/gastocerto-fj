@@ -40,7 +40,7 @@ export function CtaBanner() {
                   search={{ mode: "signup" }}
                   className="group relative flex h-16 w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-primary px-10 text-lg font-black text-primary-foreground shadow-2xl transition-all hover:scale-[1.02] active:scale-95"
                 >
-                  Começar Agora
+                  Comece Grátis
                   <ArrowRight className="size-6 transition-transform group-hover:translate-x-1" />
                 </Link>
                 
