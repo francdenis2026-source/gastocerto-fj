@@ -151,20 +151,20 @@ export function FeatureDetailDialog({ feature, children }: Props) {
             </div>
           ) : (
             <>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div 
                   ref={scrollRef}
                   onMouseDown={handleMouseDown}
                   className="overflow-x-auto overflow-y-hidden cursor-grab active:cursor-grabbing scrollbar-none pb-2"
                   style={{ touchAction: 'pan-y' }}
                 >
-                  <ul className="grid gap-2.5 panel-enter sm:grid-cols-1 grid-flow-col auto-cols-[85%] sm:auto-cols-auto">
+                  <ul className="flex gap-4 panel-enter w-max sm:w-full sm:grid sm:grid-cols-1">
                     {items.map((item, index) => (
                       <li
                         key={item}
-                        className="flex gap-3 rounded-2xl border border-white/5 bg-white/[0.015] p-4 text-[13.5px] font-normal leading-relaxed text-foreground transition-all hover:bg-white/[0.03] select-none"
+                        className="flex w-[280px] sm:w-full gap-4 rounded-[1.5rem] border border-white/5 bg-white/[0.02] p-5 text-[15px] font-medium leading-relaxed text-white transition-all hover:bg-white/[0.04] select-none"
                       >
-                        <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
+                        <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-xs font-black text-emerald-500">
                           {index + 1}
                         </span>
                         <span className="min-w-0">{item}</span>
@@ -191,37 +191,35 @@ export function FeatureDetailDialog({ feature, children }: Props) {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button
               variant="outline"
               size="sm"
+              className="h-10 rounded-xl border-white/10 px-5 text-xs font-bold"
               onClick={() => setStep((s) => Math.max(0, s - 1))}
               disabled={step === 0}
             >
-              <ArrowLeft className="size-4" aria-hidden="true" />
+              <ArrowLeft className="mr-2 size-4" aria-hidden="true" />
               Voltar
             </Button>
             <Button
               variant="outline"
               size="sm"
+              className="h-10 rounded-xl border-white/10 px-5 text-xs font-bold"
               onClick={() => setStep((s) => Math.min(sections.length - 1, s + 1))}
               disabled={step === sections.length - 1}
             >
-              Avançar
-              <ArrowRight className="size-4" aria-hidden="true" />
+              Próximo
+              <ArrowRight className="ml-2 size-4" aria-hidden="true" />
             </Button>
           </div>
           <div className="flex flex-wrap gap-2">
-            {detail.actions.map((action, index) => (
-              <Button
-                key={action.label}
-                asChild
-                size="sm"
-                variant={index === 0 ? "default" : "secondary"}
-              >
-                <a href={action.to}>{action.label}</a>
-              </Button>
-            ))}
+            <Button
+              asChild
+              className="h-10 rounded-xl bg-emerald-500 px-6 text-xs font-black text-black hover:bg-emerald-400"
+            >
+              <Link to="/auth" search={{ mode: "signup" }}>Experimentar Agora</Link>
+            </Button>
           </div>
         </div>
       </DialogContent>
