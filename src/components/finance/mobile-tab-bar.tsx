@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut, Baby } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

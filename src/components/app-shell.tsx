@@ -4,10 +4,6 @@ import { monthRange } from "@/lib/finance";
 import { usePeriodStore } from "@/lib/period-store";
 import { useTransactions } from "@/lib/transactions";
 import { ReadOnlyBanner } from "@/components/finance/read-only-banner";
-import { TemporaryLicenseBanner } from "./admin/temporary-license-banner";
-import { useConfirm } from "@/components/ui/confirm-dialog";
-import { Sparkles, ShieldCheck } from "lucide-react";
-import { usePlanAccess } from "@/lib/plan-features";
 import {
   ChevronDown,
   PanelLeftClose,
