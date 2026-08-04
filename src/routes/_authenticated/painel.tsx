@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut, SearchIcon } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut, SearchIcon, ArrowUpRight, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -7,6 +7,7 @@ import { fixEnzoTransactionError } from "@/lib/data-fix-enzo.functions";
 import { cleanupDuplicatedKidTransactions } from "@/lib/data-fix-duplicates.functions";
 import { CommandPalette } from "@/components/nav/command-palette";
 import { NotificationCenter } from "@/components/notifications/notification-center";
+import { InteractiveCard } from "@/components/ui/interactive-card";
 
 
 import { cn } from "@/lib/utils";
@@ -827,6 +828,86 @@ function DashboardPage() {
                <DashboardTabs
                  overview={
                    <div className="space-y-6">
+                     <div className="grid gap-6 sm:grid-cols-2">
+                       <InteractiveCard
+                         title="Maiores Gastos por Categoria"
+                         description="Detalhamento das despesas do período"
+                         icon={<ShoppingBag className="size-4" />}
+                         items={byCategory}
+                         maxVisibleItems={4}
+                         chart={
+                           <ResponsiveContainer width="100%" height="100%">
+                             <BarChart data={byCategory.slice(0, 5)}>
+                               <XAxis dataKey="name" hide />
+                               <YAxis hide />
+                               <Tooltip 
+                                 contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '12px', border: '1px solid hsl(var(--border))', fontSize: '10px' }}
+                                 formatter={(value: number) => [formatCurrency(value), 'Gasto']}
+                               />
+                               <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                                 {byCategory.slice(0, 5).map((entry, index) => (
+                                   <Cell key={`cell-${index}`} fill={entry.color} opacity={0.8} />
+                                 ))}
+                               </Bar>
+                             </BarChart>
+                           </ResponsiveContainer>
+                         }
+                         renderItem={(cat) => (
+                           <div 
+                             key={cat.id} 
+                             className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-muted/20 text-xs hover:bg-muted/40 transition-colors cursor-pointer"
+                             onClick={() => openCategoryDetail(cat.id, cat.name)}
+                           >
+                             <div className="flex items-center gap-2">
+                               <div className="size-2 rounded-full" style={{ backgroundColor: cat.color }} />
+                               <span className="font-bold">{cat.name}</span>
+                             </div>
+                             <span className="font-black text-brand">{formatCurrency(cat.value)}</span>
+                           </div>
+                         )}
+                       >
+                         <div className="p-3 rounded-xl bg-brand/5 border border-brand/10 space-y-1">
+                           <p className="text-[10px] font-black uppercase text-brand tracking-widest">Resumo Estratégico</p>
+                           <p className="text-[11px] text-muted-foreground leading-tight">
+                             Suas 3 principais categorias representam <strong>{metrics.totalExpense > 0 ? ((byCategory.slice(0, 3).reduce((s, c) => s + c.value, 0) / metrics.totalExpense) * 100).toFixed(1) : 0}%</strong> do seu orçamento mensal.
+                           </p>
+                         </div>
+                       </InteractiveCard>
+
+                       <InteractiveCard
+                         title="Próximos Vencimentos"
+                         description="Contas pendentes e recorrentes"
+                         icon={<CalendarClock className="size-4" />}
+                         items={metrics.upcoming}
+                         maxVisibleItems={3}
+                         renderItem={(tx) => (
+                           <div 
+                             key={tx.id} 
+                             className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-muted/20 text-xs"
+                           >
+                             <div className="flex flex-col">
+                               <span className="font-bold truncate max-w-[120px]">{tx.description || "Sem descrição"}</span>
+                               <span className="text-[9px] text-muted-foreground uppercase font-black">{formatDate(tx.transaction_date)}</span>
+                             </div>
+                             <div className="flex flex-col items-end">
+                               <span className="font-black text-rose-600">{formatCurrency(tx.amount)}</span>
+                               {tx.status === 'overdue' && <Badge variant="destructive" className="text-[8px] h-3 px-1 uppercase">Atrasado</Badge>}
+                             </div>
+                           </div>
+                         )}
+                       >
+                         <div className="space-y-3">
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="text-muted-foreground font-bold">Comprometimento Mensal</span>
+                              <span className="font-black text-rose-600">{formatCurrency(metrics.recurring)}</span>
+                            </div>
+                            <Progress value={metrics.totalIncome > 0 ? (metrics.recurring / metrics.totalIncome) * 100 : 0} className="h-1.5" />
+                            <p className="text-[10px] text-muted-foreground italic">
+                              Contas fixas representam uma parcela significativa do seu custo de vida.
+                            </p>
+                         </div>
+                       </InteractiveCard>
+                     </div>
                       <div className="grid gap-3 auto-cards-sm">
                         <StatTile
                           label="Minha Assinatura"
