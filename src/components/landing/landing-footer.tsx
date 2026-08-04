@@ -29,7 +29,7 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="mt-20 border-t border-white/5 bg-background dark:bg-black/20 print:hidden py-12">
+    <footer className="mt-20 border-t border-white/5 bg-background print:hidden py-16">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
       <div className="section-shell">

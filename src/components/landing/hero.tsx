@@ -120,21 +120,23 @@ export function Hero() {
 
 
 
-          <h1 className="font-display mt-4 text-[clamp(2.5rem,10vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-hero-fg [text-wrap:balance] sm:text-[3.75rem] lg:text-[4rem] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
+          <h1 className="font-display mt-4 text-[clamp(2.75rem,8vw,4.5rem)] font-bold leading-[1.05] tracking-tight text-hero-fg [text-wrap:balance] animate-in fade-in slide-in-from-top-2 duration-1000 ease-out">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="bg-gradient-to-br from-[oklch(0.50_0.16_155)] via-[oklch(0.55_0.18_155)] to-[oklch(0.60_0.16_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-115">
+            <span className="text-brand">
               inteligente e simples.
             </span>
           </h1>
 
-          <p className="mt-4 max-w-[50ch] text-[16px] font-medium leading-[1.62] text-hero-fg-muted sm:text-[18px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
+
+          <p className="mt-6 max-w-[50ch] text-[16px] font-normal leading-relaxed text-hero-fg-muted sm:text-[20px] animate-in fade-in slide-in-from-top-1 duration-1000 delay-150 ease-out">
             A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
           </p>
 
           <div className="mt-5 grid gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
             <Button
-              className="cta-lift btn-hover-shine group h-12 w-full justify-center rounded-xl bg-brand px-6 text-[15px] font-bold text-brand-foreground shadow-[0_10px_28px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:w-auto sm:px-8"
+              className="cta-lift group h-12 w-full justify-center rounded-lg bg-brand px-6 text-[15px] font-bold text-brand-foreground shadow-lg shadow-brand/10 transition-all hover:bg-brand/90 hover:scale-[1.02] active:scale-[0.98] sm:w-auto sm:px-8"
+
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
@@ -148,7 +150,8 @@ export function Hero() {
             <CodeAccessDialog>
               <Button
                 variant="outline"
-                className="press-feedback h-12 w-full justify-center rounded-xl border-hero-border-strong bg-hero-surface px-5 text-[15px] font-semibold text-hero-fg backdrop-blur-sm transition-all hover:border-hero-accent/60 hover:bg-hero-surface hover:text-hero-fg hover:shadow-[0_0_15px_rgba(23,164,95,0.15)] focus-visible:ring-2 focus-visible:ring-hero-border-strong sm:w-auto sm:px-6"
+                className="press-feedback h-12 w-full justify-center rounded-lg border-hero-border bg-hero-surface px-5 text-[15px] font-medium text-hero-fg transition-all hover:bg-hero-surface/90 hover:border-hero-border-strong sm:w-auto sm:px-6"
+
               >
                 <KeyRound className="size-4 shrink-0 text-hero-accent animate-pulse" aria-hidden="true" />
                 <span className="truncate">Código de acesso</span>
@@ -166,10 +169,11 @@ export function Hero() {
                   <button
                     type="button"
                     className={cn(
-                      "press-feedback inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
+                      "press-feedback inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[12px] font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
                       "highlight" in mod && mod.highlight
-                        ? "border-brand/30 bg-brand/10 text-brand shadow-[0_0_15px_rgba(23,164,95,0.1)] hover:bg-brand/20"
-                        : "border-white/5 bg-white/[0.03] text-hero-fg-muted hover:bg-white/[0.08]"
+                        ? "border-brand/20 bg-brand/5 text-brand hover:bg-brand/10"
+                        : "border-white/5 bg-white/[0.02] text-hero-fg-soft hover:bg-white/[0.05]"
+
                     )}
                   >
                     <mod.icon className="size-3.5" />
