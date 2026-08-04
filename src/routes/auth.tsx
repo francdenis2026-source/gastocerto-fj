@@ -774,7 +774,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div className="space-y-3">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -920,7 +920,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -1021,7 +1021,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
@@ -1195,7 +1195,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading || lockSeconds > 0}
         >
           {loading ? (
@@ -1293,7 +1293,7 @@ function ExternalSignInForm({ onBack, initialCode }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="h-12 w-full text-base font-bold shadow-soft transition-all active:scale-[0.98]" 
+          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
           disabled={loading}
         >
           {loading ? (
