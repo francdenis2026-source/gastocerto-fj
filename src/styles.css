@@ -122,20 +122,20 @@
 :root {
   --radius: 0.75rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.05 0.02 259); /* Navy mais escuro para máximo contraste */
+  --foreground: oklch(0.02 0.01 259); /* Contraste máximo para legibilidade */
   --surface: oklch(1 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.08 0.03 259);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.08 0.03 259);
-  --primary: oklch(0.18 0.04 259); /* Navy Ajustado para Contraste */
+  --primary: oklch(0.14 0.03 259); /* Aumentado para contraste WCAG AAA */
   --primary-foreground: oklch(0.99 0.005 0);
   --brand: oklch(0.55 0.16 155); /* Esmeralda da Logo (#17A45F) */
   --brand-foreground: oklch(0.99 0.004 0);
   --secondary: oklch(0.96 0.01 259);
   --secondary-foreground: oklch(0.25 0.06 259);
   --muted: oklch(0.96 0.01 259);
-  --muted-foreground: oklch(0.25 0.04 259); /* Aumentado contraste de 0.36 para 0.25 */
+  --muted-foreground: oklch(0.2 0.03 259); /* Contraste alto para textos secundários */
   --accent: oklch(0.94 0.02 259);
   --accent-foreground: oklch(0.25 0.06 259);
   --destructive: oklch(0.58 0.18 25);
@@ -232,21 +232,21 @@
 
 
 .dark {
-  --background: oklch(0.08 0.02 259); /* Navy ultra profundo para um visual mais profissional */
+  --background: oklch(0.05 0.01 259); /* Navy ultra profundo estável */
   --foreground: oklch(0.98 0.01 259);
   --surface: oklch(0.16 0.03 259);
   --card: oklch(0.16 0.03 259);
   --card-foreground: oklch(0.98 0.01 259);
   --popover: oklch(0.16 0.03 259);
   --popover-foreground: oklch(0.98 0.01 259);
-  --primary: oklch(0.65 0.14 155); /* Esmeralda clara para contraste no escuro */
+  --primary: oklch(0.75 0.12 155); /* Esmeralda brilhante para contraste no escuro */
   --primary-foreground: oklch(0.1 0.03 259);
   --brand: oklch(0.65 0.14 155);
   --brand-foreground: oklch(0.1 0.03 259);
   --secondary: oklch(0.25 0.04 259);
   --secondary-foreground: oklch(0.98 0.01 259);
   --muted: oklch(0.22 0.04 259);
-  --muted-foreground: oklch(0.85 0.02 259);
+  --muted-foreground: oklch(0.9 0.01 259); /* Próximo ao branco para legibilidade */
   --accent: oklch(0.28 0.05 259);
   --accent-foreground: oklch(0.98 0.01 259);
   --destructive: oklch(0.66 0.18 25);

@@ -86,7 +86,7 @@ export function InteractiveCard({
           <Button 
             variant="ghost" 
             size="icon" 
-            className="size-7 rounded-full hover:bg-primary/10"
+            className="size-8 rounded-full hover:bg-primary/10 transition-colors"
             aria-expanded={isExpanded}
             aria-controls={`card-content-${id}`}
             onClick={(e) => {
@@ -94,7 +94,7 @@ export function InteractiveCard({
               setIsExpanded(!isExpanded);
             }}
           >
-            {isExpanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+            {isExpanded ? <ChevronUp className="size-5" /> : <ChevronDown className="size-5" />}
           </Button>
         </div>
         {description && <CardDescription className="text-[10px] leading-tight">{description}</CardDescription>}

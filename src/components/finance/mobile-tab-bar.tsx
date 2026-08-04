@@ -78,13 +78,15 @@ export function MobileTabBar() {
             <div className="pt-4 border-t border-border mt-4">
               <Button 
                 variant="destructive" 
-                className="w-full justify-start gap-3 rounded-xl py-5 text-[13px] font-bold"
+                className="w-full justify-start gap-3 rounded-xl py-6 text-[14px] font-bold shadow-lg shadow-destructive/10 active:scale-[0.98] transition-all"
                 onClick={() => {
                   setMenuOpen(false);
                   signOut();
                 }}
               >
-                <LogOut className="size-4" />
+                <div className="flex size-7 items-center justify-center rounded-lg bg-white/20">
+                  <LogOut className="size-4" />
+                </div>
                 Sair da Conta
               </Button>
             </div>
