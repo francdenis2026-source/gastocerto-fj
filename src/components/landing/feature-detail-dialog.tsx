@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, ListChecks, Sparkles } from "lucide-react";
+import { useState, type ReactNode, useEffect, useRef } from "react";
+import { ArrowLeft, ArrowRight, BookOpen, ListChecks, Sparkles, Loader2, AlertCircle } from "lucide-react";
 
 import { getFeatureDetail } from "@/lib/feature-details";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,14 @@ type Props = {
  */
 export function FeatureDetailDialog({ feature, children }: Props) {
   const [step, setStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
   const detail = getFeatureDetail(feature);
   const current = sections[step];
 
@@ -39,10 +47,54 @@ export function FeatureDetailDialog({ feature, children }: Props) {
         ? detail.howItWorks
         : detail.benefits;
 
+  useEffect(() => {
+    setIsLoading(true);
+    setError(null);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [step]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    isDragging.current = true;
+    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+    scrollRef.current.style.cursor = 'grabbing';
+    scrollRef.current.style.userSelect = 'none';
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current || !scrollRef.current) return;
+      e.preventDefault();
+      const x = e.pageX - scrollRef.current.offsetLeft;
+      const walk = (x - startX.current) * 2;
+      scrollRef.current.scrollLeft = scrollLeft.current - walk;
+    };
+
+    const handleMouseUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      if (scrollRef.current) {
+        scrollRef.current.style.cursor = 'grab';
+        scrollRef.current.style.removeProperty('user-select');
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
+
   return (
     <Dialog onOpenChange={(open) => !open && setStep(0)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl sm:p-6 p-4 gap-4 overflow-y-auto max-h-[90vh]">
+      <DialogContent className="max-w-2xl sm:p-6 p-4 gap-4 overflow-y-auto max-h-[90vh] bg-background/95 backdrop-blur-xl border-border/50">
         <DialogHeader className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             {detail.tag ? (
@@ -84,35 +136,57 @@ export function FeatureDetailDialog({ feature, children }: Props) {
           })}
         </nav>
 
-        <div className="grid gap-5 sm:grid-cols-[1fr_200px] sm:items-start">
-          <div className="space-y-4">
-            <ul className="grid gap-2.5 panel-enter">
-              {items.map((item, index) => (
-                <li
-                  key={item}
-                  className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card"
+        <div className="grid gap-5 sm:grid-cols-[1fr_200px] sm:items-start relative min-h-[160px]">
+          {isLoading ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/50 backdrop-blur-[1px] z-10 rounded-2xl animate-in fade-in duration-300">
+              <Loader2 className="size-8 text-primary animate-spin mb-2" />
+              <p className="text-[12px] font-bold tracking-wider text-muted-foreground uppercase">Carregando detalhes...</p>
+            </div>
+          ) : error ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-destructive/5 backdrop-blur-[1px] z-10 rounded-2xl border border-destructive/20 animate-in zoom-in-95 duration-300">
+              <AlertCircle className="size-8 text-destructive mb-2" />
+              <p className="text-[13px] font-bold text-destructive">{error}</p>
+              <Button variant="outline" size="sm" className="mt-3" onClick={() => setIsLoading(true)}>Tentar novamente</Button>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-4">
+                <div 
+                  ref={scrollRef}
+                  onMouseDown={handleMouseDown}
+                  className="overflow-x-auto overflow-y-hidden cursor-grab active:cursor-grabbing scrollbar-none pb-2"
+                  style={{ touchAction: 'pan-y' }}
                 >
-                  <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
-                    {index + 1}
-                  </span>
-                  <span className="min-w-0">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+                  <ul className="grid gap-2.5 panel-enter sm:grid-cols-1 grid-flow-col auto-cols-[85%] sm:auto-cols-auto">
+                    {items.map((item, index) => (
+                      <li
+                        key={item}
+                        className="flex gap-3 rounded-2xl border border-border/50 bg-card/50 p-3.5 text-[13.5px] font-medium leading-relaxed text-foreground/90 transition-colors hover:border-border hover:bg-card select-none"
+                      >
+                        <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">
+                          {index + 1}
+                        </span>
+                        <span className="min-w-0">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
 
-          <figure className="order-first overflow-hidden rounded-2xl border border-border shadow-sm sm:order-none">
-            <img
-              src={detail.screenshot}
-              alt={detail.screenshotAlt}
-              loading="lazy"
-              decoding="async"
-              className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-40"
-            />
-            <figcaption className="border-t border-border bg-muted/30 px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">
-              Visualização Real
-            </figcaption>
-          </figure>
+              <figure className="order-first overflow-hidden rounded-2xl border border-border shadow-sm sm:order-none sm:block">
+                <img
+                  src={detail.screenshot}
+                  alt={detail.screenshotAlt}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-40"
+                />
+                <figcaption className="border-t border-border bg-muted/30 px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">
+                  Visualização Real
+                </figcaption>
+              </figure>
+            </>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
