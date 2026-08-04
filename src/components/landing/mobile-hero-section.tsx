@@ -11,7 +11,7 @@ export function MobileHeroSection() {
 
   return (
     <section className="relative overflow-hidden px-4 py-6 md:hidden">
-      <div className="relative flex flex-col overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/40 shadow-2xl transition-all duration-700 max-h-[70vh]">
+      <div className="relative flex flex-col overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/20 shadow-2xl transition-all duration-700 max-h-[65vh] backdrop-blur-xl">
         
         {/* Parallax Background Layer */}
         <div 
