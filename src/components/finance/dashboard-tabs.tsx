@@ -23,9 +23,9 @@ export function DashboardTabs({
   className
 }: DashboardTabsProps) {
   return (
-    <Tabs defaultValue="overview" className={cn("w-full space-y-6", className)}>
+    <Tabs defaultValue="overview" className={cn("w-full space-y-4", className)}>
       <div className="sticky top-[52px] z-30 -mx-3 bg-background/95 backdrop-blur-md px-3 sm:static sm:mx-0 sm:bg-transparent sm:px-0">
-        <TabsList className="flex h-10 w-full flex-nowrap justify-start overflow-x-auto overflow-y-hidden border border-border/40 bg-muted/20 p-1.5 scrollbar-none sm:h-11 sm:p-1">
+        <TabsList className="flex h-9 w-full flex-nowrap justify-start overflow-x-auto overflow-y-hidden border border-border/20 bg-muted/10 p-1 scrollbar-none sm:h-11 sm:p-1">
           <TabsTrigger 
             value="overview" 
             className="h-7 gap-1.5 rounded-lg px-2.5 text-[10px] font-black uppercase tracking-wider transition-all data-[state=active]:bg-background data-[state=active]:text-brand data-[state=active]:shadow-md sm:h-9 sm:px-6 sm:text-[13px]"
@@ -71,11 +71,11 @@ export function DashboardTabs({
         </TabsList>
       </div>
 
-      <TabsContent value="overview" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
+      <TabsContent value="overview" className="space-y-4 outline-none animate-in fade-in zoom-in-95 duration-200">
         {overview}
       </TabsContent>
       
-      <TabsContent value="analytics" className="space-y-6 outline-none animate-in fade-in zoom-in-95 duration-200">
+      <TabsContent value="analytics" className="space-y-4 outline-none animate-in fade-in zoom-in-95 duration-200">
         {analytics}
       </TabsContent>
 

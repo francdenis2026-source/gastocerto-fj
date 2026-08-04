@@ -616,13 +616,13 @@ function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:hidden">
+      <div className="grid grid-cols-2 gap-2 sm:hidden px-4 mb-4">
         <StatTile
-          label="Saldo Geral"
+          label="Saldo"
           value={formatCurrency(metrics.balance)}
           tone={metrics.balance >= 0 ? "success" : "expense"}
           icon={Wallet}
-          className="bg-background/40"
+          className="mobile-compact-card"
           onClick={() => {
             setDetail({
               label: "Saldo Geral",
@@ -638,11 +638,11 @@ function DashboardPage() {
           }}
         />
         <StatTile
-          label="Total Gasto"
+          label="Gasto"
           value={formatCurrency(metrics.totalExpense)}
           tone="expense"
           icon={TrendingDown}
-          className="bg-background/40"
+          className="mobile-compact-card"
           onClick={() => {
             setDetail({
               label: "Total de Despesas",
@@ -660,7 +660,7 @@ function DashboardPage() {
       </div>
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-2xl border border-banner-primary-border bg-banner-primary-bg/50 p-3 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-4">
+          <div className="glass-morphism mobile-compact-card shadow-sm sm:rounded-3xl sm:p-4">
             <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className="flex items-center gap-2">
                 <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -712,7 +712,7 @@ function DashboardPage() {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="p-3 rounded-xl bg-muted/30 border border-border/50">
+                  <div className="p-3 rounded-xl bg-secondary/20 border border-border/30">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Resumo do Mês</p>
                     <div className="flex items-end justify-between">
                       <p className={cn("text-lg font-black", metrics.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
@@ -725,21 +725,21 @@ function DashboardPage() {
                   <div className="space-y-2">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase px-1">Alertas do Mês</p>
                     {metrics.usedPercent > 90 ? (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
                         <AlertTriangle className="size-4 text-rose-500 shrink-0 mt-0.5" />
                         <p className="text-[10px] leading-tight text-rose-600 font-bold">
                           Você atingiu {metrics.usedPercent.toFixed(1)}% do seu orçamento. Considere frear gastos não essenciais.
                         </p>
                       </div>
                     ) : metrics.usedPercent > 75 ? (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
                         <AlertTriangle className="size-4 text-amber-600 shrink-0 mt-0.5" />
                         <p className="text-[10px] leading-tight text-amber-700 font-bold">
                           Atenção: Orçamento em {metrics.usedPercent.toFixed(1)}%. Mantenha o foco até o fechamento.
                         </p>
                       </div>
                     ) : (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                         <CheckSquare className="size-4 text-emerald-500 shrink-0 mt-0.5" />
                         <p className="text-[10px] leading-tight text-emerald-700 font-bold">
                           Orçamento sob controle ({metrics.usedPercent.toFixed(1)}%). Ótimo trabalho!
@@ -759,7 +759,7 @@ function DashboardPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 shadow-sm">
+              <div className="glass-morphism mobile-compact-card shadow-sm">
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Evolução do Saldo</h3>
                 <div className="h-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -832,9 +832,10 @@ function DashboardPage() {
                  overview={
                    <div className="space-y-6">
                      <div className="grid gap-6 sm:grid-cols-2">
-                       <InteractiveCard
-                         id="client-top-expenses"
-                         title="Valores Gastos por Categoria"
+                        <InteractiveCard
+                          id="client-top-expenses"
+                          className="glass-morphism"
+                          title="Valores Gastos por Categoria"
                          description="Detalhamento das despesas do período"
                          icon={<ShoppingBag className="size-4" />}
                          items={byCategory}
@@ -878,9 +879,10 @@ function DashboardPage() {
                          </div>
                        </InteractiveCard>
 
-                       <InteractiveCard
-                         id="client-upcoming-bills"
-                         title="Próximos Vencimentos"
+                        <InteractiveCard
+                          id="client-upcoming-bills"
+                          className="glass-morphism"
+                          title="Próximos Vencimentos"
                          description="Contas pendentes e recorrentes"
                          icon={<CalendarClock className="size-4" />}
                          items={metrics.upcoming}
@@ -1039,6 +1041,7 @@ function DashboardPage() {
                     <div className="grid gap-6 md:grid-cols-2">
                       <InteractiveCard
                         id="client-analytics-categories"
+                        className="glass-morphism"
                         title="Categorias"
                         description="Distribuição percentual de gastos"
                         icon={<PieChartIcon className="size-4" />}
@@ -1068,6 +1071,7 @@ function DashboardPage() {
 
                       <InteractiveCard
                         id="client-analytics-flow"
+                        className="glass-morphism"
                         title="Receitas x Despesas"
                         description="Fluxo mensal consolidado"
                         icon={<Activity className="size-4" />}
@@ -1085,11 +1089,11 @@ function DashboardPage() {
                         }
                       >
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                          <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                             <p className="text-[9px] font-bold text-emerald-600 uppercase">Total Receitas</p>
                             <p className="text-sm font-black text-emerald-700">{formatCurrency(metrics.totalIncome)}</p>
                           </div>
-                          <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/10">
+                          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <p className="text-[9px] font-bold text-rose-600 uppercase">Total Despesas</p>
                             <p className="text-sm font-black text-rose-700">{formatCurrency(metrics.totalExpense)}</p>
                           </div>
@@ -1183,7 +1187,7 @@ function ChartCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="glass-morphism mobile-compact-card">
       <h2 className="text-sm font-semibold">{title}</h2>
       <p className="mt-1 text-xs text-muted-foreground">{summary}</p>
       <div className="chart-frame mt-2">{children}</div>
@@ -1216,7 +1220,7 @@ function YearlyBalanceSection({ year }: { year: number }) {
   if (!data) return null;
 
   return (
-    <section className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
+    <section className="glass-morphism mobile-compact-card shadow-sm overflow-hidden">
       <div 
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/30 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}

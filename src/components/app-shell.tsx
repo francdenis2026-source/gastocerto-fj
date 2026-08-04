@@ -244,7 +244,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/20 lg:flex">
+    <div className="min-h-screen bg-background lg:flex">
       <ConfirmDialog />
       <TemporaryLicenseBanner />
       <aside
@@ -521,10 +521,10 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* pt safe-area: no mobile a faixa do notch acompanha o tema (claro/escuro). */}
-        <header className="sticky top-0 z-40 border-b border-border bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur-md">
-          <div className="flex items-center justify-between px-4 py-2.5 sm:px-6 sm:py-3.5">
+        <header className="sticky top-0 z-40 border-b border-border/10 bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+          <div className="flex h-12 items-center justify-between px-3 sm:px-6 sm:h-14">
             <div className="flex min-w-0 items-center gap-3">
-              <Link to="/painel" className="lg:hidden">
+              <Link to="/painel" className="lg:hidden scale-90 -ml-1">
                 <Logo compact />
               </Link>
               <div className="hidden flex-col lg:flex">

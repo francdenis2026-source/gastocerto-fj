@@ -494,6 +494,18 @@
   height: 2.375rem;
 }
 
+@utility glass-morphism {
+  background: color-mix(in oklab, var(--card) 65%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in oklab, var(--border) 40%, transparent);
+}
+
+@utility mobile-compact-card {
+  padding: 0.85rem;
+  border-radius: 1.25rem;
+}
+
 /* Título e subtítulo padrão das telas internas: compacto no celular,
    generoso no desktop — mesma hierarquia em todas as páginas. */
 @utility page-title {
