@@ -12,7 +12,8 @@ import {
   FileClock, 
   Loader2,
   TrendingUp,
-  Clock
+  Clock,
+  Trash2
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -84,6 +85,10 @@ const LogsTable = lazy(() =>
   import("@/components/admin/logs-table").then((m) => ({ default: m.LogsTable })),
 );
 
+const TrashPanel = lazy(() =>
+  import("@/components/admin/trash-panel").then((m) => ({ default: m.TrashPanel })),
+);
+
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
 
 type AdminSection = {
@@ -102,6 +107,7 @@ const SECTIONS: AdminSection[] = [
   { id: "operations", label: "Operações", hint: "Suporte e catálogo", icon: LifeBuoy, adminOnly: true },
   { id: "security", label: "Segurança", hint: "Acessos e infra", icon: Lock, adminOnly: true },
   { id: "audit", label: "Auditoria", hint: "Histórico de logs", icon: FileClock },
+  { id: "trash", label: "Quarentena", hint: "Itens excluídos", icon: Trash2, adminOnly: true },
 ];
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -239,6 +245,12 @@ function AdminConsole({ isAdmin }: { isAdmin: boolean }) {
             </div>
             <AuditLogsPanelComponent globalSearch={search} />
             <LogsTable globalSearch={search} />
+          </div>
+        ) : null}
+
+        {current === "trash" ? (
+          <div className="space-y-4">
+            <TrashPanel />
           </div>
         ) : null}
       </Suspense>

@@ -63,6 +63,8 @@ import {
   adminSetUserPassword,
   adminUpdateUser,
 } from "@/lib/admin-users.functions";
+import { moveToTrash } from "@/lib/admin-trash.functions";
+import { useServerFn } from "@tanstack/react-start";
 import { maskCpf, onlyDigits } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format";
 import type { Profile } from "@/lib/queries";
@@ -80,6 +82,7 @@ export function UsersPanel({ isAdmin, globalSearch = "" }: { isAdmin: boolean; g
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selected, setSelected] = useState<Profile | null>(null);
+  const moveToTrashFn = useServerFn(moveToTrash);
 
   const profiles = useQuery({
     queryKey: ["admin", "profiles"],
@@ -433,6 +436,7 @@ function ManageUserDialog({
   onChanged: () => Promise<void>;
 }) {
   const { confirm, ConfirmDialog } = useConfirm();
+  const moveToTrashFn = useServerFn(moveToTrash);
   const [pending, setPending] = useState<string | null>(null);
 
 
@@ -701,20 +705,33 @@ function ManageUserDialog({
                   disabled={pending !== null || isSelf}
                   onClick={() => {
                     confirm({
-                      title: "Excluir conta definitivamente",
-                      description: `Todos os dados de ${profile.full_name || profile.contact_email || "este usuário"} serão apagados. Esta ação não pode ser desfeita.`,
+                      title: "Mover para Quarentena",
+                      description: `Os dados de ${profile.full_name || profile.contact_email || "este usuário"} serão movidos para a lixeira administrativa e o acesso será removido.`,
                       type: "warning",
-                      confirmLabel: "Excluir",
-                      input: { label: "Digite EXCLUIR para confirmar", expected: "EXCLUIR", placeholder: "EXCLUIR" },
-                      onConfirm: () => {
-                        void run(
-                          "delete",
-                          () =>
-                            adminDeleteUser({
-                              data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
-                            }),
-                          "Conta excluída",
-                        ).then(onClose);
+                      confirmLabel: "Excluir (Quarentena)",
+                      onConfirm: async () => {
+                        try {
+                          await moveToTrashFn({
+                            data: {
+                              itemId: profile.user_id,
+                              itemType: "user",
+                              originalData: profile,
+                              reason: "Exclusão administrativa com quarentena"
+                            }
+                          });
+                          
+                          await run(
+                            "delete",
+                            () =>
+                              adminDeleteUser({
+                                data: { targetUserId: profile.user_id, confirmation: "EXCLUIR" },
+                              }),
+                            "Conta movida para quarentena",
+                          );
+                          onClose();
+                        } catch (err: any) {
+                          toast.error("Erro ao processar: " + err.message);
+                        }
                       },
                     });
                   }}
