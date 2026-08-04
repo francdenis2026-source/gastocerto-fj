@@ -660,7 +660,7 @@ function DashboardPage() {
       </div>
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="rounded-2xl border border-banner-primary-border bg-banner-primary-bg/50 p-3 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-4">
+          <div className="glass-morphism mobile-compact-card shadow-sm sm:rounded-3xl sm:p-4">
             <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className="flex items-center gap-2">
                 <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
