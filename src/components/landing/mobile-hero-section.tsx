@@ -9,13 +9,11 @@ export function MobileHeroSection() {
   return (
     <section className="relative overflow-hidden px-4 py-8 md:hidden">
       <div className="relative flex flex-col gap-6 overflow-hidden rounded-[2.5rem] border border-border/50 bg-card shadow-lifted animate-in fade-in slide-in-from-bottom-4 duration-1000">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0">
-          <img
-            src={heroMobileAlt}
-            alt="Fundo profissional financeiro"
-            className="h-full w-full object-cover opacity-30"
-            loading="lazy"
+        {/* Background Image with Parallax effect */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-30 bg-fixed"
+            style={{ backgroundImage: `url(${heroMobileAlt})` }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-card/40 via-card/80 to-card" />
         </div>
