@@ -116,35 +116,39 @@ export function Hero() {
           <h1 className="font-display mt-3 text-[clamp(2rem,8vw,2.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-hero-fg [text-wrap:balance] sm:text-[3.2rem] lg:text-[3.75rem]">
             Controle financeiro
             <br className="hidden sm:block" />{" "}
-            <span className="bg-gradient-to-br from-brand via-brand/80 to-emerald-400 bg-clip-text text-transparent brightness-110">
+            <span className="bg-gradient-to-br from-[oklch(0.48_0.14_155)] via-[oklch(0.52_0.15_155)] to-[oklch(0.58_0.14_162)] bg-clip-text text-transparent dark:from-brand dark:via-brand/85 dark:to-emerald-400 dark:brightness-110">
               inteligente e simples.
             </span>
           </h1>
 
-          <p className="mt-4 max-w-[50ch] text-[15.5px] font-medium leading-[1.6] text-hero-fg-muted sm:text-lg">
+          <p className="mt-3.5 max-w-[48ch] text-[15px] font-medium leading-[1.55] text-hero-fg-muted sm:text-[17px]">
             A plataforma definitiva para organizar gastos, veículos e investimentos da família com tecnologia de ponta e consultoria por IA.
           </p>
 
-          <div className="mt-5 grid gap-2 sm:flex sm:flex-wrap sm:items-center">
+          <div className="mt-5 grid gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
             <Button
-              className="press-feedback btn-hover-shine h-12 w-full justify-center rounded-xl bg-brand px-6 text-sm font-bold shadow-[0_0_20px_rgba(23,164,95,0.3)] transition-all hover:scale-[1.02] hover:bg-brand/90 sm:h-12 sm:w-auto sm:px-8"
+              className="cta-lift btn-hover-shine group h-12 w-full justify-center rounded-xl bg-brand px-6 text-[15px] font-bold text-brand-foreground shadow-[0_10px_28px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:w-auto sm:px-8"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
-                <span className="truncate">Começar Agora — É Grátis</span>
-                <ArrowRight className="size-4 shrink-0 animate-pulse" aria-hidden="true" />
+                <span className="truncate">Começar agora — é grátis</span>
+                <ArrowRight
+                  className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
             <CodeAccessDialog>
               <Button
                 variant="outline"
-                className="h-12 w-full justify-center border-hero-border-strong bg-hero-surface-soft px-5 text-sm font-semibold text-hero-fg hover:bg-hero-surface hover:text-hero-fg sm:h-11 sm:w-auto sm:px-6"
+                className="press-feedback h-12 w-full justify-center rounded-xl border-hero-border-strong bg-hero-surface px-5 text-[15px] font-semibold text-hero-fg backdrop-blur-sm transition-colors hover:border-hero-accent/60 hover:bg-hero-surface hover:text-hero-fg focus-visible:ring-2 focus-visible:ring-hero-border-strong sm:w-auto sm:px-6"
               >
-                <KeyRound className="size-4 shrink-0" aria-hidden="true" />
+                <KeyRound className="size-4 shrink-0 text-hero-accent" aria-hidden="true" />
                 <span className="truncate">Código de acesso</span>
               </Button>
             </CodeAccessDialog>
           </div>
+
 
           <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Módulos disponíveis">
             {modules.map((mod) => (
