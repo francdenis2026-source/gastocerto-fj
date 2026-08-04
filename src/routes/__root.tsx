@@ -214,10 +214,20 @@ function RootComponent() {
   }, []);
 
   useEffect(() => {
+    let lastEvent: string | null = null;
+    let lastEventTime = 0;
+
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      const now = Date.now();
+      // Debounce básico para evitar invalidações em massa em loops de erro ou refresh rápido
+      if (event === lastEvent && now - lastEventTime < 2000) return;
+      
+      lastEvent = event;
+      lastEventTime = now;
+
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED" && event !== "TOKEN_REFRESHED") return;
       
-      // Evitar redirects infinitos ou loops de 429 se o token falhar repetidamente
+      // Se o token falhou (refreshed mas sem sessão), não invalidamos para evitar loop de re-carregamento de rota
       if (event === "TOKEN_REFRESHED" && !session) return;
 
       router.invalidate();
