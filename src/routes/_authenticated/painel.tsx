@@ -506,7 +506,6 @@ function DashboardPage() {
           </div>
         )}
         
-
         {!hasFeature(access, "financial_help") && (
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
             <div className="flex items-center gap-2.5">
@@ -528,10 +527,6 @@ function DashboardPage() {
             </Button>
           </div>
         )}
-
-
-
-
 
         {kidsOnboarding.visible && !kidsOnboarding.complete && (
           <div className="rounded-3xl border border-banner-primary-border bg-banner-primary-bg/50 p-4 shadow-sm backdrop-blur-sm">
@@ -564,9 +559,6 @@ function DashboardPage() {
             </div>
           </div>
         )}
-
-
-
 
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
           <div className="min-w-0">
