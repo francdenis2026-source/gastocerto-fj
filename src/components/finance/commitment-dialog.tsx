@@ -218,7 +218,7 @@ export function CommitmentDialog({
           notes: notes.trim() ? notes.trim().slice(0, 500) : null,
         },
       });
-      toast.success(commitment ? "Compromisso atualizado." : "Compromisso cadastrado.");
+      toast.success(commitment ? "Compromisso atualizado." : "Compromisso adicionado.");
       onOpenChange(false);
 
       // Cria automaticamente as parcelas futuras (lançamentos pendentes).

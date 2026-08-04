@@ -66,7 +66,7 @@ export function KidsGoalDialog({
           completed_at: currentValue >= targetValue ? new Date().toISOString() : null,
         },
       });
-      toast.success(goal ? "Meta atualizada." : "Meta mágica criada!");
+      toast.success(goal ? "Meta atualizada." : "Meta mágica adicionada!");
       onOpenChange(false);
     } catch (error) {
       toast.error("Não foi possível salvar a meta.", {

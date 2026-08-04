@@ -304,7 +304,7 @@ function FamilyHubPage() {
                   Cadastre para registrar mesadas e liberar o Espaço Kids.
                 </p>
                 <Button className="mt-3" size="sm" onClick={openCreate}>
-                  <Plus className="mr-1 size-4" /> Cadastrar filho
+                  <Plus className="mr-1 size-4" /> Adicionar filho
                 </Button>
               </div>
             ) : (
@@ -387,7 +387,7 @@ function FamilyHubPage() {
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>{editing ? "Editar cadastro" : "Cadastrar filho"}</DialogTitle>
+            <DialogTitle>{editing ? "Editar cadastro" : "Adicionar filho"}</DialogTitle>
             <DialogDescription>
               Os dados de mesada e limite orientam os avisos automáticos do Espaço Kids.
             </DialogDescription>

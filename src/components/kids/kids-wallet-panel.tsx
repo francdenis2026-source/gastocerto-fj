@@ -166,7 +166,7 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
           <p className="mt-2 text-xs font-medium">Nenhum filho cadastrado</p>
           {onCreate ? (
             <Button size="sm" className="mt-2 h-8 rounded-xl text-xs" onClick={onCreate}>
-              <Plus className="mr-1 size-3.5" /> Cadastrar filho
+              <Plus className="mr-1 size-3.5" /> Adicionar filho
             </Button>
           ) : null}
         </div>

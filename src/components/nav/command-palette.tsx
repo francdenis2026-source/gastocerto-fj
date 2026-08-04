@@ -119,7 +119,7 @@ export function CommandPalette({
                 </CommandItem>
                 <CommandItem value="adicionar fixo assinatura recorrente" onSelect={() => go("/recorrencia")}>
                   <Plus className="mr-2 size-4 text-brand" />
-                  Cadastrar gasto fixo
+                  Adicionar gasto fixo
                 </CommandItem>
               </CommandGroup>
               <CommandSeparator />

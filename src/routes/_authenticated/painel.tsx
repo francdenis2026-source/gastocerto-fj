@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut, SearchIcon, ArrowUpRight, ShoppingBag } from "lucide-react";
+import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut, SearchIcon, ArrowUpRight, ShoppingBag, Printer } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cleanupJulyData } from "@/lib/data-cleanup.functions";
@@ -99,6 +99,7 @@ import { useCategories, useProfile } from "@/lib/queries";
 import { useBudgets, useTransactions, type Transaction } from "@/lib/transactions";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { exportDashboardToPDF } from "@/lib/pdf-export";
 
 import { useAutoRecurring } from "@/lib/recurring";
 import { useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";
@@ -579,7 +580,7 @@ function DashboardPage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[
-                { label: "Cadastrar", done: kidsOnboarding.hasKid },
+                { label: "Adicionar", done: kidsOnboarding.hasKid },
                 { label: "PIN Segurança", done: kidsOnboarding.hasPin },
                 { label: "Limites", done: kidsOnboarding.hasLimit },
                 { label: "Mesada", done: kidsOnboarding.hasAllowance }
@@ -629,6 +630,15 @@ function DashboardPage() {
             >
               <RefreshCw className="mr-1.5 size-3" />
               Redefinir
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-9 rounded-xl px-2 text-xs font-bold text-muted-foreground hover:text-foreground border-border/40"
+              onClick={() => exportDashboardToPDF("dashboard-content", "Painel Financeiro")}
+            >
+              <Printer className="mr-1.5 size-3" />
+              Imprimir
             </Button>
             <Button 
               variant="outline" 
@@ -699,7 +709,7 @@ function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col gap-3 lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-2 sm:mt-6 w-full max-w-full overflow-x-hidden">
+          <div id="dashboard-content" className="flex flex-col gap-3 lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-2 sm:mt-6 w-full max-w-full overflow-x-hidden">
             <aside className="hidden lg:block space-y-6">
               <div className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">

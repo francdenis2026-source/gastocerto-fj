@@ -123,7 +123,7 @@ export function DependentDialog({
         },
       });
 
-      toast.success(dependent ? "Dependente atualizado." : `${name.trim()} cadastrado.`);
+      toast.success(dependent ? "Dependente atualizado." : `${name.trim()} adicionado.`);
       onOpenChange(false);
     } catch (error) {
       toast.error("Não foi possível salvar.", {
