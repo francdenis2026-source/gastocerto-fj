@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserPlus, Search, Trash2, Edit2, Loader2, Shield, Calendar, Clock, Lock, Save, X } from "lucide-react";
+import { UserPlus, Search, Trash2, Edit2, Loader2, Shield, Calendar, Clock, Lock, Save, X, FileDown, FileText, RefreshCw, Send } from "lucide-react";
 import { useMemo, useState } from "react";
+import { adminCleanupExpiredAccounts } from "@/lib/admin-maintenance.functions";
+import { adminSendExpirationReminders } from "@/lib/admin-notifications.functions";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,6 +38,10 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
   const [search, setSearch] = useState("");
   const [editingAccount, setEditingAccount] = useState<any>(null);
   const updateUser = useServerFn(adminUpdateUser);
+  const cleanup = useServerFn(adminCleanupExpiredAccounts);
+  const sendReminders = useServerFn(adminSendExpirationReminders);
+  const [isCleaning, setIsCleaning] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const { data: accounts, isLoading } = useQuery({
     queryKey: ["admin", "temporary-accounts"],
@@ -83,18 +89,109 @@ export function TemporaryAccountsPanel({ globalSearch = "" }: { globalSearch?: s
     }
   };
 
+  const handleExport = (format: 'csv' | 'pdf') => {
+    if (!filtered.length) return;
+    
+    if (format === 'csv') {
+      const headers = ["Nome Fictício", "Email/CPF", "Plano", "Expiração", "Dias Restantes", "Status"];
+      const rows = filtered.map(a => {
+        const endsAt = new Date(a.trial_ends_at);
+        const now = new Date();
+        const diffDays = Math.ceil((endsAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+        return [
+          a.full_name || "Usuário Temporário",
+          a.contact_email || a.cpf || "-",
+          a.plans?.name || "Trial",
+          formatDateTime(a.trial_ends_at),
+          diffDays > 0 ? diffDays : "Expirado",
+          "Restrito"
+        ];
+      });
+      
+      const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", `contas-temporarias-${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Exportação CSV concluída");
+    } else {
+      toast.info("A exportação PDF está sendo gerada...");
+      window.print(); // Fallback simples para visualização de impressão/PDF
+    }
+  };
+
+  const handleCleanup = async () => {
+    setIsCleaning(true);
+    try {
+      const result = await cleanup();
+      toast.success(\`Limpeza concluída: \${result.count} contas expiradas removidas.\`);
+      queryClient.invalidateQueries({ queryKey: ["admin", "temporary-accounts"] });
+    } catch (err: any) {
+      toast.error("Falha ao executar limpeza");
+    } finally {
+      setIsCleaning(false);
+    }
+  };
+
+  const handleSendReminders = async () => {
+    setIsSending(true);
+    try {
+      const result = await sendReminders();
+      toast.success(\`Lembretes enviados: \${result.sent3} (3 dias) e \${result.sent1} (1 dia).\`);
+    } catch (err: any) {
+      toast.error("Falha ao enviar lembretes");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
-    <Card className="border-border/60 shadow-sm">
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
+    <Card className="border-border/60 shadow-sm overflow-hidden">
+      <CardHeader className="pb-4 bg-muted/20">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <CardTitle className="flex items-center gap-2 text-lg font-bold">
               <UserPlus className="size-5 text-amber-500" />
-              Contas Temporárias (Trials)
+              Gestão de Contas Temporárias
             </CardTitle>
             <CardDescription>
-              Gestão de usuários em período de teste ou acesso por código. Edite nomes fictícios e acompanhe expirações.
+              Controle de trials e acessos por código. Lembretes e limpeza automática de expirações.
             </CardDescription>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 rounded-xl"
+              onClick={() => handleExport('csv')}
+            >
+              <FileText className="size-4" />
+              Exportar CSV
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 rounded-xl"
+              onClick={handleSendReminders}
+              disabled={isSending}
+            >
+              {isSending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
+              Lembretes
+            </Button>
+            <Button 
+              variant="destructive" 
+              size="sm" 
+              className="gap-2 rounded-xl"
+              onClick={handleCleanup}
+              disabled={isCleaning}
+            >
+              {isCleaning ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}
+              Limpar Expirados
+            </Button>
           </div>
         </div>
         <div className="relative mt-3">
