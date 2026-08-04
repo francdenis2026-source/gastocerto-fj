@@ -102,7 +102,7 @@ function NotificationItem({ n, onMarkRead, onDelete }: { n: any, onMarkRead: () 
         onDragEnd={handleDragEnd}
         animate={isDeleting ? { x: -400, opacity: 0 } : { x: 0, opacity: 1 }}
         className={cn(
-          "relative z-10 flex flex-col gap-1 p-4 bg-background transition-colors hover:bg-muted/50 border-b border-border cursor-pointer focus-visible:outline-none focus-visible:bg-muted/50 focus-visible:ring-1 focus-visible:ring-brand/30",
+          "relative z-10 flex flex-col gap-1 p-4 bg-background transition-colors hover:bg-muted/50 border-b border-border cursor-pointer focus-visible:outline-none focus-visible:bg-muted/50 focus-visible:ring-2 focus-visible:ring-brand/50",
           !n.read_at && "bg-primary/5"
         )}
         onClick={() => !n.read_at && onMarkRead()}
@@ -141,7 +141,7 @@ export function NotificationCenter({ isKid = false }: { isKid?: boolean }) {
         <Button
           variant="ghost"
           size="icon"
-          aria-label={unreadCount > 0 ? `Avisos (${unreadCount} não lidos)` : "Avisos"}
+          aria-label={unreadCount > 0 ? `${unreadCount} avisos não lidos` : "Centro de avisos"}
           className={cn(
             "relative shrink-0 rounded-full p-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             isKid ? "size-9" : "size-8 sm:size-9",

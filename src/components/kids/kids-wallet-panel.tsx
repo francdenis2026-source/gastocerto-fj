@@ -82,10 +82,18 @@ export function KidsWalletPanel({ onCreate, onRemove }: Props) {
 
   const alerts = useMemo(() => filtered.flatMap((wallet) => {
     const name = wallet.nickname?.trim() || wallet.name;
-    const lowThreshold = Math.max(wallet.monthlyAllowance * 0.2, 20);
     const usage = wallet.monthlyLimit > 0 ? (wallet.monthSpent / wallet.monthlyLimit) * 100 : 0;
     const items: string[] = [];
-    if (wallet.balance <= lowThreshold) items.push(`${name} está com saldo baixo (${formatCurrency(wallet.balance)}).`);
+    
+    // Alerta de Saldo Zerado
+    if (wallet.balance === 0) {
+      items.push(`${name} está com saldo ZERADO!`);
+    } 
+    // Alerta de Saldo Baixo (abaixo de R$ 5,00)
+    else if (wallet.balance < 5) {
+      items.push(`${name} está com saldo muito baixo (${formatCurrency(wallet.balance)}).`);
+    }
+    
     if (usage >= 80) items.push(`${name} já utilizou ${Math.round(usage)}% do limite mensal.`);
     return items;
   }), [filtered]);
