@@ -152,7 +152,11 @@ function ConfirmDialogView({
   );
 
   return (
-    <AlertDialog open={state.open} onOpenChange={(open) => !open && onClose()}>
+    <AlertDialog open={state.open} onOpenChange={(open) => {
+      if (!open) {
+        onClose();
+      }
+    }}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <div className={cn("mb-2 flex h-16 w-16 items-center justify-center rounded-2xl shadow-sm", iconColor)}>
