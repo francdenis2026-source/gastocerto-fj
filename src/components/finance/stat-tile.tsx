@@ -75,7 +75,7 @@ export function StatTile({
     <Comp
       {...(onClick ? { type: "button" as const, onClick } : {})}
       className={cn(
-        "relative w-full overflow-hidden premium-card text-left p-6",
+        "relative w-full overflow-hidden premium-card text-left p-6 border-transparent bg-card/50 backdrop-blur-sm",
         t.ring,
         onClick ? "active:scale-[0.98]" : "hover:translate-y-0",
         className,
