@@ -45,3 +45,46 @@ export const autoCategorizeFamilyExpense = createServerFn({ method: "POST" })
 
     return null;
   });
+
+export const updateTransactionBeneficiary = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({
+    transactionId: z.string().uuid(),
+    beneficiaryType: z.enum(["adult_child", "family_member", "none"]),
+    beneficiaryName: z.string().optional()
+  }).parse(data))
+  .handler(async ({ data, context }) => {
+    const { supabase } = context;
+    
+    // Como ainda não temos colunas específicas no DB, anexamos às notas ou metadados se existirem
+    const { data: transaction } = await supabase
+      .from("transactions")
+      .select("notes, metadata")
+      .eq("id", data.transactionId)
+      .single();
+      
+    if (!transaction) throw new Error("Transação não encontrada");
+
+    let notes = transaction.notes || "";
+    if (data.beneficiaryType !== "none" && data.beneficiaryName) {
+      const prefix = data.beneficiaryType === "adult_child" ? "[Filho Maior]" : "[Outro Familiar]";
+      if (!notes.includes(prefix)) {
+        notes = `${prefix} ${data.beneficiaryName}${notes ? ` - ${notes}` : ""}`;
+      }
+    }
+
+    const { error } = await supabase
+      .from("transactions")
+      .update({ 
+        notes,
+        metadata: { 
+          ...(transaction.metadata as any || {}), 
+          beneficiary_type: data.beneficiaryType,
+          beneficiary_name: data.beneficiaryName 
+        } 
+      } as any)
+      .eq("id", data.transactionId);
+
+    if (error) throw error;
+    return { ok: true };
+  });

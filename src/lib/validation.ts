@@ -180,7 +180,7 @@ export function friendlyAuthError(message?: string): string {
     raw.includes("invalid_grant") || 
     raw.includes("email not confirmed")
   ) {
-    return "Credenciais inválidas. Por favor, tente novamente.";
+  return "Credenciais inválidas. Por favor, tente novamente.";
   }
   
   if (raw.includes("user already registered")) return "Já existe uma conta com este CPF ou e-mail.";
