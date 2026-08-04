@@ -244,13 +244,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-background lg:flex">
+    <div className="min-w-[320px] min-h-screen bg-background lg:flex selection:bg-primary/20">
       <ConfirmDialog />
       <TemporaryLicenseBanner />
       <aside
         className={cn(
-          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-background transition-[width] duration-200 lg:flex",
-          railCollapsed ? "w-[76px]" : "w-[268px]",
+          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-card/30 backdrop-blur-xl transition-[width] duration-300 ease-in-out lg:flex z-50",
+          railCollapsed ? "w-[76px]" : "w-[280px]",
         )}
       >
         <div className="flex h-14 items-center gap-2 border-b border-border px-3">
@@ -324,17 +324,18 @@ export function AppShell({ children }: { children: ReactNode }) {
                   const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
                   
                   return (
-                    <div key={item.to} className="group/nav-item">
+                    <div key={item.to} className="group/nav-item px-2">
                       <div
                         className={cn(
-                          "group relative flex items-center gap-1 rounded-xl transition-all duration-200",
-                          isActive ? "bg-brand/10 shadow-sm shadow-brand/5" : "hover:bg-secondary/70",
+                          "group relative flex items-center gap-2 rounded-xl transition-all duration-300",
+                          isActive ? "bg-primary/10 text-primary shadow-[0_2px_8px_rgba(16,185,129,0.1)]" : "hover:bg-secondary/80 text-muted-foreground hover:text-foreground",
+                          railCollapsed ? "justify-center p-2" : "p-2"
                         )}
                       >
                         {isActive && (
-                          <span
+                          <div
                             aria-hidden
-                            className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand shadow-[0_0_8px_rgba(var(--brand),0.5)]"
+                            className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary shadow-[0_0_12px_rgba(16,185,129,0.5)]"
                           />
                         )}
                         <Link
@@ -342,22 +343,21 @@ export function AppShell({ children }: { children: ReactNode }) {
                           aria-current={isActive ? "page" : undefined}
                           title={item.hint ? `${item.label} — ${item.hint}` : item.label}
                           className={cn(
-                            "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[14px] font-bold transition-transform active:scale-[0.98]",
-                            isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
-                            railCollapsed && "justify-center px-0",
+                            "flex min-w-0 flex-1 items-center gap-3 transition-transform duration-200 active:scale-[0.98]",
+                            railCollapsed && "justify-center",
                           )}
                         >
-                          <span
+                          <div
                             className={cn(
-                              "grid size-8 shrink-0 place-items-center rounded-lg border transition-all duration-300 group-hover/nav-item:scale-110",
+                              "grid size-9 shrink-0 place-items-center rounded-xl border transition-all duration-300 group-hover/nav-item:scale-105",
                               isActive
-                                ? "border-brand/40 bg-brand/15 text-brand shadow-inner"
-                                : "border-border/50 bg-secondary/60 text-muted-foreground group-hover:border-brand/30 group-hover:text-brand",
+                                ? "border-primary/30 bg-primary/20 text-primary shadow-inner"
+                                : "border-border/50 bg-secondary/50 text-muted-foreground group-hover:border-primary/20 group-hover:text-primary",
                             )}
                           >
-                            <item.icon className={cn("size-5 transition-transform", isActive && "scale-110")} aria-hidden="true" />
-                          </span>
-                          {!railCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
+                            <item.icon className={cn("size-5 transition-transform duration-300", isActive && "scale-110")} aria-hidden="true" />
+                          </div>
+                          {!railCollapsed && <span className="truncate text-[14px] font-semibold tracking-tight leading-none">{item.label}</span>}
                         </Link>
                         
                         {hasChildren && !railCollapsed && (
