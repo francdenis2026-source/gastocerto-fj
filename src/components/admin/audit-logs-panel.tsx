@@ -129,6 +129,8 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
     create_user: { label: "Criar Usuário", color: "bg-cyan-500/10 text-cyan-600 border-cyan-500/20" },
     generate_code: { label: "Gerar Código", color: "bg-indigo-500/10 text-indigo-600 border-indigo-500/20" },
     verify_code: { label: "Validar Código", color: "bg-teal-500/10 text-teal-600 border-teal-500/20" },
+    purge_logs: { label: "Limpeza de Logs", color: "bg-red-500/10 text-red-600 border-red-500/20" },
+    export_csv: { label: "Exportação CSV", color: "bg-slate-500/10 text-slate-600 border-slate-500/20" },
   };
 
   return (
@@ -254,16 +256,6 @@ export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string })
                         {log.target?.full_name || "—"}
                       </span>
                     </div>
-                    {log.details && (
-                      <div className="flex items-start gap-1 text-[9px] text-muted-foreground/80 bg-muted/20 px-1.5 py-0.5 rounded border border-border/20 max-w-sm">
-                        <Info className="size-2.5 mt-0.5 shrink-0" />
-                        <span className="truncate group-hover:whitespace-normal group-hover:break-words">
-                          {typeof log.details === 'object' 
-                            ? Object.entries(log.details).map(([k, v]) => `${k}: ${v}`).join(" | ")
-                            : String(log.details)}
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
               );
