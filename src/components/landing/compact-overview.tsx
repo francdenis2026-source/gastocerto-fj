@@ -230,17 +230,17 @@ export function CompactOverview() {
             <h3 className="sr-only">{tabMeta["como-funciona"].label}</h3>
             <div className="grid gap-4 sm:grid-cols-3">
               {[
-                { step: "01", title: "Cadastre-se", text: "Crie sua conta em segundos e comece seu teste de 14 dias sem compromisso.", icon: Users },
-                { step: "02", title: "Lance Gastos", text: "Registre suas despesas diárias, rendas e faturas de cartão de forma rápida.", icon: Receipt },
-                { step: "03", title: "Analise", text: "Visualize para onde vai seu dinheiro com gráficos claros e tome decisões inteligentes.", icon: BarChart3 },
+                { step: "01", title: "Cadastre-se", text: "Crie sua conta em segundos e comece seu teste de 14 dias sem compromisso.", icon: Users, aria: "Passo 1: Cadastre-se" },
+                { step: "02", title: "Lance Gastos", text: "Registre suas despesas diárias, rendas e faturas de cartão de forma rápida.", icon: Receipt, aria: "Passo 2: Lance Gastos" },
+                { step: "03", title: "Analise", text: "Visualize para onde vai seu dinheiro com gráficos claros e tome decisões inteligentes.", icon: BarChart3, aria: "Passo 3: Analise" },
               ].map((item, idx) => (
                 <Reveal 
                   key={item.title} 
                   delay={idx * 100}
                   className="interactive-card rounded-[2rem] p-8 bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl group flex flex-col items-center text-center"
                 >
-                  <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl">
-                    <item.icon className="size-6 mr-1" /> {item.step}
+                  <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl shadow-[0_0_20px_rgba(31,174,109,0.1)]">
+                    <item.icon className="size-6 mr-1" aria-hidden="true" /> {item.step}
                   </div>
                   <h4 className="text-xl font-bold text-white mb-3">{item.title}</h4>
                   <p className="text-sm font-medium text-white/60 leading-relaxed">{item.text}</p>

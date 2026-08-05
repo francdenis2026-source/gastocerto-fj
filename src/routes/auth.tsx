@@ -331,13 +331,13 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-[#0B1F1A]/60 backdrop-blur-md">
+        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-[#0A1512] shadow-[inset_1px_0_0_rgba(255,255,255,0.05)]">
           <div className="mb-6">
-            <h1 className="text-xl font-black text-white tracking-tight">
+            <h1 className="text-2xl font-black text-white tracking-tight leading-tight">
               {mode === "login" ? "Bem-vindo de volta" : mode === "signup" ? "Criar sua conta" : "Área Restrita"}
             </h1>
-            <p className="text-xs text-muted-foreground mt-1">
-              {mode === "login" ? "Acesse seu painel financeiro agora." : "Comece seu teste grátis de 14 dias."}
+            <p className="text-xs font-medium text-muted-foreground/80 mt-1.5">
+              {mode === "login" ? "Acesse seu painel financeiro de forma segura." : "Comece seu teste grátis de 14 dias hoje."}
             </p>
           </div>
 
@@ -358,13 +358,14 @@ function AuthPage() {
 
                 <div className="space-y-3 sm:space-y-4">
                   <div className="space-y-1.5 sm:space-y-2">
-                    <Label htmlFor="code-cpf" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">Seu CPF</Label>
-                    <div className="relative">
-                      <UserCircle className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60" />
+                    <Label htmlFor="code-cpf" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Seu CPF</Label>
+                    <div className="relative group/field">
+                      <UserCircle className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
                       <Input 
                         id="code-cpf" 
                         placeholder="000.000.000-00" 
-                        className="h-11 rounded-xl pl-10 text-sm bg-[#142B24]/50 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50"
+                        aria-label="CPF"
+                        className="h-12 rounded-xl pl-10 text-sm bg-white/[0.03] border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all"
                         onChange={(e) => {
                           const val = onlyDigits(e.target.value);
                           if (val.length <= 11) e.target.value = maskCpf(val);
@@ -374,10 +375,10 @@ function AuthPage() {
                   </div>
 
                   <div className="space-y-1.5 sm:space-y-2">
-                    <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">Nome de identificação</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60" />
-                      <Input id="code-name" placeholder="Ex: João Silva" className="h-11 rounded-xl pl-10 text-sm bg-[#142B24]/50 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50" />
+                    <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Nome Completo</Label>
+                    <div className="relative group/field">
+                      <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
+                      <Input id="code-name" aria-label="Nome completo" placeholder="Ex: João Silva" className="h-12 rounded-xl pl-10 text-sm bg-white/[0.03] border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all" />
                     </div>
                   </div>
 
