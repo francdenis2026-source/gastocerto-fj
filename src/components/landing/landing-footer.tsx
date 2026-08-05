@@ -1,4 +1,4 @@
-import { Lock, Mail, Linkedin } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 import { Logo } from "@/components/logo";
@@ -19,17 +19,12 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <footer className="relative border-t border-emerald-500/10 py-8 overflow-hidden">
-      {/* Imagem de Fundo Realista no Footer com Efeito de Destaque */}
+    <footer className="relative border-t border-white/5 py-8 overflow-hidden">
+      {/* Fundo ultra-profissional com profundidade */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop"
-          alt=""
-          loading="lazy"
-          className="h-full w-full object-cover opacity-20 brightness-[0.2] pointer-events-none"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001a4d] via-[#001a4d]/95 to-[#000d26]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-1 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent shadow-[0_0_15px_rgba(16,185,129,0.3)]" />
+        <div className="absolute inset-0 bg-[#0A1512]" /> {/* Cor base profunda que combina com a logo */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1FAE6D]/[0.02] to-transparent" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
       </div>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
@@ -55,19 +50,10 @@ export function LandingFooter() {
             <div className="flex items-center gap-2">
               <a
                 href="mailto:contato@gastocerto.shop"
-                className="group flex items-center gap-2 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2 text-white/60 transition-all hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-emerald-400"
+                className="group flex items-center gap-2 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-2 text-white/50 transition-all hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-emerald-400"
               >
                 <Mail className="size-3.5" />
-                <span className="text-[11px] font-bold tracking-tight uppercase">E-mail</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-2 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2 text-white/60 transition-all hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-emerald-400"
-              >
-                <Linkedin className="size-3.5" />
-                <span className="text-[11px] font-bold tracking-tight uppercase">LinkedIn</span>
+                <span className="text-[11px] font-bold tracking-tight uppercase">Suporte</span>
               </a>
             </div>
           </div>
@@ -75,8 +61,8 @@ export function LandingFooter() {
       </div>
 
       {/* Barra Final Premium */}
-      <div className="relative z-10 border-t border-white/5 mt-8 bg-black/30 backdrop-blur-md">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white/40 sm:flex-row">
+      <div className="relative z-10 border-t border-white/5 mt-8 bg-black/40 backdrop-blur-xl">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white/20 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="text-emerald-500/50">©</span>
             <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
