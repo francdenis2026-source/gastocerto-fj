@@ -29,11 +29,11 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover opacity-95 dark:opacity-70 grayscale-[0.1] dark:grayscale-[0.3] brightness-[1.1] dark:brightness-[0.5] contrast-[1.1] dark:contrast-[1.2] saturate-[0.95]"
+          className="absolute inset-0 h-full w-full object-cover opacity-100 dark:opacity-85 grayscale-[0.05] dark:grayscale-[0.1] brightness-[1.1] dark:brightness-[0.7] contrast-[1.05] dark:contrast-[1.1] saturate-[1.05]"
         />
         
         {/* Overlay em Gradiente - Adaptado para modo claro/escuro */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/20 dark:via-background/95 dark:to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-transparent dark:from-background/90 dark:via-background/70 dark:to-transparent" />
         
         {/* Efeito de luz ambiente */}
         <div 
