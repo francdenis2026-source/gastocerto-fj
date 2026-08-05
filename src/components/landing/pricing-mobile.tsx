@@ -35,7 +35,7 @@ export function PricingMobile() {
 
       {/* Foto de Fundo em Baixa Opacidade */}
       <img 
-        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
+        src="https://images.unsplash.com/photo-1554224154-7626155e82b1?q=80&w=2070&auto=format&fit=crop" 
         alt="" 
         className="absolute inset-0 h-full w-full object-cover grayscale-0 pointer-events-none -z-10"
       />

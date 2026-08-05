@@ -251,7 +251,7 @@ export function CompactOverview() {
     <section id="explorar" className="relative border-y border-border/5 section-y overflow-hidden">
       {/* Imagem de Fundo de Destaque */}
       <img 
-        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+        src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
         alt="" 
         className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
       />
