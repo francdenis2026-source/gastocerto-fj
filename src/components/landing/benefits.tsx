@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -13,10 +13,20 @@ import {
   Target,
   LayoutDashboard,
   Lock,
+  ChevronDown,
+  Sparkles,
+  Shield,
+  Brain,
 } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const categories = [
   {
