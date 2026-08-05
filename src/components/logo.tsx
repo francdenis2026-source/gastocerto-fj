@@ -37,7 +37,7 @@ export function Logo({
           )}
         >
           <span className="text-white">Gasto</span>
-          <span className="text-emerald-500 ml-1">Certo</span>
+          <span className="text-[#1FAE6D] ml-1">Certo</span>
         </span>
         <span
           className={cn(
