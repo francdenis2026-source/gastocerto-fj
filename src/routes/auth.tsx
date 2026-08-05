@@ -232,7 +232,7 @@ function AuthPage() {
       <div aria-hidden="true" className="auth-veil absolute inset-0 -z-10" />
 
       {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-3xl border border-white/5 bg-background shadow-2xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(36rem,calc(100dvh-2rem))] lg:max-h-[36rem] lg:grid-cols-[minmax(0,1.15fr)_minmax(19rem,21rem)]">
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-[2.5rem] border border-white/10 glass-morphism shadow-2xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(38rem,calc(100dvh-2rem))] lg:max-h-[38rem] lg:grid-cols-[minmax(0,1.2fr)_minmax(20rem,22rem)]">
 
         {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
         <section className="relative flex min-h-[110px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
@@ -331,9 +331,15 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex min-h-0 flex-col px-4 py-4 sm:px-5 lg:h-full">
-          {/* O logotipo já aparece no painel visual acima; evitamos repetição. */}
-
+        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-black/40 backdrop-blur-md">
+          <div className="mb-6">
+            <h1 className="text-xl font-black text-white tracking-tight">
+              {mode === "login" ? "Bem-vindo de volta" : mode === "signup" ? "Criar sua conta" : "Área Restrita"}
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              {mode === "login" ? "Acesse seu painel financeiro agora." : "Comece seu teste grátis de 14 dias."}
+            </p>
+          </div>
 
           <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
             {pendingCode ? (
@@ -358,7 +364,7 @@ function AuthPage() {
                       <Input 
                         id="code-cpf" 
                         placeholder="000.000.000-00" 
-                        className="h-10 sm:h-11 rounded-xl pl-10 text-sm focus:ring-brand/20"
+                        className="h-11 rounded-xl pl-10 text-sm bg-black/30 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50"
                         onChange={(e) => {
                           const val = onlyDigits(e.target.value);
                           if (val.length <= 11) e.target.value = maskCpf(val);
@@ -371,7 +377,7 @@ function AuthPage() {
                     <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">Nome de identificação</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60" />
-                      <Input id="code-name" placeholder="Ex: João Silva" className="h-10 sm:h-11 rounded-xl pl-10 text-sm focus:ring-brand/20" />
+                      <Input id="code-name" placeholder="Ex: João Silva" className="h-11 rounded-xl pl-10 text-sm bg-black/30 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50" />
                     </div>
                   </div>
 
