@@ -113,37 +113,30 @@ export function Hero() {
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
               <Button
                 size="lg"
-                className="h-16 w-full rounded-2xl bg-emerald-500 px-10 text-lg font-black text-[#001640] shadow-[0_0_50px_-10px_rgba(16,185,129,0.5)] transition-all hover:scale-105 hover:bg-emerald-400 sm:w-auto active:scale-95"
+                className="h-13 w-full rounded-xl bg-emerald-500 px-8 text-[15px] font-bold text-[#001640] shadow-[0_0_36px_-12px_rgba(16,185,129,0.5)] transition-all hover:scale-[1.03] hover:bg-emerald-400 sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Grátis
-                  <ArrowRight className="ml-2 size-6" />
+                  <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="lg"
-                className="h-16 w-full rounded-2xl border-white/20 bg-white/5 px-10 text-lg font-bold text-white backdrop-blur-2xl transition-all hover:bg-white/10 sm:w-auto active:scale-95"
+                className="h-13 w-full rounded-xl border-white/20 bg-white/5 px-8 text-[15px] font-semibold text-white backdrop-blur-2xl transition-all hover:bg-white/10 sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "login" }}>
-                  <Users className="mr-2 size-6 text-emerald-400" />
+                  <Users className="mr-2 size-4 text-emerald-400" />
                   Acessar Painel
                 </Link>
               </Button>
             </div>
 
-            <svg aria-hidden="true" viewBox="0 0 240 12" className="mx-auto mt-10 h-3 w-52 text-emerald-400/70">
-              <path d="M0 6h92" stroke="currentColor" strokeWidth="1" opacity="0.35" />
-              <path d="M148 6h92" stroke="currentColor" strokeWidth="1" opacity="0.35" />
-              <path d="M112 2l8 4-8 4-8-4z" fill="currentColor" />
-              <circle cx="132" cy="6" r="2" fill="currentColor" opacity="0.7" />
-              <circle cx="108" cy="6" r="0" fill="currentColor" />
-            </svg>
+            <div className="flex flex-wrap justify-center gap-2.5 pt-2 sm:gap-3">
 
-            <div className="flex flex-wrap justify-center gap-3 pt-8 sm:gap-4">
               {[
                 { label: "IA Financeira", Icon: AiFinanceIcon },
                 { label: "Espaço Kids", Icon: KidsSpaceIcon },
