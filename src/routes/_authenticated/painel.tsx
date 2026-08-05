@@ -620,8 +620,8 @@ function DashboardPage() {
       <div className="grid grid-cols-2 gap-2 sm:hidden px-4 mb-4">
         <MetricCard
           label="Saldo"
-          value={metrics.balance}
-          variant={metrics.balance >= 0 ? "brand" : "rose"}
+          value={formatCurrency(metrics.balance)}
+          tone={metrics.balance >= 0 ? "brand" : "expense"}
           icon={Wallet}
           onClick={() => {
             setDetail({
@@ -639,8 +639,8 @@ function DashboardPage() {
         />
         <MetricCard
           label="Gasto"
-          value={metrics.totalExpense}
-          variant="rose"
+          value={formatCurrency(metrics.totalExpense)}
+          tone="expense"
           icon={TrendingDown}
           onClick={() => {
             setDetail({
