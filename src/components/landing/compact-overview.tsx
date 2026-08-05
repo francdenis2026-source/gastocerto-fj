@@ -239,8 +239,8 @@ export function CompactOverview() {
                   delay={idx * 100}
                   className="interactive-card rounded-[2rem] p-8 bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl group flex flex-col items-center text-center"
                 >
-                  <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl">
-                    <item.icon className="size-6 mr-1" /> {item.step}
+                  <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl shadow-[0_0_20px_rgba(31,174,109,0.1)]">
+                    <item.icon className="size-6 mr-1" aria-hidden="true" /> {item.step}
                   </div>
                   <h4 className="text-xl font-bold text-white mb-3">{item.title}</h4>
                   <p className="text-sm font-medium text-white/60 leading-relaxed">{item.text}</p>
