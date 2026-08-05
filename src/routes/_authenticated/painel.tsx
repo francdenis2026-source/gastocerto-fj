@@ -652,8 +652,6 @@ function DashboardPage() {
           }
         />
       </div>
-
-      </div>
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
