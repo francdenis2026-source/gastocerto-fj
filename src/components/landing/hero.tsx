@@ -27,13 +27,13 @@ export function Hero() {
       <div className="absolute inset-0 -z-20 overflow-hidden">
         {/* Imagem Real de Fundo */}
         <img 
-          src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover opacity-40 grayscale brightness-50"
+          className="absolute inset-0 h-full w-full object-cover opacity-60 grayscale-[0.4] brightness-[0.45] contrast-[1.15] saturate-[0.8]"
         />
         
         {/* Overlay em Gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#001640] via-[#001640]/95 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#001640] via-[#001640]/80 to-[#001640]/40" />
         
         {/* Gradiente radial verde sutil */}
         <div 
