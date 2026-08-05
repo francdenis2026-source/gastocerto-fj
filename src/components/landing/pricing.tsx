@@ -151,58 +151,98 @@ export function Pricing() {
             <div
               key={plan.slug}
               onClick={() => {
-                console.log("Card clicked, setting plan to:", plan.slug);
                 setCheckoutPlan(plan.slug);
               }}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group",
-                plan.slug === "free" && "bg-gradient-to-br from-emerald-950/40 to-emerald-900/10 border-emerald-500/20 shadow-[0_20px_40px_-15px_rgba(31,174,109,0.1)]",
-                plan.slug === "premium" && "bg-gradient-to-br from-blue-950/40 to-indigo-900/10 border-blue-500/30 ring-1 ring-blue-500/20 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.2)] scale-105 z-10",
-                plan.slug === "premium_ia" && "bg-gradient-to-br from-amber-950/40 to-yellow-900/10 border-amber-500/30 shadow-[0_20px_40px_-15px_rgba(212,175,106,0.15)]",
-                "backdrop-blur-2xl hover:translate-y-[-8px]"
+                "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group border",
+                plan.slug === "free" && "bg-[#0A1512] border-white/5 shadow-2xl",
+                plan.slug === "premium" && "bg-gradient-to-br from-[#1FAE6D] to-[#168a57] border-emerald-400/30 shadow-[0_30px_60px_-15px_rgba(31,174,109,0.3)] scale-105 z-10",
+                plan.slug === "premium_ia" && "bg-[#0A1512] border-[#D4AF6A]/20 shadow-2xl",
+                "hover:translate-y-[-12px]"
               )}
               tabIndex={0}
               role="button"
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
+              {/* SVG Background Patterns */}
+              <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+                {plan.slug === "free" && (
+                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" strokeWidth="1"/>
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                  </svg>
+                )}
+                {plan.slug === "premium" && (
+                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="opacity-20">
+                    <defs>
+                      <pattern id="waves" width="100" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M0 10 Q 25 0 50 10 T 100 10" fill="none" stroke="white" strokeWidth="2"/>
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#waves)" />
+                  </svg>
+                )}
+                {plan.slug === "premium_ia" && (
+                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <circle cx="2" cy="2" r="1" fill="#D4AF6A" />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#dots)" />
+                  </svg>
+                )}
+              </div>
 
               {plan.highlighted && (
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-blue-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-[0_10px_30px_rgba(59,130,246,0.4)]">
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-white px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-[#0A1512] shadow-xl">
                   Mais Escolhido
                 </div>
               )}
               
               <div className="relative z-10 mb-6">
-                <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
+                <h3 className={cn(
+                  "text-2xl font-black tracking-tight",
+                  plan.slug === "premium" ? "text-white" : "text-white"
+                )}>{plan.name}</h3>
                 <p className={cn(
-                  "mt-1 text-[11px] font-bold uppercase tracking-widest",
-                  plan.slug === "free" && "text-emerald-500/60",
-                  plan.slug === "premium" && "text-blue-400/70",
-                  plan.slug === "premium_ia" && "text-amber-500/60"
+                  "mt-1 text-[11px] font-bold uppercase tracking-widest opacity-60",
+                  plan.slug === "premium" ? "text-white" : "text-emerald-500"
                 )}>{plan.description}</p>
               </div>
 
               <div className="relative z-10 mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black tracking-tighter text-white tabular">
+                  <span className={cn(
+                    "text-4xl font-black tracking-tighter tabular",
+                    plan.slug === "premium" ? "text-white" : "text-white"
+                  )}>
                     {plan.monthly === 0 ? "Livre" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
-                  <span className="text-xs font-bold text-white/40 uppercase tracking-wider">/mês</span>
+                  <span className={cn(
+                    "text-xs font-bold uppercase tracking-wider opacity-40",
+                    plan.slug === "premium" ? "text-white" : "text-white"
+                  )}>/mês</span>
                 </div>
               </div>
 
-              <ul className="relative z-10 flex-1 space-y-3 mb-8">
+              <ul className="relative z-10 flex-1 space-y-4 mb-8">
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-[13px] group/item">
                     <div className={cn(
-                      "mt-1 flex size-5 shrink-0 items-center justify-center rounded-full transition-colors",
-                      plan.slug === "free" && "bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black",
-                      plan.slug === "premium" && "bg-blue-500/20 text-blue-400 group-hover/item:bg-blue-500 group-hover/item:text-white",
-                      plan.slug === "premium_ia" && "bg-amber-500/20 text-amber-500 group-hover/item:bg-amber-500 group-hover/item:text-black"
+                      "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full transition-colors",
+                      plan.slug === "premium" ? "bg-white/20 text-white" : "bg-emerald-500/10 text-emerald-500"
                     )}>
                       <Check className="size-3 font-bold" />
                     </div>
-                    <span className="font-medium text-white/70 group-hover/item:text-white transition-colors">{feature}</span>
+                    <span className={cn(
+                      "font-medium transition-colors",
+                      plan.slug === "premium" ? "text-white/90" : "text-white/70"
+                    )}>{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -210,14 +250,13 @@ export function Pricing() {
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
-                  console.log("Button clicked, setting plan to:", plan.slug);
                   setCheckoutPlan(plan.slug);
                 }}
                 className={cn(
-                  "relative z-10 cta-lift h-14 w-full rounded-2xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
-                  plan.slug === "free" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500 hover:text-black",
-                  plan.slug === "premium" && "bg-blue-500 text-white hover:bg-blue-400 shadow-[0_20px_40px_-10px_rgba(59,130,246,0.5)]",
-                  plan.slug === "premium_ia" && "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500 hover:text-black",
+                  "relative z-10 h-14 w-full rounded-2xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden border",
+                  plan.slug === "free" && "bg-white/5 text-white border-white/10 hover:bg-emerald-500 hover:text-[#0A1512] hover:border-emerald-500",
+                  plan.slug === "premium" && "bg-white text-[#1FAE6D] border-white hover:bg-[#0A1512] hover:text-white hover:border-[#0A1512] shadow-xl",
+                  plan.slug === "premium_ia" && "bg-white/5 text-[#D4AF6A] border-[#D4AF6A]/30 hover:bg-[#D4AF6A] hover:text-[#0A1512] hover:border-[#D4AF6A]",
                 )}
                 variant="ghost"
               >
@@ -226,7 +265,7 @@ export function Pricing() {
                   <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                 </span>
                 {plan.highlighted && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite] pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shimmer_3s_infinite] pointer-events-none" />
                 )}
               </Button>
             </div>
