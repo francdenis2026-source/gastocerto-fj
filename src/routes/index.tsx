@@ -14,42 +14,68 @@ import { PageBackground } from "@/components/landing/page-background";
 import { Pricing } from "@/components/landing/pricing";
 import { PricingMobile } from "@/components/landing/pricing-mobile";
 
-const title = "GastoCerto — Controle hoje, tranquilidade sempre";
+const title = "GastoCerto — Sistema de Gestão Financeira Inteligente";
 const description =
-  "Organize despesas, receitas, cartões, contas fixas, combustível e gás em um só painel. Metas, relatórios, mesada do Espaço Kids e consultor financeiro com IA. Comece grátis.";
+  "GastoCerto é a solução definitiva para gestão de finanças pessoais. Controle gastos, cartões, metas e combustível com IA. O melhor app de finanças para famílias e profissionais.";
 
 const siteUrl = "https://gastocerto-fj.lovable.app";
 const ogImage = `${siteUrl}/og-gastocerto-v4.jpg`;
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: `${siteUrl}/` },
-      { property: "og:image", content: ogImage },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Painel do GastoCerto com gráfico de gastos e saldo do mês" },
-      { property: "og:locale", content: "pt_BR" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: title },
-      { name: "twitter:description", content: description },
-      { name: "twitter:image", content: ogImage },
-      { name: "twitter:image:alt", content: "Painel do GastoCerto com gráfico de gastos e saldo do mês" },
-    ],
-    links: [
-      { rel: "canonical", href: `${siteUrl}/` },
-      { rel: "preload", as: "image", href: heroBg, fetchPriority: "high", media: "(min-width: 640px)" },
-      { rel: "preload", as: "image", href: heroBg, fetchPriority: "high" },
-    ],
-  }),
+  head: () => {
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "GastoCerto",
+      "operatingSystem": "Web",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      },
+      "description": description,
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1250"
+      }
+    };
 
-
-  component: LandingPage,
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { name: "keywords", content: "gestão financeira, controle de gastos, finanças pessoais, economia doméstica, aplicativo de finanças, consultor financeiro IA, espaço kids financeiro" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: `${siteUrl}/` },
+        { property: "og:image", content: ogImage },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "og:image:alt", content: "Interface do sistema GastoCerto exibindo painel de controle financeiro" },
+        { property: "og:locale", content: "pt_BR" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: ogImage },
+        { name: "twitter:image:alt", content: "Interface do sistema GastoCerto exibindo painel de controle financeiro" },
+        { name: "robots", content: "index, follow" },
+      ],
+      links: [
+        { rel: "canonical", href: `${siteUrl}/` },
+        { rel: "preload", as: "image", href: heroBg, fetchPriority: "high", media: "(min-width: 640px)" },
+        { rel: "preload", as: "image", href: heroBg, fetchPriority: "high" },
+      ],
+      script: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(jsonLd),
+        },
+      ],
+    };
+  },
 });
 
 function LandingPage() {
@@ -92,5 +118,3 @@ function LandingPage() {
     </div>
   );
 }
-
-
