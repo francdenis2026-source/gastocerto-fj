@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { Suspense, lazy } from "react";
+import {
+  ArrowRight,
+  Play,
+  Sparkles,
+  Zap,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/lib/format";
 import { useHydrated } from "@/hooks/use-hydrated";
-import { cn } from "@/lib/utils";
-import { Sparkles, TrendingUp, ShieldCheck, Users, ArrowRight, Zap, Target, CreditCard } from "lucide-react";
-import heroAsset from "@/assets/hero-bg-2027.jpg";
+
+const DashboardPreview = lazy(() =>
+  import("@/components/landing/dashboard-preview").then((m) => ({ default: m.DashboardPreview })),
+);
 
 export function MobileHeroSection() {
   const hydrated = useHydrated();
@@ -10,81 +20,90 @@ export function MobileHeroSection() {
   if (!hydrated) return null;
 
   return (
-    <section className="relative overflow-hidden px-4 py-8 md:hidden">
-      <div className="relative flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-black/40 shadow-2xl transition-all duration-700 max-h-[75vh] backdrop-blur-3xl">
+    <section className="relative overflow-hidden bg-[#0A1210] px-4 pt-24 pb-12 md:hidden">
+      {/* Background System 1:1 with Web */}
+      <div className="absolute inset-0 -z-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1210] to-[#0F1B16]" />
+        <div className="absolute left-1/2 top-1/4 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[80px] animate-pulse-glow" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         
-        {/* Parallax Background Layer */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 mix-blend-overlay pointer-events-none transition-opacity duration-1000"
-          style={{ 
-            backgroundImage: `url(${heroAsset})`,
-          }}
-        />
+        <svg className="absolute inset-0 h-full w-full opacity-[0.07]" viewBox="0 0 1000 1000" fill="none" preserveAspectRatio="none">
+          <path d="M-100,200 C150,150 350,450 600,350 S850,50 1100,100" stroke="white" strokeWidth="0.8" className="animate-draw" />
+          <path d="M-100,800 C100,700 400,900 700,750 S900,600 1100,650" stroke="white" strokeWidth="0.8" className="animate-draw" style={{ animationDelay: '1s' }} />
+        </svg>
+      </div>
+
+      <div className="relative z-10 flex flex-col items-center text-center">
+        {/* Top Badge */}
+        <div className="mb-6 flex animate-in fade-in slide-in-from-top-4 duration-1000 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400 backdrop-blur-md">
+          <Zap className="size-2.5" />
+          Fintech Premium
+        </div>
+
+        {/* Headline 1:1 with Web Typography */}
+        <h1 className="animate-in fade-in slide-in-from-top-4 duration-1000 font-display text-[32px] font-bold leading-[1.1] tracking-tight text-white px-2">
+          Controle financeiro<br />
+          <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">inteligente.</span>
+        </h1>
         
-        {/* Decorative Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/95" />
-        <div className="absolute -left-20 -top-20 size-64 rounded-full bg-brand/10 blur-[100px]" />
-        <div className="absolute -right-20 bottom-0 size-64 rounded-full bg-emerald-500/10 blur-[100px]" />
+        <p className="mt-4 animate-in fade-in slide-in-from-top-4 duration-1000 delay-100 max-w-[300px] text-[15px] font-medium leading-[1.6] text-[#9CA8A3]">
+          Organize seus gastos e o futuro da sua família com precisão técnica.
+        </p>
 
-        {/* Content Layer */}
-        <div className="relative z-10 flex flex-col p-8 items-center text-center overflow-y-auto custom-scrollbar">
-          <div className="absolute inset-0 -z-10 bg-black/10 backdrop-blur-[2px]" />
+        {/* CTA 1:1 with Web */}
+        <div className="mt-8 flex w-full flex-col gap-3 px-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+          <Button
+            className="cta-lift group relative h-14 w-full rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 text-[15px] font-bold text-[#0A1210] shadow-[0_0_20px_-5px_rgba(34,197,94,0.3)] overflow-hidden"
+            asChild
+          >
+            <Link to="/auth" search={{ mode: "signup" }}>
+              <span className="relative z-10 flex items-center justify-center">
+                Começar agora
+                <ArrowRight className="ml-2 size-4 transition-transform active:translate-x-1" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+            </Link>
+          </Button>
           
-          {/* Top Badge */}
-          <div className="mb-5 flex animate-reveal items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/80 backdrop-blur-md">
-            <Zap className="size-2.5" />
-            Sua jornada financeira
-          </div>
-          
-          {/* Main Icon */}
-          <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-white/5 text-white/40 shadow-inner ring-1 ring-white/10 animate-reveal" style={{ animationDelay: '100ms' }}>
-            <TrendingUp className="size-6" />
-          </div>
-          
-          {/* Headline */}
-          <h2 className="animate-reveal font-display text-3xl font-black leading-[1.05] tracking-[-0.04em] text-white" style={{ animationDelay: '200ms' }}>
-            Controle <span className="text-brand">total</span>,<br />tranquilidade <span className="text-brand">sempre</span>
-          </h2>
-          
-          <p className="mt-2 animate-reveal px-4 text-[12px] font-semibold leading-relaxed text-white/70" style={{ animationDelay: '300ms' }}>
-            Tecnologia e simplicidade unidas para garantir o controle total de seus gastos e investimentos.
-          </p>
-          
-          {/* Visual Highlight Cards */}
-          <div className="mt-6 grid w-full grid-cols-2 gap-3 animate-reveal" style={{ animationDelay: '400ms' }}>
-            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md transition-all active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30 shadow-[0_0_15px_rgba(23,164,95,0.2)]">
-                <Target className="size-5" />
-              </div>
-              <p className="text-xl font-black text-white">Metas</p>
-              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/50">Progresso Real</p>
+          <Button
+            variant="outline"
+            className="h-14 w-full rounded-xl border-white/10 bg-white/5 text-[15px] font-bold text-white backdrop-blur-md"
+          >
+            <div className="mr-3 flex size-6 items-center justify-center rounded-full bg-white/10">
+              <Play size={10} className="fill-white ml-0.5" />
             </div>
-            <div className="group flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md transition-all active:scale-95 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-500 ring-1 ring-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                <CreditCard className="size-5" />
+            Ver demonstração
+          </Button>
+        </div>
+
+        {/* Mockup Product Focus 1:1 */}
+        <div className="mt-12 w-full px-2 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+          <div className="relative perspective-1000">
+            <div className="relative rotate-x-6 rounded-2xl border border-white/10 bg-[#0F1B16]/60 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6),0_0_60px_-20px_rgba(34,197,94,0.2)] backdrop-blur-xl">
+              <div className="overflow-hidden rounded-xl bg-[#0A1210]">
+                <div className="flex items-center gap-1 border-b border-white/5 bg-white/5 px-3 py-2">
+                  <div className="size-1.5 rounded-full bg-white/10" />
+                  <div className="size-1.5 rounded-full bg-white/10" />
+                  <div className="size-1.5 rounded-full bg-white/10" />
+                </div>
+                <Suspense fallback={<div className="h-[240px] w-full bg-[#1a2e26]/20 animate-pulse" />}>
+                  <DashboardPreview />
+                </Suspense>
               </div>
-              <p className="text-xl font-black text-white">Cartões</p>
-              <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-white/50">Visão Unificada</p>
             </div>
-          </div>
-
-
-          {/* Enhanced CTA */}
-          <div className="mt-6 flex w-full flex-col gap-4 animate-reveal" style={{ animationDelay: '600ms' }}>
-            <button className="group relative flex h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-brand font-display font-bold text-brand-foreground shadow-lg transition-all active:scale-[0.96]">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              Começar Grátis
-              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
-            </button>
             
-            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-              <div className="flex items-center gap-1">
-                <ShieldCheck className="size-3 text-brand" />
-                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Conformidade RGPD</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="size-1 rounded-full bg-brand" />
-                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">Sem Cartão</span>
+            {/* Floating Card 1:1 */}
+            <div className="absolute -right-2 -top-6 animate-float">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-2xl ring-1 ring-white/5">
+                <div className="flex items-center gap-2">
+                  <div className="flex size-7 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
+                    <Sparkles size={14} />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#9CA8A3]">Sugestão IA</p>
+                    <p className="text-[12px] font-bold text-white">+12% economia</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
