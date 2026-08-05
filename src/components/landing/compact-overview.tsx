@@ -134,12 +134,13 @@ const shortcuts = [
   { label: "FAQ", href: "#faq", icon: HelpCircle },
 ] as const;
 
-const tabs = ["como-funciona", "recursos", "faq"] as const;
+const tabs = ["como-funciona", "recursos", "previas", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
   "como-funciona": { label: "Como Funciona", description: "3 passos simples para o controle total" },
   recursos: { label: "Recursos", description: "Ferramentas completas para sua gestão" },
+  previas: { label: "Prévias", description: "Veja o sistema em ação antes de cadastrar" },
   faq: { label: "Dúvidas", description: "Perguntas frequentes sobre segurança e uso" },
 };
 
