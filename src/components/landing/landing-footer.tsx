@@ -19,12 +19,17 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <footer className="relative border-t border-white/5 py-8 overflow-hidden">
-      {/* Fundo ultra-profissional com profundidade */}
+    <footer className="relative border-t border-white/5 py-10 overflow-hidden">
+      {/* Fundo com imagem profissional e overlay de gradiente para profundidade */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[#0A1512]" /> {/* Cor base profunda que combina com a logo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1FAE6D]/[0.02] to-transparent" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+        <img
+          src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop"
+          alt=""
+          loading="lazy"
+          className="h-full w-full object-cover opacity-10 brightness-[0.3] pointer-events-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#001640] via-[#001640]/95 to-[#001030]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
       </div>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
@@ -61,8 +66,8 @@ export function LandingFooter() {
       </div>
 
       {/* Barra Final Premium */}
-      <div className="relative z-10 border-t border-white/5 mt-8 bg-black/40 backdrop-blur-xl">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white/20 sm:flex-row">
+      <div className="relative z-10 border-t border-white/5 mt-8 bg-[#001030]/80 backdrop-blur-xl">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white/30 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="text-emerald-500/50">©</span>
             <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
