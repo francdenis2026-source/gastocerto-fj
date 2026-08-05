@@ -55,12 +55,13 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-300 top-0",
+          "fixed inset-x-0 z-50 transition-all duration-500 top-0",
           scrolled
-            ? "glass-morphism border-b border-border/10 text-foreground shadow-lg"
-            : "border-b border-transparent bg-transparent text-foreground dark:text-hero-fg",
+            ? "glass-morphism border-b border-border/10 text-foreground shadow-2xl py-2"
+            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-4",
         )}
       >
+
 
         <div className="section-shell flex h-14 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group" />
