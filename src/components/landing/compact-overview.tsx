@@ -184,8 +184,8 @@ export function CompactOverview() {
             </span>
           </div>
           <h2 className="section-title">Infraestrutura Financeira</h2>
-          <p className="mt-6 text-white/60 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed font-medium [text-wrap:balance]">
-            Uma engenharia desenhada para quem busca precisão absoluta, segurança inabalável e automação de elite.
+          <p className="mt-6 section-subtitle max-w-2xl mx-auto">
+            Uma arquitetura de dados desenhada para quem busca controle absoluto e inteligência de mercado aplicada às finanças pessoais.
           </p>
         </Reveal>
 
