@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   Baby,
   Banknote,
@@ -28,8 +29,10 @@ import {
   Tv,
   Users,
   Wallet,
+  ArrowRight,
   type LucideIcon,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
@@ -134,12 +137,13 @@ const shortcuts = [
   { label: "FAQ", href: "#faq", icon: HelpCircle },
 ] as const;
 
-const tabs = ["como-funciona", "recursos", "faq"] as const;
+const tabs = ["como-funciona", "recursos", "previas", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
   "como-funciona": { label: "Como Funciona", description: "3 passos simples para o controle total" },
   recursos: { label: "Recursos", description: "Ferramentas completas para sua gestão" },
+  previas: { label: "Prévias", description: "Veja o sistema em ação antes de cadastrar" },
   faq: { label: "Dúvidas", description: "Perguntas frequentes sobre segurança e uso" },
 };
 
@@ -186,7 +190,7 @@ export function CompactOverview() {
           </div>
           <h2 className="section-title">Tudo o que você precisa</h2>
           <p className="mt-6 section-subtitle max-w-3xl mx-auto !text-white/80">
-            Módulos integrados e fáceis de usar para organizar suas contas, planejar o futuro da sua família e economizar de verdade.
+            Analise cada recurso que o GastoCerto oferece. Do controle de combustível ao Espaço Kids, temos tudo o que você precisa para uma gestão impecável.
           </p>
         </Reveal>
 
@@ -275,7 +279,63 @@ export function CompactOverview() {
           </TabsContent>
 
 
+          <TabsContent value="previas" className="mt-3 outline-none panel-enter" tabIndex={0}>
+            <h3 className="sr-only">{tabMeta["previas"].label}</h3>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { 
+                  title: "Painel Principal", 
+                  desc: "Visão 360º de receitas, despesas e saldo disponível.", 
+                  icon: LayoutDashboard,
+                  action: "Ver Demo",
+                  link: "/demonstracao"
+                },
+                { 
+                  title: "Gestão de Veículos", 
+                  desc: "Média de consumo, gastos por KM e alertas de manutenção.", 
+                  icon: Car,
+                  action: "Ver Detalhes",
+                  feature: { title: "Abastecimentos", text: "Consumo médio e detecção de anomalias." }
+                },
+                { 
+                  title: "Consultor IA", 
+                  desc: "Diagnósticos inteligentes sobre seus hábitos financeiros.", 
+                  icon: Sparkles,
+                  action: "Conhecer IA",
+                  feature: { title: "Consultor financeiro com IA", text: "Diagnóstico e plano de saída de dívidas." }
+                },
+              ].map((item, idx) => (
+                <Reveal key={item.title} delay={idx * 100}>
+                  <div className="interactive-card rounded-[1.5rem] p-6 bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md group flex flex-col h-full">
+                    <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                      <item.icon className="size-6" />
+                    </div>
+                    <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
+                    <p className="text-xs font-medium text-white/50 leading-relaxed mb-6 flex-1">{item.desc}</p>
+                    
+                    {item.link ? (
+                      <Button asChild variant="outline" size="sm" className="w-full rounded-xl border-white/10 hover:bg-brand hover:text-black hover:border-brand transition-all font-bold group">
+                        <Link to={item.link}>
+                          {item.action}
+                          <ArrowRight className="ml-2 size-3.5 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      </Button>
+                    ) : (
+                      <FeatureDetailDialog feature={item.feature!}>
+                        <Button variant="outline" size="sm" className="w-full rounded-xl border-white/10 hover:bg-brand hover:text-black hover:border-brand transition-all font-bold group">
+                          {item.action}
+                          <ArrowRight className="ml-2 size-3.5 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </FeatureDetailDialog>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </TabsContent>
+
           <TabsContent value="faq" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
+
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
