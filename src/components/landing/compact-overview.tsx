@@ -166,7 +166,7 @@ export function CompactOverview() {
             </span>
           </div>
           <h2 className="section-title">Infraestrutura Financeira</h2>
-          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-base sm:text-xl leading-relaxed font-medium [text-wrap:balance]">
+          <p className="mt-6 text-white/60 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed font-medium [text-wrap:balance]">
             Uma engenharia desenhada para quem busca precisão absoluta, segurança inabalável e automação de elite.
           </p>
         </Reveal>
@@ -217,7 +217,7 @@ export function CompactOverview() {
                             </div>
                             <div className="min-w-0 flex-1">
                               <p className="truncate text-[15px] font-bold tracking-tight text-white">{item.title}</p>
-                              <p className="truncate text-[12px] font-medium leading-relaxed text-muted-foreground">{item.tag}</p>
+                              <p className="truncate text-[12px] font-medium leading-relaxed text-white/40">{item.tag}</p>
                             </div>
                           </button>
                         </FeatureDetailDialog>
