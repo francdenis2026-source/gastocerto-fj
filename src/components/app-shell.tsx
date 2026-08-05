@@ -247,275 +247,75 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background lg:flex">
       <ConfirmDialog />
       <TemporaryLicenseBanner />
-      <aside
-        className={cn(
-          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border bg-background transition-[width] duration-200 lg:flex",
-          railCollapsed ? "w-[76px]" : "w-[268px]",
-        )}
-      >
-        <div className="flex h-14 items-center gap-2 border-b border-border px-3">
-          <Logo 
-            compact={railCollapsed} 
-            href={isAdminArea ? "/admin" : "/painel"}
-            className="group"
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-auto size-8 text-muted-foreground"
-            onClick={toggleRail}
-            aria-label={railCollapsed ? "Expandir menu" : "Recolher menu"}
-          >
-            {railCollapsed ? (
-              <PanelLeftOpen className="size-5" />
-            ) : (
-              <PanelLeftClose className="size-5" />
-            )}
-          </Button>
-        </div>
+      
+      <div className="hidden lg:block shrink-0">
+        <Sidebar 
+          railCollapsed={railCollapsed} 
+          onSignOut={handleSignOut}
+        />
+      </div>
 
-        {!isAdminArea ? (
-          <div className={cn("space-y-2 border-b border-border p-3", railCollapsed && "px-2")}>
-            <div className={cn("grid gap-1.5", railCollapsed ? "grid-cols-1" : "grid-cols-2")}>
-              <Button
-                onClick={() => setQuickEntry("expense")}
-                className="w-full gap-1.5 bg-brand text-brand-foreground hover:opacity-90"
-                size={railCollapsed ? "icon" : "sm"}
-                aria-label="Adicionar despesa"
-                title="Adicionar despesa"
-              >
-                <TrendingDown className="size-5" aria-hidden="true" />
-                {!railCollapsed ? <span className="text-[12px]">Despesa</span> : null}
-              </Button>
-              {!railCollapsed ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setQuickEntry("income")}
-                  className="w-full gap-1.5 border-success/35 text-foreground"
-                >
-                  <TrendingUp className="size-5 text-success" aria-hidden="true" />
-                  <span className="text-[12px]">Receita</span>
-                </Button>
-              ) : null}
-            </div>
-            {!railCollapsed ? <CommandPalette onQuickEntry={setQuickEntry} /> : null}
-          </div>
-        ) : null}
-
-        <nav aria-label="Menu principal" className="flex-1 space-y-3 overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-muted">
-          {sections.map((section) => (
-            <div key={section.key} className="space-y-1">
-              {!railCollapsed ? (
-                <p className="px-2.5 pt-1 text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">
-                  {section.label}
-                </p>
-              ) : (
-                <div aria-hidden className="mx-auto h-px w-6 bg-border/50 my-3" />
-              )}
-              <div className={cn(
-                "grid gap-1",
-                railCollapsed ? "grid-cols-1" : "lg:grid-cols-1 md:grid-cols-2 grid-cols-1"
-              )}>
-                {section.groups.map((item) => {
-                  const isActive = activeGroup?.key === item.key;
-                  const visibleChildren = (item.children ?? []).filter((child) => !child.hidden);
-                  const hasChildren = visibleChildren.length > 1;
-                  const isOpen = !railCollapsed && (expanded ? expanded === item.key : isActive);
-                  
-                  return (
-                    <div key={item.to} className="group/nav-item">
-                      <div
-                        className={cn(
-                          "group relative flex items-center gap-1 rounded-xl transition-all duration-200",
-                          isActive ? "bg-brand/10 shadow-sm shadow-brand/5" : "hover:bg-secondary/70",
-                        )}
-                      >
-                        {isActive && (
-                          <span
-                            aria-hidden
-                            className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand shadow-[0_0_8px_rgba(var(--brand),0.5)]"
-                          />
-                        )}
-                        <Link
-                          to={item.to as never}
-                          aria-current={isActive ? "page" : undefined}
-                          title={item.hint ? `${item.label} — ${item.hint}` : item.label}
-                          className={cn(
-                            "flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-2.5 py-2 text-[14px] font-bold transition-transform active:scale-[0.98]",
-                            isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground",
-                            railCollapsed && "justify-center px-0",
-                          )}
-                        >
-                          <span
-                            className={cn(
-                              "grid size-8 shrink-0 place-items-center rounded-lg border transition-all duration-300 group-hover/nav-item:scale-110",
-                              isActive
-                                ? "border-brand/40 bg-brand/15 text-brand shadow-inner"
-                                : "border-border/50 bg-secondary/60 text-muted-foreground group-hover:border-brand/30 group-hover:text-brand",
-                            )}
-                          >
-                            <item.icon className={cn("size-5 transition-transform", isActive && "scale-110")} aria-hidden="true" />
-                          </span>
-                          {!railCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
-                        </Link>
-                        
-                        {hasChildren && !railCollapsed && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleSetExpanded(expanded === item.key ? null : item.key);
-                            }}
-                            aria-expanded={isOpen}
-                            aria-label={`${isOpen ? "Recolher" : "Expandir"} ${item.label}`}
-                            className="mr-1.5 grid size-7 shrink-0 place-items-center rounded-lg text-muted-foreground transition-all hover:bg-secondary active:scale-90"
-                          >
-                            <ChevronDown
-                              className={cn("size-5 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1)", isOpen && "rotate-180")}
-                            />
-                          </button>
-                        )}
-                      </div>
-
-                      {hasChildren && isOpen && (
-                        <div className="ml-[26px] mt-1 space-y-0.5 border-l border-border/80 pl-2.5 animate-in slide-in-from-left-2 duration-200">
-                          {visibleChildren.map((child) => (
-                            <Link
-                              key={child.to}
-                              to={child.to as never}
-                              aria-current={pathname === child.to ? "page" : undefined}
-                              className={cn(
-                                "flex items-center gap-1.5 truncate rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold transition-all relative",
-                                pathname === child.to
-                                  ? "bg-secondary/80 text-foreground"
-                                  : "text-muted-foreground hover:bg-secondary/40 hover:text-foreground hover:translate-x-0.5",
-                              )}
-                            >
-                              <span className="truncate tracking-tight">{child.label}</span>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </nav>
-
-
-        {!isAdminArea && !isKid && (
-          <div className="mb-4 space-y-2">
-            {!isAdminArea && <EnergySidebarWidget collapsed={railCollapsed} />}
+      <div className="flex min-w-0 flex-1 flex-col">
+        {/* Mobile Header */}
+        <header className="lg:hidden sticky top-0 z-40 border-b border-border/10 bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+          <div className="flex h-14 items-center justify-between px-4">
+            <Link to="/painel" className="scale-90 -ml-1">
+              <Logo compact />
+            </Link>
             
-            {activeMetrics.length > 0 && !railCollapsed && (
-              <div className="mx-2 p-3 rounded-xl border border-border bg-secondary/30 space-y-3">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                  <Settings className="size-3 text-brand" />
-                  Métricas
-                </div>
-                <div className="space-y-2">
-                  {activeMetrics.map(metric => {
-                    const relevantRows = (recurrents ?? []).filter((r: any) => 
-                      r.categories?.name?.toLowerCase().includes(metric.label.toLowerCase()) ||
-                      r.categories?.name?.toLowerCase().includes(metric.id.toLowerCase())
-                    );
-                    const currentAmount = relevantRows.reduce((sum: number, r: any) => sum + Number(r.amount), 0);
-                    const isHigh = currentAmount > metric.defaultAmount && metric.defaultAmount > 0;
-
-                    return (
-                      <div key={metric.id} className="space-y-0.5">
-                        <div className="flex items-center justify-between text-[10px]">
-                          <span className="text-muted-foreground">{metric.label}</span>
-                          {isHigh ? (
-                            <span className="text-orange-500 font-bold">Alta</span>
-                          ) : (
-                            <span className="text-emerald-500 font-bold">Ok</span>
-                          )}
-                        </div>
-                        <p className="text-sm font-bold tabular-nums">
-                          {formatCurrency(currentAmount)}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
+              <NotificationCenter />
+              <ThemeToggle />
+              <Link to="/perfil">
+                <Avatar className="size-8 border-2 border-border/50 shadow-sm">
+                  {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
+                  <AvatarFallback className="bg-secondary text-[10px] font-black">{initials}</AvatarFallback>
+                </Avatar>
+              </Link>
+            </div>
           </div>
-        )}
+        </header>
 
-        <div className="mt-auto border-t border-border p-2 space-y-1">
-          {!isAdminArea && !isKid && (
-            <div className="mb-2 px-2">
-               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 mb-2">Resumo Rápido</p>
-               <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
-                    <p className="text-[8px] uppercase text-muted-foreground">Gastos</p>
-                    <p className="text-[11px] font-bold text-rose-500 tabular-nums">
-                      {formatCurrency(metrics.totalExpense)}
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-secondary/30 p-2 border border-border/50">
-                    <p className="text-[8px] uppercase text-muted-foreground">Saldo</p>
-                    <p className="text-[11px] font-bold text-emerald-500 tabular-nums">
-                      {formatCurrency(metrics.balance)}
-                    </p>
-                  </div>
-               </div>
-            </div>
-          )}
-          <Link
-            to="/perfil"
-            className={cn(
-              "flex items-center gap-2 rounded-xl px-2 py-2.5 transition-all hover:bg-brand/10 group/profile",
-              railCollapsed && "justify-center px-0",
-            )}
-          >
-            <div className="relative shrink-0">
-              <Avatar className="size-8 transition-transform group-hover/profile:scale-105 border border-border/50">
-                {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-                <AvatarFallback className="text-xs bg-secondary text-muted-foreground">{initials}</AvatarFallback>
-              </Avatar>
-              <div className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-emerald-500 border-2 border-background" />
-            </div>
-            {!railCollapsed && (
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12.5px] font-extrabold tracking-tight group-hover/profile:text-brand transition-colors">
-                  {profile?.full_name ?? "Minha conta"}
-                </span>
-                {(access.planSlug === "premium_ia" || access.planSlug === "premium") && (
-                  <Badge 
-                    variant="outline" 
-                    className="mt-0.5 h-4 px-1 text-[8px] font-black uppercase tracking-tighter bg-emerald-500/10 text-emerald-600 border-emerald-500/20 w-fit"
-                  >
-                    <ShieldCheck className="mr-0.5 size-2" />
-                    Conta PRO
-                  </Badge>
-                )}
-                <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
-                  Meu perfil e plano
-                </span>
-              </span>
-            )}
-          </Link>
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full justify-start gap-2 h-10 px-2 rounded-xl text-muted-foreground hover:text-rose-500 hover:bg-rose-500/5 transition-all group/logout",
-              railCollapsed && "justify-center",
-            )}
-            onClick={handleSignOut}
-            aria-label="Sair"
-          >
-            <LogOut className="size-4 transition-transform group-hover/logout:-translate-x-0.5" />
-            {!railCollapsed && <span className="text-[12.5px] font-bold">Encerrar Sessão</span>}
-          </Button>
-        </div>
-      </aside>
+        {/* Desktop Title Bar (Internal Header) */}
+        <header className="hidden lg:flex sticky top-0 z-40 h-16 items-center justify-between px-8 border-b border-white/5 bg-background/80 backdrop-blur-md">
+          <div className="flex flex-col">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 opacity-70">
+              {isAdminArea ? "Administração" : "Painel do Cliente"}
+            </p>
+            <h1 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
+              {activeGroup?.label || "Meu Controle Financeiro"}
+              {activeMetrics.length > 0 && (
+                <div className="flex gap-2 ml-4">
+                  {activeMetrics.slice(0, 2).map(m => (
+                    <Badge key={m.id} variant="outline" className="h-5 px-1.5 text-[9px] font-bold border-white/10 bg-white/5 text-slate-400">
+                      {m.label}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-4">
+             <CommandPalette onQuickEntry={setQuickEntry} />
+             
+             <div className="h-8 w-px bg-white/5 mx-2" />
+             
+             <div className="flex items-center gap-2">
+               <NotificationCenter />
+               <ThemeToggle />
+             </div>
+
+             <Button
+                onClick={() => setQuickEntry("expense")}
+                className="h-10 gap-2 rounded-xl bg-emerald-500 px-6 text-[12px] font-black uppercase tracking-wider text-black shadow-lg shadow-emerald-500/20 transition-all hover:bg-emerald-400 active:scale-95"
+              >
+                <Plus className="size-4" />
+                Lançar
+             </Button>
+          </div>
+        </header>
 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* pt safe-area: no mobile a faixa do notch acompanha o tema (claro/escuro). */}
