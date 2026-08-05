@@ -1042,6 +1042,7 @@ function DashboardPage() {
           </div>
         )}
       </div>
+    </AppShell>
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
