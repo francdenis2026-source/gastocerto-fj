@@ -33,7 +33,10 @@ export function Hero() {
           className="h-full w-full object-cover brightness-[0.6] contrast-[1.2]"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001640]/40 via-transparent to-[#001640]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#001640]/80 via-[#001640]/40 to-[#001640]/90 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#001640_80%)] opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#001640]/40 via-transparent to-[#001640]/40" />
+
       </div>
 
       <div className="section-shell relative z-10">
