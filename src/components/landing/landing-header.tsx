@@ -150,10 +150,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
             </>
           )}
         </div>
+      </header>
 
-        </div>
-
-      </div>
 
       <div 
         className={cn(
