@@ -165,7 +165,7 @@ body::-webkit-scrollbar {
   --secondary: #142B24;
   --secondary-foreground: #F5F7F6;
   --muted: #142B24;
-  --muted-foreground: #8FA39C;
+  --muted-foreground: #93A69D;
   --accent: #142B24;
   --accent-foreground: #F5F7F6;
   --destructive: #E5484D;
@@ -209,14 +209,14 @@ body::-webkit-scrollbar {
   --acc-6: #14B8A6;
 
   /* ---- Hero System ---- */
-  --hero-bg: #0B1F1A;
-  --hero-fg: #F5F7F6;
-  --hero-fg-muted: #8FA39C;
-  --hero-fg-soft: #8FA39C;
-  --hero-border: rgba(74, 222, 128, 0.12);
-  --hero-border-strong: rgba(74, 222, 128, 0.2);
-  --hero-surface: #10241E;
-  --hero-surface-soft: rgba(74, 222, 128, 0.05);
+  --hero-bg: #0A1512;
+  --hero-fg: #F3F6F4;
+  --hero-fg-muted: #93A69D;
+  --hero-fg-soft: #93A69D;
+  --hero-border: rgba(63, 214, 140, 0.14);
+  --hero-border-strong: rgba(63, 214, 140, 0.2);
+  --hero-surface: #10201B;
+  --hero-surface-soft: rgba(63, 214, 140, 0.05);
   --hero-accent: var(--emerald);
 
   --banner-amber-bg: rgba(232, 196, 104, 0.1);
@@ -229,16 +229,16 @@ body::-webkit-scrollbar {
   --banner-primary-text: #22C55E;
   --banner-primary-icon: #22C55E;
 
-  --hero-veil-mobile: linear-gradient(180deg, rgba(11, 31, 26, 0.9), rgba(11, 31, 26, 0.9));
-  --hero-veil-desktop: linear-gradient(100deg, rgba(11, 31, 26, 0.95), rgba(11, 31, 26, 0.3));
-  --hero-fade: linear-gradient(180deg, transparent, #0B1F1A);
+  --hero-veil-mobile: linear-gradient(180deg, rgba(10, 21, 18, 0.9), rgba(10, 21, 18, 0.9));
+  --hero-veil-desktop: linear-gradient(100deg, rgba(10, 21, 18, 0.95), rgba(10, 21, 18, 0.3));
+  --hero-fade: linear-gradient(180deg, transparent, #0A1512);
 
-  --cta-bg: #10241E;
-  --cta-fg: #F5F7F6;
-  --cta-fg-muted: #8FA39C;
-  --cta-border: rgba(74, 222, 128, 0.12);
-  --cta-surface: #142B24;
-  --cta-accent-glow: rgba(34, 197, 94, 0.2);
+  --cta-bg: #10201B;
+  --cta-fg: #F3F6F4;
+  --cta-fg-muted: #93A69D;
+  --cta-border: rgba(63, 214, 140, 0.14);
+  --cta-surface: #16281F;
+  --cta-accent-glow: rgba(31, 174, 109, 0.2);
 }
 
 .dark {
@@ -289,10 +289,10 @@ body::-webkit-scrollbar {
 }
 
 @utility section-y {
-  padding-block: 2.5rem;
+  padding-block: 2rem;
 
   @media (min-width: 1024px) {
-    padding-block: 4rem;
+    padding-block: 3.5rem;
   }
 }
 
