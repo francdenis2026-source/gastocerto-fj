@@ -53,42 +53,9 @@ export function Hero() {
 
       </div>
 
-      {/* Camada decorativa em SVG: malha, arco financeiro e sparkline */}
-      <svg
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-[0.5]"
-        preserveAspectRatio="none"
-        viewBox="0 0 1200 800"
-      >
-        <defs>
-          <linearGradient id="heroLine" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#54A860" stopOpacity="0" />
-            <stop offset="50%" stopColor="#8FCB9B" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#54A860" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="heroArea" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#54A860" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#54A860" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0 700 L120 660 L240 690 L360 600 L480 640 L600 520 L720 560 L840 440 L960 480 L1080 380 L1200 420 L1200 800 L0 800Z"
-          fill="url(#heroArea)"
-        />
-        <path
-          d="M0 700 L120 660 L240 690 L360 600 L480 640 L600 520 L720 560 L840 440 L960 480 L1080 380 L1200 420"
-          fill="none"
-          stroke="url(#heroLine)"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-        <circle cx="1080" cy="380" r="6" fill="#8FCB9B">
-          <animate attributeName="r" values="5;9;5" dur="2.6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="600" cy="520" r="4" fill="#54A860" opacity="0.8">
-          <animate attributeName="opacity" values="0.3;1;0.3" dur="3.4s" repeatCount="indefinite" />
-        </circle>
-      </svg>
+      {/* Camada de gráfico moderno do hero */}
+      <HeroChart />
+
 
       <div className="section-shell relative z-10">
         <div className="mx-auto max-w-4xl text-center">
