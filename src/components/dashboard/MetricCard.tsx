@@ -1,5 +1,4 @@
 import type { LucideIcon } from "lucide-react";
-import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const tones = {
@@ -36,7 +35,7 @@ const tones = {
 export type StatTone = keyof typeof tones;
 
 interface MetricCardProps {
-  title: string;
+  label: string;
   value: string;
   trend?: string;
   trendDirection?: "up" | "down" | "neutral";
@@ -44,10 +43,13 @@ interface MetricCardProps {
   tone?: StatTone;
   progress?: number;
   className?: string;
+  onClick?: () => void;
+  badge?: React.ReactNode;
+  hint?: string;
 }
 
 export function MetricCard({
-  title,
+  label,
   value,
   trend,
   trendDirection = "neutral",
@@ -55,24 +57,38 @@ export function MetricCard({
   tone = "neutral",
   progress,
   className,
+  onClick,
+  badge,
+  hint
 }: MetricCardProps) {
   const t = tones[tone];
 
   return (
-    <div className={cn("rounded-2xl border border-white/5 bg-[#141A22] p-5 transition-all hover:bg-[#1A2028]", className)}>
+    <div 
+      onClick={onClick}
+      className={cn(
+        "rounded-2xl border border-white/5 bg-[#141A22] p-5 transition-all group/card cursor-default",
+        onClick && "cursor-pointer hover:bg-[#1A2028] hover:border-white/10 active:scale-[0.98]",
+        className
+      )}
+      title={hint}
+    >
       <div className="flex items-center justify-between mb-4">
-        <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">{title}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">{label}</span>
+          {badge}
+        </div>
         {Icon && (
-          <div className={cn("p-2 rounded-lg border", t.icon)}>
+          <div className={cn("p-2 rounded-xl border transition-colors", t.icon)}>
             <Icon className="size-4" />
           </div>
         )}
       </div>
       
       <div className="flex items-baseline gap-2">
-        <span className="text-2xl font-bold font-mono text-white tracking-tight">{value}</span>
+        <span className="text-2xl font-black font-mono text-white tracking-tight tabular">{value}</span>
         {trend && (
-          <span className={cn("text-xs font-medium", 
+          <span className={cn("text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-white/5", 
             trendDirection === "up" ? "text-emerald-400" : 
             trendDirection === "down" ? "text-rose-400" : "text-slate-500"
           )}>
@@ -83,7 +99,7 @@ export function MetricCard({
 
       {typeof progress === "number" && (
         <div className="mt-4 h-1.5 rounded-full bg-slate-800 overflow-hidden">
-          <div className={cn("h-full rounded-full", t.bar)} style={{ width: `${progress}%` }} />
+          <div className={cn("h-full rounded-full transition-all duration-1000", t.bar)} style={{ width: `${progress}%` }} />
         </div>
       )}
     </div>
