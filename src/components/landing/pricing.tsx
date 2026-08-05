@@ -83,8 +83,8 @@ export function Pricing() {
     <section id="planos" className="section-y bg-background relative overflow-hidden border-t border-white/5">
       <div className="section-shell">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="section-title">Planos objetivos e transparentes</h2>
-          <p className="mt-4 text-muted-foreground">Escolha o nível de controle que você precisa.</p>
+          <h2 className="section-title">Investimento em controle e liberdade</h2>
+          <p className="mt-4 text-muted-foreground">Estruturas de custo escaláveis conforme sua necessidade de gestão.</p>
           
           <div className="mt-8 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button

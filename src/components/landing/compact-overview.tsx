@@ -262,10 +262,10 @@ export function CompactOverview() {
               Recursos da plataforma
             </p>
             <h2 className="mt-1 section-title">
-              Um sistema completo para o seu controle financeiro
+              Ecossistema completo de gestão e recursos
             </h2>
             <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
-              Recursos integrados para o dia a dia, veículos, planejamento, família e análise.
+              Soluções integradas para monitoramento de ativos, automação de despesas e planejamento estratégico familiar.
             </p>
           </div>
           <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">

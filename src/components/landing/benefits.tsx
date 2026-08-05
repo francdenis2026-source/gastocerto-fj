@@ -127,8 +127,8 @@ export function Benefits() {
       <section id="recursos" className="section-y border-b border-white/5">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-16">
-            <h2 className="section-title">Recursos essenciais para seu controle</h2>
-            <p className="mt-4 text-muted-foreground">Clique nos cards para explorar as funcionalidades detalhadamente.</p>
+            <h2 className="section-title">Infraestrutura para sua autonomia</h2>
+            <p className="mt-4 text-muted-foreground">Ferramentas avançadas para gestão de ativos e otimização de fluxo de caixa.</p>
           </Reveal>
 
           <div className="grid gap-12">
