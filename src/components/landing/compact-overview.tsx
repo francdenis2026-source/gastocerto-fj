@@ -227,7 +227,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[2.5rem] p-12 bg-white/[0.03] border border-white/[0.08] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]"
+                  className="interactive-card rounded-[2.5rem] p-12 bg-transparent border-none shadow-none"
                 >
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5">
                     {group.group}

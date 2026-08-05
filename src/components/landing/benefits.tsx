@@ -146,7 +146,7 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2rem] p-10 text-left bg-white/[0.02] border border-white/[0.05] active:scale-[0.98]">
+                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2rem] p-10 text-left bg-transparent border-none active:scale-[0.98]">
                           <div className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-black">
                             <item.icon className="size-6" />
                           </div>
@@ -223,7 +223,7 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[3rem] px-8 py-24 text-center shadow-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
+          <Reveal className="relative overflow-visible px-8 py-24 text-center">
             {/* Foto Real de Fundo com Baixa Opacidade */}
             {/* Foto Real de Fundo - Removida para limpar o visual */}
             {/* Gradiente Radial e SVG Decorativo */}
