@@ -15,7 +15,7 @@ body {
     @apply cursor-default;
   }
 
-  a, button, [role="button"], input, select, textarea, label, summary, [tabindex]:not([tabindex="-1"]), .interactive-card, .cta-lift, .accordion-trigger, [data-state], .group, .clickable {
+  a, button, [role="button"], input, select, textarea, label, summary, [tabindex]:not([tabindex="-1"]), .interactive-card, .cta-lift, .accordion-trigger, [data-state], .group, .clickable, .tabs-trigger, [data-radix-collection-item] {
     @apply cursor-pointer;
   }
 
