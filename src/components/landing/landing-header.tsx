@@ -127,7 +127,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-10 px-4 text-[12px] font-black uppercase tracking-[0.12em] rounded-xl border border-white/5 bg-white/[0.03] hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all active:scale-95 group",
+              "h-11 px-5 text-[12.5px] font-black uppercase tracking-[0.14em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D]/10 hover:border-[#1FAE6D]/30 transition-all active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
