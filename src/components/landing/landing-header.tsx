@@ -165,7 +165,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-md lg:hidden">
+        <div className="fixed inset-x-0 top-[calc(3.5rem+16px)] z-[100] mx-2 mt-2 rounded-[1.5rem] border border-emerald-500/30 bg-background/95 p-2 shadow-2xl backdrop-blur-md lg:hidden sm:mx-4 sm:top-[calc(4rem+16px)]">
           <nav aria-label="Navegação móvel" className="section-shell flex flex-col py-3">
             {navItems.map((item) => (
               <a
@@ -212,6 +212,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         </div>
       )}
     </header>
+    <div className="h-20 sm:h-24 lg:hidden" /> {/* Spacer to prevent overlap on initial load */}
     </>
   );
 }
