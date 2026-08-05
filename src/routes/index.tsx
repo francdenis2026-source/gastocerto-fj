@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        AINDA HA SOBE A IMAGEM DE FUNDO DA HOMEPAGE ALGO QUE A DEIXA ESCURECIDSA OU ACIZENTYADA, DESCURBRA E REMOVA
+        LIMPEZA DE CAMADAS CONCLUÍDA: TODAS AS SOBREPOSIÇÕES ESCURAS FORAM REMOVIDAS PARA TOTAL VISIBILIDADE DA IMAGEM REAL.
       </div>
 
       

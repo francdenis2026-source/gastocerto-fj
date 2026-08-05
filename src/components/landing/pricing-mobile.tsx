@@ -71,7 +71,7 @@ export function PricingMobile() {
         </div>
       </div>
 
-      <div className="rounded-[1.5rem] border border-white/5 p-5 shadow-2xl">
+      <div className="rounded-[1.5rem] border border-white/5 p-5 shadow-2xl backdrop-blur-md">
         <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-2xl bg-white/[0.03] p-1 mb-6">
           {plans.map((item: PricingPlan) => (
             <button
