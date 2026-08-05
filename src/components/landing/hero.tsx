@@ -72,7 +72,7 @@ export function Hero() {
             </Button>
             <Button
               variant="outline"
-              className="h-12 w-full sm:w-auto rounded-lg border-white/10 bg-white/5 px-8 text-[14px] font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 group/interactive"
+              className="h-12 w-full sm:w-auto rounded-lg border-border/10 bg-surface/50 px-8 text-[14px] font-bold text-foreground dark:text-white backdrop-blur-md transition-all hover:bg-surface group/interactive"
               asChild
             >
               <Link to="/auth" search={{ mode: "login" }}>
@@ -88,7 +88,7 @@ export function Hero() {
         <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
           <div className="relative perspective-2000 group/mockup scale-[0.9] lg:scale-[1.05] origin-center lg:-mt-24">
             {/* Mockup do Dashboard */}
-            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#10201B]/40 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7),0_0_60px_-20px_rgba(31,174,109,0.15)] backdrop-blur-md transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
+            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-border/10 bg-surface/40 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3),0_0_60px_-20px_rgba(31,174,109,0.15)] dark:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7),0_0_60px_-20px_rgba(31,174,109,0.15)] backdrop-blur-md transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
                 {/* Minimalist Browser Frame */}
                 <div className="flex items-center gap-1.5 border-b border-white/5 bg-white/5 px-4 py-2.5">

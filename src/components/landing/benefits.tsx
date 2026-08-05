@@ -191,7 +191,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-white/5 bg-[#0A1512] relative">
+      <section id="faq" className="section-y border-b border-border/5 bg-background relative">
         {/* Textura SVG sutil */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="section-shell max-w-3xl relative z-10">
@@ -219,7 +219,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="cta-final" className="section-y bg-[#0A1512] relative overflow-hidden">
+      <section id="cta-final" className="section-y bg-background relative overflow-hidden">
         <div className="section-shell relative z-10">
           <Reveal className="relative overflow-hidden rounded-[1.5rem] glass-morphism px-6 py-8 text-center shadow-2xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
