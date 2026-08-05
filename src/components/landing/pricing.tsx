@@ -174,7 +174,12 @@ export function Pricing() {
               
               <div className="relative z-10 mb-6">
                 <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
-                <p className="mt-1 text-[11px] font-bold text-emerald-500/60 uppercase tracking-widest">{plan.description}</p>
+                <p className={cn(
+                  "mt-1 text-[11px] font-bold uppercase tracking-widest",
+                  plan.slug === "free" && "text-emerald-500/60",
+                  plan.slug === "premium" && "text-blue-400/70",
+                  plan.slug === "premium_ia" && "text-amber-500/60"
+                )}>{plan.description}</p>
               </div>
 
               <div className="relative z-10 mb-8">
