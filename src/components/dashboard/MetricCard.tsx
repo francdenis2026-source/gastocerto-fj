@@ -9,6 +9,8 @@ interface MetricCardProps {
   icon?: LucideIcon;
   className?: string;
   onClick?: () => void;
+  tone?: string;
+  badge?: React.ReactNode;
   hint?: string;
 }
 
