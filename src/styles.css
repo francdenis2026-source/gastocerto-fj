@@ -372,16 +372,16 @@ body::-webkit-scrollbar {
   &:focus-visible {
     transform: translateY(-4px);
     background-color: rgba(255, 255, 255, 0.04);
-    box-shadow: 0 0 0 2px #1FAE6D;
+    box-shadow: 0 0 0 2px #1FAE6D, 0 10px 20px -5px rgba(0, 0, 0, 0.3);
   }
 
   &::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(31, 174, 109, 0.05), transparent 45%);
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(31, 174, 109, 0.04), transparent 45%);
     opacity: 0;
-    transition: opacity 500ms;
+    transition: opacity 500ms ease;
     pointer-events: none;
     z-index: -1;
   }
@@ -393,8 +393,9 @@ body::-webkit-scrollbar {
   }
 
   &:active {
-    transform: translateY(-2px) scale(0.99);
-    transition-duration: 100ms;
+    transform: translateY(-1px) scale(0.985);
+    background-color: rgba(255, 255, 255, 0.06);
+    transition-duration: 80ms;
   }
 }
 
