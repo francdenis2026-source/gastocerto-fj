@@ -19,17 +19,17 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <footer className="relative border-t border-emerald-500/10 py-24 overflow-hidden">
+    <footer className="relative border-t border-emerald-500/10 py-12 overflow-hidden">
       {/* Imagem de Fundo Realista no Footer com Efeito de Destaque */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop"
           alt=""
           loading="lazy"
-          className="h-full w-full object-cover opacity-15 brightness-[0.1] pointer-events-none"
+          className="h-full w-full object-cover opacity-20 brightness-[0.2] pointer-events-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001640] via-[#001640]/98 to-[#001030]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#001a4d] via-[#001a4d]/95 to-[#000d26]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-1 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent shadow-[0_0_15px_rgba(16,185,129,0.3)]" />
       </div>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
@@ -86,8 +86,8 @@ export function LandingFooter() {
       </div>
 
       {/* Barra Final Premium */}
-      <div className="relative z-10 border-t border-white/5 mt-16 bg-black/20 backdrop-blur-sm">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-4 py-8 text-[11px] font-bold uppercase tracking-[0.15em] text-white/30 sm:flex-row">
+      <div className="relative z-10 border-t border-white/5 mt-10 bg-black/30 backdrop-blur-md">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-4 py-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white/40 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="text-emerald-500/50">©</span>
             <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
