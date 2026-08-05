@@ -246,8 +246,8 @@ export function CompactOverview() {
                               <item.icon className="size-4" />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="truncate text-sm font-semibold">{item.title}</p>
-                              <p className="truncate text-[11px] text-muted-foreground">{item.tag}</p>
+                              <p className="truncate text-[15px] font-bold tracking-tight text-white">{item.title}</p>
+                              <p className="truncate text-[12px] font-medium leading-relaxed text-muted-foreground">{item.tag}</p>
                             </div>
                           </button>
                         </FeatureDetailDialog>

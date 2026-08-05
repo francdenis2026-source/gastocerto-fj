@@ -71,7 +71,7 @@ export function Hero() {
             </h1>
 
             <p
-              className="mx-auto max-w-2xl text-center text-[16px] font-medium leading-[1.6] tracking-tight text-white/70 [text-wrap:balance] sm:text-[19px]"
+              className="mx-auto max-w-2xl text-center text-[17px] font-medium leading-[1.7] tracking-tight text-white/70 [text-wrap:balance] sm:text-[20px]"
               style={{ fontFamily: '"Space Grotesk", var(--font-display)' }}
             >
               A engenharia financeira definitiva para quem busca precisão,{" "}

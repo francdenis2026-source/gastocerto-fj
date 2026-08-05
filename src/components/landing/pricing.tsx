@@ -159,7 +159,7 @@ export function Pricing() {
               
               <div className="mb-5">
                 <h3 className="text-2xl font-black text-white">{plan.name}</h3>
-                <p className="mt-2 text-[13px] text-muted-foreground font-medium">{plan.description}</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground font-medium">{plan.description}</p>
               </div>
 
               <div className="mb-4">
@@ -173,9 +173,9 @@ export function Pricing() {
 
               <ul className="flex-1 space-y-2.5 mb-6">
                 {plan.features.map((feature: string) => (
-                  <li key={feature} className="flex items-start gap-3 text-[13px]">
+                  <li key={feature} className="flex items-start gap-3 text-[14px] leading-snug">
                     <Check className="size-4 shrink-0 text-emerald-500 mt-0.5" />
-                    <span className="text-white/80">{feature}</span>
+                    <span className="text-white/90 font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>
