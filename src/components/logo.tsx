@@ -33,7 +33,7 @@ export function Logo({
         <span
           className={cn(
             "font-display whitespace-nowrap text-[1.25rem] font-bold tracking-[-0.03em] sm:text-[1.4rem]",
-            onDark ? "text-white" : "text-[#F3F6F4]",
+            onDark ? "text-white" : "text-foreground",
           )}
         >
           <span className="text-white">Gasto</span>
