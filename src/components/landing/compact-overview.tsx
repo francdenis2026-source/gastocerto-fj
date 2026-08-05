@@ -249,12 +249,7 @@ export function CompactOverview() {
 
   return (
     <section id="explorar" className="relative border-y border-border/5 section-y overflow-hidden">
-      {/* Imagem de Fundo de Destaque */}
-      <img 
-        src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
-      />
+      {/* Imagem de Fundo de Destaque - Removida para limpar o visual */}
       <span id="seguranca" className="block" />
       <div className="section-shell relative z-10">
         <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">

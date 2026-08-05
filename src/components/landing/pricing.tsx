@@ -82,11 +82,7 @@ export function Pricing() {
   return (
     <section id="planos" className="section-y relative overflow-hidden border-t border-border/5">
       {/* Foto de Fundo em Baixa Opacidade */}
-      <img 
-        src="https://images.unsplash.com/photo-1554224154-7626155e82b1?q=80&w=2070&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-40 grayscale-0 pointer-events-none"
-      />
+      {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="section-title">Investimento em liberdade</h2>

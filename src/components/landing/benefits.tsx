@@ -125,11 +125,7 @@ export function Benefits() {
   return (
     <div className="relative overflow-hidden">
       {/* Imagem de Fundo Global da Seção */}
-      <img 
-        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
-      />
+      {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
       <section id="recursos" className="section-y border-b border-border/5 relative z-10">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
@@ -229,11 +225,7 @@ export function Benefits() {
         <div className="section-shell relative z-10">
           <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl border border-border/5">
             {/* Foto Real de Fundo com Baixa Opacidade */}
-            <img 
-              src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" 
-              alt="" 
-              className="absolute inset-0 h-full w-full object-cover opacity-10 grayscale pointer-events-none"
-            />
+            {/* Foto Real de Fundo - Removida para limpar o visual */}
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />
