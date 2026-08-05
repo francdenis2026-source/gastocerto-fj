@@ -150,7 +150,7 @@ body::-webkit-scrollbar {
   --emerald-gradient-to: #3FD68C;
   --gold-accent: #D4AF6A; 
   
-  --background: #FFFFFF;
+  --background: transparent;
   --foreground: #0A1512;
   --surface: #F8FAF9;
   --card: #FFFFFF;
@@ -275,13 +275,11 @@ body::-webkit-scrollbar {
 
 /* Título de seção consistente entre mobile e desktop. */
 @utility reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
+
 
 
 @utility reveal-in {
