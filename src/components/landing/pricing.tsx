@@ -144,7 +144,7 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2.5rem] p-9 transition-all duration-500",
+                "interactive-card relative flex flex-col rounded-[2.5rem] p-12 transition-all duration-500",
                 "bg-white/[0.02] border border-white/[0.05]",
                 plan.highlighted 
                   ? "shadow-[0_48px_96px_-24px_rgba(31,174,109,0.3)] border-[#1FAE6D]/30 bg-[#1FAE6D]/[0.04] scale-[1.03] z-10" 
