@@ -60,15 +60,15 @@ export function Hero() {
             <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
 
 
-            <h1 className="text-center font-display text-[clamp(2.5rem,9vw,4.5rem)] font-bold leading-[1.1] tracking-[-0.05em] text-white drop-shadow-md">
-              Sua vida financeira <br className="hidden sm:block" />
-              sob <span className="text-[#1FAE6D]">controle total.</span>
+            <h1 className="text-center font-display text-[clamp(2.75rem,11vw,6rem)] font-black leading-[0.95] tracking-[-0.07em] text-white drop-shadow-2xl uppercase">
+              Precisão <span className="text-[#1FAE6D]">Absoluta.</span> <br className="hidden sm:block" />
+              Gestão <span className="text-white/40">Fintech.</span>
             </h1>
 
             <p
-              className="mx-auto max-w-2xl text-center section-subtitle !text-white/80 !text-[clamp(1.1rem,4vw,1.25rem)]"
+              className="mx-auto max-w-3xl text-center section-subtitle !text-white/90 !text-[clamp(1.15rem,5vw,1.4rem)] !font-medium"
             >
-              Organize suas contas, planeje seu futuro e conquiste sua liberdade financeira com a ferramenta mais completa e segura.
+              A engenharia definitiva para o seu controle financeiro. Simples, poderosa e extraordinariamente eficiente.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">

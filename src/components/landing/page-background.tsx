@@ -10,7 +10,7 @@ export function PageBackground() {
         <img 
           src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
           alt=""
-          className="h-full w-full object-cover opacity-30 brightness-[0.4] sm:opacity-40 blur-[1px] sm:blur-[2px]"
+          className="h-full w-full object-cover opacity-20 brightness-[0.5] sm:opacity-25 grayscale-[0.3]"
           style={{ transform: 'scale(1.1)' }}
         />
         
