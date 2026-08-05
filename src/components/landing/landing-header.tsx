@@ -91,16 +91,17 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className={cn("inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")} />
+          <ThemeToggle className={cn("inline-flex rounded-xl transition-all hover:scale-105 active:scale-95", !scrolled ? "text-white bg-white/5 border border-white/10 hover:bg-white/10" : "text-foreground bg-accent/50 border border-border/10")} />
           <CodeAccessDialog>
             <Button
               variant="ghost"
-              className={cn("hidden lg:inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")}
+              className={cn("hidden lg:inline-flex h-10 px-4 text-[13px] font-bold tracking-tight rounded-xl transition-all active:scale-95", !scrolled ? "text-white hover:bg-white/5" : "text-foreground/70 hover:text-foreground hover:bg-accent")}
             >
-              <KeyRound className="size-4" aria-hidden />
-              Código de acesso
+              <KeyRound className="size-4 mr-2" aria-hidden />
+              Acesso Restrito
             </Button>
           </CodeAccessDialog>
+
           {/* Código: ícone compacto no celular, mantendo a ação sempre acessível. */}
           <CodeAccessDialog>
             <Button
