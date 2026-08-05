@@ -4,6 +4,7 @@ import {
   ArrowRight,
   Play,
   Sparkles,
+  Users,
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
