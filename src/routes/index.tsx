@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        NAO FICOU PROFSSIONAL ESSA TIPOGRAFIA
+        O NOME DO APLICATIVO TA ERRQADO
       </div>
 
 
