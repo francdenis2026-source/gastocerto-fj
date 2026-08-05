@@ -113,6 +113,7 @@ body::-webkit-scrollbar {
   --color-hero-surface: var(--hero-surface);
   --color-hero-surface-soft: var(--hero-surface-soft);
   --color-hero-accent: var(--hero-accent);
+
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
