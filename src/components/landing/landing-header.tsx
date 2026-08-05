@@ -57,7 +57,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       <div
         aria-hidden
         className={cn(
-          "pointer-events-none fixed inset-x-0 top-0 z-[999] bg-background transition-all duration-500",
+          "pointer-events-none fixed inset-x-0 top-0 z-[999] bg-background/95 backdrop-blur-md transition-all duration-500 border-b border-emerald-500/10",
           scrolled ? "h-[88px] opacity-100" : "h-0 opacity-0",
         )}
       />
@@ -68,13 +68,13 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         className={cn(
           "fixed inset-x-0 z-[1000] transition-all duration-700 top-0 motion-reduce:transition-none",
           scrolled
-            ? "bg-background border-b-[2px] border-emerald-500/40 text-foreground shadow-[0_40px_80px_rgba(0,0,0,0.8)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] translate-y-2 scale-[0.985] motion-reduce:translate-y-0 motion-reduce:scale-100 z-[1000]"
+            ? "bg-background border-b-[2px] border-emerald-500/40 text-foreground shadow-[0_40px_80px_rgba(0,0,0,0.8)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] z-[1000]"
             : "bg-background text-foreground shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_10px_30px_rgba(0,0,0,0.5)] isolate border-b border-white/5 z-[1000]",
         )}
       >
 
 
-        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-4 sm:px-6" : "h-16 sm:h-20 px-4 sm:px-6")}>
+        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-4 sm:px-6" : "h-16 sm:h-20 px-4 sm:px-6 bg-gradient-to-r from-background via-emerald-950/20 to-background")}>
           <Logo onDark={!scrolled} href="#inicio" className="group shrink-0 scale-90 sm:scale-100" />
 
 
@@ -88,12 +88,12 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-bold uppercase tracking-[0.15em] transition-all hover:bg-emerald-500/5 focus-visible:outline-none",
+                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-black uppercase tracking-[0.2em] transition-all hover:bg-emerald-500/5 focus-visible:outline-none",
                     isActive 
                       ? "text-emerald-400" 
                       : scrolled 
-                        ? "text-foreground/80 hover:text-emerald-400" 
-                        : "text-white/80 hover:text-white",
+                        ? "text-foreground/90 hover:text-emerald-400" 
+                        : "text-white hover:text-white",
                   )}
                 >
                   {item.label}
