@@ -107,7 +107,7 @@ export function Pricing() {
       {/* Foto de Fundo em Baixa Opacidade */}
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <h2 className="section-title">Planos de Crescimento</h2>
           <p className="mt-4 section-subtitle max-w-2xl mx-auto">Estrutura de custos otimizada para diferentes níveis de maturidade financeira.</p>
           
@@ -139,12 +139,12 @@ export function Pricing() {
           </div>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
+        <div className="grid gap-4 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
           {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2.5rem] p-10 transition-all duration-500",
+                "interactive-card relative flex flex-col rounded-[2rem] p-7 transition-all duration-500",
                 "bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm",
                 plan.highlighted 
                   ? "shadow-[0_48px_96px_-24px_rgba(31,174,109,0.25)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.05] scale-[1.03] z-10" 
