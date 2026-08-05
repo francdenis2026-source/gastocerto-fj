@@ -71,7 +71,7 @@ import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-noti
 import { VehicleEmblem } from "@/components/finance/vehicle-emblem";
 import { usePeriodStore } from "@/lib/period-store";
 import { InteractiveCalendar } from "@/components/finance/interactive-calendar";
-import { StatTile } from "@/components/finance/stat-tile";
+import { MetricCard } from "@/components/dashboard/MetricCard";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
@@ -169,6 +169,7 @@ function DashboardPage() {
   const [detailDate, setDetailDate] = useState<string | null>(null);
   const [dependentOpen, setDependentOpen] = useState(false);
   const [taxOpen, setTaxOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
@@ -618,12 +619,11 @@ function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-2 sm:hidden px-4 mb-4">
-        <StatTile
+        <MetricCard
           label="Saldo"
           value={formatCurrency(metrics.balance)}
-          tone={metrics.balance >= 0 ? "success" : "expense"}
+          tone={metrics.balance >= 0 ? "brand" : "expense"}
           icon={Wallet}
-          className="mobile-compact-card"
           onClick={() => {
             setDetail({
               label: "Saldo Geral",
@@ -638,12 +638,11 @@ function DashboardPage() {
             });
           }}
         />
-        <StatTile
+        <MetricCard
           label="Gasto"
           value={formatCurrency(metrics.totalExpense)}
           tone="expense"
           icon={TrendingDown}
-          className="mobile-compact-card"
           onClick={() => {
             setDetail({
               label: "Total de Despesas",
@@ -750,7 +749,7 @@ function DashboardPage() {
                   </div>
 
                   <div className="pt-2">
-                    <StatTile
+                    <MetricCard
                       tone="neutral"
                       label="Projeção de Fim de Mês"
                       value={formatCurrency(metrics.projection)}
@@ -827,11 +826,8 @@ function DashboardPage() {
                 </div>
               </div>
             </aside>
-
             <div className="space-y-6">
-               <DashboardTabs
-                 overview={
-                   <div className="space-y-6">
+              <div className="space-y-6">
                      <div className="grid gap-6 sm:grid-cols-2">
                         <InteractiveCard
                           id="client-top-expenses"
@@ -917,10 +913,10 @@ function DashboardPage() {
                        </InteractiveCard>
                      </div>
                       <div className="hidden sm:grid gap-3 auto-cards-sm">
-                        <StatTile
+                        <MetricCard
                           label="Minha Assinatura"
                           value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
-                          tone={access.planSlug !== "free" ? "success" : "neutral"}
+                          tone={access.planSlug !== "free" ? "brand" : "neutral"}
                           icon={ShieldCheck}
                           badge={access.planSlug !== "free" ? (
                             <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px] font-black uppercase tracking-tighter h-5 px-1.5">
@@ -930,7 +926,7 @@ function DashboardPage() {
                           onClick={() => navigate({ to: "/perfil" })}
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="brand"
                           label={
                             metrics.isCurrentMonth
@@ -951,7 +947,7 @@ function DashboardPage() {
                           onClick={() => openDayDetail(today.getDate())}
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="warning"
                           label="Gasto nos 7 dias"
                           value={formatCurrency(metrics.week)}
@@ -967,7 +963,7 @@ function DashboardPage() {
                           }
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="expense"
                           label="Gasto no mês"
                           value={formatCurrency(metrics.totalExpense)}
@@ -986,8 +982,8 @@ function DashboardPage() {
                           }
                         />
 
-                        <StatTile
-                          tone="success"
+                        <MetricCard
+                          tone="brand"
                           label="Receita total"
                           value={formatCurrency(metrics.totalIncome)}
                           icon={TrendingUp}
@@ -1004,7 +1000,7 @@ function DashboardPage() {
                           }
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="neutral"
                           label="Saldo disponível"
                           value={formatCurrency(metrics.balance)}
@@ -1024,97 +1020,26 @@ function DashboardPage() {
                         />
                       </div>
                       <ChartCard title="Evolução Diária" summary="Pico de gastos diários">
-                         <div className="h-[250px]">
-                            <ResponsiveContainer width="100%" height="100%">
-                               <BarChart data={byDay} onClick={(s:any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}>
-                                  <CartesianGrid {...gridProps} />
-                                  <XAxis dataKey="day" {...axisProps} />
-                                  <YAxis {...axisProps} width={36} />
-                                  <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
-                                  <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
-                               </BarChart>
-                            </ResponsiveContainer>
-                         </div>
+                        <div className="h-[250px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              data={byDay}
+                              onClick={(s: any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}
+                            >
+                              <CartesianGrid {...gridProps} />
+                              <XAxis dataKey="day" {...axisProps} />
+                              <YAxis {...axisProps} width={36} />
+                              <Tooltip {...tooltipProps} formatter={(v: any) => formatCurrency(v)} />
+                              <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
                       </ChartCard>
-                   </div>
-                 }
-                  analytics={
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <InteractiveCard
-                        id="client-analytics-categories"
-                        className="glass-morphism"
-                        title="Categorias"
-                        description="Distribuição percentual de gastos"
-                        icon={<PieChartIcon className="size-4" />}
-                        chart={
-                          <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                              <Pie data={byCategory} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} onClick={(e:any) => e?.id && openCategoryDetail(e.id, e.name)}>
-                                {byCategory.map((e, i) => <Cell key={e.name} fill={e.color ?? seriesColor(i)} stroke="var(--card)" strokeWidth={2} />)}
-                              </Pie>
-                              <Tooltip formatter={(v:any, n:any) => [formatCurrency(v), n]} />
-                            </PieChart>
-                          </ResponsiveContainer>
-                        }
-                      >
-                        <div className="space-y-2">
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase">Distribuição de Recursos</p>
-                          <div className="grid grid-cols-2 gap-2">
-                             {byCategory.slice(0, 4).map(cat => (
-                               <div key={cat.id} className="p-2 rounded-lg bg-muted/30 border border-border/20 flex flex-col">
-                                 <span className="text-[9px] font-bold truncate">{cat.name}</span>
-                                 <span className="text-xs font-black">{formatCurrency(cat.value)}</span>
-                               </div>
-                             ))}
-                          </div>
-                        </div>
-                      </InteractiveCard>
-
-                      <InteractiveCard
-                        id="client-analytics-flow"
-                        className="glass-morphism"
-                        title="Receitas x Despesas"
-                        description="Fluxo mensal consolidado"
-                        icon={<Activity className="size-4" />}
-                        chart={
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={byDay}>
-                               <CartesianGrid {...gridProps} />
-                               <XAxis dataKey="day" {...axisProps} />
-                               <YAxis {...axisProps} width={40} />
-                               <Tooltip formatter={(v:any) => formatCurrency(v)} />
-                               <Line type="monotone" dataKey="receita" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
-                               <Line type="monotone" dataKey="gasto" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        }
-                      >
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                            <p className="text-[9px] font-bold text-emerald-600 uppercase">Total Receitas</p>
-                            <p className="text-sm font-black text-emerald-700">{formatCurrency(metrics.totalIncome)}</p>
-                          </div>
-                          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
-                            <p className="text-[9px] font-bold text-rose-600 uppercase">Total Despesas</p>
-                            <p className="text-sm font-black text-rose-700">{formatCurrency(metrics.totalExpense)}</p>
-                          </div>
-                        </div>
-                      </InteractiveCard>
                     </div>
-                  }
-                 yearly={<YearlyBalanceSection year={period.year} />}
-                  insights={<InsightsPanel year={period.year} month={period.month} />}
-                  recommendations={<DebtAdvisorPanel />}
-                   kids={<KidsManagementPanel />}
-                   family={<FamilySpendingDashboard />}
-
-               />
-            </div>
-          </div>
+                  </div>
+                </div>
         )}
       </div>
-
-
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
@@ -1164,6 +1089,11 @@ function DashboardPage() {
       <ExpenseCardsDialog open={cardsOpen} onOpenChange={setCardsOpen} />
       <DependentExpenseDialog open={dependentOpen} onOpenChange={setDependentOpen} />
       <TaxQuickDialog open={taxOpen} onOpenChange={setTaxOpen} />
+      <InteractiveCalendar 
+        open={calendarOpen} 
+        onOpenChange={setCalendarOpen} 
+        onDayClick={(day: number) => openDayDetail(day)} 
+      />
     </AppShell>
   );
 }
