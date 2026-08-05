@@ -123,7 +123,7 @@ const faqItems = [
 
 export function Benefits() {
   return (
-    <div className="bg-background relative overflow-hidden">
+    <div className="relative overflow-hidden">
       {/* Imagem de Fundo Global da Seção */}
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
@@ -197,7 +197,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-border/5 bg-background relative z-10">
+      <section id="faq" className="section-y border-b border-border/5 relative z-10">
         {/* Textura SVG sutil */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="section-shell max-w-3xl relative z-10">
@@ -225,7 +225,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="cta-final" className="section-y bg-background relative overflow-hidden z-10">
+      <section id="cta-final" className="section-y relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
           <Reveal className="relative overflow-hidden rounded-[1.5rem] glass-morphism px-6 py-8 text-center shadow-2xl border border-border/5">
             {/* Foto Real de Fundo com Baixa Opacidade */}
