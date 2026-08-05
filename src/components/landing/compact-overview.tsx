@@ -1,92 +1,64 @@
-import { useState } from "react";
-import { 
-  BarChart3, 
-  ShieldCheck, 
-  Zap, 
-  Users, 
-  Smartphone, 
-  BrainCircuit 
-} from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/landing/reveal";
+import { cn } from "@/lib/utils";
+import { 
+  Sparkles, 
+  BrainCircuit, 
+  Target, 
+  CreditCard, 
+  Users, 
+  ShieldCheck,
+  ChevronRight
+} from "lucide-react";
 
-const features = [
+const steps = [
   {
-    id: "dashboard",
-    title: "Gestão Visual",
-    description: "Visualize seus gastos por categorias com gráficos intuitivos e interativos.",
-    icon: BarChart3,
+    icon: Sparkles,
+    title: "Importação Rápida",
+    description: "Conecte suas contas ou lance despesas em segundos com nossa interface intuitiva.",
     color: "text-blue-500",
-    bg: "bg-blue-500/10",
+    bg: "bg-blue-500/10"
   },
   {
-    id: "security",
-    title: "Segurança Total",
-    description: "Seus dados são protegidos com criptografia de ponta e autenticação segura.",
-    icon: ShieldCheck,
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10",
-  },
-  {
-    id: "speed",
-    title: "Lançamento Rápido",
-    description: "Registre despesas em segundos com nossa interface otimizada para agilidade.",
-    icon: Zap,
-    color: "text-amber-500",
-    bg: "bg-amber-500/10",
-  },
-  {
-    id: "kids",
-    title: "Espaço Kids",
-    description: "Eduque seus filhos financeiramente com uma área dedicada e segura.",
-    icon: Users,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10",
-  },
-  {
-    id: "mobile",
-    title: "Mobile First",
-    description: "Experiência de aplicativo nativo no seu navegador, onde quer que você esteja.",
-    icon: Smartphone,
-    color: "text-rose-500",
-    bg: "bg-rose-500/10",
-  },
-  {
-    id: "ai",
-    title: "Consultor IA",
-    description: "Receba insights inteligentes e dicas personalizadas para economizar mais.",
     icon: BrainCircuit,
-    color: "text-indigo-500",
-    bg: "bg-indigo-500/10",
+    title: "Análise Inteligente",
+    description: "Nossa IA processa seus dados para identificar padrões e sugerir economias reais.",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10"
   },
+  {
+    icon: Target,
+    title: "Metas Alcançadas",
+    description: "Acompanhe seu progresso visualmente e atinja seus objetivos antes do esperado.",
+    color: "text-amber-500",
+    bg: "bg-amber-500/10"
+  }
 ];
 
 export function CompactOverview() {
-  const [activeTab, setActiveTab] = useState("dashboard");
-
   return (
-    <section id="recursos" className="section-y bg-background border-t border-border">
+    <section className="py-20 bg-background border-t border-border overflow-hidden">
       <div className="section-shell">
-        <Reveal className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="section-title">Tudo o que você precisa</h2>
-          <p className="mt-6 section-subtitle">
-            Uma plataforma completa e integrada para gerenciar cada detalhe da sua vida financeira com precisão.
-          </p>
-        </Reveal>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <Reveal key={feature.id} delay={index * 100}>
-              <div className="group interactive-card p-8 h-full flex flex-col rounded-[2rem] border border-border bg-card hover:border-primary/50 transition-all duration-300">
-                <div className={cn("mb-6 flex size-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110", feature.bg)}>
-                  <feature.icon className={cn("size-6", feature.color)} />
+        <div className="grid md:grid-cols-3 gap-12">
+          {steps.map((step, i) => (
+            <Reveal key={step.title} delay={i * 100}>
+              <div className="group flex items-start gap-6">
+                <div className={cn(
+                  "shrink-0 size-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3",
+                  step.bg
+                )}>
+                  <step.icon className={cn("size-7", step.color)} />
                 </div>
-                <h3 className="mb-3 text-xl font-bold text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="text-secondary-foreground leading-relaxed">
-                  {feature.description}
-                </p>
+                <div className="min-w-0">
+                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-secondary-foreground">
+                    {step.description}
+                  </p>
+                  <div className="mt-4 flex items-center gap-1 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0">
+                    Saber mais <ChevronRight className="size-3" />
+                  </div>
+                </div>
               </div>
             </Reveal>
           ))}
