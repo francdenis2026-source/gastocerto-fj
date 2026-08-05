@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Suspense, lazy } from "react";
+
 import {
   ArrowDownRight,
   ArrowRight,
