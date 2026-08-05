@@ -167,7 +167,7 @@ export function Pricing() {
             >
 
               {plan.highlighted && (
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-emerald-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-[0_10px_30px_rgba(31,174,109,0.4)]">
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-blue-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-[0_10px_30px_rgba(59,130,246,0.4)]">
                   Mais Escolhido
                 </div>
               )}
