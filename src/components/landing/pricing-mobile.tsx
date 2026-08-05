@@ -31,13 +31,13 @@ export function PricingMobile() {
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
-    <section id="planos-mobile" className="section-y md:hidden border-t border-white/5 relative overflow-hidden">
+    <section id="planos-mobile" className="section-y md:hidden border-t border-white/5 relative">
 
       {/* Foto de Fundo em Baixa Opacidade */}
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
         alt="" 
-        className="absolute inset-0 h-full w-full object-cover grayscale-0 pointer-events-none"
+        className="absolute inset-0 h-full w-full object-cover grayscale-0 pointer-events-none -z-10"
       />
       <div className="relative z-10">
       <div className="flex flex-col gap-4 mb-8">
@@ -71,7 +71,7 @@ export function PricingMobile() {
         </div>
       </div>
 
-      <div className="rounded-[1.5rem] border border-white/5 bg-[#0A1E4D]/40 p-5 shadow-2xl backdrop-blur-xl">
+      <div className="rounded-[1.5rem] border border-white/5 p-5 shadow-2xl">
         <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-2xl bg-white/[0.03] p-1 mb-6">
           {plans.map((item: PricingPlan) => (
             <button
