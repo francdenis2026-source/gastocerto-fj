@@ -63,9 +63,9 @@ body::-webkit-scrollbar {
  */
 
 @theme inline {
-  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+   --font-display: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+   --font-mono: "Geist Mono", "Inter Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -181,9 +181,10 @@ body::-webkit-scrollbar {
 }
 
 @utility glass-morphism {
-  background: #0A1512;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: var(--card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
 }
 
 @layer utilities {
@@ -208,81 +209,77 @@ body::-webkit-scrollbar {
 
 
 
-:root {
-  --radius: 1rem;
-  
-  /* Verde Primário da marca (Premium Emerald #1FAE6D) */
-  --emerald: #1FAE6D;
-  --emerald-gradient-to: #3fc78a;
-  --emerald-glow: rgba(31, 174, 109, 0.2);
-  --gold-accent: #D4AF6A;
-  
-  --background: #FFFFFF;
-  --foreground: #0A1512;
-  --surface: rgba(10, 21, 18, 0.05);
-  --card: #FFFFFF;
-  --card-foreground: #0A1512;
-  --popover: #FFFFFF;
-  --popover-foreground: #0A1512;
-  
-  --primary: var(--emerald);
-  --primary-foreground: #FFFFFF;
-  --brand: var(--emerald);
-  --brand-foreground: #FFFFFF;
-  
-  --secondary: #F8FAFC;
-  --secondary-foreground: #0A1512;
-  --muted: #F1F5F9;
-  --muted-foreground: #475569;
-  --accent: #F1F5F9;
-  --accent-foreground: #0A1512;
-  --destructive: #E11D48;
-  --destructive-foreground: #FFFFFF;
-  --success: var(--emerald);
-  --success-foreground: #FFFFFF;
-  --warning: #B45309;
-  --warning-foreground: #FFFFFF;
-
-  --border: rgba(10, 21, 18, 0.12);
-  --input: #FFFFFF;
-  --ring: rgba(31, 174, 109, 0.4);
-  
-  /* ---- Hero System (Light defaults) ---- */
-  --hero-bg: #FFFFFF;
-  --hero-fg: #0A1512;
-  --hero-fg-muted: #475569;
-  --hero-border: rgba(10, 21, 18, 0.1);
-  --hero-surface: #F8FAFC;
-  --hero-accent: var(--emerald);
-}
-
-.dark {
-  --background: #090e0c;
-  --foreground: #F3F6F4;
-  --surface: rgba(16, 32, 27, 0.4);
-  --card: rgba(16, 32, 27, 0.4);
-  --card-foreground: #F3F6F4;
-  --popover: #16281F;
-  --popover-foreground: #F3F6F4;
-  
-  --primary: var(--emerald);
-  --primary-foreground: #0A1512;
-  
-  --secondary: #16281F;
-  --secondary-foreground: #F3F6F4;
-  --muted: #16281F;
-  --muted-foreground: #93A69D;
-  --accent: #16281F;
-  --accent-foreground: #F3F6F4;
-  --border: rgba(63, 214, 140, 0.14);
-  --input: rgba(16, 32, 27, 0.2);
-  
-  --hero-bg: #0A1512;
-  --hero-fg: #F3F6F4;
-  --hero-fg-muted: #93A69D;
-  --hero-border: rgba(63, 214, 140, 0.14);
-  --hero-surface: rgba(16, 32, 27, 0.4);
-}
+ :root {
+   --radius: 1.25rem; /* 20px */
+   
+   /* Design System Colors - Light Mode */
+   --background: #FAFBFC;
+   --foreground: #101828;
+   --card: #FFFFFF;
+   --card-foreground: #101828;
+   --popover: #FFFFFF;
+   --popover-foreground: #101828;
+   
+   --primary: #00C875;
+   --primary-foreground: #FFFFFF;
+   --secondary: #F2F4F7;
+   --secondary-foreground: #667085;
+   
+   --muted: #F2F4F7;
+   --muted-foreground: #667085;
+   --accent: #F9FAFB;
+   --accent-foreground: #101828;
+   
+   --destructive: #D92D20;
+   --destructive-foreground: #FFFFFF;
+   
+   --border: #E6E8EC;
+   --input: #FFFFFF;
+   --ring: #00C875;
+   
+   /* Hero Tokens - Light */
+   --hero-bg: #FAFBFC;
+   --hero-fg: #101828;
+   --hero-fg-muted: #667085;
+   --hero-border: #E6E8EC;
+   --hero-surface: #FFFFFF;
+   --hero-accent: #00C875;
+ }
+ 
+ .dark {
+   /* Design System Colors - Dark Mode */
+   --background: #0B0F14;
+   --foreground: #F8FAFC;
+   --card: #121821;
+   --card-foreground: #F8FAFC;
+   --popover: #121821;
+   --popover-foreground: #F8FAFC;
+   
+   --primary: #22C55E;
+   --primary-foreground: #0B0F14;
+   --secondary: #171F2B;
+   --secondary-foreground: #94A3B8;
+   
+   --muted: #171F2B;
+   --muted-foreground: #94A3B8;
+   --accent: #171F2B;
+   --accent-foreground: #F8FAFC;
+   
+   --destructive: #F04438;
+   --destructive-foreground: #FFFFFF;
+   
+   --border: #263040;
+   --input: #121821;
+   --ring: #22C55E;
+ 
+   /* Hero Tokens - Dark */
+   --hero-bg: #0B0F14;
+   --hero-fg: #F8FAFC;
+   --hero-fg-muted: #94A3B8;
+   --hero-border: #263040;
+   --hero-surface: #171F2B;
+   --hero-accent: #22C55E;
+ }
 
 
 .dark {
@@ -353,33 +350,33 @@ body::-webkit-scrollbar {
   transform: translateY(0);
 }
 
-@utility section-title {
-  font-family: var(--font-display, inherit);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  font-size: clamp(2.25rem, 8vw, 4rem);
-  color: var(--foreground);
-  text-wrap: balance;
-}
-
-@utility section-subtitle {
-  font-family: var(--font-sans);
-  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
-  line-height: 1.4;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  color: oklch(from var(--foreground) l c h / 0.85);
-  text-wrap: balance;
-}
-
-@utility body-text {
-  font-family: var(--font-sans);
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  line-height: 1.7;
-  font-weight: 400;
-  color: oklch(from var(--foreground) l c h / 0.85);
-}
+ @utility section-title {
+   font-family: var(--font-display, inherit);
+   font-weight: 800;
+   letter-spacing: -0.04em;
+   line-height: 1.1;
+   font-size: clamp(2.25rem, 8vw, 4.5rem); /* Desktop 72px equivalent */
+   color: var(--foreground);
+   text-wrap: balance;
+ }
+ 
+ @utility section-subtitle {
+   font-family: var(--font-sans);
+   font-size: clamp(1rem, 4vw, 1.25rem); /* 16-20px */
+   line-height: 1.5;
+   font-weight: 500;
+   letter-spacing: -0.01em;
+   color: var(--secondary-foreground);
+   text-wrap: balance;
+ }
+ 
+ @utility body-text {
+   font-family: var(--font-sans);
+   font-size: clamp(1rem, 2.5vw, 1.125rem); /* 16-18px */
+   line-height: 1.6;
+   font-weight: 400;
+   color: var(--secondary-foreground);
+ }
 
 
 /* Micro-interações profissionais: link de navegação com sublinhado animado. */
@@ -414,56 +411,56 @@ body::-webkit-scrollbar {
 }
 
 /* Cartões e superfícies clicáveis com elevação suave. */
-@utility interactive-card {
-  transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1), 
-              background-color 400ms cubic-bezier(0.23, 1, 0.32, 1), 
-              border-color 400ms cubic-bezier(0.23, 1, 0.32, 1), 
-              box-shadow 400ms cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  isolation: isolate;
-  outline: none;
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+ @utility interactive-card {
+   transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), 
+               background-color 220ms cubic-bezier(0.23, 1, 0.32, 1), 
+               border-color 220ms cubic-bezier(0.23, 1, 0.32, 1), 
+               box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
+   position: relative;
+   isolation: isolate;
+   outline: none;
+   will-change: transform;
+   backface-visibility: hidden;
+   transform: translateZ(0);
+   border: 1px solid var(--border);
+   background-color: var(--card);
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
-  &:hover {
-    @media (hover: hover) {
-      transform: translateY(-4px) translateZ(0);
-      background-color: rgba(255, 255, 255, 0.05);
-      border-color: rgba(31, 174, 109, 0.3);
-      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.3);
-    }
-  }
+   &:hover {
+     @media (hover: hover) {
+       transform: translateY(-4px) scale(1.02);
+       border-color: var(--primary);
+       box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.12);
+     }
+   }
 
-  &:focus-visible {
-    transform: translateY(-4px);
-    background-color: rgba(255, 255, 255, 0.04);
-    box-shadow: 0 0 0 2px #1FAE6D, 0 10px 20px -5px rgba(0, 0, 0, 0.3);
-  }
+   &:focus-visible {
+     transform: translateY(-4px);
+     box-shadow: 0 0 0 2px var(--primary), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.02);
-    opacity: 0;
-    transition: opacity 500ms ease;
-    pointer-events: none;
-    z-index: -1;
-  }
+   &::before {
+     content: "";
+     position: absolute;
+     inset: 0;
+     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+     opacity: 0;
+     transition: opacity 220ms ease;
+     pointer-events: none;
+     z-index: -1;
+   }
 
-  &:hover::before {
-    @media (hover: hover) {
-      opacity: 1;
-    }
-  }
+   &:hover::before {
+     @media (hover: hover) {
+       opacity: 1;
+     }
+   }
 
-  &:active {
-    transform: translateY(-1px) scale(0.985);
-    background-color: rgba(255, 255, 255, 0.06);
-    transition-duration: 80ms;
-  }
-}
+   &:active {
+     transform: translateY(-1px) scale(0.99);
+     transition-duration: 100ms;
+   }
+ }
 
 @utility scrollbar-none {
   scrollbar-width: none;

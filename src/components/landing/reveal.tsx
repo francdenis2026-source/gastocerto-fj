@@ -1,27 +1,27 @@
-import type { ElementType, ReactNode } from "react";
+import { motion, HTMLMotionProps } from "framer-motion";
+import { ReactNode } from "react";
 
-import { cn } from "@/lib/utils";
-import { useReveal } from "@/hooks/use-reveal";
-
-type RevealProps = {
+interface RevealProps extends HTMLMotionProps<"div"> {
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: ElementType;
-} & React.HTMLAttributes<HTMLElement>;
+}
 
-/** Wrapper que revela o conteúdo suavemente ao entrar na viewport. */
-export function Reveal({ children, className, delay = 0, as: Tag = "div", ...props }: RevealProps) {
-  const { ref, visible } = useReveal<HTMLDivElement>();
-
+export function Reveal({ children, className, delay = 0, ...props }: RevealProps) {
   return (
-    <Tag
-      ref={ref}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{
+        duration: 0.5,
+        delay: delay / 1000,
+        ease: [0.21, 0.47, 0.32, 0.98]
+      }}
+      className={className}
       {...props}
-      style={delay ? ({ "--reveal-delay": `${delay}ms` } as React.CSSProperties) : undefined}
-      className={cn("reveal", visible && "reveal-in", className)}
     >
       {children}
-    </Tag>
+    </motion.div>
   );
 }

@@ -20,101 +20,105 @@ import { cn } from "@/lib/utils";
 
 
 
-export function Hero() {
-  return (
-    <section
-      id="inicio"
-      className="relative isolate flex min-h-[75svh] items-center overflow-hidden pt-24 pb-16 sm:min-h-[80svh] lg:pt-28 lg:py-24"
-    >
-      {/* 1. FUNDO DO HERO (Profissional fazendo contas no iPhone) */}
-      <div className="absolute inset-0 -z-20 bg-background transition-colors duration-500">
-        <img 
-          src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
-          alt="Planejamento financeiro realista" 
-          className="h-full w-full object-cover brightness-[0.9] contrast-[1.1] opacity-20 dark:brightness-[0.35] dark:opacity-70 blur-[4px] transition-all duration-500"
-        />
-        
-        {/* Animated Particles/Orbs in background */}
-        <div className="absolute top-[15%] left-[5%] h-[400px] w-[400px] animate-pulse-slow rounded-full bg-emerald-500/10 blur-[100px] opacity-40 dark:opacity-20" />
-        <div className="absolute bottom-[10%] right-[5%] h-[500px] w-[500px] animate-pulse-slow rounded-full bg-emerald-500/10 blur-[120px] opacity-40 dark:opacity-20" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-[40%] right-[15%] h-[300px] w-[300px] animate-pulse-slow rounded-full bg-emerald-400/5 blur-[80px] opacity-30 dark:opacity-10" style={{ animationDelay: '1.5s' }} />
-
-
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background transition-colors duration-500" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_85%)] opacity-70 transition-colors duration-500" />
-      </div>
-
-      {/* Camada de gráfico moderno do hero */}
-      
-
-
-      <div className="section-shell relative z-10">
-        <div className="mx-auto max-w-7xl">
-          <Reveal className="relative flex flex-col items-center justify-center space-y-6 px-4 py-12 sm:px-12 sm:py-20 overflow-visible">
-
-
-            <h1 className="text-center font-display text-[clamp(2.5rem,10vw,5rem)] font-bold leading-[1.1] tracking-[-0.05em] text-foreground drop-shadow-lg dark:text-white">
-              Sua vida <span className="text-[#1FAE6D]">financeira</span> <br className="hidden sm:block" />
-              sob <span className="text-foreground/60 dark:text-white/60">controle total.</span>
-            </h1>
-
-            <p
-              className="mx-auto max-w-3xl text-center section-subtitle !text-foreground/90 dark:!text-white/90 !text-[clamp(1.15rem,5vw,1.4rem)] !font-medium"
-            >
-              Organize seus gastos, planeje o futuro e tome decisões inteligentes com a plataforma mais completa de gestão financeira pessoal.
-            </p>
-
-            <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
-              <Button
-                size="lg"
-                className="cta-lift h-14 w-full rounded-2xl bg-gradient-to-br from-[#1FAE6D] to-[#54d693] px-10 text-[15px] font-black uppercase tracking-widest text-black shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)] transition-all sm:w-auto"
-                asChild
-              >
-                <Link to="/auth" search={{ mode: "signup" }}>
-                  Criar Conta Grátis
-                  <ArrowRight className="ml-2 size-4" />
-                </Link>
-              </Button>
-
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-14 w-full rounded-2xl border-foreground/10 dark:border-white/10 bg-foreground/5 dark:bg-white/5 px-10 text-[15px] font-bold uppercase tracking-wider text-foreground dark:text-white backdrop-blur-3xl transition-all hover:bg-foreground/10 dark:hover:bg-white/10 hover:border-[#1FAE6D]/30 sm:w-auto active:scale-95"
-                asChild
-              >
-                <Link to="/auth" search={{ mode: "login" }}>
-                  <Users className="mr-2 size-4 text-emerald-400" />
-                  Entrar no Painel
-                </Link>
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-2.5 pt-2 sm:gap-3">
-
-              {[
-                { label: "IA Financeira", Icon: AiFinanceIcon },
-                { label: "Espaço Kids", Icon: KidsSpaceIcon },
-                { label: "Multi-Contas", Icon: MultiAccountIcon },
-              ].map(({ label, Icon }, i) => (
-                <span
-                  key={label}
-                  style={{ animationDelay: `${400 + i * 120}ms`, fontFamily: '"Space Grotesk", var(--font-display)' }}
-                  className="group relative flex cursor-pointer items-center gap-2.5 overflow-hidden rounded-xl border border-foreground/5 dark:border-white/5 bg-foreground/[0.03] dark:bg-white/[0.03] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/50 dark:text-white/50 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-[#1FAE6D]/30 hover:bg-[#1FAE6D]/5 hover:text-[#1FAE6D] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.5)] active:scale-95"
-                  tabIndex={0}
-                  role="button"
-                >
-                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                  <Icon className="size-4 text-emerald-400 transition-all duration-500 group-hover:rotate-[8deg] group-hover:scale-110 group-hover:text-emerald-300" />
-                  {label}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
+ export function Hero() {
+   return (
+     <section
+       id="inicio"
+       className="relative isolate overflow-hidden pt-32 pb-16 lg:pt-48 lg:pb-32"
+     >
+       <div className="section-shell relative z-10">
+         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
+           {/* Text Content */}
+           <Reveal className="flex flex-col items-start space-y-8">
+             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold text-primary">
+               <Sparkles className="size-3" />
+               O futuro das finanças chegou
+             </div>
+             
+             <h1 className="font-display text-5xl font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-6xl xl:text-7xl">
+               Controle sua vida financeira com <span className="text-primary">simplicidade</span> e inteligência.
+             </h1>
+ 
+             <p className="max-w-xl text-lg font-medium leading-relaxed text-secondary-foreground">
+               A plataforma definitiva para organizar gastos, planejar o futuro e tomar decisões inteligentes. Tudo o que você precisa em um só lugar.
+             </p>
+ 
+             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+               <Button
+                 size="lg"
+                 className="h-14 rounded-full bg-primary px-10 text-base font-semibold text-primary-foreground shadow-lg transition-all hover:opacity-90 active:scale-95"
+                 asChild
+               >
+                 <Link to="/auth" search={{ mode: "signup" }}>
+                   Criar Conta Grátis
+                   <ArrowRight className="ml-2 size-5" />
+                 </Link>
+               </Button>
+ 
+               <Button
+                 variant="ghost"
+                 size="lg"
+                 className="h-14 rounded-full px-10 text-base font-semibold text-foreground transition-all hover:bg-secondary active:scale-95"
+                 asChild
+               >
+                 <Link to="/auth" search={{ mode: "login" }}>
+                   Entrar no Painel
+                 </Link>
+               </Button>
+             </div>
+ 
+             <div className="flex items-center gap-6 pt-4">
+               <div className="flex -space-x-3">
+                 {[1, 2, 3, 4].map((i) => (
+                   <div key={i} className="size-10 rounded-full border-2 border-background bg-secondary" />
+                 ))}
+               </div>
+               <div className="text-sm font-medium text-secondary-foreground">
+                 <span className="font-bold text-foreground">50k+</span> usuários confiam no GastoCerto
+               </div>
+             </div>
+           </Reveal>
+ 
+           {/* Visual Mockup */}
+           <Reveal className="relative lg:block" style={{ transitionDelay: '200ms' }}>
+             <div className="relative mx-auto w-full max-w-[320px] lg:max-w-[400px]">
+               {/* Phone Frame */}
+               <div className="relative aspect-[9/19] rounded-[3rem] border-[8px] border-border bg-card shadow-2xl overflow-hidden">
+                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-border rounded-b-2xl z-20" />
+                 
+                 {/* App Interface Mockup */}
+                 <div className="absolute inset-0 bg-background p-6 pt-10">
+                   <div className="flex items-center justify-between mb-8">
+                     <div className="size-10 rounded-xl bg-secondary animate-pulse" />
+                     <div className="size-10 rounded-full bg-secondary animate-pulse" />
+                   </div>
+                   
+                   <div className="h-40 rounded-3xl bg-secondary mb-6 animate-pulse" />
+                   
+                   <div className="space-y-4">
+                     {[1, 2, 3].map((i) => (
+                       <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-border">
+                         <div className="size-10 rounded-xl bg-secondary animate-pulse" />
+                         <div className="flex-1 space-y-2">
+                           <div className="h-3 w-2/3 bg-secondary rounded animate-pulse" />
+                           <div className="h-2 w-1/2 bg-secondary rounded animate-pulse opacity-50" />
+                         </div>
+                       </div>
+                     ))}
+                   </div>
+                 </div>
+               </div>
+ 
+               {/* Decorative Elements */}
+               <div className="absolute -right-8 top-1/4 size-40 rounded-full bg-primary/20 blur-[60px] -z-10" />
+               <div className="absolute -left-8 bottom-1/4 size-48 rounded-full bg-blue-500/10 blur-[80px] -z-10" />
+             </div>
+           </Reveal>
+         </div>
+       </div>
+     </section>
+   );
+ }
 
 import { Reveal } from "@/components/landing/reveal";
 
