@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { KeyRound, Menu, X } from "lucide-react";
+import { ArrowRight, KeyRound, Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
 import { handleAnchorClick } from "@/lib/scroll";
 
 const navItems = [
-  { label: "Recursos", href: "#recursos" },
+  { label: "Soluções", href: "#recursos" },
+  { label: "Inteligência", href: "#ai" },
   { label: "Planos", href: "#planos" },
   { label: "Segurança", href: "#seguranca" },
-  { label: "FAQ", href: "#faq" },
 ];
 
 
@@ -52,13 +52,14 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-
+      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+      
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-500 top-0",
+          "fixed inset-x-0 z-50 transition-all duration-500 top-1.5",
           scrolled
-            ? "glass-morphism border-b border-border/10 text-foreground shadow-2xl py-2"
-            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-4",
+            ? "glass-morphism border-b border-emerald-500/20 text-foreground shadow-2xl py-2"
+            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-5",
         )}
       >
 
@@ -120,18 +121,23 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-10 px-5 text-[13px] font-bold tracking-tight rounded-xl border border-white/10 hover:bg-white/5 transition-all active:scale-95",
+              "h-11 px-6 text-[13px] font-black uppercase tracking-[0.15em] rounded-2xl border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
           >
-            <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
+            <Link to="/auth" search={{ mode: "login" }}>
+              <span className="flex items-center gap-2">
+                Entrar
+                <ArrowRight className="size-3 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
           </Button>
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-emerald-500 px-6 text-[13px] font-black tracking-tight text-[#001640] shadow-xl shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Criar conta grátis</Link>
+              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-emerald-500 px-8 text-[13px] font-black uppercase tracking-[0.15em] text-[#001640] shadow-xl shadow-emerald-500/30 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
                 variant="outline"
