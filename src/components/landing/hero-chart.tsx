@@ -71,36 +71,7 @@ export function HeroChart() {
         </linearGradient>
       </defs>
 
-      {/* grade horizontal com fade nas bordas */}
-      {[0, 1, 2, 3].map((i) => (
-        <line
-          key={i}
-          x1="0"
-          x2={W}
-          y1={TOP + i * ((BASE - TOP) / 3)}
-          y2={TOP + i * ((BASE - TOP) / 3)}
-          stroke="url(#hc-grid)"
-          strokeWidth="1.5"
-          strokeDasharray="6 14"
-        />
-      ))}
-
-      {/* colunas discretas de volume */}
-      {pts.map((p, i) =>
-        i % 2 === 0 ? (
-          <rect
-            key={`bar-${p.x}`}
-            x={p.x - 4}
-            y={p.y}
-            width="8"
-            height={BASE - p.y}
-            rx="4"
-            fill="#54A860"
-            opacity="0.14"
-          />
-        ) : null,
-      )}
-
+      {/* colunas discretas de volume removidas para limpar o visual de "quadriculados" */}
       <path d={`${line} L ${W} ${BASE + 80} L 0 ${BASE + 80} Z`} fill="url(#hc-area)" />
 
       <path
@@ -122,12 +93,6 @@ export function HeroChart() {
         <animate attributeName="opacity" values="1;0.55;1" dur="2.8s" repeatCount="indefinite" />
       </circle>
 
-      {/* nós intermediários */}
-      {pts.slice(2, -1).map((p, i) =>
-        i % 3 === 0 ? (
-          <circle key={`n-${p.x}`} cx={p.x} cy={p.y} r="3" fill="#8FCB9B" opacity="0.7" />
-        ) : null,
-      )}
 
       <style>{`@keyframes hc-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}`}</style>
     </svg>
