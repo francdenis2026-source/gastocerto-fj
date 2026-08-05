@@ -152,10 +152,10 @@ body::-webkit-scrollbar {
   
   --background: transparent;
   --foreground: #0A1512;
-  --surface: #F8FAF9;
-  --card: #FFFFFF;
+  --surface: rgba(248, 250, 249, 0.4);
+  --card: rgba(255, 255, 255, 0.4);
   --card-foreground: #0A1512;
-  --popover: #FFFFFF;
+  --popover: rgba(255, 255, 255, 0.8);
   --popover-foreground: #0A1512;
   
   --primary: var(--emerald);
