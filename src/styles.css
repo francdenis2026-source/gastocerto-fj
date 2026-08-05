@@ -310,13 +310,12 @@ body::-webkit-scrollbar {
 
 @utility section-title {
   font-family: var(--font-display, inherit);
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 1;
-  font-size: clamp(2.75rem, 10vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  font-size: clamp(2.25rem, 8vw, 4rem);
   color: var(--foreground);
   text-wrap: balance;
-  text-transform: uppercase;
 }
 
 @utility section-subtitle {

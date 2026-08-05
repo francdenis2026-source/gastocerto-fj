@@ -60,9 +60,9 @@ export function Hero() {
             <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
 
 
-            <h1 className="text-center font-display text-[clamp(2.75rem,11vw,6rem)] font-black leading-[0.95] tracking-[-0.07em] text-white drop-shadow-2xl uppercase">
-              Precisão <span className="text-[#1FAE6D]">Absoluta.</span> <br className="hidden sm:block" />
-              Gestão <span className="text-white/40">Fintech.</span>
+            <h1 className="text-center font-display text-[clamp(2.5rem,10vw,5rem)] font-bold leading-[1.1] tracking-[-0.05em] text-white drop-shadow-lg">
+              Precisão <span className="text-[#1FAE6D]">Absoluta</span> para sua <br className="hidden sm:block" />
+              Gestão <span className="text-white/60">Financeira.</span>
             </h1>
 
             <p
