@@ -283,8 +283,8 @@ body::-webkit-scrollbar {
 
 /* Título de seção consistente entre mobile e desktop. */
 @utility reveal {
-  opacity: 1;
-  transform: none;
+  opacity: 1 !important;
+  transform: none !important;
   transition: none;
 }
 

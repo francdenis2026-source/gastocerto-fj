@@ -10,7 +10,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(options?: {
   once?: boolean;
 }) {
   const ref = useRef<T | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const node = ref.current;
