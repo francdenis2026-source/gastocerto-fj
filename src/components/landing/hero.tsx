@@ -58,7 +58,7 @@ export function Hero() {
         <div className="mx-auto max-w-4xl text-center">
 
 
-          <Reveal className="space-y-5 sm:space-y-7">
+          <Reveal className="relative space-y-5 sm:space-y-7 px-4 py-8 sm:px-8 sm:py-12 rounded-3xl bg-black/20 backdrop-blur-[2px] border border-white/5 shadow-2xl">
             <h1 className="font-display text-[clamp(2.25rem,7vw,4.25rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.55)]">
               Domine seu{" "}
               <span className="bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
