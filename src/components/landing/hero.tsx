@@ -18,11 +18,8 @@ import {
 import { Logo } from "@/components/logo";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { HeroChart } from "@/components/landing/hero-chart";
 
-
-const DashboardPreview = lazy(() =>
-  import("@/components/landing/dashboard-preview").then((m) => ({ default: m.DashboardPreview })),
-);
 
 export function Hero() {
   return (
