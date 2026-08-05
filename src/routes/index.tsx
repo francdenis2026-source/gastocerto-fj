@@ -75,7 +75,7 @@ function LandingPage() {
   }, []);
 
   return (
-    <div className="relative flex min-h-dvh select-none flex-col bg-background overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
+    <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
         DESCUBRA O QUE É ESSE EFEITO QUE DEIXA ESCURECIDO COMO SE FOSSE UM AFUÇA VEJA SE TEM POR CIMA DA HOMEPAGE
       </div>

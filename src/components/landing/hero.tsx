@@ -21,7 +21,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[65svh] lg:min-h-[75svh] items-center overflow-hidden bg-background pt-16 pb-8 lg:pt-24"
+      className="relative isolate flex min-h-[65svh] lg:min-h-[75svh] items-center overflow-hidden pt-16 pb-8 lg:pt-24"
     >
       {/* 1. FUNDO DO HERO (Foto Real + Overlay) */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
