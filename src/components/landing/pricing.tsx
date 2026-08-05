@@ -130,7 +130,7 @@ export function Pricing() {
           <h2 className="section-title">Planos e Preços</h2>
           <p className="mt-6 section-subtitle max-w-2xl mx-auto">Escolha a melhor opção para transformar sua gestão financeira hoje mesmo.</p>
           
-          <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
+          <div className="mt-6 inline-flex items-center rounded-full border border-foreground/10 dark:border-white/10 bg-foreground/5 dark:bg-white/5 p-1">
             <button
               onClick={() => setIsYearly(false)}
               className={cn(
@@ -167,9 +167,9 @@ export function Pricing() {
               }}
               className={cn(
                 "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group border-2",
-                plan.slug === "free" && "bg-slate-900/40 border-slate-700/50 hover:border-emerald-500/50 shadow-2xl",
-                plan.slug === "premium" && "bg-[#0A1512] border-[#1FAE6D] shadow-[0_20px_60px_-10px_rgba(31,174,109,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] scale-105 z-10",
-                plan.slug === "premium_ia" && "bg-slate-900/40 border-[#D4AF6A]/30 hover:border-[#D4AF6A] shadow-2xl",
+                plan.slug === "free" && "bg-surface/50 dark:bg-slate-900/40 border-border dark:border-slate-700/50 hover:border-emerald-500/50 shadow-2xl",
+                plan.slug === "premium" && "bg-card dark:bg-[#0A1512] border-[#1FAE6D] shadow-[0_20px_60px_-10px_rgba(31,174,109,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] scale-105 z-10",
+                plan.slug === "premium_ia" && "bg-surface/50 dark:bg-slate-900/40 border-[#D4AF6A]/30 hover:border-[#D4AF6A] shadow-2xl",
                 "backdrop-blur-3xl hover:translate-y-[-12px]"
               )}
               tabIndex={0}
@@ -177,7 +177,7 @@ export function Pricing() {
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
               {/* Subtle Noise Texture */}
-              <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]" />
+              <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] invert dark:invert-0" />
               
               {/* SVG Background Patterns for Visual Depth */}
               <div className="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden">
@@ -205,12 +205,12 @@ export function Pricing() {
               
               <div className="relative z-10 mb-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
+                  <h3 className="text-2xl font-black text-foreground dark:text-white tracking-tight">{plan.name}</h3>
                   {plan.slug === "premium" && <div className="size-2 rounded-full bg-[#1FAE6D] animate-ping" />}
                 </div>
                 <p className={cn(
                   "mt-1 text-[11px] font-bold uppercase tracking-widest",
-                  plan.slug === "free" && "text-slate-400",
+                   plan.slug === "free" && "text-muted-foreground",
                   plan.slug === "premium" && "text-[#1FAE6D]",
                   plan.slug === "premium_ia" && "text-[#D4AF6A]"
                 )}>{plan.description}</p>
@@ -218,7 +218,7 @@ export function Pricing() {
 
               <div className="relative z-10 mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black tracking-tighter text-white tabular">
+                  <span className="text-5xl font-black tracking-tighter text-foreground dark:text-white tabular">
                     {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
                   <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">/mês</span>
@@ -230,18 +230,18 @@ export function Pricing() {
                 )}
               </div>
 
-              <div className="h-px w-full bg-white/5 mb-8" />
+              <div className="h-px w-full bg-foreground/5 dark:bg-white/5 mb-8" />
 
               <ul className="relative z-10 flex-1 space-y-4 mb-8">
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-[13px] group/item">
                     <div className={cn(
                       "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full transition-all",
-                      plan.slug === "premium" ? "bg-[#1FAE6D] text-black shadow-[0_0_10px_rgba(31,174,109,0.3)]" : "bg-white/10 text-white/40"
+                      plan.slug === "premium" ? "bg-[#1FAE6D] text-black shadow-[0_0_10px_rgba(31,174,109,0.3)]" : "bg-foreground/10 dark:bg-white/10 text-foreground/40 dark:text-white/40"
                     )}>
                       <Check className="size-3 font-bold" />
                     </div>
-                    <span className="font-medium text-slate-300 group-hover/item:text-white transition-colors">{feature}</span>
+                    <span className="font-medium text-foreground/80 dark:text-slate-300 group-hover/item:text-foreground dark:group-hover/item:text-white transition-colors">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -253,9 +253,9 @@ export function Pricing() {
                 }}
                 className={cn(
                   "relative z-10 h-14 w-full rounded-2xl text-[13px] font-black uppercase tracking-[0.2em] transition-all group overflow-hidden border-2",
-                  plan.slug === "free" && "bg-white/5 text-white border-white/10 hover:bg-white hover:text-black",
+                  plan.slug === "free" && "bg-foreground/5 dark:bg-white/5 text-foreground dark:text-white border-foreground/10 dark:border-white/10 hover:bg-foreground hover:text-background dark:hover:bg-white dark:hover:text-black",
                   plan.slug === "premium" && "bg-[#1FAE6D] text-black border-[#1FAE6D] hover:bg-[#168a57] hover:border-[#168a57] shadow-xl shadow-[#1FAE6D]/20",
-                  plan.slug === "premium_ia" && "bg-transparent text-[#D4AF6A] border-[#D4AF6A]/40 hover:bg-[#D4AF6A] hover:text-black",
+                  plan.slug === "premium_ia" && "bg-transparent text-[#D4AF6A] border-[#D4AF6A]/40 hover:bg-[#D4AF6A] hover:text-black dark:hover:text-black",
                 )}
                 variant="ghost"
               >
