@@ -86,7 +86,7 @@ export function Hero() {
 
         {/* 2. COMPOSIÇÃO - PRODUTO (55%) */}
         <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
-          <div className="relative perspective-2000 group/mockup scale-85 lg:scale-[0.92] origin-center lg:-mt-12">
+          <div className="relative perspective-2000 group/mockup scale-[0.9] lg:scale-[1.05] origin-center lg:-mt-24">
             {/* Mockup do Dashboard */}
             <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#10201B]/40 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7),0_0_60px_-20px_rgba(31,174,109,0.15)] backdrop-blur-md transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
