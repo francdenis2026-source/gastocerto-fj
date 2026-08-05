@@ -283,7 +283,7 @@ export function CompactOverview() {
           </nav>
         </Reveal>
 
-        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/70 px-3 py-2 backdrop-blur">
+        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/40 px-3 py-2 backdrop-blur">
           {highlights.map((item) => (
             <div key={item.label} className="flex min-w-0 items-center gap-1.5">
               <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
