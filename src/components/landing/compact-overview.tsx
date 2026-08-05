@@ -218,6 +218,7 @@ export function CompactOverview() {
                   className="interactive-card rounded-[2.5rem] p-10 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm group"
                   tabIndex={0}
                   role="button"
+                  aria-label={`Grupo de recursos: ${group.group}`}
                 >
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5 group-hover:tracking-[0.4em] transition-all duration-500">
                     {group.group}
