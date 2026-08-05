@@ -86,7 +86,7 @@ export function MetricCard({
       </div>
       
       <div className="flex items-baseline gap-2">
-        <span className="text-2xl font-black font-mono text-white tracking-tight tabular">{value}</span>
+        <span className="text-2xl font-black font-mono text-white tracking-tighter tabular-nums">{value}</span>
         {trend && (
           <span className={cn("text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-white/5", 
             trendDirection === "up" ? "text-emerald-400" : 
