@@ -143,7 +143,7 @@ const tabMeta: Record<TabValue, { label: string; description: string }> = {
 };
 
 export function CompactOverview() {
-  const [tab, setTab] = useState<TabValue>("recursos");
+  const [tab, setTab] = useState<TabValue>("como-funciona");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -207,6 +207,29 @@ export function CompactOverview() {
           <p className="sr-only" role="status" aria-live="polite">
             {`Seção ativa: ${tabMeta[tab].label}. ${tabMeta[tab].description}.`}
           </p>
+
+          <TabsContent value="como-funciona" className="mt-3 outline-none panel-enter" tabIndex={0}>
+            <h3 className="sr-only">{tabMeta["como-funciona"].label}</h3>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                { step: "01", title: "Cadastre-se", text: "Crie sua conta em segundos e comece seu teste de 14 dias sem compromisso.", icon: Users },
+                { step: "02", title: "Lance Gastos", text: "Registre suas despesas diárias, rendas e faturas de cartão de forma rápida.", icon: Receipt },
+                { step: "03", title: "Analise", text: "Visualize para onde vai seu dinheiro com gráficos claros e tome decisões inteligentes.", icon: BarChart3 },
+              ].map((item, idx) => (
+                <Reveal 
+                  key={item.title} 
+                  delay={idx * 100}
+                  className="interactive-card rounded-[2rem] p-8 bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl group flex flex-col items-center text-center"
+                >
+                  <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl">
+                    <item.icon className="size-6 mr-1" /> {item.step}
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">{item.title}</h4>
+                  <p className="text-sm font-medium text-white/60 leading-relaxed">{item.text}</p>
+                </Reveal>
+              ))}
+            </div>
+          </TabsContent>
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>

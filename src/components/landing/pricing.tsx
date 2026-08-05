@@ -25,14 +25,14 @@ export const basePlans: PricingPlan[] = [
     monthly: 0,
     yearly: 0,
     description: "Ideal para começar.",
-    cta: "Começar Gratuitamente",
+    cta: "Começar Teste 14 Dias",
     highlighted: false,
     features: [
-      "Teste por 14 dias",
+      "14 dias de acesso total",
+      "Cancelamento a qualquer momento",
       "Até 30 lançamentos/mês",
       "Painel de gastos mensal",
       "1 Veículo",
-      "Categorias ilimitadas",
     ],
   },
   {
