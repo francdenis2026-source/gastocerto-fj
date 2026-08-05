@@ -276,7 +276,63 @@ export function CompactOverview() {
           </TabsContent>
 
 
+          <TabsContent value="previas" className="mt-3 outline-none panel-enter" tabIndex={0}>
+            <h3 className="sr-only">{tabMeta["previas"].label}</h3>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { 
+                  title: "Painel Principal", 
+                  desc: "Visão 360º de receitas, despesas e saldo disponível.", 
+                  icon: LayoutDashboard,
+                  action: "Ver Demo",
+                  link: "/demonstracao"
+                },
+                { 
+                  title: "Gestão de Veículos", 
+                  desc: "Média de consumo, gastos por KM e alertas de manutenção.", 
+                  icon: Car,
+                  action: "Ver Detalhes",
+                  feature: { title: "Abastecimentos", text: "Consumo médio e detecção de anomalias." }
+                },
+                { 
+                  title: "Consultor IA", 
+                  desc: "Diagnósticos inteligentes sobre seus hábitos financeiros.", 
+                  icon: Sparkles,
+                  action: "Conhecer IA",
+                  feature: { title: "Consultor financeiro com IA", text: "Diagnóstico e plano de saída de dívidas." }
+                },
+              ].map((item, idx) => (
+                <Reveal key={item.title} delay={idx * 100}>
+                  <div className="interactive-card rounded-[1.5rem] p-6 bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md group flex flex-col h-full">
+                    <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                      <item.icon className="size-6" />
+                    </div>
+                    <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
+                    <p className="text-xs font-medium text-white/50 leading-relaxed mb-6 flex-1">{item.desc}</p>
+                    
+                    {item.link ? (
+                      <Button asChild variant="outline" size="sm" className="w-full rounded-xl border-white/10 hover:bg-brand hover:text-black hover:border-brand transition-all font-bold group">
+                        <Link to={item.link}>
+                          {item.action}
+                          <ArrowRight className="ml-2 size-3.5 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      </Button>
+                    ) : (
+                      <FeatureDetailDialog feature={item.feature!}>
+                        <Button variant="outline" size="sm" className="w-full rounded-xl border-white/10 hover:bg-brand hover:text-black hover:border-brand transition-all font-bold group">
+                          {item.action}
+                          <ArrowRight className="ml-2 size-3.5 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </FeatureDetailDialog>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </TabsContent>
+
           <TabsContent value="faq" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
+
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
