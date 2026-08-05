@@ -37,13 +37,9 @@ export function Hero() {
         <div className="mx-auto max-w-4xl text-center">
           {/* Logo Centralizada no Mobile */}
           <div className="mb-8 flex justify-center lg:hidden">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="size-10 rounded-xl bg-emerald-500 flex items-center justify-center text-[#001640] font-black text-xl shadow-lg shadow-emerald-500/20">
-                G
-              </div>
-              <span className="text-2xl font-black tracking-tighter text-white">GastoCerto</span>
-            </Link>
+            <Logo onDark href="/" className="group" />
           </div>
+
 
           <Reveal className="space-y-6">
             <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-black leading-[0.95] tracking-tight text-white drop-shadow-2xl">

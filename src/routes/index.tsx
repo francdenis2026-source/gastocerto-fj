@@ -84,9 +84,11 @@ function LandingPage() {
 
 
       
+      <LandingHeader />
       <main id="conteudo" tabIndex={-1} className="relative flex min-h-[calc(100dvh-3.5rem)] flex-col outline-none">
         <Hero />
       </main>
+
 
     </div>
   );
