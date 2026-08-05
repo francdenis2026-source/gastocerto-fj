@@ -6,14 +6,14 @@ import { motion } from "framer-motion";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[85vh] flex items-center pt-24 pb-12 overflow-hidden">
+    <section className="relative flex items-center overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-24">
       {/* Premium Background with Gradient & Lighting */}
       <div className="absolute inset-0 bg-[#020617] -z-20" />
       <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[70%] bg-primary/10 rounded-full blur-[180px] pointer-events-none -z-10 animate-pulse-slow" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[60%] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
       
       <div className="section-shell">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Column: Content */}
           <Reveal className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-[13px] font-bold text-primary mb-8">
