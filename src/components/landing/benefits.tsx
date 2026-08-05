@@ -146,9 +146,9 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="group relative flex w-full flex-col items-start rounded-xl p-5 text-left transition-all hover:bg-card/10 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98] border border-white/[0.03]">
-                          <div className="mb-3 grid size-10 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-[#001640]">
-                            <item.icon className="size-5" />
+                        <button className="group relative flex w-full flex-col items-start rounded-[2rem] p-7 text-left transition-all bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.05] hover:border-brand/30 hover:shadow-[0_32px_64px_-24px_rgba(0,0,0,0.8)] active:scale-[0.98]">
+                          <div className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-black">
+                            <item.icon className="size-6" />
                           </div>
                           <div className="flex w-full items-center justify-between">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80">{item.tag}</span>
