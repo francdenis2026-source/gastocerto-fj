@@ -8,6 +8,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { PreviewChart } from "@/components/landing/preview-chart";
 import { Progress } from "@/components/ui/progress";
 import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
 import { cn } from "@/lib/utils";
