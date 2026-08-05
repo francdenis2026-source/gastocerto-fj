@@ -77,20 +77,17 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        ARTE ANTERIOR REMOVIDA PARA UMA ABORDAGEM MAIS MINIMALISTA.
+        HOMEPAGE REESTRUTURADA PARA FORMATO SINGLE-SCREEN DE ALTO IMPACTO.
       </div>
 
 
 
+
       
-      <LandingHeader />
-      <main id="conteudo" tabIndex={-1} className="relative flex-1 outline-none">
+      <main id="conteudo" tabIndex={-1} className="relative flex min-h-[calc(100dvh-3.5rem)] flex-col outline-none">
         <Hero />
-        <Benefits />
-        <Pricing />
-        <PricingMobile />
-        <LandingFooter />
       </main>
+
     </div>
   );
 }
