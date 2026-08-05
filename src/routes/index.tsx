@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        HEADER OTIMIZADO COM MELHOR ESPAÇAMENTO, TIPOGRAFIA REFORÇADA E ELEMENTOS PROFISSIONAIS.
+        Ajustar a tipografia responsiva do hero para ficar nítida e legível em celulares e tablets, mantendo o estilo ultra-premium.
       </div>
 
 
