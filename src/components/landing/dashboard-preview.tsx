@@ -55,11 +55,11 @@ function PreviewCard({
   tone?: "neutral" | "positive" | "negative";
 }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-3">
-      <p className="text-[12.5px] font-medium text-muted-foreground">{label}</p>
+    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-2">
+      <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{label}</p>
       <p
         className={cn(
-          "tabular mt-1 text-base font-bold tracking-tight",
+          "tabular mt-0.5 text-[13px] font-black tracking-tight",
           tone === "positive" && "text-success",
           tone === "negative" && "text-destructive",
         )}
@@ -76,7 +76,7 @@ export function DashboardPreview() {
     <div
       role="img"
       aria-label="Prévia do painel do GastoCerto com total gasto no mês, saldo, orçamento, gráfico de despesas, categorias, abastecimentos, próximas contas e últimos lançamentos"
-      className="rounded-2xl border border-border bg-card p-4 shadow-lifted"
+      className="rounded-2xl border border-white/5 bg-[#001640]/40 p-3 shadow-2xl backdrop-blur-xl"
     >
       <div className="flex items-center justify-between gap-3">
         <div>
@@ -89,111 +89,40 @@ export function DashboardPreview() {
         </span>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        <PreviewCard label="Gasto no mês" value={formatCurrency(3782.45)} tone="negative" />
-        <PreviewCard label="Saldo atual" value={formatCurrency(2417.55)} tone="positive" />
-        <PreviewCard label="Disponível" value={formatCurrency(1217.55)} hint="Orçamento" />
+      <div className="mt-3 grid grid-cols-3 gap-1.5">
+        <PreviewCard label="Gasto" value={formatCurrency(3782)} tone="negative" />
+        <PreviewCard label="Saldo" value={formatCurrency(2417)} tone="positive" />
+        <PreviewCard label="Meta" value="92%" />
       </div>
 
-      <div className="mt-3 rounded-xl border border-border bg-surface p-3">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-medium">Despesas por dia</p>
-          <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-success">
-            <ArrowDownRight className="size-3" aria-hidden="true" /> 8,2% vs. junho
-          </span>
-        </div>
-        <div className="mt-3 flex h-24 items-end gap-1.5" aria-hidden="true">
-          {chartBars.map((bar) => (
+
+      <div className="mt-2.5 rounded-xl border border-white/5 bg-white/[0.02] p-2.5">
+        <div className="flex h-16 items-end gap-1" aria-hidden="true">
+          {chartBars.slice(0, 7).map((bar) => (
             <div key={bar.day} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
               <div
-                className="w-full rounded-t-md bg-gradient-to-t from-brand/70 to-brand"
+                className="w-full rounded-t-[2px] bg-brand/80"
                 style={{ height: `${bar.value}%` }}
               />
-              <span className="text-[9px] text-muted-foreground">{bar.day}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="mt-3 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-border bg-surface p-3">
-          <p className="text-xs font-medium">Maiores categorias</p>
-          <ul className="mt-2 space-y-2">
-            {topCategories.map((cat) => (
-              <li key={cat.name} className="space-y-1">
-                <div className="flex items-center justify-between text-[12.5px]">
-                  <span className="inline-flex items-center gap-1.5 font-medium">
-                    <cat.icon className="size-3.5 text-brand" aria-hidden="true" />
-                    {cat.name}
-                  </span>
-                  <span className="tabular text-muted-foreground">{formatCurrency(cat.value)}</span>
-                </div>
-                <Progress value={cat.percent} className="h-1.5" />
-              </li>
-            ))}
-          </ul>
-        </div>
 
-        <div className="space-y-3">
-          <div className="rounded-xl border border-border bg-surface p-3">
-            <p className="text-xs font-medium">Abastecimentos recentes</p>
-            <div className="mt-2 flex items-center justify-between text-[12.5px]">
-              <span className="text-muted-foreground">Consumo médio</span>
-              <span className="tabular font-semibold">11,8 km/l</span>
-            </div>
-            <div className="mt-1 flex items-center justify-between text-[12.5px]">
-              <span className="text-muted-foreground">Preço médio</span>
-              <span className="tabular font-semibold">{formatCurrency(5.89)}/L</span>
-            </div>
+      <div className="mt-2.5 space-y-1.5">
+        {topCategories.slice(0, 2).map((cat) => (
+          <div key={cat.name} className="flex items-center justify-between rounded-lg bg-white/[0.02] px-2 py-1.5 text-[11px]">
+            <span className="flex items-center gap-2 font-medium text-white/90">
+              <cat.icon className="size-3 text-brand" />
+              {cat.name}
+            </span>
+            <span className="font-bold text-white">{formatCurrency(cat.value)}</span>
           </div>
-
-          <div className="rounded-xl border border-border bg-surface p-3">
-            <p className="text-xs font-medium">Próximas contas</p>
-            <ul className="mt-2 space-y-1.5">
-              {upcomingBills.map((bill) => (
-                <li key={bill.name} className="flex items-center justify-between text-[12.5px]">
-                  <span className="text-muted-foreground">
-                    {bill.name} · {formatDate(bill.date)}
-                  </span>
-                  <span className="tabular font-semibold">{formatCurrency(bill.value)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="mt-3 rounded-xl border border-border bg-surface p-3">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-medium">Últimos lançamentos</p>
-          <span className="text-[12.5px] text-muted-foreground">
-            Orçamento consumido {formatPercent(68)}
-          </span>
-        </div>
-        <ul className="mt-2 space-y-1.5">
-          {lastEntries.map((entry) => (
-            <li key={entry.name} className="flex items-center justify-between text-[12.5px]">
-              <span className="inline-flex items-center gap-1.5">
-                {entry.value > 0 ? (
-                  <ArrowUpRight className="size-3.5 text-success" aria-hidden="true" />
-                ) : (
-                  <ArrowDownRight className="size-3.5 text-destructive" aria-hidden="true" />
-                )}
-                <span className="font-medium">{entry.name}</span>
-                <span className="text-muted-foreground">· {entry.category}</span>
-              </span>
-              <span
-                className={cn(
-                  "tabular font-semibold",
-                  entry.value > 0 ? "text-success" : "text-foreground",
-                )}
-              >
-                {formatCurrency(entry.value)}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+
     </div>
   );
 }

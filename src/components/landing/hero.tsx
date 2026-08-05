@@ -27,10 +27,11 @@ export function Hero() {
       <div className="absolute inset-0 -z-20 overflow-hidden">
         {/* Imagem Real de Alta Resolução (Finance-focused) */}
         <img 
-          src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover opacity-100 grayscale-0 brightness-100 contrast-100 saturate-100"
+          className="absolute inset-0 h-full w-full object-cover brightness-[0.85] contrast-[1.1]"
         />
+
         
         {/* Overlay em Gradiente - Adaptado para modo claro/escuro */}
         <div className="absolute inset-0 bg-transparent" />
@@ -86,9 +87,10 @@ export function Hero() {
 
         {/* 2. COMPOSIÇÃO - PRODUTO (55%) */}
         <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
-          <div className="relative perspective-2000 group/mockup scale-[0.9] lg:scale-[1.05] origin-center lg:-mt-24">
-            {/* Mockup do Dashboard */}
-            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-border/10 bg-surface/40 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3),0_0_60px_-20px_rgba(31,174,109,0.15)] dark:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7),0_0_60px_-20px_rgba(31,174,109,0.15)] backdrop-blur-md transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
+          <div className="relative perspective-2000 group/mockup scale-[0.7] lg:scale-[0.8] origin-center lg:-mt-32">
+            {/* Mockup do Dashboard Compacto */}
+            <div className="relative rotate-y-[-8deg] rotate-x-[4deg] skew-y-[1deg] rounded-2xl border border-white/10 bg-white/[0.02] p-0.5 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-2deg] group-hover/mockup:rotate-x-[1deg] group-hover/mockup:skew-y-[0.5deg]">
+
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
                 {/* Minimalist Browser Frame */}
                 <div className="flex items-center gap-1.5 border-b border-white/5 bg-white/5 px-4 py-2.5">
