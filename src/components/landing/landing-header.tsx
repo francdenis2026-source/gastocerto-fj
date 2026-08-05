@@ -129,13 +129,14 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 items-center rounded-lg bg-emerald-500 px-6 text-sm font-bold text-black shadow-lg shadow-emerald-500/10 transition-all hover:bg-emerald-400 sm:flex" asChild>
+              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-emerald-500 px-6 text-[13px] font-black tracking-tight text-[#001640] shadow-xl shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Criar conta grátis</Link>
               </Button>
               <Button
                 variant="outline"
                 size="icon"
-                className={cn("lg:hidden", !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg")}
+                className={cn("lg:hidden rounded-xl border-white/10 bg-white/5 text-white active:scale-95", !scrolled && "border-white/20 bg-white/10")}
+
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
                 onClick={() => setOpen((v) => !v)}
