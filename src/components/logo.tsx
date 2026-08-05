@@ -24,36 +24,28 @@ export function Logo({
   href?: string;
 }) {
   const content = (
-    <span className={cn("inline-flex min-w-0 items-center gap-2 transition-transform duration-200 group-hover:scale-105 sm:gap-2.5 cursor-pointer", className)}>
-      <BrandMark className="size-9 transition-transform duration-200 group-hover:rotate-3 sm:size-11" />
-      <span className="hidden min-w-0 flex-col leading-none min-[360px]:flex">
+    <span className={cn("inline-flex min-w-0 items-center gap-3 transition-all duration-300 group-hover:scale-[1.02] cursor-pointer", className)}>
+      <div className="relative">
+        <div className="absolute -inset-1 rounded-full bg-emerald-500/20 blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <BrandMark className="relative size-10 transition-all duration-500 group-hover:rotate-[15deg] group-hover:scale-110 sm:size-12" />
+      </div>
+      <span className="hidden min-w-0 flex-col leading-tight min-[360px]:flex">
         <span
           className={cn(
-            "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
+            "font-display whitespace-nowrap text-[1.25rem] font-black tracking-[-0.03em] sm:text-[1.4rem] uppercase",
             onDark ? "text-white" : "text-[#F3F6F4]",
           )}
         >
-          <span className="text-white">Meu Controle</span>
-
-          <span
-            className={cn(
-              onDark
-                ? "text-[#1FAE6D]"
-                : "text-[#1FAE6D]",
-
-            )}
-          >
-            Financeiro
-
-          </span>
+          <span className="text-white">Meu</span>
+          <span className="text-emerald-500 ml-1">Financeiro</span>
         </span>
         <span
           className={cn(
-            "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block max-w-[200px] leading-tight",
-            onDark ? "text-white/60" : "text-[#93A69D]",
+            "mt-0.5 hidden text-[9px] font-black uppercase tracking-[0.2em] min-[360px]:block max-w-[200px] leading-tight opacity-80",
+            onDark ? "text-emerald-400/80" : "text-emerald-400/60",
           )}
         >
-          Controle hoje, tranquilidade sempre
+          Gestão Inteligente
         </span>
       </span>
     </span>
