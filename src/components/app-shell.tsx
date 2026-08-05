@@ -43,12 +43,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAvatarUrl, useProfile, useRoles } from "@/lib/queries";
 import { clearBrowserCredentials } from "@/lib/local-session";
 import { useNotifications } from "@/lib/notifications";
-import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
-import { formatCurrency } from "@/lib/format";
-import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
-// useQuery duplicate removed
-import type { SidebarMetric } from "./settings/sidebar-config";
-import { CommandPalette } from "@/components/nav/command-palette";
+import { Sidebar } from "@/components/sidebar/Sidebar";
 import {
   adminNavGroups,
   flattenGroups,
