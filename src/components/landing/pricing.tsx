@@ -84,30 +84,42 @@ export function Pricing() {
     <section id="planos" className="section-y relative overflow-hidden md:block">
       <div className="md:hidden section-shell mb-8">
         <div 
-          className="rounded-[1.5rem] border border-white/5 p-6 shadow-2xl backdrop-blur-md bg-white/[0.03] cursor-pointer hover:bg-white/[0.05] transition-all"
+          className="group relative overflow-hidden rounded-[2rem] border border-[#1FAE6D]/30 bg-gradient-to-br from-[#1FAE6D] to-[#168a57] p-6 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.3)] cursor-pointer active:scale-[0.98] transition-all"
           onClick={() => {
             setCheckoutPlan("premium_ia");
             setIsYearly(true);
           }}
         >
-          <div className="flex items-center justify-between mb-6">
+          {/* SVG Background for mobile card */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="waves-mobile" width="100" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M0 10 Q 25 0 50 10 T 100 10" fill="none" stroke="white" strokeWidth="2"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#waves-mobile)" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-xl font-bold">Premium+ IA</h3>
-              <p className="text-xs text-muted-foreground">O plano mais completo</p>
+              <span className="inline-block px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase tracking-wider text-white mb-2">Recomendado</span>
+              <h3 className="text-xl font-black text-white leading-none">Premium+ IA</h3>
+              <p className="text-[11px] text-white/70 font-bold mt-1 uppercase tracking-wider">O plano mais completo</p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold">R$ 29,00</p>
-              <p className="text-[10px] text-muted-foreground">/mês no anual</p>
+              <div className="flex items-baseline justify-end gap-1">
+                <span className="text-2xl font-black text-white tabular">R$ 29,00</span>
+                <span className="text-[10px] text-white/50 font-bold uppercase">/mês</span>
+              </div>
+              <p className="text-[9px] text-white/60 font-medium">no plano anual</p>
             </div>
           </div>
           <Button 
-            className="w-full bg-emerald-500 text-black font-bold h-12 rounded-xl"
-            onClick={() => {
-              setCheckoutPlan("premium_ia");
-              setIsYearly(true);
-            }}
+            className="w-full bg-white text-[#1FAE6D] hover:bg-white/90 font-black h-12 rounded-xl text-xs uppercase tracking-widest shadow-lg"
           >
-            Assinar Plano IA
+            Começar Agora
           </Button>
         </div>
       </div>
