@@ -2,13 +2,6 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, 
-  ArrowLeftRight, 
-  PiggyBank, 
-  Zap, 
-  BarChart3, 
-  CalendarClock, 
-  Baby, 
-  Settings2,
   ChevronDown,
   LogOut,
   ChevronRight
@@ -17,6 +10,8 @@ import { useProfile } from "@/lib/queries";
 import { Logo } from "@/components/logo";
 import { useState } from "react";
 import { navSections, type NavGroup } from "@/lib/nav-model";
+import { usePlanAccess } from "@/lib/plan-features";
+import { Badge } from "@/components/ui/badge";
 
 interface SidebarProps {
   railCollapsed?: boolean;
@@ -25,11 +20,22 @@ interface SidebarProps {
 
 export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
   const { data: profile } = useProfile();
+  const { planSlug } = usePlanAccess();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  // Accordion state: keep track of which section is open
+  const [openSection, setOpenSection] = useState<string | null>(() => {
+    const activeSection = navSections.find(s => s.groups.some(g => pathname === g.to || g.children?.some(c => pathname === c.to)));
+    return activeSection?.key || "main";
+  });
+
+  const toggleSection = (key: string) => {
+    setOpenSection(prev => prev === key ? null : key);
+  };
 
   return (
     <nav className={cn(
-      "bg-[#0B0F14] border-r border-white/5 h-screen flex flex-col transition-all duration-300",
+      "bg-[#0B1F1A] border-r border-white/5 h-screen flex flex-col transition-all duration-300 relative z-40 shadow-2xl",
       railCollapsed ? "w-20" : "w-64"
     )}>
       {/* Header / Logo */}
@@ -38,55 +44,69 @@ export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-8 scrollbar-none">
-        {navSections.map((section) => (
-          <div key={section.key} className="space-y-1">
-            {!railCollapsed && (
-              <div className="text-[10px] text-slate-500 uppercase tracking-[0.2em] px-3 mb-3 font-black opacity-50">
-                {section.label}
-              </div>
-            )}
-            
-            <div className="space-y-1">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-2 scrollbar-none">
+        {navSections.map((section) => {
+          const isSectionOpen = openSection === section.key;
+
+          return (
+            <div key={section.key} className="space-y-1">
               {section.groups.map((group) => (
                 <SidebarItem 
                   key={group.key}
                   group={group}
                   collapsed={railCollapsed}
                   active={pathname === group.to || group.children?.some(c => pathname === c.to)}
+                  isOpen={isSectionOpen}
+                  onToggle={() => toggleSection(section.key)}
                 />
               ))}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Footer / User Profile */}
-      <div className="p-4 border-t border-white/5">
+      <div className="p-4 border-t border-white/5 bg-[#0B1F1A]">
         <div className={cn(
-          "flex items-center gap-3 p-2 rounded-2xl transition-colors",
-          !railCollapsed && "hover:bg-white/5"
+          "bg-[#10241E] p-3 rounded-2xl border border-white/5 shadow-lg",
+          railCollapsed ? "flex flex-col items-center gap-3" : "space-y-3"
         )}>
-          <div className="size-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold shrink-0">
-            {profile?.full_name?.charAt(0) || "U"}
-          </div>
           {!railCollapsed && (
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white truncate">{profile?.full_name?.split(" ")[0]}</div>
-              <div className="text-[10px] text-slate-500 font-medium truncate uppercase tracking-tighter">
-                {profile?.full_name?.split(" ").slice(1).join(" ")}
-              </div>
+             <div className="flex items-center justify-between px-1">
+               <span className="text-[9px] font-black text-[#8FA39C] uppercase tracking-widest">Saldo Mensal</span>
+               <span className="text-[11px] font-bold text-[#22C55E]">R$ 2.450,00</span>
+             </div>
+          )}
+
+          <div className="flex items-center gap-3">
+            <div className="size-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold shrink-0">
+              {profile?.full_name?.charAt(0) || "U"}
             </div>
-          )}
-          {!railCollapsed && onSignOut && (
-            <button 
-              onClick={onSignOut}
-              className="p-2 text-slate-500 hover:text-rose-500 transition-colors"
-              title="Sair"
-            >
-              <LogOut className="size-4" />
-            </button>
-          )}
+            {!railCollapsed && (
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[13px] font-bold text-[#F5F7F6] truncate">
+                    {profile?.full_name?.split(" ")[0]}
+                  </span>
+                  <Badge variant="outline" className="h-4 px-1 text-[8px] font-black uppercase bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-[0_0_8px_rgba(34,197,94,0.2)]">
+                    {planSlug === "premium_ia" ? "Premium IA" : "Premium"}
+                  </Badge>
+                </div>
+                <div className="text-[10px] text-[#8FA39C] font-medium truncate uppercase tracking-tighter">
+                  {profile?.full_name?.split(" ").slice(1).join(" ")}
+                </div>
+              </div>
+            )}
+            {!railCollapsed && onSignOut && (
+              <button 
+                onClick={onSignOut}
+                className="p-1.5 text-[#8FA39C] hover:text-rose-500 transition-colors"
+                title="Sair"
+              >
+                <LogOut className="size-4" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </nav>
@@ -96,36 +116,39 @@ export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
 function SidebarItem({ 
   group, 
   collapsed, 
-  active 
+  active,
+  isOpen,
+  onToggle
 }: { 
   group: NavGroup; 
   collapsed?: boolean;
   active?: boolean;
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
-  const [isOpen, setIsOpen] = useState(active);
   const Icon = group.icon;
   const hasChildren = (group.children?.length ?? 0) > 0;
 
   return (
     <div className="space-y-1">
-      <Link
-        to={group.to as any}
+      <button
+        onClick={onToggle}
         className={cn(
-          "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative",
+          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative",
           active 
-            ? "bg-emerald-500/5 text-emerald-500 border border-emerald-500/10" 
-            : "text-slate-400 hover:text-white hover:bg-white/5 border border-transparent"
+            ? "bg-[#22C55E1A] text-[#22C55E]" 
+            : "text-[#8FA39C] hover:text-[#F5F7F6] hover:bg-white/5"
         )}
       >
         <div className={cn(
-          "p-2 rounded-lg transition-colors shrink-0",
-          active ? "bg-emerald-500/10 text-emerald-500" : "text-slate-500 group-hover:text-slate-300"
+          "rounded-lg transition-colors shrink-0",
+          active ? "text-[#22C55E]" : "group-hover:text-[#F5F7F6]"
         )}>
-          <Icon className="size-4" />
+          <Icon className="size-5" />
         </div>
         
         {!collapsed && (
-          <span className="text-[13px] font-bold flex-1 truncate tracking-tight">
+          <span className="text-[12px] font-black flex-1 truncate tracking-wider text-left uppercase">
             {group.label}
           </span>
         )}
@@ -140,21 +163,20 @@ function SidebarItem({
         )}
 
         {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-emerald-500 rounded-r-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-[#22C55E] rounded-r-full" />
         )}
-      </Link>
+      </button>
 
       {hasChildren && !collapsed && isOpen && (
-        <div className="ml-11 space-y-1 animate-in slide-in-from-left-2 duration-200">
+        <div className="ml-11 space-y-1 animate-in slide-in-from-top-1 duration-200 overflow-hidden">
           {group.children?.filter(c => !c.hidden).map((child) => (
             <Link
               key={child.key}
               to={child.to as any}
               className={cn(
-                "block py-1.5 text-[12px] font-medium transition-colors hover:text-white truncate",
-                active ? "text-slate-400" : "text-slate-500"
+                "block py-1.5 text-[12px] font-bold transition-colors truncate pr-2 text-[#8FA39C] hover:text-[#F5F7F6]"
               )}
-              activeProps={{ className: "text-emerald-500 font-bold" }}
+              activeProps={{ className: "text-[#22C55E]!" }}
             >
               {child.label}
             </Link>
