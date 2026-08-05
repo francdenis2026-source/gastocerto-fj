@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        {/* nao mudou nada na homepage da versao mobile */}
+        VOCE NAO MUDOU NADA CONTINUA A MESM ACOISA, FORCE A MUDANÇA, MUDE O BACKGROUD IMAGEM
       </div>
 
       
