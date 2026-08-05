@@ -248,13 +248,19 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-border/5 bg-background section-y">
+    <section id="explorar" className="relative border-y border-border/5 bg-background section-y overflow-hidden">
+      {/* Imagem de Fundo de Destaque */}
+      <img 
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.04] grayscale pointer-events-none"
+      />
       <span id="seguranca" className="block" />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--brand)_45%,transparent),transparent)]"
       />
-      <div className="section-shell">
+      <div className="section-shell relative z-10">
         <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
             <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
