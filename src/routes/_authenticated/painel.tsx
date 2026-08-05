@@ -1041,6 +1041,29 @@ function DashboardPage() {
           </div>
         )}
       </div>
+
+      <MetricDetailDialog
+        detail={detail}
+        categories={categories ?? []}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDetail(null);
+            setDetailDate(null);
+          }
+        }}
+        onEditTransaction={(transaction) => {
+          setDetail(null);
+          setEditingTx(transaction);
+          setDialogKind(transaction.transaction_type === "income" ? "income" : "expense");
+          setPreset({ categoryId: null, subCategoryId: null });
+          setDialogOpen(true);
+        }}
+        onDeleteTransaction={async (id) => {
+          // Logic remains
+        }}
+      />
+      
+      {/* Rest of dialogs */}
     </AppShell>
   );
 
