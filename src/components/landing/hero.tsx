@@ -31,7 +31,7 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
           alt="Planejamento financeiro realista" 
-          className="h-full w-full object-cover brightness-[0.4] contrast-[1.05] opacity-60"
+          className="h-full w-full object-cover brightness-[0.4] contrast-[1.05] opacity-60 blur-[3px]"
         />
 
 
