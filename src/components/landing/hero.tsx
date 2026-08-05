@@ -86,9 +86,9 @@ export function Hero() {
 
         {/* 2. COMPOSIÇÃO - PRODUTO (55%) */}
         <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
-          <div className="relative perspective-2000 group/mockup scale-85 lg:scale-90 origin-center">
+          <div className="relative perspective-2000 group/mockup scale-85 lg:scale-[0.92] origin-center lg:-mt-12">
             {/* Mockup do Dashboard */}
-            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#10201B]/60 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6),0_0_40px_-20px_rgba(31,174,109,0.2)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
+            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#10201B]/40 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7),0_0_60px_-20px_rgba(31,174,109,0.15)] backdrop-blur-md transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
                 {/* Minimalist Browser Frame */}
                 <div className="flex items-center gap-1.5 border-b border-white/5 bg-white/5 px-4 py-2.5">
@@ -103,8 +103,8 @@ export function Hero() {
             </div>
             
             {/* Painel Flutuante de Destaque - Refatorado */}
-            <div className="absolute -left-8 top-1/4 hidden xl:block animate-float">
-              <div className="rounded-xl border border-white/20 bg-emerald-500/10 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/10 transition-all duration-300 hover:scale-105 hover:bg-emerald-500/20">
+            <div className="absolute -left-12 top-1/4 hidden xl:block animate-float">
+              <div className="rounded-xl border border-white/10 bg-emerald-500/10 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/5 transition-all duration-300 hover:scale-105 hover:bg-emerald-500/20">
                 <div className="flex items-center gap-3">
                   <div className="flex size-9 items-center justify-center rounded-lg bg-[#1FAE6D] text-[#001640]">
                     <Sparkles size={18} fill="currentColor" />
@@ -118,8 +118,8 @@ export function Hero() {
             </div>
 
             {/* Segundo Painel Flutuante - Lado Oposto */}
-            <div className="absolute -right-6 bottom-1/4 hidden xl:block animate-float" style={{ animationDelay: '1s' }}>
-              <div className="rounded-xl border border-white/20 bg-white/5 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/10 transition-all duration-300 hover:scale-105 hover:bg-white/10">
+            <div className="absolute -right-8 bottom-1/4 hidden xl:block animate-float" style={{ animationDelay: '1s' }}>
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/5 transition-all duration-300 hover:scale-105 hover:bg-white/10">
                 <div className="flex items-center gap-3">
                   <div className="flex size-9 items-center justify-center rounded-lg bg-white/10 text-white">
                     <ArrowUpRight size={18} />
