@@ -80,7 +80,30 @@ export function Pricing() {
   }, []);
 
   return (
-    <section id="planos" className="section-y relative overflow-hidden">
+    <section id="planos" className="section-y relative overflow-hidden md:block">
+      <div className="md:hidden section-shell mb-8">
+        <div className="rounded-[1.5rem] border border-white/5 p-6 shadow-2xl backdrop-blur-md bg-white/[0.03]">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-xl font-bold">Premium+ IA</h3>
+              <p className="text-xs text-muted-foreground">O plano mais completo</p>
+            </div>
+            <div className="text-right">
+              <p className="text-2xl font-black">R$ 29,00</p>
+              <p className="text-[10px] text-muted-foreground">/mês no anual</p>
+            </div>
+          </div>
+          <Button 
+            className="w-full bg-emerald-500 text-black font-bold h-12 rounded-xl"
+            onClick={() => {
+              setCheckoutPlan("premium_ia");
+              setIsYearly(true);
+            }}
+          >
+            Assinar Agora
+          </Button>
+        </div>
+      </div>
       {/* Foto de Fundo em Baixa Opacidade */}
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
