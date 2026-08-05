@@ -148,15 +148,18 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className={cn("lg:hidden rounded-xl border-white/10 bg-white/5 text-white active:scale-95", !scrolled && "border-white/20 bg-white/10")}
-
+                className={cn(
+                  "lg:hidden z-[1001] rounded-xl border-white/10 bg-white/5 text-white active:scale-95 transition-all",
+                  !scrolled && "border-white/20 bg-white/10",
+                  open && "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                )}
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
                 onClick={() => setOpen((v) => !v)}
               >
-                {open ? <X className="size-4" /> : <Menu className="size-4" />}
+                {open ? <X className="size-5" /> : <Menu className="size-5" />}
               </Button>
             </>
           )}
