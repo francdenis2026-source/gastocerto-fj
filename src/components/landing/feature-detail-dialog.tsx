@@ -157,7 +157,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
           {isLoading ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/50 backdrop-blur-[1px] z-10 rounded-2xl animate-in fade-in duration-300">
               <Loader2 className="size-8 text-primary animate-spin mb-2" />
-              <p className="text-[12px] font-bold tracking-wider text-muted-foreground uppercase">Carregando detalhes...</p>
+              <p className="text-[12px] font-bold tracking-wider text-muted-foreground uppercase">Carregando...</p>
             </div>
           ) : error ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-destructive/5 backdrop-blur-[1px] z-10 rounded-2xl border border-destructive/20 animate-in zoom-in-95 duration-300">
