@@ -230,9 +230,9 @@ export function CompactOverview() {
             <h3 className="sr-only">{tabMeta["como-funciona"].label}</h3>
             <div className="grid gap-4 sm:grid-cols-3">
               {[
-                { step: "01", title: "Cadastre-se", text: "Crie sua conta em segundos e comece seu teste de 14 dias sem compromisso.", icon: Users },
-                { step: "02", title: "Lance Gastos", text: "Registre suas despesas diárias, rendas e faturas de cartão de forma rápida.", icon: Receipt },
-                { step: "03", title: "Analise", text: "Visualize para onde vai seu dinheiro com gráficos claros e tome decisões inteligentes.", icon: BarChart3 },
+                { step: "01", title: "Cadastre-se", text: "Crie sua conta em segundos e comece seu teste de 14 dias sem compromisso.", icon: Users, aria: "Passo 1: Cadastre-se" },
+                { step: "02", title: "Lance Gastos", text: "Registre suas despesas diárias, rendas e faturas de cartão de forma rápida.", icon: Receipt, aria: "Passo 2: Lance Gastos" },
+                { step: "03", title: "Analise", text: "Visualize para onde vai seu dinheiro com gráficos claros e tome decisões inteligentes.", icon: BarChart3, aria: "Passo 3: Analise" },
               ].map((item, idx) => (
                 <Reveal 
                   key={item.title} 

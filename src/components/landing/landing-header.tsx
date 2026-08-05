@@ -60,7 +60,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           "fixed inset-x-0 z-[1000] transition-all duration-700 top-0 motion-reduce:transition-none",
           scrolled
             ? "bg-[#0A1512] border-b-[2px] border-emerald-500/40 text-foreground shadow-[0_40px_80px_rgba(0,0,0,0.8)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] translate-y-2 scale-[0.985] motion-reduce:translate-y-0 motion-reduce:scale-100"
-            : "bg-[#0A1512] text-foreground shadow-2xl isolate border-b border-white/5",
+            : "bg-[#0A1512] text-foreground shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_10px_30px_rgba(0,0,0,0.5)] isolate border-b border-white/5",
         )}
       >
 

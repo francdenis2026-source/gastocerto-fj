@@ -167,10 +167,10 @@ export function Pricing() {
               }}
               className={cn(
                 "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group border-2",
-                plan.slug === "free" && "bg-slate-900/50 border-slate-700/50 hover:border-emerald-500/50 shadow-2xl",
-                plan.slug === "premium" && "bg-[#0A1512] border-[#1FAE6D] shadow-[0_0_50px_-10px_rgba(31,174,109,0.4)] scale-105 z-10",
-                plan.slug === "premium_ia" && "bg-slate-900/50 border-[#D4AF6A]/30 hover:border-[#D4AF6A] shadow-2xl",
-                "backdrop-blur-xl hover:translate-y-[-12px]"
+                plan.slug === "free" && "bg-slate-900/40 border-slate-700/50 hover:border-emerald-500/50 shadow-2xl",
+                plan.slug === "premium" && "bg-[#0A1512] border-[#1FAE6D] shadow-[0_20px_60px_-10px_rgba(31,174,109,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] scale-105 z-10",
+                plan.slug === "premium_ia" && "bg-slate-900/40 border-[#D4AF6A]/30 hover:border-[#D4AF6A] shadow-2xl",
+                "backdrop-blur-3xl hover:translate-y-[-12px]"
               )}
               tabIndex={0}
               role="button"
