@@ -52,20 +52,21 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
-      
+      <div className="fixed top-0 inset-x-0 z-[60] h-1 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-500 top-1.5",
+          "fixed inset-x-0 z-50 transition-all duration-300 top-1",
           scrolled
-            ? "glass-morphism border-b border-emerald-500/20 text-foreground shadow-2xl py-2"
-            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-5",
+            ? "glass-morphism border-b border-emerald-500/20 text-foreground shadow-2xl"
+            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg",
         )}
       >
 
 
-        <div className="section-shell flex h-24 items-center justify-between gap-2 sm:gap-4 transition-all duration-500">
-          <Logo onDark={!scrolled} href="#inicio" className="group shrink-0 py-1" />
+        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-300 sm:gap-3", scrolled ? "h-14" : "h-16")}>
+          <Logo onDark={!scrolled} href="#inicio" className="group shrink-0" />
+
 
           <nav aria-label="Navegação principal" className="ml-auto mr-auto hidden min-w-0 items-center gap-0.5 pl-6 lg:flex xl:gap-1">
             {navItems.map((item) => {
