@@ -55,10 +55,10 @@ export function Hero() {
 
       <div className="section-shell relative z-10">
         <div className="mx-auto max-w-5xl">
-          <Reveal className="relative flex flex-col items-center justify-center space-y-7 px-4 py-12 sm:px-12 sm:py-20 rounded-[3rem] bg-black/40 backdrop-blur-[8px] border border-white/10 shadow-[0_32px_128px_-32px_rgba(0,0,0,0.8)] overflow-hidden">
+          <Reveal className="relative flex flex-col items-center justify-center space-y-7 px-4 py-12 sm:px-12 sm:py-20 rounded-[3.5rem] bg-black/40 backdrop-blur-[12px] border border-white/10 shadow-[0_48px_128px_-32px_rgba(0,0,0,0.9)] overflow-hidden">
             {/* Efeito de luz sutil no card */}
-            <div className="absolute -top-24 -left-24 size-48 rounded-full bg-[#1FAE6D]/10 blur-[80px]" />
-            <div className="absolute -bottom-24 -right-24 size-48 rounded-full bg-[#1FAE6D]/10 blur-[80px]" />
+            <div className="absolute -top-32 -left-32 size-64 rounded-full bg-[#1FAE6D]/15 blur-[100px] animate-pulse" />
+            <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
 
             <div className="flex items-center gap-2 rounded-full border border-[#1FAE6D]/20 bg-[#1FAE6D]/10 px-4 py-1.5 backdrop-blur-md">
               <Sparkles className="size-3.5 text-[#1FAE6D]" />
@@ -81,11 +81,11 @@ export function Hero() {
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
               <Button
                 size="lg"
-                className="h-14 w-full rounded-2xl bg-[#1FAE6D] px-10 text-[15px] font-black uppercase tracking-wider text-black shadow-[0_20px_40px_-10px_rgba(31,174,109,0.4)] transition-all hover:scale-[1.05] hover:bg-[#24c77d] sm:w-auto active:scale-95"
+                className="cta-lift h-14 w-full rounded-2xl bg-gradient-to-br from-[#1FAE6D] to-[#54d693] px-10 text-[15px] font-black uppercase tracking-widest text-black shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)] transition-all sm:w-auto"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
-                  Criar Conta Gratuita
+                  Começar Jornada
                   <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
@@ -93,12 +93,12 @@ export function Hero() {
               <Button
                 variant="outline"
                 size="lg"
-                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 px-10 text-[15px] font-bold uppercase tracking-wider text-white backdrop-blur-3xl transition-all hover:bg-white/10 hover:border-white/20 sm:w-auto active:scale-95"
+                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 px-10 text-[15px] font-bold uppercase tracking-wider text-white backdrop-blur-3xl transition-all hover:bg-white/10 hover:border-[#1FAE6D]/30 sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "login" }}>
                   <Users className="mr-2 size-4 text-emerald-400" />
-                  Acessar Painel
+                  Entrar no Painel
                 </Link>
               </Button>
             </div>

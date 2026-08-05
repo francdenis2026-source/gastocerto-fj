@@ -129,8 +129,8 @@ export function Benefits() {
       <section id="recursos-detalhes" className="section-y relative z-10 border-t border-white/[0.03]">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-3xl mb-16">
-            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Arquitetura de Dados</h2>
-            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed font-medium">Arquitetura de dados resiliente para gestão de alta performance e precisão absoluta.</p>
+            <h2 className="section-title text-4xl sm:text-5xl lg:text-7xl tracking-tighter font-black">Engenharia de Dados</h2>
+            <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Estrutura resiliente para gestão de alta performance e precisão absoluta.</p>
           </Reveal>
 
           <div className="grid gap-8">

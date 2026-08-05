@@ -53,7 +53,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-      <div className="fixed top-0 inset-x-0 z-[60] h-1 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-300 to-emerald-600 shadow-[0_0_20px_rgba(31,174,109,0.6)]" />
 
       <header
         className={cn(
@@ -127,7 +127,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-11 px-5 text-[12.5px] font-black uppercase tracking-[0.14em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D]/10 hover:border-[#1FAE6D]/30 transition-all active:scale-95 group",
+              "h-11 px-6 text-[11px] font-black uppercase tracking-[0.2em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D]/10 hover:border-[#1FAE6D]/40 transition-all active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
@@ -144,7 +144,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-[#1FAE6D] px-6 text-[12.5px] font-black uppercase tracking-[0.14em] text-black shadow-lg shadow-[#1FAE6D]/30 transition-all hover:bg-[#24c77d] hover:scale-[1.05] active:scale-95 sm:flex" asChild>
+              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#54d693] px-7 text-[11px] font-black uppercase tracking-[0.2em] text-black shadow-lg shadow-[#1FAE6D]/40 transition-all sm:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button

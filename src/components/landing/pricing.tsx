@@ -108,8 +108,8 @@ export function Pricing() {
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Planos Estratégicos</h2>
-          <p className="mt-4 text-base text-muted-foreground leading-relaxed font-medium">Estrutura de custos otimizada para diferentes níveis de complexidade financeira.</p>
+          <h2 className="section-title text-4xl sm:text-5xl lg:text-7xl tracking-tighter font-black">Planos de Crescimento</h2>
+          <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Estrutura de custos otimizada para diferentes níveis de maturidade financeira.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
@@ -144,10 +144,10 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500",
+                "interactive-card relative flex flex-col rounded-[2.5rem] p-9 transition-all duration-500",
                 "bg-white/[0.02] border border-white/[0.05]",
                 plan.highlighted 
-                  ? "shadow-[0_20px_60px_-12px_rgba(31,174,109,0.2)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.02]" 
+                  ? "shadow-[0_48px_96px_-24px_rgba(31,174,109,0.3)] border-[#1FAE6D]/30 bg-[#1FAE6D]/[0.04] scale-[1.03] z-10" 
                   : ""
               )}
             >
