@@ -65,7 +65,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       >
 
 
-        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-6" : "h-20 sm:h-24")}>
+        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-6" : "h-16 sm:h-20")}>
           <Logo onDark={!scrolled} href="#inicio" className="group shrink-0" />
 
 
