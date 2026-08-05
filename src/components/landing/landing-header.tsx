@@ -76,12 +76,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-black uppercase tracking-[0.2em] transition-all hover:bg-emerald-500/5 focus-visible:outline-none",
-                    isActive 
-                      ? "text-emerald-400" 
-                      : scrolled 
-                        ? "text-foreground/90 hover:text-emerald-400" 
-                        : "text-white hover:text-white",
+                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-black uppercase tracking-[0.2em] transition-colors hover:bg-emerald-500/5 focus-visible:outline-none",
+                    isActive ? "text-emerald-500" : "text-foreground/80 hover:text-emerald-500",
                   )}
                 >
                   {item.label}
