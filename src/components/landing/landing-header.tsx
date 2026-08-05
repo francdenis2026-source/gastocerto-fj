@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
 import { handleAnchorClick } from "@/lib/scroll";
 
 const navItems = [
-  { label: "Serviços", href: "#recursos" },
+  { label: "Recursos", href: "#recursos" },
   { label: "Planos", href: "#planos" },
-  { label: "Segurança", href: "#seguranca" },
+  { label: "Dúvidas", href: "#faq" },
   { label: "Contato", href: "#contato" },
 ];
 
