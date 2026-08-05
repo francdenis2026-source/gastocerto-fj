@@ -36,7 +36,7 @@ export function Logo({
             onDark ? "text-white" : "text-foreground",
           )}
         >
-          <span className="text-white">Gasto</span>
+          <span className={cn(onDark ? "text-white" : "text-foreground")}>Gasto</span>
           <span className="text-[#1FAE6D] ml-1">Certo</span>
         </span>
         <span
