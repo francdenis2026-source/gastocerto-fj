@@ -26,6 +26,7 @@ import {
   Star,
   Target,
   Tv,
+  Users,
   Wallet,
   type LucideIcon,
 } from "lucide-react";
@@ -120,12 +121,11 @@ const pillars = [
 ];
 
 const faqs = [
-  { q: "O sistema é gratuito?", a: "Sim. O plano Gratuito cobre lançamentos, painel mensal, categorias, um veículo e relatórios simplificados." },
-  { q: "Meus dados ficam seguros?", a: "Sim. Cada conta acessa apenas os próprios registros, com regras aplicadas no banco de dados." },
-  { q: "Posso controlar despesas recorrentes?", a: "Sim, com vencimento, frequência, lançamento automático e alertas antes de vencer." },
-  { q: "Posso exportar relatórios?", a: "Sim, em PDF e CSV, com métricas, gráficos e a lista completa do período." },
-  { q: "Mensal ou anual?", a: "O conteúdo é o mesmo; no anual o Premium sai por R$ 20,75/mês em vez de R$ 24,90, e o Premium IA por R$ 29,00/mês em vez de R$ 34,90." },
-  
+  { q: "O sistema é seguro?", a: "Sim. Utilizamos criptografia de ponta a ponta e seguimos a LGPD. Cada conta acessa apenas os próprios registros com isolamento total via banco de dados." },
+  { q: "Como faço meu cadastro?", a: "Basta clicar em 'Criar Conta Grátis', preencher seu e-mail e senha. Você terá acesso imediato ao painel para começar seus lançamentos." },
+  { q: "Como controlo meus gastos?", a: "É simples: registre suas rendas e despesas diárias, categorize-as e use nossos gráficos para visualizar para onde seu dinheiro está indo." },
+  { q: "Como funciona o teste gratuito?", a: "Você pode testar todos os recursos Premium por 14 dias. Após esse período, pode escolher um plano ou continuar no plano básico gratuito." },
+  { q: "Posso cancelar minha conta?", a: "Sim, o cancelamento é livre e pode ser feito a qualquer momento diretamente nas configurações do seu perfil." },
 ];
 
 const shortcuts = [
@@ -134,16 +134,17 @@ const shortcuts = [
   { label: "FAQ", href: "#faq", icon: HelpCircle },
 ] as const;
 
-const tabs = ["recursos", "faq"] as const;
+const tabs = ["como-funciona", "recursos", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
-  recursos: { label: "Recursos e Segurança", description: "Doze recursos essenciais organizados em três frentes" },
-  faq: { label: "Suporte", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
+  "como-funciona": { label: "Como Funciona", description: "3 passos simples para o controle total" },
+  recursos: { label: "Recursos", description: "Ferramentas completas para sua gestão" },
+  faq: { label: "Dúvidas", description: "Perguntas frequentes sobre segurança e uso" },
 };
 
 export function CompactOverview() {
-  const [tab, setTab] = useState<TabValue>("recursos");
+  const [tab, setTab] = useState<TabValue>("como-funciona");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -207,6 +208,29 @@ export function CompactOverview() {
           <p className="sr-only" role="status" aria-live="polite">
             {`Seção ativa: ${tabMeta[tab].label}. ${tabMeta[tab].description}.`}
           </p>
+
+          <TabsContent value="como-funciona" className="mt-3 outline-none panel-enter" tabIndex={0}>
+            <h3 className="sr-only">{tabMeta["como-funciona"].label}</h3>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                { step: "01", title: "Cadastre-se", text: "Crie sua conta em segundos e comece seu teste de 14 dias sem compromisso.", icon: Users },
+                { step: "02", title: "Lance Gastos", text: "Registre suas despesas diárias, rendas e faturas de cartão de forma rápida.", icon: Receipt },
+                { step: "03", title: "Analise", text: "Visualize para onde vai seu dinheiro com gráficos claros e tome decisões inteligentes.", icon: BarChart3 },
+              ].map((item, idx) => (
+                <Reveal 
+                  key={item.title} 
+                  delay={idx * 100}
+                  className="interactive-card rounded-[2rem] p-8 bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl group flex flex-col items-center text-center"
+                >
+                  <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl">
+                    <item.icon className="size-6 mr-1" /> {item.step}
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">{item.title}</h4>
+                  <p className="text-sm font-medium text-white/60 leading-relaxed">{item.text}</p>
+                </Reveal>
+              ))}
+            </div>
+          </TabsContent>
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
