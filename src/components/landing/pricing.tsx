@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
-import { handleAnchorClick } from "@/lib/scroll";
+import { Reveal } from "@/components/landing/reveal";
 
 export interface PricingPlan {
   slug: string;
@@ -73,64 +73,14 @@ export function Pricing() {
   const [isYearly, setIsYearly] = useState(true);
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
 
-  useEffect(() => {
-    const section = document.getElementById("planos");
-    if (section) {
-      // Logic for anchor visibility if needed
-    }
-  }, []);
-
   return (
-    <section id="planos" className="section-y relative overflow-hidden md:block">
-      <div className="md:hidden section-shell mb-8">
-        <div 
-          className="group relative overflow-hidden rounded-[2rem] border border-[#1FAE6D]/30 bg-gradient-to-br from-[#1FAE6D] to-[#168a57] p-6 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.3)] cursor-pointer active:scale-[0.98] transition-all"
-          onClick={() => {
-            setCheckoutPlan("premium_ia");
-            setIsYearly(true);
-          }}
-        >
-          {/* SVG Background for mobile card */}
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="waves-mobile" width="100" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M0 10 Q 25 0 50 10 T 100 10" fill="none" stroke="white" strokeWidth="2"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#waves-mobile)" />
-            </svg>
-          </div>
-
-          <div className="relative z-10 flex items-center justify-between mb-4">
-            <div>
-              <span className="inline-block px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase tracking-wider text-white mb-2">Recomendado</span>
-              <h3 className="text-xl font-black text-white leading-none">Premium+ IA</h3>
-              <p className="text-[11px] text-white/70 font-bold mt-1 uppercase tracking-wider">O plano mais completo</p>
-            </div>
-            <div className="text-right">
-              <div className="flex items-baseline justify-end gap-1">
-                <span className="text-2xl font-black text-white tabular">R$ 29,00</span>
-                <span className="text-[10px] text-white/50 font-bold uppercase">/mês</span>
-              </div>
-              <p className="text-[9px] text-white/60 font-medium">no plano anual</p>
-            </div>
-          </div>
-          <Button 
-            className="w-full bg-white text-[#1FAE6D] hover:bg-white/90 font-black h-12 rounded-xl text-xs uppercase tracking-widest shadow-lg"
-          >
-            Começar Agora
-          </Button>
-        </div>
-      </div>
-      {/* Foto de Fundo em Baixa Opacidade */}
-      {/* Foto de Fundo - Removida para limpar o visual */}
+    <section id="planos" className="section-y relative overflow-hidden">
       <div className="section-shell relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="section-title">Planos e Preços</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Escolha a melhor opção para transformar sua gestão financeira hoje mesmo.</p>
+        <Reveal className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="section-title">O investimento certo para você</h2>
+          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Transforme sua vida financeira com planos que cabem no seu bolso e oferecem retorno imediato em organização.</p>
           
-          <div className="mt-6 inline-flex items-center rounded-full border border-foreground/10 dark:border-white/10 bg-foreground/5 dark:bg-white/5 p-1">
+          <div className="mt-10 inline-flex items-center rounded-full border border-foreground/10 dark:border-white/10 bg-foreground/5 dark:bg-white/5 p-1">
             <button
               onClick={() => setIsYearly(false)}
               className={cn(
@@ -156,9 +106,9 @@ export function Pricing() {
               </span>
             </button>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
+        <div className="grid gap-6 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
           {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}
@@ -179,21 +129,13 @@ export function Pricing() {
               {/* Subtle Noise Texture */}
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] invert dark:invert-0" />
               
-              {/* SVG Background Patterns for Visual Depth */}
+              {/* SVG Background Patterns */}
               <div className="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden">
                 {plan.slug === "premium" && (
                   <div className="absolute -right-20 -top-20 size-64 bg-[#1FAE6D]/20 blur-[80px] rounded-full animate-pulse-slow" />
                 )}
                 {plan.slug === "premium_ia" && (
-                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="grad-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: '#D4AF6A', stopOpacity: 0.2 }} />
-                        <stop offset="100%" style={{ stopColor: '#D4AF6A', stopOpacity: 0 }} />
-                      </linearGradient>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grad-gold)" />
-                  </svg>
+                  <div className="absolute -right-20 -top-20 size-64 bg-[#D4AF6A]/20 blur-[80px] rounded-full animate-pulse-slow" />
                 )}
               </div>
 

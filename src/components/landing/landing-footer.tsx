@@ -28,7 +28,7 @@ export function LandingFooter() {
           loading="lazy"
           className="h-full w-full object-cover opacity-10 brightness-[0.3] pointer-events-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A1512]/98 to-[#0A1512]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A1512]/98 to-[#0A1512] 100%" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-[#1FAE6D]/15 to-transparent" />
       </div>
 

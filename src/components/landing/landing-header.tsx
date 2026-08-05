@@ -55,7 +55,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-[1000] h-16 bg-background text-foreground border-b lg:h-20",
+          "fixed inset-x-0 top-0 z-[1000] h-16 bg-background/95 backdrop-blur-md text-foreground border-b lg:h-20 transition-all duration-300",
           scrolled
             ? "border-emerald-500/40 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
             : "border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]",
