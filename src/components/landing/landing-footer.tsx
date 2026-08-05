@@ -19,7 +19,7 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <footer className="relative border-t border-white/5 py-10 overflow-hidden">
+    <footer className="relative py-10 overflow-hidden">
       {/* Fundo com imagem profissional e overlay de gradiente para profundidade */}
       <div className="absolute inset-0 z-0">
         <img
@@ -28,8 +28,8 @@ export function LandingFooter() {
           loading="lazy"
           className="h-full w-full object-cover opacity-10 brightness-[0.3] pointer-events-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512] via-[#0A1512]/98 to-black" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A1512]/98 to-[#0A1512]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-[#1FAE6D]/15 to-transparent" />
       </div>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
@@ -66,7 +66,7 @@ export function LandingFooter() {
       </div>
 
       {/* Barra Final Premium */}
-      <div className="relative z-10 border-t border-white/5 mt-8 bg-black/95 backdrop-blur-xl">
+      <div className="relative z-10 mt-8 border-t border-white/5 bg-[#0A1512]/40 backdrop-blur-md">
         <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white/30 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="text-emerald-500/50">©</span>
