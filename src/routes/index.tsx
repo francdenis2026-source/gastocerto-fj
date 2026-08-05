@@ -80,8 +80,11 @@ function LandingPage() {
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <PageBackground />
       <LandingHeader />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[9999] p-4 bg-black/80 rounded-lg text-white font-bold text-center border border-white/20 shadow-2xl">
-        A FAIXA AZUL QUE FICA NA PARTE INFERIOR DO SITE?
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[9999] p-4 bg-black/80 rounded-lg text-white font-bold text-center border border-white/20 shadow-2xl max-w-md">
+        O QUE TEM EM CADA UMA DELAS?
+        <p className="text-xs font-normal mt-2 opacity-80">
+          Ajustei o topo e rodapé para serem mais compactos (py-12), com cores em azul cobalto profundo (#001a4d), incluí imagens hero sutis em ambas e melhorei o contraste da tipografia.
+        </p>
       </div>
 
       <main id="conteudo" tabIndex={-1} className="relative flex flex-col outline-none">
