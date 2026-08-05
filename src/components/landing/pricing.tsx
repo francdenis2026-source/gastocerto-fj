@@ -25,7 +25,7 @@ export const basePlans: PricingPlan[] = [
     monthly: 0,
     yearly: 0,
     description: "Ideal para começar.",
-    cta: "Começar Teste 14 Dias",
+    cta: "Detalhes do Plano",
     highlighted: false,
     features: [
       "14 dias de acesso total",
@@ -41,7 +41,7 @@ export const basePlans: PricingPlan[] = [
     monthly: 24.90,
     yearly: 20.75,
     description: "Controle total da família.",
-    cta: "Ativar Plano Premium",
+    cta: "Detalhes do Plano",
     highlighted: true,
     features: [
       "Lançamentos ilimitados",
@@ -57,7 +57,7 @@ export const basePlans: PricingPlan[] = [
     monthly: 34.90,
     yearly: 29.00,
     description: "Inteligência financeira.",
-    cta: "Ativar Premium+ IA",
+    cta: "Detalhes do Plano",
     highlighted: false,
     features: [
       "Tudo do Premium",
