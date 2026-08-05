@@ -3,7 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "./reveal";
 import { cn } from "@/lib/utils";
 
-const plans = [
+export interface PricingPlan {
+  name: string;
+  price: string;
+  period: string;
+  desc: string;
+  features: string[];
+  cta: string;
+  highlight: boolean;
+  icon: any;
+  slug: string;
+  monthly: number;
+  yearly: number;
+}
+
+export const basePlans: PricingPlan[] = [
   {
     name: "Essencial",
     price: "Grátis",
@@ -12,7 +26,10 @@ const plans = [
     features: ["Até 2 contas", "Dashboard básico", "Controle de despesas", "App Mobile PWA"],
     cta: "Começar Trial",
     highlight: false,
-    icon: Zap
+    icon: Zap,
+    slug: "free",
+    monthly: 0,
+    yearly: 0
   },
   {
     name: "Premium",
@@ -28,7 +45,10 @@ const plans = [
     ],
     cta: "Assinar Premium",
     highlight: true,
-    icon: Star
+    icon: Star,
+    slug: "premium",
+    monthly: 19,
+    yearly: 190
   },
   {
     name: "Família",
@@ -44,7 +64,10 @@ const plans = [
     ],
     cta: "Escolher Família",
     highlight: false,
-    icon: Shield
+    icon: Shield,
+    slug: "premium_ia",
+    monthly: 29,
+    yearly: 290
   }
 ];
 

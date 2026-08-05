@@ -90,7 +90,7 @@ export function PricingMobile() {
         <div className="flex items-center justify-between mb-6">
           <div className="min-w-0 flex-1">
             <h3 className="text-xl font-black">{plan.name}</h3>
-            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{plan.description}</p>
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{plan.desc}</p>
           </div>
           <div className="shrink-0 text-right ml-4">
             <p className="tabular text-2xl font-black tracking-tight">
@@ -112,14 +112,14 @@ export function PricingMobile() {
         <Button
           className={cn(
             "h-12 w-full rounded-xl text-sm font-bold shadow-xl transition-all active:scale-[0.97]",
-            plan.highlighted
+            plan.highlight
               ? "bg-brand text-brand-foreground shadow-brand/20 border-none"
               : "border border-white/10 bg-white/5 text-white"
           )}
           onClick={() => setCheckoutOpen(true)}
-          variant={plan.highlighted ? "default" : "outline"}
+          variant={plan.highlight ? "default" : "outline"}
         >
-          {plan.highlighted ? <Sparkles className="mr-2 size-4" aria-hidden="true" /> : null}
+          {plan.highlight ? <Sparkles className="mr-2 size-4" aria-hidden="true" /> : null}
           {plan.cta}
         </Button>
         <p className="mt-4 text-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
