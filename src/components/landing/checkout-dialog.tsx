@@ -319,13 +319,15 @@ export function CheckoutDialog({
               ))}
             </ul>
 
-            <Button className="w-full" onClick={() => setStep("form")}>
+            <Button className="w-full h-12 text-sm font-bold uppercase tracking-wider bg-emerald-500 text-black hover:bg-emerald-400" onClick={() => setStep("form")}>
               Continuar — {formatCurrency(price)}
             </Button>
           </div>
         ) : null}
-
-        {step === "form" ? (
+      </div>
+    </DialogContent>
+  </Dialog>
+);
           <form
             className="space-y-3"
             onSubmit={(event) => {
