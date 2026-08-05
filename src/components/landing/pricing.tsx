@@ -126,9 +126,10 @@ export function Pricing() {
       {/* Foto de Fundo em Baixa Opacidade */}
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="section-title">Planos e Preços</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Escolha a melhor opção para transformar sua gestão financeira hoje mesmo.</p>
+        <Reveal className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="section-title">O investimento certo para você</h2>
+          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Transforme sua vida financeira com planos que cabem no seu bolso e oferecem retorno imediato em organização.</p>
+        </Reveal>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-foreground/10 dark:border-white/10 bg-foreground/5 dark:bg-white/5 p-1">
             <button

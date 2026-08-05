@@ -40,8 +40,8 @@ export function Hero() {
         <div className="absolute top-[40%] right-[15%] h-[300px] w-[300px] animate-pulse-slow rounded-full bg-emerald-400/5 blur-[80px] opacity-30 dark:opacity-10" style={{ animationDelay: '1.5s' }} />
 
 
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background transition-colors duration-500" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] opacity-60 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background transition-colors duration-500" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_85%)] opacity-70 transition-colors duration-500" />
       </div>
 
       {/* Camada de gráfico moderno do hero */}
