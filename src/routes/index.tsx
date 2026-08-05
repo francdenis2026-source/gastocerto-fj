@@ -81,7 +81,7 @@ function LandingPage() {
       <PageBackground />
       <LandingHeader />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[9999] p-4 bg-black/80 rounded-lg text-white font-bold text-center border border-white/20 shadow-2xl">
-        QUAL NOME DA AREA ONDE TEM UMA FAIXA AZUL N TOM MAIS CLARO E OUTRO EM AZULK ESCURO
+        A FAIXA AZUL QUE FICA NA PARTE INFERIOR DO SITE?
       </div>
 
       <main id="conteudo" tabIndex={-1} className="relative flex flex-col outline-none">
