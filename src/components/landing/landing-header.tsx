@@ -53,29 +53,17 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-      {/* Faixa sólida atrás do header flutuante: impede que o conteúdo apareça na margem superior. */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-x-0 top-0 z-[999] bg-background/95 backdrop-blur-md transition-all duration-500 border-b border-emerald-500/10",
-          scrolled ? "h-[88px] opacity-100" : "h-0 opacity-0",
-        )}
-      />
-
-      
-
       <header
         className={cn(
-          "fixed inset-x-0 z-[1000] transition-all duration-700 top-0 motion-reduce:transition-none",
+          "fixed inset-x-0 top-0 z-[1000] h-16 bg-background text-foreground border-b",
           scrolled
-            ? "bg-background border-b-[2px] border-emerald-500/40 text-foreground shadow-[0_40px_80px_rgba(0,0,0,0.8)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] z-[1000]"
-            : "bg-background text-foreground shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_10px_30px_rgba(0,0,0,0.5)] isolate border-b border-white/5 z-[1000]",
+            ? "border-emerald-500/40 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
+            : "border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]",
         )}
       >
+        <div className="section-shell flex h-16 items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
+          <Logo onDark={false} href="#inicio" className="group shrink-0" />
 
-
-        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-4 sm:px-6" : "h-16 sm:h-20 px-4 sm:px-6 bg-gradient-to-r from-background via-emerald-950/20 to-background")}>
-          <Logo onDark={!scrolled} href="#inicio" className="group shrink-0 scale-90 sm:scale-100" />
 
 
           <nav aria-label="Navegação principal" className="ml-auto mr-auto hidden min-w-0 items-center gap-0.5 pl-6 lg:flex xl:gap-1">
