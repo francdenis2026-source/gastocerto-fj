@@ -165,12 +165,12 @@ body::-webkit-scrollbar {
 
 
 :root {
-  --radius: 1.5rem;
+  --radius: 1rem;
   
   /* Verde Primário da marca (Premium Emerald #1FAE6D) */
   --emerald: #1FAE6D;
-  --emerald-gradient-to: #54d693;
-  --emerald-glow: rgba(31, 174, 109, 0.4);
+  --emerald-gradient-to: #3fc78a;
+  --emerald-glow: rgba(31, 174, 109, 0.2);
   --gold-accent: #D4AF6A;
   
   --background: transparent;
@@ -310,13 +310,12 @@ body::-webkit-scrollbar {
 
 @utility section-title {
   font-family: var(--font-display, inherit);
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.95;
-  font-size: clamp(2.5rem, 10vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  font-size: clamp(2.25rem, 8vw, 3.75rem);
   color: var(--foreground);
   text-wrap: balance;
-  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 @utility section-subtitle {
@@ -371,19 +370,18 @@ body::-webkit-scrollbar {
 
 /* Cartões e superfícies clicáveis com elevação suave. */
 @utility interactive-card {
-  transition: all 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
   isolation: isolate;
   outline: none;
 
   &:hover {
     @media (hover: hover) {
-      transform: translateY(-8px);
-      background-color: rgba(255, 255, 255, 0.04);
-      border-color: rgba(31, 174, 109, 0.2);
+      transform: translateY(-4px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(31, 174, 109, 0.3);
       box-shadow: 
-        0 20px 30px -10px rgba(0, 0, 0, 0.4),
-        0 0 15px -5px rgba(31, 174, 109, 0.15);
+        0 12px 24px -10px rgba(0, 0, 0, 0.3);
     }
   }
 

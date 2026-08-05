@@ -31,7 +31,7 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
           alt="Planejamento financeiro realista" 
-          className="h-full w-full object-cover brightness-[0.45] contrast-[1.1] opacity-70 grayscale-[0.2]"
+          className="h-full w-full object-cover brightness-[0.4] contrast-[1.05] opacity-60"
         />
 
 
@@ -60,16 +60,15 @@ export function Hero() {
             <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
 
 
-            <h1 className="text-center font-display text-[clamp(3.5rem,12vw,7.5rem)] font-black leading-[0.9] tracking-[-0.07em] text-white drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)] uppercase">
-              Precisão <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-white via-[#1FAE6D] to-[#1FAE6D] bg-clip-text text-transparent">Absoluta.</span>
+            <h1 className="text-center font-display text-[clamp(2.5rem,9vw,4.5rem)] font-bold leading-[1.1] tracking-[-0.05em] text-white drop-shadow-md">
+              Sua vida financeira <br className="hidden sm:block" />
+              sob <span className="text-[#1FAE6D]">controle total.</span>
             </h1>
 
             <p
-              className="mx-auto max-w-3xl text-center section-subtitle !text-white/95 !text-[clamp(1.25rem,5vw,1.75rem)] drop-shadow-lg"
+              className="mx-auto max-w-2xl text-center section-subtitle !text-white/80 !text-[clamp(1.1rem,4vw,1.25rem)]"
             >
-              A engenharia financeira definitiva para quem exige{" "}
-              <span className="text-white font-extrabold border-b-2 border-[#1FAE6D] pb-1">o máximo controle sobre cada centavo.</span>
+              Organize suas contas, planeje seu futuro e conquiste sua liberdade financeira com a ferramenta mais completa e segura.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
@@ -79,7 +78,7 @@ export function Hero() {
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
-                  Começar Jornada
+                  Criar Conta Grátis
                   <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>

@@ -108,8 +108,8 @@ export function Pricing() {
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="section-title">Níveis de Poder</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Sistemas modulares escaláveis para a evolução da sua inteligência financeira.</p>
+          <h2 className="section-title">Planos e Preços</h2>
+          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Escolha a melhor opção para transformar sua gestão financeira hoje mesmo.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
@@ -144,10 +144,10 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2rem] p-7 transition-all duration-500",
-                "bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm",
+                "interactive-card relative flex flex-col rounded-[1.5rem] p-7 transition-all duration-400",
+                "bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md",
                 plan.highlighted 
-                  ? "shadow-[0_48px_96px_-24px_rgba(31,174,109,0.25)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.05] scale-[1.03] z-10" 
+                  ? "shadow-[0_32px_64px_-16px_rgba(31,174,109,0.15)] border-[#1FAE6D]/30 bg-[#1FAE6D]/[0.02] scale-[1.02] z-10" 
                   : ""
               )}
               tabIndex={0}

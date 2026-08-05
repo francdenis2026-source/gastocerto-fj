@@ -178,14 +178,14 @@ export function CompactOverview() {
       <div className="section-shell relative z-10">
         <Reveal className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand transition-all hover:scale-110 hover:bg-brand/10 cursor-default">
-              <Sparkles className="size-3.5 animate-pulse" />
-              Alta Performance
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand transition-all hover:bg-brand/10 cursor-default">
+              <Sparkles className="size-3.5" />
+              Completo e Seguro
             </span>
           </div>
-          <h2 className="section-title">Engenharia de Dados</h2>
-          <p className="mt-8 section-subtitle max-w-2xl mx-auto !text-white/80">
-            Uma infraestrutura de alto nível concebida para transformar a sua relação com o capital através de inteligência aplicada.
+          <h2 className="section-title">Tudo o que você precisa</h2>
+          <p className="mt-6 section-subtitle max-w-2xl mx-auto !text-white/70">
+            Recursos essenciais desenhados para facilitar sua gestão financeira diária e planejamento de longo prazo.
           </p>
         </Reveal>
 
@@ -215,7 +215,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[2rem] p-8 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm group"
+                  className="interactive-card rounded-[1.5rem] p-8 bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md group"
                   tabIndex={0}
                   role="button"
                   aria-label={`Grupo de recursos: ${group.group}`}
