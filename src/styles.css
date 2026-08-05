@@ -191,7 +191,7 @@ body::-webkit-scrollbar {
 }
 
 .dark {
-  --background: transparent;
+  --background: rgba(0,0,0,0);
   --foreground: #F3F6F4;
   --surface: rgba(16, 32, 27, 0.4);
   --card: rgba(16, 32, 27, 0.4);
@@ -210,7 +210,7 @@ body::-webkit-scrollbar {
   --accent-foreground: #F3F6F4;
   --border: rgba(63, 214, 140, 0.14);
   
-  --hero-bg: transparent;
+  --hero-bg: rgba(0,0,0,0);
   --hero-fg: #F3F6F4;
   --hero-fg-muted: #93A69D;
   --hero-border: rgba(63, 214, 140, 0.14);
