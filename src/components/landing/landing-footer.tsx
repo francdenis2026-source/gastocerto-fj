@@ -104,7 +104,7 @@ export function LandingFooter() {
         <div className="section-shell flex flex-col items-center justify-between gap-y-4 py-8 text-[11px] font-bold uppercase tracking-[0.15em] text-white/30 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="text-emerald-500/50">©</span>
-            <p>{new Date().getFullYear()} MEU CONTROLE FINANCEIRO • TODOS OS DIREITOS RESERVADOS</p>
+            <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
           </div>
           
           <div className="flex items-center gap-6">
