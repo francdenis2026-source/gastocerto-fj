@@ -53,13 +53,13 @@ export function Hero() {
 
 
           <Reveal className="space-y-6 sm:space-y-8">
-            <h1 className="font-display text-[clamp(2rem,11vw,5.5rem)] font-[1000] leading-[0.95] sm:leading-[0.9] tracking-[-0.04em] sm:tracking-[-0.05em] text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] uppercase italic px-2">
+            <h1 className="font-display text-[clamp(2.5rem,12vw,7rem)] font-extrabold leading-[1] sm:leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] px-4">
               Domine seu<br />
-              <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-200 bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
+              <span className="text-emerald-500">dinheiro.</span>
             </h1>
             
-            <p className="mx-auto max-w-2xl px-4 text-base font-medium leading-relaxed text-white/95 drop-shadow-xl sm:text-2xl tracking-tight">
-              Precisão absoluta e controle estratégico para sua vida financeira. <span className="text-emerald-400 font-bold">Uma única tela, poder ilimitado.</span>
+            <p className="mx-auto max-w-2xl px-6 text-base font-normal leading-relaxed text-slate-200 sm:text-xl tracking-normal">
+              Gestão financeira inteligente com precisão absoluta. <span className="text-emerald-400/90 font-medium">Controle total em uma única tela.</span>
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
