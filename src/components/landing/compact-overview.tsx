@@ -225,7 +225,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-2xl p-5 border border-white/[0.03]"
+                  className="rounded-3xl p-6 bg-white/[0.02] border border-white/[0.05] transition-all hover:bg-white/[0.04] hover:border-white/[0.08]"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -238,7 +238,7 @@ export function CompactOverview() {
                         >
                           <button
                             type="button"
-                            className="group flex w-full items-center gap-3 rounded-2xl p-2 text-left transition-all hover:bg-white/[0.04]"
+                            className="group flex w-full items-center gap-4 rounded-2xl p-2.5 text-left transition-all hover:bg-white/[0.03]"
                           >
                             <div className="grid size-8 place-items-center rounded-lg bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                               <item.icon className="size-4" />

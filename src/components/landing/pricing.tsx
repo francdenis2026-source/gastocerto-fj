@@ -144,10 +144,10 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[1.5rem] p-6 transition-all duration-300",
-                "hover:-translate-y-1 hover:shadow-2xl",
+                "relative flex flex-col rounded-[2rem] p-8 transition-all duration-500",
+                "bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.1] hover:-translate-y-2 hover:shadow-2xl",
                 plan.highlighted 
-                  ? "shadow-[0_20px_50px_-12px_rgba(31,174,109,0.15)] ring-1 ring-emerald-500/20" 
+                  ? "shadow-[0_20px_60px_-12px_rgba(31,174,109,0.2)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.02]" 
                   : ""
 
 
