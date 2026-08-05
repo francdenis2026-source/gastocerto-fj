@@ -748,7 +748,7 @@ function DashboardPage() {
                   </div>
 
                   <div className="pt-2">
-                    <StatTile
+                    <MetricCard
                       tone="neutral"
                       label="Projeção de Fim de Mês"
                       value={formatCurrency(metrics.projection)}
