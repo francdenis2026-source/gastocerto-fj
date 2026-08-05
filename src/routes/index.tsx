@@ -77,7 +77,8 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        Ajuste fino na tipografia do Hero para máxima legibilidade e impacto visual.
+        ## Análise e Otimização da Homepage
+        **Objetivo:** Realizar uma análise aprofundada da homepage atual e implementar melhorias estratégicas para otimizar a experiência do usuário e a eficácia geral.
       </div>
 
 
