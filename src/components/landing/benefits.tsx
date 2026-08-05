@@ -125,12 +125,8 @@ export function Benefits() {
   return (
     <div className="relative overflow-hidden">
       {/* Imagem de Fundo Global da Seção */}
-      <img 
-        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
-      />
-      <section id="recursos" className="section-y border-b border-border/5 relative z-10">
+      {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
+      <section id="recursos" className="section-y relative z-10">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
             <h2 className="section-title">Ecosystema de alto desempenho</h2>
@@ -150,7 +146,7 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="group relative flex w-full flex-col items-start rounded-xl border border-border/5 p-5 text-left transition-all hover:bg-card/10 hover:border-emerald-500/30 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98]">
+                        <button className="group relative flex w-full flex-col items-start rounded-xl p-5 text-left transition-all hover:bg-card/10 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98] border border-white/[0.03]">
                           <div className="mb-3 grid size-10 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-[#001640]">
                             <item.icon className="size-5" />
                           </div>
@@ -182,7 +178,7 @@ export function Benefits() {
             </div>
             <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 lg:w-auto">
               {securitySeals.map((seal) => (
-                <div key={seal.title} className="flex items-center gap-3 rounded-xl border border-white/5 bg-black/20 p-4">
+                <div key={seal.title} className="flex items-center gap-3 rounded-xl bg-black/20 p-4">
                   <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                     <seal.icon className="size-5" />
                   </div>
@@ -197,7 +193,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-border/5 relative z-10">
+      <section id="faq" className="section-y relative z-10">
         {/* Textura SVG sutil */}
         {/* REMOVED GRID PATTERN */}
         <div className="section-shell max-w-3xl relative z-10">
@@ -227,13 +223,9 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl border border-border/5">
+          <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
-            <img 
-              src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" 
-              alt="" 
-              className="absolute inset-0 h-full w-full object-cover opacity-10 grayscale pointer-events-none"
-            />
+            {/* Foto Real de Fundo - Removida para limpar o visual */}
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />

@@ -248,18 +248,9 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-border/5 section-y overflow-hidden">
-      {/* Imagem de Fundo de Destaque */}
-      <img 
-        src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
-      />
+    <section id="explorar" className="relative section-y overflow-hidden">
+      {/* Imagem de Fundo de Destaque - Removida para limpar o visual */}
       <span id="seguranca" className="block" />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--brand)_45%,transparent),transparent)]"
-      />
       <div className="section-shell relative z-10">
         <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
@@ -289,7 +280,7 @@ export function CompactOverview() {
           </nav>
         </Reveal>
 
-        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/40 px-3 py-2 backdrop-blur">
+        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl bg-card/40 px-3 py-2 backdrop-blur">
           {highlights.map((item) => (
             <div key={item.label} className="flex min-w-0 items-center gap-1.5">
               <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
@@ -334,7 +325,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-2xl p-5 border border-border/5"
+                  className="rounded-2xl p-5 border border-white/[0.03]"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -347,7 +338,7 @@ export function CompactOverview() {
                         >
                           <button
                             type="button"
-                            className="group flex w-full items-center gap-3 rounded-2xl border border-transparent p-2 text-left transition-all hover:bg-white/[0.04] hover:border-white/5"
+                            className="group flex w-full items-center gap-3 rounded-2xl p-2 text-left transition-all hover:bg-white/[0.04]"
                           >
                             <div className="grid size-8 place-items-center rounded-lg bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                               <item.icon className="size-4" />
@@ -376,7 +367,7 @@ export function CompactOverview() {
                   >
                     <button
                       type="button"
-                      className="interactive-card h-full w-full rounded-2xl p-5 text-left transition-all border border-border/5 hover:border-brand/20 sm:p-5"
+                      className="interactive-card h-full w-full rounded-2xl p-5 text-left transition-all sm:p-5"
                     >
                       <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                         <pillar.icon className="size-4" aria-hidden="true" />

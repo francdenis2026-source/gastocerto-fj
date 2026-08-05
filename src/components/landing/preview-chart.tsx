@@ -122,20 +122,8 @@ export function PreviewChart({ className }: { className?: string }) {
           </filter>
         </defs>
 
-        {/* grade horizontal */}
-        {[0, 1, 2, 3].map((i) => (
-          <line
-            key={i}
-            x1="0"
-            x2={W}
-            y1={TOP + i * ((BOTTOM - TOP) / 3)}
-            y2={TOP + i * ((BOTTOM - TOP) / 3)}
-            stroke="currentColor"
-            strokeWidth="0.4"
-            strokeDasharray="2 5"
-            className="text-white/10"
-          />
-        ))}
+        {/* grade horizontal removida para limpar visual de quadriculados */}
+
 
         {/* área de receitas */}
         <path

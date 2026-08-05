@@ -80,13 +80,9 @@ export function Pricing() {
   }, []);
 
   return (
-    <section id="planos" className="section-y relative overflow-hidden border-t border-border/5">
+    <section id="planos" className="section-y relative overflow-hidden">
       {/* Foto de Fundo em Baixa Opacidade */}
-      <img 
-        src="https://images.unsplash.com/photo-1554224154-7626155e82b1?q=80&w=2070&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-40 grayscale-0 pointer-events-none"
-      />
+      {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="section-title">Investimento em liberdade</h2>
@@ -125,11 +121,12 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[1.5rem] p-6 transition-all duration-300 border border-border/10",
-                "hover:-translate-y-1 hover:shadow-2xl hover:border-white/20",
+                "relative flex flex-col rounded-[1.5rem] p-6 transition-all duration-300",
+                "hover:-translate-y-1 hover:shadow-2xl",
                 plan.highlighted 
-                  ? "border-emerald-500/40 shadow-[0_20px_50px_-12px_rgba(31,174,109,0.15)] ring-1 ring-emerald-500/20" 
-                  : "border-white/10"
+                  ? "shadow-[0_20px_50px_-12px_rgba(31,174,109,0.15)] ring-1 ring-emerald-500/20" 
+                  : ""
+
 
               )}
             >

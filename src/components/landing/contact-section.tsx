@@ -50,12 +50,12 @@ export function ContactSection() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="contato" className="section-y relative border-t border-border/5">
+    <section id="contato" className="section-y relative">
       <ContactModal open={open} onOpenChange={setOpen} />
 
       <div className="section-shell">
         <Reveal>
-          <div className="grid gap-10 rounded-3xl border border-emerald-500/10 bg-white/[0.02] p-6 backdrop-blur-sm sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div className="grid gap-10 rounded-3xl bg-white/[0.02] p-6 backdrop-blur-sm sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div className="flex min-w-0 flex-col gap-6">
               <div className="flex min-w-0 items-center gap-4">
                 <ContactMarkIcon className="size-12 shrink-0 text-emerald-400" />
@@ -78,7 +78,7 @@ export function ContactSection() {
                 {channels.map((channel) => (
                   <li
                     key={channel.label}
-                    className="rounded-2xl border border-border/10 bg-background/40 p-4"
+                    className="rounded-2xl bg-background/40 p-4"
                   >
                     <channel.icon className="size-4 text-emerald-400" aria-hidden />
                     <p className="mt-3 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
