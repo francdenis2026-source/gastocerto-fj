@@ -265,7 +265,7 @@ export function CompactOverview() {
               Ecossistema completo de gestão e recursos
             </h2>
             <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
-              Soluções integradas para monitoramento de ativos, automação de despesas e planejamento estratégico familiar.
+              Soluções integradas para monitoramento de ativos e planejamento estratégico familiar.
             </p>
           </div>
           <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
@@ -337,7 +337,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-3xl border border-white/5 bg-[#0F1B16]/30 p-6 backdrop-blur-sm"
+                  className="rounded-2xl border border-white/5 bg-[#10201B]/30 p-5 backdrop-blur-sm"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -379,7 +379,7 @@ export function CompactOverview() {
                   >
                     <button
                       type="button"
-                      className="interactive-card h-full w-full rounded-2xl border border-white/5 bg-[#0F1B16]/30 p-5 text-left transition-all hover:border-white/20 sm:p-6 backdrop-blur-sm"
+                      className="interactive-card h-full w-full rounded-2xl border border-white/5 bg-[#10201B]/30 p-5 text-left transition-all hover:border-white/20 sm:p-5 backdrop-blur-sm"
                     >
                       <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                         <pillar.icon className="size-4" aria-hidden="true" />
@@ -401,7 +401,7 @@ export function CompactOverview() {
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
                 <Reveal key={faq.q} delay={index * 50}>
-                  <AccordionItem value={`faq-${index}`} className="border-border/60">
+                  <AccordionItem value={`faq-${index}`} className="border-border/60 bg-[#10201B]/30 px-4 rounded-xl mb-1 last:mb-0">
                     <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
                       {faq.q}
                     </AccordionTrigger>

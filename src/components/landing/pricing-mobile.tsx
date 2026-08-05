@@ -31,17 +31,24 @@ export function PricingMobile() {
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
-    <section id="planos-mobile" className="section-y md:hidden bg-background border-t border-white/5">
+    <section id="planos-mobile" className="section-y md:hidden bg-background border-t border-white/5 relative overflow-hidden">
+      {/* Foto de Fundo em Baixa Opacidade */}
+      <img 
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.05] grayscale pointer-events-none"
+      />
+      <div className="relative z-10">
       <div className="flex flex-col gap-4 mb-8">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight">O nível ideal para você</h2>
         </div>
         
         <div
           role="group"
           aria-label="Ciclo de cobrança"
-          className="inline-flex w-fit items-center rounded-full border border-white/5 bg-white/[0.03] p-1"
+          className="inline-flex w-fit items-center rounded-full border border-white/5 bg-white/[0.03] p-0.5"
         >
           {[
             { key: false, label: "Mensal" },
@@ -63,7 +70,7 @@ export function PricingMobile() {
         </div>
       </div>
 
-      <div className="rounded-[2rem] border border-white/5 bg-white/[0.02] p-6 shadow-2xl backdrop-blur-xl">
+      <div className="rounded-[1.5rem] border border-white/5 bg-[#10201B]/40 p-5 shadow-2xl backdrop-blur-xl">
         <div role="tablist" aria-label="Planos" className="grid grid-cols-3 gap-1 rounded-2xl bg-white/[0.03] p-1 mb-6">
           {plans.map((item: PricingPlan) => (
             <button
@@ -108,7 +115,7 @@ export function PricingMobile() {
 
         <Button
           className={cn(
-            "h-14 w-full rounded-2xl text-base font-bold shadow-xl transition-all active:scale-[0.97]",
+            "h-12 w-full rounded-xl text-sm font-bold shadow-xl transition-all active:scale-[0.97]",
             plan.highlighted
               ? "bg-brand text-brand-foreground shadow-brand/20 border-none"
               : "border border-white/10 bg-white/5 text-white"
@@ -130,6 +137,7 @@ export function PricingMobile() {
         initialPlan={slug}
         initialCycle={yearly ? "annual" : "monthly"}
       />
+      </div>
     </section>
   );
 }

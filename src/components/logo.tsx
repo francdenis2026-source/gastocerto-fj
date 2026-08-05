@@ -30,7 +30,7 @@ export function Logo({
         <span
           className={cn(
             "font-display whitespace-nowrap text-[1.2rem] font-extrabold tracking-tight sm:text-[1.35rem]",
-            onDark ? "text-white" : "text-foreground",
+            onDark ? "text-white" : "text-[#F3F6F4]",
           )}
         >
           Meu Controle
@@ -38,8 +38,8 @@ export function Logo({
           <span
             className={cn(
               onDark
-                ? "text-[var(--emerald)]"
-                : "text-[var(--emerald)]",
+                ? "text-[#1FAE6D]"
+                : "text-[#1FAE6D]",
 
             )}
           >
@@ -50,7 +50,7 @@ export function Logo({
         <span
           className={cn(
             "mt-1 hidden text-[8.5px] font-bold uppercase tracking-[0.16em] min-[360px]:block max-w-[200px] leading-tight",
-            onDark ? "text-white/60" : "text-muted-foreground",
+            onDark ? "text-white/60" : "text-[#93A69D]",
           )}
         >
           Controle hoje, tranquilidade sempre
