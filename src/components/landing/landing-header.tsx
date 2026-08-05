@@ -57,15 +57,15 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-300 top-1",
+          "fixed inset-x-0 z-50 transition-all duration-500 top-2 sm:top-4",
           scrolled
-            ? "glass-morphism border-b border-emerald-500/20 text-foreground shadow-2xl"
+            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.4)] mx-2 sm:mx-auto max-w-7xl rounded-[1.5rem]"
             : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg",
         )}
       >
 
 
-        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-300 sm:gap-3", scrolled ? "h-14" : "h-16")}>
+        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-6" : "h-20 sm:h-24")}>
           <Logo onDark={!scrolled} href="#inicio" className="group shrink-0" />
 
 
@@ -79,12 +79,12 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "nav-underline relative inline-flex min-h-9 items-center whitespace-nowrap rounded-lg px-2.5 text-[11px] font-bold uppercase tracking-[0.1em] xl:px-3.5 xl:text-[11.5px] xl:tracking-[0.12em] transition-all focus-visible:outline-none",
+                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-bold uppercase tracking-[0.15em] transition-all hover:bg-emerald-500/5 focus-visible:outline-none",
                     isActive 
                       ? "text-emerald-400" 
                       : scrolled 
-                        ? "text-foreground/60" 
-                        : "text-white/60",
+                        ? "text-foreground/80 hover:text-emerald-400" 
+                        : "text-white/80 hover:text-white",
                   )}
                 >
                   {item.label}
@@ -127,7 +127,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-11 px-6 text-[11px] font-bold uppercase tracking-[0.15em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D]/10 hover:border-[#1FAE6D]/40 transition-all active:scale-95 group",
+              "h-12 px-8 text-[12px] font-black uppercase tracking-[0.2em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D] hover:text-black hover:border-[#1FAE6D] shadow-[0_0_20px_rgba(31,174,109,0)] hover:shadow-[0_0_20px_rgba(31,174,109,0.4)] transition-all duration-300 active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
@@ -144,7 +144,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-7 text-[11px] font-bold uppercase tracking-[0.15em] text-black shadow-lg shadow-[#1FAE6D]/20 transition-all sm:flex" asChild>
+              <Button className="cta-lift group hidden h-12 items-center rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-8 text-[12px] font-black uppercase tracking-[0.2em] text-black shadow-xl shadow-[#1FAE6D]/30 transition-all duration-300 sm:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
