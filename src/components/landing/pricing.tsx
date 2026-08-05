@@ -150,7 +150,10 @@ export function Pricing() {
           {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}
-              onClick={() => setCheckoutPlan(plan.slug)}
+              onClick={() => {
+                console.log("Card clicked, setting plan to:", plan.slug);
+                setCheckoutPlan(plan.slug);
+              }}
               className={cn(
                 "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden cursor-pointer group",
                 "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",
@@ -195,7 +198,11 @@ export function Pricing() {
               </ul>
 
               <Button
-                onClick={() => setCheckoutPlan(plan.slug)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log("Button clicked, setting plan to:", plan.slug);
+                  setCheckoutPlan(plan.slug);
+                }}
                 className={cn(
                   "relative z-10 cta-lift h-14 w-full rounded-xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
                   plan.highlighted
