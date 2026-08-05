@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        DESCUBRA O QUE É ESSE EFEITO QUE DEIXA ESCURECIDO COMO SE FOSSE UM AFUÇA VEJA SE TEM POR CIMA DA HOMEPAGE
+        LIMPEZA DE CAMADAS CONCLUÍDA: TODAS AS SOBREPOSIÇÕES ESCURAS FORAM REMOVIDAS PARA TOTAL VISIBILIDADE DA IMAGEM REAL.
       </div>
 
       

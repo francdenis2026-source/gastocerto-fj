@@ -37,7 +37,7 @@ export function Hero() {
         
         {/* Efeito de luz ambiente */}
         <div 
-          className="absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[120px] dark:bg-emerald-500/5 animate-pulse-glow" 
+          className="absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-transparent blur-[120px]" 
         />
       </div>
 
