@@ -53,6 +53,43 @@ export function Hero() {
 
       </div>
 
+      {/* Camada decorativa em SVG: malha, arco financeiro e sparkline */}
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-[0.5]"
+        preserveAspectRatio="none"
+        viewBox="0 0 1200 800"
+      >
+        <defs>
+          <linearGradient id="heroLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#54A860" stopOpacity="0" />
+            <stop offset="50%" stopColor="#8FCB9B" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#54A860" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="heroArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#54A860" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#54A860" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 700 L120 660 L240 690 L360 600 L480 640 L600 520 L720 560 L840 440 L960 480 L1080 380 L1200 420 L1200 800 L0 800Z"
+          fill="url(#heroArea)"
+        />
+        <path
+          d="M0 700 L120 660 L240 690 L360 600 L480 640 L600 520 L720 560 L840 440 L960 480 L1080 380 L1200 420"
+          fill="none"
+          stroke="url(#heroLine)"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        <circle cx="1080" cy="380" r="6" fill="#8FCB9B">
+          <animate attributeName="r" values="5;9;5" dur="2.6s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="600" cy="520" r="4" fill="#54A860" opacity="0.8">
+          <animate attributeName="opacity" values="0.3;1;0.3" dur="3.4s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+
       <div className="section-shell relative z-10">
         <div className="mx-auto max-w-4xl text-center">
 
@@ -98,7 +135,15 @@ export function Hero() {
               </Button>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-3 pt-12 sm:gap-4">
+            <svg aria-hidden="true" viewBox="0 0 240 12" className="mx-auto mt-10 h-3 w-52 text-emerald-400/70">
+              <path d="M0 6h92" stroke="currentColor" strokeWidth="1" opacity="0.35" />
+              <path d="M148 6h92" stroke="currentColor" strokeWidth="1" opacity="0.35" />
+              <path d="M112 2l8 4-8 4-8-4z" fill="currentColor" />
+              <circle cx="132" cy="6" r="2" fill="currentColor" opacity="0.7" />
+              <circle cx="108" cy="6" r="0" fill="currentColor" />
+            </svg>
+
+            <div className="flex flex-wrap justify-center gap-3 pt-8 sm:gap-4">
               {[
                 { label: "IA Financeira", Icon: AiFinanceIcon },
                 { label: "Espaço Kids", Icon: KidsSpaceIcon },
@@ -107,7 +152,7 @@ export function Hero() {
                 <span
                   key={label}
                   style={{ animationDelay: `${400 + i * 120}ms`, fontFamily: '"Space Grotesk", var(--font-display)' }}
-                  className="group relative flex cursor-default items-center gap-2.5 overflow-hidden rounded-full border border-emerald-400/20 bg-emerald-500/[0.07] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-200 backdrop-blur-md transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-100 hover:shadow-[0_10px_30px_-8px_rgba(16,185,129,0.5)]"
+                  className="group relative flex cursor-pointer items-center gap-2.5 overflow-hidden rounded-full border border-emerald-400/20 bg-emerald-500/[0.07] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-200 backdrop-blur-md transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-100 hover:shadow-[0_10px_30px_-8px_rgba(16,185,129,0.5)]"
                 >
                   <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   <Icon className="size-4 text-emerald-400 transition-all duration-500 group-hover:rotate-[8deg] group-hover:scale-110 group-hover:text-emerald-300" />

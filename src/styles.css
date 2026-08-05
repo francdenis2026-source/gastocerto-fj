@@ -767,6 +767,32 @@ body::-webkit-scrollbar {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
   }
+
+  /* Mãozinha em qualquer card ou superfície com microinteração. */
+  [data-slot="card"],
+  [role="button"],
+  .card-interactive,
+  .metric-card,
+  .glass-morphism,
+  .hover-scale,
+  .story-link,
+  [class*="hover:-translate-y"],
+  [class*="hover:scale-10"],
+  [class*="hover:scale-105"],
+  [class*="hover:scale-11"] {
+    cursor: pointer;
+  }
+
+  [data-slot="card"] input,
+  [data-slot="card"] textarea,
+  [data-slot="card"] select {
+    cursor: auto;
+  }
+
+  [aria-disabled="true"],
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
 
 /* NEXUS-PRO:WATERMARK-HIDE:START */
