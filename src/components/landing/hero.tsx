@@ -28,10 +28,11 @@ export function Hero() {
       {/* 1. FUNDO DO HERO (Foto Real) */}
       <div className="absolute inset-0 -z-20">
         <img 
-          src="https://images.unsplash.com/photo-1454165833767-027ffea70250?q=80&w=2670&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=2626&auto=format&fit=crop" 
           alt="" 
-          className="h-full w-full object-cover brightness-[0.35] contrast-[1.25]"
+          className="h-full w-full object-cover brightness-[0.35] contrast-[1.2] grayscale-[0.2]"
         />
+
 
 
 
