@@ -5,6 +5,8 @@ import heroBg from "@/assets/hero-bg-2027.jpg";
 import heroMobileBg from "@/assets/hero-bg-2027.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
+import { ContactSection } from "@/components/landing/contact-section";
+
 import { Hero } from "@/components/landing/hero";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { LandingHeader } from "@/components/landing/landing-header";
