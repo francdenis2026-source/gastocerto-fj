@@ -223,23 +223,20 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl">
+          <Reveal className="relative overflow-hidden rounded-[3rem] px-8 py-16 text-center shadow-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
             {/* Foto Real de Fundo - Removida para limpar o visual */}
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-              <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />
-              {/* REMOVED GRID PATTERN */}
-              <svg className="absolute bottom-0 left-0 w-full h-24 opacity-[0.05] text-emerald-500" preserveAspectRatio="none" viewBox="0 0 1200 120">
-                <path d="M0 0l48.8 33.3C97.7 66.7 195 133.3 293 150c97.7 16.7 195.3-16.7 293-33.3 97.7-16.7 195.3 0 293 16.7 97.7 16.7 195.3 0 244-8.3l48.7-8.4V120H0V0z" fill="currentColor" />
-              </svg>
+              <div className="absolute -right-24 -top-24 size-96 rounded-full bg-brand/10 blur-[100px] animate-pulse-glow" />
+              <div className="absolute -left-24 -bottom-24 size-96 rounded-full bg-brand/5 blur-[120px]" />
             </div>
 
-            <div className="relative z-10 mx-auto max-w-2xl">
-              <h2 className="text-2xl font-black text-white sm:text-3xl tracking-tight">
+            <div className="relative z-10 mx-auto max-w-3xl">
+              <h2 className="text-3xl font-black text-white sm:text-4xl lg:text-5xl tracking-tight leading-[0.95]">
                 Tome o controle estratégico hoje.
               </h2>
-              <p className="mt-2 text-[15px] font-medium text-muted-foreground">
+              <p className="mt-6 text-base sm:text-lg font-medium text-white/60">
                 Junte-se à elite da gestão financeira e automatize seu futuro.
               </p>
               <div className="mt-8 flex justify-center">
