@@ -78,7 +78,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "relative inline-flex min-h-11 items-center whitespace-nowrap rounded-xl px-3 text-[11px] font-black uppercase tracking-[0.14em] xl:px-4 xl:text-[12px] xl:tracking-[0.18em] transition-all duration-300 focus-visible:outline-none",
+                    "relative inline-flex min-h-9 items-center whitespace-nowrap rounded-lg px-2.5 text-[11px] font-black uppercase tracking-[0.12em] xl:px-3.5 xl:text-[11.5px] xl:tracking-[0.16em] transition-all duration-300 focus-visible:outline-none",
                     isActive 
                       ? "text-emerald-400" 
                       : scrolled 
@@ -126,7 +126,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-11 px-6 text-[13px] font-black uppercase tracking-[0.15em] rounded-2xl border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all active:scale-95 group",
+              "h-10 px-4 text-[12px] font-black uppercase tracking-[0.12em] rounded-xl border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
@@ -143,7 +143,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-emerald-500 px-8 text-[13px] font-black uppercase tracking-[0.15em] text-[#001640] shadow-xl shadow-emerald-500/30 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
+              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-emerald-500 px-5 text-[12px] font-black uppercase tracking-[0.12em] text-[#001640] shadow-lg shadow-emerald-500/30 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Experimentar Grátis</Link>
               </Button>
               <Button
