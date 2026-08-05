@@ -123,7 +123,7 @@ const faqItems = [
 
 export function Benefits() {
   return (
-    <div className="bg-background">
+    <div className="bg-[#0A1512]">
       <section id="recursos" className="section-y border-b border-white/5">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
@@ -191,7 +191,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-white/5 bg-background relative">
+      <section id="faq" className="section-y border-b border-white/5 bg-[#0A1512] relative">
         {/* Textura SVG sutil */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="section-shell max-w-3xl relative z-10">
@@ -219,9 +219,9 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="cta-final" className="section-y bg-background relative overflow-hidden">
+      <section id="cta-final" className="section-y bg-[#0A1512] relative overflow-hidden">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[1.5rem] bg-[#001640] border border-white/5 px-6 py-10 text-center shadow-2xl">
+          <Reveal className="relative overflow-hidden rounded-[1.5rem] bg-[#10201B] border border-white/5 px-6 py-8 text-center shadow-2xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
             <img 
               src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" 
@@ -247,7 +247,7 @@ export function Benefits() {
               <div className="mt-8 flex justify-center">
                 <Button
                   asChild
-                  className="group relative h-12 rounded-lg bg-emerald-500 px-8 text-[15px] font-black text-[#001640] transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(31,174,109,0.5)]"
+                  className="group relative h-11 rounded-lg bg-emerald-500 px-8 text-[14px] font-black text-[#0A1512] transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(31,174,109,0.5)]"
                 >
                   <Link to="/auth" search={{ mode: "signup" }}>
                     Começar Grátis Agora
