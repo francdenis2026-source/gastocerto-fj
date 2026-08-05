@@ -129,8 +129,8 @@ export function Benefits() {
       <section id="recursos-detalhes" className="section-y relative z-10 border-t border-white/[0.03]">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-3xl mb-16">
-            <h2 className="section-title">Engenharia de Dados</h2>
-            <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Estrutura resiliente para gestão de alta performance e precisão absoluta.</p>
+            <h2 className="section-title">Tecnologia para sua Família</h2>
+            <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Tudo o que você precisa para uma vida financeira organizada e tranquila.</p>
           </Reveal>
 
           <div className="grid gap-8">
@@ -234,10 +234,10 @@ export function Benefits() {
 
             <div className="relative z-10 mx-auto max-w-3xl">
               <h2 className="text-3xl font-black text-white sm:text-4xl lg:text-5xl tracking-tight leading-[0.95]">
-                Tome o controle estratégico hoje.
+                Comece a organizar sua vida hoje.
               </h2>
               <p className="mt-6 text-base sm:text-lg font-medium text-white/60">
-                Junte-se à elite da gestão financeira e automatize seu futuro com a engenharia GastoCerto.
+                Junte-se a milhares de pessoas que já simplificaram sua gestão financeira com o GastoCerto.
               </p>
               <div className="mt-10 flex justify-center">
                 <Button
