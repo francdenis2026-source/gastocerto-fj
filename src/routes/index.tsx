@@ -5,23 +5,22 @@ import { CompactOverview } from "@/components/landing/compact-overview";
 import { Benefits } from "@/components/landing/benefits";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { Pricing } from "@/components/landing/pricing";
-import { ContactSection } from "@/components/landing/contact-section";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
-    title: "GastoCerto — Controle hoje, tranquilidade sempre",
+    title: "GastoCerto — Engenharia Financeira de Elite",
     meta: [
       {
         name: "description",
-        content: "Organize suas finanças com precisão absoluta. GastoCerto oferece dashboard inteligente, consultoria com IA e controle de metas em uma interface premium.",
+        content: "Redefina sua gestão financeira com precisão absoluta. GastoCerto combina tecnologia premium, IA e segurança bancária para sua total liberdade.",
       },
-      { property: "og:title", content: "GastoCerto | Precisão Financeira Absoluta" },
+      { property: "og:title", content: "GastoCerto | Engenharia Financeira de Elite" },
       {
         property: "og:description",
-        content: "A plataforma de gestão financeira SaaS definitiva para quem busca organização e sofisticação.",
+        content: "A plataforma SaaS definitiva para gestão financeira pessoal com design premium e insights inteligentes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,17 +31,16 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   return (
     <div className={cn(
-      "min-h-screen bg-background font-sans selection:bg-primary/20 selection:text-primary",
+      "min-h-screen bg-[#020617] font-sans selection:bg-primary/20 selection:text-primary",
       "antialiased scroll-smooth"
     )}>
       <LandingHeader />
-      <main>
+      <main className="flex flex-col">
         <Hero />
-        <CompactOverview />
         <Benefits />
         <HowItWorks />
+        <CompactOverview />
         <Pricing />
-        <ContactSection />
       </main>
       <LandingFooter />
     </div>

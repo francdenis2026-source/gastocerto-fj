@@ -73,11 +73,11 @@ export const basePlans: PricingPlan[] = [
 
 export function Pricing() {
   return (
-    <section id="planos" className="section-y bg-secondary/30">
+    <section id="planos" className="section-y bg-[#020617] border-t border-white/5">
       <div className="section-shell">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6">
+            <h2 className="text-4xl md:text-[3.5rem] font-black tracking-tight text-white mb-6">
               O investimento certo no <br />
               <span className="text-primary italic">seu futuro</span>.
             </h2>
@@ -91,8 +91,8 @@ export function Pricing() {
           {basePlans.map((p, i) => (
             <Reveal key={i} delay={i * 100}>
               <div className={cn(
-                "premium-card h-full relative flex flex-col p-8",
-                p.highlight && "border-primary bg-primary/[0.02] shadow-2xl shadow-primary/10"
+                "premium-card h-full relative flex flex-col p-10 bg-slate-900/40 border-white/5 transition-all duration-500",
+                p.highlight && "border-primary bg-primary/[0.03] shadow-[0_30px_60px_-15px_rgba(31,174,109,0.15)] scale-[1.02] z-10"
               )}>
                 {p.highlight && (
                   <div className="absolute top-0 right-8 -translate-y-1/2 bg-primary text-white text-[11px] font-black uppercase tracking-widest px-4 py-1 rounded-full flex items-center gap-1.5 shadow-lg">
