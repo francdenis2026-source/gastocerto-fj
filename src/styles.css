@@ -2,6 +2,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+  GASTOCERTO — DESIGN SYSTEM
+  Todas as cores derivam exclusivamente da logomarca:
+  navy #001830 · verde #00A85F / #009060 · off-white #F0F0F0
+*/
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -22,6 +28,26 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Escala de marca — navy da logomarca */
+  --color-navy-900: #000d1a;
+  --color-navy-800: #001222;
+  --color-navy-700: #001830;
+  --color-navy-600: #002140;
+  --color-navy-500: #0b2c4d;
+
+  /* Escala de marca — verde da logomarca */
+  --color-brand-700: #007a4e;
+  --color-brand-600: #009060;
+  --color-brand-500: #00a85f;
+  --color-brand-400: #2fa862;
+  --color-brand-300: #6fc894;
+
+  /* Off-white da logomarca */
+  --color-bone-50: #f6f7f8;
+  --color-bone-100: #f0f0f0;
+  --color-bone-200: #dfe3e6;
+
   --color-sidebar: var(--card);
   --color-sidebar-foreground: var(--card-foreground);
   --color-sidebar-primary: var(--primary);
@@ -30,146 +56,152 @@
   --color-sidebar-accent-foreground: var(--accent-foreground);
   --color-sidebar-border: var(--border);
   --color-sidebar-ring: var(--ring);
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 0.25rem);
   --radius-sm: calc(var(--radius) - 0.5rem);
-  --shadow-soft: 0 4px 14px -6px rgb(0 0 0 / 0.25);
-  --shadow-lifted: 0 18px 40px -20px rgb(0 0 0 / 0.45);
+
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --shadow-soft: 0 4px 14px -6px rgb(0 13 26 / 0.18);
+  --shadow-lifted: 0 24px 60px -32px rgb(0 13 26 / 0.55);
 }
 
 :root {
-  --radius: 1.5rem;
-  
-  /* Premium SaaS Palette - Light */
-  --background: #FFFFFF;
-  --foreground: #020617;
-  --card: #FFFFFF;
-  --card-foreground: #020617;
-  --popover: #FFFFFF;
-  --popover-foreground: #020617;
-  
-  --primary: #1FAE6D;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F8FAFC;
-  --secondary-foreground: #64748B;
-  
-  --muted: #F8FAFC;
-  --muted-foreground: #64748B;
-  --accent: #F8FAFC;
-  --accent-foreground: #020617;
-  
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-  
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #1FAE6D;
+  --radius: 1rem;
+
+  --background: #f6f7f8;
+  --foreground: #001830;
+  --card: #ffffff;
+  --card-foreground: #001830;
+  --popover: #ffffff;
+  --popover-foreground: #001830;
+
+  --primary: #009060;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f0f0;
+  --secondary-foreground: #3d5265;
+
+  --muted: #f0f0f0;
+  --muted-foreground: #56697a;
+  --accent: #eaf4ef;
+  --accent-foreground: #007a4e;
+
+  --destructive: #c0392b;
+  --destructive-foreground: #ffffff;
+
+  --border: #dfe3e6;
+  --input: #dfe3e6;
+  --ring: #009060;
 }
 
 .dark {
-  /* Premium SaaS Palette - Dark */
-  --background: #020617;
-  --foreground: #F8FAFC;
-  --card: #0F172A;
-  --card-foreground: #F8FAFC;
-  --popover: #0F172A;
-  --popover-foreground: #F8FAFC;
-  
-  --primary: #1FAE6D;
-  --primary-foreground: #FFFFFF;
-  --secondary: #1E293B;
-  --secondary-foreground: #94A3B8;
-  
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-  --accent: #1E293B;
-  --accent-foreground: #F8FAFC;
-  
-  --destructive: #EF4444;
-  --destructive-foreground: #F8FAFC;
-  
-  --border: #1E293B;
-  --input: #1E293B;
-  --ring: #1FAE6D;
+  --background: #001222;
+  --foreground: #f0f0f0;
+  --card: #001830;
+  --card-foreground: #f0f0f0;
+  --popover: #001830;
+  --popover-foreground: #f0f0f0;
+
+  --primary: #00a85f;
+  --primary-foreground: #000d1a;
+  --secondary: #002140;
+  --secondary-foreground: #a7b7c4;
+
+  --muted: #002140;
+  --muted-foreground: #8fa2b1;
+  --accent: #002140;
+  --accent-foreground: #6fc894;
+
+  --destructive: #e05c4b;
+  --destructive-foreground: #000d1a;
+
+  --border: color-mix(in oklab, #f0f0f0 10%, transparent);
+  --input: color-mix(in oklab, #f0f0f0 12%, transparent);
+  --ring: #00a85f;
 }
 
 body {
-  font-family: "Inter Variable", sans-serif;
-  letter-spacing: -0.01em;
+  font-family: var(--font-sans);
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
-  letter-spacing: -0.04em;
-  font-weight: 800;
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  font-weight: 600;
 }
 
-@utility section-shell {
+/* ——— Estrutura ——— */
+
+@utility shell {
   margin-inline: auto;
   width: 100%;
-  max-width: 90rem;
-  padding-inline: 2rem;
-}
+  max-width: 78rem;
+  padding-inline: 1.5rem;
 
-@utility section-y {
-  padding-block: 4.5rem;
-}
-
-@utility premium-card {
-  border-radius: 1.5rem;
-  border: 1px solid var(--border);
-  background: var(--card);
-  padding: 1.5rem;
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-
-  &:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in oklab, var(--primary) 45%, transparent);
-    filter: brightness(1.05);
-    box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.55);
+  @media (min-width: 1024px) {
+    padding-inline: 2.5rem;
   }
 }
 
-/* Unified interactive surface — cards, tiles, clickable panels */
-.interactive-card {
-  cursor: pointer;
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 200ms cubic-bezier(0.22, 1, 0.36, 1);
+@utility band {
+  padding-block: 5rem;
+
+  @media (min-width: 1024px) {
+    padding-block: 7.5rem;
+  }
+}
+
+@utility hairline {
+  border-top: 1px solid var(--border);
+}
+
+@utility kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 85%, var(--foreground));
+}
+
+@utility numeric {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.03em;
+}
+
+@utility surface {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+}
+
+/* ——— Interação ——— */
+
+.lift {
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 
-.interactive-card:hover {
-  transform: translateY(-3px);
-  filter: brightness(1.05);
-  border-color: color-mix(in oklab, var(--primary) 45%, transparent);
-  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.55);
+.lift:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--primary) 40%, transparent);
 }
 
-.interactive-card:active {
-  transform: translateY(-1px) scale(0.995);
+.lift:active {
+  transform: translateY(0);
 }
 
-.glass-panel {
-  backdrop-filter: blur(20px);
-  background-color: color-mix(in oklab, var(--background) 55%, transparent);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.animate-pulse-slow {
-  animation: pulse-soft 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-soft {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.3; }
-}
-
-/* Every clickable element gets the hand cursor */
 a,
 button,
 summary,
@@ -183,7 +215,6 @@ input[type="button"],
 input[type="checkbox"],
 input[type="radio"],
 select,
-.interactive-card,
 .clickable {
   cursor: pointer;
 }
@@ -193,14 +224,12 @@ select,
   cursor: not-allowed;
 }
 
-/* Consistent, visible keyboard focus (WCAG AA) */
 :focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: 0.5rem;
 }
 
-/* Comfortable touch targets on mobile */
 @media (pointer: coarse) {
   button,
   a[role="button"],
@@ -209,7 +238,6 @@ select,
   }
 }
 
-/* No horizontal overflow, ever */
 html,
 body {
   max-width: 100%;
@@ -233,4 +261,49 @@ video {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Compatibilidade com telas internas do produto */
+@utility section-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1.5rem;
+}
+
+@utility section-y {
+  padding-block: 4rem;
+}
+
+@utility premium-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 1.5rem;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+  }
+}
+
+.interactive-card {
+  cursor: pointer;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+}
+
+.glass-panel {
+  backdrop-filter: blur(20px);
+  background-color: color-mix(in oklab, var(--background) 72%, transparent);
+  border: 1px solid var(--border);
 }
