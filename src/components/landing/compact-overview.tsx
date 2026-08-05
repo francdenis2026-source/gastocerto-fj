@@ -71,7 +71,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
         icon: Sparkles,
         title: "Consultor com IA",
         text: "Diagnóstico e plano de saída de dívidas.",
-        tag: "Elite",
+        tag: "Inteligente",
       },
     ],
   },
@@ -180,7 +180,7 @@ export function CompactOverview() {
           <div className="flex justify-center mb-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand transition-all hover:scale-110 hover:bg-brand/10 cursor-default">
               <Sparkles className="size-3.5 animate-pulse" />
-              Recursos de Próxima Geração
+              Alta Performance
             </span>
           </div>
           <h2 className="section-title">Infraestrutura Financeira</h2>
