@@ -35,25 +35,25 @@ export function HowItWorks() {
               <div className="relative z-10 aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
                 <img 
                   src="https://images.unsplash.com/photo-1573163231154-2ef8a93e8631?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Financial Excellence" 
+                  alt="Pessoa organizando as finanças pessoais no notebook" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent" />
               </div>
               
               {/* Floating Stat Cards */}
-              <div className="absolute -top-6 -right-6 p-6 rounded-3xl border border-border bg-background shadow-2xl z-20 animate-bounce-slow">
+              <div className="hidden sm:block absolute -top-6 -right-4 md:-right-6 p-5 md:p-6 rounded-3xl border border-white/10 bg-[#0F172A] shadow-2xl z-20">
                 <p className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">Impacto Real</p>
-                <p className="text-2xl font-black text-foreground">Economize +30%</p>
-                <p className="text-xs text-secondary-foreground font-medium mt-1">Logo no primeiro mês de uso.</p>
+                <p className="text-2xl font-black text-white">Economize +30%</p>
+                <p className="text-xs text-slate-400 font-medium mt-1">Logo no primeiro mês de uso.</p>
               </div>
 
-              <div className="absolute bottom-12 -left-8 p-5 rounded-2xl border border-border bg-background shadow-2xl z-20">
+              <div className="hidden sm:block absolute bottom-12 -left-4 md:-left-8 p-5 rounded-2xl border border-white/10 bg-[#0F172A] shadow-2xl z-20">
                 <div className="flex items-center gap-3">
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map(i => (
                       <div key={i} className="size-8 rounded-full border-2 border-background bg-secondary overflow-hidden">
-                        <img src={`https://i.pravatar.cc/100?img=${i + 20}`} alt="User" />
+                        <img src={`https://i.pravatar.cc/100?img=${i + 20}`} alt="" loading="lazy" decoding="async" className="size-full object-cover" />
                       </div>
                     ))}
                   </div>
@@ -65,10 +65,10 @@ export function HowItWorks() {
 
           <Reveal delay={200}>
             <div className="max-w-xl">
-              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground leading-tight mb-8">
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight mb-8">
                 Transforme sua relação com o dinheiro em <span className="text-primary italic">poucos dias</span>.
               </h2>
-              <p className="text-lg text-secondary-foreground leading-relaxed mb-10">
+              <p className="text-lg text-slate-400 leading-relaxed mb-10">
                 Não é apenas sobre anotar gastos. É sobre entender seu comportamento, automatizar sua disciplina e construir o patrimônio que você merece com ferramentas de elite.
               </p>
 
@@ -76,16 +76,16 @@ export function HowItWorks() {
                 {highlights.map((h) => (
                   <div key={h} className="flex items-center gap-3">
                     <CheckCircle2 className="size-5 text-primary shrink-0" />
-                    <span className="text-sm font-semibold text-foreground/80">{h}</span>
+                    <span className="text-sm font-semibold text-white/80">{h}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="grid grid-cols-3 gap-6 mb-12 border-t border-border pt-10">
+              <div className="grid grid-cols-3 gap-6 mb-12 border-t border-white/10 pt-10">
                 {stats.map((s) => (
                   <div key={s.label}>
-                    <p className="text-xl md:text-2xl font-black text-foreground mb-1">{s.value}</p>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-secondary-foreground">{s.label}</p>
+                    <p className="text-xl md:text-2xl font-black text-white mb-1">{s.value}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{s.label}</p>
                   </div>
                 ))}
               </div>

@@ -137,7 +137,7 @@ export function Hero() {
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
-                  className="absolute -bottom-12 -right-12 w-[220px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
+                  className="hidden sm:block absolute -bottom-12 -right-8 md:-right-12 w-[180px] md:w-[220px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
                 >
                   <div className="aspect-[9/19] p-4 flex flex-col gap-4">
                     <div className="h-5 w-16 bg-[#1E293B] rounded-full mx-auto mb-2" />
@@ -159,7 +159,7 @@ export function Hero() {
                 <motion.div 
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-10 -left-16 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
+                  className="hidden lg:block absolute top-10 -left-10 xl:-left-16 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-10 rounded-xl bg-primary/20 flex items-center justify-center">
@@ -175,7 +175,7 @@ export function Hero() {
                 <motion.div 
                   animate={{ y: [0, 10, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-20 -left-20 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
+                  className="hidden lg:block absolute bottom-20 -left-14 xl:-left-20 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
