@@ -199,7 +199,7 @@ export function Benefits() {
 
       <section id="faq" className="section-y border-b border-border/5 relative z-10">
         {/* Textura SVG sutil */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        {/* REMOVED GRID PATTERN */}
         <div className="section-shell max-w-3xl relative z-10">
           <Reveal className="text-center mb-8">
             <h3 className="text-2xl font-bold text-white">Dúvidas Frequentes</h3>
@@ -237,7 +237,7 @@ export function Benefits() {
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />
-              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #22C55E 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+              {/* REMOVED GRID PATTERN */}
               <svg className="absolute bottom-0 left-0 w-full h-24 opacity-[0.05] text-emerald-500" preserveAspectRatio="none" viewBox="0 0 1200 120">
                 <path d="M0 0l48.8 33.3C97.7 66.7 195 133.3 293 150c97.7 16.7 195.3-16.7 293-33.3 97.7-16.7 195.3 0 293 16.7 97.7 16.7 195.3 0 244-8.3l48.7-8.4V120H0V0z" fill="currentColor" />
               </svg>
