@@ -36,7 +36,7 @@ import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { livePrice, usePublicPlans } from "@/hooks/use-public-plans";
 
-type Step = "plan" | "form" | "code" | "manual" | "done";
+type Step = "plan" | "details" | "form" | "code" | "manual" | "done";
 
 type Order = Awaited<ReturnType<typeof startManualOrder>>;
 type Verification = Awaited<ReturnType<typeof requestCheckoutVerification>>;
@@ -85,7 +85,7 @@ export function CheckoutDialog({
 
   useEffect(() => {
     if (!open) return;
-    setStep(initialPlan ? "form" : "plan");
+    setStep(initialPlan ? "details" : "plan");
     setPlanSlug(initialPlan ?? "premium_ia");
     setCycle(initialCycle);
     setOrder(null);
@@ -215,14 +215,16 @@ export function CheckoutDialog({
         <div className="p-6 sm:p-8">
           <DialogHeader className={cn(step === 'plan' && 'sr-only')}>
             <DialogTitle className="flex items-center gap-2">
-              <ShieldCheck className="size-4 text-brand" aria-hidden="true" />
-              {step === "done" ? "Pagamento confirmado" : "Assinar o GastoCerto"}
+              <ShieldCheck className="size-4 text-emerald-500" aria-hidden="true" />
+              {step === "done" ? "Acesso Liberado" : step === "details" ? `Sobre o plano ${plan.name}` : "Assinar o GastoCerto"}
             </DialogTitle>
             <DialogDescription>
               {step === "plan"
                 ? "Escolha o plano e o ciclo de cobrança."
-                : step === "form"
-                  ? "Informe seus dados para confirmação."
+                : step === "details"
+                  ? "Confira os detalhes e benefícios exclusivos deste plano."
+                  : step === "form"
+                    ? "Informe seus dados para confirmação."
                   : step === "code"
                     ? "Digite o código enviado ao seu e-mail."
                     : step === "manual"
@@ -302,11 +304,41 @@ export function CheckoutDialog({
                 ))}
               </ul>
 
-              <Button className="w-full h-12 text-sm font-black uppercase tracking-widest bg-emerald-500 text-black hover:bg-emerald-400" onClick={() => setStep("form")}>
-                Assinar Agora — {formatCurrency(price)}
+              <Button className="w-full h-12 text-sm font-black uppercase tracking-widest bg-emerald-500 text-black hover:bg-emerald-400" onClick={() => setStep("details")}>
+                Ver Detalhes do Plano
               </Button>
             </div>
           ) : null}
+
+          {step === "details" && (
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-xl font-black text-white">{plan.details?.title || plan.name}</h3>
+                <p className="text-white/60 text-sm leading-relaxed">{plan.details?.description || plan.tagline}</p>
+              </div>
+
+              <div className="grid gap-3 rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500/60 mb-1">O que você terá acesso:</p>
+                {(plan.details?.items || plan.highlights).map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <div className="mt-0.5 rounded-full bg-emerald-500/20 p-0.5">
+                      <Check className="size-3 text-emerald-500" />
+                    </div>
+                    <span className="text-sm font-medium text-white/80">{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-3 pt-4 border-t border-white/10">
+                <Button variant="ghost" className="flex-1 border border-white/10 hover:bg-white/5 text-white/60" onClick={() => setStep("plan")}>
+                  Trocar Plano
+                </Button>
+                <Button className="flex-[2] h-12 bg-emerald-500 text-black font-black uppercase tracking-widest" onClick={() => setStep("form")}>
+                  Continuar — {formatCurrency(price)}
+                </Button>
+              </div>
+            </div>
+          )}
 
           {step === "form" && (
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); verify.mutate(); }}>

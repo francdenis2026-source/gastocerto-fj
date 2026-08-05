@@ -12,6 +12,11 @@ export type CheckoutPlan = {
   monthly: number;
   annual: number;
   highlights: string[];
+  details?: {
+    title: string;
+    description: string;
+    items: string[];
+  };
   recommended?: boolean;
 };
 
@@ -28,6 +33,18 @@ export const CHECKOUT_PLANS: CheckoutPlan[] = [
       "Um veículo integrado",
       "Sem custo fixo",
     ],
+    details: {
+      title: "Comece sua jornada financeira",
+      description: "Ideal para quem quer dar o primeiro passo na organização doméstica sem custos fixos.",
+      items: [
+        "Gestão básica de receitas e despesas",
+        "Até 30 lançamentos manuais por mês",
+        "Cadastro de 1 veículo para controle de combustível",
+        "Acesso ao painel de resumo mensal",
+        "Categorias padrão para classificação rápida",
+        "Relatório simples de balancete"
+      ]
+    }
   },
   {
     slug: "premium",
@@ -41,6 +58,19 @@ export const CHECKOUT_PLANS: CheckoutPlan[] = [
       "Combustível com custo por quilômetro",
       "Exportação em CSV e PDF",
     ],
+    details: {
+      title: "Controle absoluto para sua família",
+      description: "Liberdade total para gerenciar cada centavo, com ferramentas avançadas de análise e exportação.",
+      items: [
+        "Lançamentos e movimentações ilimitadas",
+        "Gestão de até 2 veículos simultâneos",
+        "Módulo completo de orçamentos e metas",
+        "Controle detalhado de cartões de crédito",
+        "Monitoramento de gastos com gás e utilidades",
+        "Exportação completa para PDF e Planilhas (CSV)",
+        "Suporte prioritário via chat"
+      ]
+    }
   },
   {
     slug: "premium_ia",
@@ -56,6 +86,19 @@ export const CHECKOUT_PLANS: CheckoutPlan[] = [
       "Créditos mensais de IA inclusos",
       "Recibos e auditoria de cada análise",
     ],
+    details: {
+      title: "A inteligência a favor do seu bolso",
+      description: "O poder da IA para analisar seus padrões de consumo e sugerir economias reais e personalizadas.",
+      items: [
+        "Tudo o que o plano Premium oferece",
+        "Consultor de IA ilimitado para tirar dúvidas",
+        "Análise preditiva de dívidas e juros",
+        "Sugestões inteligentes baseadas no seu perfil",
+        "Relatórios de auditoria gerados por IA",
+        "Prioridade máxima no desenvolvimento de novos recursos",
+        "Gestão ilimitada de veículos e contas"
+      ]
+    }
   },
 ];
 
