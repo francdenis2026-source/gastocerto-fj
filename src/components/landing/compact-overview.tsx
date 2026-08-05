@@ -30,7 +30,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { DemoDialog } from "@/components/landing/demo-dialog";
+
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
 import { Reveal } from "@/components/landing/reveal";
 import { handleAnchorClick } from "@/lib/scroll";
@@ -215,7 +215,7 @@ const faqs = [
   { q: "Posso controlar despesas recorrentes?", a: "Sim, com vencimento, frequência, lançamento automático e alertas antes de vencer." },
   { q: "Posso exportar relatórios?", a: "Sim, em PDF e CSV, com métricas, gráficos e a lista completa do período." },
   { q: "Mensal ou anual?", a: "O conteúdo é o mesmo; no anual o Premium sai por R$ 20,75/mês em vez de R$ 24,90, e o Premium IA por R$ 29,00/mês em vez de R$ 34,90." },
-  { q: "Preciso de conta para a demonstração?", a: "Não. A demonstração é aberta, com dados fictícios e sem cartão de crédito." },
+  
 ];
 
 const shortcuts = [
@@ -231,7 +231,7 @@ type TabValue = (typeof tabs)[number];
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
   recursos: { label: "Recursos", description: "Vinte e quatro recursos organizados em seis frentes" },
   seguranca: { label: "Segurança", description: "LGPD, criptografia e controle de acesso" },
-  faq: { label: "FAQ", description: "Perguntas frequentes: seis dúvidas comuns sobre planos e demonstração" },
+  faq: { label: "FAQ", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
 };
 
 export function CompactOverview() {
@@ -269,15 +269,6 @@ export function CompactOverview() {
             </p>
           </div>
           <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
-            <DemoDialog>
-              <button
-                type="button"
-                className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-bold text-brand transition-all hover:bg-brand hover:text-brand-foreground"
-              >
-                <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Ver demonstração
-              </button>
-            </DemoDialog>
             {shortcuts.map((item) => (
               <a
                 key={item.label}

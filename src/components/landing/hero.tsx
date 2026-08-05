@@ -82,20 +82,6 @@ export function Hero() {
             </Button>
           </div>
 
-          {/* Prova Social Reformulada */}
-          <div className="mt-8 flex items-center gap-4 animate-in fade-in duration-1000 delay-300">
-            <div className="flex -space-x-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="size-9 rounded-full border-2 border-background bg-surface ring-1 ring-white/5 overflow-hidden">
-                  <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="User avatar" className="opacity-80" />
-                </div>
-              ))}
-            </div>
-            <div className="h-4 w-px bg-white/10" />
-            <p className="text-[13px] font-medium text-[#9CA8A3]">
-              Confiança de <span className="font-bold text-white">+10k usuários</span> ativos
-            </p>
-          </div>
         </div>
 
         {/* 2. COMPOSIÇÃO - PRODUTO (55%) */}
