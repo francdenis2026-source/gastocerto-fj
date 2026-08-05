@@ -328,7 +328,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="glass-morphism rounded-2xl p-5"
+                  className="glass-morphism rounded-2xl p-5 border border-border/5"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -370,7 +370,7 @@ export function CompactOverview() {
                   >
                     <button
                       type="button"
-                      className="interactive-card glass-morphism h-full w-full rounded-2xl p-5 text-left transition-all hover:border-white/20 sm:p-5"
+                      className="interactive-card glass-morphism h-full w-full rounded-2xl p-5 text-left transition-all border border-border/5 hover:border-brand/20 sm:p-5"
                     >
                       <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                         <pillar.icon className="size-4" aria-hidden="true" />
