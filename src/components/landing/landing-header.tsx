@@ -66,7 +66,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         <div className="section-shell flex h-14 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group" />
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-2 lg:flex">
           {navItems.map((item) => {
             const isActive = active === item.href;
             return (
@@ -76,19 +76,19 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 aria-current={isActive ? "location" : undefined}
                 onClick={(event) => handleAnchorClick(event, item.href)}
                 className={cn(
-                  "nav-underline relative inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent after:bg-hero-accent",
-                  isActive && "after:scale-x-100",
+                  "nav-underline relative inline-flex min-h-11 items-center rounded-lg px-4 text-[13px] font-bold tracking-tight transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 after:bg-emerald-500 after:h-0.5",
+                  isActive && "after:scale-x-100 text-emerald-500",
                   scrolled
-                    ? cn("text-[oklch(0.25_0.04_259)] dark:text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground font-bold")
-                    : cn("text-hero-fg-muted hover:bg-hero-surface-soft hover:text-hero-fg focus-visible:ring-hero-border-strong", isActive && "text-hero-fg"),
+                    ? cn("text-foreground/70 hover:text-foreground hover:bg-white/5", isActive && "text-emerald-500")
+                    : cn("text-white/70 hover:text-white hover:bg-white/5", isActive && "text-emerald-400"),
                 )}
-
               >
                 {item.label}
               </a>
             );
           })}
         </nav>
+
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <ThemeToggle className={cn("inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")} />
