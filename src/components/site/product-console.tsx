@@ -80,7 +80,10 @@ export function ProductConsole({ className }: { className?: string }) {
         </div>
         <div className="mt-6 flex h-28 items-end gap-2 sm:gap-3">
           {months.map((month, i) => (
-            <div key={month.label} className="flex flex-1 flex-col items-center gap-2">
+            <div
+              key={month.label}
+              className="flex h-full flex-1 flex-col items-center justify-end gap-2"
+            >
               <div
                 className={cn(
                   "w-full rounded-t-[3px]",
