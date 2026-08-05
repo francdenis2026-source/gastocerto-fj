@@ -28,6 +28,7 @@ export const basePlans: PricingPlan[] = [
     cta: "Começar Gratuitamente",
     highlighted: false,
     features: [
+      "Teste por 14 dias",
       "Até 30 lançamentos/mês",
       "Painel de gastos mensal",
       "1 Veículo",
@@ -144,41 +145,47 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[1.5rem] p-7 transition-all duration-400",
-                "bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md",
+                "interactive-card relative flex flex-col rounded-[2.5rem] p-10 transition-all duration-400 overflow-hidden",
+                "bg-black/40 border border-white/10 shadow-2xl backdrop-blur-xl",
                 plan.highlighted 
-                  ? "shadow-[0_32px_64px_-16px_rgba(31,174,109,0.15)] border-[#1FAE6D]/30 bg-[#1FAE6D]/[0.02] scale-[1.02] z-10" 
-                  : ""
+                  ? "ring-2 ring-emerald-500/50 shadow-[0_0_80px_-20px_rgba(31,174,109,0.3)] scale-[1.05] z-10" 
+                  : "hover:border-emerald-500/30"
               )}
               tabIndex={0}
               role="button"
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
+              {/* Efeito de brilho interno (Glow) */}
+              <div className="absolute -right-20 -top-20 size-40 rounded-full bg-emerald-500/10 blur-[60px]" />
+              <div className="absolute -left-20 -bottom-20 size-40 rounded-full bg-emerald-500/5 blur-[60px]" />
+
               {plan.highlighted && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.2)]">
-                  Mais Popular
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-emerald-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-[0_10px_30px_rgba(31,174,109,0.4)]">
+                  Mais Escolhido
                 </div>
               )}
               
-              <div className="mb-5">
-                <h3 className="text-2xl font-bold text-white tracking-tight">{plan.name}</h3>
-                <p className="mt-3 body-text !text-[14px] !font-medium opacity-60">{plan.description}</p>
+              <div className="relative z-10 mb-8">
+                <h3 className="text-3xl font-black text-white tracking-tight">{plan.name}</h3>
+                <p className="mt-2 text-sm font-medium text-emerald-500/60 uppercase tracking-widest">{plan.description}</p>
               </div>
 
-              <div className="mb-4">
+              <div className="relative z-10 mb-10">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold tracking-tight text-white tabular">
-                    {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
+                  <span className="text-5xl font-black tracking-tighter text-white tabular">
+                    {plan.monthly === 0 ? "Livre" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
-                  <span className="text-sm font-medium text-muted-foreground">/mês</span>
+                  <span className="text-sm font-bold text-white/40 uppercase tracking-wider">/mês</span>
                 </div>
               </div>
 
-              <ul className="flex-1 space-y-2.5 mb-6">
+              <ul className="relative z-10 flex-1 space-y-4 mb-10">
                 {plan.features.map((feature: string) => (
-                  <li key={feature} className="flex items-start gap-3 text-[14px] leading-snug">
-                    <Check className="size-4 shrink-0 text-emerald-500 mt-0.5" />
-                    <span className="body-text !text-white/90 !font-medium">{feature}</span>
+                  <li key={feature} className="flex items-start gap-3 text-[14px] group/item">
+                    <div className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black transition-colors">
+                      <Check className="size-3 font-bold" />
+                    </div>
+                    <span className="font-medium text-white/70 group-hover/item:text-white transition-colors">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -186,15 +193,20 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "cta-lift h-14 w-full rounded-2xl text-[14px] font-bold uppercase tracking-wider transition-all group",
+                  "relative z-10 cta-lift h-16 w-full rounded-2xl text-[14px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
                   plan.highlighted
-                    ? "bg-[#1FAE6D] text-black hover:bg-[#24c77d] shadow-[0_15px_30px_-10px_rgba(31,174,109,0.4)]"
-                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20"
+                    ? "bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
+                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-emerald-500/50"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
               >
-                {plan.cta}
-                <ArrowRight className="ml-2 size-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
+                <span className="relative z-10 flex items-center justify-center">
+                  {plan.cta}
+                  <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                </span>
+                {plan.highlighted && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite] pointer-events-none" />
+                )}
               </Button>
             </div>
           ))}
