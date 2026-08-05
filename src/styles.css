@@ -144,100 +144,100 @@ body::-webkit-scrollbar {
 
 :root {
   --radius: 0.75rem;
-  --background: #001640; /* Azul Marinho Profundo */
+  --background: #0A1512; /* Verde-carvão quase preto */
   --foreground: #F3F6F4;
-  --surface: #0A1E4D;
-  --card: #0A1E4D;
+  --surface: #10201B;
+  --card: #10201B;
   --card-foreground: #F3F6F4;
-  --popover: #0F255A;
+  --popover: #16281F;
   --popover-foreground: #F3F6F4;
   
-  /* Verde Primário da marca */
+  /* Verde Primário da marca (Premium Emerald) */
   --emerald: #1FAE6D;
   --emerald-gradient-to: #3FD68C;
-  --gold-accent: #D4AF6A;
+  --gold-accent: #D4AF6A; /* Acento secundário premium */
   
   --primary: var(--emerald);
-  --primary-foreground: #001640;
+  --primary-foreground: #0A1512;
   --brand: var(--emerald);
-  --brand-foreground: #001640;
+  --brand-foreground: #0A1512;
   
-  --secondary: #0F255A;
+  --secondary: #16281F;
   --secondary-foreground: #F3F6F4;
-  --muted: #0F255A;
+  --muted: #16281F;
   --muted-foreground: #93A69D;
-  --accent: #0F255A;
+  --accent: #16281F;
   --accent-foreground: #F3F6F4;
   --destructive: #E5484D;
   --destructive-foreground: #F3F6F4;
   --success: var(--emerald);
-  --success-foreground: #001640;
+  --success-foreground: #0A1512;
   --warning: #D4AF6A;
-  --warning-foreground: #001640;
+  --warning-foreground: #0A1512;
 
-  --expense: #EF4444;
-  --expense-surface: rgba(239, 68, 68, 0.1);
-  --expense-border: rgba(239, 68, 68, 0.2);
+  --expense: #E5484D;
+  --expense-surface: rgba(229, 72, 77, 0.1);
+  --expense-border: rgba(229, 72, 77, 0.2);
   --income: var(--emerald);
-  --income-surface: rgba(34, 197, 94, 0.1);
-  --income-border: rgba(34, 197, 94, 0.2);
+  --income-surface: rgba(31, 174, 109, 0.1);
+  --income-border: rgba(31, 174, 109, 0.2);
 
   --border: rgba(63, 214, 140, 0.14);
-  --input: #0F255A;
+  --input: #16281F;
   --ring: rgba(31, 174, 109, 0.3);
   
   --chart-1: var(--emerald);
-  --chart-2: #4ADE80;
-  --chart-3: #E8C468;
-  --chart-4: #EF4444;
-  --chart-5: #2DD4BF;
+  --chart-2: #3FD68C;
+  --chart-3: #D4AF6A;
+  --chart-4: #E5484D;
+  --chart-5: #4ADE80;
 
-  --sidebar: #001640;
+  --sidebar: #0A1512;
   --sidebar-foreground: #F3F6F4;
   --sidebar-primary: var(--emerald);
-  --sidebar-primary-foreground: #001640;
-  --sidebar-accent: #0A1E4D;
+  --sidebar-primary-foreground: #0A1512;
+  --sidebar-accent: #10201B;
   --sidebar-accent-foreground: #F3F6F4;
   --sidebar-border: rgba(63, 214, 140, 0.14);
   --sidebar-ring: rgba(31, 174, 109, 0.3);
 
   --acc-1: var(--emerald);
-  --acc-2: #4ADE80;
-  --acc-3: #E8C468;
-  --acc-4: #EF4444;
-  --acc-5: #2DD4BF;
-  --acc-6: #14B8A6;
+  --acc-2: #3FD68C;
+  --acc-3: #D4AF6A;
+  --acc-4: #E5484D;
+  --acc-5: #4ADE80;
+  --acc-6: #1FAE6D;
 
   /* ---- Hero System ---- */
-  --hero-bg: #001640;
+  --hero-bg: #0A1512;
   --hero-fg: #F3F6F4;
   --hero-fg-muted: #93A69D;
   --hero-fg-soft: #93A69D;
   --hero-border: rgba(63, 214, 140, 0.14);
   --hero-border-strong: rgba(63, 214, 140, 0.2);
-  --hero-surface: #0A1E4D;
+  --hero-surface: #10201B;
   --hero-surface-soft: rgba(63, 214, 140, 0.05);
   --hero-accent: var(--emerald);
 
-  --banner-amber-bg: rgba(232, 196, 104, 0.1);
-  --banner-amber-border: rgba(232, 196, 104, 0.2);
-  --banner-amber-text: #E8C468;
-  --banner-amber-icon: #E8C468;
+  --banner-amber-bg: rgba(212, 175, 106, 0.1);
+  --banner-amber-border: rgba(212, 175, 106, 0.2);
+  --banner-amber-text: #D4AF6A;
+  --banner-amber-icon: #D4AF6A;
 
-  --banner-primary-bg: rgba(34, 197, 94, 0.1);
-  --banner-primary-border: rgba(34, 197, 94, 0.2);
-  --banner-primary-text: #22C55E;
-  --banner-primary-icon: #22C55E;
+  --banner-primary-bg: rgba(31, 174, 109, 0.1);
+  --banner-primary-border: rgba(31, 174, 109, 0.2);
+  --banner-primary-text: #1FAE6D;
+  --banner-primary-icon: #1FAE6D;
 
-  --hero-veil-mobile: linear-gradient(180deg, rgba(0, 22, 64, 0.9), rgba(0, 22, 64, 0.9));
-  --hero-veil-desktop: linear-gradient(100deg, rgba(0, 22, 64, 0.95), rgba(0, 22, 64, 0.3));
-  --hero-fade: linear-gradient(180deg, transparent, #001640);
+  --hero-veil-mobile: linear-gradient(180deg, rgba(10, 21, 18, 0.9), rgba(10, 21, 18, 0.9));
+  --hero-veil-desktop: linear-gradient(100deg, rgba(10, 21, 18, 0.98), rgba(10, 21, 18, 0.4));
+  --hero-fade: linear-gradient(180deg, transparent, #0A1512);
 
-  --cta-bg: #0A1E4D;
+  --cta-bg: #10201B;
   --cta-fg: #F3F6F4;
   --cta-fg-muted: #93A69D;
   --cta-border: rgba(63, 214, 140, 0.14);
-  --cta-surface: #0F255A;
+  --cta-surface: #16281F;
   --cta-accent-glow: rgba(31, 174, 109, 0.2);
 }
 
@@ -289,10 +289,10 @@ body::-webkit-scrollbar {
 }
 
 @utility section-y {
-  padding-block: 2rem;
+  padding-block: 3.5rem;
 
   @media (min-width: 1024px) {
-    padding-block: 3.5rem;
+    padding-block: 4rem;
   }
 }
 

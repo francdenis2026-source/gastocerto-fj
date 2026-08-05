@@ -21,7 +21,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[60svh] lg:min-h-[75svh] items-center overflow-hidden bg-[#001640] pt-24 pb-12 lg:pt-32"
+      className="relative isolate flex min-h-[60svh] lg:min-h-[70svh] items-center overflow-hidden bg-[#0A1512] pt-16 pb-8 lg:pt-24"
     >
       {/* 1. FUNDO DO HERO (Foto Real + Overlay) */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
@@ -33,7 +33,7 @@ export function Hero() {
         />
         
         {/* Overlay em Gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#001640] via-[#001640]/80 to-[#001640]/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512] via-[#0A1512]/98 to-[#0A1512]/40" />
         
         {/* Gradiente radial verde sutil */}
         <div 
@@ -47,9 +47,9 @@ export function Hero() {
         <div className="w-full lg:w-[45%] flex flex-col items-center text-center lg:items-start lg:text-left">
           {/* Headline com gradiente */}
           <div className="animate-in fade-in slide-in-from-top-4 duration-1000">
-            <h1 className="font-display text-[clamp(1.75rem,6vw,3.25rem)] font-bold leading-[1.1] tracking-tight text-white mb-4">
+            <h1 className="font-display text-[clamp(1.5rem,5vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-white mb-2">
               Gestão financeira<br />
-              <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">estratégica.</span>
+              <span className="bg-gradient-to-r from-[#1FAE6D] to-[#3FD68C] bg-clip-text text-transparent">estratégica.</span>
             </h1>
             <p className="max-w-xl text-[16px] font-medium leading-[1.5] text-muted-foreground sm:text-lg">
               Precisão total e controle absoluto para quem exige excelência na gestão familiar.
@@ -102,7 +102,7 @@ export function Hero() {
         <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
           <div className="relative perspective-2000 group/mockup scale-85 lg:scale-90 origin-center">
             {/* Mockup do Dashboard */}
-            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#0F1B16]/60 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6),0_0_40px_-20px_rgba(31,174,109,0.2)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
+            <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#10201B]/60 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6),0_0_40px_-20px_rgba(31,174,109,0.2)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
                 {/* Minimalist Browser Frame */}
                 <div className="flex items-center gap-1.5 border-b border-white/5 bg-white/5 px-4 py-2.5">
