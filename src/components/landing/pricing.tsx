@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Check, ArrowRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -24,14 +24,13 @@ export const basePlans: PricingPlan[] = [
     name: "Grátis",
     monthly: 0,
     yearly: 0,
-    description: "Ideal para começar.",
-    cta: "Detalhes do Plano",
+    description: "Para organizar o básico",
+    cta: "Começar Agora",
     highlighted: false,
     features: [
       "14 dias de acesso total",
-      "Cancelamento a qualquer momento",
-      "Até 30 lançamentos/mês",
-      "Painel de gastos mensal",
+      "Lançamentos básicos",
+      "Suporte padrão",
       "1 Veículo",
     ],
   },
@@ -40,14 +39,14 @@ export const basePlans: PricingPlan[] = [
     name: "Premium",
     monthly: 24.90,
     yearly: 20.75,
-    description: "Controle total da família.",
-    cta: "Detalhes do Plano",
+    description: "Controle financeiro completo",
+    cta: "Assinar Agora",
     highlighted: true,
     features: [
       "Lançamentos ilimitados",
-      "Múltiplos veículos",
       "Exportação PDF/CSV",
       "Gestão de cartões e gás",
+      "Múltiplos veículos",
       "Suporte prioritário",
     ],
   },
@@ -56,8 +55,8 @@ export const basePlans: PricingPlan[] = [
     name: "Premium+",
     monthly: 34.90,
     yearly: 29.00,
-    description: "Inteligência financeira.",
-    cta: "Detalhes do Plano",
+    description: "Inteligência com IA",
+    cta: "Assinar Agora",
     highlighted: false,
     features: [
       "Tudo do Premium",
@@ -74,18 +73,22 @@ export function Pricing() {
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
 
   return (
-    <section id="planos" className="section-y relative overflow-hidden">
+    <section id="planos" className="section-y relative bg-secondary/30 border-t border-border">
       <div className="section-shell relative z-10">
-        <Reveal className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="section-title">O investimento certo para você</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Transforme sua vida financeira com planos que cabem no seu bolso e oferecem retorno imediato em organização.</p>
+        <Reveal className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground leading-tight mb-6">
+            Planos que acompanham seu crescimento
+          </h2>
+          <p className="section-subtitle max-w-2xl mx-auto mb-10">
+            Escolha a ferramenta certa para o seu momento e tenha controle absoluto sobre seu dinheiro.
+          </p>
           
-           <div className="mt-10 inline-flex items-center rounded-full border border-border bg-card p-1">
+           <div className="inline-flex items-center rounded-full border border-border bg-card p-1">
              <button
                onClick={() => setIsYearly(false)}
                className={cn(
-                 "rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
-                 !isYearly ? "bg-primary text-primary-foreground" : "text-secondary-foreground"
+                 "rounded-full px-6 py-2 text-xs font-bold transition-all",
+                 !isYearly ? "bg-primary text-primary-foreground shadow-sm" : "text-secondary-foreground hover:text-foreground"
                )}
              >
                Mensal
@@ -93,8 +96,8 @@ export function Pricing() {
              <button
                onClick={() => setIsYearly(true)}
                className={cn(
-                 "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
-                 isYearly ? "bg-primary text-primary-foreground" : "text-secondary-foreground"
+                 "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all",
+                 isYearly ? "bg-primary text-primary-foreground shadow-sm" : "text-secondary-foreground hover:text-foreground"
                )}
              >
                Anual
@@ -108,79 +111,68 @@ export function Pricing() {
            </div>
         </Reveal>
 
-         <div className="grid gap-8 md:grid-cols-3 lg:max-w-7xl lg:mx-auto">
-           {basePlans.map((plan: PricingPlan) => (
-             <div
-               key={plan.slug}
-               onClick={() => setCheckoutPlan(plan.slug)}
-               className={cn(
-                 "interactive-card flex flex-col rounded-[2rem] p-8 border border-border bg-card transition-all duration-300",
-                 plan.highlighted && "border-primary ring-1 ring-primary/20 scale-105 z-10 shadow-xl shadow-primary/5",
-                 !plan.highlighted && "hover:border-primary/50 shadow-sm"
-               )}
-               tabIndex={0}
-               role="button"
-               aria-label={`Plano ${plan.name}: ${plan.description}`}
-             >
-               {plan.highlighted && (
-                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
-                   Recomendado
-                 </div>
-               )}
-               
-               <div className="mb-8">
-                 <h3 className="text-xl font-bold text-foreground">{plan.name}</h3>
-                 <p className="mt-1 text-sm font-medium text-secondary-foreground">{plan.description}</p>
-               </div>
- 
-               <div className="mb-8">
-                 <div className="flex items-baseline gap-1">
-                   <span className="text-4xl font-extrabold tracking-tight text-foreground tabular">
-                     {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
-                   </span>
-                   <span className="text-sm font-medium text-secondary-foreground">/mês</span>
-                 </div>
-                 {isYearly && plan.monthly > 0 && (
-                   <p className="mt-2 text-xs font-semibold text-primary">
-                     Economize {formatCurrency((plan.monthly - plan.yearly) * 12)} por ano
-                   </p>
-                 )}
-               </div>
- 
-               <div className="h-px w-full bg-border mb-8" />
- 
-               <ul className="flex-1 space-y-4 mb-8">
-                 {plan.features.map((feature: string) => (
-                   <li key={feature} className="flex items-start gap-3 text-sm">
-                     <div className={cn(
-                       "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
-                       plan.highlighted ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
-                     )}>
-                       <Check className="size-3" />
-                     </div>
-                     <span className="font-medium text-foreground/90">{feature}</span>
-                   </li>
-                 ))}
-               </ul>
- 
-               <Button
-                 onClick={(e) => {
-                   e.stopPropagation();
-                   setCheckoutPlan(plan.slug);
-                 }}
-                 className={cn(
-                   "h-12 w-full rounded-full text-sm font-semibold transition-all active:scale-95",
-                   plan.highlighted 
-                     ? "bg-primary text-primary-foreground hover:opacity-90" 
-                     : "bg-secondary text-foreground hover:bg-border"
-                 )}
-                 variant="ghost"
-               >
-                 {plan.slug === "free" ? "Começar Agora" : "Assinar Agora"}
-               </Button>
-             </div>
-           ))}
-         </div>
+        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+          {basePlans.map((plan: PricingPlan, i: number) => (
+            <Reveal key={plan.slug} delay={i * 100}>
+              <div
+                onClick={() => setCheckoutPlan(plan.slug)}
+                className={cn(
+                  "interactive-card flex flex-col rounded-[2.5rem] p-10 border border-border bg-card h-full cursor-pointer",
+                  plan.highlighted && "border-primary ring-1 ring-primary/20 scale-[1.03] z-10 shadow-xl shadow-primary/5",
+                )}
+                role="button"
+                tabIndex={0}
+              >
+                {plan.highlighted && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
+                    Recomendado
+                  </div>
+                )}
+                
+                <div className="mb-8">
+                  <h3 className="text-2xl font-bold text-foreground">{plan.name}</h3>
+                  <p className="mt-1 text-sm font-medium text-secondary-foreground">{plan.description}</p>
+                </div>
+
+                <div className="mb-8">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-black tracking-tight text-foreground tabular">
+                      {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
+                    </span>
+                    <span className="text-sm font-medium text-secondary-foreground">/mês</span>
+                  </div>
+                </div>
+
+                <div className="h-px w-full bg-border mb-8" />
+
+                <ul className="flex-1 space-y-4 mb-10">
+                  {plan.features.map((feature: string) => (
+                    <li key={feature} className="flex items-start gap-3 text-sm font-medium text-foreground/80">
+                      <Check className="size-5 shrink-0 text-primary" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCheckoutPlan(plan.slug);
+                  }}
+                  className={cn(
+                    "h-14 w-full rounded-full text-sm font-bold transition-all active:scale-95",
+                    plan.highlighted 
+                      ? "bg-primary text-primary-foreground hover:opacity-90" 
+                      : "bg-secondary text-foreground hover:bg-border"
+                  )}
+                  variant="ghost"
+                >
+                  {plan.cta}
+                </Button>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
 
       <CheckoutDialog
