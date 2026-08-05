@@ -150,6 +150,9 @@ export function Pricing() {
                   ? "shadow-[0_48px_96px_-24px_rgba(31,174,109,0.25)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.05] scale-[1.03] z-10" 
                   : ""
               )}
+              tabIndex={0}
+              role="button"
+              aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
               {plan.highlighted && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
