@@ -25,12 +25,12 @@ export function Hero() {
       id="inicio"
       className="relative isolate flex min-h-dvh items-center overflow-hidden"
     >
-      {/* 1. FUNDO DO HERO (Calculadora Realista iPhone) */}
+      {/* 1. FUNDO DO HERO (Profissional fazendo contas no iPhone) */}
       <div className="absolute inset-0 -z-20">
         <img 
-          src="https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2670&auto=format&fit=crop" 
-          alt="Calculadora Realista iPhone" 
-          className="h-full w-full object-cover brightness-[0.45] contrast-[1.15]"
+          src="https://images.unsplash.com/photo-151242855908e-56035ceaf5b2?q=80&w=2670&auto=format&fit=crop" 
+          alt="Planejamento financeiro realista no iPhone" 
+          className="h-full w-full object-cover brightness-[0.5] contrast-[1.1]"
         />
 
 
