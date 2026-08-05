@@ -148,7 +148,7 @@ export function Pricing() {
                 "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden",
                 "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",
                 plan.highlighted 
-                  ? "ring-1 ring-emerald-500/50 shadow-[0_0_50px_-15px_rgba(31,174,109,0.2)] scale-[1.02] z-10" 
+                  ? "ring-2 ring-emerald-500/50 shadow-[0_0_50px_-15px_rgba(31,174,109,0.3)] z-10 bg-black/60" 
                   : "hover:border-emerald-500/20"
               )}
               tabIndex={0}
