@@ -287,10 +287,10 @@ body::-webkit-scrollbar {
 }
 
 @utility section-y {
-  padding-block: 5rem;
+  padding-block: 4rem;
 
   @media (min-width: 1024px) {
-    padding-block: 8rem;
+    padding-block: 6rem;
   }
 }
 
