@@ -36,13 +36,13 @@ export function Logo({
             onDark ? "text-white" : "text-foreground",
           )}
         >
-          <span className={cn(onDark ? "text-white" : "text-foreground")}>Gasto</span>
-          <span className="text-[#1FAE6D] ml-1">Certo</span>
+           <span className={cn(onDark ? "text-white" : "text-foreground")}>Gasto</span>
+           <span className="text-primary ml-1">Certo</span>
         </span>
         <span
           className={cn(
             "mt-0.5 hidden text-[9px] font-bold uppercase tracking-[0.1em] min-[360px]:block max-w-[200px] leading-tight opacity-70",
-            onDark ? "text-emerald-400/80" : "text-emerald-400/60",
+            onDark ? "text-primary/80" : "text-primary/60",
           )}
         >
           Gestão Inteligente

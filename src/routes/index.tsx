@@ -77,19 +77,17 @@ function LandingPage() {
   }, []);
 
   return (
-    <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden bg-transparent [&_img]:pointer-events-none [&_img]:select-none">
-      <PageBackground />
-      <LandingHeader />
-
-      <main id="conteudo" tabIndex={-1} className="relative flex flex-col outline-none">
-        <Hero />
-        <Benefits />
-        <CompactOverview />
-        <Pricing />
-      </main>
-
-      <LandingFooter />
-    </div>
+     <div className="relative flex min-h-dvh flex-col bg-background">
+       <LandingHeader />
+ 
+       <main id="conteudo" tabIndex={-1} className="relative flex flex-col outline-none">
+         <Hero />
+         <Benefits />
+         <Pricing />
+       </main>
+ 
+       <LandingFooter />
+     </div>
   );
 }
 

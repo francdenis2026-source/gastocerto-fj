@@ -108,110 +108,79 @@ export function Pricing() {
           </div>
         </Reveal>
 
-        <div className="grid gap-6 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
-          {basePlans.map((plan: PricingPlan) => (
-            <div
-              key={plan.slug}
-              onClick={() => {
-                setCheckoutPlan(plan.slug);
-              }}
-              className={cn(
-                "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group border-2",
-                plan.slug === "free" && "bg-surface/50 dark:bg-slate-900/40 border-border dark:border-slate-700/50 hover:border-emerald-500/50 shadow-2xl",
-                plan.slug === "premium" && "bg-card dark:bg-[#0A1512] border-[#1FAE6D] shadow-[0_20px_60px_-10px_rgba(31,174,109,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] scale-105 z-10",
-                plan.slug === "premium_ia" && "bg-surface/50 dark:bg-slate-900/40 border-[#D4AF6A]/30 hover:border-[#D4AF6A] shadow-2xl",
-                "backdrop-blur-3xl hover:translate-y-[-12px]"
-              )}
-              tabIndex={0}
-              role="button"
-              aria-label={`Plano ${plan.name}: ${plan.description}`}
-            >
-              {/* Subtle Noise Texture */}
-              {/* Subtle Noise Texture removida */}
-              
-              {/* SVG Background Patterns */}
-              <div className="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden">
-                {plan.slug === "premium" && (
-                  <div className="absolute -right-20 -top-20 size-64 bg-[#1FAE6D]/20 blur-[80px] rounded-full animate-pulse-slow" />
-                )}
-                {plan.slug === "premium_ia" && (
-                  <div className="absolute -right-20 -top-20 size-64 bg-[#D4AF6A]/20 blur-[80px] rounded-full animate-pulse-slow" />
-                )}
-              </div>
-
-              {plan.highlighted && (
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-[#1FAE6D] px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-lg shadow-[#1FAE6D]/20">
-                  Mais Recomendado
-                </div>
-              )}
-              
-              <div className="relative z-10 mb-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-foreground dark:text-white tracking-tight">{plan.name}</h3>
-                  {plan.slug === "premium" && <div className="size-2 rounded-full bg-[#1FAE6D] animate-ping" />}
-                </div>
-                <p className={cn(
-                  "mt-1 text-[11px] font-bold uppercase tracking-widest",
-                   plan.slug === "free" && "text-muted-foreground",
-                  plan.slug === "premium" && "text-[#1FAE6D]",
-                  plan.slug === "premium_ia" && "text-[#D4AF6A]"
-                )}>{plan.description}</p>
-              </div>
-
-              <div className="relative z-10 mb-8">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black tracking-tighter text-foreground dark:text-white tabular">
-                    {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
-                  </span>
-                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">/mês</span>
-                </div>
-                {isYearly && plan.monthly > 0 && (
-                  <p className="text-[10px] font-bold text-[#1FAE6D] mt-2 bg-emerald-500/10 inline-block px-2 py-0.5 rounded-md">
-                    ECONOMIZE {formatCurrency((plan.monthly - plan.yearly) * 12)} /ano
-                  </p>
-                )}
-              </div>
-
-              <div className="h-px w-full bg-foreground/5 dark:bg-white/5 mb-8" />
-
-              <ul className="relative z-10 flex-1 space-y-4 mb-8">
-                {plan.features.map((feature: string) => (
-                  <li key={feature} className="flex items-start gap-3 text-[13px] group/item">
-                    <div className={cn(
-                      "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full transition-all",
-                      plan.slug === "premium" ? "bg-[#1FAE6D] text-black shadow-[0_0_10px_rgba(31,174,109,0.3)]" : "bg-foreground/10 dark:bg-white/10 text-foreground/40 dark:text-white/40"
-                    )}>
-                      <Check className="size-3 font-bold" />
-                    </div>
-                    <span className="font-medium text-foreground/80 dark:text-slate-300 group-hover/item:text-foreground dark:group-hover/item:text-white transition-colors">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCheckoutPlan(plan.slug);
-                }}
-                className={cn(
-                  "relative z-10 h-14 w-full rounded-2xl text-[13px] font-black uppercase tracking-[0.2em] transition-all group overflow-hidden border-2",
-                  plan.slug === "free" && "bg-foreground/5 dark:bg-white/5 text-foreground dark:text-white border-foreground/10 dark:border-white/10 hover:bg-foreground hover:text-background dark:hover:bg-white dark:hover:text-black",
-                  plan.slug === "premium" && "bg-[#1FAE6D] text-black border-[#1FAE6D] hover:bg-[#168a57] hover:border-[#168a57] shadow-xl shadow-[#1FAE6D]/20",
-                  plan.slug === "premium_ia" && "bg-transparent text-[#D4AF6A] border-[#D4AF6A]/40 hover:bg-[#D4AF6A] hover:text-black dark:hover:text-black",
-                )}
-                variant="ghost"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {plan.slug === "free" ? "Começar Agora" : "Assinar Agora"}
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                </span>
-                {plan.highlighted && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shimmer_3s_infinite] pointer-events-none" />
-                )}
-              </Button>
-            </div>
-          ))}
-        </div>
+         <div className="grid gap-8 md:grid-cols-3 lg:max-w-7xl lg:mx-auto">
+           {basePlans.map((plan: PricingPlan) => (
+             <div
+               key={plan.slug}
+               onClick={() => setCheckoutPlan(plan.slug)}
+               className={cn(
+                 "interactive-card flex flex-col rounded-[2rem] p-8 border border-border bg-card transition-all duration-300",
+                 plan.highlighted && "border-primary ring-1 ring-primary/20 scale-105 z-10 shadow-xl shadow-primary/5",
+                 !plan.highlighted && "hover:border-primary/50 shadow-sm"
+               )}
+               tabIndex={0}
+               role="button"
+               aria-label={`Plano ${plan.name}: ${plan.description}`}
+             >
+               {plan.highlighted && (
+                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
+                   Recomendado
+                 </div>
+               )}
+               
+               <div className="mb-8">
+                 <h3 className="text-xl font-bold text-foreground">{plan.name}</h3>
+                 <p className="mt-1 text-sm font-medium text-secondary-foreground">{plan.description}</p>
+               </div>
+ 
+               <div className="mb-8">
+                 <div className="flex items-baseline gap-1">
+                   <span className="text-4xl font-extrabold tracking-tight text-foreground tabular">
+                     {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
+                   </span>
+                   <span className="text-sm font-medium text-secondary-foreground">/mês</span>
+                 </div>
+                 {isYearly && plan.monthly > 0 && (
+                   <p className="mt-2 text-xs font-semibold text-primary">
+                     Economize {formatCurrency((plan.monthly - plan.yearly) * 12)} por ano
+                   </p>
+                 )}
+               </div>
+ 
+               <div className="h-px w-full bg-border mb-8" />
+ 
+               <ul className="flex-1 space-y-4 mb-8">
+                 {plan.features.map((feature: string) => (
+                   <li key={feature} className="flex items-start gap-3 text-sm">
+                     <div className={cn(
+                       "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
+                       plan.highlighted ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
+                     )}>
+                       <Check className="size-3" />
+                     </div>
+                     <span className="font-medium text-foreground/90">{feature}</span>
+                   </li>
+                 ))}
+               </ul>
+ 
+               <Button
+                 onClick={(e) => {
+                   e.stopPropagation();
+                   setCheckoutPlan(plan.slug);
+                 }}
+                 className={cn(
+                   "h-12 w-full rounded-full text-sm font-semibold transition-all active:scale-95",
+                   plan.highlighted 
+                     ? "bg-primary text-primary-foreground hover:opacity-90" 
+                     : "bg-secondary text-foreground hover:bg-border"
+                 )}
+                 variant="ghost"
+               >
+                 {plan.slug === "free" ? "Começar Agora" : "Assinar Agora"}
+               </Button>
+             </div>
+           ))}
+         </div>
       </div>
 
       <CheckoutDialog
