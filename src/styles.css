@@ -481,7 +481,8 @@ body::-webkit-scrollbar {
 }
 
 
-
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; filter: blur(120px); }
   50% { opacity: 0.8; filter: blur(140px); }
 }
 
