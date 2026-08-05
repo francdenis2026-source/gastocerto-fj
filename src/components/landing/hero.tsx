@@ -19,7 +19,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[60svh] lg:min-h-[75svh] items-center overflow-hidden bg-background pt-24 pb-12 lg:pt-32"
+      className="relative isolate flex min-h-[60svh] lg:min-h-[75svh] items-center overflow-hidden bg-[#001640] pt-24 pb-12 lg:pt-32"
     >
       {/* 1. FUNDO DO HERO (Foto Real + Overlay) */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
@@ -31,7 +31,7 @@ export function Hero() {
         />
         
         {/* Overlay em Gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512] via-[#0A1512]/95 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#001640] via-[#001640]/95 to-transparent" />
         
         {/* Gradiente radial verde sutil */}
         <div 
@@ -57,7 +57,7 @@ export function Hero() {
           {/* CTA E MICROCOPY */}
           <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row lg:justify-start w-full">
             <Button
-              className="cta-lift group relative h-12 w-full sm:w-auto rounded-lg bg-[#1FAE6D] px-8 text-[14px] font-bold text-[#0A1512] shadow-[0_0_30px_-5px_rgba(31,174,109,0.3)] hover:shadow-[0_0_40px_-5px_rgba(31,174,109,0.4)] transition-all overflow-hidden"
+              className="cta-lift group relative h-12 w-full sm:w-auto rounded-lg bg-[#1FAE6D] px-8 text-[14px] font-bold text-[#001640] shadow-[0_0_30px_-5px_rgba(31,174,109,0.3)] hover:shadow-[0_0_40px_-5px_rgba(31,174,109,0.4)] transition-all overflow-hidden"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
