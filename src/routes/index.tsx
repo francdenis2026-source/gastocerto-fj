@@ -1,27 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LandingHeader } from "@/components/landing/landing-header";
-import { Hero } from "@/components/landing/hero";
-import { CompactOverview } from "@/components/landing/compact-overview";
-import { Benefits } from "@/components/landing/benefits";
-import { HowItWorks } from "@/components/landing/how-it-works";
-import { Pricing } from "@/components/landing/pricing";
-import { Faq } from "@/components/landing/faq";
-import { LandingFooter } from "@/components/landing/landing-footer";
-import { cn } from "@/lib/utils";
+import { SiteNav } from "@/components/site/site-nav";
+import { SiteHero } from "@/components/site/site-hero";
+import { SiteCapabilities } from "@/components/site/site-capabilities";
+import { SiteMethod } from "@/components/site/site-method";
+import { SiteAssurance } from "@/components/site/site-assurance";
+import { SitePlans } from "@/components/site/site-plans";
+import { SiteQuestions } from "@/components/site/site-questions";
+import { SiteClosing } from "@/components/site/site-closing";
+import { SiteFooter } from "@/components/site/site-footer";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
-    title: "GastoCerto — Controle financeiro com experiência de app",
     meta: [
+      { title: "GastoCerto — Cada real no lugar certo, todo mês" },
       {
         name: "description",
-        content: "Organize suas finanças com uma experiência fluida de aplicativo: dashboard inteligente, metas, Espaço Kids e insights com IA no GastoCerto.",
+        content:
+          "Painel de finanças pessoais com contas, cartões, combustível, gás, metas e balanço anual. Clareza total sobre o seu dinheiro, sem planilhas.",
       },
-      { property: "og:title", content: "GastoCerto | Controle financeiro premium" },
+      { property: "og:title", content: "GastoCerto — Cada real no lugar certo" },
       {
         property: "og:description",
-        content: "Plataforma de gestão financeira pessoal com interface refinada, microinterações e segurança de nível bancário.",
+        content:
+          "Organize receitas, despesas, cartões e contas fixas em um só painel. Projeções confiáveis e histórico auditável.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -31,20 +33,18 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className={cn(
-      "min-h-dvh w-full max-w-full overflow-x-hidden bg-[#020617] font-sans",
-      "selection:bg-primary/20 selection:text-primary antialiased scroll-smooth"
-    )}>
-      <LandingHeader />
+    <div className="min-h-dvh w-full max-w-full overflow-x-hidden bg-navy-800 font-sans antialiased selection:bg-primary/25 selection:text-bone-100">
+      <SiteNav />
       <main className="flex flex-col">
-        <Hero />
-        <Benefits />
-        <HowItWorks />
-        <CompactOverview />
-        <Pricing />
-        <Faq />
+        <SiteHero />
+        <SiteCapabilities />
+        <SiteMethod />
+        <SiteAssurance />
+        <SitePlans />
+        <SiteQuestions />
+        <SiteClosing />
       </main>
-      <LandingFooter />
+      <SiteFooter />
     </div>
   );
 }
