@@ -237,12 +237,12 @@ export function Benefits() {
                 Tome o controle estratégico hoje.
               </h2>
               <p className="mt-6 text-base sm:text-lg font-medium text-white/60">
-                Junte-se à elite da gestão financeira e automatize seu futuro.
+                Junte-se à elite da gestão financeira e automatize seu futuro com a engenharia GastoCerto.
               </p>
-              <div className="mt-8 flex justify-center">
+              <div className="mt-10 flex justify-center">
                 <Button
                   asChild
-                  className="group relative h-11 rounded-lg bg-emerald-500 px-8 text-[14px] font-black text-[#0A1512] transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(31,174,109,0.5)]"
+                  className="group relative h-14 rounded-2xl bg-[#1FAE6D] px-10 text-[15px] font-black uppercase tracking-wider text-black transition-all hover:bg-[#24c77d] hover:scale-105 active:scale-95 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
                 >
                   <Link to="/auth" search={{ mode: "signup" }}>
                     Começar Grátis Agora
