@@ -16,8 +16,8 @@ export function PageBackground() {
         
         {/* Camada de Gradiente Estratégico para Acessibilidade (Contraste de Texto) */}
         {/* Escurece as áreas onde o texto costuma ficar para garantir WCAG AA/AAA */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/40 via-[#0A1512]/20 to-[#0A1512]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512]/60 via-transparent to-[#0A1512]/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/60 via-[#1FAE6D]/5 to-[#0A1512]/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512]/40 via-[#1FAE6D]/2 to-[#0A1512]/40" />
       </div>
       
       {/* Textura de Grão para Aspeto Premium */}
