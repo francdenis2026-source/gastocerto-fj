@@ -63,7 +63,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       >
 
 
-        <div className="section-shell flex h-14 items-center justify-between gap-2 sm:gap-4">
+        <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group" />
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-2 lg:flex">
