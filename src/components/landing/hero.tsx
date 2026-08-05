@@ -25,12 +25,12 @@ export function Hero() {
       id="inicio"
       className="relative isolate flex min-h-dvh items-center overflow-hidden"
     >
-      {/* 1. FUNDO DO HERO (Foto Real) */}
+      {/* 1. FUNDO DO HERO (Foto Real Otimizada) */}
       <div className="absolute inset-0 -z-20">
         <img 
-          src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=2670&auto=format&fit=crop" 
           alt="" 
-          className="h-full w-full object-cover brightness-[0.6] contrast-[1.2]"
+          className="h-full w-full object-cover brightness-[0.55] contrast-[1.1] scale-105"
         />
 
 
