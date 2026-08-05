@@ -83,7 +83,13 @@ export function Pricing() {
   return (
     <section id="planos" className="section-y relative overflow-hidden md:block">
       <div className="md:hidden section-shell mb-8">
-        <div className="rounded-[1.5rem] border border-white/5 p-6 shadow-2xl backdrop-blur-md bg-white/[0.03]">
+        <div 
+          className="rounded-[1.5rem] border border-white/5 p-6 shadow-2xl backdrop-blur-md bg-white/[0.03] cursor-pointer hover:bg-white/[0.05] transition-all"
+          onClick={() => {
+            setCheckoutPlan("premium_ia");
+            setIsYearly(true);
+          }}
+        >
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-xl font-bold">Premium+ IA</h3>
@@ -144,8 +150,9 @@ export function Pricing() {
           {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}
+              onClick={() => setCheckoutPlan(plan.slug)}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden",
+                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden cursor-pointer group",
                 "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",
                 plan.highlighted 
                   ? "ring-2 ring-emerald-500/50 shadow-[0_0_50px_-15px_rgba(31,174,109,0.3)] z-10 bg-black/60" 

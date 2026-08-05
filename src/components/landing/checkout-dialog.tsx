@@ -206,12 +206,29 @@ export function CheckoutDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <ShieldCheck className="size-4 text-brand" aria-hidden="true" />
-            {step === "done" ? "Pagamento confirmado" : "Assinar o GastoCerto"}
-          </DialogTitle>
+      <DialogContent className="max-h-[95dvh] max-w-2xl overflow-y-auto p-0 border-white/10 bg-[#0A1512] shadow-2xl">
+        {step === "plan" && (
+          <div className="relative h-48 w-full overflow-hidden sm:h-64">
+            <img 
+              src={plan.slug === 'premium_ia' ? "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop" : "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"} 
+              alt={plan.name}
+              className="h-full w-full object-cover brightness-[0.4]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1512] to-transparent" />
+            <div className="absolute bottom-6 left-8">
+              <Badge className="mb-2 bg-emerald-500 text-black font-black uppercase tracking-widest">{plan.recommended ? 'Recomendado' : 'Plano Selecionado'}</Badge>
+              <h2 className="text-3xl font-black text-white">{plan.name}</h2>
+              <p className="text-white/60 font-medium">{plan.tagline}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="p-6 sm:p-8">
+          <DialogHeader className={cn(step === 'plan' && 'sr-only')}>
+            <DialogTitle className="flex items-center gap-2">
+              <ShieldCheck className="size-4 text-brand" aria-hidden="true" />
+              {step === "done" ? "Pagamento confirmado" : "Assinar o GastoCerto"}
+            </DialogTitle>
           <DialogDescription>
             {step === "plan"
               ? "Escolha o plano e o ciclo de cobrança."
