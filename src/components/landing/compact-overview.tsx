@@ -188,14 +188,16 @@ export function CompactOverview() {
   return (
     <section id="recursos" className="relative section-y overflow-hidden">
       <div className="section-shell relative z-10">
-        <Reveal className="text-center mb-10">
-          <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            Ecossistema Completo
-          </p>
-          <h2 className="mt-1 section-title">Controle Absoluto</h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            Uma plataforma de engenharia financeira desenhada para quem busca precisão, segurança e automação inteligente no dia a dia.
+        <Reveal className="text-center mb-12">
+          <div className="flex justify-center mb-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand">
+              <Sparkles className="size-3.5" />
+              Recursos de Próxima Geração
+            </span>
+          </div>
+          <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Infraestrutura Financeira</h2>
+          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
+            Uma engenharia desenhada para quem busca precisão, segurança e automação inteligente no dia a dia.
           </p>
         </Reveal>
 
@@ -225,9 +227,9 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-3xl p-6 bg-white/[0.02] border border-white/[0.05] transition-all hover:bg-white/[0.04] hover:border-white/[0.08]"
+                  className="rounded-[2rem] p-8 bg-white/[0.03] border border-white/[0.08] transition-all hover:bg-white/[0.06] hover:border-brand/20 shadow-xl"
                 >
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
+                  <p className="text-[12px] font-black uppercase tracking-[0.25em] text-brand mb-6 border-b border-brand/10 pb-4">
                     {group.group}
                   </p>
                   <ul className="grid gap-2">

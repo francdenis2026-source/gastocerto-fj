@@ -107,9 +107,9 @@ export function Pricing() {
       {/* Foto de Fundo em Baixa Opacidade */}
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="section-title">Planos Estratégicos</h2>
-          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">Estrutura de custos otimizada para diferentes níveis de complexidade financeira.</p>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Planos Estratégicos</h2>
+          <p className="mt-4 text-base text-muted-foreground leading-relaxed font-medium">Estrutura de custos otimizada para diferentes níveis de complexidade financeira.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
@@ -160,8 +160,8 @@ export function Pricing() {
               )}
               
               <div className="mb-5">
-                <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-                <p className="mt-1 text-xs text-muted-foreground">{plan.description}</p>
+                <h3 className="text-2xl font-black text-white">{plan.name}</h3>
+                <p className="mt-2 text-[13px] text-muted-foreground font-medium">{plan.description}</p>
               </div>
 
               <div className="mb-4">
@@ -185,10 +185,10 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "h-11 w-full rounded-lg text-[13px] font-bold transition-all active:scale-[0.98] group",
+                  "h-14 w-full rounded-2xl text-[14px] font-black uppercase tracking-wider transition-all active:scale-[0.98] group",
                   plan.highlighted
-                    ? "bg-emerald-500 text-[#0A1512] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
-                    : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    ? "bg-[#1FAE6D] text-black hover:bg-[#24c77d] shadow-[0_15px_30px_-10px_rgba(31,174,109,0.4)]"
+                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
               >

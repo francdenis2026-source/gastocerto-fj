@@ -128,9 +128,9 @@ export function Benefits() {
       {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
       <section id="recursos-detalhes" className="section-y relative z-10 border-t border-white/[0.03]">
         <div className="section-shell">
-          <Reveal className="text-center mx-auto max-w-2xl mb-16">
-            <h2 className="section-title">Infraestrutura Financeira</h2>
-            <p className="mt-4 text-muted-foreground leading-relaxed">Arquitetura de dados resiliente para gestão de alta performance.</p>
+          <Reveal className="text-center mx-auto max-w-3xl mb-16">
+            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Arquitetura de Dados</h2>
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed font-medium">Arquitetura de dados resiliente para gestão de alta performance e precisão absoluta.</p>
           </Reveal>
 
           <div className="grid gap-8">
@@ -146,9 +146,9 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="group relative flex w-full flex-col items-start rounded-xl p-5 text-left transition-all hover:bg-card/10 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98] border border-white/[0.03]">
-                          <div className="mb-3 grid size-10 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-[#001640]">
-                            <item.icon className="size-5" />
+                        <button className="group relative flex w-full flex-col items-start rounded-[2rem] p-7 text-left transition-all bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.05] hover:border-brand/30 hover:shadow-[0_32px_64px_-24px_rgba(0,0,0,0.8)] active:scale-[0.98]">
+                          <div className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-black">
+                            <item.icon className="size-6" />
                           </div>
                           <div className="flex w-full items-center justify-between">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80">{item.tag}</span>
@@ -223,29 +223,26 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl">
+          <Reveal className="relative overflow-hidden rounded-[3rem] px-8 py-16 text-center shadow-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
             {/* Foto Real de Fundo - Removida para limpar o visual */}
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-              <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />
-              {/* REMOVED GRID PATTERN */}
-              <svg className="absolute bottom-0 left-0 w-full h-24 opacity-[0.05] text-emerald-500" preserveAspectRatio="none" viewBox="0 0 1200 120">
-                <path d="M0 0l48.8 33.3C97.7 66.7 195 133.3 293 150c97.7 16.7 195.3-16.7 293-33.3 97.7-16.7 195.3 0 293 16.7 97.7 16.7 195.3 0 244-8.3l48.7-8.4V120H0V0z" fill="currentColor" />
-              </svg>
+              <div className="absolute -right-24 -top-24 size-96 rounded-full bg-brand/10 blur-[100px] animate-pulse-glow" />
+              <div className="absolute -left-24 -bottom-24 size-96 rounded-full bg-brand/5 blur-[120px]" />
             </div>
 
-            <div className="relative z-10 mx-auto max-w-2xl">
-              <h2 className="text-2xl font-black text-white sm:text-3xl tracking-tight">
+            <div className="relative z-10 mx-auto max-w-3xl">
+              <h2 className="text-3xl font-black text-white sm:text-4xl lg:text-5xl tracking-tight leading-[0.95]">
                 Tome o controle estratégico hoje.
               </h2>
-              <p className="mt-2 text-[15px] font-medium text-muted-foreground">
-                Junte-se à elite da gestão financeira e automatize seu futuro.
+              <p className="mt-6 text-base sm:text-lg font-medium text-white/60">
+                Junte-se à elite da gestão financeira e automatize seu futuro com a engenharia GastoCerto.
               </p>
-              <div className="mt-8 flex justify-center">
+              <div className="mt-10 flex justify-center">
                 <Button
                   asChild
-                  className="group relative h-11 rounded-lg bg-emerald-500 px-8 text-[14px] font-black text-[#0A1512] transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(31,174,109,0.5)]"
+                  className="group relative h-14 rounded-2xl bg-[#1FAE6D] px-10 text-[15px] font-black uppercase tracking-wider text-black transition-all hover:bg-[#24c77d] hover:scale-105 active:scale-95 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
                 >
                   <Link to="/auth" search={{ mode: "signup" }}>
                     Começar Grátis Agora
