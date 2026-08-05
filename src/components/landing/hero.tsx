@@ -57,7 +57,7 @@ export function Hero() {
           {/* CTA E MICROCOPY */}
           <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row lg:justify-start w-full">
             <Button
-              className="cta-lift group relative h-14 w-full sm:w-auto rounded-xl bg-gradient-to-b from-[#22C55E] to-[#4ADE80] px-8 text-[15px] font-bold text-[#0B1F1A] shadow-[0_0_30px_-5px_rgba(34,197,94,0.3)] hover:shadow-[0_0_40px_-5px_rgba(34,197,94,0.4)] transition-all overflow-hidden"
+              className="cta-lift group relative h-12 w-full sm:w-auto rounded-lg bg-[#1FAE6D] px-8 text-[14px] font-bold text-[#0A1512] shadow-[0_0_30px_-5px_rgba(31,174,109,0.3)] hover:shadow-[0_0_40px_-5px_rgba(31,174,109,0.4)] transition-all overflow-hidden"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
@@ -70,7 +70,7 @@ export function Hero() {
             </Button>
             <Button
               variant="outline"
-              className="h-14 w-full sm:w-auto rounded-xl border-white/10 bg-white/5 px-8 text-[15px] font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 group/play"
+              className="h-12 w-full sm:w-auto rounded-lg border-white/10 bg-white/5 px-8 text-[14px] font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 group/play"
             >
               <div className="mr-3 flex size-6 items-center justify-center rounded-full bg-white/10 transition-transform group-hover/play:scale-110">
                 <Play size={12} className="fill-white ml-0.5" />

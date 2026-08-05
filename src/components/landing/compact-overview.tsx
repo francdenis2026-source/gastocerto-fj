@@ -401,7 +401,7 @@ export function CompactOverview() {
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
                 <Reveal key={faq.q} delay={index * 50}>
-                  <AccordionItem value={`faq-${index}`} className="border-border/60">
+                  <AccordionItem value={`faq-${index}`} className="border-border/60 bg-[#10201B]/30 px-4 rounded-xl mb-1 last:mb-0">
                     <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
                       {faq.q}
                     </AccordionTrigger>
