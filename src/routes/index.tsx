@@ -80,7 +80,7 @@ function LandingPage() {
         {/* nao mudou nada na homepage da versao mobile */}
       </div>
 
-      <PageBackground />
+      
       <LandingHeader />
       <main id="conteudo" tabIndex={-1} className="relative flex-1 outline-none">
         <Hero />
