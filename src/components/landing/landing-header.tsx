@@ -67,7 +67,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         <div className="section-shell flex h-24 items-center justify-between gap-2 sm:gap-4 transition-all duration-500">
           <Logo onDark={!scrolled} href="#inicio" className="group shrink-0 py-1" />
 
-          <nav aria-label="Navegação principal" className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
+          <nav aria-label="Navegação principal" className="ml-auto mr-auto hidden min-w-0 items-center gap-0.5 pl-6 lg:flex xl:gap-1">
             {navItems.map((item) => {
               const isActive = active === item.href;
               return (
