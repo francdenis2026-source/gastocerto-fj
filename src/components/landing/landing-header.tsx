@@ -60,7 +60,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           "fixed inset-x-0 z-[1000] transition-all duration-500 top-0",
           scrolled
             ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_20px_50px_rgba(0,0,0,0.5)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem]"
-            : "border-b border-white/10 bg-[#0A1512] text-foreground shadow-lg isolate",
+            : "border-b border-white/10 bg-[#0A1512] text-foreground shadow-lg isolate !opacity-100",
         )}
       >
 
