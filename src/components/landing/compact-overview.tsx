@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Baby,
   Banknote,
@@ -144,6 +144,24 @@ const tabMeta: Record<TabValue, { label: string; description: string }> = {
 
 export function CompactOverview() {
   const [tab, setTab] = useState<TabValue>("recursos");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const cards = containerRef.current.querySelectorAll('.interactive-card');
+      cards.forEach((card) => {
+        const rect = (card as HTMLElement).getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+        (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const sync = () => {
@@ -156,7 +174,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="recursos" className="relative section-y overflow-hidden">
+    <section id="recursos" ref={containerRef} className="relative section-y overflow-hidden">
       <div className="section-shell relative z-10">
         <Reveal className="text-center mb-12">
           <div className="flex justify-center mb-4">
