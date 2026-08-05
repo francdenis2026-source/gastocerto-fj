@@ -30,8 +30,9 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
           alt="" 
-          className="h-full w-full object-cover brightness-[0.5] contrast-[1.15]"
+          className="h-full w-full object-cover brightness-[0.6] contrast-[1.2]"
         />
+
 
 
 
