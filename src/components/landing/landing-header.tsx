@@ -57,10 +57,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <header
         className={cn(
-          "fixed inset-x-0 z-[1000] transition-all duration-700 top-0",
+          "fixed inset-x-0 z-[1000] transition-all duration-700 top-0 motion-reduce:transition-none",
           scrolled
-            ? "glass-morphism border-b border-emerald-500/30 text-foreground shadow-[0_30px_60px_rgba(0,0,0,0.6)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] translate-y-2 scale-[0.985]"
-            : "bg-[#0A1512] text-foreground shadow-2xl isolate !opacity-100",
+            ? "glass-morphism border-b-[2px] border-emerald-500/40 text-foreground shadow-[0_40px_80px_rgba(0,0,0,0.7)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] translate-y-2 scale-[0.985] motion-reduce:translate-y-0 motion-reduce:scale-100"
+            : "bg-[#0A1512] text-foreground shadow-2xl isolate !opacity-100 border-b border-white/5",
         )}
       >
 
@@ -148,15 +148,18 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className={cn("lg:hidden rounded-xl border-white/10 bg-white/5 text-white active:scale-95", !scrolled && "border-white/20 bg-white/10")}
-
+                className={cn(
+                  "lg:hidden z-[1001] rounded-xl border-white/10 bg-white/5 text-white active:scale-95 transition-all",
+                  !scrolled && "border-white/20 bg-white/10",
+                  open && "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                )}
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
                 onClick={() => setOpen((v) => !v)}
               >
-                {open ? <X className="size-4" /> : <Menu className="size-4" />}
+                {open ? <X className="size-5" /> : <Menu className="size-5" />}
               </Button>
             </>
           )}
@@ -164,53 +167,51 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       </div>
 
-      {open && (
-        <div className="fixed inset-x-0 top-[4.5rem] z-[100] mx-2 mt-2 rounded-[1.5rem] border border-emerald-500/30 bg-background/95 p-2 shadow-2xl backdrop-blur-md lg:hidden sm:mx-4 sm:top-[5.5rem]">
-          <nav aria-label="Navegação móvel" className="section-shell flex flex-col py-3">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={active === item.href ? "location" : undefined}
-                onClick={(event) => handleAnchorClick(event, item.href, () => setOpen(false))}
-                className={cn(
-                  "flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  active === item.href
-                    ? "bg-accent text-foreground font-bold"
-                    : "text-[oklch(0.25_0.04_259)] dark:text-muted-foreground",
-                )}
-              >
-                {item.label}
-              </a>
-            ))}
-            <div className="mt-3 grid gap-2">
-              <div className="flex items-center gap-2">
-                <Button variant="outline" className="flex-1" asChild>
-                  <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
-                </Button>
-                <Button className="flex-1" asChild>
-                  <a
-                    href="#planos"
-                    onClick={(event) => handleAnchorClick(event, "#planos", () => setOpen(false))}
-                  >
-                    Começar
-                  </a>
-                </Button>
-              </div>
-              <div className="flex items-center justify-between gap-2 rounded-lg border border-border bg-accent/30 p-2">
-                <span className="text-xs font-semibold text-[oklch(0.25_0.04_259)] dark:text-muted-foreground">Alternar tema</span>
-                <ThemeToggle className="h-9 w-9" />
-              </div>
-              <CodeAccessDialog>
-                <Button variant="ghost" className="w-full justify-center text-xs">
-                  <KeyRound className="size-3.5" aria-hidden />
-                  Código de acesso
-                </Button>
-              </CodeAccessDialog>
-            </div>
-          </nav>
-        </div>
-      )}
+      <div 
+        className={cn(
+          "fixed inset-x-0 top-0 z-[900] flex flex-col items-center justify-center bg-[#0A1512]/98 transition-all duration-500 lg:hidden",
+          open ? "h-screen opacity-100 visible" : "h-0 opacity-0 invisible overflow-hidden"
+        )}
+      >
+        <nav aria-label="Navegação móvel" className="flex flex-col items-center gap-8 px-6 text-center">
+          {navItems.map((item, index) => (
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={active === item.href ? "location" : undefined}
+              onClick={(event) => handleAnchorClick(event, item.href, () => setOpen(false))}
+              className={cn(
+                "text-2xl font-bold tracking-tighter transition-all duration-300 hover:text-emerald-400",
+                active === item.href
+                  ? "text-emerald-500 scale-110"
+                  : "text-white/70",
+                open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              )}
+              style={{ transitionDelay: `${index * 50}ms` }}
+            >
+              {item.label}
+            </a>
+          ))}
+          
+          <div className={cn(
+            "mt-8 flex flex-col gap-4 w-full max-w-xs transition-all duration-500 delay-200",
+            open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+          )}>
+            <Button size="lg" className="w-full h-14 text-base font-bold rounded-2xl bg-[#1FAE6D] text-black" asChild>
+              <Link to="/auth" search={{ mode: "signup" }} onClick={() => setOpen(false)}>Começar Agora</Link>
+            </Button>
+            <Button variant="outline" size="lg" className="w-full h-14 text-base font-bold rounded-2xl border-white/10 text-white" asChild>
+              <Link to="/auth" search={{ mode: "login" }} onClick={() => setOpen(false)}>Entrar</Link>
+            </Button>
+            <CodeAccessDialog>
+              <Button variant="ghost" className="w-full text-white/50 py-4" onClick={() => setOpen(false)}>
+                <KeyRound className="size-4 mr-2" aria-hidden />
+                Acesso Restrito
+              </Button>
+            </CodeAccessDialog>
+          </div>
+        </nav>
+      </div>
     </header>
     
     </>
