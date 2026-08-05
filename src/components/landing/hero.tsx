@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Suspense, lazy } from "react";
 import {
+  ArrowDownRight,
   ArrowRight,
+  ArrowUpRight,
   Play,
   Sparkles,
   Users,
@@ -98,7 +100,7 @@ export function Hero() {
 
         {/* 2. COMPOSIÇÃO - PRODUTO (55%) */}
         <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
-          <div className="relative perspective-2000 group/mockup scale-90 lg:scale-95 origin-center">
+          <div className="relative perspective-2000 group/mockup scale-85 lg:scale-90 origin-center">
             {/* Mockup do Dashboard */}
             <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#0F1B16]/60 p-1 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6),0_0_40px_-20px_rgba(31,174,109,0.2)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
               <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
@@ -114,15 +116,31 @@ export function Hero() {
               </div>
             </div>
             
-            {/* 1 Card Flutuante de Destaque */}
-            <div className="absolute -left-6 top-20 hidden xl:block animate-float">
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-2xl ring-1 ring-white/5">
+            {/* Painel Flutuante de Destaque - Refatorado */}
+            <div className="absolute -left-8 top-1/4 hidden xl:block animate-float">
+              <div className="rounded-xl border border-white/20 bg-emerald-500/10 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/10 transition-all duration-300 hover:scale-105 hover:bg-emerald-500/20">
                 <div className="flex items-center gap-3">
-                  <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
-                    <Sparkles size={16} />
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-[#1FAE6D] text-[#001640]">
+                    <Sparkles size={18} fill="currentColor" />
                   </div>
-                  <div>
-                    <p className="text-[14px] font-bold text-white">+12% economia</p>
+                  <div className="flex flex-col">
+                    <p className="text-[11px] font-bold tracking-wider uppercase text-emerald-400/80">Meta Mensal</p>
+                    <p className="text-[15px] font-bold text-white leading-none mt-0.5">92% concluída</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Segundo Painel Flutuante - Lado Oposto */}
+            <div className="absolute -right-6 bottom-1/4 hidden xl:block animate-float" style={{ animationDelay: '1s' }}>
+              <div className="rounded-xl border border-white/20 bg-white/5 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/10 transition-all duration-300 hover:scale-105 hover:bg-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-white/10 text-white">
+                    <ArrowUpRight size={18} />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-[11px] font-bold tracking-wider uppercase text-[#9CA8A3]">Saldo Hoje</p>
+                    <p className="text-[15px] font-bold text-white tabular leading-none mt-0.5">{formatCurrency(12450.80)}</p>
                   </div>
                 </div>
               </div>
