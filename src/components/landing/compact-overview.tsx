@@ -176,7 +176,7 @@ export function CompactOverview() {
   return (
     <section id="recursos" ref={containerRef} className="relative section-y overflow-hidden">
       <div className="section-shell relative z-10">
-        <Reveal className="text-center mb-12">
+        <Reveal className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand transition-all hover:scale-110 hover:bg-brand/10 cursor-default">
               <Sparkles className="size-3.5 animate-pulse" />
@@ -210,12 +210,12 @@ export function CompactOverview() {
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-8 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2">
               {featureGroups.map((group, groupIndex) => (
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[2.5rem] p-10 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm group"
+                  className="interactive-card rounded-[2rem] p-8 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm group"
                   tabIndex={0}
                   role="button"
                   aria-label={`Grupo de recursos: ${group.group}`}
