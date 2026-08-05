@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        BARRA DE ANÚNCIO REMOVIDA E IMAGEM DE FUNDO ORIGINAL RESTAURADA E AJUSTADA COM BRILHO E CONTRASTE IDEAIS.
+        HEADER OTIMIZADO COM MELHOR ESPAÇAMENTO, TIPOGRAFIA REFORÇADA E ELEMENTOS PROFISSIONAIS.
       </div>
 
 
