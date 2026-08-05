@@ -19,12 +19,12 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[95svh] items-center overflow-hidden bg-[#0A1210] pt-32 pb-20 lg:pt-40"
+      className="relative isolate flex min-h-[95svh] items-center overflow-hidden bg-background pt-32 pb-20 lg:pt-40"
     >
       {/* 1. FUNDO DO HERO (Abstrato/Digital) */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
         {/* Gradiente profundo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1210] to-[#0F1B16]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background to-surface" />
         
         {/* Gradiente radial verde sutil atrás do produto com pulsação */}
         <div 
@@ -54,7 +54,7 @@ export function Hero() {
               Controle financeiro<br />
               <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">inteligente.</span>
             </h1>
-            <p className="max-w-xl text-[18px] font-medium leading-[1.6] text-[#9CA8A3] sm:text-xl">
+            <p className="max-w-xl text-[18px] font-medium leading-[1.6] text-muted-foreground sm:text-xl">
               Organize seus gastos e o futuro da sua família com uma plataforma técnica e poderosa feita para quem exige precisão.
             </p>
           </div>
@@ -62,7 +62,7 @@ export function Hero() {
           {/* CTA E MICROCOPY */}
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row lg:justify-start w-full">
             <Button
-              className="cta-lift group relative h-14 w-full sm:w-auto rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 px-8 text-[15px] font-bold text-[#0A1210] shadow-[0_0_30px_-5px_rgba(34,197,94,0.3)] hover:shadow-[0_0_40px_-5px_rgba(34,197,94,0.4)] transition-all overflow-hidden"
+              className="cta-lift group relative h-14 w-full sm:w-auto rounded-xl bg-gradient-to-b from-[#22C55E] to-[#4ADE80] px-8 text-[15px] font-bold text-[#0B1F1A] shadow-[0_0_30px_-5px_rgba(34,197,94,0.3)] hover:shadow-[0_0_40px_-5px_rgba(34,197,94,0.4)] transition-all overflow-hidden"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>
@@ -88,7 +88,7 @@ export function Hero() {
           <div className="mt-10 flex items-center gap-4 animate-in fade-in duration-1000 delay-300">
             <div className="flex -space-x-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="size-9 rounded-full border-2 border-[#0A1210] bg-[#1a2e26] ring-1 ring-white/5 overflow-hidden">
+                <div key={i} className="size-9 rounded-full border-2 border-background bg-surface ring-1 ring-white/5 overflow-hidden">
                   <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="User avatar" className="opacity-80" />
                 </div>
               ))}
@@ -105,7 +105,7 @@ export function Hero() {
           <div className="relative perspective-2000 group/mockup">
             {/* Mockup do Dashboard com Perspectiva 3D e Parallax leve no Hover */}
             <div className="relative rotate-y-[-10deg] rotate-x-[5deg] skew-y-[2deg] rounded-2xl border border-white/10 bg-[#0F1B16]/60 p-1.5 shadow-[0_60px_100px_-20px_rgba(0,0,0,0.6),0_0_80px_-20px_rgba(34,197,94,0.2)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-5deg] group-hover/mockup:rotate-x-[2deg] group-hover/mockup:skew-y-[1deg]">
-              <div className="overflow-hidden rounded-xl bg-[#0A1210] shadow-2xl">
+              <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
                 {/* Minimalist Browser Frame */}
                 <div className="flex items-center gap-1.5 border-b border-white/5 bg-white/5 px-4 py-2.5">
                   <div className="size-2 rounded-full bg-white/10" />
@@ -126,7 +126,7 @@ export function Hero() {
                     <Sparkles size={18} />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA8A3]">Sugestão IA</p>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Sugestão IA</p>
                     <p className="text-[15px] font-bold text-white">+12% economia</p>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export function Hero() {
             <div className="absolute -right-6 bottom-20 hidden xl:block animate-float" style={{ animationDelay: '1.5s' }}>
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-2xl ring-1 ring-white/5">
                 <div className="flex flex-col gap-1">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA8A3]">Patrimônio</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Patrimônio</p>
                   <p className="font-mono text-xl font-bold tracking-tight text-white tabular-nums">
                     {formatCurrency(142650.00)}
                   </p>
