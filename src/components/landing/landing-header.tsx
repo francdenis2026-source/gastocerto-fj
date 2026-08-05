@@ -73,7 +73,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           "fixed inset-x-0 z-50 transition-all duration-300",
           announcementVisible ? "top-7" : "top-0",
           scrolled
-            ? "border-b border-white/5 bg-background/40 text-foreground backdrop-blur-2xl shadow-sm"
+            ? "glass-morphism border-b border-white/5 text-foreground shadow-lg"
             : "border-b border-transparent bg-transparent text-hero-fg",
         )}
       >
