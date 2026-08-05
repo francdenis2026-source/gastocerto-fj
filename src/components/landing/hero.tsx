@@ -10,8 +10,10 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
+
 
 const DashboardPreview = lazy(() =>
   import("@/components/landing/dashboard-preview").then((m) => ({ default: m.DashboardPreview })),
