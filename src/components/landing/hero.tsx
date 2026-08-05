@@ -65,7 +65,7 @@ export function Hero() {
           </Reveal>
 
           {/* Right Column: Cinematic Mockups */}
-          <div className="relative lg:h-[600px] flex items-center justify-center">
+          <div className="relative flex items-center justify-center pb-12 sm:pb-16 lg:pb-0">
             <Reveal delay={200} className="relative z-10 w-full">
               {/* Main Laptop Mockup */}
               <div className="relative w-full max-w-[800px] mx-auto group perspective-1000">
