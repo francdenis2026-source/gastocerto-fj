@@ -1089,7 +1089,11 @@ function DashboardPage() {
       <ExpenseCardsDialog open={cardsOpen} onOpenChange={setCardsOpen} />
       <DependentExpenseDialog open={dependentOpen} onOpenChange={setDependentOpen} />
       <TaxQuickDialog open={taxOpen} onOpenChange={setTaxOpen} />
-      <InteractiveCalendar open={calendarOpen} onOpenChange={setCalendarOpen} onSelectDate={(d) => openDayDetail(d.getDate())} />
+      <InteractiveCalendar 
+        open={calendarOpen} 
+        onOpenChange={setCalendarOpen} 
+        onDayClick={(day: number) => openDayDetail(day)} 
+      />
     </AppShell>
   );
 }
