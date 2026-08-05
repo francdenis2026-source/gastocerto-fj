@@ -108,8 +108,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               size="icon"
               aria-label="Entrar com código de teste"
               className={cn(
-                "lg:hidden",
-                !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
+                "lg:hidden rounded-xl border-white/10 bg-white/5 text-white transition-all active:scale-95",
+                !scrolled && "border-white/20 bg-white/10",
               )}
             >
               <KeyRound className="size-4" aria-hidden />
@@ -119,13 +119,14 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-10 px-4 text-sm font-semibold border border-white/10 hover:bg-white/5",
-              !scrolled && "text-hero-fg",
+              "h-10 px-5 text-[13px] font-bold tracking-tight rounded-xl border border-white/10 hover:bg-white/5 transition-all active:scale-95",
+              !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
           >
             <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
           </Button>
+
           {!hideActions && (
             <>
               <Button className="cta-lift group hidden h-10 items-center rounded-lg bg-emerald-500 px-6 text-sm font-bold text-black shadow-lg shadow-emerald-500/10 transition-all hover:bg-emerald-400 sm:flex" asChild>
