@@ -96,18 +96,68 @@ export function DashboardPreview() {
       </div>
 
 
+      {/* Gráfico profissional: área com gradiente, grade e eixo de dias. */}
       <div className="mt-2.5 rounded-xl border border-white/5 bg-white/[0.02] p-2.5">
-        <div className="flex h-16 items-end gap-1" aria-hidden="true">
-          {chartBars.slice(0, 7).map((bar) => (
-            <div key={bar.day} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
-              <div
-                className="w-full rounded-t-[2px] bg-brand/80"
-                style={{ height: `${bar.value}%` }}
-              />
-            </div>
+        <div className="mb-1.5 flex items-center justify-between">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            Despesas diárias
+          </p>
+          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-brand">
+            <span className="size-1.5 rounded-full bg-brand" aria-hidden />
+            Julho
+          </span>
+        </div>
+        <svg viewBox="0 0 240 72" className="h-20 w-full" aria-hidden="true" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="dp-area" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--brand, #54A860)" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="var(--brand, #54A860)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {[0, 1, 2, 3].map((line) => (
+            <line
+              key={line}
+              x1="0"
+              x2="240"
+              y1={6 + line * 15}
+              y2={6 + line * 15}
+              stroke="currentColor"
+              strokeWidth="0.5"
+              strokeDasharray="3 4"
+              className="text-white/10"
+            />
+          ))}
+          {(() => {
+            const pts = chartBars.map((bar, index) => ({
+              x: (index / (chartBars.length - 1)) * 236 + 2,
+              y: 66 - (bar.value / 100) * 58,
+            }));
+            const line = pts.map((p) => `${p.x},${p.y}`).join(" ");
+            return (
+              <>
+                <polygon points={`2,66 ${line} 238,66`} fill="url(#dp-area)" />
+                <polyline
+                  points={line}
+                  fill="none"
+                  stroke="var(--brand, #54A860)"
+                  strokeWidth="1.6"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                />
+                {pts.map((p) => (
+                  <circle key={p.x} cx={p.x} cy={p.y} r="1.8" fill="var(--brand, #54A860)" />
+                ))}
+              </>
+            );
+          })()}
+        </svg>
+        <div className="mt-1 flex justify-between text-[9px] font-medium tabular-nums text-muted-foreground">
+          {chartBars.map((bar) => (
+            <span key={bar.day}>{bar.day}</span>
           ))}
         </div>
       </div>
+
 
 
       <div className="mt-2.5 space-y-1.5">
