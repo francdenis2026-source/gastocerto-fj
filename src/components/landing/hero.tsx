@@ -45,6 +45,9 @@ export function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#001640_80%)] opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#001640]/40 via-transparent to-[#001640]/40" />
 
+        {/* Efeitos de Blur Laterais para focar no centro */}
+        <div className="absolute inset-y-0 left-0 w-1/4 bg-[#001640]/20 backdrop-blur-[2px] pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-1/4 bg-[#001640]/20 backdrop-blur-[2px] pointer-events-none z-10" />
       </div>
 
       <div className="section-shell relative z-10">
