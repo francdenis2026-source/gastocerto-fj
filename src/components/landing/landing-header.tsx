@@ -169,7 +169,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <div 
         className={cn(
-          "fixed inset-x-0 top-0 z-[900] flex flex-col items-center justify-center bg-[#0A1512]/98 transition-all duration-500 lg:hidden",
+          "fixed inset-x-0 top-0 z-[900] flex flex-col items-center justify-center bg-[#0A1512] transition-all duration-500 lg:hidden",
           open ? "h-screen opacity-100 visible" : "h-0 opacity-0 invisible overflow-hidden"
         )}
       >
