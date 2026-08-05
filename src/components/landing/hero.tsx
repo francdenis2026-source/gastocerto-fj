@@ -28,10 +28,11 @@ export function Hero() {
       {/* 1. FUNDO DO HERO (Foto Real) */}
       <div className="absolute inset-0 -z-20">
         <img 
-          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=2670&auto=format&fit=crop" 
           alt="" 
-          className="h-full w-full object-cover brightness-[0.6] contrast-[1.2]"
+          className="h-full w-full object-cover brightness-[0.5] contrast-[1.1] scale-105"
         />
+
 
         <div className="absolute inset-0 bg-gradient-to-b from-[#001640]/80 via-[#001640]/40 to-[#001640]/90 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#001640_80%)] opacity-60" />
