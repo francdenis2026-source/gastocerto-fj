@@ -195,7 +195,10 @@ export function Pricing() {
               </ul>
 
               <Button
-                onClick={() => setCheckoutPlan(plan.slug)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCheckoutPlan(plan.slug);
+                }}
                 className={cn(
                   "relative z-10 cta-lift h-14 w-full rounded-xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
                   plan.highlighted
