@@ -13,7 +13,7 @@ const focusRing =
   "rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const navClass =
-  "text-[10px] font-black uppercase tracking-[0.15em] text-white/90 hover:text-[#1FAE6D] transition-all duration-300 hover:scale-105";
+  "text-[10px] font-bold uppercase tracking-[0.1em] text-white/80 hover:text-[#1FAE6D] transition-all duration-300 hover:scale-105";
 
 export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
@@ -67,7 +67,7 @@ export function LandingFooter() {
 
       {/* Barra Final Premium */}
       <div className="relative z-10 mt-6 border-t border-white/10 bg-[#0A1512]/60 backdrop-blur-xl">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white/60 sm:flex-row">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-3 text-[10px] font-semibold uppercase tracking-[0.05em] text-white/50 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="text-[#1FAE6D]">©</span>
             <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
