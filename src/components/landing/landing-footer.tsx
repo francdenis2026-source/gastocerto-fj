@@ -1,86 +1,63 @@
 import { Logo } from "@/components/logo";
 import { Link } from "@tanstack/react-router";
 
-const footerLinks = [
-  {
-    title: "Produto",
-    links: [
-      { label: "Recursos", href: "#recursos" },
-      { label: "Planos", href: "#planos" },
-      { label: "Espaço Kids", href: "/kids" },
-      { label: "IA Financeira", href: "/ia" },
-    ],
-  },
-  {
-    title: "Empresa",
-    links: [
-      { label: "Sobre nós", href: "#" },
-      { label: "Blog", href: "#" },
-      { label: "Contato", href: "#contato" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Privacidade", href: "#" },
-      { label: "Termos", href: "#" },
-      { label: "Segurança", href: "#" },
-    ],
-  },
-];
-
 export function LandingFooter() {
   return (
-    <footer className="bg-background border-t border-border pt-20 pb-10 overflow-hidden">
+    <footer className="pt-20 pb-10 bg-[#090E0C] text-white overflow-hidden border-t border-white/5">
       <div className="section-shell">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
-          <div className="col-span-2 lg:col-span-2">
-            <Logo className="h-10 w-auto mb-6" />
-            <p className="text-secondary-foreground text-sm leading-relaxed max-w-xs mb-8 font-medium">
-              Transformando a relação das pessoas com o dinheiro através de tecnologia, inteligência e design de elite.
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 mb-20">
+          <div className="lg:col-span-5 space-y-8">
+            <Logo onDark />
+            <p className="text-zinc-400 text-lg leading-relaxed max-w-sm">
+              GastoCerto é a síntese da tecnologia aplicada à gestão financeira pessoal. Controle, clareza e prosperidade.
             </p>
-            <div className="flex items-center gap-4">
-              <div className="size-10 rounded-full bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
-                <span className="sr-only">Instagram</span>
-                <div className="size-5 bg-foreground/20 rounded-sm" />
-              </div>
-              <div className="size-10 rounded-full bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
-                <span className="sr-only">LinkedIn</span>
-                <div className="size-5 bg-foreground/20 rounded-sm" />
-              </div>
+            <div className="flex items-center gap-6">
+              {['Twitter', 'Instagram', 'LinkedIn'].map(social => (
+                <a key={social} href="#" className="text-sm font-bold text-zinc-500 hover:text-primary transition-colors">
+                  {social}
+                </a>
+              ))}
             </div>
           </div>
           
-          {footerLinks.map((column) => (
-            <div key={column.title}>
-              <h4 className="text-sm font-black uppercase tracking-widest text-foreground mb-6">
-                {column.title}
-              </h4>
-              <ul className="space-y-4">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <a 
-                      href={link.href} 
-                      className="text-sm font-semibold text-secondary-foreground hover:text-primary transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-10">
+            <div className="space-y-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-primary">Produto</h4>
+              <ul className="space-y-4 text-[15px] font-medium text-zinc-400">
+                <li><a href="#" className="hover:text-white transition-colors">Recursos</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Segurança</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
               </ul>
             </div>
-          ))}
+            <div className="space-y-6">
+              <h4 className="text-sm font-black uppercase tracking-widest text-primary">Empresa</h4>
+              <ul className="space-y-4 text-[15px] font-medium text-zinc-400">
+                <li><a href="#" className="hover:text-white transition-colors">Sobre Nós</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacidade</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Termos</a></li>
+              </ul>
+            </div>
+            <div className="space-y-6 col-span-2 md:col-span-1">
+              <h4 className="text-sm font-black uppercase tracking-widest text-primary">Suporte</h4>
+              <ul className="space-y-4 text-[15px] font-medium text-zinc-400">
+                <li><a href="#" className="hover:text-white transition-colors">Central de Ajuda</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
         
-        <div className="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-xs font-bold text-secondary-foreground">
-            © {new Date().getFullYear()} GastoCerto. Todos os direitos reservados.
+        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-zinc-500 text-sm font-medium">
+            © 2026 GastoCerto. Todos os direitos reservados.
           </p>
-          <div className="flex items-center gap-6">
-            <p className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
-              <span className="size-2 rounded-full bg-primary animate-pulse" />
-              Sistema Operacional
-            </p>
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2">
+              <div className="size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Sistema Online</span>
+            </div>
+            <p className="text-zinc-500 text-sm font-medium">Precisão Absoluta</p>
           </div>
         </div>
       </div>
