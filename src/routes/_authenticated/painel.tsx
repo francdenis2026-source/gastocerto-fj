@@ -169,6 +169,7 @@ function DashboardPage() {
   const [detailDate, setDetailDate] = useState<string | null>(null);
   const [dependentOpen, setDependentOpen] = useState(false);
   const [taxOpen, setTaxOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   const { data: categories, isLoading: loadingCategories } = useCategories();
   const { data: vehicles } = useVehicles();
