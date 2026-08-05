@@ -29,51 +29,99 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="relative border-t border-border/5 py-12 overflow-hidden">
-      {/* Imagem de Fundo Realista no Footer */}
-      <img 
-        src="https://images.unsplash.com/photo-1579621970795-87faff2f9050?q=80&w=2070&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-20 grayscale-0 pointer-events-none"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1512] via-transparent to-transparent pointer-events-none" />
+    <footer className="relative border-t border-emerald-500/10 py-16 overflow-hidden">
+      {/* Imagem de Fundo Realista no Footer com Efeito de Destaque */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1579621970795-87faff2f9050?q=80&w=2070&auto=format&fit=crop" 
+          alt="" 
+          className="h-full w-full object-cover opacity-10 brightness-[0.2] pointer-events-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#001640] via-[#001640]/95 to-[#001640]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+      </div>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
-      <div className="section-shell">
-        <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
-          <Logo compact className="scale-90" />
+      <div className="section-shell relative z-10">
+        <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
+          <div className="flex flex-col items-center lg:items-start gap-4 max-w-sm">
+            <Logo compact className="scale-110 mb-2" />
+            <p className="text-[13px] text-white/50 leading-relaxed text-center lg:text-left font-medium tracking-tight">
+              A solução definitiva para quem busca liberdade financeira através de uma gestão inteligente, segura e totalmente profissional.
+            </p>
+          </div>
           
-          <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-            <Link to="/termos" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Termos</Link>
-            <Link to="/privacidade" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Privacidade</Link>
-            <button 
-              onClick={() => setContactOpen(true)}
-              className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors"
-            >
-              Contato
-            </button>
-          </nav>
+          <div className="flex flex-col items-center gap-8 lg:items-end">
+            <nav className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+              {[
+                { label: "Recursos", to: "/recursos" as const },
+                { label: "Planos", href: "#planos" },
+                { label: "Termos", to: "/termos" as const },
+                { label: "Privacidade", to: "/privacidade" as const }
+              ].map((link) => (
+                'to' in link ? (
+                  <Link 
+                    key={link.label}
+                    to={link.to} 
+                    className="text-[12px] font-black uppercase tracking-[0.2em] text-white/60 hover:text-emerald-400 transition-all duration-300 hover:scale-105"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="text-[12px] font-black uppercase tracking-[0.2em] text-white/60 hover:text-emerald-400 transition-all duration-300 hover:scale-105"
+                  >
+                    {link.label}
+                  </a>
+                )
+              ))}
+              <button 
+                onClick={() => setContactOpen(true)}
+                className="text-[12px] font-black uppercase tracking-[0.2em] text-white/60 hover:text-emerald-400 transition-all duration-300 hover:scale-105"
+              >
+                Contato
+              </button>
+            </nav>
 
-          <div className="flex items-center gap-4">
-            <a href="mailto:contato@precocerto.shop" className="size-8 grid place-items-center rounded-lg border border-white/10 bg-white/5 text-muted-foreground hover:text-emerald-500 transition-colors">
-              <Mail className="size-4" />
-            </a>
+            <div className="flex items-center gap-4">
+              <a 
+                href="mailto:contato@gastocerto.shop" 
+                className="group flex items-center gap-3 rounded-2xl border border-white/5 bg-white/[0.02] px-6 py-3 text-white/60 transition-all hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-emerald-400"
+              >
+                <Mail className="size-4 transition-transform group-hover:rotate-12" />
+                <span className="text-[12px] font-bold tracking-tight uppercase">Fale Conosco</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      {/* Bottom Bar - Minimal */}
-      <div className="border-t border-border/5 mt-8 bg-transparent">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-1 py-2 text-[9px] text-foreground/40 sm:flex-row sm:text-[10px]">
-          <p>© {new Date().getFullYear()} Meu Controle Financeiro.</p>
-          <div className="flex shrink-0 items-center gap-1">
-            <p className="opacity-70">Dev. Franc D&apos;nis</p>
-            <Link
-              to="/admin"
-              className={`grid size-3 shrink-0 place-items-center text-muted-foreground/20 transition-colors hover:text-foreground ${tapTarget} ${focusRing}`}
-            >
-              <Lock className="size-2" aria-hidden="true" />
-            </Link>
+
+      {/* Barra Final Premium */}
+      <div className="relative z-10 border-t border-white/5 mt-16 bg-black/20 backdrop-blur-sm">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-4 py-8 text-[11px] font-bold uppercase tracking-[0.15em] text-white/30 sm:flex-row">
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-500/50">©</span>
+            <p>{new Date().getFullYear()} MEU CONTROLE FINANCEIRO • TODOS OS DIREITOS RESERVADOS</p>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5">
+              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <p className="text-[10px] text-white/50">SISTEMA ATUALIZADO</p>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <p className="opacity-50 hover:opacity-100 transition-opacity">DESIGN BY FRANC D&apos;NIS</p>
+              <Link
+                to="/admin"
+                className={`flex items-center justify-center rounded-lg size-8 bg-white/5 border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all ${tapTarget} ${focusRing}`}
+              >
+                <Lock className="size-3.5 text-white/20 hover:text-emerald-400" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
