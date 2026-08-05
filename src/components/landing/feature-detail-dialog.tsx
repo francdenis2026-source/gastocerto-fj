@@ -1,6 +1,7 @@
 import { useState, type ReactNode, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, BookOpen, ListChecks, Sparkles, Loader2, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import { getFeatureDetail } from "@/lib/feature-details";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,14 @@ type Props = {
  * benefícios), screenshot ilustrativa e ações sugeridas.
  */
 export function FeatureDetailDialog({ feature, children }: Props) {
+  const isSecurity = feature.title.toLowerCase().includes("seguran") || feature.title.toLowerCase().includes("criptografia");
+  const isIA = feature.title.toLowerCase().includes("ia") || feature.title.toLowerCase().includes("inteligência") || feature.title.toLowerCase().includes("relat");
+  const accentColor = isSecurity ? "text-cyan-400" : isIA ? "text-purple-400" : "text-emerald-500";
+  const accentBg = isSecurity ? "bg-cyan-400/10" : isIA ? "bg-purple-400/10" : "bg-emerald-500/10";
+  const accentBorder = isSecurity ? "border-cyan-400/20" : isIA ? "border-purple-400/20" : "border-emerald-500/20";
+  const accentShadow = isSecurity ? "shadow-cyan-400/20" : isIA ? "shadow-purple-400/20" : "shadow-emerald-500/20";
+  const accentBtn = isSecurity ? "bg-cyan-400 hover:bg-cyan-300" : isIA ? "bg-purple-400 hover:bg-purple-300" : "bg-emerald-500 hover:bg-emerald-400";
+
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -95,11 +104,17 @@ export function FeatureDetailDialog({ feature, children }: Props) {
   return (
     <Dialog onOpenChange={(open) => !open && setStep(0)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl sm:p-10 p-6 gap-6 overflow-y-auto max-h-[95vh] bg-background border-white/10 rounded-[2rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-300">
+      <DialogContent className={cn(
+        "max-w-xl sm:p-8 p-6 gap-6 overflow-y-auto max-h-[92vh] glass-morphism border-white/10 rounded-[2rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300",
+        isSecurity ? "ring-1 ring-cyan-500/20" : isIA ? "ring-1 ring-purple-500/20" : "ring-1 ring-emerald-500/20"
+      )}>
         <DialogHeader className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             {detail.tag ? (
-              <span className="rounded-md border border-brand/20 bg-brand/5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand">
+              <span className={cn(
+                "rounded-md border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                accentColor, accentBg, accentBorder
+              )}>
                 {detail.tag}
               </span>
             ) : null}
@@ -107,10 +122,10 @@ export function FeatureDetailDialog({ feature, children }: Props) {
               Recurso {step + 1} de {sections.length} · {current.label}
             </span>
           </div>
-          <DialogTitle className="text-left text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
+          <DialogTitle className="text-left text-xl font-extrabold tracking-tight text-white sm:text-2xl">
             {detail.title}
           </DialogTitle>
-          <DialogDescription className="text-left text-base font-medium leading-relaxed text-muted-foreground">
+          <DialogDescription className="text-left text-sm font-medium leading-relaxed text-muted-foreground line-clamp-2">
             {detail.summary}
           </DialogDescription>
         </DialogHeader>
@@ -126,8 +141,8 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                 aria-current={active ? "step" : undefined}
                 className={
                   active
-                    ? "inline-flex h-10 items-center gap-2 rounded-xl bg-emerald-500 px-6 text-[12px] font-bold text-black shadow-lg shadow-emerald-500/20 transition-all focus-visible:outline-none"
-                    : "inline-flex h-10 items-center gap-2 rounded-xl border border-white/5 bg-white/[0.02] px-6 text-[12px] font-bold text-muted-foreground transition-all hover:bg-white/5 focus-visible:outline-none"
+                    ? cn("inline-flex h-9 items-center gap-2 rounded-xl px-5 text-[11px] font-bold text-black shadow-lg transition-all focus-visible:outline-none", accentBtn, accentShadow)
+                    : "inline-flex h-9 items-center gap-2 rounded-xl border border-white/5 bg-white/[0.02] px-5 text-[11px] font-bold text-muted-foreground transition-all hover:bg-white/5 focus-visible:outline-none"
 
                 }
               >
@@ -163,9 +178,9 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                     {items.map((item, index) => (
                       <li
                         key={item}
-                        className="flex w-[280px] sm:w-full gap-4 rounded-[1.5rem] border border-white/5 bg-white/[0.02] p-5 text-[15px] font-medium leading-relaxed text-white transition-all hover:bg-white/[0.04] select-none"
+                        className="flex w-[260px] sm:w-full gap-3 rounded-xl border border-white/5 bg-white/[0.01] p-4 text-[14px] font-medium leading-relaxed text-white transition-all hover:bg-white/[0.03] select-none"
                       >
-                        <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-xs font-black text-emerald-500">
+                        <span className={cn("grid size-6 shrink-0 place-items-center rounded-lg text-[11px] font-black", accentBg, accentColor)}>
                           {index + 1}
                         </span>
                         <span className="min-w-0">{item}</span>
@@ -181,7 +196,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
                   alt={detail.screenshotAlt}
                   loading="lazy"
                   decoding="async"
-                  className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-40"
+                  className="h-32 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-36"
                 />
                 <figcaption className="border-t border-border bg-muted/30 px-3 py-2 text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">
                   Visualização Real
@@ -217,7 +232,7 @@ export function FeatureDetailDialog({ feature, children }: Props) {
           <div className="flex flex-wrap gap-2">
             <Button
               asChild
-              className="h-10 rounded-xl bg-emerald-500 px-6 text-xs font-black text-black hover:bg-emerald-400"
+              className={cn("h-10 rounded-xl px-6 text-xs font-black text-black", accentBtn)}
             >
               <Link to="/auth" search={{ mode: "signup" }}>Experimentar Agora</Link>
             </Button>

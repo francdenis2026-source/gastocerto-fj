@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
@@ -119,36 +119,37 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[2rem] border p-8 transition-all hover:-translate-y-1",
+                "relative flex flex-col rounded-[2rem] border p-8 transition-all duration-300 glass-morphism",
+                "hover:-translate-y-2 hover:bg-white/[0.04] hover:shadow-2xl hover:border-white/20",
                 plan.highlighted 
-                  ? "border-emerald-500/50 bg-emerald-500/[0.02] shadow-[0_20px_50px_-12px_rgba(34,197,94,0.1)]" 
-                  : "border-white/5 bg-white/[0.01]"
+                  ? "border-emerald-500/40 bg-emerald-500/[0.03] shadow-[0_20px_50px_-12px_rgba(34,197,94,0.15)] ring-1 ring-emerald-500/20" 
+                  : "border-white/10"
               )}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-black">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-[0_0_15px_rgba(34,197,94,0.4)] animate-pulse">
                   Mais Popular
                 </div>
               )}
               
-              <div className="mb-6">
+              <div className="mb-5">
                 <h3 className="text-xl font-bold text-white">{plan.name}</h3>
                 <p className="mt-1 text-xs text-muted-foreground">{plan.description}</p>
               </div>
 
-              <div className="mb-8">
+              <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black tracking-tight text-white tabular">
+                  <span className="text-4xl font-black tracking-tight text-white tabular">
                     {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
                   <span className="text-sm font-medium text-muted-foreground">/mês</span>
                 </div>
               </div>
 
-              <ul className="flex-1 space-y-4 mb-8">
+              <ul className="flex-1 space-y-3 mb-8">
                 {plan.features.map((feature: string) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm">
-                    <Check className="size-4 shrink-0 text-emerald-500" />
+                  <li key={feature} className="flex items-start gap-3 text-[13px]">
+                    <Check className="size-4 shrink-0 text-emerald-500 mt-0.5" />
                     <span className="text-white/80">{feature}</span>
                   </li>
                 ))}
@@ -157,14 +158,15 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "h-12 w-full rounded-xl text-sm font-bold transition-all active:scale-[0.98]",
+                  "h-12 w-full rounded-xl text-sm font-bold transition-all active:scale-[0.98] group",
                   plan.highlighted
-                    ? "bg-emerald-500 text-black hover:bg-emerald-400"
+                    ? "bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(34,197,94,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
               >
                 {plan.cta}
+                <ArrowRight className="ml-2 size-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
               </Button>
             </div>
           ))}

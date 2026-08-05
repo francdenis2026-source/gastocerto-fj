@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -13,10 +13,20 @@ import {
   Target,
   LayoutDashboard,
   Lock,
+  ChevronDown,
+  Sparkles,
+  Shield,
+  Brain,
 } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const categories = [
   {
@@ -183,42 +193,60 @@ export function Benefits() {
 
       <section id="faq" className="section-y border-b border-white/5 bg-background">
         <div className="section-shell max-w-3xl">
-          <Reveal className="text-center mb-12">
+          <Reveal className="text-center mb-10">
             <h3 className="text-2xl font-bold text-white">Dúvidas Frequentes</h3>
             <p className="mt-2 text-muted-foreground text-sm">Respostas para as perguntas mais comuns.</p>
           </Reveal>
-          <div className="grid gap-4">
+          <Accordion type="single" collapsible className="space-y-3">
             {faqItems.map((faq, idx) => (
-              <Reveal key={faq.q} delay={idx * 50} className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
-                <h4 className="text-sm font-bold text-white mb-2">{faq.q}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+              <Reveal key={faq.q} delay={idx * 50}>
+                <AccordionItem 
+                  value={`item-${idx}`} 
+                  className="rounded-xl border border-white/5 bg-[#131C19]/40 px-6 transition-all hover:bg-[#131C19]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(34,197,94,0.2)]"
+                >
+                  <AccordionTrigger className="py-5 text-sm font-bold text-white hover:no-underline [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:text-emerald-500">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground border-l-2 border-emerald-500/0 data-[state=open]:border-emerald-500 pl-4 transition-all">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
               </Reveal>
             ))}
-          </div>
+          </Accordion>
         </div>
       </section>
 
       <section id="cta-final" className="section-y bg-background">
         <div className="section-shell">
-          <Reveal className="relative overflow-hidden rounded-[2.5rem] bg-emerald-500 px-8 py-16 text-center shadow-[0_20px_50px_-12px_rgba(34,197,94,0.3)]">
+          <Reveal className="relative overflow-hidden rounded-[2rem] bg-[#0B1210] border border-white/5 px-8 py-12 text-center shadow-2xl">
+            {/* Gradiente Radial e SVG Decorativo */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+              <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />
+              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #22C55E 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+              <svg className="absolute bottom-0 left-0 w-full h-24 opacity-[0.05] text-emerald-500" preserveAspectRatio="none" viewBox="0 0 1200 120">
+                <path d="M0 0l48.8 33.3C97.7 66.7 195 133.3 293 150c97.7 16.7 195.3-16.7 293-33.3 97.7-16.7 195.3 0 293 16.7 97.7 16.7 195.3 0 244-8.3l48.7-8.4V120H0V0z" fill="currentColor" />
+              </svg>
+            </div>
+
             <div className="relative z-10 mx-auto max-w-2xl">
-              <h2 className="text-3xl font-black text-black sm:text-4xl">
+              <h2 className="text-3xl font-black text-white sm:text-4xl tracking-tight">
                 Pronto para transformar sua vida financeira?
               </h2>
-              <p className="mt-4 text-base font-bold text-black/70">
+              <p className="mt-3 text-base font-medium text-muted-foreground">
                 Junte-se a mais de 10.000 pessoas e tome o controle hoje mesmo.
               </p>
-              <Button
-                asChild
-                className="mt-8 h-14 rounded-xl bg-black px-10 text-base font-black text-white hover:bg-black/80"
-              >
-                <Link to="/auth" search={{ mode: "signup" }}>Começar Grátis Agora</Link>
-              </Button>
-            </div>
-            {/* Elemento Decorativo */}
-            <div className="absolute inset-0 z-0 opacity-10">
-              <div className="absolute -left-10 -top-10 size-64 rounded-full bg-white blur-3xl" />
-              <div className="absolute -right-10 -bottom-10 size-64 rounded-full bg-white blur-3xl" />
+              <div className="mt-8 flex justify-center">
+                <Button
+                  asChild
+                  className="group relative h-14 rounded-xl bg-emerald-500 px-10 text-base font-black text-black transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(34,197,94,0.5)]"
+                >
+                  <Link to="/auth" search={{ mode: "signup" }}>
+                    Começar Grátis Agora
+                    <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           </Reveal>
         </div>
