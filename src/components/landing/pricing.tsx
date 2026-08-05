@@ -65,7 +65,7 @@ export function Pricing() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {plans.map((p, i) => (
+          {basePlans.map((p, i) => (
             <Reveal key={i} delay={i * 100}>
               <div className={cn(
                 "premium-card h-full relative flex flex-col p-8",
