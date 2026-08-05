@@ -65,7 +65,7 @@ export function Hero() {
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#1FAE6D]">Tecnologia Fintech de Elite</span>
             </div>
 
-            <h1 className="text-center font-display text-[clamp(2.5rem,9vw,5.5rem)] font-black leading-[0.92] tracking-[-0.05em] text-white">
+            <h1 className="text-center font-display text-[clamp(2.5rem,8vw,5rem)] font-black leading-[1] tracking-[-0.04em] text-white">
               Controle o seu <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-white via-[#1FAE6D] to-[#1FAE6D] bg-clip-text text-transparent">patrimônio.</span>
             </h1>
