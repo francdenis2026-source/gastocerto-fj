@@ -85,8 +85,9 @@ export function CheckoutDialog({
 
   useEffect(() => {
     if (!open) return;
+    console.log("Dialog opened with initialPlan:", initialPlan);
     setStep(initialPlan ? "details" : "plan");
-    setPlanSlug(initialPlan ?? "premium_ia");
+    if (initialPlan) setPlanSlug(initialPlan);
     setCycle(initialCycle);
     setOrder(null);
     setLicenseKey(null);
