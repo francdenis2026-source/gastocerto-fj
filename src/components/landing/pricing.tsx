@@ -80,7 +80,7 @@ export function Pricing() {
   }, []);
 
   return (
-    <section id="planos" className="section-y relative overflow-hidden border-t border-border/5">
+    <section id="planos" className="section-y relative overflow-hidden">
       {/* Foto de Fundo em Baixa Opacidade */}
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">

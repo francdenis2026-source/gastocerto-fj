@@ -50,7 +50,7 @@ export function ContactSection() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="contato" className="section-y relative border-t border-border/5">
+    <section id="contato" className="section-y relative">
       <ContactModal open={open} onOpenChange={setOpen} />
 
       <div className="section-shell">

@@ -126,7 +126,7 @@ export function Benefits() {
     <div className="relative overflow-hidden">
       {/* Imagem de Fundo Global da Seção */}
       {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
-      <section id="recursos" className="section-y border-b border-border/5 relative z-10">
+      <section id="recursos" className="section-y relative z-10">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
             <h2 className="section-title">Ecosystema de alto desempenho</h2>
@@ -193,7 +193,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-border/5 relative z-10">
+      <section id="faq" className="section-y relative z-10">
         {/* Textura SVG sutil */}
         {/* REMOVED GRID PATTERN */}
         <div className="section-shell max-w-3xl relative z-10">

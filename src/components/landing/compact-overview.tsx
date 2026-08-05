@@ -248,7 +248,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-border/5 section-y overflow-hidden">
+    <section id="explorar" className="relative section-y overflow-hidden">
       {/* Imagem de Fundo de Destaque - Removida para limpar o visual */}
       <span id="seguranca" className="block" />
       <div className="section-shell relative z-10">
