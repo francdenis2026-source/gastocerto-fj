@@ -4,7 +4,6 @@ import { Mail, MessageSquare, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/finance/contact-modal";
 import { Reveal } from "@/components/landing/reveal";
-import { LeadCaptureForm } from "./lead-capture-form";
 
 /** Ícone SVG exclusivo de contato: envelope com onda de sinal. */
 function ContactMarkIcon({ className }: { className?: string }) {
@@ -56,66 +55,64 @@ export function ContactSection() {
 
       <div className="section-shell">
         <Reveal>
-          <div className="grid gap-12 rounded-[3rem] bg-black/40 border border-white/10 p-8 backdrop-blur-xl sm:p-12 lg:grid-cols-2">
-            <div className="flex flex-col gap-8">
-              <div className="flex items-center gap-4">
-                <div className="size-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                  <ContactMarkIcon className="size-8 text-emerald-500" />
-                </div>
-                <div>
-                  <p className="text-[11px] font-black uppercase tracking-[0.25em] text-emerald-500">
-                    Central de Relacionamento
+          <div className="grid gap-10 rounded-3xl bg-white/[0.02] p-6 backdrop-blur-sm sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div className="flex min-w-0 flex-col gap-6">
+              <div className="flex min-w-0 items-center gap-4">
+                <ContactMarkIcon className="size-12 shrink-0 text-emerald-400" />
+                <div className="min-w-0">
+                  <p className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-400">
+                    Contato
                   </p>
-                  <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-                    Fale com nossos estrategistas
+                  <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+                    Fale com a nossa equipe
                   </h2>
                 </div>
               </div>
 
-              <p className="text-base leading-relaxed text-white/60 font-medium max-w-lg">
-                Dúvidas sobre planos corporativos, migração massiva de dados ou segurança? Nossa equipe de elite está pronta para oferecer suporte técnico e estratégico.
+              <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Dúvidas sobre planos, migração de dados ou uso do Espaço Kids? Envie sua mensagem —
+                respondemos em até 1 dia útil.
               </p>
 
-              <div className="grid gap-4 sm:grid-cols-1">
+              <ul className="grid gap-3 sm:grid-cols-3">
                 {channels.map((channel) => (
-                  <div
+                  <li
                     key={channel.label}
-                    className="flex items-center gap-4 rounded-2xl bg-white/[0.03] border border-white/5 p-4 transition-all hover:bg-white/[0.05]"
+                    className="rounded-2xl bg-background/40 p-4"
                   >
-                    <div className="size-10 rounded-xl bg-emerald-500/5 flex items-center justify-center">
-                      <channel.icon className="size-5 text-emerald-500" aria-hidden />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/40">
-                        {channel.label}
-                      </p>
-                      {channel.href ? (
-                        <a
-                          href={channel.href}
-                          className="text-sm font-bold text-white hover:text-emerald-500 transition-colors"
-                        >
-                          {channel.value}
-                        </a>
-                      ) : (
-                        <p className="text-sm font-bold text-white">{channel.value}</p>
-                      )}
-                    </div>
-                  </div>
+                    <channel.icon className="size-4 text-emerald-400" aria-hidden />
+                    <p className="mt-3 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                      {channel.label}
+                    </p>
+                    {channel.href ? (
+                      <a
+                        href={channel.href}
+                        className="mt-1 block truncate text-sm font-semibold text-foreground hover:text-emerald-400"
+                      >
+                        {channel.value}
+                      </a>
+                    ) : (
+                      <p className="mt-1 text-sm font-semibold text-foreground">{channel.value}</p>
+                    )}
+                  </li>
                 ))}
-              </div>
-
-              <div className="pt-4 border-t border-white/5">
-                <p className="text-[11px] font-bold text-white/30 uppercase tracking-widest">Tempo médio de resposta</p>
-                <div className="flex items-center gap-2 mt-2">
-                  <Clock className="size-4 text-emerald-500/50" />
-                  <span className="text-sm font-black text-white/80 tracking-tight">Sob demanda em até 24 horas úteis</span>
-                </div>
-              </div>
+              </ul>
             </div>
 
-            <div className="relative">
-              <div className="absolute -inset-4 bg-emerald-500/5 blur-2xl rounded-[3rem] -z-10" />
-              <LeadCaptureForm />
+            <div className="flex flex-col gap-3 lg:w-64">
+              <Button
+                className="h-12 w-full rounded-xl bg-emerald-500 text-[12px] font-black uppercase tracking-[0.14em] text-[#001640] transition-all hover:bg-emerald-400 active:scale-95"
+                onClick={() => setOpen(true)}
+              >
+                Abrir formulário
+              </Button>
+              <Button
+                variant="outline"
+                className="h-12 w-full rounded-xl border-border/20 text-[12px] font-bold tracking-tight"
+                asChild
+              >
+                <a href="mailto:contato@gastocerto.shop">Enviar e-mail</a>
+              </Button>
             </div>
           </div>
         </Reveal>

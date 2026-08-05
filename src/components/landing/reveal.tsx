@@ -12,7 +12,7 @@ type RevealProps = {
 
 /** Wrapper que revela o conteúdo suavemente ao entrar na viewport. */
 export function Reveal({ children, className, delay = 0, as: Tag = "div" }: RevealProps) {
-  const { ref, visible } = useReveal<HTMLDivElement>({ once: true, threshold: 0.1 });
+  const { ref, visible } = useReveal<HTMLDivElement>();
 
   return (
     <Tag
