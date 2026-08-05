@@ -109,7 +109,7 @@ export function Pricing() {
       <div className="section-shell relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="section-title">Planos de Crescimento</h2>
-          <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Estrutura de custos otimizada para diferentes níveis de maturidade financeira.</p>
+          <p className="mt-4 section-subtitle max-w-2xl mx-auto">Estrutura de custos otimizada para diferentes níveis de maturidade financeira.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
@@ -161,8 +161,8 @@ export function Pricing() {
               )}
               
               <div className="mb-5">
-                <h3 className="text-2xl font-black text-white">{plan.name}</h3>
-                <p className="mt-3 text-[14px] leading-relaxed text-white/50 font-medium">{plan.description}</p>
+                <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
+                <p className="mt-3 body-text !text-[14px] !font-medium opacity-60">{plan.description}</p>
               </div>
 
               <div className="mb-4">
@@ -178,7 +178,7 @@ export function Pricing() {
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-[14px] leading-snug">
                     <Check className="size-4 shrink-0 text-emerald-500 mt-0.5" />
-                    <span className="text-white/90 font-medium">{feature}</span>
+                    <span className="body-text !text-white/90 !font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>
