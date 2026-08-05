@@ -153,7 +153,7 @@ body::-webkit-scrollbar {
 
 
 :root {
-  --radius: 0.75rem;
+  --radius: 1rem;
   
   /* Verde Primário da marca (Premium Emerald #1FAE6D) */
   --emerald: #1FAE6D;
@@ -161,7 +161,6 @@ body::-webkit-scrollbar {
   --gold-accent: #D4AF6A;
   
   --background: transparent;
-  --radius: 1rem;
 
 
   --foreground: #0A1512;
