@@ -13,7 +13,7 @@ const focusRing =
   "rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const navClass =
-  "text-[10px] font-black uppercase tracking-[0.15em] text-white/60 hover:text-emerald-400 transition-all duration-300 hover:scale-105";
+  "text-[10px] font-black uppercase tracking-[0.15em] text-white/60 hover:text-[#1FAE6D] transition-all duration-300 hover:scale-105";
 
 export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
@@ -55,7 +55,7 @@ export function LandingFooter() {
             <div className="flex items-center gap-2">
               <a
                 href="mailto:contato@gastocerto.shop"
-                className="group flex items-center gap-2 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-2 text-white/50 transition-all hover:border-emerald-500/30 hover:bg-emerald-500/5 hover:text-emerald-400"
+                className="group flex items-center gap-2 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-2 text-white/50 transition-all hover:border-[#1FAE6D]/30 hover:bg-[#1FAE6D]/5 hover:text-[#1FAE6D]"
               >
                 <Mail className="size-3.5" />
                 <span className="text-[11px] font-bold tracking-tight uppercase">Suporte</span>
@@ -69,13 +69,13 @@ export function LandingFooter() {
       <div className="relative z-10 mt-8 border-t border-white/5 bg-[#0A1512]/40 backdrop-blur-md">
         <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white/30 sm:flex-row">
           <div className="flex items-center gap-2">
-            <span className="text-emerald-500/50">©</span>
+            <span className="text-[#1FAE6D]/50">©</span>
             <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6">
             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="size-1.5 rounded-full bg-[#1FAE6D] animate-pulse" />
               <p className="text-[10px] text-white/50">SISTEMA ATUALIZADO</p>
             </div>
 
@@ -86,9 +86,9 @@ export function LandingFooter() {
               <Link
                 to="/admin"
                 aria-label="Área administrativa"
-                className={`flex items-center justify-center rounded-lg size-8 bg-white/5 border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all ${tapTarget} ${focusRing}`}
+                className={`flex items-center justify-center rounded-lg size-8 bg-white/5 border border-white/5 hover:bg-[#1FAE6D]/10 hover:border-[#1FAE6D]/20 transition-all ${tapTarget} ${focusRing}`}
               >
-                <Lock className="size-3.5 text-white/20 hover:text-emerald-400" aria-hidden="true" />
+                <Lock className="size-3.5 text-white/20 hover:text-[#1FAE6D]" aria-hidden="true" />
               </Link>
             </div>
           </div>
