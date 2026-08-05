@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        Ajustar a tipografia responsiva do hero para ficar nítida e legível em celulares e tablets, mantendo o estilo ultra-premium.
+        NAO FICOU PROFSSIONAL ESSA TIPOGRAFIA
       </div>
 
 
