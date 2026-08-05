@@ -10,11 +10,12 @@ import { cn } from "@/lib/utils";
 import { handleAnchorClick } from "@/lib/scroll";
 
 const navItems = [
-  { label: "Soluções", href: "#recursos" },
-  { label: "Inteligência", href: "#ai" },
+  { label: "Serviços", href: "#recursos" },
   { label: "Planos", href: "#planos" },
   { label: "Segurança", href: "#seguranca" },
+  { label: "Contato", href: "#contato" },
 ];
+
 
 
 export function LandingHeader({ hideActions }: { hideActions?: boolean }) {

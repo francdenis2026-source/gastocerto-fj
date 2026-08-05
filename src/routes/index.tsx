@@ -5,6 +5,8 @@ import heroBg from "@/assets/hero-bg-2027.jpg";
 import heroMobileBg from "@/assets/hero-bg-2027.jpg";
 import { Benefits } from "@/components/landing/benefits";
 import { CompactOverview } from "@/components/landing/compact-overview";
+import { ContactSection } from "@/components/landing/contact-section";
+
 import { Hero } from "@/components/landing/hero";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { LandingHeader } from "@/components/landing/landing-header";
@@ -76,26 +78,21 @@ function LandingPage() {
 
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
-      <div className="hidden">
-        ## Análise e Otimização da Homepage
-        **Objetivo:** Realizar uma análise aprofundada da homepage atual e implementar melhorias estratégicas para otimizar a experiência do usuário e a eficácia geral.
-      </div>
-
-
-
-
-
-
-
-
-      
+      <PageBackground />
       <LandingHeader />
-      <main id="conteudo" tabIndex={-1} className="relative flex min-h-[calc(100dvh-3.5rem)] flex-col outline-none">
+
+      <main id="conteudo" tabIndex={-1} className="relative flex flex-col outline-none">
         <Hero />
+        <CompactOverview />
+        <Benefits />
+        <Pricing />
+        <PricingMobile />
+        <ContactSection />
       </main>
 
-
+      <LandingFooter />
     </div>
   );
 }
+
 
