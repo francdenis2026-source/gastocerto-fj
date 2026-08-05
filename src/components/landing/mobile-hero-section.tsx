@@ -38,7 +38,7 @@ export function MobileHeroSection() {
         {/* Top Badge */}
         <div className="mb-6 flex animate-in fade-in slide-in-from-top-4 duration-1000 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400 backdrop-blur-md">
           <Zap className="size-2.5" />
-          Fintech Premium
+          Controle Total
         </div>
 
         {/* Headline 1:1 with Web Typography */}
@@ -48,7 +48,7 @@ export function MobileHeroSection() {
         </h1>
         
         <p className="mt-4 animate-in fade-in slide-in-from-top-4 duration-1000 delay-100 max-w-[300px] text-[15px] font-medium leading-[1.6] text-[#9CA8A3]">
-          Organize seus gastos e o futuro da sua família com precisão técnica.
+          Organize seus gastos e o futuro da sua família de forma simples e segura.
         </p>
 
         {/* CTA 1:1 with Web */}

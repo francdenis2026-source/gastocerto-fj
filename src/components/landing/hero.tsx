@@ -61,14 +61,14 @@ export function Hero() {
 
 
             <h1 className="text-center font-display text-[clamp(2.5rem,10vw,5rem)] font-bold leading-[1.1] tracking-[-0.05em] text-white drop-shadow-lg">
-              Precisão <span className="text-[#1FAE6D]">Absoluta</span> para sua <br className="hidden sm:block" />
-              Gestão <span className="text-white/60">Financeira.</span>
+              Sua vida <span className="text-[#1FAE6D]">financeira</span> <br className="hidden sm:block" />
+              sob <span className="text-white/60">controle total.</span>
             </h1>
 
             <p
               className="mx-auto max-w-3xl text-center section-subtitle !text-white/90 !text-[clamp(1.15rem,5vw,1.4rem)] !font-medium"
             >
-              A engenharia definitiva para o seu controle financeiro. Simples, poderosa e extraordinariamente eficiente.
+              A solução completa para organizar seus gastos. Simples, intuitiva e feita para facilitar o seu dia a dia.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">

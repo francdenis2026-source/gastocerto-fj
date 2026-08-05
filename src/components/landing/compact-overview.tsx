@@ -77,7 +77,7 @@ const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   },
   {
     group: "Exclusivos",
-    caption: "Recursos de elite",
+    caption: "Recursos completos",
     items: [
       {
         icon: Baby,
@@ -183,9 +183,9 @@ export function CompactOverview() {
               Completo e Seguro
             </span>
           </div>
-          <h2 className="section-title">Infraestrutura Financeira</h2>
+          <h2 className="section-title">Tudo o que você precisa</h2>
           <p className="mt-6 section-subtitle max-w-3xl mx-auto !text-white/80">
-            Módulos integrados com tecnologia de ponta para automação, análise e segurança máxima do seu patrimônio.
+            Ferramentas práticas para organizar suas contas, planejar o futuro da sua família e economizar de verdade.
           </p>
         </Reveal>
 
