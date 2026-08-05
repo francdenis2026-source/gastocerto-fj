@@ -42,10 +42,7 @@ export function Hero() {
 
 
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/60 via-[#0A1512]/30 to-[#0A1512]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_50%,rgba(31,174,109,0.06)_0%,transparent_80%)] opacity-50" />
-        <div className="absolute inset-0 backdrop-blur-[0.5px]" />
-
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/40 via-transparent to-[#0A1512]" />
       </div>
 
       {/* Camada de gráfico moderno do hero */}
