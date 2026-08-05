@@ -319,7 +319,7 @@ body::-webkit-scrollbar {
 @utility section-shell {
   margin-inline: auto;
   width: 100%;
-  max-width: 72rem;
+  max-width: 90rem;
   padding-inline: 1.5rem;
 
   @media (min-width: 1024px) {
