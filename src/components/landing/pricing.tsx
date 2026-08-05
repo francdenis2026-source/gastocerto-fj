@@ -91,8 +91,8 @@ export function Pricing() {
           {basePlans.map((p, i) => (
             <Reveal key={i} delay={i * 100}>
               <div className={cn(
-                "premium-card h-full relative flex flex-col p-10 bg-slate-900/40 border-white/5 transition-all duration-500",
-                p.highlight && "border-primary bg-primary/[0.03] shadow-[0_30px_60px_-15px_rgba(31,174,109,0.15)] scale-[1.02] z-10"
+                "premium-card interactive-card h-full relative flex flex-col p-8 sm:p-10 bg-slate-900/40 border-white/5",
+                p.highlight && "border-primary/60 bg-primary/[0.04] shadow-[0_30px_60px_-15px_rgba(31,174,109,0.2)] lg:scale-[1.02] z-10"
               )}>
                 {p.highlight && (
                   <div className="absolute top-0 right-8 -translate-y-1/2 bg-primary text-white text-[11px] font-black uppercase tracking-widest px-4 py-1 rounded-full flex items-center gap-1.5 shadow-lg">

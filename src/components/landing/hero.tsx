@@ -6,14 +6,14 @@ import { motion } from "framer-motion";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[85vh] flex items-center pt-24 pb-12 overflow-hidden">
+    <section className="relative flex items-center overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-24">
       {/* Premium Background with Gradient & Lighting */}
       <div className="absolute inset-0 bg-[#020617] -z-20" />
       <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[70%] bg-primary/10 rounded-full blur-[180px] pointer-events-none -z-10 animate-pulse-slow" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[60%] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
       
       <div className="section-shell">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Column: Content */}
           <Reveal className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-[13px] font-bold text-primary mb-8">
@@ -65,7 +65,7 @@ export function Hero() {
           </Reveal>
 
           {/* Right Column: Cinematic Mockups */}
-          <div className="relative lg:h-[600px] flex items-center justify-center">
+          <div className="relative flex items-center justify-center pb-12 sm:pb-16 lg:pb-0">
             <Reveal delay={200} className="relative z-10 w-full">
               {/* Main Laptop Mockup */}
               <div className="relative w-full max-w-[800px] mx-auto group perspective-1000">
@@ -137,7 +137,7 @@ export function Hero() {
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
-                  className="absolute -bottom-12 -right-12 w-[220px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
+                  className="hidden sm:block absolute -bottom-10 right-0 lg:-right-4 w-[160px] md:w-[200px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
                 >
                   <div className="aspect-[9/19] p-4 flex flex-col gap-4">
                     <div className="h-5 w-16 bg-[#1E293B] rounded-full mx-auto mb-2" />
@@ -159,7 +159,7 @@ export function Hero() {
                 <motion.div 
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-10 -left-16 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
+                  className="hidden lg:block absolute top-10 -left-10 xl:-left-16 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-10 rounded-xl bg-primary/20 flex items-center justify-center">
@@ -175,7 +175,7 @@ export function Hero() {
                 <motion.div 
                   animate={{ y: [0, 10, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-20 -left-20 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
+                  className="hidden lg:block absolute bottom-20 -left-14 xl:-left-20 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl z-30"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-10 rounded-xl bg-blue-500/20 flex items-center justify-center">

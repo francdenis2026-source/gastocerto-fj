@@ -78,7 +78,7 @@ export function Benefits() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <Reveal key={feature.title} delay={index * 100}>
-              <div className="group interactive-card p-10 h-full flex flex-col rounded-[2.5rem] border border-white/5 bg-[#0F172A]/40 backdrop-blur-sm hover:bg-[#0F172A]/60 transition-all duration-500">
+              <div className="group interactive-card p-8 sm:p-10 h-full flex flex-col rounded-[2rem] border border-white/5 bg-[#0F172A]/40">
                 <div className={cn("mb-6 flex size-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110", feature.bg)}>
                   <feature.icon className={cn("size-6", feature.color)} />
                 </div>

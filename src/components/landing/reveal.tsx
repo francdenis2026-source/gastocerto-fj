@@ -5,18 +5,30 @@ interface RevealProps extends HTMLMotionProps<"div"> {
   children: ReactNode;
   className?: string;
   delay?: number;
+  /** Direction of the entry motion */
+  from?: "up" | "down" | "left" | "right" | "none";
 }
 
-export function Reveal({ children, className, delay = 0, ...props }: RevealProps) {
+const offsets = {
+  up: { y: 16, x: 0 },
+  down: { y: -16, x: 0 },
+  left: { y: 0, x: 16 },
+  right: { y: 0, x: -16 },
+  none: { y: 0, x: 0 },
+};
+
+export function Reveal({ children, className, delay = 0, from = "up", ...props }: RevealProps) {
+  const offset = offsets[from];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      initial={{ opacity: 0, ...offset, filter: "blur(2px)" }}
+      whileInView={{ opacity: 1, y: 0, x: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-80px" }}
       transition={{
-        duration: 0.5,
+        duration: 0.22,
         delay: delay / 1000,
-        ease: [0.21, 0.47, 0.32, 0.98]
+        ease: [0.22, 1, 0.36, 1],
       }}
       className={className}
       {...props}
