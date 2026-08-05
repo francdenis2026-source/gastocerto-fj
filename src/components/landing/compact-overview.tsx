@@ -248,7 +248,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-white/5 bg-white/[0.01] section-y">
+    <section id="explorar" className="relative border-y border-border/5 bg-background section-y">
       <span id="seguranca" className="block" />
       <div
         aria-hidden="true"
