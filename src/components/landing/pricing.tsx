@@ -160,8 +160,8 @@ export function Pricing() {
               )}
               
               <div className="mb-5">
-                <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-                <p className="mt-1 text-xs text-muted-foreground">{plan.description}</p>
+                <h3 className="text-2xl font-black text-white">{plan.name}</h3>
+                <p className="mt-2 text-[13px] text-muted-foreground font-medium">{plan.description}</p>
               </div>
 
               <div className="mb-4">
