@@ -13,17 +13,6 @@ import { Progress } from "@/components/ui/progress";
 import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-const chartBars = [
-  { day: "01", value: 42 },
-  { day: "05", value: 68 },
-  { day: "09", value: 35 },
-  { day: "12", value: 82 },
-  { day: "15", value: 54 },
-  { day: "19", value: 96 },
-  { day: "22", value: 61 },
-  { day: "26", value: 74 },
-  { day: "29", value: 48 },
-];
 
 const topCategories = [
   { name: "Alimentação", value: 1284.9, percent: 34, icon: Utensils },
