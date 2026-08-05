@@ -16,12 +16,7 @@ type Slug = "free" | "premium" | "premium_ia";
  * Bloco de planos da versão mobile: Redesenhado para padrão Premium.
  */
 export function PricingMobile() {
-  const { data: livePlans } = usePublicPlans();
-  const plans = basePlans.map((plan: PricingPlan) => {
-    if (plan.monthly === 0) return plan;
-    const live = livePrice(livePlans, plan.slug, { monthly: plan.monthly, annual: plan.yearly * 12 });
-    return { ...plan, monthly: live.monthly, yearly: annualMonthlyEquivalent(live.annual) };
-  });
+  const plans = basePlans; // Simplificado para evitar dependências circulares ou ganchos ausentes
 
   const [slug, setSlug] = useState<Slug>("premium_ia");
   const [yearly, setYearly] = useState(true);
