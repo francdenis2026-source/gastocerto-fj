@@ -6,14 +6,12 @@
 
 /** Paleta de séries — use sempre nesta ordem para manter consistência visual. */
 export const CHART_SERIES = [
-  "#17A45F", // Emerald/Brand
-  "#3B82F6", // Blue
-  "#F59E0B", // Amber
-  "#EF4444", // Red/Destructive
-  "#8B5CF6", // Violet
-  "#06B6D4", // Cyan
-  "#EC4899", // Pink
-  "#10B981", // Emerald-500
+  "#22C55E", // Emerald (Primário)
+  "#4ADE80", // Menta (Apoio)
+  "#E8C468", // Dourado (Aviso)
+  "#EF4444", // Vermelho (Erro)
+  "#2DD4BF", // Ciano (Outro)
+  "#14B8A6", // Teal (Outro)
 ] as const;
 
 /** Cores semânticas fixas por tipo de valor. */
