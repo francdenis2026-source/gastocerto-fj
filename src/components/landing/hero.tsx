@@ -24,7 +24,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[85svh] items-center overflow-hidden py-24 sm:min-h-[90svh] lg:py-32"
+      className="relative isolate flex min-h-[75svh] items-center overflow-hidden py-16 sm:min-h-[80svh] lg:py-24"
     >
       {/* 1. FUNDO DO HERO (Profissional fazendo contas no iPhone) */}
       <div className="absolute inset-0 -z-20 bg-[#0A1512]">
