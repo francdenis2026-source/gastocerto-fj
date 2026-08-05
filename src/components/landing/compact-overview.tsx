@@ -183,9 +183,9 @@ export function CompactOverview() {
               Completo e Seguro
             </span>
           </div>
-          <h2 className="section-title">Tudo o que você precisa</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto !text-white/70">
-            Recursos essenciais desenhados para facilitar sua gestão financeira diária e planejamento de longo prazo.
+          <h2 className="section-title">Infraestrutura Financeira</h2>
+          <p className="mt-6 section-subtitle max-w-3xl mx-auto !text-white/80">
+            Módulos integrados com tecnologia de ponta para automação, análise e segurança máxima do seu patrimônio.
           </p>
         </Reveal>
 
