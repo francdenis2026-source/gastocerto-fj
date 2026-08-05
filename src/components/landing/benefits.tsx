@@ -154,8 +154,8 @@ export function Benefits() {
                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80 group-hover:text-black/80 transition-colors">{item.tag}</span>
                             <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-black" />
                           </div>
-                          <h4 className="mt-1.5 text-lg font-bold text-white group-hover:text-black transition-colors">{item.title}</h4>
-                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground group-hover:text-black/70 transition-colors">{item.text}</p>
+                          <h4 className="mt-2 text-xl font-bold tracking-tight text-white group-hover:text-black transition-colors">{item.title}</h4>
+                          <p className="mt-2 text-[15px] font-medium leading-relaxed text-muted-foreground group-hover:text-black/70 transition-colors">{item.text}</p>
                         </button>
                       </FeatureDetailDialog>
                     </Reveal>
