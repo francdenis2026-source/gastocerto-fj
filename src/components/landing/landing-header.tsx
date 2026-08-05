@@ -50,33 +50,18 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
   }, []);
 
 
-  const [announcementVisible, setAnnouncementVisible] = useState(true);
-
   return (
     <>
-      {announcementVisible && (
-        <div className="fixed inset-x-0 top-0 z-[60] flex h-7 items-center justify-center bg-gradient-to-r from-emerald-600/20 to-emerald-500/20 px-4 text-center backdrop-blur-md border-b border-emerald-500/20">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 sm:text-[11px]">
-            🎉 Novo: sincronização automática com Pix e cartões — experimente grátis por 7 dias
-          </p>
-          <button 
-            onClick={() => setAnnouncementVisible(false)}
-            className="absolute right-2 p-1 text-emerald-400/60 hover:text-emerald-400 transition-colors"
-            aria-label="Fechar anúncio"
-          >
-            <X className="size-3.5" />
-          </button>
-        </div>
-      )}
+
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-300",
-          announcementVisible ? "top-7" : "top-0",
+          "fixed inset-x-0 z-50 transition-all duration-300 top-0",
           scrolled
             ? "glass-morphism border-b border-border/10 text-foreground shadow-lg"
             : "border-b border-transparent bg-transparent text-foreground dark:text-hero-fg",
         )}
       >
+
         <div className="section-shell flex h-14 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group" />
 
