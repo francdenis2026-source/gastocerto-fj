@@ -127,7 +127,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-11 px-6 text-[11px] font-bold uppercase tracking-[0.15em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D]/10 hover:border-[#1FAE6D]/40 transition-all active:scale-95 group",
+              "h-12 px-8 text-[12px] font-black uppercase tracking-[0.2em] rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D] hover:text-black hover:border-[#1FAE6D] shadow-[0_0_20px_rgba(31,174,109,0)] hover:shadow-[0_0_20px_rgba(31,174,109,0.4)] transition-all duration-300 active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
@@ -144,7 +144,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-7 text-[11px] font-bold uppercase tracking-[0.15em] text-black shadow-lg shadow-[#1FAE6D]/20 transition-all sm:flex" asChild>
+              <Button className="cta-lift group hidden h-12 items-center rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-8 text-[12px] font-black uppercase tracking-[0.2em] text-black shadow-xl shadow-[#1FAE6D]/30 transition-all duration-300 sm:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
