@@ -915,10 +915,10 @@ function DashboardPage() {
                        </InteractiveCard>
                      </div>
                       <div className="hidden sm:grid gap-3 auto-cards-sm">
-                        <StatTile
+                        <MetricCard
                           label="Minha Assinatura"
                           value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
-                          tone={access.planSlug !== "free" ? "success" : "neutral"}
+                          tone={access.planSlug !== "free" ? "brand" : "neutral"}
                           icon={ShieldCheck}
                           badge={access.planSlug !== "free" ? (
                             <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px] font-black uppercase tracking-tighter h-5 px-1.5">
@@ -928,7 +928,7 @@ function DashboardPage() {
                           onClick={() => navigate({ to: "/perfil" })}
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="brand"
                           label={
                             metrics.isCurrentMonth
@@ -949,7 +949,7 @@ function DashboardPage() {
                           onClick={() => openDayDetail(today.getDate())}
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="warning"
                           label="Gasto nos 7 dias"
                           value={formatCurrency(metrics.week)}
@@ -965,7 +965,7 @@ function DashboardPage() {
                           }
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="expense"
                           label="Gasto no mês"
                           value={formatCurrency(metrics.totalExpense)}
@@ -984,8 +984,8 @@ function DashboardPage() {
                           }
                         />
 
-                        <StatTile
-                          tone="success"
+                        <MetricCard
+                          tone="brand"
                           label="Receita total"
                           value={formatCurrency(metrics.totalIncome)}
                           icon={TrendingUp}
@@ -1002,7 +1002,7 @@ function DashboardPage() {
                           }
                         />
 
-                        <StatTile
+                        <MetricCard
                           tone="neutral"
                           label="Saldo disponível"
                           value={formatCurrency(metrics.balance)}
