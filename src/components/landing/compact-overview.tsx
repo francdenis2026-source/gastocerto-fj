@@ -46,92 +46,62 @@ type Feature = { icon: LucideIcon; title: string; text: string; tag: string };
 
 const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   {
-    group: "Essencial",
-    caption: "Gestão do dia a dia",
+    group: "Plataforma",
+    caption: "Gestão inteligente",
     items: [
       {
         icon: Receipt,
-        title: "Lançamentos em 10s",
+        title: "Lançamentos Rápidos",
         text: "Despesa ou receita com categoria e parcelas.",
         tag: "Agilidade",
-      },
-      {
-        icon: Repeat,
-        title: "Contas recorrentes",
-        text: "Água, energia e internet lançadas sozinhas todo mês.",
-        tag: "Automação",
       },
       {
         icon: CreditCard,
         title: "Gestão de Cartões",
         text: "Faturas, limites e vencimentos centralizados.",
-        tag: "Cartões",
+        tag: "Controle",
       },
       {
         icon: BarChart3,
-        title: "Painel Inteligente",
+        title: "Analytics Avançado",
         text: "Visão consolidada de saldo, gastos e metas.",
-        tag: "Analytics",
-      },
-    ],
-  },
-  {
-    group: "Diferenciais",
-    caption: "Recursos exclusivos",
-    items: [
-      {
-        icon: Baby,
-        title: "Espaço Kids",
-        text: "Painel simplificado por criança com PIN e avatar.",
-        tag: "Família",
-      },
-      {
-        icon: Flame,
-        title: "Gás de cozinha",
-        text: "Histórico, duração média e aviso de reposição.",
-        tag: "Casa",
-      },
-      {
-        icon: Fuel,
-        title: "Abastecimentos",
-        text: "Consumo médio e detecção de anomalias.",
-        tag: "Frota",
+        tag: "Inteligência",
       },
       {
         icon: Sparkles,
         title: "Consultor com IA",
         text: "Diagnóstico e plano de saída de dívidas.",
-        tag: "Inteligência",
+        tag: "Elite",
       },
     ],
   },
   {
-    group: "Segurança",
-    caption: "Privacidade absoluta",
+    group: "Exclusivos",
+    caption: "Recursos de elite",
     items: [
       {
-        icon: Lock,
-        title: "Dados Privados",
-        text: "Criptografia bancária e conformidade LGPD.",
-        tag: "Segurança",
+        icon: Baby,
+        title: "Espaço Kids",
+        text: "Educação financeira para filhos com PIN.",
+        tag: "Família",
       },
       {
-        icon: Fingerprint,
-        title: "Acesso Isolado",
-        text: "Cada conta vê apenas seus próprios registros.",
-        tag: "Controle",
+        icon: Flame,
+        title: "Controle de Gás",
+        text: "Previsão de consumo e aviso de reposição.",
+        tag: "Inovação",
+      },
+      {
+        icon: Fuel,
+        title: "Abastecimentos",
+        text: "Consumo médio e detecção de anomalias.",
+        tag: "Eficiência",
       },
       {
         icon: ShieldCheck,
-        title: "Sem Compartilhamento",
-        text: "Dados 100% seus, nunca vendidos a terceiros.",
-        tag: "Confiança",
-      },
-      {
-        icon: CalendarClock,
-        title: "Conciliação",
-        text: "Feche o mês e bloqueie períodos com senha.",
-        tag: "Gestão",
+        title: "Privacidade Absoluta",
+        text: "Criptografia bancária e dados isolados.",
+        tag: "Segurança",
       },
     ],
   },
@@ -222,12 +192,12 @@ export function CompactOverview() {
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-8 sm:grid-cols-2">
               {featureGroups.map((group, groupIndex) => (
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[2.5rem] p-12 bg-transparent border-none shadow-none"
+                  className="interactive-card rounded-[2.5rem] p-10 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm"
                 >
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5">
                     {group.group}
