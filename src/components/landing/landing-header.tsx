@@ -53,7 +53,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-300 to-emerald-600 shadow-[0_0_20px_rgba(31,174,109,0.6)]" />
+      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-300 to-emerald-600 shadow-[0_0_20px_rgba(31,174,109,0.6)] pointer-events-none" />
 
       <header
         className={cn(

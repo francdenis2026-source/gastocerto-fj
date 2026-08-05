@@ -215,9 +215,12 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[2.5rem] p-10 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm"
+                  className="interactive-card rounded-[2.5rem] p-10 bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm group"
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Grupo de recursos: ${group.group}`}
                 >
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5 group-hover:tracking-[0.4em] transition-all duration-500">
                     {group.group}
                   </p>
                   <ul className="grid gap-2">
@@ -252,8 +255,8 @@ export function CompactOverview() {
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
-                <Reveal key={faq.q} delay={index * 50}>
-                  <AccordionItem value={`faq-${index}`} className="px-4 rounded-xl mb-1 last:mb-0">
+                <Reveal key={faq.q} delay={index * 50} className="group">
+                  <AccordionItem value={`faq-${index}`} className="px-4 rounded-xl mb-1 last:mb-0 transition-all hover:bg-white/[0.02]">
                     <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
                       {faq.q}
                     </AccordionTrigger>
