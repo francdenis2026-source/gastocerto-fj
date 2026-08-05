@@ -145,11 +145,11 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2.5rem] p-10 transition-all duration-400 overflow-hidden",
-                "bg-black/40 border border-white/10 shadow-2xl backdrop-blur-xl",
+                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden",
+                "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",
                 plan.highlighted 
-                  ? "ring-2 ring-emerald-500/50 shadow-[0_0_80px_-20px_rgba(31,174,109,0.3)] scale-[1.05] z-10" 
-                  : "hover:border-emerald-500/30"
+                  ? "ring-1 ring-emerald-500/50 shadow-[0_0_50px_-15px_rgba(31,174,109,0.2)] scale-[1.02] z-10" 
+                  : "hover:border-emerald-500/20"
               )}
               tabIndex={0}
               role="button"
@@ -165,23 +165,23 @@ export function Pricing() {
                 </div>
               )}
               
-              <div className="relative z-10 mb-8">
-                <h3 className="text-3xl font-black text-white tracking-tight">{plan.name}</h3>
-                <p className="mt-2 text-sm font-medium text-emerald-500/60 uppercase tracking-widest">{plan.description}</p>
+              <div className="relative z-10 mb-6">
+                <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
+                <p className="mt-1 text-[11px] font-bold text-emerald-500/60 uppercase tracking-widest">{plan.description}</p>
               </div>
 
-              <div className="relative z-10 mb-10">
+              <div className="relative z-10 mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black tracking-tighter text-white tabular">
+                  <span className="text-4xl font-black tracking-tighter text-white tabular">
                     {plan.monthly === 0 ? "Livre" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
-                  <span className="text-sm font-bold text-white/40 uppercase tracking-wider">/mês</span>
+                  <span className="text-xs font-bold text-white/40 uppercase tracking-wider">/mês</span>
                 </div>
               </div>
 
-              <ul className="relative z-10 flex-1 space-y-4 mb-10">
+              <ul className="relative z-10 flex-1 space-y-3 mb-8">
                 {plan.features.map((feature: string) => (
-                  <li key={feature} className="flex items-start gap-3 text-[14px] group/item">
+                  <li key={feature} className="flex items-start gap-3 text-[13px] group/item">
                     <div className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black transition-colors">
                       <Check className="size-3 font-bold" />
                     </div>
@@ -193,7 +193,7 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "relative z-10 cta-lift h-16 w-full rounded-2xl text-[14px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
+                  "relative z-10 cta-lift h-14 w-full rounded-xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
                   plan.highlighted
                     ? "bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-emerald-500/50"
