@@ -77,8 +77,9 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        HOMEPAGE REESTRUTURADA PARA FORMATO SINGLE-SCREEN DE ALTO IMPACTO.
+        IMAGEM DE FUNDO ATUALIZADA PARA UMA COMPOSIÇÃO MAIS RICA EM ELEMENTOS E DADOS FINANCEIROS.
       </div>
+
 
 
 
