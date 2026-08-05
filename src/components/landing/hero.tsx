@@ -18,7 +18,7 @@ import {
 import { Logo } from "@/components/logo";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { HeroChart } from "@/components/landing/hero-chart";
+import { FinancialOrbs } from "@/components/landing/financial-orbs";
 
 
 export function Hero() {
@@ -51,7 +51,7 @@ export function Hero() {
       </div>
 
       {/* Camada de gráfico moderno do hero */}
-      <HeroChart />
+      <FinancialOrbs />
 
 
       <div className="section-shell relative z-10">

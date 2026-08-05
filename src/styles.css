@@ -28,7 +28,10 @@ body {
 body {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
-  overscroll-behavior-y: contain; /* Desativar pull-to-refresh em mobile */
+  overscroll-behavior-y: contain;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body::-webkit-scrollbar {
@@ -115,12 +118,6 @@ body::-webkit-scrollbar {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-acc-1: var(--acc-1);
-  --color-acc-2: var(--acc-2);
-  --color-acc-3: var(--acc-3);
-  --color-acc-4: var(--acc-4);
-  --color-acc-5: var(--acc-5);
-  --color-acc-6: var(--acc-6);
   --shadow-soft: 0 1px 2px oklch(0.22 0.07 258 / 3%), 0 4px 12px oklch(0.22 0.07 258 / 4%);
   --shadow-lifted: 0 2px 4px oklch(0.22 0.07 258 / 4%), 0 12px 32px oklch(0.22 0.07 258 / 8%);
   --color-banner-amber-bg: var(--banner-amber-bg);
@@ -243,12 +240,6 @@ body::-webkit-scrollbar {
 
 
 
-@utility text-gradient {
-  background-image: linear-gradient(100deg, var(--acc-1), var(--acc-5) 45%, var(--acc-2));
-  background-clip: text;
-  color: transparent;
-  filter: brightness(0.95);
-}
 
 @utility accent-tile {
   --tile: var(--acc-1);
@@ -491,13 +482,6 @@ body::-webkit-scrollbar {
 
 
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; filter: blur(120px); }
   50% { opacity: 0.8; filter: blur(140px); }
 }
 
