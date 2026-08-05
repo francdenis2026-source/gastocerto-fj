@@ -49,10 +49,6 @@ export function Hero() {
 
       <div className="section-shell relative z-10">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Logo Centralizada no Mobile */}
-          <div className="mb-8 flex justify-center lg:hidden">
-            <Logo onDark href="/" className="group" />
-          </div>
 
 
           <Reveal className="space-y-6">
