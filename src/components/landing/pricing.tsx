@@ -155,11 +155,11 @@ export function Pricing() {
                 setCheckoutPlan(plan.slug);
               }}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden cursor-pointer group",
-                "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",
-                plan.highlighted 
-                  ? "ring-2 ring-emerald-500/50 shadow-[0_0_50px_-15px_rgba(31,174,109,0.3)] z-10 bg-black/60" 
-                  : "hover:border-emerald-500/20"
+                "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group",
+                plan.slug === "free" && "bg-gradient-to-br from-emerald-950/40 to-emerald-900/10 border-emerald-500/20 shadow-[0_20px_40px_-15px_rgba(31,174,109,0.1)]",
+                plan.slug === "premium" && "bg-gradient-to-br from-blue-950/40 to-indigo-900/10 border-blue-500/30 ring-1 ring-blue-500/20 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.2)] scale-105 z-10",
+                plan.slug === "premium_ia" && "bg-gradient-to-br from-amber-950/40 to-yellow-900/10 border-amber-500/30 shadow-[0_20px_40px_-15px_rgba(212,175,106,0.15)]",
+                "backdrop-blur-2xl hover:translate-y-[-8px]"
               )}
               tabIndex={0}
               role="button"
@@ -167,14 +167,19 @@ export function Pricing() {
             >
 
               {plan.highlighted && (
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-emerald-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-[0_10px_30px_rgba(31,174,109,0.4)]">
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-blue-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-[0_10px_30px_rgba(59,130,246,0.4)]">
                   Mais Escolhido
                 </div>
               )}
               
               <div className="relative z-10 mb-6">
                 <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
-                <p className="mt-1 text-[11px] font-bold text-emerald-500/60 uppercase tracking-widest">{plan.description}</p>
+                <p className={cn(
+                  "mt-1 text-[11px] font-bold uppercase tracking-widest",
+                  plan.slug === "free" && "text-emerald-500/60",
+                  plan.slug === "premium" && "text-blue-400/70",
+                  plan.slug === "premium_ia" && "text-amber-500/60"
+                )}>{plan.description}</p>
               </div>
 
               <div className="relative z-10 mb-8">
@@ -189,7 +194,12 @@ export function Pricing() {
               <ul className="relative z-10 flex-1 space-y-3 mb-8">
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-[13px] group/item">
-                    <div className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black transition-colors">
+                    <div className={cn(
+                      "mt-1 flex size-5 shrink-0 items-center justify-center rounded-full transition-colors",
+                      plan.slug === "free" && "bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black",
+                      plan.slug === "premium" && "bg-blue-500/20 text-blue-400 group-hover/item:bg-blue-500 group-hover/item:text-white",
+                      plan.slug === "premium_ia" && "bg-amber-500/20 text-amber-500 group-hover/item:bg-amber-500 group-hover/item:text-black"
+                    )}>
                       <Check className="size-3 font-bold" />
                     </div>
                     <span className="font-medium text-white/70 group-hover/item:text-white transition-colors">{feature}</span>
@@ -204,12 +214,12 @@ export function Pricing() {
                   setCheckoutPlan(plan.slug);
                 }}
                 className={cn(
-                  "relative z-10 cta-lift h-14 w-full rounded-xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
-                  plan.highlighted
-                    ? "bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
-                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-emerald-500/50"
+                  "relative z-10 cta-lift h-14 w-full rounded-2xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
+                  plan.slug === "free" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500 hover:text-black",
+                  plan.slug === "premium" && "bg-blue-500 text-white hover:bg-blue-400 shadow-[0_20px_40px_-10px_rgba(59,130,246,0.5)]",
+                  plan.slug === "premium_ia" && "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500 hover:text-black",
                 )}
-                variant={plan.highlighted ? "default" : "outline"}
+                variant="ghost"
               >
                 <span className="relative z-10 flex items-center justify-center">
                   {plan.cta}
