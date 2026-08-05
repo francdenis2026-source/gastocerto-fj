@@ -57,8 +57,14 @@ export function LandingHeader() {
           </div>
           
           {/* Mobile Toggle */}
-          <button className="lg:hidden p-2 rounded-full hover:bg-secondary transition-colors" onClick={() => setOpen(!open)}>
-            {open ? <X className="size-6" /> : <Menu className="size-6" />}
+          <button
+            type="button"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={open}
+            className="lg:hidden grid size-11 place-items-center rounded-full hover:bg-white/5 active:scale-95 transition-all duration-200"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X className="size-6" aria-hidden="true" /> : <Menu className="size-6" aria-hidden="true" />}
           </button>
         </div>
       </div>
