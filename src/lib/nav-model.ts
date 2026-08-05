@@ -10,6 +10,8 @@ import {
   ShieldCheck,
   User2,
   Zap,
+  Target,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 
