@@ -21,74 +21,88 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[65svh] lg:min-h-[75svh] items-center overflow-hidden pt-16 pb-8 lg:pt-24"
+      className="relative isolate flex min-h-dvh items-center overflow-hidden"
     >
-      {/* 1. FUNDO DO HERO (Foto Real + Overlay) */}
-      <div className="absolute inset-0 -z-20 overflow-hidden">
-        {/* Imagem Real de Alta Resolução (Finance-focused) */}
+      {/* 1. FUNDO DO HERO (Foto Real) */}
+      <div className="absolute inset-0 -z-20">
         <img 
           src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover brightness-[0.85] contrast-[1.1]"
+          className="h-full w-full object-cover brightness-[0.7] contrast-[1.2]"
         />
-
-        
-        {/* Overlay em Gradiente - Adaptado para modo claro/escuro */}
-        <div className="absolute inset-0 bg-transparent" />
-        
-        {/* Efeito de luz ambiente */}
-        <div 
-          className="absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-transparent blur-[120px]" 
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#001640]/40 via-transparent to-[#001640]" />
       </div>
 
-      <div className="section-shell relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-16">
-        
-        {/* 2. COMPOSIÇÃO - TEXTO (45%) */}
-        <div className="w-full lg:w-[45%] flex flex-col items-center text-center lg:items-start lg:text-left">
-          {/* Headline com gradiente */}
-          <div className="animate-in fade-in slide-in-from-top-4 duration-1000">
-            <h1 className="font-display text-[clamp(1.5rem,5vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-foreground dark:text-white mb-2">
-              Gestão financeira<br />
-              <span className="bg-gradient-to-r from-[#1FAE6D] to-[#3FD68C] bg-clip-text text-transparent">estratégica.</span>
+      <div className="section-shell relative z-10">
+        <div className="mx-auto max-w-4xl text-center">
+          {/* Logo Centralizada no Mobile */}
+          <div className="mb-8 flex justify-center lg:hidden">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="size-10 rounded-xl bg-emerald-500 flex items-center justify-center text-[#001640] font-black text-xl shadow-lg shadow-emerald-500/20">
+                G
+              </div>
+              <span className="text-2xl font-black tracking-tighter text-white">GastoCerto</span>
+            </Link>
+          </div>
+
+          <Reveal className="space-y-6">
+            <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-black leading-[0.95] tracking-tight text-white drop-shadow-2xl">
+              Domine seu<br />
+              <span className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 bg-clip-text text-transparent">dinheiro.</span>
             </h1>
-            <p className="max-w-xl text-[16px] font-medium leading-[1.5] text-muted-foreground sm:text-lg">
-              Precisão total e controle absoluto para quem exige excelência na gestão familiar.
+            
+            <p className="mx-auto max-w-2xl text-lg font-bold leading-relaxed text-emerald-50/90 drop-shadow-md sm:text-2xl">
+              Precisão absoluta e controle estratégico para sua vida financeira. Uma única tela, poder ilimitado.
             </p>
-          </div>
 
-          {/* CTA E MICROCOPY */}
-          <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row lg:justify-start w-full">
-            <Button
-              className="cta-lift group relative h-12 w-full sm:w-auto rounded-lg bg-[#1FAE6D] px-8 text-[14px] font-bold text-[#001640] shadow-[0_0_30px_-5px_rgba(31,174,109,0.3)] hover:shadow-[0_0_40px_-5px_rgba(31,174,109,0.4)] transition-all overflow-hidden"
-              asChild
-            >
-              <Link to="/auth" search={{ mode: "signup" }}>
-                <span className="relative z-10 flex items-center">
-                  Começar agora
-                  <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-              </Link>
-            </Button>
-            <Button
-              variant="outline"
-              className="h-12 w-full sm:w-auto rounded-lg border-border/10 bg-surface/50 px-8 text-[14px] font-bold text-foreground dark:text-white backdrop-blur-md transition-all hover:bg-surface group/interactive"
-              asChild
-            >
-              <Link to="/auth" search={{ mode: "login" }}>
-                <Users size={16} className="mr-2 text-emerald-400" />
-                Acessar Painel
-              </Link>
-            </Button>
-          </div>
+            <div className="flex flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
+              <Button
+                size="lg"
+                className="h-16 w-full rounded-2xl bg-emerald-500 px-10 text-lg font-black text-[#001640] shadow-[0_0_50px_-10px_rgba(16,185,129,0.5)] transition-all hover:scale-105 hover:bg-emerald-400 sm:w-auto active:scale-95"
+                asChild
+              >
+                <Link to="/auth" search={{ mode: "signup" }}>
+                  Começar Grátis
+                  <ArrowRight className="ml-2 size-6" />
+                </Link>
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-16 w-full rounded-2xl border-white/20 bg-white/5 px-10 text-lg font-bold text-white backdrop-blur-2xl transition-all hover:bg-white/10 sm:w-auto active:scale-95"
+                asChild
+              >
+                <Link to="/auth" search={{ mode: "login" }}>
+                  <Users className="mr-2 size-6 text-emerald-400" />
+                  Acessar Painel
+                </Link>
+              </Button>
+            </div>
 
+            {/* Microcopy compacta */}
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 pt-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-500/60">
+              <span className="flex items-center gap-2"><Sparkles className="size-3" /> IA Financeira</span>
+              <span className="flex items-center gap-2"><Sparkles className="size-3" /> Espaço Kids</span>
+              <span className="flex items-center gap-2"><Sparkles className="size-3" /> Multi-Contas</span>
+            </div>
+          </Reveal>
         </div>
-
-        {/* REMOVED PREVIOUS MOCKUP ART */}
-
-
       </div>
     </section>
+  );
+}
+
+function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  return (
+    <div 
+      className={cn("animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-both", className)}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
   );
 }
