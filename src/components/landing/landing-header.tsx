@@ -53,9 +53,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-        <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center" />
-      </div>
+      <div className="fixed top-0 inset-x-0 z-[60] h-1 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
 
       <header
         className={cn(
