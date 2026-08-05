@@ -26,6 +26,7 @@ import {
   Star,
   Target,
   Tv,
+  Users,
   Wallet,
   type LucideIcon,
 } from "lucide-react";
@@ -134,12 +135,13 @@ const shortcuts = [
   { label: "FAQ", href: "#faq", icon: HelpCircle },
 ] as const;
 
-const tabs = ["recursos", "faq"] as const;
+const tabs = ["como-funciona", "recursos", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
-  recursos: { label: "Recursos e Segurança", description: "Doze recursos essenciais organizados em três frentes" },
-  faq: { label: "Suporte", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
+  "como-funciona": { label: "Como Funciona", description: "3 passos simples para o controle total" },
+  recursos: { label: "Recursos", description: "Ferramentas completas para sua gestão" },
+  faq: { label: "Dúvidas", description: "Perguntas frequentes sobre segurança e uso" },
 };
 
 export function CompactOverview() {
