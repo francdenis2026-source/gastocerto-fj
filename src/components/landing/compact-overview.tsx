@@ -169,7 +169,7 @@ type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
   recursos: { label: "Recursos e Segurança", description: "Doze recursos essenciais organizados em três frentes" },
-  faq: { label: "Dúvidas", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
+  faq: { label: "Suporte", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
 };
 
 export function CompactOverview() {

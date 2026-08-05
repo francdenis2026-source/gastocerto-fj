@@ -126,11 +126,11 @@ export function Benefits() {
     <div className="relative overflow-hidden">
       {/* Imagem de Fundo Global da Seção */}
       {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
-      <section id="recursos" className="section-y relative z-10">
+      <section id="recursos-detalhes" className="section-y relative z-10 border-t border-white/[0.03]">
         <div className="section-shell">
-          <Reveal className="text-center mx-auto max-w-2xl mb-12">
-            <h2 className="section-title">Ecosystema de alto desempenho</h2>
-            <p className="mt-3 text-muted-foreground">Ferramentas técnicas para gestão de patrimônio e otimização financeira.</p>
+          <Reveal className="text-center mx-auto max-w-2xl mb-16">
+            <h2 className="section-title">Infraestrutura Financeira</h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed">Arquitetura de dados resiliente para gestão de alta performance.</p>
           </Reveal>
 
           <div className="grid gap-8">

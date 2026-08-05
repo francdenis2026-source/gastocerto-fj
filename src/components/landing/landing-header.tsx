@@ -12,7 +12,7 @@ import { handleAnchorClick } from "@/lib/scroll";
 const navItems = [
   { label: "Recursos", href: "#recursos" },
   { label: "Planos", href: "#planos" },
-  { label: "Dúvidas", href: "#faq" },
+  { label: "Suporte", href: "#faq" },
   { label: "Contato", href: "#contato" },
 ];
 
