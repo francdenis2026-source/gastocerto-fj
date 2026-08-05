@@ -195,7 +195,7 @@ export function CompactOverview() {
               Recursos de Próxima Geração
             </span>
           </div>
-          <h2 className="section-title text-4xl sm:text-5xl lg:text-7xl tracking-tighter font-black">Infraestrutura Financeira</h2>
+          <h2 className="section-title">Infraestrutura Financeira</h2>
           <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-base sm:text-xl leading-relaxed font-medium [text-wrap:balance]">
             Uma engenharia desenhada para quem busca precisão absoluta, segurança inabalável e automação de elite.
           </p>

@@ -108,7 +108,7 @@ export function Pricing() {
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="section-title text-4xl sm:text-5xl lg:text-7xl tracking-tighter font-black">Planos de Crescimento</h2>
+          <h2 className="section-title">Planos de Crescimento</h2>
           <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Estrutura de custos otimizada para diferentes níveis de maturidade financeira.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">

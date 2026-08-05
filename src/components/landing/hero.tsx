@@ -65,13 +65,13 @@ export function Hero() {
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#1FAE6D]">Tecnologia Fintech de Elite</span>
             </div>
 
-            <h1 className="text-center font-display text-[clamp(2.5rem,8vw,5rem)] font-black leading-[1] tracking-[-0.04em] text-white">
+            <h1 className="text-center font-display text-[clamp(2.25rem,10vw,5.5rem)] font-black leading-[1.1] tracking-[-0.05em] text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               Controle o seu <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-white via-[#1FAE6D] to-[#1FAE6D] bg-clip-text text-transparent">patrimônio.</span>
             </h1>
 
             <p
-              className="mx-auto max-w-2xl text-center text-[17px] font-medium leading-[1.7] tracking-tight text-white/70 [text-wrap:balance] sm:text-[20px]"
+              className="mx-auto max-w-2xl text-center text-[15px] font-medium leading-[1.6] tracking-tight text-white/90 drop-shadow-sm [text-wrap:balance] sm:text-[20px]"
               style={{ fontFamily: '"Space Grotesk", var(--font-display)' }}
             >
               A engenharia financeira definitiva para quem busca precisão,{" "}

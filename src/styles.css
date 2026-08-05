@@ -12,7 +12,7 @@ body {
 
 @layer base {
   *, ::before, ::after {
-    @apply cursor-default;
+    @apply cursor-pointer;
   }
 
   a, button, [role="button"], input[type="submit"], input[type="button"], label, select, summary, [tabindex]:not([tabindex="-1"]) {
@@ -298,20 +298,13 @@ body::-webkit-scrollbar {
 
 @utility section-title {
   font-family: var(--font-display, inherit);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  font-size: clamp(2rem, 8vw, 4rem);
   color: var(--foreground);
   text-wrap: balance;
-
-  @media (min-width: 640px) {
-    font-size: 2.25rem;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 2.5rem;
-  }
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 
