@@ -34,9 +34,11 @@ export function HowItWorks() {
             <div className="relative group">
               <div className="relative z-10 aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
                 <img 
-                  src="https://images.unsplash.com/photo-1573163231154-2ef8a93e8631?q=80&w=2070&auto=format&fit=crop" 
+                  src="https://images.unsplash.com/photo-1573163231154-2ef8a93e8631?q=80&w=1600&auto=format&fit=crop" 
                   alt="Pessoa organizando as finanças pessoais no notebook" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent" />
               </div>

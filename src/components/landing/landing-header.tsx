@@ -26,9 +26,9 @@ export function LandingHeader() {
       )}
     >
       <div className="section-shell h-full flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Logo className="h-12 w-auto transition-transform duration-300 group-hover:scale-105" />
-        </Link>
+        <div className="flex min-w-0 items-center gap-2">
+          <Logo className="h-10 sm:h-12 w-auto transition-transform duration-200 hover:scale-[1.03]" />
+        </div>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-2 text-[14px] font-bold text-foreground/70">
