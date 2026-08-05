@@ -201,7 +201,7 @@ export function CompactOverview() {
                 <TabsTrigger
                   key={value}
                   value={value}
-                  className="rounded-full px-6 py-1.5 data-[state=active]:bg-brand data-[state=active]:text-black transition-all hover:scale-105 active:scale-95"
+                  className="rounded-full px-6 py-1.5 data-[state=active]:bg-brand data-[state=active]:text-black transition-all hover:bg-white/10 active:scale-95"
                 >
                   {tabMeta[value].label}
                 </TabsTrigger>
