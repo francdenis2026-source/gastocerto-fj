@@ -77,8 +77,9 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        IMAGENS REALISTAS APLICADAS EM TODAS AS SEÇÕES: DO ECOSSISTEMA AO RODAPÉ, GARANTINDO UMA EXPERIÊNCIA VISUAL COMPLETA.
+        REMOVIDO EFEITO QUADRICULADO DA HOMEPAGE PARA UMA ESTÉTICA MAIS LIMPA E PROFISSIONAL.
       </div>
+
 
       
       <LandingHeader />
