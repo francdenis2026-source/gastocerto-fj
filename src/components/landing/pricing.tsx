@@ -80,7 +80,7 @@ export function Pricing() {
   }, []);
 
   return (
-    <section id="planos" className="section-y bg-background relative overflow-hidden border-t border-white/5">
+    <section id="planos" className="section-y bg-[#0A1512] relative overflow-hidden border-t border-white/5">
       {/* Foto de Fundo em Baixa Opacidade */}
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
@@ -97,7 +97,7 @@ export function Pricing() {
               onClick={() => setIsYearly(false)}
               className={cn(
                 "rounded-full px-6 py-2 text-xs font-bold transition-all",
-                !isYearly ? "bg-emerald-500 text-black" : "text-muted-foreground"
+                !isYearly ? "bg-emerald-500 text-[#0A1512]" : "text-muted-foreground"
               )}
             >
               Mensal
@@ -106,13 +106,13 @@ export function Pricing() {
               onClick={() => setIsYearly(true)}
               className={cn(
                 "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all",
-                isYearly ? "bg-emerald-500 text-black" : "text-muted-foreground"
+                isYearly ? "bg-emerald-500 text-[#0A1512]" : "text-muted-foreground"
               )}
             >
               Anual
               <span className={cn(
                 "rounded-full px-1.5 py-0.5 text-[9px] font-black",
-                isYearly ? "bg-black/20 text-black" : "bg-emerald-500/20 text-emerald-500"
+                isYearly ? "bg-black/20 text-[#0A1512]" : "bg-emerald-500/20 text-emerald-500"
               )}>
                 2 MESES GRÁTIS
               </span>
@@ -133,7 +133,7 @@ export function Pricing() {
               )}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#001640] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
                   Mais Popular
                 </div>
               )}
@@ -166,7 +166,7 @@ export function Pricing() {
                 className={cn(
                   "h-11 w-full rounded-lg text-[13px] font-bold transition-all active:scale-[0.98] group",
                   plan.highlighted
-                    ? "bg-emerald-500 text-[#001640] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
+                    ? "bg-emerald-500 text-[#0A1512] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
