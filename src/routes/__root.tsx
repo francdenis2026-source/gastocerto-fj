@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "GastoCerto — Controle hoje, tranquilidade sempre" },
       { name: "description", content: "A plataforma completa para gestão de finanças pessoais. Controle hoje, tranquilidade sempre." },
       { name: "author", content: "GastoCerto" },
-      { name: "theme-color", content: "#0d1b3e" },
+      { name: "theme-color", content: "#F8FAF9" },
       { name: "application-name", content: "GastoCerto" },
       { name: "apple-mobile-web-app-title", content: "GastoCerto" },
       { property: "og:site_name", content: "GastoCerto" },
@@ -117,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16.png" },
       { rel: "icon", href: "/favicon-32.png", sizes: "any" },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
-      { rel: "mask-icon", href: "/favicon-32.png", color: "#0d1b3e" },
+      { rel: "mask-icon", href: "/favicon-32.png", color: "#1FAE6D" },
       { rel: "manifest", href: "/site.webmanifest" },
       { rel: "apple-touch-startup-image", href: "/splash/apple-splash-2048-2732.png", media: "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" },
       { rel: "apple-touch-startup-image", href: "/splash/apple-splash-1668-2224.png", media: "(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" },
@@ -185,9 +185,10 @@ function RootShell({ children }: { children: ReactNode }) {
               (function() {
                 try {
                   var theme = localStorage.getItem('gastocerto-theme');
-                  if (theme !== 'light') theme = 'dark';
+                  if (!theme) theme = 'dark';
                   document.documentElement.classList.toggle('dark', theme === 'dark');
                   document.documentElement.style.colorScheme = theme;
+                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#0A1512' : '#F8FAF9';
                 } catch (e) {}
 
               })();
@@ -196,10 +197,10 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <HeadContent />
       </head>
-      <body className="relative overscroll-none select-none md:select-auto">
+      <body className="relative overscroll-none select-none md:select-auto bg-background text-foreground transition-colors duration-300">
         <div className="noise-overlay" />
-        <div className="premium-glow top-[-300px] left-[-300px] animate-pulse-slow" />
-        <div className="premium-glow bottom-[-300px] right-[-300px] animate-pulse-slow" style={{ animationDelay: '4s' }} />
+        <div className="premium-glow top-[-300px] left-[-300px] animate-pulse-slow opacity-20 dark:opacity-100" />
+        <div className="premium-glow bottom-[-300px] right-[-300px] animate-pulse-slow opacity-20 dark:opacity-100" style={{ animationDelay: '4s' }} />
         {children}
         <Scripts />
       </body>

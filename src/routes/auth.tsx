@@ -331,9 +331,9 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-[#0A1512] shadow-[inset_1px_0_0_rgba(255,255,255,0.05)]">
+        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-background shadow-[inset_1px_0_0_rgba(255,255,255,0.05)] transition-colors duration-500">
           <div className="mb-6">
-            <h1 className="text-2xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-2xl font-black text-foreground dark:text-white tracking-tight leading-tight">
               {mode === "login" ? "Bem-vindo de volta" : mode === "signup" ? "Criar sua conta" : "Área Restrita"}
             </h1>
             <p className="text-xs font-medium text-muted-foreground/80 mt-1.5">
@@ -365,7 +365,7 @@ function AuthPage() {
                         id="code-cpf" 
                         placeholder="000.000.000-00" 
                         aria-label="CPF"
-                        className="h-12 rounded-xl pl-10 text-sm bg-white/[0.03] border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all"
+                        className="h-12 rounded-xl pl-10 text-sm bg-foreground/[0.03] dark:bg-white/[0.03] border-foreground/10 dark:border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all text-foreground dark:text-white"
                         onChange={(e) => {
                           const val = onlyDigits(e.target.value);
                           if (val.length <= 11) e.target.value = maskCpf(val);
@@ -378,7 +378,7 @@ function AuthPage() {
                     <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Nome Completo</Label>
                     <div className="relative group/field">
                       <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
-                      <Input id="code-name" aria-label="Nome completo" placeholder="Ex: João Silva" className="h-12 rounded-xl pl-10 text-sm bg-white/[0.03] border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all" />
+                      <Input id="code-name" aria-label="Nome completo" placeholder="Ex: João Silva" className="h-12 rounded-xl pl-10 text-sm bg-foreground/[0.03] dark:bg-white/[0.03] border-foreground/10 dark:border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all text-foreground dark:text-white" />
                     </div>
                   </div>
 
