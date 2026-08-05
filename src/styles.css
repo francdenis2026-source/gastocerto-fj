@@ -137,17 +137,17 @@ body::-webkit-scrollbar {
   --color-cta-accent-glow: var(--cta-accent-glow);
 
   /* Escala emerald recalibrada para o verde oficial (#1FAE6D). */
-  --color-emerald-50: #ECFDF5;
-  --color-emerald-100: #D1FAE5;
-  --color-emerald-200: #A7F3D0;
-  --color-emerald-300: #6EE7B7;
-  --color-emerald-400: #34D399;
+  --color-emerald-50: #F0FDF4;
+  --color-emerald-100: #DCFCE7;
+  --color-emerald-200: #BBF7D0;
+  --color-emerald-300: #86EFAC;
+  --color-emerald-400: #4ADE80;
   --color-emerald-500: #1FAE6D;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
-  --color-emerald-800: #065F46;
-  --color-emerald-900: #064E3B;
-  --color-emerald-950: #022C22;
+  --color-emerald-600: #16A34A;
+  --color-emerald-700: #15803D;
+  --color-emerald-800: #166534;
+  --color-emerald-900: #14532D;
+  --color-emerald-950: #052E16;
 }
 
 
@@ -157,8 +157,8 @@ body::-webkit-scrollbar {
   
   /* Verde Primário da marca (Premium Emerald #1FAE6D) */
   --emerald: #1FAE6D;
-  --emerald-gradient-to: #57D297;
-  --gold-accent: #D4AF6A; 
+  --emerald-gradient-to: #4ADE80;
+  --gold-accent: #D4AF6A;
   
   --background: transparent;
 
