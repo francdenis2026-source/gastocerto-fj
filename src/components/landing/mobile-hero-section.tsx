@@ -21,7 +21,7 @@ export function MobileHeroSection() {
   if (!hydrated) return null;
 
   return (
-    <section className="relative overflow-hidden bg-[#0A1210] px-4 pt-24 pb-12 md:hidden">
+    <section className="relative overflow-hidden bg-[#0A1210] px-4 pt-20 pb-12 md:hidden">
       {/* Background System 1:1 with Web */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1210] to-[#0F1B16]" />
