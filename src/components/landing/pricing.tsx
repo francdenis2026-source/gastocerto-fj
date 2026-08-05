@@ -151,7 +151,7 @@ export function Pricing() {
             <div
               key={plan.slug}
               onClick={() => {
-                console.log("Setting checkout plan to:", plan.slug);
+                console.log("Card clicked, setting plan to:", plan.slug);
                 setCheckoutPlan(plan.slug);
               }}
               className={cn(
@@ -200,6 +200,7 @@ export function Pricing() {
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
+                  console.log("Button clicked, setting plan to:", plan.slug);
                   setCheckoutPlan(plan.slug);
                 }}
                 className={cn(
