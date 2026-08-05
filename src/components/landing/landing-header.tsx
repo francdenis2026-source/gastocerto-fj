@@ -55,18 +55,28 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-[1000] h-16 bg-background text-foreground border-b",
+          "fixed inset-x-0 top-0 z-[1000] h-16 bg-background text-foreground border-b lg:h-20",
           scrolled
             ? "border-emerald-500/40 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
             : "border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]",
         )}
       >
-        <div className="section-shell flex h-16 items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
+        {/* Linha de energia: reage ao scroll e reforça a hierarquia do topo. */}
+        <span
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-500/70 to-transparent transition-opacity duration-500",
+            scrolled ? "opacity-100" : "opacity-0",
+          )}
+        />
+
+        <div className="section-shell flex h-16 items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6 lg:h-20">
           <Logo onDark={false} href="#inicio" className="group shrink-0" />
 
-
-
-          <nav aria-label="Navegação principal" className="ml-auto mr-auto hidden min-w-0 items-center gap-0.5 pl-6 lg:flex xl:gap-1">
+          <nav
+            aria-label="Navegação principal"
+            className="ml-auto mr-auto hidden min-w-0 items-center gap-1 rounded-2xl border border-border/40 bg-accent/30 p-1 pl-1.5 lg:flex"
+          >
             {navItems.map((item) => {
               const isActive = active === item.href;
               return (
@@ -76,28 +86,36 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-black uppercase tracking-[0.2em] transition-colors hover:bg-emerald-500/5 focus-visible:outline-none",
-                    isActive ? "text-emerald-500" : "text-foreground/80 hover:text-emerald-500",
+                    "group/nav relative inline-flex min-h-10 items-center overflow-hidden whitespace-nowrap rounded-xl px-4 text-[12px] font-black uppercase tracking-[0.18em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 xl:px-5 xl:text-[13px]",
+                    isActive
+                      ? "bg-emerald-500/12 text-emerald-500"
+                      : "text-foreground/75 hover:-translate-y-0.5 hover:bg-emerald-500/10 hover:text-emerald-500",
                   )}
                 >
-                  {item.label}
-                  {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-                  )}
+                  <span className="relative z-10">{item.label}</span>
+                  {/* Sublinhado que cresce do centro no hover. */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute bottom-1.5 left-1/2 h-[2px] w-6 -translate-x-1/2 rounded-full bg-emerald-500 transition-all duration-300",
+                      isActive
+                        ? "scale-x-100 opacity-100"
+                        : "scale-x-0 opacity-0 group-hover/nav:scale-x-100 group-hover/nav:opacity-100",
+                    )}
+                  />
                 </a>
               );
             })}
           </nav>
 
-
-        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className="inline-flex rounded-xl border border-border/40 bg-accent/50 text-foreground transition-transform hover:scale-105 active:scale-95" />
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <ThemeToggle className="inline-flex rounded-xl border border-border/40 bg-accent/50 text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-500/40 hover:text-emerald-500 hover:shadow-[0_8px_20px_rgba(31,174,109,0.18)] active:scale-95" />
           <CodeAccessDialog>
             <Button
               variant="ghost"
-              className="hidden h-10 rounded-xl px-4 text-[13px] font-bold tracking-tight text-foreground/70 transition-colors hover:bg-accent hover:text-foreground active:scale-95 lg:inline-flex"
+              className="group/code hidden h-11 rounded-xl px-4 text-[13px] font-bold tracking-tight text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:text-emerald-500 active:scale-95 lg:inline-flex"
             >
-              <KeyRound className="size-4 mr-2" aria-hidden />
+              <KeyRound className="size-4 mr-2 transition-transform duration-300 group-hover/code:-rotate-12 group-hover/code:scale-110" aria-hidden />
               Acesso Restrito
             </Button>
           </CodeAccessDialog>
@@ -116,14 +134,14 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           {/* Entrar: presente no desktop e no mobile. */}
           <Button
             variant="ghost"
-            className="hidden xs:inline-flex h-10 items-center rounded-xl border border-border/40 bg-accent/40 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-foreground transition-colors duration-300 hover:border-[#1FAE6D] hover:bg-[#1FAE6D] hover:text-black active:scale-95 group"
+            className="hidden xs:inline-flex h-11 items-center rounded-xl border border-border/40 bg-accent/40 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1FAE6D] hover:bg-[#1FAE6D] hover:text-black hover:shadow-[0_10px_24px_rgba(31,174,109,0.28)] active:scale-95 group"
             asChild
           >
             <Link to="/auth" search={{ mode: "login" }}>
               <span className="flex items-center gap-2">
                 Entrar
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 transition-colors group-hover:bg-emerald-500/20">
-                  <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 transition-colors group-hover:bg-black/15">
+                  <ArrowRight className="size-3 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </div>
               </span>
             </Link>
@@ -131,8 +149,15 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-5 text-[11px] font-black uppercase tracking-[0.2em] text-black shadow-lg shadow-[#1FAE6D]/25 transition-all duration-300 md:flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
+              <Button className="group/cta relative hidden h-11 items-center overflow-hidden rounded-xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-5 text-[11px] font-black uppercase tracking-[0.2em] text-black shadow-lg shadow-[#1FAE6D]/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(31,174,109,0.45)] active:scale-95 md:flex" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}>
+                  {/* Brilho que atravessa o botão ao passar o mouse. */}
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/45 to-transparent transition-transform duration-700 group-hover/cta:translate-x-full"
+                  />
+                  <span className="relative">Começar Agora</span>
+                </Link>
               </Button>
               <Button
                 variant="ghost"
@@ -152,6 +177,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         </div>
         </div>
       </header>
+
 
 
 
