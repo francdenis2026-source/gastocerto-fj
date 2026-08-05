@@ -55,17 +55,18 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-300 top-0",
+          "fixed inset-x-0 z-50 transition-all duration-500 top-0",
           scrolled
-            ? "glass-morphism border-b border-border/10 text-foreground shadow-lg"
-            : "border-b border-transparent bg-transparent text-foreground dark:text-hero-fg",
+            ? "glass-morphism border-b border-border/10 text-foreground shadow-2xl py-2"
+            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-4",
         )}
       >
 
-        <div className="section-shell flex h-14 items-center justify-between gap-2 sm:gap-4">
+
+        <div className="section-shell flex h-16 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group" />
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-2 lg:flex">
           {navItems.map((item) => {
             const isActive = active === item.href;
             return (
@@ -75,13 +76,12 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                 aria-current={isActive ? "location" : undefined}
                 onClick={(event) => handleAnchorClick(event, item.href)}
                 className={cn(
-                  "nav-underline relative inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent after:bg-hero-accent",
-                  isActive && "after:scale-x-100",
+                  "nav-underline relative inline-flex min-h-11 items-center rounded-lg px-4 text-[13px] font-bold tracking-tight transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 after:bg-emerald-500 after:h-0.5",
+                  isActive && "after:scale-x-100 text-emerald-500",
                   scrolled
-                    ? cn("text-[oklch(0.25_0.04_259)] dark:text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring", isActive && "text-foreground font-bold")
-                    : cn("text-hero-fg-muted hover:bg-hero-surface-soft hover:text-hero-fg focus-visible:ring-hero-border-strong", isActive && "text-hero-fg"),
+                    ? cn("text-foreground/70 hover:text-foreground hover:bg-white/5", isActive && "text-emerald-500")
+                    : cn("text-white/70 hover:text-white hover:bg-white/5", isActive && "text-emerald-400"),
                 )}
-
               >
                 {item.label}
               </a>
@@ -89,17 +89,19 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           })}
         </nav>
 
+
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className={cn("inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")} />
+          <ThemeToggle className={cn("inline-flex rounded-xl transition-all hover:scale-105 active:scale-95", !scrolled ? "text-white bg-white/5 border border-white/10 hover:bg-white/10" : "text-foreground bg-accent/50 border border-border/10")} />
           <CodeAccessDialog>
             <Button
               variant="ghost"
-              className={cn("hidden lg:inline-flex", !scrolled && "text-hero-fg hover:bg-hero-surface-soft hover:text-hero-fg")}
+              className={cn("hidden lg:inline-flex h-10 px-4 text-[13px] font-bold tracking-tight rounded-xl transition-all active:scale-95", !scrolled ? "text-white hover:bg-white/5" : "text-foreground/70 hover:text-foreground hover:bg-accent")}
             >
-              <KeyRound className="size-4" aria-hidden />
-              Código de acesso
+              <KeyRound className="size-4 mr-2" aria-hidden />
+              Acesso Restrito
             </Button>
           </CodeAccessDialog>
+
           {/* Código: ícone compacto no celular, mantendo a ação sempre acessível. */}
           <CodeAccessDialog>
             <Button
@@ -107,8 +109,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               size="icon"
               aria-label="Entrar com código de teste"
               className={cn(
-                "lg:hidden",
-                !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg",
+                "lg:hidden rounded-xl border-white/10 bg-white/5 text-white transition-all active:scale-95",
+                !scrolled && "border-white/20 bg-white/10",
               )}
             >
               <KeyRound className="size-4" aria-hidden />
@@ -118,22 +120,24 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-10 px-4 text-sm font-semibold border border-white/10 hover:bg-white/5",
-              !scrolled && "text-hero-fg",
+              "h-10 px-5 text-[13px] font-bold tracking-tight rounded-xl border border-white/10 hover:bg-white/5 transition-all active:scale-95",
+              !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
           >
             <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
           </Button>
+
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 items-center rounded-lg bg-emerald-500 px-6 text-sm font-bold text-black shadow-lg shadow-emerald-500/10 transition-all hover:bg-emerald-400 sm:flex" asChild>
+              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-emerald-500 px-6 text-[13px] font-black tracking-tight text-[#001640] shadow-xl shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Criar conta grátis</Link>
               </Button>
               <Button
                 variant="outline"
                 size="icon"
-                className={cn("lg:hidden", !scrolled && "border-hero-border-strong bg-hero-surface-soft text-hero-fg hover:bg-hero-surface hover:text-hero-fg")}
+                className={cn("lg:hidden rounded-xl border-white/10 bg-white/5 text-white active:scale-95", !scrolled && "border-white/20 bg-white/10")}
+
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
                 onClick={() => setOpen((v) => !v)}
