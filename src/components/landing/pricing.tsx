@@ -89,7 +89,7 @@ export function Pricing() {
               <p className="text-xs text-muted-foreground">O plano mais completo</p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-black">R$ 29,00</p>
+              <p className="text-2xl font-bold">R$ 29,00</p>
               <p className="text-[10px] text-muted-foreground">/mês no anual</p>
             </div>
           </div>
@@ -130,7 +130,7 @@ export function Pricing() {
             >
               Anual
               <span className={cn(
-                "rounded-full px-1.5 py-0.5 text-[9px] font-black",
+                "rounded-full px-1.5 py-0.5 text-[9px] font-bold",
                 isYearly ? "bg-black/20 text-[#0A1512]" : "bg-emerald-500/20 text-emerald-500"
               )}>
                 2 MESES GRÁTIS
@@ -155,13 +155,13 @@ export function Pricing() {
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.2)]">
                   Mais Popular
                 </div>
               )}
               
               <div className="mb-5">
-                <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
+                <h3 className="text-2xl font-bold text-white tracking-tight">{plan.name}</h3>
                 <p className="mt-3 body-text !text-[14px] !font-medium opacity-60">{plan.description}</p>
               </div>
 
@@ -186,7 +186,7 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "cta-lift h-14 w-full rounded-2xl text-[14px] font-black uppercase tracking-wider transition-all group",
+                  "cta-lift h-14 w-full rounded-2xl text-[14px] font-bold uppercase tracking-wider transition-all group",
                   plan.highlighted
                     ? "bg-[#1FAE6D] text-black hover:bg-[#24c77d] shadow-[0_15px_30px_-10px_rgba(31,174,109,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20"
