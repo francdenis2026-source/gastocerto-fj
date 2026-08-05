@@ -128,9 +128,9 @@ export function Benefits() {
       {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
       <section id="recursos-detalhes" className="section-y relative z-10 border-t border-white/[0.03]">
         <div className="section-shell">
-          <Reveal className="text-center mx-auto max-w-2xl mb-16">
-            <h2 className="section-title">Infraestrutura Financeira</h2>
-            <p className="mt-4 text-muted-foreground leading-relaxed">Arquitetura de dados resiliente para gestão de alta performance.</p>
+          <Reveal className="text-center mx-auto max-w-3xl mb-16">
+            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Arquitetura de Dados</h2>
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed font-medium">Arquitetura de dados resiliente para gestão de alta performance e precisão absoluta.</p>
           </Reveal>
 
           <div className="grid gap-8">
