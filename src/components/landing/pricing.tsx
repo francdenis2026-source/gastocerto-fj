@@ -155,11 +155,11 @@ export function Pricing() {
                 setCheckoutPlan(plan.slug);
               }}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden cursor-pointer group",
-                "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",
-                plan.highlighted 
-                  ? "ring-2 ring-emerald-500/50 shadow-[0_0_50px_-15px_rgba(31,174,109,0.3)] z-10 bg-black/60" 
-                  : "hover:border-emerald-500/20"
+                "interactive-card relative flex flex-col rounded-[2.5rem] p-8 transition-all duration-700 overflow-hidden cursor-pointer group",
+                plan.slug === "free" && "bg-gradient-to-br from-emerald-950/40 to-emerald-900/10 border-emerald-500/20 shadow-[0_20px_40px_-15px_rgba(31,174,109,0.1)]",
+                plan.slug === "premium" && "bg-gradient-to-br from-blue-950/40 to-indigo-900/10 border-blue-500/30 ring-1 ring-blue-500/20 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.2)] scale-105 z-10",
+                plan.slug === "premium_ia" && "bg-gradient-to-br from-amber-950/40 to-yellow-900/10 border-amber-500/30 shadow-[0_20px_40px_-15px_rgba(212,175,106,0.15)]",
+                "backdrop-blur-2xl hover:translate-y-[-8px]"
               )}
               tabIndex={0}
               role="button"
