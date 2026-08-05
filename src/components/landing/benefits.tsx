@@ -116,9 +116,11 @@ const securitySeals = [
 ];
 
 const faqItems = [
-  { q: "O GastoCerto é seguro?", a: "Sim, utilizamos criptografia de ponta a ponta e seguimos a LGPD rigorosamente." },
-  { q: "Posso cancelar a qualquer momento?", a: "Sim, sem multas ou taxas escondidas. Você tem controle total." },
-  { q: "Existe versão gratuita?", a: "Sim, nosso plano grátis é funcional e perfeito para quem está começando." },
+  { q: "O GastoCerto é seguro?", a: "Sim, utilizamos criptografia de ponta a ponta e seguimos a LGPD rigorosamente. Seus dados financeiros são privados e nunca são compartilhados." },
+  { q: "Posso cancelar a qualquer momento?", a: "Sim, o cancelamento é instantâneo e pode ser feito diretamente nas configurações do seu perfil. Sem letras miúdas ou taxas extras." },
+  { q: "Como funciona o Espaço Kids?", a: "É uma área exclusiva com PIN de segurança onde você pode definir mesadas automáticas, criar metas para seus filhos e ensiná-los o valor do dinheiro." },
+  { q: "O Consultor com IA é pago?", a: "O consultor básico está disponível em todos os planos. Recursos avançados de análise preditiva e recomendações personalizadas fazem parte do plano PRO." },
+  { q: "Existe versão gratuita?", a: "Sim, nosso plano grátis permite o controle essencial de gastos e receitas. O trial de 14 dias do plano PRO também está disponível para novos usuários." },
 ];
 
 export function Benefits() {
@@ -126,11 +128,11 @@ export function Benefits() {
     <div className="relative overflow-hidden">
       {/* Imagem de Fundo Global da Seção */}
       {/* Imagem de Fundo Global da Seção - Removida para limpar o visual */}
-      <section id="recursos-detalhes" className="section-y relative z-10 border-t border-white/[0.03]">
+      <section id="recursos" className="section-y relative z-10 border-t border-white/[0.03]">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-3xl mb-16">
             <h2 className="section-title">Tecnologia para sua Família</h2>
-            <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Tudo o que você precisa para uma vida financeira organizada e tranquila.</p>
+            <p className="mt-4 text-base sm:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">Tudo o que você precisa para uma vida financeira organizada e tranquila, com recursos exclusivos que simplificam o seu dia a dia.</p>
           </Reveal>
 
           <div className="grid gap-8">
@@ -146,16 +148,19 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2rem] p-10 text-left bg-transparent border-none active:scale-[0.98] outline-none">
-                          <div className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-black">
-                            <item.icon className="size-6" />
+                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2.5rem] p-8 sm:p-10 text-left bg-surface/5 dark:bg-white/[0.02] border border-border/10 hover:border-emerald-500/30 active:scale-[0.98] outline-none transition-all duration-500 overflow-hidden">
+                          {/* Efeito de brilho ao passar o mouse */}
+                          <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                          
+                          <div className="mb-6 grid size-14 place-items-center rounded-2xl bg-brand/10 text-brand shadow-[0_0_20px_rgba(31,174,109,0.15)] transition-all duration-500 group-hover:bg-brand group-hover:text-black group-hover:rotate-[5deg] group-hover:scale-110">
+                            <item.icon className="size-7" />
                           </div>
-                          <div className="flex w-full items-center justify-between">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80 group-hover:text-black/80 transition-colors">{item.tag}</span>
-                            <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-black" />
+                          <div className="flex w-full items-center justify-between mb-2">
+                            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-500/80 group-hover:text-black/80 transition-colors">{item.tag}</span>
+                            <ArrowRight className="size-4 text-white/20 transition-all duration-500 group-hover:translate-x-1.5 group-hover:text-black" />
                           </div>
-                          <h4 className="mt-2 text-xl font-bold tracking-tight text-white group-hover:text-black group-focus-visible:text-black transition-colors">{item.title}</h4>
-                          <p className="mt-2 text-[15px] font-medium leading-relaxed text-muted-foreground group-hover:text-black/70 group-focus-visible:text-black/70 transition-colors">{item.text}</p>
+                          <h4 className="text-xl sm:text-2xl font-black tracking-tight text-white group-hover:text-black group-focus-visible:text-black transition-colors">{item.title}</h4>
+                          <p className="mt-3 text-[15px] sm:text-[16px] font-medium leading-relaxed text-muted-foreground group-hover:text-black/80 group-focus-visible:text-black/80 transition-colors">{item.text}</p>
                         </button>
                       </FeatureDetailDialog>
                     </Reveal>
@@ -193,31 +198,33 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y relative z-10">
-        {/* Textura SVG sutil */}
-        {/* REMOVED GRID PATTERN */}
-        <div className="section-shell max-w-3xl relative z-10">
-          <Reveal className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-white">Dúvidas Frequentes</h3>
-            <p className="mt-2 text-muted-foreground text-sm">Respostas para as perguntas mais comuns.</p>
+      <section id="faq" className="section-y relative z-10 border-t border-white/[0.03]">
+        <div className="section-shell max-w-4xl relative z-10">
+          <Reveal className="text-center mb-16">
+            <h3 className="section-title !text-3xl sm:!text-5xl">Dúvidas Frequentes</h3>
+            <p className="mt-4 text-muted-foreground text-lg font-medium max-w-2xl mx-auto">Tudo o que você precisa saber sobre o GastoCerto para começar com confiança.</p>
           </Reveal>
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqItems.map((faq, idx) => (
-              <Reveal key={faq.q} delay={idx * 50}>
-                <AccordionItem 
-                  value={`item-${idx}`} 
-                  className="rounded-xl px-5 transition-all hover:bg-card/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(31,174,109,0.2)]"
-                >
-                  <AccordionTrigger className="py-5 text-sm font-bold text-white hover:no-underline [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:text-emerald-500">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground border-l-2 border-emerald-500/0 data-[state=open]:border-emerald-500 pl-4 transition-all">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              </Reveal>
-            ))}
-          </Accordion>
+          <div className="grid gap-4">
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {faqItems.map((faq, idx) => (
+                <Reveal key={faq.q} delay={idx * 100}>
+                  <AccordionItem 
+                    value={`item-${idx}`} 
+                    className="group border border-white/[0.05] bg-white/[0.02] rounded-[1.5rem] px-6 py-1 transition-all duration-300 hover:border-emerald-500/20 hover:bg-white/[0.04] data-[state=open]:border-emerald-500/30 data-[state=open]:bg-white/[0.05] data-[state=open]:shadow-[0_15px_30px_-15px_rgba(31,174,109,0.2)]"
+                  >
+                    <AccordionTrigger className="flex py-6 text-base sm:text-lg font-bold text-white hover:no-underline transition-all group-hover:text-emerald-400 data-[state=open]:text-emerald-500">
+                      <span className="flex-1 text-left pr-4">{faq.q}</span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-8 text-base leading-relaxed text-muted-foreground/90 font-medium">
+                      <div className="pt-2 border-t border-white/5 mt-2">
+                        {faq.a}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Reveal>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
