@@ -152,20 +152,33 @@ export function CompactOverview() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let frameId: number;
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
-      const cards = containerRef.current.querySelectorAll('.interactive-card');
-      cards.forEach((card) => {
-        const rect = (card as HTMLElement).getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
-        (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+      
+      // Só processa se o mouse estiver dentro do container ou próximo (melhor performance)
+      const containerRect = containerRef.current.getBoundingClientRect();
+      if (e.clientY < containerRect.top - 200 || e.clientY > containerRect.bottom + 200) return;
+
+      if (frameId) cancelAnimationFrame(frameId);
+      
+      frameId = requestAnimationFrame(() => {
+        const cards = containerRef.current?.querySelectorAll('.interactive-card');
+        cards?.forEach((card) => {
+          const rect = (card as HTMLElement).getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+          (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+        });
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (frameId) cancelAnimationFrame(frameId);
+    };
   }, []);
 
   useEffect(() => {
