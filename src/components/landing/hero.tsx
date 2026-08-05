@@ -28,7 +28,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-dvh items-center overflow-hidden"
+      className="relative isolate flex min-h-[78svh] items-center overflow-hidden py-20 sm:min-h-[85svh]"
     >
       {/* 1. FUNDO DO HERO (Profissional fazendo contas no iPhone) */}
       <div className="absolute inset-0 -z-20">
@@ -94,56 +94,49 @@ export function Hero() {
         <div className="mx-auto max-w-4xl text-center">
 
 
-          <Reveal className="space-y-6 sm:space-y-10">
-            <h1 className="font-display text-[clamp(2.75rem,12vw,7.5rem)] font-extrabold leading-[1] tracking-[-0.05em] text-white drop-shadow-[0_12px_40px_rgba(0,0,0,0.6)] px-4">
-              Domine seu<br />
+          <Reveal className="space-y-5 sm:space-y-7">
+            <h1 className="font-display text-[clamp(2.25rem,7vw,4.25rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.55)]">
+              Domine seu{" "}
               <span className="bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
             </h1>
-            
+
             <p
-              className="mx-auto max-w-2xl px-6 text-[17px] font-medium leading-[1.45] tracking-[-0.015em] text-white/95 [text-wrap:balance] drop-shadow-[0_4px_18px_rgba(0,0,0,0.75)] sm:text-[26px]"
+              className="mx-auto max-w-xl px-2 text-[15px] font-medium leading-[1.5] tracking-[-0.01em] text-white/90 [text-wrap:balance] drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] sm:text-[18px]"
               style={{ fontFamily: '"Space Grotesk", var(--font-display)' }}
             >
               <span className="font-semibold">Gestão estratégica com precisão.</span>{" "}
-              <span className="bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text font-bold text-transparent">
+              <span className="font-semibold text-emerald-300">
                 O controle definitivo na palma da sua mão.
               </span>
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
+            <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
               <Button
                 size="lg"
-                className="h-16 w-full rounded-2xl bg-emerald-500 px-10 text-lg font-black text-[#001640] shadow-[0_0_50px_-10px_rgba(16,185,129,0.5)] transition-all hover:scale-105 hover:bg-emerald-400 sm:w-auto active:scale-95"
+                className="h-13 w-full rounded-xl bg-emerald-500 px-8 text-[15px] font-bold text-[#001640] shadow-[0_0_36px_-12px_rgba(16,185,129,0.5)] transition-all hover:scale-[1.03] hover:bg-emerald-400 sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Grátis
-                  <ArrowRight className="ml-2 size-6" />
+                  <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="lg"
-                className="h-16 w-full rounded-2xl border-white/20 bg-white/5 px-10 text-lg font-bold text-white backdrop-blur-2xl transition-all hover:bg-white/10 sm:w-auto active:scale-95"
+                className="h-13 w-full rounded-xl border-white/20 bg-white/5 px-8 text-[15px] font-semibold text-white backdrop-blur-2xl transition-all hover:bg-white/10 sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "login" }}>
-                  <Users className="mr-2 size-6 text-emerald-400" />
+                  <Users className="mr-2 size-4 text-emerald-400" />
                   Acessar Painel
                 </Link>
               </Button>
             </div>
 
-            <svg aria-hidden="true" viewBox="0 0 240 12" className="mx-auto mt-10 h-3 w-52 text-emerald-400/70">
-              <path d="M0 6h92" stroke="currentColor" strokeWidth="1" opacity="0.35" />
-              <path d="M148 6h92" stroke="currentColor" strokeWidth="1" opacity="0.35" />
-              <path d="M112 2l8 4-8 4-8-4z" fill="currentColor" />
-              <circle cx="132" cy="6" r="2" fill="currentColor" opacity="0.7" />
-              <circle cx="108" cy="6" r="0" fill="currentColor" />
-            </svg>
+            <div className="flex flex-wrap justify-center gap-2.5 pt-2 sm:gap-3">
 
-            <div className="flex flex-wrap justify-center gap-3 pt-8 sm:gap-4">
               {[
                 { label: "IA Financeira", Icon: AiFinanceIcon },
                 { label: "Espaço Kids", Icon: KidsSpaceIcon },
