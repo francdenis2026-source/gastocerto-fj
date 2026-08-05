@@ -116,7 +116,7 @@ export function Pricing() {
             <button
               onClick={() => setIsYearly(false)}
               className={cn(
-                "rounded-full px-6 py-2 text-xs font-bold transition-all",
+                "rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
                 !isYearly ? "bg-emerald-500 text-[#0A1512]" : "text-muted-foreground"
               )}
             >
@@ -125,7 +125,7 @@ export function Pricing() {
             <button
               onClick={() => setIsYearly(true)}
               className={cn(
-                "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all",
+                "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
                 isYearly ? "bg-emerald-500 text-[#0A1512]" : "text-muted-foreground"
               )}
             >

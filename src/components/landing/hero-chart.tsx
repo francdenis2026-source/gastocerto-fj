@@ -39,7 +39,7 @@ export function HeroChart() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[46%] opacity-[0.55]"
+      className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[46%] opacity-[0.45] mix-blend-screen"
     >
     <svg
       className="h-full w-full"
