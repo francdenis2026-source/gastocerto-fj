@@ -10,14 +10,14 @@ export function PageBackground() {
         <img 
           src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
           alt=""
-          className="h-full w-full object-cover opacity-35 contrast-110 brightness-[0.3] sm:opacity-45 blur-[2px] sm:blur-[3px]"
+          className="h-full w-full object-cover opacity-50 contrast-115 brightness-[0.4] sm:opacity-60 blur-[1.5px] sm:blur-[2px]"
           style={{ transform: 'scale(1.05)' }}
         />
         
         {/* Camada de Gradiente Estratégico para Acessibilidade (Contraste de Texto) */}
         {/* Escurece as áreas onde o texto costuma ficar para garantir WCAG AA/AAA */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/60 via-[#1FAE6D]/5 to-[#0A1512]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512]/40 via-[#1FAE6D]/2 to-[#0A1512]/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/40 via-transparent to-[#0A1512]/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512]/30 via-transparent to-[#0A1512]/30" />
       </div>
       
       {/* Textura de Grão para Aspeto Premium */}
