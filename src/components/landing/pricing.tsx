@@ -189,7 +189,12 @@ export function Pricing() {
               <ul className="relative z-10 flex-1 space-y-3 mb-8">
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-[13px] group/item">
-                    <div className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black transition-colors">
+                    <div className={cn(
+                      "mt-1 flex size-5 shrink-0 items-center justify-center rounded-full transition-colors",
+                      plan.slug === "free" && "bg-emerald-500/20 text-emerald-500 group-hover/item:bg-emerald-500 group-hover/item:text-black",
+                      plan.slug === "premium" && "bg-blue-500/20 text-blue-400 group-hover/item:bg-blue-500 group-hover/item:text-white",
+                      plan.slug === "premium_ia" && "bg-amber-500/20 text-amber-500 group-hover/item:bg-amber-500 group-hover/item:text-black"
+                    )}>
                       <Check className="size-3 font-bold" />
                     </div>
                     <span className="font-medium text-white/70 group-hover/item:text-white transition-colors">{feature}</span>
