@@ -44,6 +44,11 @@ import { useAvatarUrl, useProfile, useRoles } from "@/lib/queries";
 import { clearBrowserCredentials } from "@/lib/local-session";
 import { useNotifications } from "@/lib/notifications";
 import { Sidebar } from "@/components/sidebar/Sidebar";
+import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
+import { formatCurrency } from "@/lib/format";
+import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
+import type { SidebarMetric } from "./settings/sidebar-config";
+import { CommandPalette } from "@/components/nav/command-palette";
 import {
   adminNavGroups,
   flattenGroups,
