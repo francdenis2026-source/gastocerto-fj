@@ -16,7 +16,7 @@ export function PageBackground() {
         decoding="async"
         className="size-full object-cover opacity-[0.015] dark:opacity-[0.08]"
       />
-      <div className="absolute inset-0 bg-background/94 dark:bg-background/88" />
+      <div className="absolute inset-0 bg-transparent" />
     </div>
   );
 }
