@@ -204,7 +204,7 @@ export function Benefits() {
               <Reveal key={faq.q} delay={idx * 50}>
                 <AccordionItem 
                   value={`item-${idx}`} 
-                  className="glass-morphism rounded-xl px-5 transition-all hover:bg-[#10201B]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(31,174,109,0.2)]"
+                  className="glass-morphism rounded-xl px-5 transition-all hover:bg-card/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(31,174,109,0.2)]"
                 >
                   <AccordionTrigger className="py-5 text-sm font-bold text-white hover:no-underline [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:text-emerald-500">
                     {faq.q}
