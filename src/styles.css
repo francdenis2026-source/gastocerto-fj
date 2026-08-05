@@ -150,7 +150,8 @@ body::-webkit-scrollbar {
   --emerald-gradient-to: #3FD68C;
   --gold-accent: #D4AF6A; 
   
-  --background: transparent;
+  --background: rgba(0,0,0,0);
+
   --foreground: #0A1512;
   --surface: rgba(248, 250, 249, 0.4);
   --card: rgba(255, 255, 255, 0.4);
@@ -218,7 +219,8 @@ body::-webkit-scrollbar {
 
 
 .dark {
-  --background: transparent;
+  --background: rgba(0,0,0,0);
+
   --surface: rgba(16, 32, 27, 0.4);
   --card: rgba(16, 32, 27, 0.4);
   --border: oklch(1 0 0 / 8%);
