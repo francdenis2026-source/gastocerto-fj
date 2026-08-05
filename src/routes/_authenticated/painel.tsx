@@ -826,9 +826,8 @@ function DashboardPage() {
               </div>
             </aside>
 
-            <div className="space-y-6">
-               <DashboardTabs
-                 overview={
+                <div className="space-y-6">
+
                    <div className="space-y-6">
                      <div className="grid gap-6 sm:grid-cols-2">
                         <InteractiveCard
