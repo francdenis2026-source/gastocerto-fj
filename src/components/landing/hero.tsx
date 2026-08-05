@@ -51,11 +51,11 @@ export function Hero() {
           {/* Headline com gradiente */}
           <div className="animate-in fade-in slide-in-from-top-4 duration-1000">
             <h1 className="font-display text-[clamp(2rem,8vw,4rem)] font-bold leading-[1.05] tracking-tight text-white mb-6">
-              Controle financeiro<br />
-              <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">inteligente.</span>
+              Gestão financeira<br />
+              <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">profissional.</span>
             </h1>
             <p className="max-w-xl text-[18px] font-medium leading-[1.6] text-muted-foreground sm:text-xl">
-              Organize seus gastos e o futuro da sua família com uma plataforma técnica e poderosa feita para quem exige precisão.
+              Domine seus recursos com uma plataforma técnica projetada para quem exige controle total e precisão estratégica.
             </p>
           </div>
 
@@ -126,8 +126,8 @@ export function Hero() {
                     <Sparkles size={18} />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Sugestão IA</p>
-                    <p className="text-[15px] font-bold text-white">+12% economia</p>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Otimização</p>
+                    <p className="text-[15px] font-bold text-white">+18% eficiência</p>
                   </div>
                 </div>
               </div>
