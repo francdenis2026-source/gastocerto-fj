@@ -542,436 +542,117 @@ function DashboardPage() {
           </div>
         )}
         
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-col">
-          <h1 className="text-xl font-black tracking-tight sm:text-2xl">
-            Olá, {profile?.full_name?.split(" ")[0] ?? "Usuário"}!
-          </h1>
-          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
-            {MONTH_NAMES[period.month - 1]} de {period.year}
-          </p>
-        </div>
+      <div className="flex flex-col gap-6">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col">
+              <h1 className="text-xl font-black tracking-tight sm:text-2xl">
+                Olá, {profile?.full_name?.split(" ")[0] ?? "Usuário"}!
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[11px] font-medium text-emerald-500 uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                  {MONTH_NAMES[period.month - 1]} de {period.year}
+                </span>
+                <Badge variant="outline" className="text-[10px] font-black uppercase border-emerald-500/20 text-emerald-600 bg-emerald-500/5">
+                  {access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
+                </Badge>
+              </div>
+            </div>
+          </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none sm:pb-0">
-          <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
-          
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleRefresh}
-            className="size-9 shrink-0 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm sm:hidden"
-            aria-label="Atualizar dados"
-            title="Atualizar dados"
-          >
-            <RefreshCw className="size-4 text-muted-foreground" />
-          </Button>
-          
-          <div className="h-8 w-px shrink-0 bg-border/40" />
-
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex items-center gap-2">
+            <PeriodPicker year={period.year} month={period.month} onChange={handlePeriodChange} />
             <Button
               size="sm"
-              onClick={() => {
-                setDialogKind("expense");
-                setDialogOpen(true);
-              }}
-              className="h-9 rounded-xl bg-rose-500 px-4 font-bold text-white shadow-lg shadow-rose-500/10 transition-all hover:bg-rose-600 active:scale-95"
+              onClick={() => { setDialogKind("expense"); setDialogOpen(true); }}
+              className="h-9 rounded-xl bg-emerald-600 px-4 font-bold text-white shadow-lg shadow-emerald-600/10 transition-all hover:bg-emerald-700 active:scale-95"
             >
               <Plus className="mr-1.5 size-4" />
               Lançar
             </Button>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-9 rounded-xl border-border/40 bg-background/50 backdrop-blur-sm"
-                >
-                  <ChevronDown className="size-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => {
-                  setDialogKind("income");
-                  setDialogOpen(true);
-                }}>
-                  <TrendingUp className="mr-2 size-4 text-success" />
-                  Lançar Receita
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCardsOpen(true)}>
-                  <ShoppingBag className="mr-2 size-4 text-brand" />
-                  Gasto no Cartão
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTaxOpen(true)}>
-                  <FileText className="mr-2 size-4 text-warning" />
-                  Lançar Imposto
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => exportDashboardToPDF("dashboard-content", "Painel Financeiro")}>
-                  <Printer className="mr-2 size-4" />
-                  Exportar PDF
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
+        </header>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <MetricCard label="Saldo" value={formatCurrency(metrics.balance)} tone={metrics.balance >= 0 ? "brand" : "expense"} icon={Wallet} />
+          <MetricCard label="Receita" value={formatCurrency(metrics.totalIncome)} tone="brand" icon={TrendingUp} />
+          <MetricCard label="Despesa" value={formatCurrency(metrics.totalExpense)} tone="expense" icon={TrendingDown} />
+          <MetricCard label="Projeção" value={formatCurrency(metrics.projection)} tone="neutral" icon={Zap} />
         </div>
-      </div>
 
-      <div className="grid grid-cols-2 gap-2 sm:hidden px-4 mb-4">
-        <MetricCard
-          label="Saldo"
-          value={formatCurrency(metrics.balance)}
-          tone={metrics.balance >= 0 ? "brand" : "expense"}
-          icon={Wallet}
-          onClick={() => {
-            setDetail({
-              label: "Saldo Geral",
-              value: formatCurrency(metrics.balance),
-              hint: "Resultado do mês atual",
-              formula: "Receitas totais menos despesas totais do período selecionado.",
-              extra: [
-                { label: "Receitas", value: formatCurrency(metrics.totalIncome) },
-                { label: "Despesas", value: formatCurrency(metrics.totalExpense) }
-              ],
-              rows: transactions ?? []
-            });
-          }}
-        />
-        <MetricCard
-          label="Gasto"
-          value={formatCurrency(metrics.totalExpense)}
-          tone="expense"
-          icon={TrendingDown}
-          onClick={() => {
-            setDetail({
-              label: "Total de Despesas",
-              value: formatCurrency(metrics.totalExpense),
-              hint: "Soma de todos os gastos",
-              formula: "Total faturado no cartão + pagamentos à vista + contas fixas do período.",
-              extra: [
-                { label: "Média diária", value: formatCurrency(metrics.dailyAverage) },
-                { label: "Projeção final", value: formatCurrency(metrics.projection) }
-              ],
-              rows: metrics.expenses
-            });
-          }}
-        />
-      </div>
-
-        {kidsOnboarding.visible && !kidsOnboarding.complete && (
-          <div className="glass-morphism mobile-compact-card shadow-sm sm:rounded-3xl sm:p-4">
-            <div className="flex items-center justify-between mb-2 sm:mb-4">
-              <div className="flex items-center gap-2">
-                <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Baby className="size-4 text-primary" />
+        <DashboardTabs
+          resumo={
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-8 space-y-6">
+                <div className="glass-morphism p-6 rounded-2xl">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground mb-6">Evolução do Saldo</h3>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={byDay}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.3} />
+                        <XAxis dataKey="day" {...axisProps} />
+                        <YAxis hide domain={['auto', 'auto']} />
+                        <Tooltip {...tooltipProps} />
+                        <Line type="monotone" name="receita" dataKey="receita" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
+                        <Line type="monotone" name="gasto" dataKey="gasto" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
-                <h3 className="text-xs font-black uppercase tracking-widest">Configuração Espaço Kids</h3>
               </div>
-              <Button asChild variant="link" size="sm" className="h-auto p-0 text-primary text-[10px] font-bold">
-                <Link to="/kids">Configurar Agora →</Link>
-              </Button>
+              <div className="lg:col-span-4 space-y-6">
+                 {/* Insights e Alertes */}
+                 <div className="glass-morphism p-6 rounded-2xl">
+                    <h2 className="text-sm font-black mb-4">Insights Estratégicos</h2>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {metrics.usedPercent > 90 ? "Alerta de orçamento: alto comprometimento." : "Seu orçamento está sob controle."}
+                    </p>
+                 </div>
+              </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {[
-                { label: "Adicionar", done: kidsOnboarding.hasKid },
-                { label: "PIN Segurança", done: kidsOnboarding.hasPin },
-                { label: "Limites", done: kidsOnboarding.hasLimit },
-                { label: "Mesada", done: kidsOnboarding.hasAllowance }
-              ].map((step, idx) => (
-                <div key={idx} className={cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-xl border transition",
-                  step.done ? "bg-primary/10 border-primary/20 text-primary" : "bg-background border-border text-muted-foreground"
-                )}>
-                  {step.done ? <CheckSquare className="size-3.5" /> : <Circle className="size-3.5" />}
-                  <span className="text-[10px] font-bold">{step.label}</span>
+          }
+          categorias={
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {byCategory.map(cat => (
+                <div key={cat.id} className="glass-morphism p-4 rounded-xl flex items-center justify-between">
+                   <div className="flex items-center gap-3">
+                     <div className="size-3 rounded-full" style={{ backgroundColor: cat.color }} />
+                     <span className="text-sm font-bold">{cat.name}</span>
+                   </div>
+                   <span className="text-sm font-black text-emerald-500">{formatCurrency(cat.value)}</span>
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-
-        <GlobalAnnouncementsBanner />
-
-        {loadingTransactions ? (
-          <div className="grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 opacity-50 transition-opacity duration-300">
-            {Array.from({ length: 12 }).map((_, index) => (
-              <Skeleton key={index} className="h-24 rounded-2xl" />
-            ))}
-          </div>
-        ) : (
-          <div id="dashboard-content" className="flex flex-col gap-3 lg:grid lg:gap-6 lg:grid-cols-[340px_1fr_360px] mt-2 sm:mt-6 w-full max-w-full overflow-x-hidden">
-            <aside className="hidden lg:block space-y-6">
-              <div className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 shadow-sm">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="size-8 rounded-lg bg-brand/10 flex items-center justify-center">
-                    <Sparkles className="size-4 text-brand" />
-                  </div>
-                  <h2 className="text-sm font-black tracking-tight">Insights Rápidos</h2>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="p-3 rounded-xl bg-secondary/20 border border-border/30">
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Resumo do Mês</p>
-                    <div className="flex items-end justify-between">
-                      <p className={cn("text-lg font-black", metrics.balance >= 0 ? "text-emerald-600" : "text-rose-600")}>
-                        {formatCurrency(metrics.balance)}
-                      </p>
-                      <span className="text-[10px] text-muted-foreground font-medium">Líquido</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase px-1">Alertas do Mês</p>
-                    {metrics.usedPercent > 90 ? (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
-                        <AlertTriangle className="size-4 text-rose-500 shrink-0 mt-0.5" />
-                        <p className="text-[10px] leading-tight text-rose-600 font-bold">
-                          Você atingiu {metrics.usedPercent.toFixed(1)}% do seu orçamento. Considere frear gastos não essenciais.
-                        </p>
+          }
+          evolucao={
+             <div className="glass-morphism p-6 rounded-2xl h-[400px]">
+                <ResponsiveContainer width="100%" height="100%">
+                   <BarChart data={byDay}>
+                      <CartesianGrid {...gridProps} />
+                      <XAxis dataKey="day" {...axisProps} />
+                      <YAxis {...axisProps} />
+                      <Tooltip {...tooltipProps} />
+                      <Bar dataKey="gasto" fill={CHART_TOKENS.expense} radius={barRadius} />
+                   </BarChart>
+                </ResponsiveContainer>
+             </div>
+          }
+          proximasAcoes={
+             <div className="grid grid-cols-1 gap-4">
+                {(metrics.upcoming ?? []).map(tx => (
+                   <div key={tx.id} className="glass-morphism p-4 rounded-xl flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <span className="font-bold text-sm">{tx.description}</span>
+                        <span className="text-[10px] text-muted-foreground font-black uppercase">{formatDate(tx.transaction_date)}</span>
                       </div>
-                    ) : metrics.usedPercent > 75 ? (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                        <AlertTriangle className="size-4 text-amber-600 shrink-0 mt-0.5" />
-                        <p className="text-[10px] leading-tight text-amber-700 font-bold">
-                          Atenção: Orçamento em {metrics.usedPercent.toFixed(1)}%. Mantenha o foco até o fechamento.
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                        <CheckSquare className="size-4 text-emerald-500 shrink-0 mt-0.5" />
-                        <p className="text-[10px] leading-tight text-emerald-700 font-bold">
-                          Orçamento sob controle ({metrics.usedPercent.toFixed(1)}%). Ótimo trabalho!
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                      <span className="font-black text-rose-500">{formatCurrency(tx.amount)}</span>
+                   </div>
+                ))}
+             </div>
+          }
+        />
+      </div>
 
-                  <div className="pt-2">
-                    <MetricCard
-                      tone="neutral"
-                      label="Projeção de Fim de Mês"
-                      value={formatCurrency(metrics.projection)}
-                      className="!p-3 border-none bg-emerald-500/5 dark:bg-emerald-500/10 shadow-none ring-1 ring-emerald-500/20"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="glass-morphism mobile-compact-card shadow-sm">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Evolução do Saldo</h3>
-                <div className="h-[180px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={byDay}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.3} />
-                      <XAxis 
-                        dataKey="day" 
-                        tick={{ fontSize: 9 }}
-                        interval="preserveStartEnd"
-                        axisLine={false}
-                        tickLine={false}
-                      />
-                      <YAxis 
-                        hide 
-                        domain={['auto', 'auto']} 
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          fontSize: '10px', 
-                          borderRadius: '12px', 
-                          backgroundColor: 'var(--popover)', 
-                          border: '1px solid var(--border)',
-                          boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' 
-                        }}
-                        formatter={(value: number, name: string) => [formatCurrency(value), name === 'receita' ? 'Ganhos' : 'Gastos']}
-                        labelFormatter={(label) => `Dia ${label}`}
-                      />
-                      <Legend 
-                        verticalAlign="top" 
-                        align="right" 
-                        iconType="circle"
-                        wrapperStyle={{ fontSize: '9px', fontWeight: 'bold', paddingBottom: '10px' }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        name="receita"
-                        dataKey="receita" 
-                        stroke="var(--success)" 
-                        strokeWidth={2.5} 
-                        dot={false} 
-                        activeDot={{ r: 4 }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        name="gasto"
-                        dataKey="gasto" 
-                        stroke="var(--expense)" 
-                        strokeWidth={2.5} 
-                        dot={false} 
-                        activeDot={{ r: 4 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-4 pt-4 border-t border-border/50 grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-black uppercase text-muted-foreground">Média Diária</p>
-                    <p className="text-xs font-black">{formatCurrency(metrics.dailyAverage)}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-black uppercase text-muted-foreground">Projeção</p>
-                    <p className="text-xs font-black">{formatCurrency(metrics.projection)}</p>
-                  </div>
-                </div>
-              </div>
-            </aside>
-            <div className="space-y-6">
-              <div className="space-y-6">
-                     <div className="grid gap-6 sm:grid-cols-2">
-                        <InteractiveCard
-                          id="client-top-expenses"
-                          className="glass-morphism"
-                          title="Valores Gastos por Categoria"
-                         description="Detalhamento das despesas do período"
-                         icon={<ShoppingBag className="size-4" />}
-                         items={byCategory}
-                         maxVisibleItems={4}
-                          chart={
-                            <ResponsiveContainer width="100%" height="100%">
-                              <BarChart data={byCategory.slice(0, 5)} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                               <XAxis dataKey="name" hide />
-                               <YAxis hide />
-                               <Tooltip 
-                                 contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '12px', border: '1px solid hsl(var(--border))', fontSize: '10px' }}
-                                 formatter={(value: number) => [formatCurrency(value), 'Gasto']}
-                               />
-                               <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                                 {byCategory.slice(0, 5).map((entry, index) => (
-                                   <Cell key={`cell-${index}`} fill={entry.color} opacity={0.8} />
-                                 ))}
-                               </Bar>
-                             </BarChart>
-                           </ResponsiveContainer>
-                         }
-                         renderItem={(cat) => (
-                           <div 
-                             key={cat.id} 
-                             className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-muted/20 text-xs hover:bg-muted/40 transition-colors cursor-pointer"
-                             onClick={() => openCategoryDetail(cat.id, cat.name)}
-                           >
-                             <div className="flex items-center gap-2">
-                               <div className="size-2 rounded-full" style={{ backgroundColor: cat.color }} />
-                               <span className="font-bold">{cat.name}</span>
-                             </div>
-                             <span className="font-black text-brand">{formatCurrency(cat.value)}</span>
-                           </div>
-                         )}
-                       >
-                         <div className="p-3 rounded-xl bg-brand/5 border border-brand/10 space-y-1">
-                           <p className="text-[10px] font-black uppercase text-brand tracking-widest">Resumo Estratégico</p>
-                           <p className="text-[11px] text-muted-foreground leading-tight">
-                             Suas 3 principais categorias representam <strong>{metrics.totalExpense > 0 ? ((byCategory.slice(0, 3).reduce((s, c) => s + c.value, 0) / metrics.totalExpense) * 100).toFixed(1) : 0}%</strong> do seu orçamento mensal.
-                           </p>
-                         </div>
-                       </InteractiveCard>
-
-                        <InteractiveCard
-                          id="client-upcoming-bills"
-                          className="glass-morphism"
-                          title="Próximos Vencimentos"
-                         description="Contas pendentes e recorrentes"
-                         icon={<CalendarClock className="size-4" />}
-                         items={metrics.upcoming}
-                         maxVisibleItems={3}
-                         renderItem={(tx) => (
-                           <div 
-                             key={tx.id} 
-                             className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-muted/20 text-xs"
-                           >
-                             <div className="flex flex-col">
-                               <span className="font-bold truncate max-w-[120px]">{tx.description || "Sem descrição"}</span>
-                               <span className="text-[9px] text-muted-foreground uppercase font-black">{formatDate(tx.transaction_date)}</span>
-                             </div>
-                             <div className="flex flex-col items-end">
-                               <span className="font-black text-rose-600">{formatCurrency(tx.amount)}</span>
-                               {tx.status === 'overdue' && <Badge variant="destructive" className="text-[8px] h-3 px-1 uppercase">Atrasado</Badge>}
-                             </div>
-                           </div>
-                         )}
-                       >
-                         <div className="space-y-3">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="text-muted-foreground font-bold">Comprometimento Mensal</span>
-                              <span className="font-black text-rose-600">{formatCurrency(metrics.recurring)}</span>
-                            </div>
-                            <Progress value={metrics.totalIncome > 0 ? (metrics.recurring / metrics.totalIncome) * 100 : 0} className="h-1.5" />
-                            <p className="text-[10px] text-muted-foreground italic">
-                              Contas fixas representam uma parcela significativa do seu custo de vida.
-                            </p>
-                         </div>
-                       </InteractiveCard>
-                     </div>
-                      <div className="hidden sm:grid gap-3 auto-cards-sm">
-                        <MetricCard
-                          label="Minha Assinatura"
-                          value={access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
-                          tone={access.planSlug !== "free" ? "brand" : "neutral"}
-                          icon={ShieldCheck}
-                          badge={access.planSlug !== "free" ? (
-                            <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px] font-black uppercase tracking-tighter h-5 px-1.5">
-                              PRO
-                            </Badge>
-                          ) : undefined}
-                          onClick={() => navigate({ to: "/perfil" })}
-                        />
-
-                        <MetricCard
-                          tone="brand"
-                          label={
-                            metrics.isCurrentMonth
-                              ? `Gasto hoje · ${formatDate(isoDate(today))}`
-                              : "Gasto hoje"
-                          }
-                          value={formatCurrency(metrics.today)}
-                          hint={
-                            !metrics.isCurrentMonth
-                              ? "Disponível apenas no mês atual"
-                              : detailRows.todayExpenses.length === 0
-                                ? "Nenhum lançamento hoje"
-                                : `${detailRows.todayExpenses.length} lançamento${
-                                    detailRows.todayExpenses.length > 1 ? "s" : ""
-                                  } só de hoje`
-                          }
-                          icon={Zap}
-                          onClick={() => openDayDetail(today.getDate())}
-                        />
-
-                        <MetricCard
-                          tone="warning"
-                          label="Gasto nos 7 dias"
-                          value={formatCurrency(metrics.week)}
-                          icon={CalendarClock}
-                          onClick={() =>
-                            setDetail({
-                              label: "Gasto nos últimos 7 dias",
-                              value: formatCurrency(metrics.week),
-                              formula:
-                                "Soma das despesas dos 7 dias corridos até hoje, incluindo os dias que caem no mês anterior.",
-                              rows: detailRows.weekExpenses,
-                            })
-                          }
-                        />
-
-                        <MetricCard
-                          tone="expense"
-                          label="Gasto no mês"
-                          value={formatCurrency(metrics.totalExpense)}
-                          icon={TrendingDown}
-                          onClick={() =>
-                            setDetail({
-                              label: "Gasto no mês",
-                              value: formatCurrency(metrics.totalExpense),
                               formula: "Soma de todas as despesas do período selecionado.",
                               rows: detailRows.expenses,
                               extra: [
