@@ -1041,7 +1041,6 @@ function DashboardPage() {
           </div>
         )}
       </div>
-
       <MetricDetailDialog
         detail={detail}
         categories={categories ?? []}
@@ -1059,30 +1058,14 @@ function DashboardPage() {
           setDialogOpen(true);
         }}
         onDeleteTransaction={async (id) => {
-          // Logic remains
-        }}
-      />
-      
-      {/* Rest of dialogs */}
-    </AppShell>
-  );
-
-
-      <MetricDetailDialog
-        detail={detail}
-        categories={categories ?? []}
-        onOpenChange={(open) => {
-          if (!open) {
+          const { error } = await supabase.from("transactions").delete().eq("id", id);
+          if (error) {
+            toast.error("Erro ao excluir lançamento");
+          } else {
+            toast.success("Lançamento excluído");
+            queryClient.invalidateQueries({ queryKey: ["transactions"] });
             setDetail(null);
-            setDetailDate(null);
           }
-        }}
-        onEditTransaction={(transaction) => {
-          setDetail(null);
-          setEditingTx(transaction);
-          setDialogKind(transaction.transaction_type === "income" ? "income" : "expense");
-          setPreset({ categoryId: null, subCategoryId: null });
-          setDialogOpen(true);
         }}
         {...(detailDate
           ? {
@@ -1117,6 +1100,7 @@ function DashboardPage() {
       <ExpenseCardsDialog open={cardsOpen} onOpenChange={setCardsOpen} />
       <DependentExpenseDialog open={dependentOpen} onOpenChange={setDependentOpen} />
       <TaxQuickDialog open={taxOpen} onOpenChange={setTaxOpen} />
+      <InteractiveCalendar open={calendarOpen} onOpenChange={setCalendarOpen} onSelectDate={(d) => openDayDetail(d.getDate())} />
     </AppShell>
   );
 }
