@@ -71,7 +71,7 @@ import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-noti
 import { VehicleEmblem } from "@/components/finance/vehicle-emblem";
 import { usePeriodStore } from "@/lib/period-store";
 import { InteractiveCalendar } from "@/components/finance/interactive-calendar";
-import { StatTile } from "@/components/finance/stat-tile";
+import { MetricCard } from "@/components/dashboard/MetricCard";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
 import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
