@@ -144,13 +144,11 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[2rem] p-8 transition-all duration-500",
-                "bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.1] hover:-translate-y-2 hover:shadow-2xl",
+                "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500",
+                "bg-white/[0.02] border border-white/[0.05]",
                 plan.highlighted 
                   ? "shadow-[0_20px_60px_-12px_rgba(31,174,109,0.2)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.02]" 
                   : ""
-
-
               )}
             >
               {plan.highlighted && (
@@ -185,7 +183,7 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "h-14 w-full rounded-2xl text-[14px] font-black uppercase tracking-wider transition-all active:scale-[0.98] group",
+                  "cta-lift h-14 w-full rounded-2xl text-[14px] font-black uppercase tracking-wider transition-all group",
                   plan.highlighted
                     ? "bg-[#1FAE6D] text-black hover:bg-[#24c77d] shadow-[0_15px_30px_-10px_rgba(31,174,109,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20"
