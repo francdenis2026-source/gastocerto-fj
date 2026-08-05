@@ -137,7 +137,7 @@ export function Hero() {
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
-                  className="hidden sm:block absolute -bottom-12 -right-8 md:-right-12 w-[180px] md:w-[220px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
+                  className="hidden sm:block absolute -bottom-10 right-0 lg:-right-4 w-[160px] md:w-[200px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
                 >
                   <div className="aspect-[9/19] p-4 flex flex-col gap-4">
                     <div className="h-5 w-16 bg-[#1E293B] rounded-full mx-auto mb-2" />
