@@ -340,65 +340,24 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative section-y overflow-hidden">
-      {/* Imagem de Fundo de Destaque - Removida para limpar o visual */}
-      <span id="seguranca" className="block" />
+    <section id="recursos" className="relative section-y overflow-hidden">
       <div className="section-shell relative z-10">
-        <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
-              <Sparkles className="size-3.5" aria-hidden="true" />
-              Recursos da plataforma
-            </p>
-            <h2 className="mt-1 section-title">
-              Ecossistema completo de gestão e recursos
-            </h2>
-            <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
-              Soluções integradas para monitoramento de ativos e planejamento estratégico familiar.
-            </p>
-          </div>
-          <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
-            {shortcuts.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(event) => handleAnchorClick(event, item.href)}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-white/5 bg-white/[0.02] px-3 text-xs font-medium text-muted-foreground transition-all hover:border-white/20 hover:text-foreground"
-              >
-                <item.icon className="size-3.5" aria-hidden="true" />
-                {item.label}
-              </a>
-            ))}
-          </nav>
+        <Reveal className="text-center mb-10">
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
+            <Sparkles className="size-3.5" aria-hidden="true" />
+            Ecossistema Completo
+          </p>
+          <h2 className="mt-1 section-title">Tudo o que você precisa</h2>
         </Reveal>
 
-        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl bg-card/40 px-3 py-2 backdrop-blur">
-          {highlights.map((item) => (
-            <div key={item.label} className="flex min-w-0 items-center gap-1.5">
-              <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
-              <p className="tabular text-[13px] font-bold leading-none">{item.value}</p>
-              <p className="truncate text-[12.5px] leading-none text-muted-foreground">{item.label}</p>
-            </div>
-          ))}
-        </Reveal>
-
-        <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-3.5">
-          <div role="region" aria-label="Navegação das seções do produto" className="w-full">
-            <p id="tabs-hint" className="sr-only">
-              Lista de 4 seções em rolagem horizontal. Use as setas esquerda e direita para trocar de seção; o conteúdo é atualizado automaticamente.
-            </p>
-            <TabsList
-              id="recursos"
-              aria-label="Seções do produto"
-              aria-describedby="tabs-hint"
-              className="flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto p-1 [scrollbar-width:none] sm:flex-wrap [&::-webkit-scrollbar]:hidden"
-            >
+        <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-8">
+          <div className="flex justify-center mb-8">
+            <TabsList className="bg-white/5 p-1 rounded-full">
               {tabs.map((value) => (
                 <TabsTrigger
                   key={value}
                   value={value}
-                  id={value === "faq" ? "faq" : undefined}
-                  className="shrink-0"
+                  className="rounded-full px-8 py-2 data-[state=active]:bg-brand data-[state=active]:text-black"
                 >
                   {tabMeta[value].label}
                 </TabsTrigger>

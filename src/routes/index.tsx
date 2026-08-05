@@ -85,7 +85,6 @@ function LandingPage() {
         <Hero />
         <CompactOverview />
         <Pricing />
-        <PricingMobile />
         <ContactSection />
       </main>
 
