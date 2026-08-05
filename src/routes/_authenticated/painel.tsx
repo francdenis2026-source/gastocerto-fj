@@ -1021,17 +1021,20 @@ function DashboardPage() {
                         />
                       </div>
                       <ChartCard title="Evolução Diária" summary="Pico de gastos diários">
-                         <div className="h-[250px]">
-                            <ResponsiveContainer width="100%" height="100%">
-                               <BarChart data={byDay} onClick={(s:any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}>
-                                  <CartesianGrid {...gridProps} />
-                                  <XAxis dataKey="day" {...axisProps} />
-                                  <YAxis {...axisProps} width={36} />
-                                  <Tooltip {...tooltipProps} formatter={(v:any) => formatCurrency(v)} />
-                                  <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
-                               </BarChart>
-                            </ResponsiveContainer>
-                         </div>
+                        <div className="h-[250px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              data={byDay}
+                              onClick={(s: any) => s?.activeLabel && openDayDetail(Number(s.activeLabel))}
+                            >
+                              <CartesianGrid {...gridProps} />
+                              <XAxis dataKey="day" {...axisProps} />
+                              <YAxis {...axisProps} width={36} />
+                              <Tooltip {...tooltipProps} formatter={(v: any) => formatCurrency(v)} />
+                              <Bar dataKey="gasto" fill={CHART_TOKENS.neutral} radius={barRadius} />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
                       </ChartCard>
                     </div>
                   </div>
