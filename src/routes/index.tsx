@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        PAINEL REDESENHADO: MOCKUP COMPACTO DE ALTA PERFORMANCE E NOVA IMAGEM DE FUNDO ULTRA-REALISTA APLICADA.
+        IMAGENS REALISTAS APLICADAS EM TODAS AS SEÇÕES: DO ECOSSISTEMA AO RODAPÉ, GARANTINDO UMA EXPERIÊNCIA VISUAL COMPLETA.
       </div>
 
       

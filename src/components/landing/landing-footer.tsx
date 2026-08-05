@@ -29,7 +29,15 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="border-t border-border/5 bg-background py-6">
+    <footer className="relative border-t border-border/5 py-12 overflow-hidden">
+      {/* Imagem de Fundo Realista no Footer */}
+      <img 
+        src="https://images.unsplash.com/photo-1579621970795-87faff2f9050?q=80&w=2070&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-20 grayscale-0 pointer-events-none"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1512] via-transparent to-transparent pointer-events-none" />
+
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
       <div className="section-shell">
@@ -55,7 +63,7 @@ export function LandingFooter() {
         </div>
       </div>
       {/* Bottom Bar - Minimal */}
-      <div className="border-t border-border/5 bg-background">
+      <div className="border-t border-border/5 mt-8 bg-transparent">
         <div className="section-shell flex flex-col items-center justify-between gap-y-1 py-2 text-[9px] text-foreground/40 sm:flex-row sm:text-[10px]">
           <p>© {new Date().getFullYear()} Meu Controle Financeiro.</p>
           <div className="flex shrink-0 items-center gap-1">
