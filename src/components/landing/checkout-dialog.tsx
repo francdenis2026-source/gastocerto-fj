@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Check, Copy, Loader2, Landmark, ShieldCheck, Sparkles } from "lucide-react";
+import { Check, Copy, Loader2, Landmark, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
@@ -41,8 +41,6 @@ type Step = "plan" | "form" | "code" | "manual" | "done";
 type Order = Awaited<ReturnType<typeof startManualOrder>>;
 type Verification = Awaited<ReturnType<typeof requestCheckoutVerification>>;
 
-
-
 export function CheckoutDialog({
   open,
   onOpenChange,
@@ -70,7 +68,6 @@ export function CheckoutDialog({
 
   const { data: livePlans } = usePublicPlans();
 
-  // Dados de Pix/transferência que o administrador mantém no painel.
   const { data: manual } = useQuery({
     queryKey: ["manual-payment-instructions"],
     queryFn: () => getManualPaymentInstructions(),
@@ -78,7 +75,6 @@ export function CheckoutDialog({
     staleTime: 5 * 60 * 1000,
   });
 
-  // Catálogo com os preços vigentes do banco (ajustes do admin valem na hora).
   const catalog = CHECKOUT_PLANS.map((item) => {
     const live = livePrice(livePlans, item.slug, { monthly: item.monthly, annual: item.annual });
     return { ...item, monthly: live.monthly, annual: live.annual };
@@ -99,8 +95,6 @@ export function CheckoutDialog({
     setCode("");
   }, [open, initialPlan, initialCycle]);
 
-  // Enquanto o pedido está aberto, verificamos a cada 15s se o administrador
-  // já confirmou o recebimento e liberou a chave.
   useEffect(() => {
     if (step !== "manual" || !order) return;
     const check = async () => {
@@ -112,7 +106,7 @@ export function CheckoutDialog({
           setStep("done");
         }
       } catch {
-        /* tentaremos novamente no próximo ciclo */
+        /* retry later */
       }
     };
     void check();
@@ -122,7 +116,6 @@ export function CheckoutDialog({
     };
   }, [step, order]);
 
-  // Etapa 1: envia o código para o e-mail. Nenhum cadastro é criado ainda.
   const verify = useMutation({
     mutationFn: () =>
       requestCheckoutVerification({ data: { planSlug, cycle, fullName, email, cpf } }),
@@ -133,11 +126,11 @@ export function CheckoutDialog({
       toast.success(
         result.emailDelivered
           ? `Código enviado para ${result.email}.`
-          : "Código gerado. O envio por e-mail depende do domínio remetente configurado.",
+          : "Código gerado.",
       );
     },
     onError: (error) =>
-      toast.error(error instanceof Error ? error.message : "Não foi possível enviar o código."),
+      toast.error(error instanceof Error ? error.message : "Erro ao enviar código."),
   });
 
   const create = useMutation({
@@ -158,11 +151,9 @@ export function CheckoutDialog({
       setStep("manual");
     },
     onError: (error) =>
-      toast.error(error instanceof Error ? error.message : "Não foi possível registrar o pedido."),
+      toast.error(error instanceof Error ? error.message : "Erro ao registrar pedido."),
   });
 
-
-  // Etapa 2: confirma o código e só então segue para a cobrança.
   const confirm = useMutation({
     mutationFn: () =>
       confirmCheckoutVerification({
@@ -170,12 +161,11 @@ export function CheckoutDialog({
       }),
     onSuccess: () => {
       if (price > 0) {
-        toast.success("E-mail confirmado. Gerando seu Pix...");
+        toast.success("E-mail confirmado. Gerando Pix...");
         create.mutate();
       } else {
-        toast.success("E-mail confirmado. Liberando seu acesso gratuito...");
+        toast.success("E-mail confirmado. Acesso liberado.");
         setStep("done");
-        // No gratuito a chave é liberada "virtualmente" como PENDING para o /auth
         setLicenseKey(PENDING_LICENSE_KEY);
       }
     },
@@ -183,13 +173,12 @@ export function CheckoutDialog({
       toast.error(error instanceof Error ? error.message : "Código inválido."),
   });
 
-
   const copy = async (value: string, label: string) => {
     try {
       await navigator.clipboard.writeText(value);
       toast.success(`${label} copiado.`);
     } catch {
-      toast.error("Copie manualmente o texto exibido.");
+      toast.error("Copie manualmente.");
     }
   };
 
@@ -198,7 +187,7 @@ export function CheckoutDialog({
     try {
       sessionStorage.setItem(PENDING_LICENSE_KEY, licenseKey);
     } catch {
-      /* ignorado */
+      /* ignore */
     }
     onOpenChange(false);
     navigate({ to: "/auth", search: { mode: "signup" } });
@@ -215,7 +204,7 @@ export function CheckoutDialog({
               className="h-full w-full object-cover brightness-[0.4]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1512] to-transparent" />
-            <div className="absolute bottom-6 left-8">
+            <div className="absolute bottom-6 left-8 text-left">
               <Badge className="mb-2 bg-emerald-500 text-black font-black uppercase tracking-widest">{plan.recommended ? 'Recomendado' : 'Plano Selecionado'}</Badge>
               <h2 className="text-3xl font-black text-white">{plan.name}</h2>
               <p className="text-white/60 font-medium">{plan.tagline}</p>
@@ -229,336 +218,198 @@ export function CheckoutDialog({
               <ShieldCheck className="size-4 text-brand" aria-hidden="true" />
               {step === "done" ? "Pagamento confirmado" : "Assinar o GastoCerto"}
             </DialogTitle>
-          <DialogDescription>
-            {step === "plan"
-              ? "Escolha o plano e o ciclo de cobrança."
-              : step === "form"
-                ? "Informe seus dados: enviaremos um código para confirmar seu e-mail."
-                : step === "code"
-                  ? "Digite o código de 6 dígitos enviado ao seu e-mail."
-                  : step === "manual"
-                    ? "Faça o pagamento e aguarde a confirmação do administrador."
-                    : "Sua chave de ativação está pronta."}
+            <DialogDescription>
+              {step === "plan"
+                ? "Escolha o plano e o ciclo de cobrança."
+                : step === "form"
+                  ? "Informe seus dados para confirmação."
+                  : step === "code"
+                    ? "Digite o código enviado ao seu e-mail."
+                    : step === "manual"
+                      ? "Faça o pagamento e aguarde."
+                      : "Tudo pronto!"}
+            </DialogDescription>
+          </DialogHeader>
 
-          </DialogDescription>
-
-        </DialogHeader>
-
-        {step === "plan" ? (
-          <div className="space-y-3">
-            <div
-              role="group"
-              aria-label="Ciclo de cobrança"
-              className="inline-flex rounded-full border border-border bg-secondary/40 p-1"
-            >
-              {([
-                { key: "monthly" as const, label: "Mensal" },
-                { key: "annual" as const, label: "Anual" },
-              ]).map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  aria-pressed={cycle === option.key}
-                  onClick={() => setCycle(option.key)}
-                  className={cn(
-                    "min-h-9 rounded-full px-4 text-xs font-semibold transition-colors",
-                    cycle === option.key
-                      ? "bg-brand text-brand-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="grid gap-2">
-              {catalog.map((item) => {
-                const selected = item.slug === planSlug;
-                return (
+          {step === "plan" ? (
+            <div className="space-y-4">
+              <div
+                role="group"
+                aria-label="Ciclo de cobrança"
+                className="inline-flex rounded-full border border-white/10 bg-white/5 p-1"
+              >
+                {[
+                  { key: "monthly" as const, label: "Mensal" },
+                  { key: "annual" as const, label: "Anual" },
+                ].map((option) => (
                   <button
-                    key={item.slug}
+                    key={option.key}
                     type="button"
-                    onClick={() => setPlanSlug(item.slug)}
-                    aria-pressed={selected}
+                    onClick={() => setCycle(option.key)}
                     className={cn(
-                      "rounded-xl border p-3 text-left transition-all",
-                      selected
-                        ? "border-brand ring-1 ring-brand/40 bg-brand/5"
-                        : "border-border hover:border-brand/40",
+                      "min-h-9 rounded-full px-6 text-xs font-bold transition-all",
+                      cycle === option.key
+                        ? "bg-emerald-500 text-black"
+                        : "text-white/40 hover:text-white",
                     )}
                   >
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="flex items-center gap-1.5 text-sm font-semibold">
-                        {item.name}
-                        {item.recommended ? (
-                          <Badge className="gap-1 bg-brand text-brand-foreground">
-                            <Sparkles className="size-3" aria-hidden="true" /> Mais completo
-                          </Badge>
-                        ) : null}
-                      </span>
-                      <span className="tabular text-lg font-extrabold">
-                        {formatCurrency(checkoutPrice(item, cycle))}
-                        <span className="ml-1 text-[12.5px] font-medium text-muted-foreground">
-                          {cycle === "annual" ? "/ano" : "/mês"}
-                        </span>
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{item.tagline}</p>
+                    {option.label}
                   </button>
-                );
-              })}
-            </div>
-
-            <ul className="grid gap-1 rounded-xl border border-border bg-secondary/30 p-3">
-              {plan.highlights.map((highlight) => (
-                <li key={highlight} className="flex items-start gap-2 text-[13px]">
-                  <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true" />
-                  <span className="text-muted-foreground">{highlight}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Button className="w-full h-12 text-sm font-bold uppercase tracking-wider bg-emerald-500 text-black hover:bg-emerald-400" onClick={() => setStep("form")}>
-              Continuar — {formatCurrency(price)}
-            </Button>
-          </div>
-        ) : null}
-      </div>
-    </DialogContent>
-  </Dialog>
-);
-          <form
-            className="space-y-3"
-            onSubmit={(event) => {
-              event.preventDefault();
-              verify.mutate();
-            }}
-          >
-
-            <div className="rounded-xl border border-border bg-secondary/30 p-3 text-sm">
-              <span className="font-semibold">{plan.name}</span> ·{" "}
-              {cycle === "annual" ? "cobrança anual" : "cobrança mensal"} ·{" "}
-              <span className="tabular font-semibold">{formatCurrency(price)}</span>
-            </div>
-            <div>
-              <Label htmlFor="checkout-name">Nome completo</Label>
-              <Input
-                id="checkout-name"
-                required
-                minLength={3}
-                autoComplete="name"
-                className="mt-1.5"
-                value={fullName}
-                onChange={(event) => setFullName(event.target.value)}
-              />
-            </div>
-            <div>
-              <Label htmlFor="checkout-email">E-mail para receber o código e a chave</Label>
-              <Input
-                id="checkout-email"
-                type="email"
-                required
-                autoComplete="email"
-                className="mt-1.5"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
-              <p className="mt-1 text-[12.5px] text-muted-foreground">
-                Sua conta só é criada depois que você confirmar este e-mail.
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="checkout-cpf">CPF do pagador</Label>
-              <Input
-                id="checkout-cpf"
-                inputMode="numeric"
-                required
-                maxLength={14}
-                placeholder="000.000.000-00"
-                className="mt-1.5"
-                value={cpf}
-                onChange={(event) => setCpf(maskCpf(event.target.value))}
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                onClick={() => setStep("plan")}
-              >
-                Voltar
-              </Button>
-              <Button type="submit" className="flex-1" disabled={verify.isPending}>
-                {verify.isPending ? (
-                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <ShieldCheck className="mr-2 size-4" aria-hidden="true" />
-                )}
-                Enviar código
-              </Button>
-            </div>
-          </form>
-        ) : null}
-
-        {step === "code" && verification ? (
-          <form
-            className="space-y-3"
-            onSubmit={(event) => {
-              event.preventDefault();
-              confirm.mutate();
-            }}
-          >
-            <div className="rounded-xl border border-border bg-secondary/30 p-3 text-sm">
-              Enviamos um código de 6 dígitos para{" "}
-              <span className="font-semibold">{verification.email}</span>. Ele expira em 15 minutos.
-            </div>
-
-            {!verification.emailDelivered && verification.fallbackCode ? (
-              <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-xs">
-                <p className="font-semibold text-amber-600">Envio de e-mail ainda não configurado</p>
-                <p className="mt-1 text-muted-foreground">
-                  Enquanto o domínio remetente não estiver ativo, use o código abaixo:
-                </p>
-                <p className="tabular mt-1.5 text-lg font-extrabold tracking-[0.3em]">
-                  {verification.fallbackCode}
-                </p>
+                ))}
               </div>
-            ) : null}
 
-            <div>
-              <Label htmlFor="checkout-code">Código de verificação</Label>
-              <Input
-                id="checkout-code"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                maxLength={6}
-                required
-                placeholder="000000"
-                className="tabular mt-1.5 text-center text-lg tracking-[0.4em]"
-                value={code}
-                onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
-              />
-            </div>
+              <div className="grid gap-3">
+                {catalog.map((item) => {
+                  const selected = item.slug === planSlug;
+                  return (
+                    <button
+                      key={item.slug}
+                      type="button"
+                      onClick={() => setPlanSlug(item.slug)}
+                      className={cn(
+                        "rounded-2xl border p-4 text-left transition-all",
+                        selected
+                          ? "border-emerald-500 bg-emerald-500/5 ring-1 ring-emerald-500/20"
+                          : "border-white/10 hover:border-white/20",
+                      )}
+                    >
+                      <div className="flex items-baseline justify-between gap-2">
+                        <span className="flex items-center gap-2 text-sm font-bold text-white">
+                          {item.name}
+                          {item.recommended && (
+                            <Badge className="bg-emerald-500/20 text-emerald-400 border-none text-[10px]">IA Ativa</Badge>
+                          )}
+                        </span>
+                        <span className="tabular text-lg font-black text-white">
+                          {formatCurrency(checkoutPrice(item, cycle))}
+                          <span className="ml-1 text-xs font-medium text-white/40">
+                            {cycle === "annual" ? "/ano" : "/mês"}
+                          </span>
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs text-white/40 font-medium">{item.tagline}</p>
+                    </button>
+                  );
+                })}
+              </div>
 
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                disabled={verify.isPending}
-                onClick={() => verify.mutate()}
-              >
-                Reenviar código
+              <ul className="grid gap-2 rounded-2xl border border-white/5 bg-white/[0.02] p-4">
+                {plan.highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-start gap-3 text-xs font-medium">
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-emerald-500" aria-hidden="true" />
+                    <span className="text-white/60">{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button className="w-full h-12 text-sm font-black uppercase tracking-widest bg-emerald-500 text-black hover:bg-emerald-400" onClick={() => setStep("form")}>
+                Assinar Agora — {formatCurrency(price)}
               </Button>
-              <Button
-                type="submit"
-                className="flex-1"
-                disabled={confirm.isPending || create.isPending || code.length !== 6}
-              >
-                {confirm.isPending || create.isPending ? (
-                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <Landmark className="mr-2 size-4" aria-hidden="true" />
-                )}
-                Confirmar e ver o pagamento
+            </div>
+          ) : null}
+
+          {step === "form" && (
+            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); verify.mutate(); }}>
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm">
+                <p className="font-bold text-white">{plan.name} · {cycle === "annual" ? "Anual" : "Mensal"}</p>
+                <p className="text-emerald-500 font-black mt-1">{formatCurrency(price)}</p>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white/60">Nome completo</Label>
+                <Input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="bg-white/5 border-white/10 rounded-xl" />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white/60">E-mail</Label>
+                <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 rounded-xl" />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white/60">CPF</Label>
+                <Input required value={cpf} onChange={(e) => setCpf(maskCpf(e.target.value))} className="bg-white/5 border-white/10 rounded-xl" />
+              </div>
+              <div className="flex gap-3 pt-2">
+                <Button type="button" variant="outline" className="flex-1 border-white/10" onClick={() => setStep("plan")}>Voltar</Button>
+                <Button type="submit" className="flex-1 bg-emerald-500 text-black font-bold" disabled={verify.isPending}>
+                  {verify.isPending ? <Loader2 className="size-4 animate-spin" /> : "Confirmar"}
+                </Button>
+              </div>
+            </form>
+          )}
+
+          {step === "code" && (
+            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); confirm.mutate(); }}>
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
+                <p className="text-sm text-white/60">Código enviado para</p>
+                <p className="font-bold text-white">{email}</p>
+              </div>
+              <div className="space-y-2 text-center">
+                <Label className="text-white/60">Digite os 6 dígitos</Label>
+                <Input 
+                  className="text-center text-2xl tracking-[0.5em] font-black h-16 bg-white/5 border-white/10" 
+                  maxLength={6} 
+                  required 
+                  value={code} 
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} 
+                />
+              </div>
+              <Button className="w-full h-12 bg-emerald-500 text-black font-black" disabled={confirm.isPending || code.length < 6}>
+                {confirm.isPending ? <Loader2 className="size-4 animate-spin" /> : "Ativar Agora"}
               </Button>
-            </div>
-          </form>
-        ) : null}
+            </form>
+          )}
 
-        {step === "manual" && order ? (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between gap-2 rounded-xl border border-border bg-secondary/30 p-3 text-sm">
-              <span>
-                {order.planName} · {cycle === "annual" ? "anual" : "mensal"}
-              </span>
-              <span className="tabular font-bold">{formatCurrency(order.amount)}</span>
-            </div>
+          {step === "manual" && order && (
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
+                <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2">Pagamento via Pix</p>
+                <p className="text-3xl font-black text-white">{formatCurrency(order.amount)}</p>
+              </div>
 
-            {manual?.pixKey ? (
-              <div>
-                <Label htmlFor="pix-key">
-                  Chave Pix ({manual.pixKeyType}) — {manual.holder || "GastoCerto"}
-                </Label>
-                <div className="mt-1.5 flex gap-2">
-                  <Input id="pix-key" readOnly value={manual.pixKey} className="font-mono text-xs" />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => copy(manual.pixKey, "Chave Pix")}
-                  >
-                    <Copy className="size-4" aria-hidden="true" />
-                    <span className="sr-only">Copiar chave Pix</span>
-                  </Button>
+              {manual?.pixKey ? (
+                <div className="space-y-4">
+                  <div className="flex justify-center">
+                    <div className="bg-white p-2 rounded-xl">
+                      {/* QR Code placeholder or image logic */}
+                      <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(manual.pixKey)}`} alt="Pix QR" className="size-48" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-white/40 text-xs font-bold uppercase">Chave Pix</Label>
+                    <div className="flex gap-2">
+                      <Input readOnly value={manual.pixKey} className="bg-white/5 border-white/10 font-mono text-xs" />
+                      <Button variant="outline" onClick={() => copy(manual.pixKey, "Chave Pix")} className="border-white/10"><Copy className="size-4" /></Button>
+                    </div>
+                  </div>
                 </div>
-                {manual.bank ? (
-                  <p className="mt-1 text-[12.5px] text-muted-foreground">Instituição: {manual.bank}</p>
-                ) : null}
+              ) : (
+                <div className="p-8 text-center bg-white/5 rounded-2xl border border-dashed border-white/10">
+                  <Loader2 className="size-8 animate-spin mx-auto mb-4 text-emerald-500" />
+                  <p className="text-sm text-white/60 font-medium">Aguardando chave do sistema...</p>
+                </div>
+              )}
+
+              <div className="pt-4 space-y-3">
+                <p className="text-center text-[10px] text-white/40 font-bold uppercase tracking-widest">Status: {CHECKOUT_STATUS_LABEL[status as keyof typeof CHECKOUT_STATUS_LABEL] || status}</p>
+                <Button variant="outline" className="w-full border-white/10" onClick={() => onOpenChange(false)}>Fechar e aguardar</Button>
               </div>
-            ) : (
-              <p className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-muted-foreground">
-                Os dados de pagamento estão sendo atualizados. Guarde o link do pedido abaixo e fale
-                com o suporte para receber a chave Pix.
-              </p>
-            )}
-
-            <p className="rounded-xl border border-border bg-card p-3 text-xs text-muted-foreground">
-              {manual?.instructions}
-              {manual?.whatsapp ? ` Envie o comprovante para ${manual.whatsapp}.` : ""}
-            </p>
-
-            <p
-              aria-live="polite"
-              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card p-3 text-sm text-muted-foreground"
-            >
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-              {CHECKOUT_STATUS_LABEL[status] ?? status} — a chave aparece aqui assim que o pagamento
-              for confirmado.
-            </p>
-
-            <div className="space-y-1 text-center">
-              <a
-                href={`/pedido/${order.paymentId}`}
-                target="_blank"
-                rel="noreferrer"
-                className="block text-xs font-medium text-primary underline underline-offset-2"
-              >
-                Acompanhar meu pedido em uma página própria
-              </a>
             </div>
-          </div>
-        ) : null}
+          )}
 
-
-        {step === "done" && licenseKey ? (
-          <div className="space-y-3 text-center">
-            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-success/15">
-              <Check className="size-6 text-success" aria-hidden="true" />
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Recebemos seu pagamento. Guarde a chave abaixo — ela também fica registrada no seu
-              e-mail de compra ({email}).
-            </p>
-            <p className="tabular select-all rounded-xl border border-brand/40 bg-brand/5 p-3 font-mono text-lg font-bold tracking-widest">
-              {licenseKey}
-            </p>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => copy(licenseKey, "Chave de ativação")}
-              >
-                <Copy className="mr-2 size-4" aria-hidden="true" />
-                Copiar chave
-              </Button>
-              <Button className="flex-1" onClick={activateNow}>
-                Ativar agora
+          {step === "done" && (
+            <div className="text-center space-y-6 py-4">
+              <div className="size-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto border border-emerald-500/20">
+                <Check className="size-10 text-emerald-500" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-white">Acesso Liberado!</h3>
+                <p className="text-white/60 font-medium mt-2">Sua assinatura foi confirmada com sucesso.</p>
+              </div>
+              <Button className="w-full h-14 bg-emerald-500 text-black font-black uppercase tracking-widest rounded-2xl" onClick={activateNow}>
+                Começar Agora
+                <ArrowRight className="ml-2 size-5" />
               </Button>
             </div>
-          </div>
-        ) : null}
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
