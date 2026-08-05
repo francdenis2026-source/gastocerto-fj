@@ -221,14 +221,12 @@ body::-webkit-scrollbar {
   --emerald-glow: rgba(31, 174, 109, 0.2);
   --gold-accent: #D4AF6A;
   
-  --background: transparent;
-
-
+  --background: #F8FAF9;
   --foreground: #0A1512;
-  --surface: rgba(248, 250, 249, 0.4);
-  --card: rgba(255, 255, 255, 0.4);
+  --surface: rgba(10, 21, 18, 0.04);
+  --card: #FFFFFF;
   --card-foreground: #0A1512;
-  --popover: rgba(255, 255, 255, 0.8);
+  --popover: #FFFFFF;
   --popover-foreground: #0A1512;
   
   --primary: var(--emerald);
@@ -250,7 +248,7 @@ body::-webkit-scrollbar {
   --warning-foreground: #FFFFFF;
 
   --border: rgba(10, 21, 18, 0.08);
-  --input: #F8FAF9;
+  --input: #FFFFFF;
   --ring: rgba(31, 174, 109, 0.3);
   
   /* ---- Hero System (Light defaults) ---- */
@@ -263,8 +261,7 @@ body::-webkit-scrollbar {
 }
 
 .dark {
-  --background: transparent;
-
+  --background: #0A1512;
   --foreground: #F3F6F4;
   --surface: rgba(16, 32, 27, 0.4);
   --card: rgba(16, 32, 27, 0.4);
@@ -282,8 +279,9 @@ body::-webkit-scrollbar {
   --accent: #16281F;
   --accent-foreground: #F3F6F4;
   --border: rgba(63, 214, 140, 0.14);
+  --input: rgba(16, 32, 27, 0.2);
   
-  --hero-bg: transparent;
+  --hero-bg: #0A1512;
   --hero-fg: #F3F6F4;
   --hero-fg-muted: #93A69D;
   --hero-border: rgba(63, 214, 140, 0.14);
