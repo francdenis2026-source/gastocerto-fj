@@ -57,10 +57,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <header
         className={cn(
-          "fixed inset-x-0 z-[100] transition-all duration-500 top-2 sm:top-4",
+          "fixed inset-x-0 z-[100] transition-all duration-500 top-0",
           scrolled
-            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.4)] mx-2 sm:mx-auto max-w-7xl rounded-[1.5rem]"
-            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg",
+            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.4)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem]"
+            : "border-b border-white/5 bg-background dark:bg-[#0A1512] text-foreground dark:text-hero-fg",
         )}
       >
 
@@ -165,7 +165,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-md lg:hidden">
+        <div className="fixed inset-x-0 top-[4.5rem] z-[100] mx-2 mt-2 rounded-[1.5rem] border border-emerald-500/30 bg-background/95 p-2 shadow-2xl backdrop-blur-md lg:hidden sm:mx-4 sm:top-[5.5rem]">
           <nav aria-label="Navegação móvel" className="section-shell flex flex-col py-3">
             {navItems.map((item) => (
               <a
@@ -212,6 +212,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         </div>
       )}
     </header>
+    
     </>
   );
 }
