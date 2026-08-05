@@ -47,7 +47,7 @@ export function Hero() {
         <div className="w-full lg:w-[45%] flex flex-col items-center text-center lg:items-start lg:text-left">
           {/* Headline com gradiente */}
           <div className="animate-in fade-in slide-in-from-top-4 duration-1000">
-            <h1 className="font-display text-[clamp(1.5rem,5vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-white mb-2">
+            <h1 className="font-display text-[clamp(1.5rem,5vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-foreground dark:text-white mb-2">
               Gestão financeira<br />
               <span className="bg-gradient-to-r from-[#1FAE6D] to-[#3FD68C] bg-clip-text text-transparent">estratégica.</span>
             </h1>

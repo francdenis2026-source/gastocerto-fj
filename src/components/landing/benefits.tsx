@@ -123,8 +123,8 @@ const faqItems = [
 
 export function Benefits() {
   return (
-    <div className="bg-[#0A1512]">
-      <section id="recursos" className="section-y border-b border-white/5">
+    <div className="bg-background">
+      <section id="recursos" className="section-y border-b border-border/5">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
             <h2 className="section-title">Ecosystema de alto desempenho</h2>

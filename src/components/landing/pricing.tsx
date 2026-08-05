@@ -80,7 +80,7 @@ export function Pricing() {
   }, []);
 
   return (
-    <section id="planos" className="section-y bg-[#0A1512] relative overflow-hidden border-t border-white/5">
+    <section id="planos" className="section-y bg-background relative overflow-hidden border-t border-border/5">
       {/* Foto de Fundo em Baixa Opacidade */}
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
