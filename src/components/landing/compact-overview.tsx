@@ -193,7 +193,10 @@ export function CompactOverview() {
             <Sparkles className="size-3.5" aria-hidden="true" />
             Ecossistema Completo
           </p>
-          <h2 className="mt-1 section-title">Tudo o que você precisa</h2>
+          <h2 className="mt-1 section-title">Controle Absoluto</h2>
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+            Uma plataforma de engenharia financeira desenhada para quem busca precisão, segurança e automação inteligente no dia a dia.
+          </p>
         </Reveal>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-8">

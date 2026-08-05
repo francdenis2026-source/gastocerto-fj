@@ -161,6 +161,7 @@ body::-webkit-scrollbar {
   --gold-accent: #D4AF6A;
   
   --background: transparent;
+  --radius: 1rem;
 
 
   --foreground: #0A1512;

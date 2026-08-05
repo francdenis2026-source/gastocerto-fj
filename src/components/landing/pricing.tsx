@@ -108,8 +108,8 @@ export function Pricing() {
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="section-title">Investimento em liberdade</h2>
-          <p className="mt-3 text-sm text-muted-foreground">Estruturas de custo escaláveis para sua gestão.</p>
+          <h2 className="section-title">Planos Estratégicos</h2>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">Estrutura de custos otimizada para diferentes níveis de complexidade financeira.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button

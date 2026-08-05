@@ -59,13 +59,13 @@ export function Hero() {
 
 
           <Reveal className="relative space-y-5 sm:space-y-7 px-4 py-8 sm:px-8 sm:py-12 rounded-3xl bg-black/20 backdrop-blur-[2px] border border-white/5 shadow-2xl">
-            <h1 className="font-display text-[clamp(2.25rem,7vw,4.25rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.55)]">
-              Domine seu{" "}
-              <span className="bg-gradient-to-br from-[#1FAE6D] via-[#4ADE80] to-[#1FAE6D] bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
+            <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-extrabold leading-[0.95] tracking-[-0.04em] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.55)]">
+              Controle o seu <br className="hidden sm:block" />
+              <span className="bg-gradient-to-br from-[#1FAE6D] via-[#4ADE80] to-[#1FAE6D] bg-clip-text text-transparent drop-shadow-none">patrimônio.</span>
             </h1>
 
             <p
-              className="mx-auto max-w-xl px-2 text-[15px] font-medium leading-[1.5] tracking-[-0.01em] text-white/90 [text-wrap:balance] drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] sm:text-[18px]"
+              className="mx-auto max-w-xl px-2 text-[15px] font-medium leading-[1.6] tracking-[-0.01em] text-white/80 [text-wrap:balance] drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] sm:text-[18px]"
               style={{ fontFamily: '"Space Grotesk", var(--font-display)' }}
             >
               <span className="font-semibold">Gestão estratégica com precisão.</span>{" "}
