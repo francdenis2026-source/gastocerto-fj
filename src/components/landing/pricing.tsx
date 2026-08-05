@@ -204,12 +204,12 @@ export function Pricing() {
                   setCheckoutPlan(plan.slug);
                 }}
                 className={cn(
-                  "relative z-10 cta-lift h-14 w-full rounded-xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
-                  plan.highlighted
-                    ? "bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
-                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-emerald-500/50"
+                  "relative z-10 cta-lift h-14 w-full rounded-2xl text-[13px] font-black uppercase tracking-[0.15em] transition-all group overflow-hidden",
+                  plan.slug === "free" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500 hover:text-black",
+                  plan.slug === "premium" && "bg-blue-500 text-white hover:bg-blue-400 shadow-[0_20px_40px_-10px_rgba(59,130,246,0.5)]",
+                  plan.slug === "premium_ia" && "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500 hover:text-black",
                 )}
-                variant={plan.highlighted ? "default" : "outline"}
+                variant="ghost"
               >
                 <span className="relative z-10 flex items-center justify-center">
                   {plan.cta}
