@@ -85,7 +85,7 @@ export function Hero() {
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
-                  Começar Grátis
+                  Criar Conta Gratuita
                   <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>

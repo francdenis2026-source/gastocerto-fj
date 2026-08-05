@@ -145,7 +145,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           {!hideActions && (
             <>
               <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-[#1FAE6D] px-6 text-[12.5px] font-black uppercase tracking-[0.14em] text-black shadow-lg shadow-[#1FAE6D]/30 transition-all hover:bg-[#24c77d] hover:scale-[1.05] active:scale-95 sm:flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Experimentar Grátis</Link>
+                <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
                 variant="outline"

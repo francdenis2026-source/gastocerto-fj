@@ -25,7 +25,7 @@ export const basePlans: PricingPlan[] = [
     monthly: 0,
     yearly: 0,
     description: "Ideal para começar.",
-    cta: "Começar Agora",
+    cta: "Começar Gratuitamente",
     highlighted: false,
     features: [
       "Até 30 lançamentos/mês",
@@ -40,7 +40,7 @@ export const basePlans: PricingPlan[] = [
     monthly: 24.90,
     yearly: 20.75,
     description: "Controle total da família.",
-    cta: "Assinar Premium",
+    cta: "Ativar Plano Premium",
     highlighted: true,
     features: [
       "Lançamentos ilimitados",
@@ -56,7 +56,7 @@ export const basePlans: PricingPlan[] = [
     monthly: 34.90,
     yearly: 29.00,
     description: "Inteligência financeira.",
-    cta: "Assinar Premium+",
+    cta: "Ativar Premium+ IA",
     highlighted: false,
     features: [
       "Tudo do Premium",
@@ -100,7 +100,7 @@ export function Pricing() {
               setIsYearly(true);
             }}
           >
-            Assinar Agora
+            Assinar Plano IA
           </Button>
         </div>
       </div>

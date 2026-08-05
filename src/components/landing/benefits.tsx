@@ -245,7 +245,7 @@ export function Benefits() {
                   className="group relative h-14 rounded-2xl bg-[#1FAE6D] px-10 text-[15px] font-black uppercase tracking-wider text-black transition-all hover:bg-[#24c77d] hover:scale-105 active:scale-95 shadow-[0_20px_40px_-10px_rgba(31,174,109,0.5)]"
                 >
                   <Link to="/auth" search={{ mode: "signup" }}>
-                    Começar Grátis Agora
+                    Começar Teste Gratuito
                     <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
