@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        VOCE NAO MUDOU NADA CONTINUA A MESM ACOISA, FORCE A MUDANÇA, MUDE O BACKGROUD IMAGEM
+        Existem algumas áreas onde a imagem de fundo não é visível. Aplique a imagem de fundo nessas áreas.
       </div>
 
       

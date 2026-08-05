@@ -123,8 +123,14 @@ const faqItems = [
 
 export function Benefits() {
   return (
-    <div className="bg-background">
-      <section id="recursos" className="section-y border-b border-border/5">
+    <div className="bg-background relative overflow-hidden">
+      {/* Imagem de Fundo Global da Seção */}
+      <img 
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.03] grayscale pointer-events-none"
+      />
+      <section id="recursos" className="section-y border-b border-border/5 relative z-10">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
             <h2 className="section-title">Ecosystema de alto desempenho</h2>
@@ -165,7 +171,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="seguranca" className="py-12 bg-white/[0.01]">
+      <section id="seguranca" className="py-12 bg-white/[0.01] relative z-10">
         <div className="section-shell">
           <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
             <div className="max-w-md">
@@ -191,7 +197,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-border/5 bg-background relative">
+      <section id="faq" className="section-y border-b border-border/5 bg-background relative z-10">
         {/* Textura SVG sutil */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="section-shell max-w-3xl relative z-10">
@@ -219,7 +225,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="cta-final" className="section-y bg-background relative overflow-hidden">
+      <section id="cta-final" className="section-y bg-background relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
           <Reveal className="relative overflow-hidden rounded-[1.5rem] glass-morphism px-6 py-8 text-center shadow-2xl border border-border/5">
             {/* Foto Real de Fundo com Baixa Opacidade */}
