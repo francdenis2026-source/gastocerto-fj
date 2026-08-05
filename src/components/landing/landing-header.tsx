@@ -53,29 +53,17 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-      {/* Faixa sólida atrás do header flutuante: impede que o conteúdo apareça na margem superior. */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-x-0 top-0 z-[999] bg-background/95 backdrop-blur-md transition-all duration-500 border-b border-emerald-500/10",
-          scrolled ? "h-[88px] opacity-100" : "h-0 opacity-0",
-        )}
-      />
-
-      
-
       <header
         className={cn(
-          "fixed inset-x-0 z-[1000] transition-all duration-700 top-0 motion-reduce:transition-none",
+          "fixed inset-x-0 top-0 z-[1000] h-16 bg-background text-foreground border-b",
           scrolled
-            ? "bg-background border-b-[2px] border-emerald-500/40 text-foreground shadow-[0_40px_80px_rgba(0,0,0,0.8)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem] sm:rounded-[2rem] z-[1000]"
-            : "bg-background text-foreground shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_10px_30px_rgba(0,0,0,0.5)] isolate border-b border-white/5 z-[1000]",
+            ? "border-emerald-500/40 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
+            : "border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]",
         )}
       >
+        <div className="section-shell flex h-16 items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
+          <Logo onDark={false} href="#inicio" className="group shrink-0" />
 
-
-        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-4 sm:px-6" : "h-16 sm:h-20 px-4 sm:px-6 bg-gradient-to-r from-background via-emerald-950/20 to-background")}>
-          <Logo onDark={!scrolled} href="#inicio" className="group shrink-0 scale-90 sm:scale-100" />
 
 
           <nav aria-label="Navegação principal" className="ml-auto mr-auto hidden min-w-0 items-center gap-0.5 pl-6 lg:flex xl:gap-1">
@@ -88,12 +76,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-black uppercase tracking-[0.2em] transition-all hover:bg-emerald-500/5 focus-visible:outline-none",
-                    isActive 
-                      ? "text-emerald-400" 
-                      : scrolled 
-                        ? "text-foreground/90 hover:text-emerald-400" 
-                        : "text-white hover:text-white",
+                    "nav-underline relative inline-flex min-h-10 items-center whitespace-nowrap rounded-xl px-4 text-[13px] font-black uppercase tracking-[0.2em] transition-colors hover:bg-emerald-500/5 focus-visible:outline-none",
+                    isActive ? "text-emerald-500" : "text-foreground/80 hover:text-emerald-500",
                   )}
                 >
                   {item.label}
@@ -107,11 +91,11 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className={cn("inline-flex rounded-xl transition-all hover:scale-105 active:scale-95", !scrolled ? "text-white bg-white/5 border border-white/10 hover:bg-white/10" : "text-foreground bg-accent/50 border border-border/10")} />
+          <ThemeToggle className="inline-flex rounded-xl border border-border/40 bg-accent/50 text-foreground transition-transform hover:scale-105 active:scale-95" />
           <CodeAccessDialog>
             <Button
               variant="ghost"
-              className={cn("hidden lg:inline-flex h-10 px-4 text-[13px] font-bold tracking-tight rounded-xl transition-all active:scale-95", !scrolled ? "text-white hover:bg-white/5" : "text-foreground/70 hover:text-foreground hover:bg-accent")}
+              className="hidden h-10 rounded-xl px-4 text-[13px] font-bold tracking-tight text-foreground/70 transition-colors hover:bg-accent hover:text-foreground active:scale-95 lg:inline-flex"
             >
               <KeyRound className="size-4 mr-2" aria-hidden />
               Acesso Restrito
@@ -124,10 +108,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               variant="outline"
               size="icon"
               aria-label="Entrar com código de teste"
-              className={cn(
-                "lg:hidden rounded-xl border-white/10 bg-white/5 text-white transition-all active:scale-95",
-                !scrolled && "border-white/20 bg-white/10",
-              )}
+              className="lg:hidden rounded-xl border-border/40 bg-accent/50 text-foreground transition-transform active:scale-95"
             >
               <KeyRound className="size-4" aria-hidden />
             </Button>
@@ -135,16 +116,13 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           {/* Entrar: presente no desktop e no mobile. */}
           <Button
             variant="ghost"
-            className={cn(
-              "hidden xs:inline-flex h-10 sm:h-12 px-4 sm:px-8 text-[11px] sm:text-[12px] font-black uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D] hover:text-black hover:border-[#1FAE6D] shadow-[0_0_20px_rgba(31,174,109,0)] hover:shadow-[0_0_20px_rgba(31,174,109,0.4)] transition-all duration-300 active:scale-95 group",
-              !scrolled ? "text-white" : "text-foreground",
-            )}
+            className="hidden xs:inline-flex h-10 items-center rounded-xl border border-border/40 bg-accent/40 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-foreground transition-colors duration-300 hover:border-[#1FAE6D] hover:bg-[#1FAE6D] hover:text-black active:scale-95 group"
             asChild
           >
             <Link to="/auth" search={{ mode: "login" }}>
               <span className="flex items-center gap-2">
                 Entrar
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 transition-colors group-hover:bg-emerald-500/20">
                   <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </span>
@@ -153,16 +131,15 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 sm:h-12 items-center rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-4 sm:px-8 text-[11px] sm:text-[12px] font-black uppercase tracking-[0.2em] text-black shadow-xl shadow-[#1FAE6D]/30 transition-all duration-300 md:flex" asChild>
+              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-5 text-[11px] font-black uppercase tracking-[0.2em] text-black shadow-lg shadow-[#1FAE6D]/25 transition-all duration-300 md:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "lg:hidden z-[1001] rounded-xl border-white/10 bg-white/5 text-white active:scale-95 transition-all",
-                  !scrolled && "border-white/20 bg-white/10",
-                  open && "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                  "lg:hidden z-[1001] rounded-xl border border-border/40 bg-accent/50 text-foreground transition-transform active:scale-95",
+                  open && "border-emerald-500/30 bg-emerald-500/20 text-emerald-500",
                 )}
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -173,8 +150,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
             </>
           )}
         </div>
+        </div>
+      </header>
 
-      </div>
+
 
       <div 
         className={cn(
@@ -190,10 +169,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               aria-current={active === item.href ? "location" : undefined}
               onClick={(event) => handleAnchorClick(event, item.href, () => setOpen(false))}
               className={cn(
-                "text-2xl font-bold tracking-tighter transition-all duration-300 hover:text-emerald-400",
+                "text-2xl font-bold tracking-tighter transition-all duration-300 hover:text-emerald-500",
                 active === item.href
                   ? "text-emerald-500 scale-110"
-                  : "text-white/70",
+                  : "text-foreground/70",
                 open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               )}
               style={{ transitionDelay: `${index * 50}ms` }}
@@ -209,11 +188,11 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
             <Button size="lg" className="w-full h-14 text-base font-bold rounded-2xl bg-[#1FAE6D] text-black" asChild>
               <Link to="/auth" search={{ mode: "signup" }} onClick={() => setOpen(false)}>Começar Agora</Link>
             </Button>
-            <Button variant="outline" size="lg" className="w-full h-14 text-base font-bold rounded-2xl border-white/10 text-white" asChild>
+            <Button variant="outline" size="lg" className="w-full h-14 text-base font-bold rounded-2xl border-border/40 text-foreground" asChild>
               <Link to="/auth" search={{ mode: "login" }} onClick={() => setOpen(false)}>Entrar</Link>
             </Button>
             <CodeAccessDialog>
-              <Button variant="ghost" className="w-full text-white/50 py-4" onClick={() => setOpen(false)}>
+              <Button variant="ghost" className="w-full text-foreground/60 py-4" onClick={() => setOpen(false)}>
                 <KeyRound className="size-4 mr-2" aria-hidden />
                 Acesso Restrito
               </Button>
@@ -221,8 +200,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           </div>
         </nav>
       </div>
-    </header>
-    
     </>
+
   );
 }
