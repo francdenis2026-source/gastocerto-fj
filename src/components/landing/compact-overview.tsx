@@ -190,8 +190,8 @@ export function CompactOverview() {
       <div className="section-shell relative z-10">
         <Reveal className="text-center mb-12">
           <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand">
-              <Sparkles className="size-3.5" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-brand transition-all hover:scale-110 hover:bg-brand/10 cursor-default">
+              <Sparkles className="size-3.5 animate-pulse" />
               Recursos de Próxima Geração
             </span>
           </div>
@@ -208,7 +208,7 @@ export function CompactOverview() {
                 <TabsTrigger
                   key={value}
                   value={value}
-                  className="rounded-full px-8 py-2 data-[state=active]:bg-brand data-[state=active]:text-black"
+                  className="rounded-full px-8 py-2 data-[state=active]:bg-brand data-[state=active]:text-black transition-all hover:scale-105 active:scale-95"
                 >
                   {tabMeta[value].label}
                 </TabsTrigger>
