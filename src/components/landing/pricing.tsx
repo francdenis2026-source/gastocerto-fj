@@ -185,10 +185,10 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "h-11 w-full rounded-lg text-[13px] font-bold transition-all active:scale-[0.98] group",
+                  "h-14 w-full rounded-2xl text-[14px] font-black uppercase tracking-wider transition-all active:scale-[0.98] group",
                   plan.highlighted
-                    ? "bg-emerald-500 text-[#0A1512] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
-                    : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    ? "bg-[#1FAE6D] text-black hover:bg-[#24c77d] shadow-[0_15px_30px_-10px_rgba(31,174,109,0.4)]"
+                    : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
               >
