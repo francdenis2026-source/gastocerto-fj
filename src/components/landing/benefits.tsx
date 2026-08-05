@@ -146,16 +146,16 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="group relative flex w-full flex-col items-start rounded-[2rem] p-7 text-left transition-all bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.05] hover:border-brand/30 hover:shadow-[0_32px_64px_-24px_rgba(0,0,0,0.8)] active:scale-[0.98]">
+                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2rem] p-7 text-left bg-white/[0.02] border border-white/[0.05] active:scale-[0.98]">
                           <div className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-black">
                             <item.icon className="size-6" />
                           </div>
                           <div className="flex w-full items-center justify-between">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80">{item.tag}</span>
-                            <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-emerald-500" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80 group-hover:text-black/80 transition-colors">{item.tag}</span>
+                            <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-black" />
                           </div>
-                          <h4 className="mt-1.5 text-lg font-bold text-white">{item.title}</h4>
-                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                          <h4 className="mt-1.5 text-lg font-bold text-white group-hover:text-black transition-colors">{item.title}</h4>
+                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground group-hover:text-black/70 transition-colors">{item.text}</p>
                         </button>
                       </FeatureDetailDialog>
                     </Reveal>
