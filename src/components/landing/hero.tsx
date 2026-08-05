@@ -29,11 +29,11 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover opacity-60 grayscale-[0.4] brightness-[0.45] contrast-[1.15] saturate-[0.8]"
+          className="absolute inset-0 h-full w-full object-cover opacity-80 grayscale-[0.2] brightness-[0.55] contrast-[1.2] saturate-[0.9]"
         />
         
-        {/* Overlay em Gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512] via-[#0A1512]/98 to-[#0A1512]/40" />
+        {/* Overlay em Gradiente - Mais transparente à direita */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512] via-[#0A1512]/90 to-[#0A1512]/30" />
         
         {/* Gradiente radial verde sutil */}
         <div 
