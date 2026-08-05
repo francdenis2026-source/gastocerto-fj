@@ -150,7 +150,10 @@ export function Pricing() {
           {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}
-              onClick={() => setCheckoutPlan(plan.slug)}
+              onClick={() => {
+                console.log("Setting checkout plan to:", plan.slug);
+                setCheckoutPlan(plan.slug);
+              }}
               className={cn(
                 "interactive-card relative flex flex-col rounded-[2rem] p-8 transition-all duration-500 overflow-hidden cursor-pointer group",
                 "bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl",

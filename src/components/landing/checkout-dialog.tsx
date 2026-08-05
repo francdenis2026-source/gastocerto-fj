@@ -80,7 +80,7 @@ export function CheckoutDialog({
     return { ...item, monthly: live.monthly, annual: live.annual };
   });
 
-  const plan = catalog.find((item) => item.slug === planSlug) ?? catalog[0];
+  const plan = catalog.find((item) => item.slug === planSlug) || catalog.find(p => p.slug === "premium") || catalog[0];
   const price = checkoutPrice(plan, cycle);
 
   useEffect(() => {
