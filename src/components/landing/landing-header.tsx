@@ -167,10 +167,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               aria-current={active === item.href ? "location" : undefined}
               onClick={(event) => handleAnchorClick(event, item.href, () => setOpen(false))}
               className={cn(
-                "text-2xl font-bold tracking-tighter transition-all duration-300 hover:text-emerald-400",
+                "text-2xl font-bold tracking-tighter transition-all duration-300 hover:text-emerald-500",
                 active === item.href
                   ? "text-emerald-500 scale-110"
-                  : "text-white/70",
+                  : "text-foreground/70",
                 open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               )}
               style={{ transitionDelay: `${index * 50}ms` }}
@@ -186,11 +186,11 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
             <Button size="lg" className="w-full h-14 text-base font-bold rounded-2xl bg-[#1FAE6D] text-black" asChild>
               <Link to="/auth" search={{ mode: "signup" }} onClick={() => setOpen(false)}>Começar Agora</Link>
             </Button>
-            <Button variant="outline" size="lg" className="w-full h-14 text-base font-bold rounded-2xl border-white/10 text-white" asChild>
+            <Button variant="outline" size="lg" className="w-full h-14 text-base font-bold rounded-2xl border-border/40 text-foreground" asChild>
               <Link to="/auth" search={{ mode: "login" }} onClick={() => setOpen(false)}>Entrar</Link>
             </Button>
             <CodeAccessDialog>
-              <Button variant="ghost" className="w-full text-white/50 py-4" onClick={() => setOpen(false)}>
+              <Button variant="ghost" className="w-full text-foreground/60 py-4" onClick={() => setOpen(false)}>
                 <KeyRound className="size-4 mr-2" aria-hidden />
                 Acesso Restrito
               </Button>
@@ -198,8 +198,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           </div>
         </nav>
       </div>
-    </header>
-    
     </>
+
   );
 }
