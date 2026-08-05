@@ -27,9 +27,9 @@ export function Hero() {
       <div className="absolute inset-0 -z-20 overflow-hidden">
         {/* Imagem Real de Alta Resolução (Finance-focused) */}
         <img 
-          src="https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover opacity-90 dark:opacity-60 grayscale-[0.2] dark:grayscale-[0.4] brightness-[1.05] dark:brightness-[0.45] contrast-[1.05] dark:contrast-[1.15] saturate-[0.9]"
+          className="absolute inset-0 h-full w-full object-cover opacity-95 dark:opacity-70 grayscale-[0.1] dark:grayscale-[0.3] brightness-[1.1] dark:brightness-[0.5] contrast-[1.1] dark:contrast-[1.2] saturate-[0.95]"
         />
         
         {/* Overlay em Gradiente - Adaptado para modo claro/escuro */}
