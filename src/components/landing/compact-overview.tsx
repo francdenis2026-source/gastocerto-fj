@@ -190,7 +190,7 @@ export function CompactOverview() {
           </div>
           <h2 className="section-title">Tudo o que você precisa</h2>
           <p className="mt-6 section-subtitle max-w-3xl mx-auto !text-white/80">
-            Módulos integrados e fáceis de usar para organizar suas contas, planejar o futuro da sua família e economizar de verdade.
+            Analise cada recurso que o GastoCerto oferece. Do controle de combustível ao Espaço Kids, temos tudo o que você precisa para uma gestão impecável.
           </p>
         </Reveal>
 

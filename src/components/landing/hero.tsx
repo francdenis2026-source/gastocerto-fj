@@ -68,7 +68,7 @@ export function Hero() {
             <p
               className="mx-auto max-w-3xl text-center section-subtitle !text-white/90 !text-[clamp(1.15rem,5vw,1.4rem)] !font-medium"
             >
-              A solução completa para organizar seus gastos. Simples, intuitiva e feita para facilitar o seu dia a dia.
+              Organize seus gastos, planeje o futuro e tome decisões inteligentes com a plataforma mais completa de gestão financeira pessoal.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
