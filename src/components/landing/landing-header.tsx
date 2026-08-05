@@ -67,28 +67,32 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         <div className="section-shell flex h-20 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group py-1" />
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-2 lg:flex">
-          {navItems.map((item) => {
-            const isActive = active === item.href;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={isActive ? "location" : undefined}
-                onClick={(event) => handleAnchorClick(event, item.href)}
-                className={cn(
-                  "nav-underline relative inline-flex min-h-11 items-center rounded-lg px-4 text-[13px] font-bold tracking-tight transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 after:bg-emerald-500 after:h-0.5",
-                  isActive && "after:scale-x-100 text-emerald-500",
-                  scrolled
-                    ? cn("text-foreground/70 hover:text-foreground hover:bg-white/5", isActive && "text-emerald-500")
-                    : cn("text-white/70 hover:text-white hover:bg-white/5", isActive && "text-emerald-400"),
-                )}
-              >
-                {item.label}
-              </a>
-            );
-          })}
-        </nav>
+          <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => {
+              const isActive = active === item.href;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? "location" : undefined}
+                  onClick={(event) => handleAnchorClick(event, item.href)}
+                  className={cn(
+                    "relative inline-flex min-h-11 items-center rounded-xl px-5 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 focus-visible:outline-none",
+                    isActive 
+                      ? "text-emerald-400" 
+                      : scrolled 
+                        ? "text-foreground/60 hover:text-emerald-500 hover:bg-emerald-500/5" 
+                        : "text-white/60 hover:text-emerald-400 hover:bg-white/5",
+                  )}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                  )}
+                </a>
+              );
+            })}
+          </nav>
 
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
