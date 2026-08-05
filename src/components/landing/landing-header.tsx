@@ -212,7 +212,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         </div>
       )}
     </header>
-    <div className="h-20 sm:h-24 lg:hidden" /> {/* Spacer to prevent overlap on initial load */}
+    
     </>
   );
 }
