@@ -108,8 +108,8 @@ export function Pricing() {
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="section-title">Investimento em liberdade</h2>
-          <p className="mt-3 text-sm text-muted-foreground">Estruturas de custo escaláveis para sua gestão.</p>
+          <h2 className="section-title">Planos Estratégicos</h2>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">Estrutura de custos otimizada para diferentes níveis de complexidade financeira.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
@@ -144,10 +144,10 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[1.5rem] p-6 transition-all duration-300",
-                "hover:-translate-y-1 hover:shadow-2xl",
+                "relative flex flex-col rounded-[2rem] p-8 transition-all duration-500",
+                "bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.1] hover:-translate-y-2 hover:shadow-2xl",
                 plan.highlighted 
-                  ? "shadow-[0_20px_50px_-12px_rgba(31,174,109,0.15)] ring-1 ring-emerald-500/20" 
+                  ? "shadow-[0_20px_60px_-12px_rgba(31,174,109,0.2)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.02]" 
                   : ""
 
 
