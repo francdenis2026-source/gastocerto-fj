@@ -317,83 +317,6 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        {/* pt safe-area: no mobile a faixa do notch acompanha o tema (claro/escuro). */}
-        <header className="sticky top-0 z-40 border-b border-border/10 bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-md">
-          <div className="flex h-12 items-center justify-between px-3 sm:px-6 sm:h-14">
-            <div className="flex min-w-0 items-center gap-3">
-              <Link to="/painel" className="lg:hidden scale-90 -ml-1">
-                <Logo compact />
-              </Link>
-              <div className="hidden flex-col lg:flex">
-                <p className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">
-                  {isAdminArea ? "Administração" : "Painel do Cliente"}
-                </p>
-                <h1 className="text-base font-black tracking-tight text-foreground">
-                  {activeGroup ? activeGroup.label : "Visão Geral"}
-                </h1>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              {!isAdminArea && (
-                <div className="hidden items-center gap-2 sm:flex">
-                  <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
-                  <NotificationCenter />
-                  <Button
-                    onClick={() => setQuickEntry("expense")}
-                    className="h-9 gap-2 rounded-xl bg-brand px-4 text-xs font-black uppercase tracking-wider text-brand-foreground shadow-soft transition-all hover:opacity-90 active:scale-95"
-                  >
-                    <Plus className="size-4" />
-                    Lançar
-                  </Button>
-                </div>
-              )}
-              
-              <div className="flex items-center gap-1 sm:hidden">
-                 <CommandPalette variant="icon" onQuickEntry={setQuickEntry} />
-                 <NotificationCenter />
-              </div>
-
-              <div className="mx-1 h-6 w-px bg-border/60" />
-              <ThemeToggle />
-              
-              <Link to="/perfil" className="ml-1 transition-transform hover:scale-105 active:scale-95">
-                <Avatar className="size-8 border-2 border-border/50 shadow-sm">
-                  {avatarUrl ? <AvatarImage src={avatarUrl} alt="Foto de perfil" /> : null}
-                  <AvatarFallback className="bg-secondary text-[10px] font-black">{initials}</AvatarFallback>
-                </Avatar>
-              </Link>
-            </div>
-          </div>
-
-          {/* Subtabs compact and elegant */}
-          {subTabs.length > 1 && (
-            <div className="border-t border-border/40 bg-secondary/10">
-              <nav
-                aria-label="Subnavegação"
-                className="mx-auto flex w-full max-w-6xl items-center gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              >
-                {subTabs.map((tab) => (
-                  <Link
-                    key={tab.to}
-                    to={tab.to as any}
-                    aria-current={pathname === tab.to ? "page" : undefined}
-                    className={cn(
-                      "shrink-0 rounded-full px-3.5 py-1.5 text-[11px] font-black uppercase tracking-wider transition-all",
-                      pathname === tab.to
-                        ? "bg-brand text-brand-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-                    )}
-                  >
-                    {tab.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          )}
-        </header>
-
         <main className="mx-auto w-full min-w-0 max-w-full flex-1 px-3 py-2.5 pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-6 lg:pb-8 overflow-x-hidden">
           {!isAdminArea ? <ReadOnlyBanner /> : null}
           <div className="mx-auto max-w-7xl w-full">
@@ -401,7 +324,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </main>
 
-        <footer className="mt-auto border-t border-border py-6 text-center lg:px-8">
+        <footer className="mt-auto border-t border-white/5 py-6 text-center lg:px-8">
           <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60">
           &lt;Dev. Franc D&apos;nis&gt; · Acre
           </p>
