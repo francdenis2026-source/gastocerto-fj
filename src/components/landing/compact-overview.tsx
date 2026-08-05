@@ -195,9 +195,9 @@ export function CompactOverview() {
               Recursos de Próxima Geração
             </span>
           </div>
-          <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl tracking-tight">Infraestrutura Financeira</h2>
-          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
-            Uma engenharia desenhada para quem busca precisão, segurança e automação inteligente no dia a dia.
+          <h2 className="section-title text-4xl sm:text-5xl lg:text-7xl tracking-tighter font-black">Infraestrutura Financeira</h2>
+          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-base sm:text-xl leading-relaxed font-medium [text-wrap:balance]">
+            Uma engenharia desenhada para quem busca precisão absoluta, segurança inabalável e automação de elite.
           </p>
         </Reveal>
 
@@ -222,14 +222,14 @@ export function CompactOverview() {
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {featureGroups.map((group, groupIndex) => (
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[2rem] p-8 bg-white/[0.03] border border-white/[0.08] shadow-xl"
+                  className="interactive-card rounded-[2.5rem] p-9 bg-white/[0.03] border border-white/[0.08] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]"
                 >
-                  <p className="text-[12px] font-black uppercase tracking-[0.25em] text-brand mb-6 border-b border-brand/10 pb-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5">
                     {group.group}
                   </p>
                   <ul className="grid gap-2">
