@@ -256,10 +256,6 @@ export function CompactOverview() {
         className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
       />
       <span id="seguranca" className="block" />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--brand)_45%,transparent),transparent)]"
-      />
       <div className="section-shell relative z-10">
         <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
