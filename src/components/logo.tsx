@@ -32,7 +32,7 @@ export function Logo({
       <span className="hidden min-w-0 flex-col leading-tight min-[360px]:flex">
         <span
           className={cn(
-            "font-display whitespace-nowrap text-[1.25rem] font-black tracking-[-0.03em] sm:text-[1.4rem] uppercase",
+            "font-display whitespace-nowrap text-[1.25rem] font-bold tracking-[-0.03em] sm:text-[1.4rem]",
             onDark ? "text-white" : "text-[#F3F6F4]",
           )}
         >
@@ -41,7 +41,7 @@ export function Logo({
         </span>
         <span
           className={cn(
-            "mt-0.5 hidden text-[9px] font-black uppercase tracking-[0.2em] min-[360px]:block max-w-[200px] leading-tight opacity-80",
+            "mt-0.5 hidden text-[9px] font-bold uppercase tracking-[0.1em] min-[360px]:block max-w-[200px] leading-tight opacity-70",
             onDark ? "text-emerald-400/80" : "text-emerald-400/60",
           )}
         >

@@ -89,7 +89,7 @@ export function Pricing() {
               <p className="text-xs text-muted-foreground">O plano mais completo</p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-black">R$ 29,00</p>
+              <p className="text-2xl font-bold">R$ 29,00</p>
               <p className="text-[10px] text-muted-foreground">/mês no anual</p>
             </div>
           </div>
@@ -108,8 +108,8 @@ export function Pricing() {
       {/* Foto de Fundo - Removida para limpar o visual */}
       <div className="section-shell relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="section-title">Níveis de Poder</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Sistemas modulares escaláveis para a evolução da sua inteligência financeira.</p>
+          <h2 className="section-title">Planos e Preços</h2>
+          <p className="mt-6 section-subtitle max-w-2xl mx-auto">Escolha a melhor opção para transformar sua gestão financeira hoje mesmo.</p>
           
           <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
@@ -130,7 +130,7 @@ export function Pricing() {
             >
               Anual
               <span className={cn(
-                "rounded-full px-1.5 py-0.5 text-[9px] font-black",
+                "rounded-full px-1.5 py-0.5 text-[9px] font-bold",
                 isYearly ? "bg-black/20 text-[#0A1512]" : "bg-emerald-500/20 text-emerald-500"
               )}>
                 2 MESES GRÁTIS
@@ -144,10 +144,10 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "interactive-card relative flex flex-col rounded-[2rem] p-7 transition-all duration-500",
-                "bg-white/[0.02] border border-white/[0.05] shadow-2xl backdrop-blur-sm",
+                "interactive-card relative flex flex-col rounded-[1.5rem] p-7 transition-all duration-400",
+                "bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md",
                 plan.highlighted 
-                  ? "shadow-[0_48px_96px_-24px_rgba(31,174,109,0.25)] border-[#1FAE6D]/20 bg-[#1FAE6D]/[0.05] scale-[1.03] z-10" 
+                  ? "shadow-[0_32px_64px_-16px_rgba(31,174,109,0.15)] border-[#1FAE6D]/30 bg-[#1FAE6D]/[0.02] scale-[1.02] z-10" 
                   : ""
               )}
               tabIndex={0}
@@ -155,19 +155,19 @@ export function Pricing() {
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.2)]">
                   Mais Popular
                 </div>
               )}
               
               <div className="mb-5">
-                <h3 className="text-2xl font-black text-white tracking-tight">{plan.name}</h3>
+                <h3 className="text-2xl font-bold text-white tracking-tight">{plan.name}</h3>
                 <p className="mt-3 body-text !text-[14px] !font-medium opacity-60">{plan.description}</p>
               </div>
 
               <div className="mb-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-black tracking-tight text-white tabular">
+                  <span className="text-3xl font-bold tracking-tight text-white tabular">
                     {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
                   <span className="text-sm font-medium text-muted-foreground">/mês</span>
@@ -186,7 +186,7 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "cta-lift h-14 w-full rounded-2xl text-[14px] font-black uppercase tracking-wider transition-all group",
+                  "cta-lift h-14 w-full rounded-2xl text-[14px] font-bold uppercase tracking-wider transition-all group",
                   plan.highlighted
                     ? "bg-[#1FAE6D] text-black hover:bg-[#24c77d] shadow-[0_15px_30px_-10px_rgba(31,174,109,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20"
