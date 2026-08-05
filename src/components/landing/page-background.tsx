@@ -18,9 +18,7 @@ export function PageBackground() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background transition-colors duration-500" />
       </div>
       
-      {/* Textura de Grão para Aspeto de Filme Premium */}
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" 
-           style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/stardust.png")' }} />
+      {/* Textura de Grão removida conforme solicitado */}
     </div>
   );
 }

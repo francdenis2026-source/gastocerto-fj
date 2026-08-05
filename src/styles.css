@@ -191,12 +191,7 @@ body::-webkit-scrollbar {
   }
   
   .noise-overlay {
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.015;
-    pointer-events: none;
-    z-index: 9999;
+    display: none;
   }
 
   .premium-glow {
@@ -221,9 +216,9 @@ body::-webkit-scrollbar {
   --emerald-glow: rgba(31, 174, 109, 0.2);
   --gold-accent: #D4AF6A;
   
-  --background: #F8FAF9;
+  --background: #FFFFFF;
   --foreground: #0A1512;
-  --surface: rgba(10, 21, 18, 0.04);
+  --surface: rgba(10, 21, 18, 0.05);
   --card: #FFFFFF;
   --card-foreground: #0A1512;
   --popover: #FFFFFF;
@@ -234,29 +229,29 @@ body::-webkit-scrollbar {
   --brand: var(--emerald);
   --brand-foreground: #FFFFFF;
   
-  --secondary: #F1F5F9;
+  --secondary: #F8FAFC;
   --secondary-foreground: #0A1512;
   --muted: #F1F5F9;
-  --muted-foreground: #64748B;
+  --muted-foreground: #475569;
   --accent: #F1F5F9;
   --accent-foreground: #0A1512;
-  --destructive: #E5484D;
+  --destructive: #E11D48;
   --destructive-foreground: #FFFFFF;
   --success: var(--emerald);
   --success-foreground: #FFFFFF;
-  --warning: #D4AF6A;
+  --warning: #B45309;
   --warning-foreground: #FFFFFF;
 
-  --border: rgba(10, 21, 18, 0.08);
+  --border: rgba(10, 21, 18, 0.12);
   --input: #FFFFFF;
-  --ring: rgba(31, 174, 109, 0.3);
+  --ring: rgba(31, 174, 109, 0.4);
   
   /* ---- Hero System (Light defaults) ---- */
   --hero-bg: #FFFFFF;
   --hero-fg: #0A1512;
-  --hero-fg-muted: #64748B;
-  --hero-border: rgba(10, 21, 18, 0.08);
-  --hero-surface: #F8FAF9;
+  --hero-fg-muted: #475569;
+  --hero-border: rgba(10, 21, 18, 0.1);
+  --hero-surface: #F8FAFC;
   --hero-accent: var(--emerald);
 }
 
