@@ -65,9 +65,9 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
 
         <div className="section-shell flex h-24 items-center justify-between gap-2 sm:gap-4 transition-all duration-500">
-          <Logo onDark={!scrolled} href="#inicio" className="group py-1 scale-105" />
+          <Logo onDark={!scrolled} href="#inicio" className="group shrink-0 py-1" />
 
-          <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
+          <nav aria-label="Navegação principal" className="ml-auto mr-auto hidden min-w-0 items-center gap-0.5 pl-6 lg:flex xl:gap-1">
             {navItems.map((item) => {
               const isActive = active === item.href;
               return (
@@ -77,7 +77,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
                   aria-current={isActive ? "location" : undefined}
                   onClick={(event) => handleAnchorClick(event, item.href)}
                   className={cn(
-                    "relative inline-flex min-h-11 items-center rounded-xl px-5 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 focus-visible:outline-none",
+                    "relative inline-flex min-h-11 items-center whitespace-nowrap rounded-xl px-3 text-[11px] font-black uppercase tracking-[0.14em] xl:px-4 xl:text-[12px] xl:tracking-[0.18em] transition-all duration-300 focus-visible:outline-none",
                     isActive 
                       ? "text-emerald-400" 
                       : scrolled 

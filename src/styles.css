@@ -138,6 +138,19 @@ body::-webkit-scrollbar {
   --color-cta-border: var(--cta-border);
   --color-cta-surface: var(--cta-surface);
   --color-cta-accent-glow: var(--cta-accent-glow);
+
+  /* Escala emerald recalibrada para o verde folha da logomarca (#54A860). */
+  --color-emerald-50: #F0F8F1;
+  --color-emerald-100: #DCEFDF;
+  --color-emerald-200: #B9DFC0;
+  --color-emerald-300: #8FCB9B;
+  --color-emerald-400: #6FBB7D;
+  --color-emerald-500: #54A860;
+  --color-emerald-600: #46914F;
+  --color-emerald-700: #3A7742;
+  --color-emerald-800: #2E5D35;
+  --color-emerald-900: #23472A;
+  --color-emerald-950: #122817;
 }
 
 
@@ -146,8 +159,8 @@ body::-webkit-scrollbar {
   --radius: 0.75rem;
   
   /* Verde Primário da marca (Premium Emerald) */
-  --emerald: #1FAE6D;
-  --emerald-gradient-to: #3FD68C;
+  --emerald: #54A860;
+  --emerald-gradient-to: #8FCB9B;
   --gold-accent: #D4AF6A; 
   
   --background: transparent;
@@ -753,6 +766,32 @@ body::-webkit-scrollbar {
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
+  }
+
+  /* Mãozinha em qualquer card ou superfície com microinteração. */
+  [data-slot="card"],
+  [role="button"],
+  .card-interactive,
+  .metric-card,
+  .glass-morphism,
+  .hover-scale,
+  .story-link,
+  [class*="hover:-translate-y"],
+  [class*="hover:scale-10"],
+  [class*="hover:scale-105"],
+  [class*="hover:scale-11"] {
+    cursor: pointer;
+  }
+
+  [data-slot="card"] input,
+  [data-slot="card"] textarea,
+  [data-slot="card"] select {
+    cursor: auto;
+  }
+
+  [aria-disabled="true"],
+  button:disabled {
+    cursor: not-allowed;
   }
 }
 
