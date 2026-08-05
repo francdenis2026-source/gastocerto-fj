@@ -31,17 +31,24 @@ export function PricingMobile() {
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
-    <section id="planos-mobile" className="section-y md:hidden bg-background border-t border-white/5">
+    <section id="planos-mobile" className="section-y md:hidden bg-background border-t border-white/5 relative overflow-hidden">
+      {/* Foto de Fundo em Baixa Opacidade */}
+      <img 
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.05] grayscale pointer-events-none"
+      />
+      <div className="relative z-10">
       <div className="flex flex-col gap-4 mb-8">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand">Planos</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight">O nível ideal para você</h2>
         </div>
         
         <div
           role="group"
           aria-label="Ciclo de cobrança"
-          className="inline-flex w-fit items-center rounded-full border border-white/5 bg-white/[0.03] p-1"
+          className="inline-flex w-fit items-center rounded-full border border-white/5 bg-white/[0.03] p-0.5"
         >
           {[
             { key: false, label: "Mensal" },
@@ -130,6 +137,7 @@ export function PricingMobile() {
         initialPlan={slug}
         initialCycle={yearly ? "annual" : "monthly"}
       />
+      </div>
     </section>
   );
 }
