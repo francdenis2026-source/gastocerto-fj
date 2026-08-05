@@ -1034,78 +1034,9 @@ function DashboardPage() {
                          </div>
                       </ChartCard>
                    </div>
-                 }
-                  analytics={
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <InteractiveCard
-                        id="client-analytics-categories"
-                        className="glass-morphism"
-                        title="Categorias"
-                        description="Distribuição percentual de gastos"
-                        icon={<PieChartIcon className="size-4" />}
-                        chart={
-                          <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                              <Pie data={byCategory} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} onClick={(e:any) => e?.id && openCategoryDetail(e.id, e.name)}>
-                                {byCategory.map((e, i) => <Cell key={e.name} fill={e.color ?? seriesColor(i)} stroke="var(--card)" strokeWidth={2} />)}
-                              </Pie>
-                              <Tooltip formatter={(v:any, n:any) => [formatCurrency(v), n]} />
-                            </PieChart>
-                          </ResponsiveContainer>
-                        }
-                      >
-                        <div className="space-y-2">
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase">Distribuição de Recursos</p>
-                          <div className="grid grid-cols-2 gap-2">
-                             {byCategory.slice(0, 4).map(cat => (
-                               <div key={cat.id} className="p-2 rounded-lg bg-muted/30 border border-border/20 flex flex-col">
-                                 <span className="text-[9px] font-bold truncate">{cat.name}</span>
-                                 <span className="text-xs font-black">{formatCurrency(cat.value)}</span>
-                               </div>
-                             ))}
-                          </div>
-                        </div>
-                      </InteractiveCard>
-
-                      <InteractiveCard
-                        id="client-analytics-flow"
-                        className="glass-morphism"
-                        title="Receitas x Despesas"
-                        description="Fluxo mensal consolidado"
-                        icon={<Activity className="size-4" />}
-                        chart={
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={byDay}>
-                               <CartesianGrid {...gridProps} />
-                               <XAxis dataKey="day" {...axisProps} />
-                               <YAxis {...axisProps} width={40} />
-                               <Tooltip formatter={(v:any) => formatCurrency(v)} />
-                               <Line type="monotone" dataKey="receita" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
-                               <Line type="monotone" dataKey="gasto" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        }
-                      >
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                            <p className="text-[9px] font-bold text-emerald-600 uppercase">Total Receitas</p>
-                            <p className="text-sm font-black text-emerald-700">{formatCurrency(metrics.totalIncome)}</p>
-                          </div>
-                          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
-                            <p className="text-[9px] font-bold text-rose-600 uppercase">Total Despesas</p>
-                            <p className="text-sm font-black text-rose-700">{formatCurrency(metrics.totalExpense)}</p>
-                          </div>
-                        </div>
-                      </InteractiveCard>
-                    </div>
-                  }
-                 yearly={<YearlyBalanceSection year={period.year} />}
-                  insights={<InsightsPanel year={period.year} month={period.month} />}
-                  recommendations={<DebtAdvisorPanel />}
-                   kids={<KidsManagementPanel />}
-                   family={<FamilySpendingDashboard />}
-
-               />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
