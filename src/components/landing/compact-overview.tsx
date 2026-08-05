@@ -183,9 +183,9 @@ export function CompactOverview() {
               Alta Performance
             </span>
           </div>
-          <h2 className="section-title">Tecnologia Financeira</h2>
-          <p className="mt-6 section-subtitle max-w-2xl mx-auto">
-            Uma arquitetura de dados desenhada para quem busca controle absoluto e inteligência de mercado aplicada às finanças pessoais.
+          <h2 className="section-title">Engenharia de Dados</h2>
+          <p className="mt-8 section-subtitle max-w-2xl mx-auto !text-white/80">
+            Uma infraestrutura de alto nível concebida para transformar a sua relação com o capital através de inteligência aplicada.
           </p>
         </Reveal>
 

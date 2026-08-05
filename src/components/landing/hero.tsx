@@ -60,16 +60,16 @@ export function Hero() {
             <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
 
 
-            <h1 className="text-center font-display text-[clamp(2.5rem,9.5vw,6rem)] font-black leading-[1.05] tracking-[-0.05em] text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
-              Engenharia de <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-white via-[#1FAE6D] to-[#1FAE6D] bg-clip-text text-transparent">Alta Performance.</span>
+            <h1 className="text-center font-display text-[clamp(3.5rem,12vw,7.5rem)] font-black leading-[0.9] tracking-[-0.07em] text-white drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)] uppercase">
+              Precisão <br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-white via-[#1FAE6D] to-[#1FAE6D] bg-clip-text text-transparent">Absoluta.</span>
             </h1>
 
             <p
-              className="mx-auto max-w-2xl text-center section-subtitle !text-white/90 drop-shadow-md"
+              className="mx-auto max-w-3xl text-center section-subtitle !text-white/95 !text-[clamp(1.25rem,5vw,1.75rem)] drop-shadow-lg"
             >
-              Domine seu patrimônio com a precisão de um sistema desenhado para{" "}
-              <span className="text-white font-bold underline decoration-[#1FAE6D]/40 underline-offset-4">resultados reais e segurança inabalável.</span>
+              A engenharia financeira definitiva para quem exige{" "}
+              <span className="text-white font-extrabold border-b-2 border-[#1FAE6D] pb-1">o máximo controle sobre cada centavo.</span>
             </p>
 
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
