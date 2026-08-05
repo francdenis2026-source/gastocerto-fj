@@ -183,7 +183,7 @@ export function CompactOverview() {
               Alta Performance
             </span>
           </div>
-          <h2 className="section-title">Infraestrutura Financeira</h2>
+          <h2 className="section-title">Tecnologia Financeira</h2>
           <p className="mt-6 section-subtitle max-w-2xl mx-auto">
             Uma arquitetura de dados desenhada para quem busca controle absoluto e inteligência de mercado aplicada às finanças pessoais.
           </p>
@@ -220,7 +220,7 @@ export function CompactOverview() {
                   role="button"
                   aria-label={`Grupo de recursos: ${group.group}`}
                 >
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-8 border-b border-brand/10 pb-5 group-hover:tracking-[0.4em] transition-all duration-500">
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-brand mb-6 border-b border-brand/10 pb-4 group-hover:tracking-[0.3em] transition-all duration-500">
                     {group.group}
                   </p>
                   <ul className="grid gap-2">

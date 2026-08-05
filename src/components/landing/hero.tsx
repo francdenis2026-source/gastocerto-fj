@@ -54,7 +54,7 @@ export function Hero() {
 
       <div className="section-shell relative z-10">
         <div className="mx-auto max-w-5xl">
-          <Reveal className="relative flex flex-col items-center justify-center space-y-7 px-4 py-16 sm:px-12 sm:py-28 overflow-visible">
+          <Reveal className="relative flex flex-col items-center justify-center space-y-6 px-4 py-12 sm:px-12 sm:py-20 overflow-visible">
             {/* Efeito de luz sutil no card */}
             <div className="absolute -top-32 -left-32 size-64 rounded-full bg-[#1FAE6D]/15 blur-[100px] animate-pulse" />
             <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
