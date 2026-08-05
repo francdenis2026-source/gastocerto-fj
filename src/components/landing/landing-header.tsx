@@ -19,26 +19,27 @@ export function LandingHeader() {
   return (
     <header
       className={cn(
-        "fixed top-0 inset-x-0 z-[1000] transition-all duration-300",
+        "fixed top-0 inset-x-0 z-[1000] transition-all duration-500",
         scrolled 
-          ? "h-16 bg-background/90 backdrop-blur-xl border-b border-border shadow-sm" 
-          : "h-20 bg-background border-b border-transparent"
+          ? "h-16 bg-background/80 backdrop-blur-2xl border-b border-white/5 shadow-2xl" 
+          : "h-20 bg-transparent border-b border-transparent"
       )}
     >
       <div className="section-shell h-full flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <Logo className="h-10 w-auto" />
+          <Logo className="h-12 w-auto transition-transform duration-300 group-hover:scale-105" />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-2 text-[15px] font-medium text-foreground/80">
+        <nav className="hidden lg:flex items-center gap-2 text-[14px] font-bold text-foreground/70">
           {["Recursos", "Planos", "Benefícios", "FAQ"].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`} 
-              className="px-5 py-2.5 rounded-full hover:bg-secondary hover:text-foreground transition-all duration-300"
+              className="px-6 py-2.5 rounded-full hover:bg-white/5 hover:text-foreground transition-all duration-300 relative group"
             >
               {item}
+              <span className="absolute bottom-2 left-6 right-6 h-px bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
             </a>
           ))}
         </nav>
@@ -47,10 +48,10 @@ export function LandingHeader() {
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <div className="hidden sm:flex items-center gap-3">
-            <Button variant="ghost" className="rounded-full font-semibold h-10 px-6" asChild>
+            <Button variant="ghost" className="rounded-full font-bold h-11 px-8 text-foreground/80 hover:text-foreground transition-colors" asChild>
               <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
             </Button>
-            <Button className="rounded-full px-8 font-semibold h-10 bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all" asChild>
+            <Button className="rounded-full px-8 font-bold h-11 bg-primary text-white shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all hover:scale-105 active:scale-95" asChild>
               <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
             </Button>
           </div>
