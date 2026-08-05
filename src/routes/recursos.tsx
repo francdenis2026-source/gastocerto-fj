@@ -196,7 +196,7 @@ function RecursosPage() {
                 className="h-14 border-white/20 bg-white/5 px-10 text-lg font-bold text-white hover:bg-white/10 w-full sm:w-auto rounded-2xl"
                 asChild
               >
-                <Link to="/#planos">Ver Planos</Link>
+                <Link to="/" hash="planos">Ver Planos</Link>
               </Button>
             </div>
           </div>
