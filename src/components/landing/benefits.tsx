@@ -123,8 +123,14 @@ const faqItems = [
 
 export function Benefits() {
   return (
-    <div className="bg-background">
-      <section id="recursos" className="section-y border-b border-border/5">
+    <div className="bg-background relative overflow-hidden">
+      {/* Imagem de Fundo Global da Seção */}
+      <img 
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.03] grayscale pointer-events-none"
+      />
+      <section id="recursos" className="section-y border-b border-border/5 relative z-10">
         <div className="section-shell">
           <Reveal className="text-center mx-auto max-w-2xl mb-12">
             <h2 className="section-title">Ecosystema de alto desempenho</h2>
