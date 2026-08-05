@@ -29,26 +29,26 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="relative border-t border-emerald-500/10 py-16 overflow-hidden">
+    <footer className="relative border-t border-emerald-500/10 py-24 overflow-hidden">
       {/* Imagem de Fundo Realista no Footer com Efeito de Destaque */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1579621970795-87faff2f9050?q=80&w=2070&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" 
           alt="" 
-          className="h-full w-full object-cover opacity-10 brightness-[0.2] pointer-events-none"
+          className="h-full w-full object-cover opacity-15 brightness-[0.1] pointer-events-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001640] via-[#001640]/95 to-[#001640]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#001640] via-[#001640]/98 to-[#001030]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
       </div>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
       <div className="section-shell relative z-10">
-        <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
-          <div className="flex flex-col items-center lg:items-start gap-4 max-w-sm">
-            <Logo compact className="scale-110 mb-2" />
-            <p className="text-[13px] text-white/50 leading-relaxed text-center lg:text-left font-medium tracking-tight">
-              A solução definitiva para quem busca liberdade financeira através de uma gestão inteligente, segura e totalmente profissional.
+        <div className="flex flex-col items-center justify-between gap-16 lg:flex-row">
+          <div className="flex flex-col items-center lg:items-start gap-6 max-w-md">
+            <Logo compact className="scale-125 mb-4" />
+            <p className="text-[14px] text-white/50 leading-relaxed text-center lg:text-left font-medium tracking-tight max-w-sm">
+              A plataforma definitiva para quem busca liberdade financeira através de uma gestão inteligente, segura e de alto nível.
             </p>
           </div>
           
