@@ -81,12 +81,18 @@ export function Pricing() {
 
   return (
     <section id="planos" className="section-y bg-background relative overflow-hidden border-t border-white/5">
-      <div className="section-shell">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="section-title">Investimento em controle e liberdade</h2>
-          <p className="mt-4 text-muted-foreground">Estruturas de custo escaláveis conforme sua necessidade de gestão.</p>
+      {/* Foto de Fundo em Baixa Opacidade */}
+      <img 
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
+        alt="" 
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.07] grayscale pointer-events-none"
+      />
+      <div className="section-shell relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <h2 className="section-title">Investimento em liberdade</h2>
+          <p className="mt-3 text-sm text-muted-foreground">Estruturas de custo escaláveis para sua gestão.</p>
           
-          <div className="mt-8 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
+          <div className="mt-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
             <button
               onClick={() => setIsYearly(false)}
               className={cn(
@@ -119,15 +125,15 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[2rem] border p-8 transition-all duration-300 glass-morphism",
-                "hover:-translate-y-2 hover:bg-white/[0.04] hover:shadow-2xl hover:border-white/20",
+                "relative flex flex-col rounded-[1.5rem] border p-6 transition-all duration-300 glass-morphism",
+                "hover:-translate-y-1 hover:bg-white/[0.04] hover:shadow-2xl hover:border-white/20",
                 plan.highlighted 
-                  ? "border-emerald-500/40 bg-emerald-500/[0.03] shadow-[0_20px_50px_-12px_rgba(34,197,94,0.15)] ring-1 ring-emerald-500/20" 
+                  ? "border-emerald-500/40 bg-emerald-500/[0.03] shadow-[0_20px_50px_-12px_rgba(31,174,109,0.15)] ring-1 ring-emerald-500/20" 
                   : "border-white/10"
               )}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-4 py-1 text-[10px] font-black uppercase tracking-widest text-black shadow-[0_0_15px_rgba(34,197,94,0.4)] animate-pulse">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
                   Mais Popular
                 </div>
               )}
@@ -137,16 +143,16 @@ export function Pricing() {
                 <p className="mt-1 text-xs text-muted-foreground">{plan.description}</p>
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black tracking-tight text-white tabular">
+                  <span className="text-3xl font-black tracking-tight text-white tabular">
                     {plan.monthly === 0 ? "Grátis" : formatCurrency(isYearly ? plan.yearly : plan.monthly)}
                   </span>
                   <span className="text-sm font-medium text-muted-foreground">/mês</span>
                 </div>
               </div>
 
-              <ul className="flex-1 space-y-3 mb-8">
+              <ul className="flex-1 space-y-2.5 mb-6">
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-start gap-3 text-[13px]">
                     <Check className="size-4 shrink-0 text-emerald-500 mt-0.5" />
@@ -158,9 +164,9 @@ export function Pricing() {
               <Button
                 onClick={() => setCheckoutPlan(plan.slug)}
                 className={cn(
-                  "h-12 w-full rounded-xl text-sm font-bold transition-all active:scale-[0.98] group",
+                  "h-11 w-full rounded-lg text-[13px] font-bold transition-all active:scale-[0.98] group",
                   plan.highlighted
-                    ? "bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(34,197,94,0.4)]"
+                    ? "bg-emerald-500 text-[#0A1512] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
