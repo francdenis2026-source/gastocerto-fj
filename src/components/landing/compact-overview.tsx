@@ -46,6 +46,99 @@ type Feature = { icon: LucideIcon; title: string; text: string; tag: string };
 
 const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   {
+    group: "Essencial",
+    caption: "Gestão do dia a dia",
+    items: [
+      {
+        icon: Receipt,
+        title: "Lançamentos em 10s",
+        text: "Despesa ou receita com categoria e parcelas.",
+        tag: "Agilidade",
+      },
+      {
+        icon: Repeat,
+        title: "Contas recorrentes",
+        text: "Água, energia e internet lançadas sozinhas todo mês.",
+        tag: "Automação",
+      },
+      {
+        icon: CreditCard,
+        title: "Gestão de Cartões",
+        text: "Faturas, limites e vencimentos centralizados.",
+        tag: "Cartões",
+      },
+      {
+        icon: BarChart3,
+        title: "Painel Inteligente",
+        text: "Visão consolidada de saldo, gastos e metas.",
+        tag: "Analytics",
+      },
+    ],
+  },
+  {
+    group: "Diferenciais",
+    caption: "Recursos exclusivos",
+    items: [
+      {
+        icon: Baby,
+        title: "Espaço Kids",
+        text: "Painel simplificado por criança com PIN e avatar.",
+        tag: "Família",
+      },
+      {
+        icon: Flame,
+        title: "Gás de cozinha",
+        text: "Histórico, duração média e aviso de reposição.",
+        tag: "Casa",
+      },
+      {
+        icon: Fuel,
+        title: "Abastecimentos",
+        text: "Consumo médio e detecção de anomalias.",
+        tag: "Frota",
+      },
+      {
+        icon: Sparkles,
+        title: "Consultor com IA",
+        text: "Diagnóstico e plano de saída de dívidas.",
+        tag: "Inteligência",
+      },
+    ],
+  },
+  {
+    group: "Segurança",
+    caption: "Privacidade absoluta",
+    items: [
+      {
+        icon: Lock,
+        title: "Dados Privados",
+        text: "Criptografia bancária e conformidade LGPD.",
+        tag: "Segurança",
+      },
+      {
+        icon: Fingerprint,
+        title: "Acesso Isolado",
+        text: "Cada conta vê apenas seus próprios registros.",
+        tag: "Controle",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Sem Compartilhamento",
+        text: "Dados 100% seus, nunca vendidos a terceiros.",
+        tag: "Confiança",
+      },
+      {
+        icon: CalendarClock,
+        title: "Conciliação",
+        text: "Feche o mês e bloqueie períodos com senha.",
+        tag: "Gestão",
+      },
+    ],
+  },
+];
+
+const featureGroupsOld: { group: string; caption: string; items: Feature[] }[] = [
+  {
     group: "Dia a dia",
     caption: "Registros e contas do dia a dia",
     items: [
@@ -225,13 +318,12 @@ const shortcuts = [
   { label: "FAQ", href: "#faq", icon: HelpCircle },
 ] as const;
 
-const tabs = ["recursos", "seguranca", "faq"] as const;
+const tabs = ["recursos", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
-  recursos: { label: "Recursos", description: "Vinte e quatro recursos organizados em seis frentes" },
-  seguranca: { label: "Segurança", description: "LGPD, criptografia e controle de acesso" },
-  faq: { label: "FAQ", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
+  recursos: { label: "Recursos e Segurança", description: "Doze recursos essenciais organizados em três frentes" },
+  faq: { label: "Dúvidas", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
 };
 
 export function CompactOverview() {
@@ -357,32 +449,6 @@ export function CompactOverview() {
             </div>
           </TabsContent>
 
-          <TabsContent value="seguranca" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
-            <h3 className="sr-only">{tabMeta["seguranca"].label}</h3>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-2.5">
-              {pillars.map((pillar, index) => (
-                <Reveal key={pillar.title} delay={index * 70}>
-                  <FeatureDetailDialog
-                    feature={{ title: pillar.title, text: pillar.text, tag: "Segurança" }}
-                  >
-                    <button
-                      type="button"
-                      className="interactive-card h-full w-full rounded-2xl p-5 text-left transition-all sm:p-5"
-                    >
-                      <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
-                        <pillar.icon className="size-4" aria-hidden="true" />
-                      </span>
-                      <p className="mt-2 text-sm font-semibold">{pillar.title}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pillar.text}</p>
-                      <span className="mt-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wide text-primary">
-                        Ver detalhes
-                      </span>
-                    </button>
-                  </FeatureDetailDialog>
-                </Reveal>
-              ))}
-            </div>
-          </TabsContent>
 
           <TabsContent value="faq" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
