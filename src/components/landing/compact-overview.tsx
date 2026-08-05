@@ -121,12 +121,11 @@ const pillars = [
 ];
 
 const faqs = [
-  { q: "O sistema é gratuito?", a: "Sim. O plano Gratuito cobre lançamentos, painel mensal, categorias, um veículo e relatórios simplificados." },
-  { q: "Meus dados ficam seguros?", a: "Sim. Cada conta acessa apenas os próprios registros, com regras aplicadas no banco de dados." },
-  { q: "Posso controlar despesas recorrentes?", a: "Sim, com vencimento, frequência, lançamento automático e alertas antes de vencer." },
-  { q: "Posso exportar relatórios?", a: "Sim, em PDF e CSV, com métricas, gráficos e a lista completa do período." },
-  { q: "Mensal ou anual?", a: "O conteúdo é o mesmo; no anual o Premium sai por R$ 20,75/mês em vez de R$ 24,90, e o Premium IA por R$ 29,00/mês em vez de R$ 34,90." },
-  
+  { q: "O sistema é seguro?", a: "Sim. Utilizamos criptografia de ponta a ponta e seguimos a LGPD. Cada conta acessa apenas os próprios registros com isolamento total via banco de dados." },
+  { q: "Como faço meu cadastro?", a: "Basta clicar em 'Criar Conta Grátis', preencher seu e-mail e senha. Você terá acesso imediato ao painel para começar seus lançamentos." },
+  { q: "Como controlo meus gastos?", a: "É simples: registre suas rendas e despesas diárias, categorize-as e use nossos gráficos para visualizar para onde seu dinheiro está indo." },
+  { q: "Como funciona o teste gratuito?", a: "Você pode testar todos os recursos Premium por 14 dias. Após esse período, pode escolher um plano ou continuar no plano básico gratuito." },
+  { q: "Posso cancelar minha conta?", a: "Sim, o cancelamento é livre e pode ser feito a qualquer momento diretamente nas configurações do seu perfil." },
 ];
 
 const shortcuts = [
