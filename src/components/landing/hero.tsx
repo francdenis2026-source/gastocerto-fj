@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import {
   ArrowRight,
   Play,
+  Sparkles,
   Users,
 } from "lucide-react";
 
