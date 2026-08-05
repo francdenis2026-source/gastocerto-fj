@@ -73,8 +73,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           "fixed inset-x-0 z-50 transition-all duration-300",
           announcementVisible ? "top-7" : "top-0",
           scrolled
-            ? "glass-morphism border-b border-white/5 text-foreground shadow-lg"
-            : "border-b border-transparent bg-transparent text-hero-fg",
+            ? "glass-morphism border-b border-border/10 text-foreground shadow-lg"
+            : "border-b border-transparent bg-transparent text-foreground dark:text-hero-fg",
         )}
       >
         <div className="section-shell flex h-14 items-center justify-between gap-2 sm:gap-4">

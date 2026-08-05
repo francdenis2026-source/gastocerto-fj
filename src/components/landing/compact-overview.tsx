@@ -248,7 +248,7 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative border-y border-white/5 bg-white/[0.01] section-y">
+    <section id="explorar" className="relative border-y border-border/5 bg-background section-y">
       <span id="seguranca" className="block" />
       <div
         aria-hidden="true"
@@ -283,7 +283,7 @@ export function CompactOverview() {
           </nav>
         </Reveal>
 
-        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/70 px-3 py-2 backdrop-blur">
+        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-border bg-card/40 px-3 py-2 backdrop-blur">
           {highlights.map((item) => (
             <div key={item.label} className="flex min-w-0 items-center gap-1.5">
               <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
@@ -328,7 +328,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="glass-morphism rounded-2xl p-5"
+                  className="glass-morphism rounded-2xl p-5 border border-border/5"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -370,7 +370,7 @@ export function CompactOverview() {
                   >
                     <button
                       type="button"
-                      className="interactive-card glass-morphism h-full w-full rounded-2xl p-5 text-left transition-all hover:border-white/20 sm:p-5"
+                      className="interactive-card glass-morphism h-full w-full rounded-2xl p-5 text-left transition-all border border-border/5 hover:border-brand/20 sm:p-5"
                     >
                       <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                         <pillar.icon className="size-4" aria-hidden="true" />

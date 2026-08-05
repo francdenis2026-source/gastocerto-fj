@@ -144,7 +144,53 @@ body::-webkit-scrollbar {
 
 :root {
   --radius: 0.75rem;
-  --background: #0A1512; /* Verde-carvão quase preto */
+  
+  /* Verde Primário da marca (Premium Emerald) */
+  --emerald: #1FAE6D;
+  --emerald-gradient-to: #3FD68C;
+  --gold-accent: #D4AF6A; 
+  
+  --background: #FFFFFF;
+  --foreground: #0A1512;
+  --surface: #F8FAF9;
+  --card: #FFFFFF;
+  --card-foreground: #0A1512;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A1512;
+  
+  --primary: var(--emerald);
+  --primary-foreground: #FFFFFF;
+  --brand: var(--emerald);
+  --brand-foreground: #FFFFFF;
+  
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0A1512;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #F1F5F9;
+  --accent-foreground: #0A1512;
+  --destructive: #E5484D;
+  --destructive-foreground: #FFFFFF;
+  --success: var(--emerald);
+  --success-foreground: #FFFFFF;
+  --warning: #D4AF6A;
+  --warning-foreground: #FFFFFF;
+
+  --border: rgba(10, 21, 18, 0.08);
+  --input: #F8FAF9;
+  --ring: rgba(31, 174, 109, 0.3);
+  
+  /* ---- Hero System (Light defaults) ---- */
+  --hero-bg: #FFFFFF;
+  --hero-fg: #0A1512;
+  --hero-fg-muted: #64748B;
+  --hero-border: rgba(10, 21, 18, 0.08);
+  --hero-surface: #F8FAF9;
+  --hero-accent: var(--emerald);
+}
+
+.dark {
+  --background: #0A1512; /* Verde-carvão oficial */
   --foreground: #F3F6F4;
   --surface: #10201B;
   --card: #10201B;
@@ -152,15 +198,8 @@ body::-webkit-scrollbar {
   --popover: #16281F;
   --popover-foreground: #F3F6F4;
   
-  /* Verde Primário da marca (Premium Emerald) */
-  --emerald: #1FAE6D;
-  --emerald-gradient-to: #3FD68C;
-  --gold-accent: #D4AF6A; /* Acento secundário premium */
-  
   --primary: var(--emerald);
   --primary-foreground: #0A1512;
-  --brand: var(--emerald);
-  --brand-foreground: #0A1512;
   
   --secondary: #16281F;
   --secondary-foreground: #F3F6F4;
@@ -168,77 +207,13 @@ body::-webkit-scrollbar {
   --muted-foreground: #93A69D;
   --accent: #16281F;
   --accent-foreground: #F3F6F4;
-  --destructive: #E5484D;
-  --destructive-foreground: #F3F6F4;
-  --success: var(--emerald);
-  --success-foreground: #0A1512;
-  --warning: #D4AF6A;
-  --warning-foreground: #0A1512;
-
-  --expense: #E5484D;
-  --expense-surface: rgba(229, 72, 77, 0.1);
-  --expense-border: rgba(229, 72, 77, 0.2);
-  --income: var(--emerald);
-  --income-surface: rgba(31, 174, 109, 0.1);
-  --income-border: rgba(31, 174, 109, 0.2);
-
   --border: rgba(63, 214, 140, 0.14);
-  --input: #16281F;
-  --ring: rgba(31, 174, 109, 0.3);
   
-  --chart-1: var(--emerald);
-  --chart-2: #3FD68C;
-  --chart-3: #D4AF6A;
-  --chart-4: #E5484D;
-  --chart-5: #4ADE80;
-
-  --sidebar: #0A1512;
-  --sidebar-foreground: #F3F6F4;
-  --sidebar-primary: var(--emerald);
-  --sidebar-primary-foreground: #0A1512;
-  --sidebar-accent: #10201B;
-  --sidebar-accent-foreground: #F3F6F4;
-  --sidebar-border: rgba(63, 214, 140, 0.14);
-  --sidebar-ring: rgba(31, 174, 109, 0.3);
-
-  --acc-1: var(--emerald);
-  --acc-2: #3FD68C;
-  --acc-3: #D4AF6A;
-  --acc-4: #E5484D;
-  --acc-5: #4ADE80;
-  --acc-6: #1FAE6D;
-
-  /* ---- Hero System ---- */
   --hero-bg: #0A1512;
   --hero-fg: #F3F6F4;
   --hero-fg-muted: #93A69D;
-  --hero-fg-soft: #93A69D;
   --hero-border: rgba(63, 214, 140, 0.14);
-  --hero-border-strong: rgba(63, 214, 140, 0.2);
   --hero-surface: #10201B;
-  --hero-surface-soft: rgba(63, 214, 140, 0.05);
-  --hero-accent: var(--emerald);
-
-  --banner-amber-bg: rgba(212, 175, 106, 0.1);
-  --banner-amber-border: rgba(212, 175, 106, 0.2);
-  --banner-amber-text: #D4AF6A;
-  --banner-amber-icon: #D4AF6A;
-
-  --banner-primary-bg: rgba(31, 174, 109, 0.1);
-  --banner-primary-border: rgba(31, 174, 109, 0.2);
-  --banner-primary-text: #1FAE6D;
-  --banner-primary-icon: #1FAE6D;
-
-  --hero-veil-mobile: linear-gradient(180deg, rgba(10, 21, 18, 0.9), rgba(10, 21, 18, 0.9));
-  --hero-veil-desktop: linear-gradient(100deg, rgba(10, 21, 18, 0.98), rgba(10, 21, 18, 0.4));
-  --hero-fade: linear-gradient(180deg, transparent, #0A1512);
-
-  --cta-bg: #10201B;
-  --cta-fg: #F3F6F4;
-  --cta-fg-muted: #93A69D;
-  --cta-border: rgba(63, 214, 140, 0.14);
-  --cta-surface: #16281F;
-  --cta-accent-glow: rgba(31, 174, 109, 0.2);
 }
 
 .dark {

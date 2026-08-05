@@ -29,7 +29,7 @@ export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
   
   return (
-    <footer className="border-t border-white/5 bg-[#0A1512] py-6">
+    <footer className="border-t border-border/5 bg-background py-6">
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
       
       <div className="section-shell">
@@ -55,7 +55,7 @@ export function LandingFooter() {
         </div>
       </div>
       {/* Bottom Bar - Minimal */}
-      <div className="border-t border-border/20 bg-[#0A1512]/80">
+      <div className="border-t border-border/5 bg-background">
         <div className="section-shell flex flex-col items-center justify-between gap-y-1 py-2 text-[9px] text-foreground/40 sm:flex-row sm:text-[10px]">
           <p>© {new Date().getFullYear()} Meu Controle Financeiro.</p>
           <div className="flex shrink-0 items-center gap-1">

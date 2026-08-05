@@ -80,7 +80,7 @@ export function Pricing() {
   }, []);
 
   return (
-    <section id="planos" className="section-y bg-[#0A1512] relative overflow-hidden border-t border-white/5">
+    <section id="planos" className="section-y bg-background relative overflow-hidden border-t border-border/5">
       {/* Foto de Fundo em Baixa Opacidade */}
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
@@ -125,7 +125,7 @@ export function Pricing() {
             <div
               key={plan.slug}
               className={cn(
-                "relative flex flex-col rounded-[1.5rem] border p-6 transition-all duration-300 glass-morphism",
+                "relative flex flex-col rounded-[1.5rem] p-6 transition-all duration-300 glass-morphism border border-border/10",
                 "hover:-translate-y-1 hover:bg-white/[0.04] hover:shadow-2xl hover:border-white/20",
                 plan.highlighted 
                   ? "border-emerald-500/40 bg-emerald-500/[0.03] shadow-[0_20px_50px_-12px_rgba(31,174,109,0.15)] ring-1 ring-emerald-500/20" 
