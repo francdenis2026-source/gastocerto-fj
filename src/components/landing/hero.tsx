@@ -85,57 +85,8 @@ export function Hero() {
 
         </div>
 
-        {/* 2. COMPOSIÇÃO - PRODUTO (55%) */}
-        <div className="w-full lg:w-[55%] animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
-          <div className="relative perspective-2000 group/mockup scale-[0.7] lg:scale-[0.8] origin-center lg:-mt-32">
-            {/* Mockup do Dashboard Compacto */}
-            <div className="relative rotate-y-[-8deg] rotate-x-[4deg] skew-y-[1deg] rounded-2xl border border-white/10 bg-white/[0.02] p-0.5 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-700 group-hover/mockup:rotate-y-[-2deg] group-hover/mockup:rotate-x-[1deg] group-hover/mockup:skew-y-[0.5deg]">
+        {/* REMOVED PREVIOUS MOCKUP ART */}
 
-              <div className="overflow-hidden rounded-xl bg-background shadow-2xl">
-                {/* Minimalist Browser Frame */}
-                <div className="flex items-center gap-1.5 border-b border-white/5 bg-white/5 px-4 py-2.5">
-                  <div className="size-2 rounded-full bg-white/10" />
-                  <div className="size-2 rounded-full bg-white/10" />
-                  <div className="size-2 rounded-full bg-white/10" />
-                </div>
-                <Suspense fallback={<div className="h-[400px] w-full bg-[#1a2e26]/20 animate-pulse" />}>
-                  <DashboardPreview />
-                </Suspense>
-              </div>
-            </div>
-            
-            {/* Painel Flutuante de Destaque - Refatorado */}
-            <div className="absolute -left-12 top-1/4 hidden xl:block animate-float">
-              <div className="rounded-xl border border-white/10 bg-emerald-500/10 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/5 transition-all duration-300 hover:scale-105 hover:bg-emerald-500/20">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-9 items-center justify-center rounded-lg bg-[#1FAE6D] text-[#001640]">
-                    <Sparkles size={18} fill="currentColor" />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-[11px] font-bold tracking-wider uppercase text-emerald-400/80">Meta Mensal</p>
-                    <p className="text-[15px] font-bold text-white leading-none mt-0.5">92% concluída</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Segundo Painel Flutuante - Lado Oposto */}
-            <div className="absolute -right-8 bottom-1/4 hidden xl:block animate-float" style={{ animationDelay: '1s' }}>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-xl ring-1 ring-white/5 transition-all duration-300 hover:scale-105 hover:bg-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-9 items-center justify-center rounded-lg bg-white/10 text-white">
-                    <ArrowUpRight size={18} />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-[11px] font-bold tracking-wider uppercase text-[#9CA8A3]">Saldo Hoje</p>
-                    <p className="text-[15px] font-bold text-white tabular leading-none mt-0.5">{formatCurrency(12450.80)}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </div>
 
       </div>
     </section>
