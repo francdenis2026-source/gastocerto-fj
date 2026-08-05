@@ -237,7 +237,7 @@ export function CompactOverview() {
                 <Reveal 
                   key={item.title} 
                   delay={idx * 100}
-                  className="interactive-card rounded-[2rem] p-8 bg-black/40 border border-white/10 shadow-xl backdrop-blur-xl group flex flex-col items-center text-center"
+                  className="interactive-card rounded-[2rem] p-8 bg-black/40 border border-white/10 shadow-xl group flex flex-col items-center text-center"
                 >
                   <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 font-black text-xl shadow-[0_0_20px_rgba(31,174,109,0.1)]">
                     <item.icon className="size-6 mr-1" aria-hidden="true" /> {item.step}
@@ -256,7 +256,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="interactive-card rounded-[1.5rem] p-8 bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md group"
+                  className="interactive-card rounded-[1.5rem] p-8 bg-white/[0.03] border border-white/[0.08] shadow-xl group"
                   tabIndex={0}
                   role="button"
                   aria-label={`Grupo de recursos: ${group.group}`}
@@ -319,7 +319,7 @@ export function CompactOverview() {
                 },
               ].map((item, idx) => (
                 <Reveal key={item.title} delay={idx * 100}>
-                  <div className="interactive-card rounded-[1.5rem] p-6 bg-white/[0.03] border border-white/[0.08] shadow-xl backdrop-blur-md group flex flex-col h-full">
+                  <div className="interactive-card rounded-[1.5rem] p-6 bg-white/[0.03] border border-white/[0.08] shadow-xl group flex flex-col h-full">
                     <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-brand/10 text-brand">
                       <item.icon className="size-6" />
                     </div>
