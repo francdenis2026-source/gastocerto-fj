@@ -43,10 +43,10 @@ export function Hero() {
 
 
 
-        <div className="absolute inset-0 bg-black/50 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/90" />
-        <div className="absolute inset-0 backdrop-blur-[1.5px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
+        <div className="absolute inset-0 bg-[#0A1512]/60 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/90 via-[#1FAE6D]/5 to-[#0A1512]/95" />
+        <div className="absolute inset-0 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(10,21,18,0.85)_100%)]" />
 
       </div>
 
@@ -61,7 +61,7 @@ export function Hero() {
           <Reveal className="relative space-y-5 sm:space-y-7 px-4 py-8 sm:px-8 sm:py-12 rounded-3xl bg-black/20 backdrop-blur-[2px] border border-white/5 shadow-2xl">
             <h1 className="font-display text-[clamp(2.25rem,7vw,4.25rem)] font-extrabold leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.55)]">
               Domine seu{" "}
-              <span className="bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
+              <span className="bg-gradient-to-br from-[#1FAE6D] via-[#4ADE80] to-[#1FAE6D] bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
             </h1>
 
             <p
