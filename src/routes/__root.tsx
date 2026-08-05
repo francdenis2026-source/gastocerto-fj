@@ -196,7 +196,10 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <HeadContent />
       </head>
-      <body className="overscroll-none select-none md:select-auto">
+      <body className="relative overscroll-none select-none md:select-auto">
+        <div className="noise-overlay" />
+        <div className="premium-glow top-[-300px] left-[-300px] animate-pulse-slow" />
+        <div className="premium-glow bottom-[-300px] right-[-300px] animate-pulse-slow" style={{ animationDelay: '4s' }} />
         {children}
         <Scripts />
       </body>

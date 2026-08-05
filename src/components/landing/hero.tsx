@@ -31,18 +31,15 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
           alt="Planejamento financeiro realista" 
-          className="h-full w-full object-cover brightness-[0.4] contrast-[1.05] opacity-60 blur-[3px]"
+          className="h-full w-full object-cover brightness-[0.35] contrast-[1.1] opacity-70 blur-[4px]"
         />
+        
+        {/* Animated Particles/Orbs in background */}
+        <div className="absolute top-1/4 left-1/4 h-64 w-64 animate-pulse-slow rounded-full bg-[#1FAE6D]/10 blur-[80px]" />
+        <div className="absolute bottom-1/4 right-1/3 h-80 w-80 animate-pulse-slow rounded-full bg-[#D4AF6A]/5 blur-[100px]" style={{ animationDelay: '3s' }} />
 
-
-
-
-
-
-
-
-
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/40 via-transparent to-[#0A1512]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/60 via-transparent to-[#0A1512]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0A1512_100%)] opacity-60" />
       </div>
 
       {/* Camada de gráfico moderno do hero */}
