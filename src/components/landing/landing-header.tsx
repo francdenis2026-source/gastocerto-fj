@@ -57,10 +57,10 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
       <header
         className={cn(
-          "fixed inset-x-0 z-[100] transition-all duration-500 top-2 sm:top-4",
+          "fixed inset-x-0 z-[100] transition-all duration-500 top-0",
           scrolled
-            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.4)] mx-2 sm:mx-auto max-w-7xl rounded-[1.5rem]"
-            : "border-b border-white/5 bg-background dark:bg-hero-bg text-foreground dark:text-hero-fg",
+            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.4)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem]"
+            : "border-b border-white/5 bg-background dark:bg-[#0A1512] text-foreground dark:text-hero-fg",
         )}
       >
 
