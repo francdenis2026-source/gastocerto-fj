@@ -1033,7 +1033,7 @@ function DashboardPage() {
                             </ResponsiveContainer>
                          </div>
                       </ChartCard>
-                   </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1041,6 +1041,8 @@ function DashboardPage() {
           </div>
         )}
       </div>
+    </AppShell>
+  );
 
 
       <MetricDetailDialog
