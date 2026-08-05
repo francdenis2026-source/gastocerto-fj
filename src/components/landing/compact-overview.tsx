@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   Baby,
   Banknote,
@@ -28,8 +29,10 @@ import {
   Tv,
   Users,
   Wallet,
+  ArrowRight,
   type LucideIcon,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 
 import { FeatureDetailDialog } from "@/components/landing/feature-detail-dialog";
