@@ -6,16 +6,7 @@ import workspaceBg from "@/assets/hero-bg-desk.jpg";
  */
 export function PageBackground() {
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-50">
-      <img
-        src={workspaceBg}
-        alt=""
-        width={1920}
-        height={1080}
-        loading="lazy"
-        decoding="async"
-        className="size-full object-cover opacity-[0.015] dark:opacity-[0.08]"
-      />
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-50 bg-transparent">
       <div className="absolute inset-0 bg-transparent" />
     </div>
   );
