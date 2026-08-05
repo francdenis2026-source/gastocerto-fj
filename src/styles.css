@@ -481,9 +481,18 @@ body::-webkit-scrollbar {
 }
 
 @utility glass-morphism {
-  background: color-mix(in oklab, var(--card) 45%, transparent);
-  backdrop-filter: blur(32px) saturate(220%);
-  -webkit-backdrop-filter: blur(32px) saturate(220%);
+  background: color-mix(in oklch, var(--surface) 65%, transparent);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+@utility glass-morphism-strong {
+  background: color-mix(in oklch, var(--background) 80%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @keyframes float {
