@@ -53,6 +53,15 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
+      {/* Faixa sólida atrás do header flutuante: impede que o conteúdo apareça na margem superior. */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none fixed inset-x-0 top-0 z-[999] bg-background transition-all duration-500",
+          scrolled ? "h-[88px] opacity-100" : "h-0 opacity-0",
+        )}
+      />
+
       
 
       <header
