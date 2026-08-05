@@ -10,6 +10,11 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  AiFinanceIcon,
+  KidsSpaceIcon,
+  MultiAccountIcon,
+} from "@/components/landing/hero-feature-icons";
 import { Logo } from "@/components/logo";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -58,8 +63,14 @@ export function Hero() {
               <span className="bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
             </h1>
             
-            <p className="mx-auto max-w-2xl px-6 text-[15px] font-medium leading-relaxed text-slate-100 sm:text-2xl tracking-tight opacity-95">
-              Gestão estratégica com precisão absoluta. <span className="text-emerald-400 font-bold">O controle definitivo na palma da sua mão.</span>
+            <p
+              className="mx-auto max-w-2xl px-6 text-[17px] font-medium leading-[1.45] tracking-[-0.015em] text-white/95 [text-wrap:balance] drop-shadow-[0_4px_18px_rgba(0,0,0,0.75)] sm:text-[26px]"
+              style={{ fontFamily: '"Space Grotesk", var(--font-display)' }}
+            >
+              <span className="font-semibold">Gestão estratégica com precisão.</span>{" "}
+              <span className="bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text font-bold text-transparent">
+                O controle definitivo na palma da sua mão.
+              </span>
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
@@ -87,15 +98,20 @@ export function Hero() {
               </Button>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 pt-12">
+            <div className="flex flex-wrap justify-center gap-3 pt-12 sm:gap-4">
               {[
-                { label: "IA Financeira", icon: Sparkles },
-                { label: "Espaço Kids", icon: Sparkles },
-                { label: "Multi-Contas", icon: Sparkles }
-              ].map((item, i) => (
-                <span key={i} className="flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-500/10 bg-emerald-500/5 text-[10px] font-black uppercase tracking-[0.25em] text-emerald-400/90 shadow-[0_4px_12px_rgba(16,185,129,0.1)] transition-all hover:bg-emerald-500/10 hover:border-emerald-500/20">
-                  <item.icon className="size-3 text-emerald-500" />
-                  {item.label}
+                { label: "IA Financeira", Icon: AiFinanceIcon },
+                { label: "Espaço Kids", Icon: KidsSpaceIcon },
+                { label: "Multi-Contas", Icon: MultiAccountIcon },
+              ].map(({ label, Icon }, i) => (
+                <span
+                  key={label}
+                  style={{ animationDelay: `${400 + i * 120}ms`, fontFamily: '"Space Grotesk", var(--font-display)' }}
+                  className="group relative flex cursor-default items-center gap-2.5 overflow-hidden rounded-full border border-emerald-400/20 bg-emerald-500/[0.07] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-200 backdrop-blur-md transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-100 hover:shadow-[0_10px_30px_-8px_rgba(16,185,129,0.5)]"
+                >
+                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                  <Icon className="size-4 text-emerald-400 transition-all duration-500 group-hover:rotate-[8deg] group-hover:scale-110 group-hover:text-emerald-300" />
+                  {label}
                 </span>
               ))}
             </div>
