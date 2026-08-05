@@ -33,7 +33,7 @@ export function Logo({
             onDark ? "text-white" : "text-[#F3F6F4]",
           )}
         >
-          Meu Controle
+          <span className="text-[#001640] dark:text-[#F3F6F4]">Meu Controle</span>
 
           <span
             className={cn(

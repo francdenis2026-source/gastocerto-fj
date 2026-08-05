@@ -144,12 +144,12 @@ body::-webkit-scrollbar {
 
 :root {
   --radius: 0.75rem;
-  --background: #0A1512;
+  --background: #001640; /* Azul Marinho Profundo */
   --foreground: #F3F6F4;
-  --surface: #10201B;
-  --card: #10201B;
+  --surface: #0A1E4D;
+  --card: #0A1E4D;
   --card-foreground: #F3F6F4;
-  --popover: #16281F;
+  --popover: #0F255A;
   --popover-foreground: #F3F6F4;
   
   /* Verde Primário da marca */
@@ -158,22 +158,22 @@ body::-webkit-scrollbar {
   --gold-accent: #D4AF6A;
   
   --primary: var(--emerald);
-  --primary-foreground: #0A1512;
+  --primary-foreground: #001640;
   --brand: var(--emerald);
-  --brand-foreground: #0A1512;
+  --brand-foreground: #001640;
   
-  --secondary: #142B24;
-  --secondary-foreground: #F5F7F6;
-  --muted: #142B24;
+  --secondary: #0F255A;
+  --secondary-foreground: #F3F6F4;
+  --muted: #0F255A;
   --muted-foreground: #93A69D;
-  --accent: #142B24;
-  --accent-foreground: #F5F7F6;
+  --accent: #0F255A;
+  --accent-foreground: #F3F6F4;
   --destructive: #E5484D;
   --destructive-foreground: #F3F6F4;
   --success: var(--emerald);
-  --success-foreground: #0A1512;
+  --success-foreground: #001640;
   --warning: #D4AF6A;
-  --warning-foreground: #0A1512;
+  --warning-foreground: #001640;
 
   --expense: #EF4444;
   --expense-surface: rgba(239, 68, 68, 0.1);
@@ -183,8 +183,8 @@ body::-webkit-scrollbar {
   --income-border: rgba(34, 197, 94, 0.2);
 
   --border: rgba(63, 214, 140, 0.14);
-  --input: #142B24;
-  --ring: rgba(34, 197, 94, 0.3);
+  --input: #0F255A;
+  --ring: rgba(31, 174, 109, 0.3);
   
   --chart-1: var(--emerald);
   --chart-2: #4ADE80;
@@ -192,11 +192,11 @@ body::-webkit-scrollbar {
   --chart-4: #EF4444;
   --chart-5: #2DD4BF;
 
-  --sidebar: #0A1512;
+  --sidebar: #001640;
   --sidebar-foreground: #F3F6F4;
   --sidebar-primary: var(--emerald);
-  --sidebar-primary-foreground: #0A1512;
-  --sidebar-accent: #16281F;
+  --sidebar-primary-foreground: #001640;
+  --sidebar-accent: #0A1E4D;
   --sidebar-accent-foreground: #F3F6F4;
   --sidebar-border: rgba(63, 214, 140, 0.14);
   --sidebar-ring: rgba(31, 174, 109, 0.3);
@@ -209,13 +209,13 @@ body::-webkit-scrollbar {
   --acc-6: #14B8A6;
 
   /* ---- Hero System ---- */
-  --hero-bg: #0A1512;
+  --hero-bg: #001640;
   --hero-fg: #F3F6F4;
   --hero-fg-muted: #93A69D;
   --hero-fg-soft: #93A69D;
   --hero-border: rgba(63, 214, 140, 0.14);
   --hero-border-strong: rgba(63, 214, 140, 0.2);
-  --hero-surface: #10201B;
+  --hero-surface: #0A1E4D;
   --hero-surface-soft: rgba(63, 214, 140, 0.05);
   --hero-accent: var(--emerald);
 
@@ -229,15 +229,15 @@ body::-webkit-scrollbar {
   --banner-primary-text: #22C55E;
   --banner-primary-icon: #22C55E;
 
-  --hero-veil-mobile: linear-gradient(180deg, rgba(10, 21, 18, 0.9), rgba(10, 21, 18, 0.9));
-  --hero-veil-desktop: linear-gradient(100deg, rgba(10, 21, 18, 0.95), rgba(10, 21, 18, 0.3));
-  --hero-fade: linear-gradient(180deg, transparent, #0A1512);
+  --hero-veil-mobile: linear-gradient(180deg, rgba(0, 22, 64, 0.9), rgba(0, 22, 64, 0.9));
+  --hero-veil-desktop: linear-gradient(100deg, rgba(0, 22, 64, 0.95), rgba(0, 22, 64, 0.3));
+  --hero-fade: linear-gradient(180deg, transparent, #001640);
 
-  --cta-bg: #10201B;
+  --cta-bg: #0A1E4D;
   --cta-fg: #F3F6F4;
   --cta-fg-muted: #93A69D;
   --cta-border: rgba(63, 214, 140, 0.14);
-  --cta-surface: #16281F;
+  --cta-surface: #0F255A;
   --cta-accent-glow: rgba(31, 174, 109, 0.2);
 }
 

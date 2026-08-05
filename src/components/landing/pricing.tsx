@@ -133,7 +133,7 @@ export function Pricing() {
               )}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#0A1512] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#001640] shadow-[0_0_15px_rgba(31,174,109,0.4)] animate-pulse">
                   Mais Popular
                 </div>
               )}
@@ -166,7 +166,7 @@ export function Pricing() {
                 className={cn(
                   "h-11 w-full rounded-lg text-[13px] font-bold transition-all active:scale-[0.98] group",
                   plan.highlighted
-                    ? "bg-emerald-500 text-[#0A1512] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
+                    ? "bg-emerald-500 text-[#001640] hover:bg-emerald-400 shadow-[0_4px_15px_-5px_rgba(31,174,109,0.4)]"
                     : "border-white/10 bg-white/5 text-white hover:bg-white/10"
                 )}
                 variant={plan.highlighted ? "default" : "outline"}
