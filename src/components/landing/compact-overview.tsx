@@ -227,9 +227,9 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="rounded-3xl p-6 bg-white/[0.02] border border-white/[0.05] transition-all hover:bg-white/[0.04] hover:border-white/[0.08]"
+                  className="rounded-[2rem] p-8 bg-white/[0.03] border border-white/[0.08] transition-all hover:bg-white/[0.06] hover:border-brand/20 shadow-xl"
                 >
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
+                  <p className="text-[12px] font-black uppercase tracking-[0.25em] text-brand mb-6 border-b border-brand/10 pb-4">
                     {group.group}
                   </p>
                   <ul className="grid gap-2">
