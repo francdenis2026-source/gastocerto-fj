@@ -70,12 +70,13 @@ export function Hero() {
             </Button>
             <Button
               variant="outline"
-              className="h-12 w-full sm:w-auto rounded-lg border-white/10 bg-white/5 px-8 text-[14px] font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 group/play"
+              className="h-12 w-full sm:w-auto rounded-lg border-white/10 bg-white/5 px-8 text-[14px] font-bold text-white backdrop-blur-md transition-all hover:bg-white/10 group/interactive"
+              asChild
             >
-              <div className="mr-3 flex size-6 items-center justify-center rounded-full bg-white/10 transition-transform group-hover/play:scale-110">
-                <Play size={12} className="fill-white ml-0.5" />
-              </div>
-              Ver demonstração
+              <Link to="/auth" search={{ mode: "login" }}>
+                <Users size={16} className="mr-2 text-emerald-400" />
+                Acessar Painel
+              </Link>
             </Button>
           </div>
 
