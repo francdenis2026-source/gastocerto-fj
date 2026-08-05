@@ -55,7 +55,7 @@ export function ContactSection() {
 
       <div className="section-shell">
         <Reveal>
-          <div className="grid gap-10 rounded-3xl border border-emerald-500/10 bg-white/[0.02] p-6 backdrop-blur-sm sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div className="grid gap-10 rounded-3xl bg-white/[0.02] p-6 backdrop-blur-sm sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div className="flex min-w-0 flex-col gap-6">
               <div className="flex min-w-0 items-center gap-4">
                 <ContactMarkIcon className="size-12 shrink-0 text-emerald-400" />
