@@ -31,12 +31,13 @@ export function PricingMobile() {
   const price = yearly ? plan.yearly : plan.monthly;
 
   return (
-    <section id="planos-mobile" className="section-y md:hidden bg-background border-t border-white/5 relative overflow-hidden">
+    <section id="planos-mobile" className="section-y md:hidden border-t border-white/5 relative overflow-hidden">
+
       {/* Foto de Fundo em Baixa Opacidade */}
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
         alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.05] grayscale pointer-events-none"
+        className="absolute inset-0 h-full w-full object-cover grayscale-0 pointer-events-none"
       />
       <div className="relative z-10">
       <div className="flex flex-col gap-4 mb-8">
