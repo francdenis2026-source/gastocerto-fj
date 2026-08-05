@@ -334,7 +334,7 @@ export function CompactOverview() {
                 <Reveal
                   key={group.group}
                   delay={groupIndex * 50}
-                  className="glass-morphism rounded-2xl p-5 border border-border/5"
+                  className="rounded-2xl p-5 border border-border/5"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand mb-4">
                     {group.group}
@@ -376,7 +376,7 @@ export function CompactOverview() {
                   >
                     <button
                       type="button"
-                      className="interactive-card glass-morphism h-full w-full rounded-2xl p-5 text-left transition-all border border-border/5 hover:border-brand/20 sm:p-5"
+                      className="interactive-card h-full w-full rounded-2xl p-5 text-left transition-all border border-border/5 hover:border-brand/20 sm:p-5"
                     >
                       <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
                         <pillar.icon className="size-4" aria-hidden="true" />
@@ -398,7 +398,7 @@ export function CompactOverview() {
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
                 <Reveal key={faq.q} delay={index * 50}>
-                  <AccordionItem value={`faq-${index}`} className="glass-morphism px-4 rounded-xl mb-1 last:mb-0">
+                  <AccordionItem value={`faq-${index}`} className="px-4 rounded-xl mb-1 last:mb-0">
                     <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
                       {faq.q}
                     </AccordionTrigger>
