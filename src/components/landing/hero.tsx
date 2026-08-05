@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-
 import {
   ArrowDownRight,
   ArrowRight,
@@ -113,7 +112,9 @@ export function Hero() {
                 <span
                   key={label}
                   style={{ animationDelay: `${400 + i * 120}ms`, fontFamily: '"Space Grotesk", var(--font-display)' }}
-                  className="group relative flex cursor-pointer items-center gap-2.5 overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-[#1FAE6D]/30 hover:bg-[#1FAE6D]/5 hover:text-[#1FAE6D] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.5)]"
+                  className="group relative flex cursor-pointer items-center gap-2.5 overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-[#1FAE6D]/30 hover:bg-[#1FAE6D]/5 hover:text-[#1FAE6D] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.5)] active:scale-95"
+                  tabIndex={0}
+                  role="button"
                 >
                   <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   <Icon className="size-4 text-emerald-400 transition-all duration-500 group-hover:rotate-[8deg] group-hover:scale-110 group-hover:text-emerald-300" />
@@ -128,13 +129,6 @@ export function Hero() {
   );
 }
 
-function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  return (
-    <div 
-      className={cn("animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-both", className)}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
-}
+import { Reveal } from "@/components/landing/reveal";
+
+// Removed local Reveal definition to use the shared one that supports tabIndex and other props
