@@ -126,17 +126,17 @@ export function Benefits() {
     <div className="bg-background">
       <section id="recursos" className="section-y border-b border-white/5">
         <div className="section-shell">
-          <Reveal className="text-center mx-auto max-w-2xl mb-16">
-            <h2 className="section-title">Infraestrutura para sua autonomia</h2>
-            <p className="mt-4 text-muted-foreground">Ferramentas avançadas para gestão de ativos e otimização de fluxo de caixa.</p>
+          <Reveal className="text-center mx-auto max-w-2xl mb-12">
+            <h2 className="section-title">Ecosystema de alto desempenho</h2>
+            <p className="mt-3 text-muted-foreground">Ferramentas técnicas para gestão de patrimônio e otimização financeira.</p>
           </Reveal>
 
-          <div className="grid gap-12">
+          <div className="grid gap-8">
             {categories.map((cat, catIdx) => (
               <div key={cat.name}>
-                <div className="flex items-center gap-2 mb-6">
-                  <cat.icon className="size-5 text-emerald-500" />
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-white/90">{cat.name}</h3>
+                <div className="flex items-center gap-2 mb-4">
+                  <cat.icon className="size-4 text-emerald-500" />
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">{cat.name}</h3>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
                   {cat.items.map((item, itemIdx) => (
@@ -144,16 +144,16 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="group relative flex w-full flex-col items-start rounded-2xl border border-white/5 bg-white/[0.02] p-8 text-left transition-all hover:bg-white/[0.04] hover:border-emerald-500/30 hover:shadow-[0_0_30px_-12px_rgba(34,197,94,0.2)] active:scale-[0.98]">
-                          <div className="mb-4 grid size-12 place-items-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-black">
-                            <item.icon className="size-6" />
+                        <button className="group relative flex w-full flex-col items-start rounded-xl border border-white/5 bg-white/[0.02] p-5 text-left transition-all hover:bg-white/[0.04] hover:border-emerald-500/30 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98]">
+                          <div className="mb-3 grid size-10 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-[#0A1512]">
+                            <item.icon className="size-5" />
                           </div>
                           <div className="flex w-full items-center justify-between">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80">{item.tag}</span>
                             <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-emerald-500" />
                           </div>
-                          <h4 className="mt-2 text-xl font-bold text-white">{item.title}</h4>
-                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                          <h4 className="mt-1.5 text-lg font-bold text-white">{item.title}</h4>
+                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                         </button>
                       </FeatureDetailDialog>
                     </Reveal>
@@ -165,7 +165,7 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="seguranca" className="py-16 bg-white/[0.01]">
+      <section id="seguranca" className="py-12 bg-white/[0.01]">
         <div className="section-shell">
           <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
             <div className="max-w-md">
@@ -191,9 +191,11 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="faq" className="section-y border-b border-white/5 bg-background">
-        <div className="section-shell max-w-3xl">
-          <Reveal className="text-center mb-10">
+      <section id="faq" className="section-y border-b border-white/5 bg-background relative">
+        {/* Textura SVG sutil */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="section-shell max-w-3xl relative z-10">
+          <Reveal className="text-center mb-8">
             <h3 className="text-2xl font-bold text-white">Dúvidas Frequentes</h3>
             <p className="mt-2 text-muted-foreground text-sm">Respostas para as perguntas mais comuns.</p>
           </Reveal>
@@ -202,7 +204,7 @@ export function Benefits() {
               <Reveal key={faq.q} delay={idx * 50}>
                 <AccordionItem 
                   value={`item-${idx}`} 
-                  className="rounded-xl border border-white/5 bg-[#10241E]/40 px-6 transition-all hover:bg-[#10241E]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(34,197,94,0.2)]"
+                  className="rounded-xl border border-white/5 bg-[#10201B]/40 px-5 transition-all hover:bg-[#10201B]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(31,174,109,0.2)]"
                 >
                   <AccordionTrigger className="py-5 text-sm font-bold text-white hover:no-underline [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:text-emerald-500">
                     {faq.q}
@@ -217,9 +219,15 @@ export function Benefits() {
         </div>
       </section>
 
-      <section id="cta-final" className="section-y bg-background">
-        <div className="section-shell">
-          <Reveal className="relative overflow-hidden rounded-[2rem] bg-[#0B1F1A] border border-white/5 px-8 py-12 text-center shadow-2xl">
+      <section id="cta-final" className="section-y bg-background relative overflow-hidden">
+        <div className="section-shell relative z-10">
+          <Reveal className="relative overflow-hidden rounded-[1.5rem] bg-[#0A1512] border border-white/5 px-6 py-10 text-center shadow-2xl">
+            {/* Foto Real de Fundo com Baixa Opacidade */}
+            <img 
+              src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" 
+              alt="" 
+              className="absolute inset-0 h-full w-full object-cover opacity-10 grayscale pointer-events-none"
+            />
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />
@@ -230,16 +238,16 @@ export function Benefits() {
             </div>
 
             <div className="relative z-10 mx-auto max-w-2xl">
-              <h2 className="text-3xl font-black text-white sm:text-4xl tracking-tight">
-                Pronto para transformar sua vida financeira?
+              <h2 className="text-2xl font-black text-white sm:text-3xl tracking-tight">
+                Tome o controle estratégico hoje.
               </h2>
-              <p className="mt-3 text-base font-medium text-muted-foreground">
-                Junte-se a mais de 10.000 pessoas e tome o controle hoje mesmo.
+              <p className="mt-2 text-[15px] font-medium text-muted-foreground">
+                Junte-se à elite da gestão financeira e automatize seu futuro.
               </p>
               <div className="mt-8 flex justify-center">
                 <Button
                   asChild
-                  className="group relative h-14 rounded-xl bg-emerald-500 px-10 text-base font-black text-black transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(34,197,94,0.5)]"
+                  className="group relative h-12 rounded-lg bg-emerald-500 px-8 text-[15px] font-black text-[#0A1512] transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(31,174,109,0.5)]"
                 >
                   <Link to="/auth" search={{ mode: "signup" }}>
                     Começar Grátis Agora
