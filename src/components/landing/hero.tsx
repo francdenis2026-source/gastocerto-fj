@@ -41,9 +41,9 @@ export function Hero() {
 
 
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#001640]/80 via-[#001640]/40 to-[#001640]/90 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#001640_80%)] opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#001640]/40 via-transparent to-[#001640]/40" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#001640]" />
 
       </div>
 
