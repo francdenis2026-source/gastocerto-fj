@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { KeyRound, Menu, X } from "lucide-react";
+import { ArrowRight, KeyRound, Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { CodeAccessDialog } from "@/components/landing/code-access-dialog";
@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
 import { handleAnchorClick } from "@/lib/scroll";
 
 const navItems = [
-  { label: "Recursos", href: "#recursos" },
+  { label: "Soluções", href: "#recursos" },
+  { label: "Inteligência", href: "#ai" },
   { label: "Planos", href: "#planos" },
   { label: "Segurança", href: "#seguranca" },
-  { label: "FAQ", href: "#faq" },
 ];
 
 
@@ -52,13 +52,14 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
   return (
     <>
-
+      <div className="fixed top-0 inset-x-0 z-[60] h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+      
       <header
         className={cn(
-          "fixed inset-x-0 z-50 transition-all duration-500 top-0",
+          "fixed inset-x-0 z-50 transition-all duration-500 top-1.5",
           scrolled
-            ? "glass-morphism border-b border-border/10 text-foreground shadow-2xl py-2"
-            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-4",
+            ? "glass-morphism border-b border-emerald-500/20 text-foreground shadow-2xl py-2"
+            : "border-b border-white/5 bg-transparent text-foreground dark:text-hero-fg py-5",
         )}
       >
 
@@ -66,28 +67,32 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         <div className="section-shell flex h-20 items-center justify-between gap-2 sm:gap-4">
           <Logo onDark={!scrolled} href="#inicio" className="group py-1" />
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-2 lg:flex">
-          {navItems.map((item) => {
-            const isActive = active === item.href;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={isActive ? "location" : undefined}
-                onClick={(event) => handleAnchorClick(event, item.href)}
-                className={cn(
-                  "nav-underline relative inline-flex min-h-11 items-center rounded-lg px-4 text-[13px] font-bold tracking-tight transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 after:bg-emerald-500 after:h-0.5",
-                  isActive && "after:scale-x-100 text-emerald-500",
-                  scrolled
-                    ? cn("text-foreground/70 hover:text-foreground hover:bg-white/5", isActive && "text-emerald-500")
-                    : cn("text-white/70 hover:text-white hover:bg-white/5", isActive && "text-emerald-400"),
-                )}
-              >
-                {item.label}
-              </a>
-            );
-          })}
-        </nav>
+          <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => {
+              const isActive = active === item.href;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? "location" : undefined}
+                  onClick={(event) => handleAnchorClick(event, item.href)}
+                  className={cn(
+                    "relative inline-flex min-h-11 items-center rounded-xl px-5 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 focus-visible:outline-none",
+                    isActive 
+                      ? "text-emerald-400" 
+                      : scrolled 
+                        ? "text-foreground/60 hover:text-emerald-500 hover:bg-emerald-500/5" 
+                        : "text-white/60 hover:text-emerald-400 hover:bg-white/5",
+                  )}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                  )}
+                </a>
+              );
+            })}
+          </nav>
 
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
@@ -120,18 +125,23 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           <Button
             variant="ghost"
             className={cn(
-              "h-10 px-5 text-[13px] font-bold tracking-tight rounded-xl border border-white/10 hover:bg-white/5 transition-all active:scale-95",
+              "h-11 px-6 text-[13px] font-black uppercase tracking-[0.15em] rounded-2xl border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 transition-all active:scale-95 group",
               !scrolled ? "text-white" : "text-foreground",
             )}
             asChild
           >
-            <Link to="/auth" search={{ mode: "login" }}>Entrar</Link>
+            <Link to="/auth" search={{ mode: "login" }}>
+              <span className="flex items-center gap-2">
+                Entrar
+                <ArrowRight className="size-3 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
           </Button>
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-emerald-500 px-6 text-[13px] font-black tracking-tight text-[#001640] shadow-xl shadow-emerald-500/20 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Criar conta grátis</Link>
+              <Button className="cta-lift group hidden h-11 items-center rounded-2xl bg-emerald-500 px-8 text-[13px] font-black uppercase tracking-[0.15em] text-[#001640] shadow-xl shadow-emerald-500/30 transition-all hover:bg-emerald-400 hover:scale-105 active:scale-95 sm:flex" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
                 variant="outline"
