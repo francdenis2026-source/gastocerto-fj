@@ -35,8 +35,10 @@ export function Hero() {
         />
         
         {/* Animated Particles/Orbs in background */}
-        <div className="absolute top-1/4 left-1/4 h-64 w-64 animate-pulse-slow rounded-full bg-[#1FAE6D]/5 dark:bg-[#1FAE6D]/10 blur-[80px]" />
-        <div className="absolute bottom-1/4 right-1/3 h-80 w-80 animate-pulse-slow rounded-full bg-[#D4AF6A]/3 dark:bg-[#D4AF6A]/5 blur-[100px]" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-[15%] left-[5%] h-[400px] w-[400px] animate-pulse-slow rounded-full bg-emerald-500/10 blur-[100px] opacity-40 dark:opacity-20" />
+        <div className="absolute bottom-[10%] right-[5%] h-[500px] w-[500px] animate-pulse-slow rounded-full bg-emerald-500/10 blur-[120px] opacity-40 dark:opacity-20" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-[40%] right-[15%] h-[300px] w-[300px] animate-pulse-slow rounded-full bg-emerald-400/5 blur-[80px] opacity-30 dark:opacity-10" style={{ animationDelay: '1.5s' }} />
+
 
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background transition-colors duration-500" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] opacity-60 transition-colors duration-500" />
@@ -47,7 +49,7 @@ export function Hero() {
 
 
       <div className="section-shell relative z-10">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-7xl">
           <Reveal className="relative flex flex-col items-center justify-center space-y-6 px-4 py-12 sm:px-12 sm:py-20 overflow-visible">
 
 
