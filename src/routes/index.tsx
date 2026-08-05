@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
-    title: "GastoCerto | Gestão Financeira Premium & Inteligente",
+    title: "GastoCerto — Controle hoje, tranquilidade sempre",
     meta: [
       {
         name: "description",
