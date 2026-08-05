@@ -140,7 +140,7 @@ export function Benefits() {
                   <cat.icon className="size-4 text-emerald-500" />
                   <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">{cat.name}</h3>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
                   {cat.items.map((item, itemIdx) => (
                     <Reveal key={item.title} delay={(catIdx * 100) + (itemIdx * 50)}>
                       <FeatureDetailDialog
