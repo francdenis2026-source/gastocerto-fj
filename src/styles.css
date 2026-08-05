@@ -212,43 +212,43 @@ body::-webkit-scrollbar {
  :root {
    --radius: 1.25rem; /* 20px */
    
-   /* Design System Colors - Light Mode */
-   --background: #FAFBFC;
-   --foreground: #101828;
+   /* Design System Colors - Light Mode (Inspirado em Stripe/Linear) */
+   --background: #FFFFFF;
+   --foreground: #0F172A; /* Neutro profundo */
    --card: #FFFFFF;
-   --card-foreground: #101828;
+   --card-foreground: #0F172A;
    --popover: #FFFFFF;
-   --popover-foreground: #101828;
+   --popover-foreground: #0F172A;
    
-   --primary: #00C875;
+   --primary: #1FAE6D; /* Verde GastoCerto */
    --primary-foreground: #FFFFFF;
-   --secondary: #F2F4F7;
-   --secondary-foreground: #667085;
+   --secondary: #F8FAFC;
+   --secondary-foreground: #64748B;
    
-   --muted: #F2F4F7;
-   --muted-foreground: #667085;
-   --accent: #F9FAFB;
-   --accent-foreground: #101828;
+   --muted: #F1F5F9;
+   --muted-foreground: #64748B;
+   --accent: #F8FAFC;
+   --accent-foreground: #0F172A;
    
-   --destructive: #D92D20;
+   --destructive: #EF4444;
    --destructive-foreground: #FFFFFF;
    
-   --border: #E6E8EC;
+   --border: #E2E8F0;
    --input: #FFFFFF;
-   --ring: #00C875;
+   --ring: #1FAE6D;
    
    /* Hero Tokens - Light */
-   --hero-bg: #FAFBFC;
-   --hero-fg: #101828;
-   --hero-fg-muted: #667085;
-   --hero-border: #E6E8EC;
-   --hero-surface: #FFFFFF;
-   --hero-accent: #00C875;
+   --hero-bg: #FFFFFF;
+   --hero-fg: #0F172A;
+   --hero-fg-muted: #64748B;
+   --hero-border: #E2E8F0;
+   --hero-surface: #F8FAFC;
+   --hero-accent: #1FAE6D;
  }
  
  .dark {
-   /* Design System Colors - Dark Mode */
-   --background: #0B0F14;
+   /* Design System Colors - Dark Mode (Inspirado em Linear/Vercel) */
+   --background: #0B0F14; /* Deep Navy do GastoCerto */
    --foreground: #F8FAFC;
    --card: #121821;
    --card-foreground: #F8FAFC;
@@ -265,7 +265,7 @@ body::-webkit-scrollbar {
    --accent: #171F2B;
    --accent-foreground: #F8FAFC;
    
-   --destructive: #F04438;
+   --destructive: #F87171;
    --destructive-foreground: #FFFFFF;
    
    --border: #263040;
