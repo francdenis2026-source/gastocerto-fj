@@ -52,14 +52,14 @@ export function Hero() {
         <div className="mx-auto max-w-4xl text-center">
 
 
-          <Reveal className="space-y-6 sm:space-y-8">
-            <h1 className="font-display text-[clamp(2.5rem,10vw,6.5rem)] font-extrabold leading-[1] tracking-[-0.04em] text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.5)] px-4">
+          <Reveal className="space-y-6 sm:space-y-10">
+            <h1 className="font-display text-[clamp(2.75rem,12vw,7.5rem)] font-extrabold leading-[1] tracking-[-0.05em] text-white drop-shadow-[0_12px_40px_rgba(0,0,0,0.6)] px-4">
               Domine seu<br />
-              <span className="bg-gradient-to-br from-emerald-400 to-emerald-500 bg-clip-text text-transparent">dinheiro.</span>
+              <span className="bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-none">dinheiro.</span>
             </h1>
             
-            <p className="mx-auto max-w-2xl px-6 text-base font-medium leading-relaxed text-slate-100 sm:text-2xl tracking-tight">
-              Gestão estratégica com precisão absoluta. <span className="text-emerald-400 font-bold">O controle definitivo na palma da mão.</span>
+            <p className="mx-auto max-w-2xl px-6 text-[15px] font-medium leading-relaxed text-slate-100 sm:text-2xl tracking-tight opacity-95">
+              Gestão estratégica com precisão absoluta. <span className="text-emerald-400 font-bold">O controle definitivo na palma da sua mão.</span>
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
