@@ -309,7 +309,7 @@ body::-webkit-scrollbar {
 
 @utility reveal-in {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 @utility section-title {
