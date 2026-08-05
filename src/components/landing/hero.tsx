@@ -32,7 +32,7 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
           alt="Planejamento financeiro realista" 
-          className="h-full w-full object-cover brightness-[0.55] contrast-[1.1] opacity-100"
+          className="h-full w-full object-cover brightness-[0.65] contrast-[1.15] opacity-100"
         />
 
 
@@ -43,10 +43,10 @@ export function Hero() {
 
 
 
-        <div className="absolute inset-0 bg-[#0A1512]/60 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/90 via-[#1FAE6D]/5 to-[#0A1512]/95" />
-        <div className="absolute inset-0 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(10,21,18,0.85)_100%)]" />
+        <div className="absolute inset-0 bg-[#0A1512]/40 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/70 via-transparent to-[#0A1512]/85" />
+        <div className="absolute inset-0 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(10,21,18,0.7)_100%)]" />
 
       </div>
 
