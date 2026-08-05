@@ -14,10 +14,8 @@ export function PageBackground() {
           style={{ transform: 'scale(1.1)' }}
         />
         
-        {/* Camadas de Gradiente Dinâmicas Suavizadas */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/60 via-[#0A1512]/20 to-[#0A1512]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(31,174,109,0.08)_0%,transparent_70%)] opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(31,174,109,0.05)_0%,transparent_50%)] opacity-40" />
+        {/* Camada de Gradiente Sutil para contraste */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/40 via-transparent to-[#0A1512]" />
       </div>
       
       {/* Textura de Grão para Aspeto de Filme Premium */}

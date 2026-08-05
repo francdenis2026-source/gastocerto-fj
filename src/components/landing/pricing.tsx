@@ -155,9 +155,6 @@ export function Pricing() {
               role="button"
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
-              {/* Efeito de brilho interno (Glow) */}
-              <div className="absolute -right-20 -top-20 size-40 rounded-full bg-emerald-500/10 blur-[60px]" />
-              <div className="absolute -left-20 -bottom-20 size-40 rounded-full bg-emerald-500/5 blur-[60px]" />
 
               {plan.highlighted && (
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-b-2xl bg-emerald-500 px-6 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-[0_10px_30px_rgba(31,174,109,0.4)]">

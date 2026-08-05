@@ -400,7 +400,7 @@ body::-webkit-scrollbar {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(31, 174, 109, 0.04), transparent 45%);
+    background: rgba(255, 255, 255, 0.02);
     opacity: 0;
     transition: opacity 500ms ease;
     pointer-events: none;
