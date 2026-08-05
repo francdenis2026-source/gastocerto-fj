@@ -21,23 +21,23 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[60svh] lg:min-h-[70svh] items-center overflow-hidden bg-[#0A1512] pt-16 pb-8 lg:pt-24"
+      className="relative isolate flex min-h-[65svh] lg:min-h-[75svh] items-center overflow-hidden bg-background pt-16 pb-8 lg:pt-24"
     >
       {/* 1. FUNDO DO HERO (Foto Real + Overlay) */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
-        {/* Imagem Real de Fundo */}
+        {/* Imagem Real de Alta Resolução (Finance-focused) */}
         <img 
           src="https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop" 
           alt="" 
-          className="absolute inset-0 h-full w-full object-cover opacity-80 grayscale-[0.2] brightness-[0.55] contrast-[1.2] saturate-[0.9]"
+          className="absolute inset-0 h-full w-full object-cover opacity-90 dark:opacity-60 grayscale-[0.2] dark:grayscale-[0.4] brightness-[1.05] dark:brightness-[0.45] contrast-[1.05] dark:contrast-[1.15] saturate-[0.9]"
         />
         
-        {/* Overlay em Gradiente - Mais transparente à direita */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1512] via-[#0A1512]/90 to-[#0A1512]/30" />
+        {/* Overlay em Gradiente - Adaptado para modo claro/escuro */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/20 dark:via-background/95 dark:to-background/30" />
         
-        {/* Gradiente radial verde sutil */}
+        {/* Efeito de luz ambiente */}
         <div 
-          className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-[100px] animate-pulse-glow" 
+          className="absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[120px] dark:bg-emerald-500/5 animate-pulse-glow" 
         />
       </div>
 
