@@ -1,60 +1,59 @@
 :root {
-  --radius: 1.25rem;
+  --radius: 1.5rem;
   
-  /* SaaS Premium Palette - Light */
+  /* Premium SaaS Palette - Light */
   --background: #FFFFFF;
-  --foreground: #09090B;
+  --foreground: #020617;
   --card: #FFFFFF;
-  --card-foreground: #09090B;
+  --card-foreground: #020617;
   --popover: #FFFFFF;
-  --popover-foreground: #09090B;
+  --popover-foreground: #020617;
   
-  --primary: #1FAE6D; /* Verde GastoCerto Oficial */
+  --primary: #1FAE6D;
   --primary-foreground: #FFFFFF;
-  --secondary: #F4F4F5;
-  --secondary-foreground: #71717A;
+  --secondary: #F8FAFC;
+  --secondary-foreground: #64748B;
   
-  --muted: #F4F4F5;
-  --muted-foreground: #71717A;
-  --accent: #F4F4F5;
-  --accent-foreground: #09090B;
+  --muted: #F8FAFC;
+  --muted-foreground: #64748B;
+  --accent: #F8FAFC;
+  --accent-foreground: #020617;
   
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
   
-  --border: #E4E4E7;
-  --input: #E4E4E7;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
   --ring: #1FAE6D;
 }
 
 .dark {
-  /* SaaS Premium Palette - Dark (Deep Navy Derived) */
-  --background: #090E0C; /* Deep Charcoal Greenish */
-  --foreground: #FAFAFA;
-  --card: #0F1513;
-  --card-foreground: #FAFAFA;
-  --popover: #0F1513;
-  --popover-foreground: #FAFAFA;
+  /* Premium SaaS Palette - Dark */
+  --background: #020617;
+  --foreground: #F8FAFC;
+  --card: #0F172A;
+  --card-foreground: #F8FAFC;
+  --popover: #0F172A;
+  --popover-foreground: #F8FAFC;
   
   --primary: #1FAE6D;
   --primary-foreground: #FFFFFF;
-  --secondary: #1A211E;
-  --secondary-foreground: #A1A1AA;
+  --secondary: #1E293B;
+  --secondary-foreground: #94A3B8;
   
-  --muted: #1A211E;
-  --muted-foreground: #A1A1AA;
-  --accent: #1A211E;
-  --accent-foreground: #FAFAFA;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #1E293B;
+  --accent-foreground: #F8FAFC;
   
   --destructive: #EF4444;
-  --destructive-foreground: #FAFAFA;
+  --destructive-foreground: #F8FAFC;
   
-  --border: #222C28;
-  --input: #222C28;
+  --border: #1E293B;
+  --input: #1E293B;
   --ring: #1FAE6D;
 }
 
-/* Base Overrides for Premium feel */
 body {
   font-family: "Inter Variable", sans-serif;
   letter-spacing: -0.01em;
@@ -68,25 +67,45 @@ h1, h2, h3, h4 {
 @utility section-shell {
   margin-inline: auto;
   width: 100%;
-  max-width: 80rem; /* Compact 1280px */
-  padding-inline: 1.5rem;
+  max-width: 90rem;
+  padding-inline: 2rem;
 }
 
 @utility section-y {
-  padding-block: 6rem; /* Standardized spacing */
+  padding-block: 5rem; /* Reduced by ~20-30% as requested */
 }
 
 @utility premium-card {
   border-radius: 1.5rem;
   border: 1px solid var(--border);
   background: var(--card);
-  padding: 2rem;
-  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  padding: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) scale(1.01);
     border-color: var(--primary);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   }
+}
+
+.glass-panel {
+  backdrop-filter: blur(20px);
+  background-color: rgba(var(--background), 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.animate-pulse-slow {
+  animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+}
+
+/* Ensure mouse turns into a pointer for all interactive elements */
+a, button, [role="button"], input[type="submit"], input[type="button"], .interactive-card, .clickable {
+  cursor: pointer !important;
 }

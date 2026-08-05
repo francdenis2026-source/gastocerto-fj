@@ -3,13 +3,13 @@ import { Link } from "@tanstack/react-router";
 
 export function LandingFooter() {
   return (
-    <footer className="pt-20 pb-10 bg-[#090E0C] text-white overflow-hidden border-t border-white/5">
+    <footer className="pt-24 pb-12 bg-[#020617] text-white overflow-hidden border-t border-white/5">
       <div className="section-shell">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 mb-20">
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 mb-24">
           <div className="lg:col-span-5 space-y-8">
             <Logo onDark />
-            <p className="text-zinc-400 text-lg leading-relaxed max-w-sm">
-              GastoCerto é a síntese da tecnologia aplicada à gestão financeira pessoal. Controle, clareza e prosperidade.
+            <p className="text-slate-400 text-lg leading-relaxed max-w-sm font-medium">
+              GastoCerto é a engenharia de ponta aplicada à sua liberdade financeira. Precisão, segurança e inteligência.
             </p>
             <div className="flex items-center gap-6">
               {['Twitter', 'Instagram', 'LinkedIn'].map(social => (
@@ -48,8 +48,8 @@ export function LandingFooter() {
           </div>
         </div>
         
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-zinc-500 text-sm font-medium">
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <p className="text-slate-500 text-sm font-bold">
             © 2026 GastoCerto. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-8">

@@ -48,7 +48,7 @@ const features = [
 
 export function CompactOverview() {
   return (
-    <section id="recursos" className="section-y relative overflow-hidden">
+    <section className="section-y relative overflow-hidden bg-background">
       <div className="section-shell">
         <div className="max-w-2xl mb-16">
           <Reveal>
@@ -65,7 +65,7 @@ export function CompactOverview() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f, i) => (
             <Reveal key={i} delay={i * 50}>
-              <div className="premium-card group h-full">
+              <div className="premium-card group h-full bg-slate-50/50 dark:bg-slate-900/40 border-slate-200 dark:border-white/5">
                 <div className={`size-12 rounded-2xl ${f.bg} flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
                   <f.icon className={`size-6 ${f.color}`} />
                 </div>

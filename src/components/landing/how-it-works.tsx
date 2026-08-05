@@ -27,18 +27,18 @@ const highlights = [
 
 export function HowItWorks() {
   return (
-    <section className="section-y bg-card border-y border-border overflow-hidden">
+    <section id="como funciona" className="section-y bg-[#020617] border-y border-white/5 overflow-hidden">
       <div className="section-shell">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative group">
-              <div className="relative z-10 aspect-square rounded-[3rem] overflow-hidden border border-border shadow-2xl">
+              <div className="relative z-10 aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
                 <img 
-                  src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Financial Success" 
-                  className="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700"
+                  src="https://images.unsplash.com/photo-1573163231154-2ef8a93e8631?q=80&w=2070&auto=format&fit=crop" 
+                  alt="Financial Excellence" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent" />
               </div>
               
               {/* Floating Stat Cards */}
