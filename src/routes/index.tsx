@@ -83,6 +83,7 @@ function LandingPage() {
        <main id="conteudo" tabIndex={-1} className="relative flex flex-col outline-none">
          <Hero />
          <Benefits />
+         <CompactOverview />
          <Pricing />
        </main>
  
