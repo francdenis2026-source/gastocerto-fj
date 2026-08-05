@@ -25,14 +25,14 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[78svh] items-center overflow-hidden py-20 sm:min-h-[85svh]"
+      className="relative isolate flex min-h-[85svh] items-center overflow-hidden py-16 sm:min-h-[90svh]"
     >
       {/* 1. FUNDO DO HERO (Profissional fazendo contas no iPhone) */}
-      <div className="absolute inset-0 -z-20">
+      <div className="absolute inset-0 -z-20 bg-[#0A1512]">
         <img 
           src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
           alt="Planejamento financeiro realista" 
-          className="h-full w-full object-cover brightness-[0.65] contrast-[1.15] opacity-100"
+          className="h-full w-full object-cover brightness-[0.45] contrast-[1.1] opacity-70 grayscale-[0.2]"
         />
 
 
@@ -43,10 +43,9 @@ export function Hero() {
 
 
 
-        <div className="absolute inset-0 bg-[#0A1512]/40 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/70 via-transparent to-[#0A1512]/85" />
-        <div className="absolute inset-0 backdrop-blur-[1px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(10,21,18,0.7)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1512]/60 via-[#0A1512]/30 to-[#0A1512]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_50%,rgba(31,174,109,0.12)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 backdrop-blur-[0.5px]" />
 
       </div>
 
@@ -55,29 +54,34 @@ export function Hero() {
 
 
       <div className="section-shell relative z-10">
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-5xl">
+          <Reveal className="relative flex flex-col items-center justify-center space-y-7 px-4 py-12 sm:px-12 sm:py-20 rounded-[3rem] bg-black/40 backdrop-blur-[8px] border border-white/10 shadow-[0_32px_128px_-32px_rgba(0,0,0,0.8)] overflow-hidden">
+            {/* Efeito de luz sutil no card */}
+            <div className="absolute -top-24 -left-24 size-48 rounded-full bg-[#1FAE6D]/10 blur-[80px]" />
+            <div className="absolute -bottom-24 -right-24 size-48 rounded-full bg-[#1FAE6D]/10 blur-[80px]" />
 
+            <div className="flex items-center gap-2 rounded-full border border-[#1FAE6D]/20 bg-[#1FAE6D]/10 px-4 py-1.5 backdrop-blur-md">
+              <Sparkles className="size-3.5 text-[#1FAE6D]" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#1FAE6D]">Tecnologia Fintech de Elite</span>
+            </div>
 
-          <Reveal className="relative space-y-5 sm:space-y-7 px-4 py-8 sm:px-8 sm:py-12 rounded-3xl bg-black/20 backdrop-blur-[2px] border border-white/5 shadow-2xl">
-            <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-extrabold leading-[0.95] tracking-[-0.04em] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.55)]">
+            <h1 className="text-center font-display text-[clamp(2.5rem,9vw,5.5rem)] font-black leading-[0.92] tracking-[-0.05em] text-white">
               Controle o seu <br className="hidden sm:block" />
-              <span className="bg-gradient-to-br from-[#1FAE6D] via-[#4ADE80] to-[#1FAE6D] bg-clip-text text-transparent drop-shadow-none">patrimônio.</span>
+              <span className="bg-gradient-to-r from-white via-[#1FAE6D] to-[#1FAE6D] bg-clip-text text-transparent">patrimônio.</span>
             </h1>
 
             <p
-              className="mx-auto max-w-xl px-2 text-[15px] font-medium leading-[1.6] tracking-[-0.01em] text-white/80 [text-wrap:balance] drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] sm:text-[18px]"
+              className="mx-auto max-w-2xl text-center text-[16px] font-medium leading-[1.6] tracking-tight text-white/70 [text-wrap:balance] sm:text-[19px]"
               style={{ fontFamily: '"Space Grotesk", var(--font-display)' }}
             >
-              <span className="font-semibold">Gestão estratégica com precisão.</span>{" "}
-              <span className="font-semibold text-emerald-300">
-                O controle definitivo na palma da sua mão.
-              </span>
+              A engenharia financeira definitiva para quem busca precisão,{" "}
+              <span className="text-white">segurança e total domínio sobre os gastos.</span>
             </p>
 
             <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
               <Button
                 size="lg"
-                className="h-13 w-full rounded-xl bg-emerald-500 px-8 text-[15px] font-bold text-[#001640] shadow-[0_0_36px_-12px_rgba(16,185,129,0.5)] transition-all hover:scale-[1.03] hover:bg-emerald-400 sm:w-auto active:scale-95"
+                className="h-14 w-full rounded-2xl bg-[#1FAE6D] px-10 text-[15px] font-black uppercase tracking-wider text-black shadow-[0_20px_40px_-10px_rgba(31,174,109,0.4)] transition-all hover:scale-[1.05] hover:bg-[#24c77d] sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
@@ -89,7 +93,7 @@ export function Hero() {
               <Button
                 variant="outline"
                 size="lg"
-                className="h-13 w-full rounded-xl border-white/20 bg-white/5 px-8 text-[15px] font-semibold text-white backdrop-blur-2xl transition-all hover:bg-white/10 sm:w-auto active:scale-95"
+                className="h-14 w-full rounded-2xl border-white/10 bg-white/5 px-10 text-[15px] font-bold uppercase tracking-wider text-white backdrop-blur-3xl transition-all hover:bg-white/10 hover:border-white/20 sm:w-auto active:scale-95"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "login" }}>
@@ -109,7 +113,7 @@ export function Hero() {
                 <span
                   key={label}
                   style={{ animationDelay: `${400 + i * 120}ms`, fontFamily: '"Space Grotesk", var(--font-display)' }}
-                  className="group relative flex cursor-pointer items-center gap-2.5 overflow-hidden rounded-full border border-emerald-400/20 bg-emerald-500/[0.07] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-200 backdrop-blur-md transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-100 hover:shadow-[0_10px_30px_-8px_rgba(16,185,129,0.5)]"
+                  className="group relative flex cursor-pointer items-center gap-2.5 overflow-hidden rounded-xl border border-white/5 bg-white/[0.03] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:-translate-y-1 hover:border-[#1FAE6D]/30 hover:bg-[#1FAE6D]/5 hover:text-[#1FAE6D] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.5)]"
                 >
                   <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   <Icon className="size-4 text-emerald-400 transition-all duration-500 group-hover:rotate-[8deg] group-hover:scale-110 group-hover:text-emerald-300" />
