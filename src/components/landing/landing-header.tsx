@@ -91,11 +91,11 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <ThemeToggle className={cn("inline-flex rounded-xl transition-all hover:scale-105 active:scale-95", !scrolled ? "text-white bg-white/5 border border-white/10 hover:bg-white/10" : "text-foreground bg-accent/50 border border-border/10")} />
+          <ThemeToggle className="inline-flex rounded-xl border border-border/40 bg-accent/50 text-foreground transition-transform hover:scale-105 active:scale-95" />
           <CodeAccessDialog>
             <Button
               variant="ghost"
-              className={cn("hidden lg:inline-flex h-10 px-4 text-[13px] font-bold tracking-tight rounded-xl transition-all active:scale-95", !scrolled ? "text-white hover:bg-white/5" : "text-foreground/70 hover:text-foreground hover:bg-accent")}
+              className="hidden h-10 rounded-xl px-4 text-[13px] font-bold tracking-tight text-foreground/70 transition-colors hover:bg-accent hover:text-foreground active:scale-95 lg:inline-flex"
             >
               <KeyRound className="size-4 mr-2" aria-hidden />
               Acesso Restrito
@@ -108,10 +108,7 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               variant="outline"
               size="icon"
               aria-label="Entrar com código de teste"
-              className={cn(
-                "lg:hidden rounded-xl border-white/10 bg-white/5 text-white transition-all active:scale-95",
-                !scrolled && "border-white/20 bg-white/10",
-              )}
+              className="lg:hidden rounded-xl border-border/40 bg-accent/50 text-foreground transition-transform active:scale-95"
             >
               <KeyRound className="size-4" aria-hidden />
             </Button>
@@ -119,16 +116,13 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
           {/* Entrar: presente no desktop e no mobile. */}
           <Button
             variant="ghost"
-            className={cn(
-              "hidden xs:inline-flex h-10 sm:h-12 px-4 sm:px-8 text-[11px] sm:text-[12px] font-black uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.05] hover:bg-[#1FAE6D] hover:text-black hover:border-[#1FAE6D] shadow-[0_0_20px_rgba(31,174,109,0)] hover:shadow-[0_0_20px_rgba(31,174,109,0.4)] transition-all duration-300 active:scale-95 group",
-              !scrolled ? "text-white" : "text-foreground",
-            )}
+            className="hidden xs:inline-flex h-10 items-center rounded-xl border border-border/40 bg-accent/40 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-foreground transition-colors duration-300 hover:border-[#1FAE6D] hover:bg-[#1FAE6D] hover:text-black active:scale-95 group"
             asChild
           >
             <Link to="/auth" search={{ mode: "login" }}>
               <span className="flex items-center gap-2">
                 Entrar
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 transition-colors group-hover:bg-emerald-500/20">
                   <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </span>
@@ -137,16 +131,15 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
 
           {!hideActions && (
             <>
-              <Button className="cta-lift group hidden h-10 sm:h-12 items-center rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-4 sm:px-8 text-[11px] sm:text-[12px] font-black uppercase tracking-[0.2em] text-black shadow-xl shadow-[#1FAE6D]/30 transition-all duration-300 md:flex" asChild>
+              <Button className="cta-lift group hidden h-10 items-center rounded-xl bg-gradient-to-r from-[#1FAE6D] to-[#3fc78a] px-5 text-[11px] font-black uppercase tracking-[0.2em] text-black shadow-lg shadow-[#1FAE6D]/25 transition-all duration-300 md:flex" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>Começar Agora</Link>
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "lg:hidden z-[1001] rounded-xl border-white/10 bg-white/5 text-white active:scale-95 transition-all",
-                  !scrolled && "border-white/20 bg-white/10",
-                  open && "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                  "lg:hidden z-[1001] rounded-xl border border-border/40 bg-accent/50 text-foreground transition-transform active:scale-95",
+                  open && "border-emerald-500/30 bg-emerald-500/20 text-emerald-500",
                 )}
                 aria-expanded={open}
                 aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -156,6 +149,8 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
               </Button>
             </>
           )}
+        </div>
+
         </div>
 
       </div>
