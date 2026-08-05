@@ -80,32 +80,32 @@ export function Pricing() {
           <h2 className="section-title">O investimento certo para você</h2>
           <p className="mt-6 section-subtitle max-w-2xl mx-auto">Transforme sua vida financeira com planos que cabem no seu bolso e oferecem retorno imediato em organização.</p>
           
-          <div className="mt-10 inline-flex items-center rounded-full border border-foreground/10 dark:border-white/10 bg-foreground/5 dark:bg-white/5 p-1">
-            <button
-              onClick={() => setIsYearly(false)}
-              className={cn(
-                "rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
-                !isYearly ? "bg-emerald-500 text-[#0A1512]" : "text-muted-foreground"
-              )}
-            >
-              Mensal
-            </button>
-            <button
-              onClick={() => setIsYearly(true)}
-              className={cn(
-                "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
-                isYearly ? "bg-emerald-500 text-[#0A1512]" : "text-muted-foreground"
-              )}
-            >
-              Anual
-              <span className={cn(
-                "rounded-full px-1.5 py-0.5 text-[9px] font-bold",
-                isYearly ? "bg-black/20 text-[#0A1512]" : "bg-emerald-500/20 text-emerald-500"
-              )}>
-                2 MESES GRÁTIS
-              </span>
-            </button>
-          </div>
+           <div className="mt-10 inline-flex items-center rounded-full border border-border bg-card p-1">
+             <button
+               onClick={() => setIsYearly(false)}
+               className={cn(
+                 "rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
+                 !isYearly ? "bg-primary text-primary-foreground" : "text-secondary-foreground"
+               )}
+             >
+               Mensal
+             </button>
+             <button
+               onClick={() => setIsYearly(true)}
+               className={cn(
+                 "flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold transition-all active:scale-95",
+                 isYearly ? "bg-primary text-primary-foreground" : "text-secondary-foreground"
+               )}
+             >
+               Anual
+               <span className={cn(
+                 "rounded-full px-1.5 py-0.5 text-[9px] font-bold",
+                 isYearly ? "bg-primary-foreground/20 text-primary-foreground" : "bg-primary/10 text-primary"
+               )}>
+                 2 MESES GRÁTIS
+               </span>
+             </button>
+           </div>
         </Reveal>
 
          <div className="grid gap-8 md:grid-cols-3 lg:max-w-7xl lg:mx-auto">
