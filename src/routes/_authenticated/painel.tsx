@@ -1056,16 +1056,6 @@ function DashboardPage() {
           setPreset({ categoryId: null, subCategoryId: null });
           setDialogOpen(true);
         }}
-        onDeleteTransaction={async (id) => {
-          const { error } = await supabase.from("transactions").delete().eq("id", id);
-          if (error) {
-            toast.error("Erro ao excluir lançamento");
-          } else {
-            toast.success("Lançamento excluído");
-            queryClient.invalidateQueries({ queryKey: ["transactions"] });
-            setDetail(null);
-          }
-        }}
         {...(detailDate
           ? {
               onAddTransaction: () => {
