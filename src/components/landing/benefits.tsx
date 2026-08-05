@@ -202,7 +202,7 @@ export function Benefits() {
               <Reveal key={faq.q} delay={idx * 50}>
                 <AccordionItem 
                   value={`item-${idx}`} 
-                  className="rounded-xl border border-white/5 bg-[#131C19]/40 px-6 transition-all hover:bg-[#131C19]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(34,197,94,0.2)]"
+                  className="rounded-xl border border-white/5 bg-[#10241E]/40 px-6 transition-all hover:bg-[#10241E]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(34,197,94,0.2)]"
                 >
                   <AccordionTrigger className="py-5 text-sm font-bold text-white hover:no-underline [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:text-emerald-500">
                     {faq.q}
@@ -219,7 +219,7 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y bg-background">
         <div className="section-shell">
-          <Reveal className="relative overflow-hidden rounded-[2rem] bg-[#0B1210] border border-white/5 px-8 py-12 text-center shadow-2xl">
+          <Reveal className="relative overflow-hidden rounded-[2rem] bg-[#0B1F1A] border border-white/5 px-8 py-12 text-center shadow-2xl">
             {/* Gradiente Radial e SVG Decorativo */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               <div className="absolute -right-24 -top-24 size-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse-glow" />

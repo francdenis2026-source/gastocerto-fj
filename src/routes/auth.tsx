@@ -252,7 +252,7 @@ function AuthPage() {
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.25_0.06_259/0.6)] via-transparent to-[oklch(0.16_0.03_258/0.8)]"
+            className="absolute inset-0 -z-10 bg-gradient-to-br from-[#10241E]/60 via-transparent to-[#0B1F1A]/80"
           />
 
           <div className="p-3 sm:p-5">
@@ -331,7 +331,7 @@ function AuthPage() {
         </section>
 
         {/* Painel do formulário rolável */}
-        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-black/40 backdrop-blur-md">
+        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-[#0B1F1A]/60 backdrop-blur-md">
           <div className="mb-6">
             <h1 className="text-xl font-black text-white tracking-tight">
               {mode === "login" ? "Bem-vindo de volta" : mode === "signup" ? "Criar sua conta" : "Área Restrita"}
@@ -364,7 +364,7 @@ function AuthPage() {
                       <Input 
                         id="code-cpf" 
                         placeholder="000.000.000-00" 
-                        className="h-11 rounded-xl pl-10 text-sm bg-black/30 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50"
+                        className="h-11 rounded-xl pl-10 text-sm bg-[#142B24]/50 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50"
                         onChange={(e) => {
                           const val = onlyDigits(e.target.value);
                           if (val.length <= 11) e.target.value = maskCpf(val);
@@ -377,7 +377,7 @@ function AuthPage() {
                     <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">Nome de identificação</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60" />
-                      <Input id="code-name" placeholder="Ex: João Silva" className="h-11 rounded-xl pl-10 text-sm bg-black/30 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50" />
+                      <Input id="code-name" placeholder="Ex: João Silva" className="h-11 rounded-xl pl-10 text-sm bg-[#142B24]/50 border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50" />
                     </div>
                   </div>
 
