@@ -146,7 +146,7 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2rem] p-10 text-left bg-transparent border-none active:scale-[0.98]">
+                        <button className="interactive-card group relative flex w-full flex-col items-start rounded-[2rem] p-10 text-left bg-transparent border-none active:scale-[0.98] outline-none">
                           <div className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-black">
                             <item.icon className="size-6" />
                           </div>
@@ -154,8 +154,8 @@ export function Benefits() {
                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/80 group-hover:text-black/80 transition-colors">{item.tag}</span>
                             <ArrowRight className="size-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-black" />
                           </div>
-                          <h4 className="mt-2 text-xl font-bold tracking-tight text-white group-hover:text-black transition-colors">{item.title}</h4>
-                          <p className="mt-2 text-[15px] font-medium leading-relaxed text-muted-foreground group-hover:text-black/70 transition-colors">{item.text}</p>
+                          <h4 className="mt-2 text-xl font-bold tracking-tight text-white group-hover:text-black group-focus-visible:text-black transition-colors">{item.title}</h4>
+                          <p className="mt-2 text-[15px] font-medium leading-relaxed text-muted-foreground group-hover:text-black/70 group-focus-visible:text-black/70 transition-colors">{item.text}</p>
                         </button>
                       </FeatureDetailDialog>
                     </Reveal>
