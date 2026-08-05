@@ -37,11 +37,14 @@ export function HeroChart() {
   const last = pts[pts.length - 1];
 
   return (
-    <svg
+    <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+      className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[46%] opacity-[0.55]"
+    >
+    <svg
+      className="h-full w-full"
       preserveAspectRatio="none"
-      viewBox={`0 0 ${W} ${H}`}
+      viewBox={`0 ${TOP - 40} ${W} ${BASE - TOP + 80}`}
     >
       <defs>
         <linearGradient id="hc-area" x1="0" y1="0" x2="0" y2="1">
@@ -55,7 +58,7 @@ export function HeroChart() {
           <stop offset="100%" stopColor="#B7E4C0" />
         </linearGradient>
         <filter id="hc-glow" x="-10%" y="-40%" width="120%" height="200%">
-          <feGaussianBlur stdDeviation="10" result="blur" />
+          <feGaussianBlur stdDeviation="6" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -87,24 +90,24 @@ export function HeroChart() {
         i % 2 === 0 ? (
           <rect
             key={`bar-${p.x}`}
-            x={p.x - 9}
+            x={p.x - 4}
             y={p.y}
-            width="18"
+            width="8"
             height={BASE - p.y}
-            rx="9"
+            rx="4"
             fill="#54A860"
-            opacity="0.1"
+            opacity="0.14"
           />
         ) : null,
       )}
 
-      <path d={`${line} L ${W} ${H} L 0 ${H} Z`} fill="url(#hc-area)" />
+      <path d={`${line} L ${W} ${BASE + 80} L 0 ${BASE + 80} Z`} fill="url(#hc-area)" />
 
       <path
         d={line}
         fill="none"
         stroke="url(#hc-line)"
-        strokeWidth="3"
+        strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
         filter="url(#hc-glow)"
@@ -114,19 +117,20 @@ export function HeroChart() {
       />
 
       {/* ponto final pulsante */}
-      <circle cx={last.x - 6} cy={last.y} r="7" fill="#B7E4C0">
-        <animate attributeName="r" values="5;11;5" dur="2.8s" repeatCount="indefinite" />
+      <circle cx={last.x - 6} cy={last.y} r="5" fill="#B7E4C0">
+        <animate attributeName="r" values="4;8;4" dur="2.8s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="1;0.55;1" dur="2.8s" repeatCount="indefinite" />
       </circle>
 
       {/* nós intermediários */}
       {pts.slice(2, -1).map((p, i) =>
         i % 3 === 0 ? (
-          <circle key={`n-${p.x}`} cx={p.x} cy={p.y} r="4" fill="#8FCB9B" opacity="0.7" />
+          <circle key={`n-${p.x}`} cx={p.x} cy={p.y} r="3" fill="#8FCB9B" opacity="0.7" />
         ) : null,
       )}
 
       <style>{`@keyframes hc-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}`}</style>
     </svg>
+    </div>
   );
 }
