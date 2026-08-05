@@ -178,7 +178,7 @@ export function Benefits() {
             </div>
             <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 lg:w-auto">
               {securitySeals.map((seal) => (
-                <div key={seal.title} className="flex items-center gap-3 rounded-xl border border-white/5 bg-black/20 p-4">
+                <div key={seal.title} className="flex items-center gap-3 rounded-xl bg-black/20 p-4">
                   <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                     <seal.icon className="size-5" />
                   </div>
@@ -223,7 +223,7 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y relative overflow-hidden z-10">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl border border-border/5">
+          <Reveal className="relative overflow-hidden rounded-[1.5rem] px-6 py-8 text-center shadow-2xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
             {/* Foto Real de Fundo - Removida para limpar o visual */}
             {/* Gradiente Radial e SVG Decorativo */}

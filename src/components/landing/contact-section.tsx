@@ -78,7 +78,7 @@ export function ContactSection() {
                 {channels.map((channel) => (
                   <li
                     key={channel.label}
-                    className="rounded-2xl border border-border/10 bg-background/40 p-4"
+                    className="rounded-2xl bg-background/40 p-4"
                   >
                     <channel.icon className="size-4 text-emerald-400" aria-hidden />
                     <p className="mt-3 text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
