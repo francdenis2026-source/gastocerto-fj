@@ -28,7 +28,10 @@ body {
 body {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
-  overscroll-behavior-y: contain; /* Desativar pull-to-refresh em mobile */
+  overscroll-behavior-y: contain;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body::-webkit-scrollbar {
