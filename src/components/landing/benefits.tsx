@@ -144,7 +144,7 @@ export function Benefits() {
                       <FeatureDetailDialog
                         feature={{ title: item.title, text: item.text, tag: item.tag }}
                       >
-                        <button className="group relative flex w-full flex-col items-start rounded-xl border border-white/5 bg-white/[0.02] p-5 text-left transition-all hover:bg-white/[0.04] hover:border-emerald-500/30 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98]">
+                        <button className="group relative flex w-full flex-col items-start rounded-xl border border-white/5 bg-white/[0.02] p-5 text-left transition-all glass-morphism hover:bg-white/[0.04] hover:border-emerald-500/30 hover:shadow-[0_0_30px_-12px_rgba(31,174,109,0.2)] active:scale-[0.98]">
                           <div className="mb-3 grid size-10 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-[#001640]">
                             <item.icon className="size-5" />
                           </div>
@@ -204,7 +204,7 @@ export function Benefits() {
               <Reveal key={faq.q} delay={idx * 50}>
                 <AccordionItem 
                   value={`item-${idx}`} 
-                  className="rounded-xl border border-white/5 bg-[#10201B]/40 px-5 transition-all hover:bg-[#10201B]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(31,174,109,0.2)]"
+                  className="glass-morphism rounded-xl px-5 transition-all hover:bg-[#10201B]/60 data-[state=open]:border-emerald-500/30 data-[state=open]:shadow-[0_0_20px_-10px_rgba(31,174,109,0.2)]"
                 >
                   <AccordionTrigger className="py-5 text-sm font-bold text-white hover:no-underline [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:text-emerald-500">
                     {faq.q}
@@ -221,7 +221,7 @@ export function Benefits() {
 
       <section id="cta-final" className="section-y bg-[#0A1512] relative overflow-hidden">
         <div className="section-shell relative z-10">
-          <Reveal className="relative overflow-hidden rounded-[1.5rem] bg-[#10201B] border border-white/5 px-6 py-8 text-center shadow-2xl">
+          <Reveal className="relative overflow-hidden rounded-[1.5rem] glass-morphism px-6 py-8 text-center shadow-2xl">
             {/* Foto Real de Fundo com Baixa Opacidade */}
             <img 
               src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" 
