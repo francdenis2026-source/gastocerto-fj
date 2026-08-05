@@ -59,10 +59,6 @@ export function Hero() {
             <div className="absolute -top-32 -left-32 size-64 rounded-full bg-[#1FAE6D]/15 blur-[100px] animate-pulse" />
             <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-[#1FAE6D]/10 blur-[100px]" />
 
-            <div className="flex items-center gap-2 rounded-full border border-[#1FAE6D]/20 bg-[#1FAE6D]/10 px-4 py-1.5 backdrop-blur-md">
-              <Sparkles className="size-3.5 text-[#1FAE6D]" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#1FAE6D]">Tecnologia Fintech de Elite</span>
-            </div>
 
             <h1 className="text-center font-display text-[clamp(2.25rem,10vw,5.5rem)] font-black leading-[1.1] tracking-[-0.05em] text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               Controle o seu <br className="hidden sm:block" />
