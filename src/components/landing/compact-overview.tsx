@@ -269,15 +269,6 @@ export function CompactOverview() {
             </p>
           </div>
           <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
-            <DemoDialog>
-              <button
-                type="button"
-                className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 text-xs font-bold text-brand transition-all hover:bg-brand hover:text-brand-foreground"
-              >
-                <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Ver demonstração
-              </button>
-            </DemoDialog>
             {shortcuts.map((item) => (
               <a
                 key={item.label}

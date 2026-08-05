@@ -68,11 +68,14 @@ export function MobileHeroSection() {
           <Button
             variant="outline"
             className="h-14 w-full rounded-xl border-white/10 bg-white/5 text-[15px] font-bold text-white backdrop-blur-md"
+            asChild
           >
-            <div className="mr-3 flex size-6 items-center justify-center rounded-full bg-white/10">
-              <Play size={10} className="fill-white ml-0.5" />
-            </div>
-            Ver demonstração
+            <Link to="/auth" search={{ mode: "login" }}>
+              <div className="mr-3 flex size-6 items-center justify-center rounded-full bg-white/10">
+                <Users size={10} className="text-emerald-400" />
+              </div>
+              Acessar Painel
+            </Link>
           </Button>
         </div>
 
