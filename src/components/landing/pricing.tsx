@@ -127,7 +127,7 @@ export function Pricing() {
               aria-label={`Plano ${plan.name}: ${plan.description}`}
             >
               {/* Subtle Noise Texture */}
-              <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] invert dark:invert-0" />
+              {/* Subtle Noise Texture removida */}
               
               {/* SVG Background Patterns */}
               <div className="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden">
