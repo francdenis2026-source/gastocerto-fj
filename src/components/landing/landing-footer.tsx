@@ -13,13 +13,13 @@ const focusRing =
   "rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const navClass =
-  "text-[10px] font-bold uppercase tracking-[0.1em] text-white/80 hover:text-[#1FAE6D] transition-all duration-300 hover:scale-105";
+  "text-[12px] font-black uppercase tracking-[0.15em] text-white/70 hover:text-[#1FAE6D] transition-all duration-300 hover:-translate-y-1 inline-block";
 
 export function LandingFooter() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <footer className="relative py-8 overflow-hidden">
+    <footer className="relative py-12 sm:py-16 overflow-hidden">
       {/* Fundo com imagem profissional e overlay de gradiente para profundidade */}
       <div className="absolute inset-0 z-0">
         <img
@@ -34,12 +34,13 @@ export function LandingFooter() {
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
 
-      <div className="section-shell relative z-10">
-        <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
-          <div className="flex flex-row items-center gap-4">
-            <Logo compact className="scale-110" />
-            <p className="hidden text-[13px] text-white/80 font-semibold tracking-tight sm:block max-w-[280px]">
-              Gestão inteligente e segura de alto nível.
+      <div className="section-shell relative z-10 px-6">
+        <div className="flex flex-col items-center justify-between gap-10 lg:flex-row">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center">
+            <Logo compact className="scale-[1.3] group-hover:scale-[1.4] transition-transform duration-500" />
+            <p className="text-center text-[15px] text-white/70 font-bold tracking-tight sm:text-left sm:block max-w-[280px]">
+              Gestão inteligente e segura <br className="hidden sm:block" />
+              de alto nível para você.
             </p>
           </div>
 
@@ -55,10 +56,10 @@ export function LandingFooter() {
             <div className="flex items-center gap-2">
               <a
                 href="mailto:contato@gastocerto.shop"
-                className="group flex items-center gap-2 rounded-xl border border-[#1FAE6D]/20 bg-[#1FAE6D]/5 px-4 py-2 text-white/90 transition-all hover:border-[#1FAE6D]/50 hover:bg-[#1FAE6D]/10 hover:text-[#1FAE6D]"
+                className="group flex items-center gap-3 rounded-2xl border border-[#1FAE6D]/30 bg-[#1FAE6D]/5 px-6 py-3 text-white/90 transition-all hover:bg-[#1FAE6D] hover:text-black hover:shadow-[0_0_20px_rgba(31,174,109,0.3)] active:scale-95"
               >
-                <Mail className="size-3.5 text-[#1FAE6D]" />
-                <span className="text-[11px] font-bold tracking-tight uppercase">Suporte Premium</span>
+                <Mail className="size-4 text-[#1FAE6D] group-hover:text-black" />
+                <span className="text-[12px] font-black tracking-[0.1em] uppercase">Suporte Premium</span>
               </a>
             </div>
           </div>
@@ -66,11 +67,11 @@ export function LandingFooter() {
       </div>
 
       {/* Barra Final Premium */}
-      <div className="relative z-10 mt-6 border-t border-white/10 bg-[#0A1512]/60 backdrop-blur-xl">
-        <div className="section-shell flex flex-col items-center justify-between gap-y-2 py-3 text-[10px] font-semibold uppercase tracking-[0.05em] text-white/50 sm:flex-row">
+      <div className="relative z-10 mt-10 border-t border-white/5 bg-[#0A1512]/80 backdrop-blur-2xl">
+        <div className="section-shell flex flex-col items-center justify-between gap-y-4 py-6 text-[11px] font-black uppercase tracking-[0.15em] text-white/40 sm:flex-row px-6">
           <div className="flex items-center gap-2">
-            <span className="text-[#1FAE6D]">©</span>
-            <p>{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
+            <span className="text-[#1FAE6D] text-sm">©</span>
+            <p className="tracking-[0.2em]">{new Date().getFullYear()} GASTOCERTO • TODOS OS DIREITOS RESERVADOS</p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6">
