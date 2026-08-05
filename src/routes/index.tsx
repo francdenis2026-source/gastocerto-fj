@@ -77,7 +77,7 @@ function LandingPage() {
   return (
     <div className="relative flex min-h-dvh select-none flex-col bg-background overflow-x-hidden [&_img]:pointer-events-none [&_img]:select-none">
       <div className="hidden">
-        A IMAGEM DO FUNDO ESTA MUITO ESCURA DIMINUA O MANRO QUE DEIXA ELAS ESCURA E DEIXE A IMAGEM NO FUNDO TEM PROTAGONISMO SEM CONCORRER
+        REMOVA O MANDO ESCURO, E DEIXE VER A IMAGEM REAL SEM EFEITO
       </div>
 
       

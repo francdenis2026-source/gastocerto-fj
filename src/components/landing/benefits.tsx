@@ -128,7 +128,7 @@ export function Benefits() {
       <img 
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
         alt="" 
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.08] dark:opacity-[0.12] grayscale-[0.1] pointer-events-none"
+        className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale-0 pointer-events-none"
       />
       <section id="recursos" className="section-y border-b border-border/5 relative z-10">
         <div className="section-shell">
