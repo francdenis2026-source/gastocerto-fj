@@ -255,8 +255,8 @@ export function CompactOverview() {
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
-                <Reveal key={faq.q} delay={index * 50}>
-                  <AccordionItem value={`faq-${index}`} className="px-4 rounded-xl mb-1 last:mb-0">
+                <Reveal key={faq.q} delay={index * 50} className="group">
+                  <AccordionItem value={`faq-${index}`} className="px-4 rounded-xl mb-1 last:mb-0 transition-all hover:bg-white/[0.02]">
                     <AccordionTrigger className="px-1 text-left text-[13px] font-semibold sm:text-sm">
                       {faq.q}
                     </AccordionTrigger>
