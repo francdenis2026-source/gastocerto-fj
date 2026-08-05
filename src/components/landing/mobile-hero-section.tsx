@@ -26,7 +26,7 @@ export function MobileHeroSection() {
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1210] to-[#0F1B16]" />
         <div className="absolute left-1/2 top-1/4 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[80px] animate-pulse-glow" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        {/* REMOVED GRID PATTERN */}
         
         <svg className="absolute inset-0 h-full w-full opacity-[0.07]" viewBox="0 0 1000 1000" fill="none" preserveAspectRatio="none">
           <path d="M-100,200 C150,150 350,450 600,350 S850,50 1100,100" stroke="white" strokeWidth="0.8" className="animate-draw" />
