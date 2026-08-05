@@ -46,152 +46,92 @@ type Feature = { icon: LucideIcon; title: string; text: string; tag: string };
 
 const featureGroups: { group: string; caption: string; items: Feature[] }[] = [
   {
-    group: "Dia a dia",
-    caption: "Registros e contas do dia a dia",
+    group: "Essencial",
+    caption: "Gestão do dia a dia",
     items: [
       {
         icon: Receipt,
         title: "Lançamentos em 10s",
-        text: "Despesa ou receita com categoria, anexo, parcelas e data retroativa.",
-        tag: "Rápido",
-      },
-      {
-        icon: ShoppingBasket,
-        title: "Mercado e alimentação",
-        text: "Compras do mês, feira, delivery e água mineral separados por categoria.",
-        tag: "Casa",
+        text: "Despesa ou receita com categoria e parcelas.",
+        tag: "Agilidade",
       },
       {
         icon: Repeat,
         title: "Contas recorrentes",
-        text: "Água, energia, internet e mensalidades lançadas sozinhas todo mês.",
-        tag: "Automático",
-      },
-      {
-        icon: Flame,
-        title: "Gás de cozinha",
-        text: "Histórico de botijões, duração média e aviso quando estiver acabando.",
-        tag: "Casa",
-      },
-    ],
-  },
-  {
-    group: "Veículos e trabalho",
-    caption: "Custos de veículos e rodagem",
-    items: [
-      {
-        icon: Fuel,
-        title: "Abastecimentos",
-        text: "Litros, preço por litro, odômetro validado e detecção de anomalias.",
-        tag: "Combustível",
-      },
-      {
-        icon: Car,
-        title: "Custo por km",
-        text: "Consumo médio por veículo, metas de eficiência e alertas de desvio.",
-        tag: "Frota",
-      },
-      {
-        icon: ScrollText,
-        title: "Auditoria de odômetro",
-        text: "Histórico de alterações, comparação antes/depois e alertas acionados.",
-        tag: "Rastreável",
-      },
-      {
-        icon: Banknote,
-        title: "Receitas variáveis",
-        text: "Ideal para autônomos: entradas por dia, semana ou corrida.",
-        tag: "Autônomo",
-      },
-    ],
-  },
-  {
-    group: "Planejamento",
-    caption: "Orçamentos, metas e previsibilidade",
-    items: [
-      {
-        icon: PiggyBank,
-        title: "Orçamentos por categoria",
-        text: "Limite mensal com barra de consumo e aviso antes de estourar.",
-        tag: "Limites",
-      },
-      {
-        icon: Target,
-        title: "Metas e aportes",
-        text: "Objetivos com progresso mensal, prazo e quanto falta guardar.",
-        tag: "Objetivos",
+        text: "Água, energia e internet lançadas sozinhas todo mês.",
+        tag: "Automação",
       },
       {
         icon: CreditCard,
-        title: "Cartões de crédito e débito",
-        text: "Faturas, limites, vencimentos e parcelas em aberto de cada cartão.",
+        title: "Gestão de Cartões",
+        text: "Faturas, limites e vencimentos centralizados.",
         tag: "Cartões",
       },
       {
-        icon: Tv,
-        title: "Assinaturas e academia",
-        text: "Streaming, apps e mensalidades: veja o total escondido do mês.",
-        tag: "Recorrente",
+        icon: BarChart3,
+        title: "Painel Inteligente",
+        text: "Visão consolidada de saldo, gastos e metas.",
+        tag: "Analytics",
       },
     ],
   },
   {
-    group: "Família e Kids",
-    caption: "Gestão e educação financeira",
+    group: "Diferenciais",
+    caption: "Recursos exclusivos",
     items: [
       {
         icon: Baby,
         title: "Espaço Kids",
-        text: "Painel simplificado por criança, com PIN, avatar e tema próprio.",
-        tag: "Kids",
+        text: "Painel simplificado por criança com PIN e avatar.",
+        tag: "Família",
       },
       {
-        icon: Send,
-        title: "PIX",
-        text: "Envie dinheiro por PIX, com histórico, comprovante e aviso na hora.",
-        tag: "PIX",
+        icon: Flame,
+        title: "Gás de cozinha",
+        text: "Histórico, duração média e aviso de reposição.",
+        tag: "Casa",
       },
       {
-        icon: Target,
-        title: "Metas e recompensas",
-        text: "Objetivos de poupança da criança com progresso visual e conquistas.",
-        tag: "Metas",
+        icon: Fuel,
+        title: "Abastecimentos",
+        text: "Consumo médio e detecção de anomalias.",
+        tag: "Frota",
       },
       {
-        icon: Repeat,
-        title: "Envio automático",
-        text: "Recorrência semanal ou mensal lançada sozinha no orçamento da casa.",
-        tag: "Automático",
+        icon: Sparkles,
+        title: "Consultor com IA",
+        text: "Diagnóstico e plano de saída de dívidas.",
+        tag: "Inteligência",
       },
     ],
   },
   {
-    group: "Inteligência e relatórios",
-    caption: "IA, análises e compartilhamento",
+    group: "Segurança",
+    caption: "Privacidade absoluta",
     items: [
       {
-        icon: Sparkles,
-        title: "Consultor financeiro com IA",
-        text: "Diagnóstico do mês, plano de saída de dívidas e dicas sob medida.",
-        tag: "IA",
+        icon: Lock,
+        title: "Dados Privados",
+        text: "Criptografia bancária e conformidade LGPD.",
+        tag: "Segurança",
       },
       {
-        icon: BarChart3,
-        title: "Balanço anual e relatórios",
-        text: "Tendências, comparativos e exportação em CSV, Excel e PDF.",
-        tag: "Análise",
+        icon: Fingerprint,
+        title: "Acesso Isolado",
+        text: "Cada conta vê apenas seus próprios registros.",
+        tag: "Controle",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Sem Compartilhamento",
+        text: "Dados 100% seus, nunca vendidos a terceiros.",
+        tag: "Confiança",
       },
       {
         icon: CalendarClock,
-        title: "Fechamento e conciliação",
-        text: "Feche o mês, bloqueie períodos com senha e confira saldo por conta.",
-        tag: "Fechamento",
-      },
-      {
-        icon: Bell,
-        title: "Compartilhamento seguro",
-        text: "Link com senha e validade para alguém ver seus gastos sem cadastro.",
-        tag: "Link",
+        title: "Conciliação",
+        text: "Feche o mês e bloqueie períodos com senha.",
+        tag: "Gestão",
       },
     ],
   },
@@ -221,17 +161,15 @@ const faqs = [
 const shortcuts = [
   { label: "Recursos", href: "#recursos", icon: Wallet },
   { label: "Planos", href: "#planos", icon: Sparkles },
-  { label: "Segurança", href: "#seguranca", icon: Lock },
   { label: "FAQ", href: "#faq", icon: HelpCircle },
 ] as const;
 
-const tabs = ["recursos", "seguranca", "faq"] as const;
+const tabs = ["recursos", "faq"] as const;
 type TabValue = (typeof tabs)[number];
 
 const tabMeta: Record<TabValue, { label: string; description: string }> = {
-  recursos: { label: "Recursos", description: "Vinte e quatro recursos organizados em seis frentes" },
-  seguranca: { label: "Segurança", description: "LGPD, criptografia e controle de acesso" },
-  faq: { label: "FAQ", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
+  recursos: { label: "Recursos e Segurança", description: "Doze recursos essenciais organizados em três frentes" },
+  faq: { label: "Dúvidas", description: "Perguntas frequentes: cinco dúvidas comuns sobre planos e segurança" },
 };
 
 export function CompactOverview() {
@@ -248,65 +186,24 @@ export function CompactOverview() {
   }, []);
 
   return (
-    <section id="explorar" className="relative section-y overflow-hidden">
-      {/* Imagem de Fundo de Destaque - Removida para limpar o visual */}
-      <span id="seguranca" className="block" />
+    <section id="recursos" className="relative section-y overflow-hidden">
       <div className="section-shell relative z-10">
-        <Reveal className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
-              <Sparkles className="size-3.5" aria-hidden="true" />
-              Recursos da plataforma
-            </p>
-            <h2 className="mt-1 section-title">
-              Ecossistema completo de gestão e recursos
-            </h2>
-            <p className="mt-1 max-w-xl text-[12.5px] leading-snug text-muted-foreground sm:text-[13px] sm:leading-relaxed">
-              Soluções integradas para monitoramento de ativos e planejamento estratégico familiar.
-            </p>
-          </div>
-          <nav aria-label="Atalhos para seções da página" className="hidden min-w-0 flex-wrap items-center gap-1.5 sm:flex sm:justify-end">
-            {shortcuts.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(event) => handleAnchorClick(event, item.href)}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-white/5 bg-white/[0.02] px-3 text-xs font-medium text-muted-foreground transition-all hover:border-white/20 hover:text-foreground"
-              >
-                <item.icon className="size-3.5" aria-hidden="true" />
-                {item.label}
-              </a>
-            ))}
-          </nav>
+        <Reveal className="text-center mb-10">
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
+            <Sparkles className="size-3.5" aria-hidden="true" />
+            Ecossistema Completo
+          </p>
+          <h2 className="mt-1 section-title">Tudo o que você precisa</h2>
         </Reveal>
 
-        <Reveal delay={80} className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl bg-card/40 px-3 py-2 backdrop-blur">
-          {highlights.map((item) => (
-            <div key={item.label} className="flex min-w-0 items-center gap-1.5">
-              <item.icon className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
-              <p className="tabular text-[13px] font-bold leading-none">{item.value}</p>
-              <p className="truncate text-[12.5px] leading-none text-muted-foreground">{item.label}</p>
-            </div>
-          ))}
-        </Reveal>
-
-        <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-3.5">
-          <div role="region" aria-label="Navegação das seções do produto" className="w-full">
-            <p id="tabs-hint" className="sr-only">
-              Lista de 4 seções em rolagem horizontal. Use as setas esquerda e direita para trocar de seção; o conteúdo é atualizado automaticamente.
-            </p>
-            <TabsList
-              id="recursos"
-              aria-label="Seções do produto"
-              aria-describedby="tabs-hint"
-              className="flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto p-1 [scrollbar-width:none] sm:flex-wrap [&::-webkit-scrollbar]:hidden"
-            >
+        <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-8">
+          <div className="flex justify-center mb-8">
+            <TabsList className="bg-white/5 p-1 rounded-full">
               {tabs.map((value) => (
                 <TabsTrigger
                   key={value}
                   value={value}
-                  id={value === "faq" ? "faq" : undefined}
-                  className="shrink-0"
+                  className="rounded-full px-8 py-2 data-[state=active]:bg-brand data-[state=active]:text-black"
                 >
                   {tabMeta[value].label}
                 </TabsTrigger>
@@ -357,32 +254,6 @@ export function CompactOverview() {
             </div>
           </TabsContent>
 
-          <TabsContent value="seguranca" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
-            <h3 className="sr-only">{tabMeta["seguranca"].label}</h3>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-2.5">
-              {pillars.map((pillar, index) => (
-                <Reveal key={pillar.title} delay={index * 70}>
-                  <FeatureDetailDialog
-                    feature={{ title: pillar.title, text: pillar.text, tag: "Segurança" }}
-                  >
-                    <button
-                      type="button"
-                      className="interactive-card h-full w-full rounded-2xl p-5 text-left transition-all sm:p-5"
-                    >
-                      <span className="grid size-9 place-items-center rounded-xl bg-white/5 text-brand group-hover:bg-brand/10 transition-colors">
-                        <pillar.icon className="size-4" aria-hidden="true" />
-                      </span>
-                      <p className="mt-2 text-sm font-semibold">{pillar.title}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{pillar.text}</p>
-                      <span className="mt-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wide text-primary">
-                        Ver detalhes
-                      </span>
-                    </button>
-                  </FeatureDetailDialog>
-                </Reveal>
-              ))}
-            </div>
-          </TabsContent>
 
           <TabsContent value="faq" className="mt-3.5 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["faq"].label}</h3>
