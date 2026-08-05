@@ -139,7 +139,7 @@ export function Pricing() {
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
+        <div className="grid gap-4 md:grid-cols-3 lg:max-w-6xl lg:mx-auto">
           {basePlans.map((plan: PricingPlan) => (
             <div
               key={plan.slug}

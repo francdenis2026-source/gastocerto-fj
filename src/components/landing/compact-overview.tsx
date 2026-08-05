@@ -190,7 +190,7 @@ export function CompactOverview() {
         </Reveal>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)} className="mt-8">
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6">
             <TabsList className="bg-white/5 p-1 rounded-full">
               {tabs.map((value) => (
                 <TabsTrigger
@@ -210,7 +210,7 @@ export function CompactOverview() {
 
           <TabsContent value="recursos" className="mt-3 outline-none panel-enter" tabIndex={0}>
             <h3 className="sr-only">{tabMeta["recursos"].label}</h3>
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               {featureGroups.map((group, groupIndex) => (
                 <Reveal
                   key={group.group}
