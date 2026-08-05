@@ -59,13 +59,13 @@ export function LandingHeader({ hideActions }: { hideActions?: boolean }) {
         className={cn(
           "fixed inset-x-0 z-[100] transition-all duration-500 top-0",
           scrolled
-            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_8px_32px_rgba(0,0,0,0.4)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[1.5rem]"
-            : "border-b border-white/5 bg-background dark:bg-[#0A1512] text-foreground dark:text-hero-fg",
+            ? "glass-morphism border border-emerald-500/30 text-foreground shadow-[0_20px_50px_rgba(0,0,0,0.5)] mx-2 mt-2 sm:mx-auto sm:mt-4 max-w-7xl rounded-[2rem]"
+            : "border-b border-white/10 bg-black/40 backdrop-blur-md text-foreground shadow-lg",
         )}
       >
 
 
-        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-6" : "h-20 sm:h-24")}>
+        <div className={cn("section-shell flex items-center justify-between gap-2 transition-all duration-500 sm:gap-4", scrolled ? "h-14 sm:h-16 px-6" : "h-16 sm:h-20")}>
           <Logo onDark={!scrolled} href="#inicio" className="group shrink-0" />
 
 
