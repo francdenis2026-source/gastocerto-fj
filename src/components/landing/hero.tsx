@@ -28,9 +28,9 @@ export function Hero() {
       {/* 1. FUNDO DO HERO (Profissional fazendo contas no iPhone) */}
       <div className="absolute inset-0 -z-20">
         <img 
-          src="https://images.unsplash.com/photo-151242855908e-56035ceaf5b2?q=80&w=2670&auto=format&fit=crop" 
-          alt="Planejamento financeiro realista no iPhone" 
-          className="h-full w-full object-cover brightness-[0.5] contrast-[1.1]"
+          src="https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2670&auto=format&fit=crop" 
+          alt="Planejamento financeiro realista" 
+          className="h-full w-full object-cover brightness-[0.55] contrast-[1.1] opacity-100"
         />
 
 
