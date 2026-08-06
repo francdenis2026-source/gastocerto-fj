@@ -29,15 +29,15 @@ export function Hero() {
   useMouseGlow();
 
   return (
-    <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#000a14] pt-20">
+    <section ref={containerRef} className="relative min-h-[95vh] flex items-center justify-center overflow-hidden bg-[#000a14] pt-20">
       {/* Cinematic Background */}
       <motion.div style={{ y: y1, opacity }} className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1554224155-16974a4ea2bc?q=80&w=2340&auto=format&fit=crop" 
           alt="Economia Familiar e Controle de Gastos" 
-          className="w-full h-full object-cover opacity-15 mix-blend-overlay grayscale contrast-125"
+          className="w-full h-full object-cover opacity-60 mix-blend-luminosity grayscale transition-opacity duration-700"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#000c18]/20 via-[#000c18]/80 to-[#000c18]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#000a14]/60 via-[#000a14]/90 to-[#000a14]" />
       </motion.div>
 
       <div className="container relative z-10 px-4 md:px-6">
