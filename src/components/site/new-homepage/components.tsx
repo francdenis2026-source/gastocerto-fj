@@ -157,7 +157,7 @@ export function Features() {
               transition={{ delay: i * 0.1 }}
               className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden"
             >
-              <Link to={item.title === "Espaço Kids" ? "/auth" : "/auth"} search={item.title === "Espaço Kids" ? { mode: "kid" } : { mode: "signup" }} className="absolute inset-0 z-20" />
+              <Link to="/auth" search={item.title === "Espaço Kids" ? { mode: "kid" } : { mode: "signup" }} className="absolute inset-0 z-20" />
               <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               <div className="relative z-10">
                 <div className="size-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 border border-white/10 group-hover:scale-110 group-hover:bg-primary group-hover:border-primary transition-all duration-500">
