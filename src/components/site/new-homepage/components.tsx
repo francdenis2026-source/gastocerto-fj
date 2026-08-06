@@ -251,13 +251,13 @@ export function BentoGrid() {
           {/* Secondary Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-5 bg-foreground rounded-[2.5rem] p-10 text-background flex flex-col justify-between relative overflow-hidden group"
+            className="lg:col-span-5 bg-foreground rounded-[2rem] p-8 text-background flex flex-col justify-between relative overflow-hidden group"
           >
             <div className="relative z-10">
-              <div className="size-14 rounded-2xl bg-primary flex items-center justify-center mb-8">
-                <Plus size={32} className="text-white" />
+              <div className="size-12 rounded-xl bg-primary flex items-center justify-center mb-6">
+                <Plus size={28} className="text-white" />
               </div>
-              <h3 className="text-3xl font-black mb-4 leading-tight">Adição Mágica</h3>
+              <h3 className="text-2xl font-black mb-3 leading-tight">Adição Mágica</h3>
               <p className="text-background/60 font-medium leading-relaxed">
                 Importe faturas de cartão de crédito e extratos bancários automaticamente sem burocracia.
               </p>
