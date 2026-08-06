@@ -42,7 +42,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: A BARRA DO HEADER SE MEXE AO MEXER NA PAGINA OU FAZER ROLAGEMN NAS PAGINA CORRIJA
+        comando mais recente enviado por ele: CORRIJA ESSE FLICKER QUE DA AO TENTARPASAR A PAGINA D HOMEPÁGE POR BAIXXO DO HEADER
       */}
     </div>
   );
