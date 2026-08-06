@@ -55,7 +55,7 @@ export function SitePlans() {
   const { data: plans } = usePublicPlans();
 
   return (
-    <section id="planos" className="py-16 md:py-20 bg-background border-t border-border">
+    <section id="planos" className="py-16 md:py-20 bg-background">
       <div className="shell">
         <Appear className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
