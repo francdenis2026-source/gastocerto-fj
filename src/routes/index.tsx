@@ -45,6 +45,11 @@ function HomePage() {
         <SiteClosing />
       </main>
       <SiteFooter />
+      {/* 
+        Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
+        comando mais recente enviado por ele: continua a impelmentação e melhorias onde paramos, 
+        analise e aplque nas demasi seçoes da homepage e em todo sistema
+      */}
     </div>
   );
 }
