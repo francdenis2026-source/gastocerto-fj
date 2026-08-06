@@ -234,7 +234,7 @@ export function DependentExpenseDialog({
     
     // Forçamos o user_id para ser o do responsável logado (user.id)
     // para evitar o erro de foreign key 'transactions_user_id_fkey'.
-    // Garantimos que o user.id seja extraído corretamente do hook de autenticação.
+    // Garantimos que o user.id seja extraído e validado explicitamente.
     const currentUserId = user?.id;
     
     if (!currentUserId) {
@@ -256,6 +256,8 @@ export function DependentExpenseDialog({
     };
 
     try {
+      // Usamos uma inserção direta via supabase client se necessário, 
+      // mas o useSaveTransaction já deve lidar com o user_id passado no values.
       await save.mutateAsync({
         values: transactionValues,
       });
