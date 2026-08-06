@@ -69,6 +69,7 @@ export function DependentExpenseDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { user } = useAuth();
   const { data: dependents } = useDependents();
   const { data: categories } = useCategories();
   const save = useSaveTransaction();
@@ -233,7 +234,8 @@ export function DependentExpenseDialog({
       await save.mutateAsync({
         values: {
           user_id: user?.id,
-          dependent_id: currentSelected.id,
+          // Removemos a tentativa de passar dependent_id diretamente se ele não existir na tabela.
+          // O vínculo continuará sendo feito pelas tags, que é o padrão atual do sistema.
           description,
           amount: value,
           transaction_type: reasonInfo.type,
