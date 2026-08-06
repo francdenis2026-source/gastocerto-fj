@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
-import { supabaseAdmin } from "@/lib/integrations/supabase/client.server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 export const getKidGoals = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/lib/admin-guard";
 import { AI_LIMITS_SETTING_KEY, AiLimitsSchema, normalizeAiLimits } from "@/lib/lib/ai-limits";
 import { loadAiLimits } from "@/lib/lib/ai-guard";

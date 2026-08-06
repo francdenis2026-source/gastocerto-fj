@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabase } from "@/lib/integrations/supabase/client";
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { supabase } from "@/integrations/supabase/client";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export const getPixHistory = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

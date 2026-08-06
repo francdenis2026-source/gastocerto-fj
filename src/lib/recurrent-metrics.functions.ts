@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 
 export const getRecurrentExpenses = createServerFn({ method: "GET" })
   .handler(async () => {

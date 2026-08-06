@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/lib/admin-guard";
 import {
   CATEGORY_CATALOG_KEY,

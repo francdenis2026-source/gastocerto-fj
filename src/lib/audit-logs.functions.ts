@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const filtersSchema = z.object({
   from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),

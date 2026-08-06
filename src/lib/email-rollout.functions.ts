@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/lib/admin-guard";
 import { auditLog } from "@/lib/admin-guard.server";
 

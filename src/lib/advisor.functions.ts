@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { generateText } from "ai";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { AskInput, MODEL, SYSTEM_PROMPT, buildFinancialSummary } from "@/lib/lib/ai-advisor-core";
 import { AI_BLOCK_MESSAGE, AI_QUOTA_MESSAGE, AI_RATE_MESSAGE } from "@/lib/lib/ai-entitlement";
 import {

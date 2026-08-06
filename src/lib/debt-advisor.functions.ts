@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/lib/integrations/supabase/client.server";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 export const getDebtAdvisorInsights = createServerFn({ method: "GET" })
   .inputValidator(z.object({ userId: z.string() }))

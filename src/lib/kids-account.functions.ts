@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabase } from "@/lib/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { kidCodeToEmail, kidPassword, normalizeKidCode } from "@/lib/lib/kids-account";
 import { KID_LOCK_MINUTES_SERVER, KID_MAX_ATTEMPTS_SERVER, traduzirErroKid } from "@/lib/lib/kids-account.server";
 

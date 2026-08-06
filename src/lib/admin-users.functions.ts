@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */
 async function assertAdmin(context: { supabase: any; userId: string }) {
