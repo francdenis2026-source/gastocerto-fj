@@ -28,8 +28,8 @@ export function MetricCard({
     <div 
       onClick={onClick}
       className={cn(
-        "rounded-2xl border bg-card p-5 transition-all group/card cursor-default shadow-sm",
-        onClick && "cursor-pointer hover:shadow-md hover:border-primary/20 active:scale-[0.98]",
+        "rounded-2xl border bg-card p-5 transition-all group/card cursor-default shadow-sm hover:shadow-md hover:border-primary/20",
+        onClick && "cursor-pointer active:scale-[0.98]",
         className
       )}
       title={hint}
