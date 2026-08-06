@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Audit and align typography and spacing across homepage and internal pages for absolute consistency.
+        comando mais recente enviado por ele: NAO CONSGIGO FZAER ROLAGEM USANDO A BOLINHA DO MOUSE
       */}
     </div>
   );

@@ -258,7 +258,6 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
   -webkit-tap-highlight-color: transparent;
   scrollbar-width: none;
   -ms-overflow-style: none;
