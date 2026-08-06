@@ -242,7 +242,7 @@ export function DependentExpenseDialog({
       transaction_date: date,
       status: (reasonInfo.type === "income" ? "received" : "paid") as "received" | "paid",
       payment_date: date,
-      tags: [dependentTag(currentSelected.id), reasonTag(reason)],
+      tags: [dependentTag(currentSelected.id), reasonTag(reason), "espaco-kids:v3"],
       notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
     };
 
