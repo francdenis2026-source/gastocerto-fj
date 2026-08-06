@@ -542,18 +542,18 @@ function DashboardPage() {
           </div>
         )}
         
-      <div className="flex flex-col gap-6">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-6 max-w-5xl mx-auto">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
           <div className="flex items-center gap-4">
             <div className="flex flex-col">
-              <h1 className="text-xl font-black tracking-tight sm:text-2xl">
+              <h1 className="text-2xl font-black tracking-tight sm:text-3xl text-foreground">
                 Olá, {profile?.full_name?.split(" ")[0] ?? "Usuário"}!
               </h1>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-[11px] font-medium text-emerald-500 uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-md">
-                  {MONTH_NAMES[period.month - 1]} de {period.year}
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                  {MONTH_NAMES[period.month - 1]} {period.year}
                 </span>
-                <Badge variant="outline" className="text-[10px] font-black uppercase border-emerald-500/20 text-emerald-600 bg-emerald-500/5">
+                <Badge variant="outline" className="text-[10px] font-black uppercase border-primary/20 text-primary bg-primary/5 px-2.5 py-0.5">
                   {access.planSlug === "premium_ia" ? "Premium IA" : access.planSlug === "premium" ? "Premium" : "Grátis"}
                 </Badge>
               </div>
@@ -565,87 +565,179 @@ function DashboardPage() {
             <Button
               size="sm"
               onClick={() => { setDialogKind("expense"); setDialogOpen(true); }}
-              className="h-9 rounded-xl bg-emerald-600 px-4 font-bold text-white shadow-lg shadow-emerald-600/10 transition-all hover:bg-emerald-700 active:scale-95"
+              className="h-10 rounded-xl bg-primary px-6 font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:opacity-90 active:scale-95"
             >
-              <Plus className="mr-1.5 size-4" />
+              <Plus className="mr-2 size-4" />
               Lançar
             </Button>
           </div>
         </header>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <MetricCard label="Saldo" value={formatCurrency(metrics.balance)} tone={metrics.balance >= 0 ? "brand" : "expense"} icon={Wallet} />
-          <MetricCard label="Receita" value={formatCurrency(metrics.totalIncome)} tone="brand" icon={TrendingUp} />
-          <MetricCard label="Despesa" value={formatCurrency(metrics.totalExpense)} tone="expense" icon={TrendingDown} />
-          <MetricCard label="Projeção" value={formatCurrency(metrics.projection)} tone="neutral" icon={Zap} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <MetricCard 
+            label="Saldo" 
+            value={formatCurrency(metrics.balance)} 
+            className={metrics.balance >= 0 ? "border-emerald-500/20" : "border-rose-500/20"}
+            icon={Wallet} 
+          />
+          <MetricCard 
+            label="Receita" 
+            value={formatCurrency(metrics.totalIncome)} 
+            icon={TrendingUp} 
+          />
+          <MetricCard 
+            label="Despesa" 
+            value={formatCurrency(metrics.totalExpense)} 
+            icon={TrendingDown} 
+          />
+          <MetricCard 
+            label="Projeção" 
+            value={formatCurrency(metrics.projection)} 
+            icon={Zap} 
+          />
         </div>
 
         <DashboardTabs
+          className="mt-2"
           resumo={
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-8 space-y-6">
-                <div className="glass-morphism p-6 rounded-2xl">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground mb-6">Evolução do Saldo</h3>
-                  <div className="h-[300px]">
+              <div className="lg:col-span-8">
+                <div className="bg-card border border-border p-6 rounded-3xl shadow-sm h-full min-h-[350px]">
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">FLUXO DE CAIXA</h3>
+                      <p className="text-[10px] text-muted-foreground mt-1">Visão diária de receitas e despesas</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1.5">
+                        <div className="size-2 rounded-full bg-emerald-500" />
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">Receita</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <div className="size-2 rounded-full bg-rose-500" />
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">Despesa</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-[280px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={byDay}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.3} />
-                        <XAxis dataKey="day" {...axisProps} />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.2} />
+                        <XAxis 
+                          dataKey="day" 
+                          {...axisProps} 
+                          tick={{ fontSize: 10, fontWeight: 700 }}
+                        />
                         <YAxis hide domain={['auto', 'auto']} />
                         <Tooltip {...tooltipProps} />
-                        <Line type="monotone" name="receita" dataKey="receita" stroke={CHART_TOKENS.income} strokeWidth={2} dot={false} />
-                        <Line type="monotone" name="gasto" dataKey="gasto" stroke={CHART_TOKENS.expense} strokeWidth={2} dot={false} />
+                        <Line 
+                          type="monotone" 
+                          name="receita" 
+                          dataKey="receita" 
+                          stroke={CHART_TOKENS.income} 
+                          strokeWidth={3} 
+                          dot={false}
+                          activeDot={{ r: 4, strokeWidth: 0 }}
+                        />
+                        <Line 
+                          type="monotone" 
+                          name="gasto" 
+                          dataKey="gasto" 
+                          stroke={CHART_TOKENS.expense} 
+                          strokeWidth={3} 
+                          dot={false}
+                          activeDot={{ r: 4, strokeWidth: 0 }}
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
               </div>
               <div className="lg:col-span-4 space-y-6">
-                 {/* Insights e Alertes */}
-                 <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">Insights Estratégicos</h2>
-                    <p className="text-sm font-medium leading-relaxed">
-                      {metrics.usedPercent > 90 ? "Alerta de orçamento: alto comprometimento." : "Seu orçamento está sob controle."}
-                    </p>
+                 <div className="bg-card border border-border p-6 rounded-3xl shadow-sm">
+                    <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">INSIGHTS IA</h2>
+                    <div className="flex items-start gap-4">
+                      <div className="p-2.5 rounded-2xl bg-primary/10 text-primary shrink-0">
+                        <Sparkles className="size-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold leading-relaxed text-foreground">
+                          {metrics.usedPercent > 90 
+                            ? "Seu orçamento está no limite! Reduza gastos não essenciais para manter o saldo positivo." 
+                            : "Excelente! Sua saúde financeira está estável este mês. Ótimo momento para investir."}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground mt-2 font-medium">
+                          Média diária: <span className="font-bold text-foreground">{formatCurrency(metrics.dailyAverage)}</span>
+                        </p>
+                      </div>
+                    </div>
+                 </div>
+
+                 <div className="bg-card border border-border p-6 rounded-3xl shadow-sm">
+                    <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">PRÓXIMAS AÇÕES</h2>
+                    <div className="space-y-4">
+                      {(metrics.upcoming ?? []).slice(0, 3).map(tx => (
+                        <div key={tx.id} className="flex items-center justify-between group cursor-pointer">
+                          <div className="flex flex-col min-w-0">
+                            <span className="font-bold text-[11px] truncate text-foreground">{tx.description}</span>
+                            <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider">{formatDate(tx.transaction_date)}</span>
+                          </div>
+                          <span className="font-black text-[11px] text-rose-500 ml-2">{formatCurrency(tx.amount)}</span>
+                        </div>
+                      ))}
+                      {(metrics.upcoming ?? []).length === 0 && (
+                        <p className="text-[10px] font-bold text-muted-foreground text-center py-2">Sem pendências no período.</p>
+                      )}
+                    </div>
                  </div>
               </div>
             </div>
           }
           categorias={
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {byCategory.map(cat => (
-                <div key={cat.id} className="bg-card border border-border p-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-all">
+              {byCategory.slice(0, 9).map(cat => (
+                <div 
+                  key={cat.id} 
+                  onClick={() => openCategoryDetail(cat.id, cat.name)}
+                  className="bg-card border border-border p-5 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md hover:border-primary/20 transition-all cursor-pointer group"
+                >
                    <div className="flex items-center gap-3">
-                     <div className="size-3 rounded-full shadow-sm" style={{ backgroundColor: cat.color }} />
-                     <span className="text-sm font-bold">{cat.name}</span>
+                     <div className="size-2.5 rounded-full shadow-sm" style={{ backgroundColor: cat.color }} />
+                     <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors uppercase tracking-wider">{cat.name}</span>
                    </div>
-                   <span className="text-sm font-bold text-primary">{formatCurrency(cat.value)}</span>
+                   <span className="text-xs font-black text-foreground">{formatCurrency(cat.value)}</span>
                 </div>
               ))}
             </div>
           }
           evolucao={
-             <div className="bg-card border border-border p-6 rounded-2xl h-[400px] shadow-sm">
+             <div className="bg-card border border-border p-8 rounded-3xl shadow-sm h-[400px]">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">DESPESAS POR DIA</h3>
+                </div>
                 <ResponsiveContainer width="100%" height="100%">
                    <BarChart data={byDay}>
-                      <CartesianGrid {...gridProps} />
-                      <XAxis dataKey="day" {...axisProps} />
-                      <YAxis {...axisProps} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.2} />
+                      <XAxis dataKey="day" {...axisProps} tick={{ fontSize: 10, fontWeight: 700 }} />
+                      <YAxis hide />
                       <Tooltip {...tooltipProps} />
-                      <Bar dataKey="gasto" fill={CHART_TOKENS.expense} radius={barRadius} />
+                      <Bar dataKey="gasto" fill="var(--primary)" radius={[4, 4, 0, 0]} opacity={0.8} />
                    </BarChart>
                 </ResponsiveContainer>
              </div>
           }
           proximasAcoes={
-             <div className="grid grid-cols-1 gap-4">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(metrics.upcoming ?? []).map(tx => (
-                   <div key={tx.id} className="bg-card border border-border p-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-all">
+                   <div key={tx.id} className="bg-card border border-border p-5 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md hover:border-rose-500/20 transition-all group">
                       <div className="flex flex-col">
-                        <span className="font-bold text-sm">{tx.description}</span>
-                        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{formatDate(tx.transaction_date)}</span>
+                        <span className="font-bold text-xs text-foreground group-hover:text-primary transition-colors">{tx.description}</span>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-[9px] text-muted-foreground font-black uppercase tracking-wider">{formatDate(tx.transaction_date)}</span>
+                          <Badge variant="secondary" className="text-[8px] font-black h-4 px-1.5 uppercase">Pendente</Badge>
+                        </div>
                       </div>
-                      <span className="font-bold text-destructive">{formatCurrency(tx.amount)}</span>
+                      <span className="font-black text-xs text-rose-500">{formatCurrency(tx.amount)}</span>
                    </div>
                 ))}
              </div>
