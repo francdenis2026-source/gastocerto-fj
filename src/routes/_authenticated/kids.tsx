@@ -654,7 +654,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       return;
     }
     let active = true;
-    QRCode.toDataURL(loginUrl, { width: 512, margin: 2 })
+    QRCode.toDataURL(loginUrl, { width: 384, margin: 2 })
       .then((url) => {
         if (active) setQr(url);
       })
