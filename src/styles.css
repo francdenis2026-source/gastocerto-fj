@@ -242,9 +242,8 @@ select,
 }
 
 html {
-  overflow-y: scroll;
+  overflow-y: auto;
   scroll-behavior: smooth;
-  /* Garantindo que o scroll do mouse funcione mesmo sem barra visual */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -265,7 +264,6 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-  /* Permitir o comportamento de rolagem nativo em dispositivos móveis */
   overscroll-behavior-y: auto;
 }
 
