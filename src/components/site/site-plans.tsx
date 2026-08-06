@@ -69,7 +69,7 @@ export function SitePlans() {
             <h2 className="mt-5 font-display text-[clamp(1.9rem,3.6vw,2.7rem)] font-semibold leading-[1.1] text-bone-100">
               Preço honesto, sem pegadinha
             </h2>
-            <p className="mt-5 text-[16px] leading-relaxed text-bone-100/50">
+            <p className="mt-5 text-[17px] leading-relaxed text-bone-100/50">
               Cancele quando quiser. Seus dados continuam seus, exportáveis a qualquer momento.
             </p>
           </div>

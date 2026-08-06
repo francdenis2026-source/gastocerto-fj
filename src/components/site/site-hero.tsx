@@ -23,12 +23,12 @@ export function SiteHero() {
           <Appear className="max-w-xl lg:pt-6">
             <p className="kicker">Gestão financeira pessoal</p>
 
-            <h1 className="mt-6 font-display text-[clamp(2.4rem,5.2vw,3.9rem)] font-semibold tracking-tight leading-[1.04] text-bone-100">
+            <h1 className="mt-6 font-display text-[clamp(2.5rem,6vw,4.25rem)] font-semibold tracking-tight leading-[1.02] text-bone-100">
               Cada real no lugar certo.
               <span className="block text-bone-100/45">Todo mês, sem esforço.</span>
             </h1>
 
-            <p className="mt-7 max-w-md text-[17px] leading-relaxed text-bone-100/55">
+            <p className="mt-8 max-w-lg text-[18px] leading-relaxed text-bone-100/55 lg:text-[19px]">
               O GastoCerto reúne contas, cartões, receitas e despesas em um único painel claro — com
               projeções confiáveis e histórico que não se perde.
             </p>

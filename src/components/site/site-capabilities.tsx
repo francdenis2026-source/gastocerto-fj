@@ -50,7 +50,7 @@ export function SiteCapabilities() {
           <h2 className="mt-5 font-display text-[clamp(1.9rem,3.6vw,2.9rem)] font-semibold leading-[1.1] text-bone-100">
             Tudo o que a sua vida financeira exige — em um só lugar
           </h2>
-          <p className="mt-5 text-[16px] leading-relaxed text-bone-100/50">
+          <p className="mt-5 text-[17px] leading-relaxed text-bone-100/50">
             Recursos pensados para o dia a dia de quem quer clareza, não complexidade.
           </p>
         </Appear>

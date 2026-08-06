@@ -125,6 +125,8 @@
 
 body {
   font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -290,10 +292,18 @@ video {
   width: 100%;
   max-width: 90rem;
   padding-inline: 1.5rem;
+
+  @media (min-width: 1024px) {
+    padding-inline: 2.5rem;
+  }
 }
 
 @utility section-y {
-  padding-block: 4rem;
+  padding-block: 5rem;
+
+  @media (min-width: 1024px) {
+    padding-block: 7.5rem;
+  }
 }
 
 @utility premium-card {
