@@ -97,32 +97,32 @@
 }
 
 .dark {
-  --background: #000c18;
+  --background: #000a14;
   --foreground: #f8fafc;
-  --card: #001830;
-  --card-foreground: #F0F0F0;
-  --popover: #001830;
-  --popover-foreground: #F0F0F0;
+  --card: #001222;
+  --card-foreground: #f8fafc;
+  --popover: #001222;
+  --popover-foreground: #f8fafc;
 
-  --primary: #00A85F;
+  --primary: #22c55e;
   --primary-foreground: #ffffff;
   --secondary: #000c18;
-  --secondary-foreground: #94a3b8;
+  --secondary-foreground: #cbd5e1;
 
-  --muted: #001224;
+  --muted: #001a2e;
   --muted-foreground: #94a3b8;
-  --accent: #00A85F20;
-  --accent-foreground: #00A85F;
+  --accent: #22c55e25;
+  --accent-foreground: #22c55e;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: #002440;
-  --input: #002440;
-  --ring: #00A85F;
+  --border: #ffffff10;
+  --input: #ffffff10;
+  --ring: #22c55e;
 
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-lifted: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lifted: 0 20px 50px rgba(0, 0, 0, 0.7);
 }
 
 body {
@@ -230,6 +230,7 @@ h4 {
 .glow-effect {
   position: relative;
   overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
 .glow-effect::after {
@@ -237,18 +238,22 @@ h4 {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    color-mix(in oklab, var(--primary) 12%, transparent),
-    transparent 40%
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    color-mix(in oklab, var(--primary) 20%, transparent),
+    transparent 60%
   );
   opacity: 0;
-  transition: opacity 300ms ease;
+  transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1);
   pointer-events: none;
   z-index: 1;
 }
 
 .glow-effect:hover::after {
   opacity: 1;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 25px -5px color-mix(in oklab, var(--primary) 30%, transparent);
 }
 
 /* Aplicando em botões e menus */
