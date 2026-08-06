@@ -234,6 +234,14 @@ export function DependentExpenseDialog({
     
     // Forçamos o user_id para ser o do responsável logado (user.id)
     // para evitar o erro de foreign key 'transactions_user_id_fkey'.
+    // Garantimos que o user.id seja extraído e validado explicitamente.
+    const currentUserId = user?.id;
+    
+    if (!currentUserId) {
+      toast.error("Erro de autenticação: usuário não identificado.");
+      return;
+    }
+
     const transactionValues = {
       description,
       amount: value,
@@ -244,10 +252,12 @@ export function DependentExpenseDialog({
       payment_date: date,
       tags: [dependentTag(currentSelected.id), reasonTag(reason)],
       notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
-      user_id: user?.id
+      user_id: currentUserId
     };
 
     try {
+      // Usamos uma inserção direta via supabase client se necessário, 
+      // mas o useSaveTransaction já deve lidar com o user_id passado no values.
       await save.mutateAsync({
         values: transactionValues,
       });
