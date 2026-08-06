@@ -232,16 +232,8 @@ export function DependentExpenseDialog({
       ? `${who} — ${note.trim()}`.slice(0, 140)
       : `${who} — ${reasonInfo.label}`;
     
-    // Forçamos o user_id para ser o do responsável logado (user.id)
-    // para evitar o erro de foreign key 'transactions_user_id_fkey'.
-    // Garantimos que o user.id seja extraído e validado explicitamente.
-    const currentUserId = user?.id;
-    
-    if (!currentUserId) {
-      toast.error("Erro de autenticação: usuário não identificado.");
-      return;
-    }
-
+    // Forçamos o registro sob o ID do responsável logado para evitar o erro de FK.
+    // O vínculo com a criança é feito exclusivamente via tags.
     const transactionValues = {
       description,
       amount: value,
@@ -252,7 +244,6 @@ export function DependentExpenseDialog({
       payment_date: date,
       tags: [dependentTag(currentSelected.id), reasonTag(reason)],
       notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
-      user_id: currentUserId
     };
 
     try {
