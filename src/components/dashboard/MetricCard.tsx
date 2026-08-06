@@ -47,13 +47,13 @@ export function MetricCard({
         <span className="text-[28px] font-bold font-sans text-foreground tracking-tight tabular-nums leading-tight">{value}</span>
         {trend && (
           <div className="flex items-center gap-1.5">
-            <span className={cn("text-[11px] font-bold px-2 py-0.5 rounded-full", 
+            <span className={cn("text-[12px] font-bold px-2 py-0.5 rounded-full", 
               trendDirection === "up" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : 
               trendDirection === "down" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground"
             )}>
               {trend}
             </span>
-            <span className="text-[10px] text-[#8FA39C] font-medium tracking-tight">vs mês ant.</span>
+            <span className="text-[12px] text-[#8FA39C] font-medium tracking-tight">vs mês ant.</span>
           </div>
         )}
       </div>
