@@ -1280,7 +1280,6 @@ export function TransactionDialog({
 
         </div>
       </form>
-    </DialogContent>
 
         <PasswordConfirmDialog
           open={passwordOpen}
