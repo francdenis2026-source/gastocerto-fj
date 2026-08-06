@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { Transaction, TransactionRange, Account, Budget } from "@/types/finance";
+import { Transaction, TransactionRange, Account, Budget, TransactionType } from "@/types/finance";
 
 export const transactionService = {
   async getAll(userId: string, range?: TransactionRange): Promise<Transaction[]> {
@@ -20,7 +20,7 @@ export const transactionService = {
     return data ?? [];
   },
 
-  async getLast(userId: string, kind: string): Promise<Transaction | null> {
+  async getLast(userId: string, kind: TransactionType): Promise<Transaction | null> {
     const { data, error } = await supabase
       .from("transactions")
       .select("*")
