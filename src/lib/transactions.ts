@@ -135,7 +135,7 @@ export function useSaveTransaction() {
       }
       const insertValues = { 
         ...input.values,
-        user_id: user.id 
+        user_id: input.values.user_id || user.id 
       } as TablesInsert<"transactions">;
 
       const { data, error } = await supabase

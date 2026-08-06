@@ -244,6 +244,7 @@ export function DependentExpenseDialog({
       payment_date: date,
       tags: [dependentTag(currentSelected.id), reasonTag(reason), "espaco-kids:v3"],
       notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
+      user_id: user?.id || "", // Forçamos o ID do pai explicitamente
     };
 
     try {
