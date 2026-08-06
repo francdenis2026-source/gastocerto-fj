@@ -72,15 +72,19 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
           >
-            <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20" asChild>
-              <Link to="/auth" search={{ mode: "signup" }}>
-                Começar Jornada
-                <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl text-base font-bold border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white">
-              Ver Demonstração
-            </Button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}>
+                  Começar Jornada
+                  <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl text-base font-bold border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white w-full">
+                Ver Demonstração
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -153,8 +157,9 @@ export function Features() {
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -8, scale: 1.02 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.1, type: "spring", stiffness: 300 }}
               className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden"
             >
               <Link to="/auth" search={item.title === "Espaço Kids" ? { mode: "kid" } : { mode: "signup" }} className="absolute inset-0 z-20" />
@@ -185,7 +190,8 @@ export function BentoGrid() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[3rem] border border-white/10 p-10 flex flex-col justify-center relative overflow-hidden group"
+            whileHover={{ scale: 1.01 }}
+            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[3rem] border border-white/10 p-10 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-md relative z-10">
@@ -210,7 +216,8 @@ export function BentoGrid() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-4 bg-[#001830] rounded-[3rem] border border-white/10 p-10 flex flex-col justify-between group overflow-hidden"
+            whileHover={{ scale: 1.02, y: -5 }}
+            className="lg:col-span-4 bg-[#001830] rounded-[3rem] border border-white/10 p-10 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
@@ -230,7 +237,8 @@ export function BentoGrid() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-5 bg-primary rounded-[3rem] p-10 flex flex-col justify-between group relative overflow-hidden"
+            whileHover={{ scale: 1.02, y: -5 }}
+            className="lg:col-span-5 bg-primary rounded-[3rem] p-10 flex flex-col justify-between group relative overflow-hidden transition-all duration-500 shadow-2xl shadow-primary/0 hover:shadow-primary/20"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
@@ -249,7 +257,8 @@ export function BentoGrid() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-7 bg-white/5 rounded-[3rem] border border-white/10 p-10 flex items-center justify-between group"
+            whileHover={{ scale: 1.01 }}
+            className="lg:col-span-7 bg-white/5 rounded-[3rem] border border-white/10 p-10 flex items-center justify-between group transition-all duration-500 hover:border-primary/30"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-sm">
