@@ -85,11 +85,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
       { title: "GastoCerto — Controle hoje, tranquilidade sempre" },
       { name: "description", content: "A plataforma completa para gestão de finanças pessoais. Controle hoje, tranquilidade sempre." },
       { name: "author", content: "GastoCerto" },
-      { name: "theme-color", content: "#F8FAF9" },
+      { name: "theme-color", content: "#0A1512" },
       { name: "application-name", content: "GastoCerto" },
       { name: "apple-mobile-web-app-title", content: "GastoCerto" },
       { property: "og:site_name", content: "GastoCerto" },
@@ -109,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&family=Outfit:wght@100..900&family=Geist+Mono:wght@100..900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=Geist+Mono:wght@400;600&display=swap",
       },
       { rel: "icon", type: "image/png", sizes: "512x512", href: "/favicon-512.png" },
       { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192.png" },
@@ -119,10 +119,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "mask-icon", href: "/favicon-32.png", color: "#1FAE6D" },
       { rel: "manifest", href: "/site.webmanifest" },
-      { rel: "apple-touch-startup-image", href: "/splash/apple-splash-2048-2732.png", media: "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" },
-      { rel: "apple-touch-startup-image", href: "/splash/apple-splash-1668-2224.png", media: "(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" },
-      { rel: "apple-touch-startup-image", href: "/splash/apple-splash-1125-2436.png", media: "(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" },
-      { rel: "apple-touch-startup-image", href: "/splash/apple-splash-750-1334.png", media: "(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" },
     ],
 
     scripts: [
@@ -188,19 +184,16 @@ function RootShell({ children }: { children: ReactNode }) {
                   if (!theme) theme = 'dark';
                   document.documentElement.classList.toggle('dark', theme === 'dark');
                   document.documentElement.style.colorScheme = theme;
-                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#0A1512' : '#F8FAF9';
+                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#001222' : '#f6f7f8';
                 } catch (e) {}
-
               })();
             `,
           }}
         />
         <HeadContent />
       </head>
-      <body className="relative overscroll-none select-none md:select-auto bg-background text-foreground transition-colors duration-300">
-        <div className="noise-overlay" />
-        <div className="premium-glow top-[-300px] left-[-300px] animate-pulse-slow opacity-20 dark:opacity-100" />
-        <div className="premium-glow bottom-[-300px] right-[-300px] animate-pulse-slow opacity-20 dark:opacity-100" style={{ animationDelay: '4s' }} />
+      <body className="relative overscroll-none select-none md:select-auto bg-background text-foreground transition-colors duration-300 antialiased text-rendering-optimize-legibility">
+        <div className="noise-overlay pointer-events-none opacity-[0.03] dark:opacity-[0.02]" />
         {children}
         <Scripts />
       </body>
@@ -216,20 +209,11 @@ function RootComponent() {
     void setupServiceWorker();
   }, []);
 
-  // Previne a navegação indesejada pelo botão "voltar" do navegador em áreas críticas
   useEffect(() => {
-    // Desativamos o beforeunload padrão do navegador que gera o alerta genérico.
-    // Em vez disso, deixamos que o router ou componentes específicos lidem com a confirmação se necessário.
-    // O usuário solicitou que o alerta não seja originado pelo navegador.
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      // Se realmente precisarmos bloquear, o navegador SEMPRE mostrará o alerta dele por segurança.
-      // Para cumprir o requisito de "não ser originado pelo navegador", removemos o listener
-      // e confiamos na navegação do SPA (TanStack Router) para gerenciar estados.
       return undefined;
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
@@ -237,8 +221,6 @@ function RootComponent() {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
-      // INITIAL_SESSION e TOKEN_REFRESHED não alteram identidade. Invalidá-los
-      // força beforeLoad + getSession novamente e cria uma tempestade de refresh.
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       router.invalidate();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
@@ -251,12 +233,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </AuthProvider>
         <OfflineBanner />
         <Toaster richColors position="top-right" />
-
       </ThemeProvider>
     </QueryClientProvider>
   );

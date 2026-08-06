@@ -50,7 +50,7 @@ export function SiteNav() {
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 text-[14px] font-medium text-bone-100/60 transition-colors hover:text-bone-100"
+              className="rounded-full px-4 py-2 text-[14px] font-medium text-bone-100/60 transition-colors duration-200 hover:text-bone-100 focus-visible:text-bone-100"
             >
               {link.label}
             </a>
@@ -60,7 +60,7 @@ export function SiteNav() {
         <div className="hidden items-center gap-2 lg:flex">
           <Button
             variant="ghost"
-            className="h-10 rounded-full px-5 text-[14px] font-semibold text-bone-100/80 hover:bg-navy-600 hover:text-bone-100"
+            className="h-10 rounded-full px-5 text-[14px] font-semibold text-bone-100/80 transition-all duration-220 hover:bg-navy-600 hover:text-bone-100 focus-visible:ring-1 focus-visible:ring-primary"
             asChild
           >
             <Link to="/auth" search={{ mode: "login" }}>
@@ -68,7 +68,7 @@ export function SiteNav() {
             </Link>
           </Button>
           <Button
-            className="h-10 rounded-full bg-primary px-6 text-[14px] font-semibold text-primary-foreground hover:bg-brand-400"
+            className="h-10 rounded-full bg-primary px-6 text-[14px] font-semibold text-primary-foreground transition-all duration-220 hover:bg-brand-400 focus-visible:ring-1 focus-visible:ring-white"
             asChild
           >
             <Link to="/auth" search={{ mode: "signup" }}>
@@ -81,7 +81,7 @@ export function SiteNav() {
           type="button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           onClick={() => setOpen((v) => !v)}
-          className="flex size-11 items-center justify-center rounded-full border border-border text-bone-100 lg:hidden"
+          className="flex size-11 items-center justify-center rounded-full border border-border text-bone-100 transition-all duration-200 hover:bg-navy-700 hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>

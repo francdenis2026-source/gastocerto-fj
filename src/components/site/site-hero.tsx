@@ -23,7 +23,7 @@ export function SiteHero() {
           <Appear className="max-w-xl lg:pt-6">
             <p className="kicker">Gestão financeira pessoal</p>
 
-            <h1 className="mt-6 font-display text-[clamp(2.4rem,5.2vw,3.9rem)] font-semibold leading-[1.04] text-bone-100">
+            <h1 className="mt-6 font-display text-[clamp(2.4rem,5.2vw,3.9rem)] font-semibold tracking-tight leading-[1.04] text-bone-100">
               Cada real no lugar certo.
               <span className="block text-bone-100/45">Todo mês, sem esforço.</span>
             </h1>
@@ -35,7 +35,7 @@ export function SiteHero() {
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Button
-                className="h-13 rounded-full bg-primary px-8 text-[15px] font-semibold text-primary-foreground hover:bg-brand-400"
+                className="h-13 rounded-full bg-primary px-8 text-[15px] font-semibold text-primary-foreground transition-all duration-220 hover:bg-brand-400 hover:shadow-lifted active:scale-[0.98]"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
@@ -45,7 +45,7 @@ export function SiteHero() {
               </Button>
               <Button
                 variant="outline"
-                className="h-13 rounded-full border-border bg-transparent px-8 text-[15px] font-semibold text-bone-100 hover:bg-navy-600"
+                className="h-13 rounded-full border-border bg-transparent px-8 text-[15px] font-semibold text-bone-100 transition-all duration-220 hover:bg-navy-600 hover:border-primary/30 active:scale-[0.98]"
                 asChild
               >
                 <Link to="/demonstracao">Ver a plataforma</Link>
