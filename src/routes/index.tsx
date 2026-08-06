@@ -43,7 +43,13 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: AGORA FAÇA UMA NOVA HOMEPAGE TOTAL COM MELJORIAS, COMPACTAÇÃO DE ESPAÇOS,ISERÇÃO DE IMFPRAÇOES SOBRE O SITE, TUDO DIFERENTE DO QUE ESTA AI
+        comando mais recente enviado por ele: ## Tarefa: Redesign Completo da Homepage
+        
+        Objetivo: Reformular completamente a estética e a funcionalidade da homepage.
+        1. Remoção de restrições de design.
+        2. Implementação de novo tema.
+        3. Microinterações aprimoradas.
+        4. Otimização de espaços e UX.
       */}
     </div>
   );
