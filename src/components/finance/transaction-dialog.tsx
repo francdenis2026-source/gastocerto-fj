@@ -1291,7 +1291,7 @@ export function TransactionDialog({
           window.setTimeout(() => formRef.current?.requestSubmit(), 0);
         }}
       />
-      </DialogContent>
+    </DialogContent>
     </Dialog>
     <ConfirmDialog />
   </>
