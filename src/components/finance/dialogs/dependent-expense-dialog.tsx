@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { ArrowLeft, Check, Plus, Baby, PiggyBank, Gift, Trophy, Rocket, ToyBrick, ShieldCheck, Lock, TrendingUp, Target, Star, AlertTriangle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
 
 import { DependentDialog } from "@/components/finance/dialogs/dependent-dialog";
 import { KidsPinDialog } from "@/components/finance/kids/kids-pin-dialog";
@@ -234,8 +235,9 @@ export function DependentExpenseDialog({
       await save.mutateAsync({
         values: {
           user_id: user?.id,
-          // Removemos a tentativa de passar dependent_id diretamente se ele não existir na tabela.
-          // O vínculo continuará sendo feito pelas tags, que é o padrão atual do sistema.
+          // Registramos na conta do responsável, mas mantemos o vínculo via tags
+          // O foreign key error ocorria porque tentávamos salvar com o user_id da criança 
+          // que não necessariamente tem permissão ou perfil completo.
           description,
           amount: value,
           transaction_type: reasonInfo.type,
