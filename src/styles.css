@@ -242,7 +242,7 @@ select,
 }
 
 html {
-  overflow-y: auto;
+  overflow-y: scroll;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
