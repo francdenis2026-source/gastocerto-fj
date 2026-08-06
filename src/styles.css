@@ -9,6 +9,10 @@
 */
 
 @theme inline {
+  --color-brand-green: #00A85F;
+  --color-brand-navy: #001830;
+  --color-brand-navy-dark: #000c18;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

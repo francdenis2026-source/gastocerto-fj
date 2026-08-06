@@ -36,13 +36,13 @@ function HomePage() {
       <main id="main-content" className="flex flex-col">
         <Hero />
         <Features />
-        {/* SitePlans e BentoGrid removidos para compactar para 2 telas principais */}
+        <BentoGrid />
         <SiteQuestions />
       </main>
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: CORRIJA ESSE FLICKER QUE DA AO TENTARPASAR A PAGINA D HOMEPÁGE POR BAIXXO DO HEADER
+        comando mais recente enviado por ele: ANALISE TODA A PAGINA HOEPAGE E EACH O QUE PRECISA SER MELHRADO, DESDE MICRO INTERAÇOES ATE AS CORES E CONTARSTES, TAMANHO, E HEROS
       */}
     </div>
   );
