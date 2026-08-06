@@ -23,9 +23,9 @@ export const getProjectHealth = createServerFn({ method: "GET" })
 
     for (const table of tables) {
       try {
-        const { count, error } = await supabaseAdmin
-          .from(table)
-          .select("*", { count: "exact", head: true });
+      const { count, error } = await (supabaseAdmin
+        .from(table)
+        .select("*", { count: "exact", head: true }) as any);
         
         if (error) {
           results[table] = { status: "error", message: error.message };

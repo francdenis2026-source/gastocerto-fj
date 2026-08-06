@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground" data-body-context="Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, comando mais recente enviado por ele: quando o dinheiro, ou valor for enviado simbolcamente para area kid da criança avise atrasve de umamensagem profssional em svg; corrija tambem, nao existe pagina de extrato sobre valores enviado par as crianças no espaço kid, verofique ero 404">
+    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground" data-body-context="Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, comando mais recente enviado por ele: da um aanalisada,pois vairas tabelas dentro da area do cliente e em varias funççoes esta danificada, faça uma buicsa e descuba se tem alguma tabela, linha ou qualquer coisa que nao esteja funcionando">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Pular para o conteúdo principal
       </a>
