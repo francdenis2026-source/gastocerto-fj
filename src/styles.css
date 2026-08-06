@@ -242,8 +242,9 @@ select,
 }
 
 html {
-  overflow-y: scroll;
+  overflow-y: auto !important;
   scroll-behavior: smooth;
+  height: auto !important;
 }
 
 html,
@@ -251,13 +252,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
+  /* Removido o bloqueio visual da scrollbar para garantir compatibilidade com mouse */
 }
 
 img,

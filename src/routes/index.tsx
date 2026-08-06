@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: MERGULHE FUNDO E APRIMORE, MELHORE O DESINER, A HERO, O HEADER E O FOOTER, AS MICROINTERAÇÕES,
+        comando mais recente enviado por ele: AGO ESTA TRAVANDO A ROLAGEM COM A BOLINHA DO MOUSE
       */}
     </div>
   );
