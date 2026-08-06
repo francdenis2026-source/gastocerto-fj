@@ -206,14 +206,20 @@ export function DependentExpenseDialog({
     setAmount("");
     setDate(isoDate(new Date()));
     setNote("");
+    setErrors({});
   }
 
   async function handleSave() {
-    if (!selected) return;
-    if (value <= 0) {
-      toast.error("Informe o valor do gasto.");
+    const newErrors: typeof errors = {};
+    if (!selected) newErrors.selected = "Selecione uma criança.";
+    if (value <= 0) newErrors.amount = "Informe um valor maior que zero.";
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast.error("Corrija os campos antes de continuar.");
       return;
     }
+
     if (!category) {
       toast.error("Nenhuma categoria de despesa disponível.");
       return;
@@ -225,7 +231,7 @@ export function DependentExpenseDialog({
     try {
       await save.mutateAsync({
         values: {
-          user_id: selected.user_id, // Pass the dependent's user_id if they are the transaction owner
+          user_id: selected.kid_user_id || selected.user_id, // Usar kid_user_id se disponível
           description,
           amount: value,
           transaction_type: reasonInfo.type,
