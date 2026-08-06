@@ -232,48 +232,48 @@ function KidsAccessPage() {
 
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-4 px-3 py-4 sm:px-6">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
+    <div className="mx-auto w-full max-w-5xl space-y-3 px-3 py-4 sm:px-6">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-2">
         <div className="flex items-center gap-2">
-          <Baby className="size-5 text-primary" aria-hidden />
-          <h1 className="text-lg font-black text-foreground">Espaço Kids</h1>
+          <Baby className="size-4 text-primary" aria-hidden />
+          <h1 className="text-base font-black text-foreground">Espaço Kids</h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" variant="outline" className="h-8 gap-2 text-[10px]">
-            <Link to="/painel"><LayoutGrid className="size-3.5" /> Área do Cliente</Link>
+          <Button asChild size="sm" variant="outline" className="h-7 gap-1.5 text-[9px] px-2">
+            <Link to="/painel"><LayoutGrid className="size-3" /> Área do Cliente</Link>
           </Button>
         </div>
       </header>
 
 
-      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div className="rounded-xl border border-border bg-card p-2">
-          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-            <Baby className="size-3 text-primary" aria-hidden /> Ativas
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+        <div className="rounded-xl border border-border bg-card p-1.5">
+          <p className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-wider text-muted-foreground">
+            <Baby className="size-2.5 text-primary" aria-hidden /> Ativas
           </p>
-          <p className="mt-0.5 text-base font-black">{kids.length}</p>
+          <p className="mt-0.5 text-sm font-black">{kids.length}</p>
         </div>
-        <div className="rounded-xl border border-border bg-card p-2">
-          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-            <CalendarClock className="size-3 text-primary" aria-hidden /> Expiração
+        <div className="rounded-xl border border-border bg-card p-1.5">
+          <p className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-wider text-muted-foreground">
+            <CalendarClock className="size-2.5 text-primary" aria-hidden /> Expiração
           </p>
-          <p className={cn("mt-0.5 text-[11px] font-bold truncate", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
+          <p className={cn("mt-0.5 text-[10px] font-bold truncate", describeKidCodeExpiry(summary.nextExpiry).nearExpiry && "text-orange-500")}>
             {describeKidCodeExpiry(summary.nextExpiry).label}
           </p>
         </div>
-        <div className="rounded-xl border border-border bg-card p-2">
-          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-            <LogIn className="size-3 text-primary" aria-hidden /> Último Login
+        <div className="rounded-xl border border-border bg-card p-1.5">
+          <p className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-wider text-muted-foreground">
+            <LogIn className="size-2.5 text-primary" aria-hidden /> Último Login
           </p>
-          <p className="mt-0.5 text-[11px] font-bold truncate">
+          <p className="mt-0.5 text-[10px] font-bold truncate">
             {summary.lastLogin ? new Date(summary.lastLogin.at).toLocaleDateString("pt-BR") : "Nenhum"}
           </p>
         </div>
-        <div className="rounded-xl border border-border bg-card p-2">
-          <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-            <ShieldCheck className="size-3 text-primary" aria-hidden /> Segurança
+        <div className="rounded-xl border border-border bg-card p-1.5">
+          <p className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-wider text-muted-foreground">
+            <ShieldCheck className="size-2.5 text-primary" aria-hidden /> Segurança
           </p>
-          <p className="mt-0.5 text-[11px] font-bold truncate">{KID_MAX_ATTEMPTS} tent. / {KID_LOCK_MINUTES} min</p>
+          <p className="mt-0.5 text-[10px] font-bold truncate">{KID_MAX_ATTEMPTS} tent. / {KID_LOCK_MINUTES} min</p>
         </div>
       </section>
 
@@ -654,7 +654,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
       return;
     }
     let active = true;
-    QRCode.toDataURL(loginUrl, { width: 512, margin: 2 })
+    QRCode.toDataURL(loginUrl, { width: 384, margin: 2 })
       .then((url) => {
         if (active) setQr(url);
       })
@@ -1236,7 +1236,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                   <img
                     src={qr}
                     alt={`QR Code de ${dependent.name}`}
-                    className="size-44 transition-transform group-hover:scale-[1.02]"
+                    className="size-36 transition-transform group-hover:scale-[1.02]"
                   />
                   <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                 </div>
@@ -1269,7 +1269,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
                 </button>
               </div>
             ) : (
-              <div className="flex h-44 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border/60 bg-muted/20">
+              <div className="flex h-36 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border/60 bg-muted/20">
                 <QrCode className="size-8 text-muted-foreground/40" />
                 <p className="max-w-[120px] text-center text-[9px] font-bold uppercase tracking-wider text-muted-foreground/60">
                   Escolha um código para gerar o QR
