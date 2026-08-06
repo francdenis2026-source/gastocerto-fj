@@ -356,8 +356,8 @@ function AuthPage() {
                       <Fingerprint className="size-5" />
                     </div>
                     <div>
-                      <h3 className="text-xs sm:text-sm font-bold text-brand">Acesso via código detectado</h3>
-                      <p className="text-[10px] sm:text-[11px] leading-tight text-muted-foreground">Insira seu CPF e como deseja ser chamado para entrar.</p>
+                      <h3 className="text-sm sm:text-base font-bold text-brand">Acesso via código detectado</h3>
+                      <p className="text-[11px] sm:text-[12px] leading-tight text-muted-foreground">Insira seu CPF e como deseja ser chamado para entrar.</p>
                     </div>
                   </div>
                 </div>
