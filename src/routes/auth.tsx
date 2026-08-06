@@ -389,7 +389,7 @@ function AuthPage() {
                   </div>
 
                   <Button 
-                    className="w-full h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest gap-2 bg-brand text-brand-foreground hover:opacity-90 shadow-lg shadow-brand/20 active:scale-[0.98] transition-all" 
+                    className="w-full h-11 sm:h-12 rounded-xl text-[13px] sm:text-[14px] font-black uppercase tracking-widest gap-2 bg-brand text-brand-foreground hover:opacity-95 shadow-lg shadow-brand/20 active:scale-[0.98] transition-all" 
                     onClick={async () => {
                       const cpfInput = document.getElementById("code-cpf") as HTMLInputElement;
                       const nameInput = document.getElementById("code-name") as HTMLInputElement;
