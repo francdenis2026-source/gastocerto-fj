@@ -183,14 +183,14 @@ const featureGroups = [
 
 export function Features() {
   return (
-    <section className="py-24 bg-muted/30 border-y border-border">
+    <section className="py-16 bg-muted/30 border-y border-border">
       <div className="container px-4 mx-auto">
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-8 mb-16">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+            <h2 className="text-2xl md:text-4xl font-black tracking-tight mb-3">
               Tudo o que você precisa <br /> para dominar seu dinheiro.
             </h2>
-            <p className="text-muted-foreground text-lg font-medium leading-relaxed">
+            <p className="text-muted-foreground text-base font-medium leading-relaxed">
               Desenvolvemos as ferramentas mais robustas do mercado sob uma interface minimalista e acolhedora.
             </p>
           </div>
@@ -199,7 +199,7 @@ export function Features() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {featureGroups.map((f, i) => (
             <motion.div
               key={f.title}
