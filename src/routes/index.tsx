@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div key={Date.now()} className="min-h-dvh w-full max-w-full overflow-x-hidden bg-white font-sans antialiased selection:bg-primary/25 selection:text-foreground">
+    <div className="min-h-dvh w-full max-w-full bg-white font-sans antialiased selection:bg-primary/25 selection:text-foreground">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Pular para o conteúdo principal
       </a>
@@ -43,7 +43,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Implemente uma correção de cache para que eu veja imediatamente as alterações ao atualizar a página no navegador.
+        comando mais recente enviado por ele: IDENTIFIQUE POR QUE O MOUSE NAO ESTA SENDO ACEITOPARA FAZER A ROLAGEM NA HOMEPAGE
       */}
     </div>
   );
