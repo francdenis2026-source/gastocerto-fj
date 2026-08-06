@@ -799,7 +799,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       </div>
 
       <div className="flex items-center justify-between pt-1">
-        <button type="button" onClick={onForgot} className="text-[11px] font-bold text-brand-green hover:underline">
+        <button type="button" onClick={onForgot} className="text-[12px] font-bold text-brand-green hover:underline">
           Esqueci minha senha
         </button>
         <button 
