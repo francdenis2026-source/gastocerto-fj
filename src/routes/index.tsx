@@ -47,15 +47,13 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Otimize a performance e o carregamento da landing (imagens, fontes e scripts) para reduzir o tempo de renderização sem perder a qualidade visual. 
+        comando mais recente enviado por ele: REMOVA DA HOMEPAGE A BARRA DE ROLAGEM VERTICAL,DEIXE A ROLAGEM PELO MOUSE; 
 
-        Atualize a interface para cumprir acessibilidade AA, garantindo contraste, estados de foco visíveis e navegação por teclado em toda a aplicação. 
+        Implementar suporte a prefers-reduced-motion para ajustar transições e microinterações, mantendo a sensação de qualidade para quem prefere menos animação. 
 
-        Implemente e revise microinterações (hover, focus e transições) em todos os componentes para ficarem consistentes com 180–260ms e com o novo visual. 
+        Conferir a consistência do Design System e corrigir quaisquer divergências restantes de tipografia, espaçamento e estilos entre homepage e demais páginas. 
 
-        Ajuste o grid, margens e tamanhos tipográficos para garantir que o layout fique idêntico e sem quebras no Desktop, Tablet, Mobile e PWA. 
-
-        Realize uma auditoria de consistência do Design System e corrija quaisquer diferenças de tipografia, espaçamento e estilos na homepage inteira e no restante do sistema.
+        Otimizar o carregamento de imagens e fontes com lazy loading, compressão e preload/prefetch para reduzir o tempo de renderização sem perder qualidade visual. Auditar a navegação por teclado e garantir que todo elemento focável tenha ordem lógica e estados de foco visíveis em toda a aplicação.
       */}
     </div>
   );
