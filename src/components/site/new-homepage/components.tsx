@@ -27,35 +27,24 @@ import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden bg-background">
-      {/* Complex Hero Art: Background + Image Blend */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* The Base Thematic Image */}
+    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-background">
+      {/* Background Image as Hero Layer */}
+      <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1579621970795-87f967b16c8a?q=80&w=2000&auto=format&fit=crop" 
-          alt="Financial Growth" 
-          className="w-full h-full object-cover scale-105 opacity-10 dark:opacity-[0.08] mix-blend-luminosity"
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop" 
+          alt="Financial Hero Background" 
+          className="w-full h-full object-cover opacity-20 mix-blend-overlay scale-105"
         />
-        
-        {/* Artistic Overlays & Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-background via-background/90 to-primary/10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(31,174,109,0.1),transparent_50%)]" />
-        
-        {/* Animated Glows */}
-        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[60%] bg-primary/20 blur-[140px] rounded-full animate-pulse pointer-events-none" />
-        <div className="absolute bottom-[0%] right-[-5%] w-[40%] h-[50%] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
-        
-        {/* Mesh Grid Pattern */}
-        <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.05] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" 
-             style={{ backgroundImage: 'radial-gradient(var(--border) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/40 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
       </div>
 
-      <div className="container px-4 mx-auto relative z-10">
+      <div className="container px-4 mx-auto relative z-10 py-20">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-bold mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold mb-8 backdrop-blur-md"
           >
             <Star size={14} className="fill-primary" />
             <span>O futuro da gestão financeira pessoal</span>
@@ -65,7 +54,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-foreground leading-[1.1] md:leading-[1.1] lg:leading-[1] mb-8"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-foreground leading-[1.1] mb-8"
           >
             Gestão inteligente <br />
             para sua <span className="text-primary italic">evolução.</span>
@@ -77,7 +66,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto font-medium leading-relaxed"
           >
-            Simplifique sua vida, recupere o controle e projete seu patrimônio com a plataforma mais rápida e intuitiva do mercado. Sem atritos, apenas resultados.
+            Simplifique sua vida, recupere o controle e projete seu patrimônio com a plataforma mais rápida e intuitiva do mercado.
           </motion.p>
 
           <motion.div
@@ -92,63 +81,17 @@ export function Hero() {
                 <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-            <Button variant="ghost" size="lg" className="h-14 px-8 rounded-full text-base font-bold hover:bg-muted transition-colors">
+            <Button variant="outline" size="lg" className="h-14 px-8 rounded-full text-base font-bold backdrop-blur-sm bg-background/20 hover:bg-background/40 transition-colors">
               Explorar funcionalidades
             </Button>
           </motion.div>
-
-          {/* Device Mockup Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "circOut" }}
-            className="mt-20 relative max-w-5xl mx-auto group"
-          >
-            <div className="relative rounded-[2rem] border border-border bg-card p-2 md:p-3 shadow-2xl overflow-hidden group-hover:border-primary/30 transition-colors duration-500">
-              <div className="bg-background rounded-[1.5rem] border border-border shadow-inner overflow-hidden aspect-video relative">
-                {/* Realistic Dashboard/App Image */}
-                <img 
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
-                  alt="GastoCerto Dashboard Premium" 
-                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
-                
-                {/* Glass Overlay for Content Feel */}
-                <div className="absolute inset-0 backdrop-blur-[1px] opacity-30 pointer-events-none" />
-              </div>
-            </div>
-            
-            {/* Floating UI Elements */}
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -right-6 top-1/4 hidden lg:flex bg-background border border-border p-4 rounded-2xl shadow-xl items-center gap-3 z-20"
-            >
-              <div className="size-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
-                <CheckCircle2 size={20} />
-              </div>
-              <div className="pr-4">
-                <p className="text-[10px] uppercase font-black text-muted-foreground tracking-widest">Saldo Atualizado</p>
-                <p className="text-sm font-bold">+ R$ 4.250,00</p>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="absolute -left-6 bottom-1/4 hidden lg:flex bg-background border border-border p-4 rounded-2xl shadow-xl items-center gap-3 z-20"
-            >
-              <div className="size-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
-                <TrendingUp size={20} />
-              </div>
-              <div className="pr-4">
-                <p className="text-[10px] uppercase font-black text-muted-foreground tracking-widest">Meta de Economia</p>
-                <p className="text-sm font-bold">85% Completa</p>
-              </div>
-            </motion.div>
-          </motion.div>
         </div>
+      </div>
+      
+      {/* Decorative Glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-7xl h-full -z-10 opacity-30 pointer-events-none">
+        <div className="absolute top-[-20%] left-[10%] w-[40%] h-[50%] bg-primary/30 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[0%] right-[10%] w-[35%] h-[40%] bg-blue-500/20 blur-[100px] rounded-full" />
       </div>
     </section>
   );
