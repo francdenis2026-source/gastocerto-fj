@@ -207,10 +207,10 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card p-8 rounded-[2rem] border border-border hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all group flex flex-col h-full"
+              className="bg-card p-6 rounded-[1.5rem] border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all group flex flex-col h-full"
             >
-              <div className="size-14 rounded-2xl bg-muted flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary/5 transition-all duration-500">
-                <f.icon size={28} className="text-primary" />
+              <div className="size-12 rounded-xl bg-muted flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/5 transition-all duration-500">
+                <f.icon size={24} className="text-primary" />
               </div>
               <h3 className="text-xl font-bold mb-4">{f.title}</h3>
               <p className="text-muted-foreground font-medium leading-relaxed text-sm flex-1">
