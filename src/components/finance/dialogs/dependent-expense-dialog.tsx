@@ -232,7 +232,8 @@ export function DependentExpenseDialog({
     try {
       await save.mutateAsync({
         values: {
-          user_id: currentSelected.kid_user_id || currentSelected.user_id,
+          user_id: user?.id,
+          dependent_id: currentSelected.id,
           description,
           amount: value,
           transaction_type: reasonInfo.type,
