@@ -1,87 +1,78 @@
-import { useState } from "react";
-import { Plus } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { 
+  ChevronDown, 
+  HelpCircle 
+} from "lucide-react";
 import { Appear } from "./appear";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-const questions = [
+const faqs = [
   {
-    q: "Preciso conectar meu banco?",
-    a: "Não. O GastoCerto funciona com lançamentos que você controla, o que mantém seus dados bancários fora da plataforma. Você registra em segundos e as repetições acontecem automaticamente.",
+    question: "O GastoCerto é gratuito?",
+    answer: "Sim! Temos um plano gratuito vitalício que permite o controle básico das suas finanças. Para recursos avançados como IA e gestão de cartões, oferecemos planos Pro e Elite."
   },
   {
-    q: "Funciona bem no celular?",
-    a: "Sim. A interface foi construída para uso móvel: lançamento rápido, navegação por abas e leitura confortável em qualquer tela.",
+    question: "Como funciona a IA Consultora?",
+    answer: "Nossa inteligência artificial analisa seus padrões de consumo e gera relatórios personalizados com sugestões reais de economia, além de prever seu fluxo de caixa para os próximos meses."
   },
   {
-    q: "Como funciona o teste de 14 dias?",
-    a: "Ao criar a conta gratuita você usa todos os recursos pagos por 14 dias. Se não assinar, o plano Essencial continua ativo e nada é cobrado.",
+    question: "Posso importar dados de planilhas?",
+    answer: "Com certeza. O GastoCerto possui um importador inteligente que aceita arquivos CSV e Excel, mapeando suas categorias automaticamente."
   },
   {
-    q: "Consigo levar meus dados embora?",
-    a: "Sempre. Exportação em CSV e PDF de lançamentos, balanço mensal e anual, sem bloqueios.",
+    question: "Meus dados estão seguros?",
+    answer: "Sim, utilizamos criptografia de ponta a ponta e servidores seguros. Além disso, seguimos rigorosamente a LGPD para garantir que sua privacidade seja sempre respeitada."
   },
   {
-    q: "Serve para a família toda?",
-    a: "Sim. O plano Família permite múltiplas contas na mesma casa e o Espaço Kids, com mesada automática, metas e recompensas para as crianças.",
-  },
+    question: "Posso cancelar minha assinatura a qualquer momento?",
+    answer: "Sim, não temos fidelidade. Você pode cancelar sua assinatura Pro ou Elite com um clique diretamente nas configurações da sua conta."
+  }
 ];
 
 export function SiteQuestions() {
-  const [open, setOpen] = useState<number | null>(0);
-
   return (
-    <section className="band border-t border-border bg-navy-800">
-      <div className="shell grid gap-14 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-24">
-        <Appear>
-          <p className="kicker">Dúvidas</p>
-          <h2 className="mt-5 font-display text-[clamp(1.8rem,3.2vw,2.4rem)] font-semibold leading-[1.12] text-bone-100">
-            Respostas diretas
+    <section id="faq" className="py-24 md:py-32 bg-muted/20">
+      <div className="shell max-w-4xl">
+        <Appear className="text-center mb-16">
+          <div className="inline-flex size-14 rounded-2xl bg-primary/10 text-primary items-center justify-center mb-6">
+            <HelpCircle size={32} />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+            Dúvidas Frequentes
           </h2>
+          <p className="text-lg text-muted-foreground">
+            Tudo o que você precisa saber sobre o GastoCerto.
+          </p>
         </Appear>
 
-        <div>
-          {questions.map((item, i) => {
-            const active = open === i;
-            return (
-              <div key={item.q} className="border-t border-border last:border-b">
-                <button
-                  type="button"
-                  onClick={() => setOpen(active ? null : i)}
-                  aria-expanded={active}
-                  aria-controls={`q-panel-${i}`}
-                  className="flex w-full items-center justify-between gap-6 py-7 text-left outline-none transition-all duration-300 hover:text-primary focus-visible:text-primary group"
-                >
-                  <span className="font-display text-[18px] font-semibold text-bone-100 group-hover:translate-x-1 transition-transform duration-300">
-                    {item.q}
-                  </span>
-                  <Plus
-                    className={cn(
-                      "size-4 shrink-0 text-primary transition-transform duration-200",
-                      active && "rotate-45",
-                    )}
-                  />
-                </button>
-                <AnimatePresence initial={false}>
-                  {active && (
-                    <motion.div
-                      id={`q-panel-${i}`}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className="max-w-xl pb-7 text-[15px] leading-relaxed text-bone-100/50">
-                        {item.a}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
+        <Appear delay={200}>
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {faqs.map((faq, i) => (
+              <AccordionItem 
+                key={i} 
+                value={`item-${i}`}
+                className="bg-background border border-border/50 rounded-2xl px-6 overflow-hidden data-[state=open]:border-primary/30 transition-all"
+              >
+                <AccordionTrigger className="hover:no-underline py-6 text-left text-lg font-bold text-foreground">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-6">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Appear>
+
+        <Appear delay={400} className="mt-16 text-center">
+          <p className="text-muted-foreground">
+            Ainda tem dúvidas? <a href="#" className="text-primary font-bold hover:underline">Fale com nosso suporte</a>
+          </p>
+        </Appear>
       </div>
     </section>
   );
