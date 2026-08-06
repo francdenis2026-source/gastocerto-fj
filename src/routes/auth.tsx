@@ -775,7 +775,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <FormAlert message={formError} />
       <div className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="login-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
+          <Label htmlFor="login-cpf" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">CPF</Label>
           <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" invalid={!!errors.cpf} />
           <FieldError message={errors.cpf} />
         </div>
