@@ -528,7 +528,7 @@ function AuthPage() {
           </div>
 
           <div className="mt-3 shrink-0 border-t border-border/50 pt-2.5">
-            <p className="text-center text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40">
+            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">
               <button
                 type="button"
                 onClick={async () => {
