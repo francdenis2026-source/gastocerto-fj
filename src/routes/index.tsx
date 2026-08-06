@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: CORRIJA, NAO MUDOU NADA
+        comando mais recente enviado por ele: APAGUE COMPLETAMENTE O TEMA DESTA HOMEPAGE, CRIA ALGO TOTALMENTE DIFERENTE DO QUE TEM AI, ME ENTREGUE UM DESINER PORFSSIONAL
       */}
     </div>
   );
