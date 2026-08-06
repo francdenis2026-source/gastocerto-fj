@@ -28,9 +28,9 @@ export function SiteHero() {
               <span className="mt-2 block text-brand-500">Todo mês, sem esforço.</span>
             </h1>
 
-            <p className="mt-8 max-w-lg text-[18px] leading-relaxed text-bone-100/55 lg:text-[19px]">
-              O GastoCerto reúne contas, cartões, receitas e despesas em um único painel claro — com
-              projeções confiáveis e histórico que não se perde.
+            <p className="mt-8 max-w-lg text-[19px] leading-relaxed text-bone-100/60 lg:text-[20px] font-medium">
+              O GastoCerto reúne contas, cartões e despesas em um único painel claro — com
+              projeções confiáveis e um histórico que você realmente controla.
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
