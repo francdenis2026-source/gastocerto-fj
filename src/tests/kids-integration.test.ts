@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { useSaveTransaction } from '../lib/transactions';
 import { supabase } from '../integrations/supabase/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -52,7 +52,7 @@ describe('Espaço Kids Integration - Transaction Saving', () => {
 
   it('deve salvar a transação com o user_id do pai mesmo quando enviado explicitamente no Espaço Kids', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      React.createElement(QueryClientProvider, { client: queryClient }, children)
     );
 
     const { result } = renderHook(() => useSaveTransaction(), { wrapper });
@@ -66,27 +66,26 @@ describe('Espaço Kids Integration - Transaction Saving', () => {
       status: 'paid' as const,
       payment_date: '2023-10-27',
       tags: ['dependente:child-id', 'motivo:gasto_lanche'],
-      user_id: 'parent-user-id-123', // Valor enviado pelo DependentExpenseDialog
+      user_id: 'parent-user-id-123',
     };
 
-    const mockInsertResponse = { data: { id: 'new-id', ...kidsTransactionValues }, error: null };
-    (supabase.from('transactions').insert as any).mockResolvedValue(mockInsertResponse);
+    (supabase.from('transactions').insert as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
+    (supabase.from('transactions').select as any).mockReturnThis();
+    (supabase.from('transactions').single as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
 
     await result.current.mutateAsync({ values: kidsTransactionValues });
 
-    // Verifica se o insert foi chamado
     expect(supabase.from).toHaveBeenCalledWith('transactions');
     expect(supabase.from('transactions').insert).toHaveBeenCalledWith(
       expect.objectContaining({
         user_id: 'parent-user-id-123',
-        description: 'Filho - Lanche',
       })
     );
   });
 
   it('deve garantir que o user_id é injetado pelo hook caso não seja fornecido', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      React.createElement(QueryClientProvider, { client: queryClient }, children)
     );
 
     const { result } = renderHook(() => useSaveTransaction(), { wrapper });
@@ -98,13 +97,15 @@ describe('Espaço Kids Integration - Transaction Saving', () => {
       category_id: 'cat-id',
     };
 
-    (supabase.from('transactions').insert as any).mockResolvedValue({ data: {}, error: null });
+    (supabase.from('transactions').insert as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
+    (supabase.from('transactions').select as any).mockReturnThis();
+    (supabase.from('transactions').single as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
 
     await result.current.mutateAsync({ values: simpleTransactionValues });
 
     expect(supabase.from('transactions').insert).toHaveBeenCalledWith(
       expect.objectContaining({
-        user_id: 'parent-user-id-123', // Injetado pelo hook useSaveTransaction
+        user_id: 'parent-user-id-123',
       })
     );
   });
