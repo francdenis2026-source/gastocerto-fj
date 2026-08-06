@@ -37,12 +37,13 @@ function HomePage() {
         <Hero />
         <Features />
         <BentoGrid />
+        <SitePlans />
         <SiteQuestions />
       </main>
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: MELHORE TODAS HOMEPAGE, REMOVA ESSE AMADORISMO E DEIXE PROFSSIONAL,  REMOVA O QUE FOR DESNECESARIO E INTEGRE COISA SMELHORES
+        comando mais recente enviado por ele: Otimização de Layout e Conteúdo do Site: Compactação, Planos integrados, Linguagem simples e Header refinado.
       */}
     </div>
   );

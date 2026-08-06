@@ -55,11 +55,11 @@ export function SitePlans() {
   const { data: plans } = usePublicPlans();
 
   return (
-    <section id="planos" className="py-24 md:py-32 bg-background border-t border-border">
+    <section id="planos" className="py-16 md:py-20 bg-background border-t border-border">
       <div className="shell">
-        <Appear className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
-            Um plano para cada <span className="text-primary italic">estilo de vida.</span>
+        <Appear className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
+            Escolha o melhor plano para você
           </h2>
           
           <div className="flex items-center justify-center mt-10">
@@ -96,7 +96,7 @@ export function SitePlans() {
             return (
               <Appear key={plan.slug} delay={i * 100}>
                 <div className={cn(
-                  "relative p-10 rounded-[2.5rem] flex flex-col h-full transition-all duration-500",
+                  "relative p-6 rounded-[2rem] flex flex-col h-full transition-all duration-500",
                   plan.featured 
                     ? "bg-foreground text-background shadow-2xl scale-105 z-10" 
                     : "bg-muted/30 border border-border hover:bg-background"

@@ -35,14 +35,11 @@ const faqs = [
 
 export function SiteQuestions() {
   return (
-    <section id="faq" className="py-24 md:py-32 bg-muted/20">
+    <section id="faq" className="py-16 md:py-20 bg-muted/20">
       <div className="shell max-w-4xl">
-        <Appear className="text-center mb-16">
-          <div className="inline-flex size-14 rounded-2xl bg-primary/10 text-primary items-center justify-center mb-6">
-            <HelpCircle size={32} />
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
-            Dúvidas Frequentes
+        <Appear className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">
+            Dúvidas Comuns
           </h2>
           <p className="text-lg text-muted-foreground">
             Tudo o que você precisa saber sobre o GastoCerto.
@@ -57,10 +54,10 @@ export function SiteQuestions() {
                 value={`item-${i}`}
                 className="bg-background border border-border/50 rounded-2xl px-6 overflow-hidden data-[state=open]:border-primary/30 transition-all"
               >
-                <AccordionTrigger className="hover:no-underline py-6 text-left text-lg font-bold text-foreground">
+                <AccordionTrigger className="hover:no-underline py-4 text-left text-base font-bold text-foreground">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-6">
+                <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-4">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
