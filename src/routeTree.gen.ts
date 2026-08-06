@@ -57,6 +57,7 @@ import { Route as AuthenticatedConsumoSlugRouteImport } from './routes/_authenti
 import { Route as AuthenticatedKidsExtratoRouteImport } from './routes/_authenticated/kids/extrato'
 import { Route as ApiPublicCronRouteImport } from './routes/api/public/cron'
 import { Route as ApiPublicExternalVerifyRouteImport } from './routes/api/public/external-verify'
+import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicMercadopagoRouteImport } from './routes/api/public/mercadopago'
 import { Route as ApiPublicMercadopagoPixRouteImport } from './routes/api/public/mercadopago-pix'
 
@@ -312,6 +313,11 @@ const ApiPublicExternalVerifyRoute = ApiPublicExternalVerifyRouteImport.update({
   path: '/api/public/external-verify',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
+  id: '/api/public/health',
+  path: '/api/public/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicMercadopagoRoute = ApiPublicMercadopagoRouteImport.update({
   id: '/api/public/mercadopago',
   path: '/api/public/mercadopago',
@@ -371,6 +377,7 @@ export interface FileRoutesByFullPath {
   '/kids/extrato': typeof AuthenticatedKidsExtratoRoute
   '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
 }
@@ -422,6 +429,7 @@ export interface FileRoutesByTo {
   '/kids/extrato': typeof AuthenticatedKidsExtratoRoute
   '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
 }
@@ -475,6 +483,7 @@ export interface FileRoutesById {
   '/_authenticated/kids/extrato': typeof AuthenticatedKidsExtratoRoute
   '/api/public/cron': typeof ApiPublicCronRoute
   '/api/public/external-verify': typeof ApiPublicExternalVerifyRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/mercadopago': typeof ApiPublicMercadopagoRoute
   '/api/public/mercadopago-pix': typeof ApiPublicMercadopagoPixRoute
 }
@@ -528,6 +537,7 @@ export interface FileRouteTypes {
     | '/kids/extrato'
     | '/api/public/cron'
     | '/api/public/external-verify'
+    | '/api/public/health'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
   fileRoutesByTo: FileRoutesByTo
@@ -579,6 +589,7 @@ export interface FileRouteTypes {
     | '/kids/extrato'
     | '/api/public/cron'
     | '/api/public/external-verify'
+    | '/api/public/health'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
   id:
@@ -631,6 +642,7 @@ export interface FileRouteTypes {
     | '/_authenticated/kids/extrato'
     | '/api/public/cron'
     | '/api/public/external-verify'
+    | '/api/public/health'
     | '/api/public/mercadopago'
     | '/api/public/mercadopago-pix'
   fileRoutesById: FileRoutesById
@@ -648,6 +660,7 @@ export interface RootRouteChildren {
   PedidoIdRoute: typeof PedidoIdRoute
   ApiPublicCronRoute: typeof ApiPublicCronRoute
   ApiPublicExternalVerifyRoute: typeof ApiPublicExternalVerifyRoute
+  ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicMercadopagoRoute: typeof ApiPublicMercadopagoRoute
   ApiPublicMercadopagoPixRoute: typeof ApiPublicMercadopagoPixRoute
 }
@@ -990,6 +1003,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicExternalVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/health': {
+      id: '/api/public/health'
+      path: '/api/public/health'
+      fullPath: '/api/public/health'
+      preLoaderRoute: typeof ApiPublicHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/mercadopago': {
       id: '/api/public/mercadopago'
       path: '/api/public/mercadopago'
@@ -1111,9 +1131,20 @@ const rootRouteChildren: RootRouteChildren = {
   PedidoIdRoute: PedidoIdRoute,
   ApiPublicCronRoute: ApiPublicCronRoute,
   ApiPublicExternalVerifyRoute: ApiPublicExternalVerifyRoute,
+  ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicMercadopagoRoute: ApiPublicMercadopagoRoute,
   ApiPublicMercadopagoPixRoute: ApiPublicMercadopagoPixRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
