@@ -43,7 +43,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Quero verificar se o scroll com mouse funciona perfeitamente em Chrome, Firefox e Safari, e corrigir qualquer diferença de comportamento.
+        comando mais recente enviado por ele: MOSTRE A BARRA VERETICAL DE ROLAGEM; MUDE ESSA HOMEPAGE, DEIXE ELAS MAIS MODERNA, MUDE AS CORES A HERO E IMPLANTE OD MODO CLARO E ESCURO
       */}
     </div>
   );
