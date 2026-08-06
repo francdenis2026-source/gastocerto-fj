@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: FAÇA TESTE PARA DESCOBRIR O POR QUE NAO COSNIGO FAZER ROLAGEM USNDO A BOLINHA DO MOUSE
+        comando mais recente enviado por ele: Testar o scroll com toque (mobile) e com trackpad para garantir que a rolagem continue funcionando sem travar.
       */}
     </div>
   );
