@@ -339,10 +339,10 @@ function AuthPage() {
         {/* Painel do formulário - Mais compacto */}
         <section className="flex min-h-0 flex-col px-6 py-6 sm:px-10 sm:py-8 bg-background/95 lg:h-full transition-colors duration-500">
           <div className="mb-5">
-            <h1 className="text-xl font-black text-foreground tracking-tight leading-tight sm:text-2xl">
+            <h1 className="text-2xl font-black text-foreground tracking-tight leading-tight sm:text-3xl">
               {mode === "login" ? "Entrar" : mode === "signup" ? "Criar conta" : "Área Restrita"}
             </h1>
-            <p className="text-[11px] font-bold text-muted-foreground/60 mt-1 uppercase tracking-wider">
+            <p className="text-[12px] font-bold text-muted-foreground/70 mt-1 uppercase tracking-wider">
               {mode === "login" ? "Acesse sua conta com segurança" : "Comece sua jornada gratuita hoje"}
             </p>
           </div>
