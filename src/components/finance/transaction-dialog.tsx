@@ -78,6 +78,7 @@ import {
 } from "@/lib/transactions";
 
 import { sanitizeText } from "@/lib/validation";
+import { cn } from "@/lib/utils";
 
 type Kind = "expense" | "income";
 
