@@ -905,44 +905,40 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3" noValidate autoComplete="off">
       <FormAlert message={formError} />
-      <div>
-        <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
-        <Input id="signup-name" name="fullName" required className="mt-1" autoComplete="off" />
-      </div>
-      <div>
-        <Label htmlFor="signup-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
-        <div className="mt-1">
+      <div className="space-y-3">
+        <div className="space-y-1">
+          <Label htmlFor="signup-name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nome Completo</Label>
+          <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="signup-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
           <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
         </div>
-      </div>
-      <div>
-        <Label htmlFor="signup-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail de contato (opcional)</Label>
-        <Input id="signup-email" name="contactEmail" type="email" className="mt-1" autoComplete="off" />
-      </div>
-      <div>
-        <Label htmlFor="signup-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
-        <div className="mt-1">
-          <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
+        <div className="space-y-1">
+          <Label htmlFor="signup-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail (opcional)</Label>
+          <Input id="signup-email" name="contactEmail" type="email" className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <PinInput id="signup-pin" name="pin" autoComplete="new-password" label="Senha" />
+          </div>
+          <div className="space-y-1">
+            <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" label="Confirmar" />
+          </div>
         </div>
       </div>
-      <div>
-        <Label htmlFor="signup-confirm-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Confirmar Senha</Label>
-        <div className="mt-1">
-          <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
-        </div>
-      </div>
-      <div className="pt-2">
+      <div className="pt-3">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
+          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
           disabled={loading}
         >
           {loading ? (
-            <Loader2 className="mr-2 size-5 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
             <>
               Criar conta
-              <ArrowRight className="ml-2 size-5" />
+              <ArrowRight className="ml-2 size-3.5" />
             </>
           )}
         </Button>
@@ -999,15 +995,15 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
       <div className="text-center">
-        <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
-        <p className="text-[12px] text-muted-foreground">Área restrita para gestores do sistema.</p>
+        <h3 className="text-lg font-black text-foreground tracking-tight">Painel Administrativo</h3>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">Restrito a gestores</p>
       </div>
       
       <FormAlert message={error} />
 
-      <div className="space-y-3">
-        <div>
-          <Label htmlFor="admin-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail</Label>
+      <div className="space-y-4 pt-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="admin-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail</Label>
           <Input 
             id="admin-email" 
             name="email" 
@@ -1015,11 +1011,11 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
             placeholder="admin@exemplo.com"
             autoComplete="off"
             required
-            className="mt-1"
+            className="h-10 rounded-xl border-border/50 bg-muted/20"
           />
         </div>
-        <div>
-          <Label htmlFor="admin-password" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha</Label>
+        <div className="space-y-1.5">
+          <Label htmlFor="admin-password" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Senha</Label>
           <Input 
             id="admin-password" 
             name="password" 
@@ -1027,7 +1023,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
             placeholder="••••••••"
             autoComplete="current-password"
             required
-            className="mt-1"
+            className="h-10 rounded-xl border-border/50 bg-muted/20"
           />
         </div>
       </div>
@@ -1035,15 +1031,15 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
+          className="h-11 w-full rounded-xl bg-brand-navy text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-navy/20 hover:bg-brand-navy/90 transition-all active:scale-95" 
           disabled={loading}
         >
           {loading ? (
-            <Loader2 className="mr-2 size-5 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
             <>
-              Entrar como Admin
-              <ShieldAlert className="ml-2 size-5" />
+              Entrar Admin
+              <ShieldAlert className="ml-2 size-3.5" />
             </>
           )}
         </Button>
