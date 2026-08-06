@@ -248,17 +248,26 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Oculta barra visual mas mantém funcionalidade de scroll nativa para todos os navegadores */
+/* Garante que a barra de rolagem seja visível conforme solicitado */
 html::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
+  width: 12px !important;
+  height: 12px !important;
+  display: block !important;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--background) !important;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--primary) !important;
+  border: 3px solid var(--background) !important;
+  border-radius: 10px !important;
 }
 
 html {
-  scrollbar-width: none !important; /* Firefox */
-  -ms-overflow-style: none !important; /* IE/Edge */
+  scrollbar-width: auto !important; /* Firefox: torna visível */
+  scrollbar-color: var(--primary) var(--background) !important;
 }
 
 body {
