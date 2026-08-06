@@ -770,13 +770,18 @@ export function TransactionDialog({
               <div className="sm:col-span-2 space-y-2">
                 <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Categoria</Label>
                 <CategoryPicker
-                  kind={kind}
-                  value={categoryId}
-                  onChange={(catId, subId) => {
-                    setCategoryId(catId);
-                    setSubCategoryId(subId ?? "");
+                  categories={options}
+                  value={subCategoryId || categoryId}
+                  onChange={(id) => {
+                    const cat = options.find(c => c.id === id);
+                    if (cat?.parent_id) {
+                      setCategoryId(cat.parent_id);
+                      setSubCategoryId(id);
+                    } else {
+                      setCategoryId(id);
+                      setSubCategoryId("");
+                    }
                   }}
-                  subValue={subCategoryId}
                 />
                 {errors.categoryId && <p className="mt-1 text-xs text-destructive">{errors.categoryId}</p>}
               </div>
