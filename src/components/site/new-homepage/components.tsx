@@ -276,7 +276,7 @@ import { Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="py-24 bg-[#000c18] border-t border-white/5">
+    <footer className="py-24 bg-[#000c18]">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row justify-between gap-16 mb-20">
           <div className="max-w-xs">
