@@ -289,9 +289,8 @@ export function Footer() {
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row justify-between gap-16 mb-20">
           <div className="max-w-xs">
-            <div className="text-2xl font-black tracking-tighter text-white mb-8 flex items-center gap-3">
-              <div className="size-10 bg-primary rounded-[0.8rem] flex items-center justify-center text-white text-xs font-black">GC</div>
-              GASTO<span className="text-primary italic">CERTO</span>
+            <div className="mb-8">
+              <Logo onDark />
             </div>
             <p className="text-slate-400 font-medium leading-relaxed mb-10">
               A tecnologia definitiva para quem não aceita nada menos que a excelência na gestão do próprio patrimônio.
