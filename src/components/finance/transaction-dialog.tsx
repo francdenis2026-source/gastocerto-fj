@@ -604,7 +604,6 @@ export function TransactionDialog({
           ref={formRef}
           onSubmit={handleSubmit}
           onKeyDown={handleFormKeyDown}
-          className="flex-1 overflow-y-auto px-8 py-6 space-y-6"
           noValidate
         >
           {currentStep === 1 ? (
