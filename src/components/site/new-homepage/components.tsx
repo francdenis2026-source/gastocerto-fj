@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { useRef } from "react";
+import { Logo } from "@/components/logo";
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
