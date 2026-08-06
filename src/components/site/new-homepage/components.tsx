@@ -57,7 +57,7 @@ export function Hero() {
             className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-foreground leading-[1.1] mb-6 md:mb-8"
           >
             Gestão inteligente <br />
-            para sua <span className="text-primary italic">evolução.</span>
+            para sua <span className="text-primary italic drop-shadow-[0_0_15px_rgba(0,168,95,0.3)]">evolução.</span>
           </motion.h1>
 
           <motion.p
@@ -174,8 +174,9 @@ export function BentoGrid() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 auto-rows-[280px]">
           {/* Main Bento */}
           <motion.div 
-            whileHover={{ y: -5 }}
-            className="lg:col-span-7 bg-muted/50 rounded-[2rem] border border-border p-8 flex flex-col justify-center overflow-hidden relative group"
+            whileHover={{ y: -5, scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="lg:col-span-7 bg-muted/50 rounded-[2rem] border border-border p-8 flex flex-col justify-center overflow-hidden relative group lift"
           >
             <div className="relative z-10 max-w-md">
               <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Inteligência Artificial</span>
@@ -193,8 +194,9 @@ export function BentoGrid() {
 
           {/* Secondary Bento */}
           <motion.div 
-            whileHover={{ y: -5 }}
-            className="lg:col-span-5 bg-foreground rounded-[2rem] p-8 text-background flex flex-col justify-between relative overflow-hidden group"
+            whileHover={{ y: -5, scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="lg:col-span-5 bg-foreground rounded-[2rem] p-8 text-background flex flex-col justify-between relative overflow-hidden group lift"
           >
             <div className="relative z-10">
               <div className="size-12 rounded-xl bg-primary flex items-center justify-center mb-6">
@@ -214,8 +216,9 @@ export function BentoGrid() {
 
           {/* Tertiary Bento */}
           <motion.div 
-            whileHover={{ y: -5 }}
-            className="lg:col-span-4 bg-card rounded-[2rem] border border-border p-8 flex flex-col justify-between group"
+            whileHover={{ y: -5, scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="lg:col-span-4 bg-card rounded-[2rem] border border-border p-8 flex flex-col justify-between group lift"
           >
             <div className="size-12 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/5 transition-colors">
               <Smartphone size={24} className="text-primary" />
@@ -230,8 +233,9 @@ export function BentoGrid() {
 
           {/* Quaternary Bento */}
           <motion.div 
-            whileHover={{ y: -5 }}
-            className="lg:col-span-8 bg-primary rounded-[2rem] p-8 text-white flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group"
+            whileHover={{ y: -5, scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="lg:col-span-8 bg-primary rounded-[2rem] p-8 text-white flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group lift"
           >
             <div className="relative z-10 max-w-sm">
               <h3 className="text-3xl font-black mb-3 leading-tight">Relatórios em um clique</h3>
