@@ -1,55 +1,99 @@
 import { Appear } from "./appear";
+import { 
+  Zap, 
+  Target, 
+  Repeat, 
+  ArrowRight 
+} from "lucide-react";
 
 const steps = [
   {
-    n: "01",
-    title: "Registre em segundos",
-    text: "Lançamentos rápidos por categoria, com repetição automática para o que acontece todo mês.",
+    icon: Zap,
+    title: "Capture na Hora",
+    text: "Gastou? Um toque, um valor, uma categoria. Sem fricção, sem enrolação.",
+    tag: "Entrada"
   },
   {
-    n: "02",
-    title: "Enxergue o mês inteiro",
-    text: "Saldo real, comprometido e projetado. Você sabe o que sobra antes do dia 30 chegar.",
+    icon: Target,
+    title: "Visualize o Destino",
+    text: "Nossos gráficos mostram não só onde você gastou, mas quanto ainda pode gastar.",
+    tag: "Planejamento"
   },
   {
-    n: "03",
-    title: "Feche e compare",
-    text: "Reconciliação mensal, balanço anual e exportação em CSV ou PDF quando precisar provar.",
+    icon: Repeat,
+    title: "Automatize a Rotina",
+    text: "Deixe que a IA aprenda seus hábitos e automatize previsões e alertas.",
+    tag: "Automação"
   },
 ];
 
 export function SiteMethod() {
   return (
-    <section id="metodo" className="band border-t border-border/40 bg-navy-900">
-      <div className="shell grid gap-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
-        <Appear>
-          <p className="kicker">O método</p>
-          <h2 className="mt-5 max-w-sm font-display text-[clamp(1.9rem,3.6vw,2.7rem)] font-semibold leading-[1.1] text-bone-100">
-            Três passos, repetidos todo mês
-          </h2>
-          <p className="mt-5 max-w-sm text-[17px] leading-relaxed text-bone-100/50">
-            Sem curva de aprendizado. A disciplina vem da rotina, não da ferramenta.
-          </p>
-        </Appear>
-
-        <div>
-          {steps.map((step, i) => (
-            <Appear key={step.n} delay={i * 60}>
-              <div className="group flex gap-8 border-t border-border py-9 last:border-b transition-colors duration-300 hover:bg-navy-800/30">
-                <span className="numeric shrink-0 text-[14px] font-bold text-primary">
-                  {step.n}
-                </span>
-                <div>
-                  <h3 className="font-display text-[20px] font-semibold text-bone-100 group-hover:text-primary transition-colors">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2.5 max-w-lg text-[16px] leading-relaxed text-bone-100/50">
-                    {step.text}
-                  </p>
-                </div>
+    <section id="metodo" className="py-24 md:py-32 bg-muted/20 relative">
+      <div className="shell">
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
+          <div className="lg:w-1/2">
+            <Appear>
+              <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-6">
+                O Método GastoCerto
+              </h2>
+              <h3 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-8">
+                Domine sua carteira em <br />
+                <span className="text-primary italic">3 etapas simples.</span>
+              </h3>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl">
+                Não é sobre privação, é sobre clareza. Quando você sabe para onde o dinheiro vai, você decide para onde ele deve ir.
+              </p>
+              
+              <div className="space-y-6">
+                {steps.map((step, i) => (
+                  <Appear key={step.title} delay={i * 100}>
+                    <div className="flex gap-6 items-start p-6 rounded-3xl bg-background border border-border/50 hover:shadow-xl hover:shadow-primary/5 transition-all group">
+                      <div className="size-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-500">
+                        <step.icon size={24} />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1 block">
+                          {step.tag}
+                        </span>
+                        <h4 className="text-xl font-bold text-foreground mb-2">{step.title}</h4>
+                        <p className="text-muted-foreground leading-relaxed">
+                          {step.text}
+                        </p>
+                      </div>
+                    </div>
+                  </Appear>
+                ))}
               </div>
             </Appear>
-          ))}
+          </div>
+          
+          <div className="lg:w-1/2 relative">
+             <Appear delay={300}>
+                <div className="relative aspect-square max-w-lg mx-auto">
+                   <div className="absolute inset-0 bg-primary/10 rounded-full blur-[100px]" />
+                   <div className="relative z-10 w-full h-full rounded-[3rem] border-8 border-background bg-foreground shadow-2xl overflow-hidden flex items-center justify-center p-12">
+                      <div className="text-center">
+                         <div className="size-24 rounded-full bg-primary/20 flex items-center justify-center text-primary mx-auto mb-8 animate-pulse">
+                            <Zap size={48} fill="currentColor" />
+                         </div>
+                         <p className="text-3xl font-bold text-background mb-4 tracking-tight">Liberdade Financeira</p>
+                         <div className="h-2 w-48 bg-background/10 rounded-full mx-auto overflow-hidden">
+                            <div className="h-full bg-primary w-full animate-[progress_3s_infinite]" />
+                         </div>
+                      </div>
+                   </div>
+                   
+                   {/* Floating indicators */}
+                   <div className="absolute -top-6 -left-6 p-4 rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-border animate-bounce-slow">
+                      <div className="text-xs font-bold text-emerald-500">+R$ 450,00</div>
+                   </div>
+                   <div className="absolute -bottom-6 -right-6 p-4 rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-border animate-bounce-delayed">
+                      <div className="text-xs font-bold text-rose-500">-R$ 89,90</div>
+                   </div>
+                </div>
+             </Appear>
+          </div>
         </div>
       </div>
     </section>
