@@ -1237,15 +1237,15 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
+          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
           disabled={loading || lockSeconds > 0}
         >
           {loading ? (
-            <Loader2 className="mr-2 size-5 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
             <>
               Entrar no Meu Espaço
-              <Sparkles className="ml-2 size-5" />
+              <Baby className="ml-2 size-3.5" />
             </>
           )}
         </Button>
