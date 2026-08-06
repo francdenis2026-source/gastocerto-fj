@@ -722,19 +722,22 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
 
-  async function persist(nextCode: string, reason: "created" | "updated" | "rotated" | "pin_customized") {
+  async function persist(nextCode: string, reason: "created" | "updated" | "rotated" | "pin_customized", overridePin?: string) {
     const clean = normalizeKidCode(nextCode);
     if (!isValidKidCode(clean)) {
       toast.error("Escolha um código com pelo menos 4 caracteres.");
       return;
     }
-    if (!isValidKidPin(pin)) {
+    
+    const pinToSave = overridePin || pin;
+    if (!isValidKidPin(pinToSave)) {
       toast.error("Digite a senha da criança (4 a 6 números) para confirmar.");
       return;
     }
+    
     setBusy(true);
     const expiresDays = days === "never" ? null : Number(days);
-    const promise = save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays, reason } });
+    const promise = save({ data: { dependentId: dependent.id, code: clean, pin: pinToSave, expiresDays, reason } });
     
     toast.promise(promise, {
       loading: 'Salvando acesso...',
@@ -836,15 +839,30 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
               <span className="text-[11px] font-mono font-bold text-emerald-600 bg-white/60 px-2 rounded-md border border-emerald-500/10 min-w-[45px] text-center">
                 {showPin ? (dependent as any).pin_code : "••••"}
               </span>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="size-5 rounded-full hover:bg-emerald-500/10 text-emerald-600"
-                onClick={() => setShowPin(!showPin)}
-                title={showPin ? "Ocultar senha" : "Ver senha"}
-              >
-                {showPin ? <Eye className="size-3" /> : <Eye className="size-3 opacity-60" />}
-              </Button>
+              <div className="flex items-center">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="size-5 rounded-full hover:bg-emerald-500/10 text-emerald-600"
+                  onClick={() => setShowPin(!showPin)}
+                  title={showPin ? "Ocultar senha" : "Ver senha"}
+                >
+                  {showPin ? <Eye className="size-3" /> : <Eye className="size-3 opacity-60" />}
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="size-5 rounded-full hover:bg-emerald-500/10 text-emerald-600 ml-0.5"
+                  onClick={() => {
+                    const newPin = Math.floor(1000 + Math.random() * 9000).toString();
+                    void persist(code, "pin_customized", newPin);
+                  }}
+                  title="Gerar nova senha"
+                  disabled={busy}
+                >
+                  <RefreshCw className={cn("size-2.5", busy && "animate-spin")} />
+                </Button>
+              </div>
             </div>
           )}
         </div>
