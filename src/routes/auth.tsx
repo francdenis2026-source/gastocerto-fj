@@ -494,8 +494,17 @@ function AuthPage() {
                       </span>
                     </button>
 
-                    <div className="mt-4">
+                    <div className="mt-4 space-y-2">
                       <CodeAccessInline onContinue={() => setMode("signup")} />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setPendingCode("")}
+                        className="w-full h-10 rounded-xl text-[11px] font-bold uppercase tracking-widest text-brand hover:bg-brand/5 border border-brand/20"
+                      >
+                        <Fingerprint className="size-3.5 mr-2" />
+                        Entrar com Código de Acesso
+                      </Button>
                     </div>
 
                   </TabsContent>

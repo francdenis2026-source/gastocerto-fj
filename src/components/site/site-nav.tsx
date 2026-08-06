@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { label: "Plataforma", href: "#plataforma" },
   { label: "Método", href: "#metodo" },
+  { label: "Kids", href: "/auth?mode=kid" },
   { label: "Segurança", href: "#seguranca" },
   { label: "Planos", href: "#planos" },
 ];
@@ -55,9 +56,16 @@ export function SiteNav() {
           <Link 
             to="/auth" 
             search={{ mode: "login" }}
-            className="hidden text-sm font-bold text-foreground hover:text-primary transition-colors md:block px-4"
+            className="hidden text-sm font-bold text-foreground hover:text-primary transition-colors md:block px-2"
           >
             Entrar
+          </Link>
+          <Link 
+            to="/auth" 
+            search={{ mode: "login", code: "" }}
+            className="hidden text-sm font-bold text-brand hover:opacity-80 transition-colors md:block px-2"
+          >
+            Acesso por Código
           </Link>
           <Button
             className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform"

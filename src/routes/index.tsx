@@ -41,10 +41,6 @@ function HomePage() {
         <SiteQuestions />
       </main>
       <Footer />
-      {/* 
-        Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: REMOVA ESSA LINHA BRANCA QUE APARECE; O FOOTER FALTOU O NOME DO DESENVOLVEDOR; FALTROU A CIDADE E ESTADO; ESTA FALTANDO O ICONE DO EMAIL; FATA ATIVAR OS CARDS CLICAVEIS
-      */}
     </div>
   );
 }
