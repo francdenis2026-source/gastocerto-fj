@@ -647,7 +647,7 @@ function PinInput({
           required
           aria-invalid={invalid || undefined}
           aria-describedby={describedById}
-          className="h-10 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em]"
+          className="h-12 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em] text-[14px]"
           onChange={(event) => {
             event.target.value = onlyDigits(event.target.value).slice(0, 6);
           }}
