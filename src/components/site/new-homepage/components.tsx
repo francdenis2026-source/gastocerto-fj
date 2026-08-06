@@ -5,14 +5,14 @@ import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
       <div className="container px-4 mx-auto relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-sm"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -22,47 +22,57 @@ export function Hero() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-slate-900 leading-[0.9] mb-8"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter text-foreground leading-[0.85] mb-10"
           >
-            Domine seu <br />
-            <span className="text-primary italic">destino</span> financeiro.
+            Seu dinheiro <br />
+            <span className="text-primary relative inline-block">
+              sob controle.
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="absolute -bottom-2 left-0 h-2 bg-primary/20 rounded-full" 
+              />
+            </span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto font-medium"
+            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            A plataforma definitiva para quem busca clareza absoluta e crescimento patrimonial sem o peso das planilhas.
+            A inteligência financeira que faltava para você conquistar sua liberdade. 
+            Modo claro, escuro e uma interface que respira tecnologia.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <Button size="lg" className="h-16 px-8 rounded-full text-lg font-bold group bg-slate-900 hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10" asChild>
+            <Button size="lg" className="h-16 px-10 rounded-2xl text-lg font-bold group bg-foreground text-background hover:scale-105 transition-all shadow-2xl shadow-foreground/10" asChild>
               <Link to="/auth" search={{ mode: "signup" }}>
-                Começar gratuitamente
+                Começar Grátis
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-            <Button variant="outline" size="lg" className="h-16 px-8 rounded-full text-lg font-bold border-2 hover:bg-slate-50 transition-all">
-              Ver como funciona
+            <Button variant="outline" size="lg" className="h-16 px-10 rounded-2xl text-lg font-bold border-2 hover:bg-muted/50 transition-all">
+              Tour Completo
             </Button>
           </motion.div>
         </div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+      {/* Modern Gradient Backgrounds */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[120px] animate-glow opacity-50 dark:opacity-30" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[100px] animate-glow opacity-50 dark:opacity-20" style={{ animationDelay: '2s' }} />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.05)_0%,transparent_50%)]" />
       </div>
     </section>
   );
