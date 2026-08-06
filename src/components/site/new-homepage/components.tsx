@@ -28,6 +28,16 @@ import { Link } from "@tanstack/react-router";
 export function Hero() {
   return (
     <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden bg-background">
+      {/* Background Image / Professional Hero Background */}
+      <div className="absolute inset-0 -z-10">
+        <img 
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop" 
+          alt="Financial Background" 
+          className="w-full h-full object-cover opacity-[0.03] dark:opacity-[0.05]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+      </div>
+
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 opacity-30">
         <div className="absolute top-[-10%] left-[10%] w-[40%] h-[50%] bg-primary/20 blur-[120px] rounded-full animate-pulse" />
