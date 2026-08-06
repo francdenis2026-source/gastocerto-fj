@@ -107,7 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           window.localStorage.clear();
           window.sessionStorage.clear();
 
-          // Ao voltar para a homepage o app sempre reabre em modo escuro.
+          // Respeitar persistência de sessão configurada
           document.documentElement.classList.add("dark");
           document.documentElement.style.colorScheme = "dark";
 
