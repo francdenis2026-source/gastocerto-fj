@@ -103,10 +103,10 @@ export function SitePlans() {
               <Appear key={plan.slug} delay={i * 60}>
                 <div
                   className={cn(
-                    "lift flex h-full flex-col rounded-2xl border p-8",
+                    "lift flex h-full flex-col rounded-2xl border p-8 transition-all duration-300",
                     plan.featured
-                      ? "border-primary/45 bg-navy-600"
-                      : "border-border bg-navy-800",
+                      ? "border-primary/50 bg-navy-600 ring-2 ring-primary/20 shadow-[0_20px_50px_rgba(0,168,95,0.15)]"
+                      : "border-border bg-navy-800 hover:border-primary/30",
                   )}
                 >
                   <div className="flex items-center justify-between">
@@ -122,11 +122,11 @@ export function SitePlans() {
                   <p className="mt-2 text-[13px] text-bone-100/45">{plan.pitch}</p>
 
                   <div className="mt-8 flex items-baseline gap-1.5">
-                    <span className="numeric text-[34px] font-semibold text-bone-100">
+                    <span className="numeric text-[42px] font-bold text-bone-100 tracking-tight">
                       {money(amount)}
                     </span>
                     {amount > 0 && (
-                      <span className="text-[13px] text-bone-100/40">
+                      <span className="text-[14px] font-medium text-bone-100/40">
                         /{cycle === "annual" ? "ano" : "mês"}
                       </span>
                     )}
