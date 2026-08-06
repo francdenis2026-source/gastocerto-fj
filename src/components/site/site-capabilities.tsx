@@ -55,15 +55,17 @@ export function SiteCapabilities() {
           </p>
         </Appear>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((item, i) => (
             <Appear key={item.title} delay={i * 40}>
-              <div className="group h-full bg-navy-700 p-8 transition-all duration-200 hover:bg-navy-600 hover:shadow-soft active:scale-[0.99]">
-                <item.icon className="size-5 text-primary" strokeWidth={1.75} />
-                <h3 className="mt-6 font-display text-[17px] font-semibold text-bone-100">
+              <div className="group h-full rounded-2xl border border-border/50 bg-navy-700 p-8 transition-all duration-300 hover:bg-navy-600 hover:border-primary/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] active:scale-[0.99] focus-within:ring-2 focus-within:ring-primary/20">
+                <div className="inline-flex size-10 items-center justify-center rounded-xl bg-brand-500/10 text-primary transition-transform duration-300 group-hover:scale-110">
+                  <item.icon className="size-5" strokeWidth={2} />
+                </div>
+                <h3 className="mt-6 font-display text-[18px] font-semibold text-bone-100">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-[14px] leading-relaxed text-bone-100/45">{item.text}</p>
+                <p className="mt-3 text-[15px] leading-relaxed text-bone-100/50">{item.text}</p>
               </div>
             </Appear>
           ))}
