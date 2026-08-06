@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-dvh w-full max-w-full bg-white font-sans antialiased selection:bg-primary/25 selection:text-foreground">
+    <div className="min-h-dvh w-full max-w-full bg-background font-sans antialiased selection:bg-primary/25 selection:text-foreground">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Pular para o conteúdo principal
       </a>
