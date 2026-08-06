@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground" data-body-context="Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, comando mais recente enviado por ele: o tamanho dos qr code estao garnde e a tipografia tambem, deixe todo area comapcta e organizada">
+    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground" data-body-context="Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, comando mais recente enviado por ele: a tipogrtafia esta pequena neste painel ao alafo, corrija, troque esse tipografia por um afonte tpeclear">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Pular para o conteúdo principal
       </a>
