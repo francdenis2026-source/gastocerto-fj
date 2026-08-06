@@ -43,7 +43,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: IDENTIFIQUE POR QUE O MOUSE NAO ESTA SENDO ACEITOPARA FAZER A ROLAGEM NA HOMEPAGE
+        comando mais recente enviado por ele: Quero verificar se o scroll com mouse funciona perfeitamente em Chrome, Firefox e Safari, e corrigir qualquer diferença de comportamento.
       */}
     </div>
   );
