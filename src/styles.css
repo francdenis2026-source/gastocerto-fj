@@ -265,6 +265,8 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+  /* Permitir o comportamento de rolagem nativo em dispositivos móveis */
+  overscroll-behavior-y: auto;
 }
 
 img,
