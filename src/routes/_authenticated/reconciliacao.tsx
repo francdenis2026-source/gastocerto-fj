@@ -9,7 +9,7 @@ import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { monthRange, MONTH_NAMES } from "@/lib/finance";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { getReconciliationData } from "@/lib/reconciliation.functions";
+import { getReconciliationData } from "@/functions/reconciliation.functions";
 import { useMemo } from "react";
 
 export const Route = createFileRoute("/_authenticated/reconciliacao")({

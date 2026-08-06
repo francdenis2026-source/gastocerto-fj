@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 import { useServerFn } from "@tanstack/react-start";
-import { adminListAuditLogs } from "@/lib/audit-logs.functions";
+import { adminListAuditLogs } from "@/functions/audit-logs.functions";
 
 const ACTION_MAP: Record<string, { label: string; icon: any; color: string }> = {
   set_status: { label: "Status alterado", icon: ShieldAlert, color: "text-amber-500 bg-amber-500/10" },

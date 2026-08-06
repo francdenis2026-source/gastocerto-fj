@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getOrderStatus } from "@/lib/checkout.functions";
+import { getOrderStatus } from "@/functions/checkout.functions";
 import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 

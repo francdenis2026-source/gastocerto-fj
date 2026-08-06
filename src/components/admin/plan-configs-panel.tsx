@@ -18,7 +18,7 @@ import {
   adminListPlans,
   adminUpdateOwnContact,
   adminUpdatePlan,
-} from "@/lib/admin-plans.functions";
+} from "@/functions/admin-plans.functions";
 
 type PlanRow = {
   id: string;

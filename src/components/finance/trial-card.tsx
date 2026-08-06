@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { usePlanAccess } from "@/hooks/use-plan";
 import { formatDateTime } from "@/lib/format-utils";
-import { startTrial } from "@/lib/plan.functions";
+import { startTrial } from "@/functions/plan.functions";
 import { FEATURE_LABEL, FREE_FEATURES, TRIAL_OPTIONS, type TrialSlug } from "@/lib/plan-features";
 
 const TIER_LABEL: Record<string, string> = {

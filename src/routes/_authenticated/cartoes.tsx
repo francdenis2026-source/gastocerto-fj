@@ -4,7 +4,7 @@ import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, 
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { getCreditCards } from "@/lib/credit-cards.functions";
+import { getCreditCards } from "@/functions/credit-cards.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { formatCurrency } from "@/lib/format-utils";
 import { Progress } from "@/components/ui/progress";

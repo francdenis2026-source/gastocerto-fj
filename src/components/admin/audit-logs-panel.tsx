@@ -8,10 +8,10 @@ import { formatDateTime } from "@/lib/format-utils";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { adminPurgeLogs } from "@/lib/admin-ops.functions";
+import { adminPurgeLogs } from "@/functions/admin-ops.functions";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
-import { adminListAuditLogs, adminExportAuditLogsCsv } from "@/lib/audit-logs.functions";
+import { adminListAuditLogs, adminExportAuditLogsCsv } from "@/functions/audit-logs.functions";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export function AuditLogsTable({ globalSearch = "" }: { globalSearch?: string }) {

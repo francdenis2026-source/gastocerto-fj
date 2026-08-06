@@ -32,7 +32,7 @@ import {
   normalizeKidCode,
   suggestKidCode,
 } from "@/lib/kids-account";
-import { revokeKidAccess, saveKidAccess } from "@/lib/kids-account.functions";
+import { revokeKidAccess, saveKidAccess } from "@/functions/kids-account.functions";
 import {
   DEPENDENT_RELATIONS,
   useSaveDependent,

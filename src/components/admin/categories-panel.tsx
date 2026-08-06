@@ -21,7 +21,7 @@ import {
   applyCategoryCatalog,
   getCategoryCatalog,
   saveCategoryCatalog,
-} from "@/lib/categories-catalog.functions";
+} from "@/functions/categories-catalog.functions";
 
 const COLORS = [
   "#f97316",

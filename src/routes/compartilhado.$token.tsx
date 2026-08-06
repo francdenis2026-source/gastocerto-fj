@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { axisProps, barRadius, CHART_TOKENS, gridProps, tooltipProps } from "@/lib/chart-theme";
 import { formatCurrency, formatDate, formatDateTime } from "@/lib/format-utils";
-import { openShareLink, type SharePayload } from "@/lib/share-links.functions";
+import { openShareLink, type SharePayload } from "@/functions/share-links.functions";
 
 const MONTHS = [
   "Janeiro",

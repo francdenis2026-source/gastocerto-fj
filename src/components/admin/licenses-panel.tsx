@@ -50,7 +50,7 @@ import {
   adminDeleteLicense,
   adminListLicenses,
   adminSetLicenseStatus,
-} from "@/lib/licenses.functions";
+} from "@/functions/licenses.functions";
 import { describeLicense } from "@/lib/license-status";
 import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { useConfirm } from "@/components/ui/confirm-dialog";

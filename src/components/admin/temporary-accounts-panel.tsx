@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserPlus, Search, Trash2, Edit2, Loader2, Shield, Calendar, Clock, Lock, Save, X, FileDown, FileText, RefreshCw, Send } from "lucide-react";
 import { useMemo, useState } from "react";
-import { adminCleanupExpiredAccounts } from "@/lib/admin-maintenance.functions";
-import { adminSendExpirationReminders } from "@/lib/admin-notifications.functions";
+import { adminCleanupExpiredAccounts } from "@/functions/admin-maintenance.functions";
+import { adminSendExpirationReminders } from "@/functions/admin-notifications.functions";
 import { toast } from "sonner";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,7 +28,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { formatDateTime } from "@/lib/format-utils";
 import { supabase } from "@/integrations/supabase/client";
-import { adminUpdateUser } from "@/lib/admin-users.functions";
+import { adminUpdateUser } from "@/functions/admin-users.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { cn } from "@/lib/utils";
 

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { assertWriteAllowed } from "@/lib/plan.functions";
+import { assertWriteAllowed } from "@/functions/plan.functions";
 import { Transaction } from "@/types/finance";
 import { TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 

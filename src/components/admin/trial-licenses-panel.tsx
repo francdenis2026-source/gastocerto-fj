@@ -27,7 +27,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format-utils";
-import { adminCreateTrialLicenses, adminListLicenses, adminDeleteLicense } from "@/lib/licenses.functions";
+import { adminCreateTrialLicenses, adminListLicenses, adminDeleteLicense } from "@/functions/licenses.functions";
 
 type TrialDays = 7 | 14 | 15 | 30 | 365;
 

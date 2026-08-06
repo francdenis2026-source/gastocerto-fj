@@ -46,7 +46,7 @@ import { CreateUserDialog } from "./create-user-dialog";
 import { UserAuditTimeline } from "./user-audit-timeline";
 
 import { usePlanAccess } from "@/lib/plan-features";
-import { syncUserLicense } from "@/lib/license-sync.functions";
+import { syncUserLicense } from "@/functions/license-sync.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -54,7 +54,7 @@ import {
   adminSaveSupportNotes,
   adminSetUserRole,
   adminSetUserStatus,
-} from "@/lib/admin.functions";
+} from "@/functions/admin.functions";
 import {
   adminCancelSubscription,
   adminDeleteUser,
@@ -62,8 +62,8 @@ import {
   adminSetAccessLimit,
   adminSetUserPassword,
   adminUpdateUser,
-} from "@/lib/admin-users.functions";
-import { moveToTrash } from "@/lib/admin-trash.functions";
+} from "@/functions/admin-users.functions";
+import { moveToTrash } from "@/functions/admin-trash.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { maskCpf, onlyDigits } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format-utils";

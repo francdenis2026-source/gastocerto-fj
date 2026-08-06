@@ -17,8 +17,8 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { DependentDialog } from "@/components/finance/dependent-dialog";
-import { AccountDialog } from "@/components/finance/account-dialog";
-import { CommitmentDialog } from "@/components/finance/commitment-dialog";
+import { AccountDialog } from "@/components/finance/accounts/account-dialog";
+import { CommitmentDialog } from "@/components/finance/commitments/commitment-dialog";
 import { VehicleDialog } from "@/components/finance/vehicle-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

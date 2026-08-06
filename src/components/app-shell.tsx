@@ -46,7 +46,7 @@ import { useNotifications } from "@/lib/notifications";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
 import { formatCurrency } from "@/lib/format-utils";
-import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
+import { getRecurrentExpenses } from "@/functions/recurrent-metrics.functions";
 import type { SidebarMetric } from "./settings/sidebar-config";
 import { CommandPalette } from "@/components/nav/command-palette";
 import {

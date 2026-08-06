@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-import { createShareLink } from "@/lib/share-links.functions";
+import { createShareLink } from "@/functions/share-links.functions";
 
 export type ShareLink = Tables<"share_links">;
 

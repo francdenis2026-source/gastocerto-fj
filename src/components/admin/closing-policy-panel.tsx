@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { EmblemShield } from "@/components/ui/panel-emblems";
 import { DEFAULT_CLOSING_POLICY, type ClosingPolicy } from "@/lib/closing-policy";
-import { getClosingPolicy, saveClosingPolicy } from "@/lib/closing-policy.functions";
+import { getClosingPolicy, saveClosingPolicy } from "@/functions/closing-policy.functions";
 
 /** Administrador controla o bloqueio global de edições em meses anteriores. */
 export function ClosingPolicyPanel() {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { adminGetAnnouncements, adminCreateAnnouncement } from "@/lib/admin-expansion.functions";
+import { adminGetAnnouncements, adminCreateAnnouncement } from "@/functions/admin-expansion.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

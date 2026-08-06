@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { EmblemGauge } from "@/components/ui/panel-emblems";
 import { Switch } from "@/components/ui/switch";
 import { DEFAULT_AI_LIMITS, AiLimitsSchema, type AiLimits } from "@/lib/ai-limits";
-import { getAiLimits, saveAiLimits } from "@/lib/settings.functions";
+import { getAiLimits, saveAiLimits } from "@/functions/settings.functions";
 
 type FieldKey = keyof AiLimits;
 

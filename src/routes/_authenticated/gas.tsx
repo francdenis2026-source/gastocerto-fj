@@ -27,11 +27,11 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
-import { GasImportDialog } from "@/components/finance/gas-import-dialog";
+import { GasImportDialog } from "@/components/finance/gas/gas-import-dialog";
 import { Input } from "@/components/ui/input";
 
-import { GasRefillDialog } from "@/components/finance/gas-refill-dialog";
-import { GasReminderCard } from "@/components/finance/gas-reminder-card";
+import { GasRefillDialog } from "@/components/finance/gas/gas-refill-dialog";
+import { GasReminderCard } from "@/components/finance/gas/gas-reminder-card";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

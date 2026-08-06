@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { adminGetAnnouncements } from "@/lib/admin-expansion.functions";
+import { adminGetAnnouncements } from "@/functions/admin-expansion.functions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Bell, Info, AlertTriangle, X } from "lucide-react";
 import { useState, useEffect } from "react";

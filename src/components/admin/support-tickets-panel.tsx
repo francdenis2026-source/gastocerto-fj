@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { adminGetSupportTickets, adminUpdateTicket } from "@/lib/admin-expansion.functions";
+import { adminGetSupportTickets, adminUpdateTicket } from "@/functions/admin-expansion.functions";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

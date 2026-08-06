@@ -2,9 +2,9 @@ import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-r
 import { RefreshCw, ToyBrick, Flame, UtensilsCrossed, ShieldAlert, AlertCircle, Sparkles, Calendar as CalendarIcon, Search, BarChart3, TrendingUp as TrendingUpIcon, TrendingDown as TrendingDownIcon, Wallet as WalletIcon, FileText, ChevronRight, ChevronDown, Activity, PieChart as PieChartIcon, ShieldCheck, Baby as BabyIcon, LogOut, SearchIcon, ArrowUpRight, ShoppingBag, Printer } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { cleanupJulyData } from "@/lib/data-cleanup.functions";
-import { fixEnzoTransactionError } from "@/lib/data-fix-enzo.functions";
-import { cleanupDuplicatedKidTransactions } from "@/lib/data-fix-duplicates.functions";
+import { cleanupJulyData } from "@/functions/data-cleanup.functions";
+import { fixEnzoTransactionError } from "@/functions/data-fix-enzo.functions";
+import { cleanupDuplicatedKidTransactions } from "@/functions/data-fix-duplicates.functions";
 import { CommandPalette } from "@/components/nav/command-palette";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { InteractiveCard } from "@/components/ui/interactive-card";
@@ -78,7 +78,7 @@ import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
 import { FamilySpendingDashboard } from "@/components/finance/family-spending-dashboard";
 import { DashboardTabs } from "@/components/finance/dashboard-tabs";
 import { hasFeature, usePlanAccess } from "@/lib/plan-features";
-import { getYearlyBalance } from "@/lib/yearly-balance.functions";
+import { getYearlyBalance } from "@/functions/yearly-balance.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
 

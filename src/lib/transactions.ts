@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { assertWriteAllowed } from "@/lib/plan.functions";
+import { assertWriteAllowed } from "@/functions/plan.functions";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
 export type Transaction = Tables<"transactions">;

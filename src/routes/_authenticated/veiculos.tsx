@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
 import { AppShell } from "@/components/app-shell";
 import { FeatureGate } from "@/components/finance/feature-gate";
-import { FuelDialog } from "@/components/finance/fuel-dialog";
+import { FuelDialog } from "@/components/finance/gas/fuel-dialog";
 import { PageHeader } from "@/components/finance/page-header";
 import { FilterPresets } from "@/components/finance/filter-presets";
 import { EMPTY_FILTERS } from "@/lib/filter-presets";

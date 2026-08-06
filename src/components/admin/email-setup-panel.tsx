@@ -14,7 +14,7 @@ import {
   getEmailRollout,
   saveEmailRollout,
   sendEmailRolloutTest,
-} from "@/lib/email-rollout.functions";
+} from "@/functions/email-rollout.functions";
 
 /**
  * Assistente guiado: configurar o domínio de envio, testar o aviso e só depois

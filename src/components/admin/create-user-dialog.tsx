@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { adminCreateUser } from "@/lib/admin-users.functions";
+import { adminCreateUser } from "@/functions/admin-users.functions";
 import { maskCpf, onlyDigits } from "@/lib/cpf";
 
 /** Cadastro manual de contas de clientes pelo painel administrativo. */

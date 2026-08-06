@@ -26,8 +26,8 @@ import {
   createAdminAccessCode, 
   revokeAdminAccessCode,
   getAdminAccessLogs 
-} from "@/lib/admin-code.functions";
-import { adminDeleteAccessCode } from "@/lib/licenses.functions";
+} from "@/functions/admin-code.functions";
+import { adminDeleteAccessCode } from "@/functions/licenses.functions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
