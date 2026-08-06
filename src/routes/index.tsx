@@ -42,9 +42,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Melhorar a hierarquia de títulos, subtítulos e espaçamentos do Hero para garantir legibilidade e impacto visual sem excesso de espaço. 
-
-        Ajustar o Hero para que a imagem de fundo ocupe menos espaço e fique proporcional em celular, tablet e desktop.
+        comando mais recente enviado por ele: A BARRA DO HEADER SE MEXE AO MEXER NA PAGINA OU FAZER ROLAGEMN NAS PAGINA CORRIJA
       */}
     </div>
   );
