@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { useRef } from "react";
 
+const MotionLink = motion(Link);
+
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
@@ -149,7 +151,7 @@ export function Features() {
               gradient: "from-emerald-500/20 to-teal-500/20"
             }
           ].map((item, i) => (
-            <Link
+            <MotionLink
               key={i}
               to="/auth"
               search={{ mode: "signup" }}
@@ -158,7 +160,6 @@ export function Features() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden cursor-pointer block"
-              component={motion.div}
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               <div className="relative z-10">
@@ -170,7 +171,7 @@ export function Features() {
                   {item.desc}
                 </p>
               </div>
-            </Link>
+            </MotionLink>
           ))}
         </div>
       </div>
@@ -184,13 +185,12 @@ export function BentoGrid() {
       <div className="container px-4 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[320px]">
           {/* Main: IA Advisor */}
-          <Link
+          <MotionLink
             to="/auth"
             search={{ mode: "signup" }}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[3rem] border border-white/10 p-10 flex flex-col justify-center relative overflow-hidden group cursor-pointer block"
-            component={motion.div}
           >
             <div className="max-w-md relative z-10">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest mb-6">
@@ -208,16 +208,15 @@ export function BentoGrid() {
             <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
               <Search className="size-80 text-primary" strokeWidth={0.5} />
             </div>
-          </Link>
+          </MotionLink>
 
           {/* Secondary: Reports */}
-          <Link 
+          <MotionLink 
             to="/auth"
             search={{ mode: "signup" }}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             className="lg:col-span-4 bg-[#001830] rounded-[3rem] border border-white/10 p-10 flex flex-col justify-between group overflow-hidden cursor-pointer block"
-            component={motion.div}
           >
             <div className="relative z-10">
               <Layers className="text-primary size-10 mb-8" />
@@ -230,16 +229,15 @@ export function BentoGrid() {
               <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black text-white/40">PDF</div>
               <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black text-white/40">CSV</div>
             </div>
-          </Link>
+          </MotionLink>
 
           {/* Third: Mobile */}
-          <Link 
+          <MotionLink 
             to="/auth"
             search={{ mode: "signup" }}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             className="lg:col-span-5 bg-primary rounded-[3rem] p-10 flex flex-col justify-between group relative overflow-hidden cursor-pointer block"
-            component={motion.div}
           >
             <div className="relative z-10">
               <Smartphone className="text-white size-12 mb-8" />
@@ -251,16 +249,15 @@ export function BentoGrid() {
             <div className="absolute -bottom-10 -right-10 opacity-20 group-hover:rotate-12 transition-transform duration-700">
               <Smartphone className="size-64 text-white" strokeWidth={0.5} />
             </div>
-          </Link>
+          </MotionLink>
 
           {/* Fourth: Cloud */}
-          <Link 
+          <MotionLink 
             to="/auth"
             search={{ mode: "signup" }}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             className="lg:col-span-7 bg-white/5 rounded-[3rem] border border-white/10 p-10 flex items-center justify-between group cursor-pointer block"
-            component={motion.div}
           >
             <div className="max-w-sm">
               <Globe className="text-primary size-10 mb-8" />
@@ -275,7 +272,7 @@ export function BentoGrid() {
                 <Plus className="text-primary size-8" />
               </div>
             </div>
-          </Link>
+          </MotionLink>
         </div>
       </div>
     </section>
