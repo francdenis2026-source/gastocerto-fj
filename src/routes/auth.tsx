@@ -936,7 +936,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div className="space-y-3">
         <div className="space-y-1">
           <Label htmlFor="signup-name" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">Nome Completo</Label>
-          <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.fullName} />
+          <Input id="signup-name" name="fullName" required className="h-12 rounded-xl border-border/50 bg-muted/20 text-[14px]" autoComplete="off" aria-invalid={!!errors.fullName} />
           <FieldError message={errors.fullName} />
         </div>
         <div className="space-y-1">
