@@ -815,7 +815,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div className="space-y-3">
         <Button 
           type="submit" 
-          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
+          className="h-12 w-full rounded-xl bg-brand-green text-[14px] font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/95 transition-all active:scale-95" 
+
           disabled={loading}
         >
           {loading ? (
