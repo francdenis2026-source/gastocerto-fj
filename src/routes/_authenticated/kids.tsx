@@ -722,19 +722,22 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   }
 
 
-  async function persist(nextCode: string, reason: "created" | "updated" | "rotated" | "pin_customized") {
+  async function persist(nextCode: string, reason: "created" | "updated" | "rotated" | "pin_customized", overridePin?: string) {
     const clean = normalizeKidCode(nextCode);
     if (!isValidKidCode(clean)) {
       toast.error("Escolha um código com pelo menos 4 caracteres.");
       return;
     }
-    if (!isValidKidPin(pin)) {
+    
+    const pinToSave = overridePin || pin;
+    if (!isValidKidPin(pinToSave)) {
       toast.error("Digite a senha da criança (4 a 6 números) para confirmar.");
       return;
     }
+    
     setBusy(true);
     const expiresDays = days === "never" ? null : Number(days);
-    const promise = save({ data: { dependentId: dependent.id, code: clean, pin, expiresDays, reason } });
+    const promise = save({ data: { dependentId: dependent.id, code: clean, pin: pinToSave, expiresDays, reason } });
     
     toast.promise(promise, {
       loading: 'Salvando acesso...',
