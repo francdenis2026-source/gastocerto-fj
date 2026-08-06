@@ -27,8 +27,8 @@ export const DEPENDENT_RELATIONS = [
   { value: "filha", label: "Filha" },
   { value: "enteado", label: "Enteado(a)" },
   { value: "neto", label: "Neto(a)" },
-  { value: "esposa", label: "Cônjuge" },
-  { value: "pai_mae", label: "Pai / mãe" },
+  { value: "esposa", label: "Esposa / Esposo" },
+  { value: "pai_mae", label: "Mãe / Pai / Avós" },
   { value: "sogro", label: "Sogro(a)" },
   { value: "irmao", label: "Irmão / irmã" },
   { value: "tio", label: "Tio(a)" },
@@ -57,6 +57,8 @@ export const DEPENDENT_REASONS = [
   { value: "gasto_brinquedo", label: "Comprou Brinquedo", category: "Gastos da Criança", icon: "rocket", type: "expense" },
   { value: "gasto_geral", label: "Outro Gasto", category: "Gastos da Criança", icon: "circle-ellipsis", type: "expense" },
   { value: "ajuda", label: "Ajuda / Doação", category: "Doações", icon: "hand-heart", type: "expense" },
+  { value: "aniversario", label: "Aniversário", category: "Aniversários", icon: "cake", type: "expense" },
+  { value: "confraternizacao", label: "Confraternização", category: "Confraternizações", icon: "utensils", type: "expense" },
 ] as const;
 
 
