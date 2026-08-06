@@ -120,7 +120,7 @@ export function useSaveTransaction() {
   const guard = useServerFn(assertWriteAllowed);
 
   return useMutation({
-    mutationFn: async (input: { id?: string; values: TablesInsert<"transactions"> }) => {
+    mutationFn: async (input: { id?: string; values: Partial<TablesInsert<"transactions">> & { user_id?: string } }) => {
       if (!user) throw new Error("Sessão expirada");
       await guard({ data: undefined });
       if (input.id) {
