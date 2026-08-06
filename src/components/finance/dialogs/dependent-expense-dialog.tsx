@@ -94,6 +94,7 @@ export function DependentExpenseDialog({
   const [reason, setReason] = useState<DependentReason>("ganho_mesada");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(isoDate(new Date()));
+  const [errors, setErrors] = useState<{ amount?: string; selected?: string }>({});
   const [note, setNote] = useState("");
   const [goalOpen, setGoalOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<KidsSavingsGoal | null>(null);
