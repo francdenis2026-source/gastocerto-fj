@@ -185,6 +185,9 @@ function RootShell({ children }: { children: ReactNode }) {
                   document.documentElement.classList.toggle('dark', theme === 'dark');
                   document.documentElement.style.colorScheme = theme;
                   document.documentElement.style.backgroundColor = theme === 'dark' ? '#001222' : '#f6f7f8';
+                  
+                  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                  if (reduced) document.documentElement.setAttribute('data-reduced-motion', 'true');
                 } catch (e) {}
               })();
             `,
