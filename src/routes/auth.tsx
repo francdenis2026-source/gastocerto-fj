@@ -330,7 +330,7 @@ function AuthPage() {
           </div>
 
           <div className="hidden p-6 pt-0 sm:block">
-            <p className="relative z-10 text-[10px] font-bold uppercase tracking-widest text-white/20">
+            <p className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-white/30">
               Franc D&apos;nis · Feijó, AC
             </p>
           </div>
