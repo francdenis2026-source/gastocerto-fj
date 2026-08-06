@@ -1279,7 +1279,6 @@ export function TransactionDialog({
 
 
         </div>
-      </DialogContent>
 
         <PasswordConfirmDialog
           open={passwordOpen}
