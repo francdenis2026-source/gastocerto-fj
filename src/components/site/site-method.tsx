@@ -35,15 +35,15 @@ export function SiteMethod() {
         <div>
           {steps.map((step, i) => (
             <Appear key={step.n} delay={i * 60}>
-              <div className="flex gap-8 border-t border-border py-9 last:border-b">
-                <span className="numeric shrink-0 text-[13px] font-semibold text-primary">
+              <div className="group flex gap-8 border-t border-border py-9 last:border-b transition-colors duration-300 hover:bg-navy-800/30">
+                <span className="numeric shrink-0 text-[14px] font-bold text-primary">
                   {step.n}
                 </span>
                 <div>
-                  <h3 className="font-display text-[19px] font-semibold text-bone-100">
+                  <h3 className="font-display text-[20px] font-semibold text-bone-100 group-hover:text-primary transition-colors">
                     {step.title}
                   </h3>
-                  <p className="mt-2.5 max-w-lg text-[15px] leading-relaxed text-bone-100/45">
+                  <p className="mt-2.5 max-w-lg text-[16px] leading-relaxed text-bone-100/50">
                     {step.text}
                   </p>
                 </div>
