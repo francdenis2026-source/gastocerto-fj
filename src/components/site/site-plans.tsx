@@ -82,7 +82,7 @@ export function SitePlans() {
                 onClick={() => setCycle(option)}
                 aria-pressed={cycle === option}
                 className={cn(
-                  "rounded-full px-5 py-2 text-[13px] font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-navy-800",
+                  "rounded-full px-5 py-2 text-[13px] font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4 focus-visible:ring-0",
                   cycle === option
                     ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
                     : "text-bone-100/55 hover:text-bone-100 hover:bg-navy-600/50",
