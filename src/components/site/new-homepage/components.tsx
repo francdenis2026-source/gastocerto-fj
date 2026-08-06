@@ -15,7 +15,8 @@ import {
   PieChart, 
   TrendingUp,
   Lock,
-  Target
+  Target,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
