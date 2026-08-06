@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Baby, ArrowLeft, Download, FileText } from 'lucide-react'
+import { Baby, ArrowLeft, Download, FileText, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from '@tanstack/react-router'
 import { useAuth } from "@/hooks/use-auth"
@@ -23,7 +23,7 @@ function ExtratosKidsPage() {
   const { user } = useAuth();
   const { year, month } = usePeriodStore();
   const range = useMemo(() => monthRange(year, month), [year, month]);
-  const { data: transactions = [], isLoading } = useTransactions(range);
+  const { data: transactions = [], isLoading, isError } = useTransactions(range);
 
   // Filtra apenas transações que possuem a tag da criança (vinculadas ao pai)
   const kidsTransactions = useMemo(() => {
@@ -70,7 +70,17 @@ function ExtratosKidsPage() {
                 <TableBody>
                   {isLoading ? (
                     <TableRow>
-                      <TableCell colSpan={4} className="h-24 text-center">Carregando...</TableCell>
+                      <TableCell colSpan={4} className="h-24 text-center text-muted-foreground animate-pulse">Carregando...</TableCell>
+                    </TableRow>
+                  ) : isError ? (
+                    <TableRow>
+                      <TableCell colSpan={4} className="h-32 text-center">
+                        <div className="flex flex-col items-center justify-center gap-2 text-rose-500">
+                          <AlertCircle className="size-8" />
+                          <p className="font-medium">Erro ao carregar transações</p>
+                          <p className="text-xs text-muted-foreground">Verifique sua conexão ou se o usuário está autenticado corretamente.</p>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   ) : kidsTransactions.length === 0 ? (
                     <TableRow>
