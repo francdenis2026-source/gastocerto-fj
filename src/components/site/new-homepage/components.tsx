@@ -27,11 +27,11 @@ import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
+    <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden bg-background">
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 opacity-30">
         <div className="absolute top-[-10%] left-[10%] w-[40%] h-[50%] bg-primary/20 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[10%] right-[10%] w-[35%] h-[40%] bg-blue-500/10 blur-[100px] rounded-full" />
+        <div className="absolute bottom-[10%] right-[10%] w-[35%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
       </div>
 
       <div className="container px-4 mx-auto relative z-10">
@@ -98,18 +98,18 @@ export function Hero() {
                     <div className="h-8 w-32 bg-muted rounded-full" />
                     <div className="h-10 w-10 rounded-full bg-primary/20" />
                   </div>
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="h-40 bg-card border border-border rounded-2xl p-4 flex flex-col justify-end gap-2">
-                       <div className="h-2 w-16 bg-primary/20 rounded-full" />
-                       <div className="h-6 w-24 bg-primary/10 rounded-full" />
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
+                       <div className="h-1.5 w-12 bg-primary/20 rounded-full" />
+                       <div className="h-4 w-16 bg-primary/10 rounded-full" />
                     </div>
-                    <div className="h-40 bg-card border border-border rounded-2xl p-4 flex flex-col justify-end gap-2">
-                       <div className="h-2 w-16 bg-blue-500/20 rounded-full" />
-                       <div className="h-6 w-24 bg-blue-500/10 rounded-full" />
+                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
+                       <div className="h-1.5 w-12 bg-primary/20 rounded-full" />
+                       <div className="h-4 w-16 bg-primary/10 rounded-full" />
                     </div>
-                    <div className="h-40 bg-card border border-border rounded-2xl p-4 flex flex-col justify-end gap-2">
-                       <div className="h-2 w-16 bg-muted rounded-full" />
-                       <div className="h-6 w-24 bg-muted/50 rounded-full" />
+                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
+                       <div className="h-1.5 w-12 bg-muted rounded-full" />
+                       <div className="h-4 w-16 bg-muted/50 rounded-full" />
                     </div>
                   </div>
                   <div className="flex-1 bg-card border border-border rounded-2xl p-6 flex items-center justify-center">
@@ -183,14 +183,14 @@ const featureGroups = [
 
 export function Features() {
   return (
-    <section className="py-24 bg-muted/30 border-y border-border">
+    <section className="py-16 bg-muted/30 border-y border-border">
       <div className="container px-4 mx-auto">
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-8 mb-16">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+            <h2 className="text-2xl md:text-4xl font-black tracking-tight mb-3">
               Tudo o que você precisa <br /> para dominar seu dinheiro.
             </h2>
-            <p className="text-muted-foreground text-lg font-medium leading-relaxed">
+            <p className="text-muted-foreground text-base font-medium leading-relaxed">
               Desenvolvemos as ferramentas mais robustas do mercado sob uma interface minimalista e acolhedora.
             </p>
           </div>
@@ -199,7 +199,7 @@ export function Features() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {featureGroups.map((f, i) => (
             <motion.div
               key={f.title}
@@ -207,10 +207,10 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card p-8 rounded-[2rem] border border-border hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all group flex flex-col h-full"
+              className="bg-card p-6 rounded-[1.5rem] border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all group flex flex-col h-full"
             >
-              <div className="size-14 rounded-2xl bg-muted flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary/5 transition-all duration-500">
-                <f.icon size={28} className="text-primary" />
+              <div className="size-12 rounded-xl bg-muted flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/5 transition-all duration-500">
+                <f.icon size={24} className="text-primary" />
               </div>
               <h3 className="text-xl font-bold mb-4">{f.title}</h3>
               <p className="text-muted-foreground font-medium leading-relaxed text-sm flex-1">
@@ -226,13 +226,13 @@ export function Features() {
 
 export function BentoGrid() {
   return (
-    <section className="py-24 bg-background overflow-hidden">
+    <section className="py-16 bg-background overflow-hidden">
       <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[320px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 auto-rows-[280px]">
           {/* Main Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-7 bg-muted/50 rounded-[2.5rem] border border-border p-10 flex flex-col justify-center overflow-hidden relative group"
+            className="lg:col-span-7 bg-muted/50 rounded-[2rem] border border-border p-8 flex flex-col justify-center overflow-hidden relative group"
           >
             <div className="relative z-10 max-w-md">
               <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Inteligência Artificial</span>
@@ -251,13 +251,13 @@ export function BentoGrid() {
           {/* Secondary Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-5 bg-foreground rounded-[2.5rem] p-10 text-background flex flex-col justify-between relative overflow-hidden group"
+            className="lg:col-span-5 bg-foreground rounded-[2rem] p-8 text-background flex flex-col justify-between relative overflow-hidden group"
           >
             <div className="relative z-10">
-              <div className="size-14 rounded-2xl bg-primary flex items-center justify-center mb-8">
-                <Plus size={32} className="text-white" />
+              <div className="size-12 rounded-xl bg-primary flex items-center justify-center mb-6">
+                <Plus size={28} className="text-white" />
               </div>
-              <h3 className="text-3xl font-black mb-4 leading-tight">Adição Mágica</h3>
+              <h3 className="text-2xl font-black mb-3 leading-tight">Adição Mágica</h3>
               <p className="text-background/60 font-medium leading-relaxed">
                 Importe faturas de cartão de crédito e extratos bancários automaticamente sem burocracia.
               </p>
@@ -272,10 +272,10 @@ export function BentoGrid() {
           {/* Tertiary Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-4 bg-card rounded-[2.5rem] border border-border p-10 flex flex-col justify-between group"
+            className="lg:col-span-4 bg-card rounded-[2rem] border border-border p-8 flex flex-col justify-between group"
           >
-            <div className="size-14 rounded-2xl bg-muted flex items-center justify-center group-hover:bg-blue-500/5 transition-colors">
-              <Smartphone size={28} className="text-blue-500" />
+            <div className="size-12 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+              <Smartphone size={24} className="text-primary" />
             </div>
             <div>
               <h3 className="text-2xl font-black mb-3">App Híbrido</h3>
@@ -288,10 +288,10 @@ export function BentoGrid() {
           {/* Quaternary Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-8 bg-primary rounded-[2.5rem] p-10 text-white flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group"
+            className="lg:col-span-8 bg-primary rounded-[2rem] p-8 text-white flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group"
           >
             <div className="relative z-10 max-w-sm">
-              <h3 className="text-4xl font-black mb-4 leading-tight">Relatórios em um clique</h3>
+              <h3 className="text-3xl font-black mb-3 leading-tight">Relatórios em um clique</h3>
               <p className="text-white/80 font-medium leading-relaxed mb-6">
                 PDF, Excel ou CSV. Exporte tudo com um design profissional pronto para compartilhar.
               </p>

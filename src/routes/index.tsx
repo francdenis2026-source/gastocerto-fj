@@ -36,20 +36,15 @@ function HomePage() {
       <main id="main-content" className="flex flex-col">
         <Hero />
         <Features />
-        <BentoGrid />
-        <SitePlans />
+        {/* SitePlans e BentoGrid removidos para compactar para 2 telas principais */}
         <SiteQuestions />
       </main>
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: ## Tarefa: Redesign Completo da Homepage
-        
-        Objetivo: Reformular completamente a estética e a funcionalidade da homepage.
-        1. Remoção de restrições de design.
-        2. Implementação de novo tema.
-        3. Microinterações aprimoradas.
-        4. Otimização de espaços e UX.
+        comando mais recente enviado por ele: QUERO QUE A PAGINA SE LIMITE NOMAXIMO A DUAS; 
+        DEPOIS ANALISE AS CORES E AJUSTE PARA FICAR MASI PORFSSIONAL; 
+        E REMOVA ESPAÇOS DENECESSARIOS NA HOMEPAGE; DIMINUA OS CADRS
       */}
     </div>
   );
