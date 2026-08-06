@@ -364,7 +364,7 @@ function AuthPage() {
 
                 <div className="space-y-3 sm:space-y-4">
                   <div className="space-y-1.5 sm:space-y-2">
-                    <Label htmlFor="code-cpf" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Seu CPF</Label>
+                    <Label htmlFor="code-cpf" className="text-[11px] font-black uppercase tracking-widest text-emerald-500/90">Seu CPF</Label>
                     <div className="relative group/field">
                       <UserCircle className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
                       <Input 
