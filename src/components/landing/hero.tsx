@@ -76,7 +76,7 @@ export function Hero() {
                   className="relative rounded-2xl border border-white/10 bg-card shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
                 >
                   {/* Laptop Screen Content - Realistic Dashboard UI */}
-                  <div className="aspect-[16/10] bg-[#020617] p-4 flex flex-col gap-4">
+                  <div className="aspect-[16/10] bg-background p-4 flex flex-col gap-4">
                     <div className="flex items-center justify-between border-b border-white/5 pb-3">
                       <div className="flex gap-1.5">
                         <div className="size-2 rounded-full bg-red-500/40" />
