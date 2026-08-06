@@ -224,6 +224,7 @@ export function DependentExpenseDialog({
     try {
       await save.mutateAsync({
         values: {
+          user_id: selected.user_id, // Pass the dependent's user_id if they are the transaction owner
           description,
           amount: value,
           transaction_type: reasonInfo.type,
