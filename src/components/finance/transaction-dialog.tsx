@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -103,6 +104,7 @@ export function TransactionDialog({
   presetSubCategoryId?: string | null;
 }) {
   const [kind, setKind] = useState<Kind>(initialKind);
+  const [currentStep, setCurrentStep] = useState(1);
 
   useEffect(() => {
     if (open && initialKind) setKind(initialKind);
