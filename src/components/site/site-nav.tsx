@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useMouseGlow } from "@/hooks/use-mouse-glow";
 
 const links = [
   { label: "Plataforma", href: "#plataforma" },
@@ -17,6 +18,7 @@ const links = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  useMouseGlow();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -46,7 +48,7 @@ export function SiteNav() {
                 href={link.href}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary relative group"
+                className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary relative group glow-effect"
               >
                 {link.label}
                 <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-primary origin-left scale-x-0 transition-transform group-hover:scale-x-100" />
@@ -79,7 +81,7 @@ export function SiteNav() {
             whileTap={{ scale: 0.98 }}
           >
             <Button
-              className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 transition-all"
+              className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 transition-all glow-effect"
               asChild
             >
               <Link to="/auth" search={{ mode: "signup" }}>

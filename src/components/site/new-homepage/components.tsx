@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useMouseGlow } from "@/hooks/use-mouse-glow";
 import { 
   ArrowRight, 
   Zap, 
@@ -25,6 +26,7 @@ export function Hero() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  useMouseGlow();
 
   return (
     <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#000c18] pt-20">
@@ -74,7 +76,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
           >
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full" asChild>
+              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full glow-effect" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Jornada
                   <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
@@ -82,7 +84,7 @@ export function Hero() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl text-base font-bold border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white w-full">
+              <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl text-base font-bold border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white w-full glow-effect">
                 Ver Demonstração
               </Button>
             </motion.div>
