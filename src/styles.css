@@ -218,24 +218,38 @@ h4 {
 /* ——— Interação ——— */
 
 .lift {
-  transition:
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
 }
 
 .lift:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in oklab, var(--primary) 45%, transparent);
+  transform: translateY(-8px) scale(1.01);
+  border-color: var(--primary);
   box-shadow: 
-    0 0 20px -5px color-mix(in oklab, var(--primary) 30%, transparent),
-    var(--shadow-soft);
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 20px -5px color-mix(in oklab, var(--primary) 40%, transparent);
 }
 
 .lift:active {
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(0.99);
+}
+
+/* Botões Modernos */
+button:not([disabled]), 
+.btn-premium {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+button:not([disabled]):hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px color-mix(in oklab, var(--primary) 50%, transparent);
+}
+
+button:not([disabled]):active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Efeito de Luz Profissional (Spotlight) */
@@ -400,28 +414,45 @@ video {
 @utility premium-card {
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: var(--card);
+  background: color-mix(in oklab, var(--card) 95%, transparent);
   padding: 1.5rem;
-  transition:
-    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-6px);
     border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+    background: var(--card);
+    box-shadow: var(--shadow-lifted);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
   }
 }
 
 .interactive-card {
   cursor: pointer;
-  transition:
-    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid var(--border);
+  background: var(--card);
 }
 
 .interactive-card:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+  transform: scale(1.02) translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
 }
 
 .glass-panel {
