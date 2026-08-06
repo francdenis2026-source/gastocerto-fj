@@ -945,7 +945,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
           <FieldError message={errors.cpf} />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="signup-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail (opcional)</Label>
+          <Label htmlFor="signup-email" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">E-mail (opcional)</Label>
           <Input id="signup-email" name="contactEmail" type="email" className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.contactEmail} />
           <FieldError message={errors.contactEmail} />
         </div>
