@@ -42,7 +42,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Ajustar a hierarquia tipográfica da homepage para ficar mais profissional e legível em todos os tamanhos de tela.
+        comando mais recente enviado por ele: AJUSTE  APRIMEIRA PAGINA COM IMAGEM DE FUNDO, OU HERO PROFSSIONAL
       */}
     </div>
   );
