@@ -215,7 +215,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-3 sm:p-4 lg:p-6 bg-[#000a14]">
+    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-3 sm:p-4 lg:p-6 bg-[#000a14] selection:bg-brand-green/30">
       {/* Imagem de fundo global otimizada com carregamento progressivo */}
       <div className="absolute inset-0 -z-20 overflow-hidden bg-brand-navy">
         <Suspense fallback={<div className="size-full bg-brand-navy" />}>
