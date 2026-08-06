@@ -8,9 +8,9 @@ export function Hero() {
   return (
     <section className="relative flex items-center overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-24">
       {/* Premium Background with Gradient & Lighting */}
-      <div className="absolute inset-0 bg-[#020617] -z-20" />
-      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[70%] bg-primary/10 rounded-full blur-[180px] pointer-events-none -z-10 animate-pulse-slow" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[60%] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-background -z-20" />
+      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[70%] bg-primary/8 rounded-full blur-[180px] pointer-events-none -z-10 animate-pulse-slow" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[60%] bg-primary/5 rounded-full blur-[160px] pointer-events-none -z-10" />
       
       <div className="section-shell">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -29,7 +29,7 @@ export function Hero() {
               <span className="bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent">para sua liberdade</span>.
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-400 leading-relaxed mb-10 max-w-lg font-medium">
+            <p className="text-lg md:text-xl text-slate-300 leading-relaxed mb-10 max-w-lg font-medium">
               GastoCerto transforma sua vida financeira com precisão absoluta, insights de IA e uma experiência visual extraordinária.
             </p>
             
@@ -73,10 +73,10 @@ export function Hero() {
                   initial={{ rotateY: 5, rotateX: 5, opacity: 0, y: 20 }}
                   whileInView={{ rotateY: 0, rotateX: 0, opacity: 1, y: 0 }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="relative rounded-2xl border border-white/10 bg-[#0A0F14] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-card shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
                 >
                   {/* Laptop Screen Content - Realistic Dashboard UI */}
-                  <div className="aspect-[16/10] bg-[#020617] p-4 flex flex-col gap-4">
+                  <div className="aspect-[16/10] bg-background p-4 flex flex-col gap-4">
                     <div className="flex items-center justify-between border-b border-white/5 pb-3">
                       <div className="flex gap-1.5">
                         <div className="size-2 rounded-full bg-red-500/40" />
@@ -137,7 +137,7 @@ export function Hero() {
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
-                  className="hidden sm:block absolute -bottom-10 right-0 lg:-right-4 w-[160px] md:w-[200px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-[#020617] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
+                  className="hidden sm:block absolute -bottom-10 right-0 lg:-right-4 w-[160px] md:w-[200px] rounded-[2.5rem] border-[8px] border-[#1E293B] bg-background shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9)] overflow-hidden z-20"
                 >
                   <div className="aspect-[9/19] p-4 flex flex-col gap-4">
                     <div className="h-5 w-16 bg-[#1E293B] rounded-full mx-auto mb-2" />

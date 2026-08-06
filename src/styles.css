@@ -101,43 +101,50 @@
   --shadow-lifted: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
+/* 
+  MODO DARK — PALETA PREMIUM REESCRITA
+  Fundo: Mistura profunda de azul petróleo/navy para reduzir fadiga visual (#000D1A)
+  Card: Superfície com toque acetinado (#001529)
+  Contraste: Emerald/Green vibrante (#22C55E) para legibilidade crítica
+*/
 .dark {
-  --background: #000a14;
-  --foreground: #f8fafc;
-  --card: #001222;
-  --card-foreground: #f8fafc;
-  --popover: #001222;
-  --popover-foreground: #f8fafc;
+  --background: #000d1a;
+  --foreground: #f0f4f8;
+  --card: #001529;
+  --card-foreground: #f0f4f8;
+  --popover: #001529;
+  --popover-foreground: #f0f4f8;
 
   --primary: #22c55e;
   --primary-foreground: #ffffff;
-  --secondary: #000c18;
+  --secondary: #000810;
   --secondary-foreground: #cbd5e1;
 
-  --muted: #001a2e;
-  --muted-foreground: #94a3b8;
+  --muted: #001a33;
+  --muted-foreground: #a3b3c9;
   --accent: #22c55e25;
   --accent-foreground: #22c55e;
 
-  --destructive: #ef4444;
+  --destructive: #f43f5e;
   --destructive-foreground: #ffffff;
 
-  --border: #ffffff10;
-  --input: #ffffff10;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
   --ring: #22c55e;
 
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --shadow-lifted: 0 20px 50px rgba(0, 0, 0, 0.7);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.6);
+  --shadow-lifted: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
 
 body {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.6;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: var(--foreground);
+  font-weight: 450; /* Peso ligeiramente maior para melhor leitura em fundos escuros */
 }
 
 h1,
@@ -145,9 +152,9 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  letter-spacing: -0.05em;
-  font-weight: 800;
-  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .animate-gradient {
