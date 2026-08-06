@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: AGO ESTA TRAVANDO A ROLAGEM COM A BOLINHA DO MOUSE
+        comando mais recente enviado por ele: TEM UM PORBLEMA, A AROLAGEM DAS PAGINAS SO ESTA ACONTECENDO POR QUE TEM UMA BARRA VERTICAL E EU NAO QUERO ASSIM, QUERO PODER USA O SCROLL DO MOUSE
       */}
     </div>
   );
