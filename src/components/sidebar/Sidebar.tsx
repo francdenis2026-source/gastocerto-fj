@@ -39,7 +39,7 @@ export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
       railCollapsed ? "w-20" : "w-64"
     )}>
       {/* Header / Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-white/5">
+      <div className="h-16 flex items-center px-6 border-b border-border">
         <Logo compact={railCollapsed} href="/painel" />
       </div>
 
@@ -148,7 +148,7 @@ function SidebarItem({
         </div>
         
         {!collapsed && (
-          <span className="text-[12px] font-black flex-1 truncate tracking-wider text-left uppercase">
+          <span className="text-[12px] font-bold flex-1 truncate tracking-wider text-left uppercase">
             {group.label}
           </span>
         )}

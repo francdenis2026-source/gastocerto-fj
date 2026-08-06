@@ -30,7 +30,7 @@ export function Logo({
     <span className={cn("inline-flex min-w-0 items-center gap-4 transition-all duration-500 group-hover:scale-[1.05] cursor-pointer", className)}>
       <div className="relative">
         <div className="absolute -inset-2 rounded-full bg-emerald-500/30 blur-md opacity-0 transition-all duration-500 group-hover:opacity-100" />
-        <BrandMark className="relative size-12 transition-all duration-700 ease-out group-hover:rotate-[12deg] group-hover:scale-110 sm:size-14" />
+        <BrandMark className="relative size-12 transition-all duration-700 ease-out group-hover:scale-110 sm:size-14" />
       </div>
       <span className="hidden min-w-0 flex-col leading-tight min-[360px]:flex">
         <span
@@ -40,7 +40,7 @@ export function Logo({
           )}
         >
            <span className={cn(onDark ? "text-white" : "text-foreground")}>Gasto</span>
-           <span className="text-primary ml-1">Certo</span>
+           <span className="text-primary ml-0.5">Certo</span>
         </span>
         <span
           className={cn(
