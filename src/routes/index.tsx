@@ -28,12 +28,12 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-dvh w-full max-w-full bg-background font-sans antialiased selection:bg-primary/25 selection:text-foreground">
+    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Pular para o conteúdo principal
       </a>
       <SiteNav />
-      <main id="main-content" className="flex flex-col">
+      <main id="main-content" className="flex flex-col relative z-10">
         <Hero />
         <Features />
         <BentoGrid />
