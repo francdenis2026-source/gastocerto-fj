@@ -328,3 +328,30 @@ video {
   background-color: color-mix(in oklab, var(--background) 72%, transparent);
   border: 1px solid var(--border);
 }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 8px;
+  z-index: 1001;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
