@@ -727,7 +727,110 @@ export function TransactionDialog({
               </div>
             </div>
           )}
-        </form>
+        {currentStep === 1 ? (
+          <div className="px-8 py-6 space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <Label htmlFor="description" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">O que você comprou ou recebeu?</Label>
+                <Input
+                  id="description"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  maxLength={140}
+                  className="mt-2 h-12 text-base rounded-2xl bg-muted/30 border-none px-5"
+                  placeholder={kind === "income" ? "Ex: Salário Mensal..." : "Ex: Supermercado Silva..."}
+                />
+                {errors.description && <p className="mt-1 text-xs text-destructive">{errors.description}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="amount" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Valor (R$)</Label>
+                <Input
+                  id="amount"
+                  value={amount}
+                  inputMode="numeric"
+                  onChange={(event) => setAmount(maskAmountInput(event.target.value))}
+                  className="h-12 text-xl font-bold rounded-2xl bg-muted/30 border-none px-5 text-primary tabular-nums"
+                  placeholder="0,00"
+                />
+                {errors.amount && <p className="mt-1 text-xs text-destructive">{errors.amount}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="date" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Data</Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={date}
+                  onChange={(event) => setDate(event.target.value)}
+                  className="h-12 rounded-2xl bg-muted/30 border-none px-5"
+                />
+              </div>
+
+              <div className="sm:col-span-2 space-y-2">
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Categoria</Label>
+                <CategoryPicker
+                  kind={kind}
+                  value={categoryId}
+                  onChange={(catId, subId) => {
+                    setCategoryId(catId);
+                    setSubCategoryId(subId ?? "");
+                  }}
+                  subValue={subCategoryId}
+                />
+                {errors.categoryId && <p className="mt-1 text-xs text-destructive">{errors.categoryId}</p>}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="px-8 py-6 space-y-6 overflow-y-auto max-h-[60svh]">
+             <div className="grid gap-6 sm:grid-cols-2">
+                <div>
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Forma de pagamento</Label>
+                  <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                    <SelectTrigger className="mt-2 h-11 rounded-xl bg-muted/30 border-none">
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PAYMENT_METHODS.map((method) => (
+                        <SelectItem key={method.value} value={method.value}>
+                          {method.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Conta ou carteira</Label>
+                  <Select value={accountId} onValueChange={setAccountId}>
+                    <SelectTrigger className="mt-2 h-11 rounded-xl bg-muted/30 border-none">
+                      <SelectValue placeholder="Opcional" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(accounts ?? []).map((account) => (
+                        <SelectItem key={account.id} value={account.id}>
+                          {account.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="sm:col-span-2">
+                   <Label htmlFor="notes" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Observações</Label>
+                   <Textarea
+                     id="notes"
+                     value={notes}
+                     onChange={(event) => setNotes(sanitizeText(event.target.value))}
+                     className="mt-2 rounded-xl bg-muted/30 border-none resize-none"
+                     placeholder="Detalhes adicionais..."
+                     rows={3}
+                   />
+                </div>
+             </div>
+          </div>
+        )}
 
         <DialogFooter className="px-8 py-6 border-t border-border bg-muted/10">
           <div className="flex w-full items-center justify-between gap-3">
