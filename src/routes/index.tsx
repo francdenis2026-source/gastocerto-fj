@@ -43,7 +43,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Otimização de Layout e Conteúdo do Site: Compactação, Planos integrados, Linguagem simples e Header refinado.
+        comando mais recente enviado por ele: REMOVA ESSA LINHA BRANCA QUE APARECE; O FOOTER FALTOU O NOME DO DESENVOLVEDOR; FALTROU A CIDADE E ESTADO; ESTA FALTANDO O ICONE DO EMAIL; FATA ATIVAR OS CARDS CLICAVEIS
       */}
     </div>
   );
