@@ -551,7 +551,7 @@ function AuthPage() {
 function FieldError({ id, message }: { id?: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-xs text-destructive dark:text-destructive-foreground font-semibold">
+    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-[13px] text-rose-600 dark:text-rose-400 font-bold">
       <AlertCircle className="mt-px size-3.5 shrink-0" aria-hidden="true" />
       <span>{message}</span>
     </p>
