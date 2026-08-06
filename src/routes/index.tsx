@@ -50,13 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: REMOVA DA HOMEPAGE A BARRA DE ROLAGEM VERTICAL,DEIXE A ROLAGEM PELO MOUSE; 
-
-        Implementar suporte a prefers-reduced-motion para ajustar transições e microinterações, mantendo a sensação de qualidade para quem prefere menos animação. 
-
-        Conferir a consistência do Design System e corrigir quaisquer divergências restantes de tipografia, espaçamento e estilos entre homepage e demais páginas. 
-
-        Otimizar o carregamento de imagens e fontes com lazy loading, compressão e preload/prefetch para reduzir o tempo de renderização sem perder qualidade visual. Auditar a navegação por teclado e garantir que todo elemento focável tenha ordem lógica e estados de foco visíveis em toda a aplicação.
+        comando mais recente enviado por ele: Remove vertical scrollbar in the homepage while preserving native scrolling behavior for a cleaner look.
       */}
     </div>
   );
