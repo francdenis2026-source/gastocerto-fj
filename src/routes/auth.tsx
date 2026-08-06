@@ -593,7 +593,7 @@ function CpfInput({
       required
       aria-invalid={invalid || undefined}
       aria-describedby={describedById}
-      className="mt-1 h-10"
+      className="h-10 rounded-xl border-border/50 bg-muted/20"
       onChange={(event) => onChange(maskCpf(event.target.value))}
     />
   );
@@ -622,7 +622,7 @@ function PinInput({
       <div className="flex items-center justify-between">
         <Label
           htmlFor={id}
-          className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold"
+          className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
         >
           {label}
         </Label>
@@ -639,7 +639,7 @@ function PinInput({
           required
           aria-invalid={invalid || undefined}
           aria-describedby={describedById}
-          className="h-10 pr-10 tracking-[0.4em]"
+          className="h-10 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em]"
           onChange={(event) => {
             event.target.value = onlyDigits(event.target.value).slice(0, 6);
           }}
