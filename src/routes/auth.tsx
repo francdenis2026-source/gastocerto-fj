@@ -214,29 +214,28 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-2 sm:p-4 lg:grid lg:place-items-center">
-      {/* Imagem de fundo global para o layout - Visível em todas as resoluções */}
-      <div className="absolute inset-0 -z-20">
+    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-3 sm:p-4 lg:p-6 bg-[#000a14]">
+      {/* Imagem de fundo global otimizada */}
+      <div className="absolute inset-0 -z-20 overflow-hidden">
         <img
           src={authHero}
           alt=""
           aria-hidden="true"
           decoding="async"
-          className="size-full object-cover blur-[2px] brightness-100 contrast-[1.03] transition-all duration-700 dark:brightness-[0.7] dark:contrast-[1.1]"
+          className="size-full object-cover opacity-40 blur-[3px] brightness-[0.6] contrast-[1.1] transition-all duration-700"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-tr from-brand/15 to-transparent mix-blend-overlay"
+          className="absolute inset-0 bg-gradient-to-b from-brand-navy/80 via-transparent to-brand-navy/90 mix-blend-multiply"
           aria-hidden="true"
         />
       </div>
-      <div aria-hidden="true" className="auth-veil absolute inset-0 -z-10" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(0,168,95,0.08),transparent_70%)]" />
 
-      {/* Card principal: cresce com o conteúdo, sem passar da altura da janela */}
-      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-[2.5rem] border border-white/10 glass-morphism shadow-2xl max-h-[92dvh] sm:max-h-[90dvh] lg:h-[min(38rem,calc(100dvh-2rem))] lg:max-h-[38rem] lg:grid-cols-[minmax(0,1.2fr)_minmax(20rem,22rem)]">
+      {/* Card principal: Compacto e sem rolagem excessiva */}
+      <div className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-[2rem] border border-white/10 bg-brand-navy/40 backdrop-blur-xl shadow-2xl max-h-[95dvh] lg:h-[min(36rem,calc(100dvh-3rem))] lg:grid-cols-[1.1fr_1fr]">
 
-        {/* Painel lateral dinâmico (Hero) - Visível em Mobile para consistência visual */}
-        <section className="relative flex min-h-[110px] shrink-0 flex-col justify-between overflow-hidden sm:min-h-[160px] lg:min-h-0">
-          {/* Imagem Hero específica para cada modo */}
+        {/* Painel lateral dinâmico (Hero) - Compacto */}
+        <section className="relative flex min-h-[140px] shrink-0 flex-col justify-between overflow-hidden lg:min-h-0 border-b border-white/5 lg:border-b-0 lg:border-r">
           <img
             src={
               mode === "login"
@@ -248,20 +247,20 @@ function AuthPage() {
                     : adminHero
             }
             alt=""
-            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.4] transition-all duration-700"
+            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.35] contrast-[1.1] transition-all duration-700"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-br from-[#10241E]/60 via-transparent to-[#0B1F1A]/80"
+            className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-navy/60 via-brand-navy/20 to-brand-navy/80"
           />
 
-          <div className="p-3 sm:p-5">
-            <Link to="/" className="relative z-10 inline-flex w-fit rounded-md">
+          <div className="p-4 sm:p-6">
+            <Link to="/" className="relative z-10 inline-flex w-fit transition-transform hover:scale-105 active:scale-95">
               <Logo onDark />
             </Link>
           </div>
 
-          <div className="relative z-10 space-y-2.5 p-3 sm:space-y-4 sm:p-5">
+          <div className="relative z-10 space-y-3 p-4 sm:p-6">
             <div className="hidden -space-x-3 overflow-hidden sm:flex">
               {[
                 "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
@@ -282,14 +281,14 @@ function AuthPage() {
             </div>
 
             <div className="max-w-sm">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-emerald-400">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-green/10 border border-brand-green/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-green">
                 {mode === "login" ? (
                   <>
                     <LayoutDashboard className="size-3" /> Acesso ao Painel
                   </>
                 ) : mode === "signup" ? (
                   <>
-                    <UserPlus className="size-3" /> Adicionar Conta
+                    <UserPlus className="size-3" /> Nova Conta
                   </>
                 ) : mode === "forgot" ? (
                   <>
@@ -301,47 +300,46 @@ function AuthPage() {
                   </>
                 )}
               </span>
-              <h2 className="font-display mt-2 text-[15px] font-bold leading-tight tracking-tight text-white sm:mt-3 sm:text-xl xl:text-2xl">
+              <h2 className="font-display mt-3 text-lg font-bold leading-tight tracking-tight text-white sm:text-2xl">
                 {mode === "login"
-                  ? "Suas finanças organizadas em um só sistema."
+                  ? "Bem-vindo ao seu controle financeiro."
                   : mode === "signup"
-                    ? "Comece hoje sua jornada para a liberdade financeira."
+                    ? "Sua liberdade financeira começa aqui."
                     : mode === "forgot"
-                      ? "Não se preocupe, vamos te ajudar a voltar."
-                      : "Área de administração técnica e suporte."}
+                      ? "Não se preocupe, vamos te ajudar."
+                      : "Administração e Suporte Técnico."}
               </h2>
-              <p className="mt-2 hidden text-[11px] font-semibold leading-relaxed text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] sm:mt-3 sm:block sm:text-[12px]">
+              <p className="mt-2 hidden text-xs font-medium leading-relaxed text-white/70 sm:block">
                 {mode === "login"
-                  ? "Entre com seu CPF e senha. Seus dados estão protegidos com criptografia de ponta."
+                  ? "Gerencie suas finanças com praticidade e segurança total."
                   : mode === "signup"
-                    ? "Crie sua conta em segundos. Teste grátis por 14 dias com todos os recursos liberados."
+                    ? "Crie sua conta em segundos e teste grátis por 14 dias."
                     : mode === "forgot"
-                      ? "Informe seus dados para validar sua identidade e redefinir sua senha de acesso."
-                      : "Acesso restrito para gerentes do sistema e auditores."}
+                      ? "Informe seus dados para validar sua identidade com segurança."
+                      : "Área restrita para auditores e gerentes do sistema."}
               </p>
             </div>
           </div>
 
-          <div className="hidden p-5 pt-0 sm:block">
-            <p className="relative z-10 text-[9px] font-medium uppercase tracking-widest text-white/30">
-              &lt;Dev. Franc D&apos;nis&gt; · Feijó, ACRE
+          <div className="hidden p-6 pt-0 sm:block">
+            <p className="relative z-10 text-[10px] font-bold uppercase tracking-widest text-white/20">
+              Franc D&apos;nis · Feijó, AC
             </p>
           </div>
-
         </section>
 
-        {/* Painel do formulário rolável */}
-        <section className="flex min-h-0 flex-col px-6 py-8 sm:px-8 lg:h-full bg-background shadow-[inset_1px_0_0_rgba(255,255,255,0.05)] transition-colors duration-500">
-          <div className="mb-6">
-            <h1 className="text-2xl font-black text-foreground dark:text-white tracking-tight leading-tight">
-              {mode === "login" ? "Bem-vindo de volta" : mode === "signup" ? "Criar sua conta" : "Área Restrita"}
+        {/* Painel do formulário - Mais compacto */}
+        <section className="flex min-h-0 flex-col px-6 py-6 sm:px-10 sm:py-8 bg-background/95 lg:h-full transition-colors duration-500">
+          <div className="mb-5">
+            <h1 className="text-xl font-black text-foreground tracking-tight leading-tight sm:text-2xl">
+              {mode === "login" ? "Entrar" : mode === "signup" ? "Criar conta" : "Área Restrita"}
             </h1>
-            <p className="text-xs font-medium text-muted-foreground/80 mt-1.5">
-              {mode === "login" ? "Acesse seu painel financeiro de forma segura." : "Comece seu teste grátis de 14 dias hoje."}
+            <p className="text-[11px] font-bold text-muted-foreground/60 mt-1 uppercase tracking-wider">
+              {mode === "login" ? "Acesse sua conta com segurança" : "Comece sua jornada gratuita hoje"}
             </p>
           </div>
 
-          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto">
+          <div ref={formAreaRef} className="no-scrollbar min-h-0 flex-1 lg:overflow-y-auto lg:pr-2">
             {pendingCode ? (
               <div className="space-y-4 sm:space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="rounded-2xl border border-brand/20 bg-brand/5 p-3 sm:p-4">
@@ -448,21 +446,17 @@ function AuthPage() {
                 onValueChange={(value) => setMode(value as Mode)}
                 className="relative flex min-h-0 flex-col"
               >
-                <TabsList className="grid h-11 w-full shrink-0 grid-cols-2 gap-1 rounded-xl border border-input bg-secondary/60 p-1 shadow-inner ring-offset-background focus-within:ring-2 focus-within:ring-primary/20">
+                <TabsList className="grid h-10 w-full grid-cols-2 gap-1 rounded-xl bg-muted/50 p-1">
                   <TabsTrigger
                     value="login"
-                    aria-label="Acessar conta existente"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-[oklch(0.25_0.04_259)] no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:text-white/70 dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white"
+                    className="rounded-lg text-[11px] font-bold uppercase tracking-wider data-[state=active]:bg-brand-green data-[state=active]:text-white transition-all active:scale-95"
                   >
-                    <KeyRound className="size-3.5" aria-hidden />
                     Entrar
                   </TabsTrigger>
                   <TabsTrigger
                     value="signup"
-                    aria-label="Criar nova conta"
-                    className="group relative flex h-full items-center justify-center gap-1.5 overflow-hidden rounded-lg text-xs font-bold text-[oklch(0.25_0.04_259)] no-underline shadow-none transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none active:scale-[0.98] dark:text-white/70 dark:data-[state=active]:bg-brand dark:data-[state=active]:text-white dark:data-[state=active]:font-extrabold"
+                    className="rounded-lg text-[11px] font-bold uppercase tracking-wider data-[state=active]:bg-brand-green data-[state=active]:text-white transition-all active:scale-95"
                   >
-                    <UserPlus className="size-3.5" aria-hidden />
                     Criar conta
                   </TabsTrigger>
                 </TabsList>
@@ -474,36 +468,35 @@ function AuthPage() {
                       onForgot={() => setMode("forgot")}
                       onAdmin={() => setMode("admin")}
                     />
-                    <div className="relative mt-4">
+                    <div className="relative mt-5">
                       <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                        <div className="w-full border-t border-border"></div>
+                        <div className="w-full border-t border-border/50"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-extrabold dark:text-white/80">Acesso Infantil</span>
+                        <span className="bg-background px-3 text-muted-foreground/50">Alternativas</span>
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setMode("kid")}
-                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-input bg-secondary px-3 py-2.5 text-foreground transition-all duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99] dark:bg-secondary/40"
-                    >
-                      <Baby className="size-4 animate-soft-pulse shrink-0 text-primary transition-transform duration-300 group-hover:scale-105" aria-hidden />
-                      <span className="text-[12px] font-bold leading-tight tracking-tight sm:text-[13px] text-[oklch(0.25_0.04_259)] dark:text-foreground">
-                        Sou criança — entrar com meu código
-                      </span>
-                    </button>
+                    <div className="mt-4 grid grid-cols-1 gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setMode("kid")}
+                        className="group flex w-full items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-2.5 transition-all hover:bg-muted/50 hover:border-brand-green/30"
+                      >
+                        <div className="flex size-8 items-center justify-center rounded-lg bg-brand-green/10 text-brand-green">
+                          <Baby className="size-4" />
+                        </div>
+                        <span className="text-xs font-bold text-foreground">Acesso Kids</span>
+                      </button>
 
-                    <div className="mt-4 space-y-2">
-                      <CodeAccessInline onContinue={() => setMode("signup")} />
                       <Button
                         type="button"
-                        variant="ghost"
+                        variant="outline"
                         onClick={() => setPendingCode("")}
-                        className="w-full h-10 rounded-xl text-[11px] font-bold uppercase tracking-widest text-brand hover:bg-brand/5 border border-brand/20"
+                        className="h-11 rounded-xl text-[10px] font-bold uppercase tracking-widest gap-2"
                       >
-                        <Fingerprint className="size-3.5 mr-2" />
-                        Entrar com Código de Acesso
+                        <Fingerprint className="size-3.5" />
+                        Código de Acesso
                       </Button>
                     </div>
 
@@ -526,8 +519,8 @@ function AuthPage() {
             )}
           </div>
 
-          <div className="mt-3 shrink-0 border-t border-border/50 pt-3">
-            <p className="text-center text-[10px] text-muted-foreground">
+          <div className="mt-3 shrink-0 border-t border-border/50 pt-2.5">
+            <p className="text-center text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40">
               <button
                 type="button"
                 onClick={async () => {
@@ -600,7 +593,7 @@ function CpfInput({
       required
       aria-invalid={invalid || undefined}
       aria-describedby={describedById}
-      className="mt-1 h-10"
+      className="h-10 rounded-xl border-border/50 bg-muted/20"
       onChange={(event) => onChange(maskCpf(event.target.value))}
     />
   );
@@ -629,7 +622,7 @@ function PinInput({
       <div className="flex items-center justify-between">
         <Label
           htmlFor={id}
-          className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold"
+          className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
         >
           {label}
         </Label>
@@ -646,7 +639,7 @@ function PinInput({
           required
           aria-invalid={invalid || undefined}
           aria-describedby={describedById}
-          className="h-10 pr-10 tracking-[0.4em]"
+          className="h-10 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em]"
           onChange={(event) => {
             event.target.value = onlyDigits(event.target.value).slice(0, 6);
           }}
@@ -767,39 +760,43 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       autoComplete="off"
     >
       <FormAlert message={formError} />
-      <div>
-        <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
-        <div className="mt-1">
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="login-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
           <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
         </div>
+        
+        <div className="space-y-1.5">
+          <PinInput id="login-pin" name="pin" autoComplete="current-password" label="Senha" />
+        </div>
       </div>
-      <PinInput id="login-pin" name="pin" autoComplete="current-password" />
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
+
+      <div className="flex items-center justify-between pt-1">
+        <button type="button" onClick={onForgot} className="text-[11px] font-bold text-brand-green hover:underline">
           Esqueci minha senha
         </button>
         <button 
           type="button" 
           onClick={onAdmin} 
-          className="group inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground/80 hover:text-primary transition-colors"
+          className="group inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground/60 hover:text-brand-green transition-colors"
         >
-          <ShieldAlert className="size-3.5" />
-          Acesso administrativo
+          <ShieldAlert className="size-3" />
+          Acesso ADM
         </button>
       </div>
 
       <div className="space-y-3">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
+          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
           disabled={loading}
         >
           {loading ? (
-            <Loader2 className="mr-2 size-5 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
             <>
               Entrar
-              <ArrowRight className="ml-2 size-5" />
+              <ArrowRight className="ml-2 size-3.5" />
             </>
           )}
         </Button>
@@ -908,44 +905,40 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3" noValidate autoComplete="off">
       <FormAlert message={formError} />
-      <div>
-        <Label htmlFor="signup-name" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Nome Completo</Label>
-        <Input id="signup-name" name="fullName" required className="mt-1" autoComplete="off" />
-      </div>
-      <div>
-        <Label htmlFor="signup-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
-        <div className="mt-1">
+      <div className="space-y-3">
+        <div className="space-y-1">
+          <Label htmlFor="signup-name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nome Completo</Label>
+          <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="signup-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
           <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
         </div>
-      </div>
-      <div>
-        <Label htmlFor="signup-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail de contato (opcional)</Label>
-        <Input id="signup-email" name="contactEmail" type="email" className="mt-1" autoComplete="off" />
-      </div>
-      <div>
-        <Label htmlFor="signup-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha (6 dígitos)</Label>
-        <div className="mt-1">
-          <PinInput id="signup-pin" name="pin" autoComplete="new-password" />
+        <div className="space-y-1">
+          <Label htmlFor="signup-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail (opcional)</Label>
+          <Input id="signup-email" name="contactEmail" type="email" className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <PinInput id="signup-pin" name="pin" autoComplete="new-password" label="Senha" />
+          </div>
+          <div className="space-y-1">
+            <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" label="Confirmar" />
+          </div>
         </div>
       </div>
-      <div>
-        <Label htmlFor="signup-confirm-pin" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Confirmar Senha</Label>
-        <div className="mt-1">
-          <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" />
-        </div>
-      </div>
-      <div className="pt-2">
+      <div className="pt-3">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
+          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
           disabled={loading}
         >
           {loading ? (
-            <Loader2 className="mr-2 size-5 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
             <>
               Criar conta
-              <ArrowRight className="ml-2 size-5" />
+              <ArrowRight className="ml-2 size-3.5" />
             </>
           )}
         </Button>
@@ -1002,15 +995,15 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
       <div className="text-center">
-        <h3 className="text-lg font-bold text-foreground">Acesso Administrativo</h3>
-        <p className="text-[12px] text-muted-foreground">Área restrita para gestores do sistema.</p>
+        <h3 className="text-lg font-black text-foreground tracking-tight">Painel Administrativo</h3>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">Restrito a gestores</p>
       </div>
       
       <FormAlert message={error} />
 
-      <div className="space-y-3">
-        <div>
-          <Label htmlFor="admin-email" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">E-mail</Label>
+      <div className="space-y-4 pt-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="admin-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail</Label>
           <Input 
             id="admin-email" 
             name="email" 
@@ -1018,11 +1011,11 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
             placeholder="admin@exemplo.com"
             autoComplete="off"
             required
-            className="mt-1"
+            className="h-10 rounded-xl border-border/50 bg-muted/20"
           />
         </div>
-        <div>
-          <Label htmlFor="admin-password" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Senha</Label>
+        <div className="space-y-1.5">
+          <Label htmlFor="admin-password" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Senha</Label>
           <Input 
             id="admin-password" 
             name="password" 
@@ -1030,7 +1023,7 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
             placeholder="••••••••"
             autoComplete="current-password"
             required
-            className="mt-1"
+            className="h-10 rounded-xl border-border/50 bg-muted/20"
           />
         </div>
       </div>
@@ -1038,15 +1031,15 @@ function AdminSignInForm({ onBack }: { onBack: () => void }) {
       <div className="pt-2">
         <Button 
           type="submit" 
-          className="cta-lift btn-hover-shine h-12 w-full rounded-xl bg-brand text-base font-bold text-brand-foreground shadow-[0_10px_26px_-14px_color-mix(in_oklab,var(--brand)_70%,transparent)] hover:bg-brand focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2" 
+          className="h-11 w-full rounded-xl bg-brand-navy text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-navy/20 hover:bg-brand-navy/90 transition-all active:scale-95" 
           disabled={loading}
         >
           {loading ? (
-            <Loader2 className="mr-2 size-5 animate-spin" />
+            <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
             <>
-              Entrar como Admin
-              <ShieldAlert className="ml-2 size-5" />
+              Entrar Admin
+              <ShieldAlert className="ml-2 size-3.5" />
             </>
           )}
         </Button>
