@@ -29,34 +29,6 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Escala de marca — navy da logomarca */
-  --color-navy-900: #000d1a;
-  --color-navy-800: #001222;
-  --color-navy-700: #001830;
-  --color-navy-600: #002140;
-  --color-navy-500: #0b2c4d;
-
-  /* Escala de marca — verde da logomarca */
-  --color-brand-700: #007a4e;
-  --color-brand-600: #009060;
-  --color-brand-500: #00a85f;
-  --color-brand-400: #2fa862;
-  --color-brand-300: #6fc894;
-
-  /* Off-white da logomarca */
-  --color-bone-50: #f6f7f8;
-  --color-bone-100: #f0f0f0;
-  --color-bone-200: #dfe3e6;
-
-  --color-sidebar: var(--card);
-  --color-sidebar-foreground: var(--card-foreground);
-  --color-sidebar-primary: var(--primary);
-  --color-sidebar-primary-foreground: var(--primary-foreground);
-  --color-sidebar-accent: var(--accent);
-  --color-sidebar-accent-foreground: var(--accent-foreground);
-  --color-sidebar-border: var(--border);
-  --color-sidebar-ring: var(--ring);
-
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 0.25rem);
   --radius-sm: calc(var(--radius) - 0.5rem);
@@ -65,8 +37,21 @@
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
-  --shadow-soft: 0 4px 14px -6px rgb(0 13 26 / 0.18);
-  --shadow-lifted: 0 24px 60px -32px rgb(0 13 26 / 0.55);
+  --animate-bounce-slow: bounce-slow 4s infinite;
+  --animate-bounce-delayed: bounce-delayed 4s infinite;
+
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes bounce-delayed {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  @keyframes progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
 :root {
