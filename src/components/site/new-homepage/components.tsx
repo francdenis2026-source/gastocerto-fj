@@ -63,7 +63,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg md:text-xl text-slate-400 max-w-2xl mb-12 font-medium"
           >
-            Abandone o caos das planilhas. Experimente a interface mais sofisticada e intuitiva para gerenciar seu patrimônio com clareza absoluta.
+            Chega de planilhas complicadas. O jeito mais fácil e bonito de cuidar do seu dinheiro e realizar seus sonhos.
           </motion.p>
 
           <motion.div
@@ -132,20 +132,20 @@ export function Features() {
           {[
             {
               icon: LayoutDashboard,
-              title: "Visão 360º",
-              desc: "Controle contas, cartões, investimentos e despesas fixas em um único ambiente consolidado.",
+              title: "Tudo em um só lugar",
+              desc: "Organize suas contas, cartões e despesas mensais sem complicações.",
               gradient: "from-blue-500/20 to-primary/20"
             },
             {
               icon: Zap,
-              title: "Lançamento Instantâneo",
-              desc: "A tecnologia Quick-Entry permite registrar movimentações em segundos, direto do seu smartphone.",
+              title: "Rápido e Simples",
+              desc: "Registre seus gastos em poucos segundos pelo celular, onde quer que você esteja.",
               gradient: "from-primary/20 to-emerald-500/20"
             },
             {
               icon: Users,
-              title: "Gestão Familiar",
-              desc: "Compartilhe o controle com seu cônjuge ou eduque seus filhos com o exclusivo Espaço Kids.",
+              title: "Para toda a família",
+              desc: "Divida o controle com quem você mora e ensine educação financeira para os filhos.",
               gradient: "from-emerald-500/20 to-teal-500/20"
             }
           ].map((item, i) => (
@@ -194,9 +194,9 @@ export function BentoGrid() {
                 </span>
                 AI Core Engine
               </div>
-              <h3 className="text-4xl md:text-6xl font-black text-white mb-6 leading-[0.9]">Seu Consultor Particular.</h3>
+              <h3 className="text-4xl md:text-6xl font-black text-white mb-6 leading-[0.9]">Dicas de Economia Inteligente.</h3>
               <p className="text-slate-400 font-medium text-lg leading-relaxed">
-                Insights inteligentes baseados em seu comportamento de consumo para maximizar sua economia mensal.
+                Nosso sistema avisa onde você pode economizar mais para sobrar dinheiro no final do mês.
               </p>
             </div>
             <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
@@ -212,9 +212,9 @@ export function BentoGrid() {
           >
             <div className="relative z-10">
               <Layers className="text-primary size-10 mb-8" />
-              <h3 className="text-2xl font-black text-white mb-4">Relatórios Executivos</h3>
+              <h3 className="text-2xl font-black text-white mb-4">Relatórios para Impressão</h3>
               <p className="text-slate-400 font-medium leading-relaxed">
-                Exporte sua saúde financeira em PDF ou Excel com design impecável.
+                Gere arquivos em PDF ou Excel para ver como estão seus gastos de forma organizada.
               </p>
             </div>
             <div className="flex gap-2">
@@ -231,9 +231,9 @@ export function BentoGrid() {
           >
             <div className="relative z-10">
               <Smartphone className="text-white size-12 mb-8" />
-              <h3 className="text-3xl font-black text-white mb-4 leading-tight">Acesso Omnichannel</h3>
+              <h3 className="text-3xl font-black text-white mb-4 leading-tight">Use em qualquer lugar</h3>
               <p className="text-white/80 font-medium text-lg">
-                Seu financeiro sempre à mão, onde quer que você esteja.
+                Suas contas sempre com você, no computador, tablet ou celular.
               </p>
             </div>
             <div className="absolute -bottom-10 -right-10 opacity-20 group-hover:rotate-12 transition-transform duration-700">
@@ -249,9 +249,9 @@ export function BentoGrid() {
           >
             <div className="max-w-sm">
               <Globe className="text-primary size-10 mb-8" />
-              <h3 className="text-3xl font-black text-white mb-4">Nuvem Protegida</h3>
+              <h3 className="text-3xl font-black text-white mb-4">Seus dados protegidos</h3>
               <p className="text-slate-400 font-medium">
-                Sincronização em tempo real entre todos os seus dispositivos com backup automático.
+                Tudo é salvo automaticamente na nuvem com a mesma segurança dos grandes bancos.
               </p>
             </div>
             <div className="hidden md:block relative">
