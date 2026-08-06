@@ -8,9 +8,9 @@ export function Hero() {
   return (
     <section className="relative flex items-center overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-24">
       {/* Premium Background with Gradient & Lighting */}
-      <div className="absolute inset-0 bg-[#020617] -z-20" />
-      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[70%] bg-primary/10 rounded-full blur-[180px] pointer-events-none -z-10 animate-pulse-slow" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[60%] bg-blue-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-background -z-20" />
+      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[70%] bg-primary/8 rounded-full blur-[180px] pointer-events-none -z-10 animate-pulse-slow" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[60%] bg-primary/5 rounded-full blur-[160px] pointer-events-none -z-10" />
       
       <div className="section-shell">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
