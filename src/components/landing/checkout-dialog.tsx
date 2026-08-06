@@ -398,18 +398,22 @@ export function CheckoutDialog({
               </div>
 
               {manual?.pixKey ? (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="flex justify-center">
-                    <div className="bg-white p-2 rounded-xl">
+                    <div className="bg-white p-1.5 rounded-lg shadow-inner">
                       {/* QR Code placeholder or image logic */}
-                      <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(manual.pixKey)}`} alt="Pix QR" className="size-48" />
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(manual.pixKey)}`} 
+                        alt="Pix QR" 
+                        className="size-32 sm:size-36" 
+                      />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label className="text-white/40 text-xs font-bold uppercase">Chave Pix</Label>
-                    <div className="flex gap-2">
-                      <Input readOnly value={manual.pixKey} className="bg-white/5 border-white/10 font-mono text-xs" />
-                      <Button variant="outline" onClick={() => copy(manual.pixKey, "Chave Pix")} className="border-white/10"><Copy className="size-4" /></Button>
+                  <div className="space-y-1.5">
+                    <Label className="text-white/40 text-[10px] font-bold uppercase tracking-tight">Chave Pix</Label>
+                    <div className="flex gap-1.5">
+                      <Input readOnly value={manual.pixKey} className="h-8 bg-white/5 border-white/10 font-mono text-[11px] px-2" />
+                      <Button variant="outline" size="sm" onClick={() => copy(manual.pixKey, "Chave Pix")} className="h-8 border-white/10 px-2.5"><Copy className="size-3.5" /></Button>
                     </div>
                   </div>
                 </div>
