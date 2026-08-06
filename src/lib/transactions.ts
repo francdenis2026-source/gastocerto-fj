@@ -135,7 +135,7 @@ export function useSaveTransaction() {
       }
       const { data, error } = await supabase
         .from("transactions")
-        .insert({ ...input.values, user_id: user.id })
+        .insert({ ...input.values, user_id: input.values.user_id || user.id })
         .select()
         .single();
       if (error) throw error;
