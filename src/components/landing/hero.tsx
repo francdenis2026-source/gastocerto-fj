@@ -29,7 +29,7 @@ export function Hero() {
               <span className="bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent">para sua liberdade</span>.
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-400 leading-relaxed mb-10 max-w-lg font-medium">
+            <p className="text-lg md:text-xl text-slate-300 leading-relaxed mb-10 max-w-lg font-medium">
               GastoCerto transforma sua vida financeira com precisão absoluta, insights de IA e uma experiência visual extraordinária.
             </p>
             
