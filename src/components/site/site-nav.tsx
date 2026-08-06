@@ -28,7 +28,7 @@ export function SiteNav() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-[1000] transition-all duration-500",
-        scrolled ? "py-2 bg-[#000c18]/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl" : "py-4 bg-transparent border-b border-transparent"
+        scrolled ? "py-2 bg-[#000c18]/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl" : "py-4 bg-transparent"
       )}
     >
       <div 
