@@ -28,20 +28,26 @@ import { Link } from "@tanstack/react-router";
 export function Hero() {
   return (
     <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden bg-background">
-      {/* Background Image / Professional Hero Background */}
-      <div className="absolute inset-0 -z-10">
+      {/* Complex Hero Art: Background + Image Blend */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* The Base Thematic Image */}
         <img 
-          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop" 
-          alt="Financial Background" 
-          className="w-full h-full object-cover opacity-[0.03] dark:opacity-[0.05]"
+          src="https://images.unsplash.com/photo-1579621970795-87f967b16c8a?q=80&w=2000&auto=format&fit=crop" 
+          alt="Financial Growth" 
+          className="w-full h-full object-cover scale-105 opacity-10 dark:opacity-[0.08] mix-blend-luminosity"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-      </div>
-
-      {/* Dynamic Background Elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 opacity-30">
-        <div className="absolute top-[-10%] left-[10%] w-[40%] h-[50%] bg-primary/20 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[10%] right-[10%] w-[35%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
+        
+        {/* Artistic Overlays & Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-background via-background/90 to-primary/10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(31,174,109,0.1),transparent_50%)]" />
+        
+        {/* Animated Glows */}
+        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[60%] bg-primary/20 blur-[140px] rounded-full animate-pulse pointer-events-none" />
+        <div className="absolute bottom-[0%] right-[-5%] w-[40%] h-[50%] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
+        
+        {/* Mesh Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.05] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" 
+             style={{ backgroundImage: 'radial-gradient(var(--border) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       </div>
 
       <div className="container px-4 mx-auto relative z-10">
