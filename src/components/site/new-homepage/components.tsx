@@ -35,11 +35,11 @@ export function Hero() {
         <img 
           src="https://images.unsplash.com/photo-1554224155-16974a4ea2bc?q=80&w=2340&auto=format&fit=crop" 
           alt="Economia Familiar e Controle de Gastos" 
-          className="w-full h-full object-cover transition-opacity duration-700"
+          className="w-full h-full object-cover"
         />
         {/* Adjusted gradients for better visibility and transition */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#000a14]/40 via-transparent to-[#000a14]" />
-        <div className="absolute inset-0 bg-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#000a14]" />
+        <div className="absolute inset-0 bg-[#000a14]/20" />
       </motion.div>
 
       <div className="container relative z-10 px-4 md:px-6">
