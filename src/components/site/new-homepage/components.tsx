@@ -1,134 +1,178 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, Globe, Shield, Zap, Sparkles, Smartphone, BarChart3, Users, Wallet } from "lucide-react";
+import { 
+  ArrowRight, 
+  ChevronRight, 
+  Shield, 
+  Zap, 
+  Sparkles, 
+  Smartphone, 
+  BarChart3, 
+  Users, 
+  Wallet, 
+  Plus, 
+  CheckCircle2, 
+  Bell, 
+  PieChart, 
+  TrendingUp,
+  Lock,
+  Target,
+  Globe
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-background">
+    <section className="relative pt-20 pb-12 md:pt-28 md:pb-20 overflow-hidden bg-background">
       <div className="container px-4 mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
           <div className="flex-1 text-center lg:text-left">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-sm"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest mb-6"
             >
-              <Sparkles size={14} className="animate-pulse" />
-              Gestão Financeira Descomplicada
+              <Sparkles size={12} />
+              Redefinindo sua relação com o dinheiro
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-foreground leading-[1.1] mb-8"
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-[1.05] mb-6"
             >
-              O controle que sua <br className="hidden md:block" />
-              <span className="text-primary italic">família merece.</span>
+              Domine suas finanças <br />
+              com <span className="text-primary underline decoration-primary/30 underline-offset-4">inteligência real.</span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-base md:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed"
             >
-              Organize contas, cartões e economize de verdade com o GastoCerto. 
-              Interface moderna e ultra-compacta para quem não tem tempo a perder.
+              O GastoCerto combina simplicidade extrema com recursos avançados. 
+              Organize cada centavo, planeje o futuro e veja seu patrimônio crescer.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
             >
-              <Button size="lg" className="h-14 px-8 rounded-2xl text-base font-bold group bg-primary text-primary-foreground hover:scale-105 transition-all shadow-xl shadow-primary/20" asChild>
+              <Button size="lg" className="h-12 px-6 rounded-xl text-sm font-bold group shadow-lg shadow-primary/20" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
-                  Começar agora
-                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  Começar Grátis
+                  <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button variant="ghost" size="lg" className="h-14 px-8 rounded-2xl text-base font-bold hover:bg-muted transition-all">
-                Ver todos os recursos
+              <Button variant="outline" size="lg" className="h-12 px-6 rounded-xl text-sm font-bold border-2">
+                Ver Demonstração
               </Button>
             </motion.div>
             
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-10 flex items-center justify-center lg:justify-start gap-6 text-sm text-muted-foreground font-medium"
+              transition={{ delay: 0.4 }}
+              className="mt-8 flex items-center justify-center lg:justify-start gap-4 text-[11px] text-muted-foreground font-bold uppercase tracking-wider"
             >
-              <div className="flex -space-x-2">
+              <div className="flex -space-x-1.5">
                 {[1,2,3,4].map(i => (
-                  <div key={i} className="size-8 rounded-full border-2 border-background bg-muted overflow-hidden flex items-center justify-center text-[10px] font-bold">
+                  <div key={i} className="size-6 rounded-full border-2 border-background bg-muted flex items-center justify-center text-[8px]">
                     U{i}
                   </div>
                 ))}
               </div>
-              <span>+2.000 usuários ativos</span>
+              <span>Confiado por +5.000 pessoas</span>
             </motion.div>
           </div>
 
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex-1 relative w-full max-w-[500px] lg:max-w-none"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex-1 relative w-full"
           >
-            <div className="relative aspect-square lg:aspect-video rounded-[2rem] bg-gradient-to-br from-primary/20 to-blue-500/10 border border-primary/20 overflow-hidden shadow-2xl">
-                {/* Mockup visual representativo do dashboard compacto */}
-                <div className="absolute inset-4 bg-card rounded-2xl border border-border shadow-lg overflow-hidden flex flex-col">
-                    <div className="h-10 border-b border-border bg-muted/30 flex items-center px-4 gap-2">
-                        <div className="size-2 rounded-full bg-red-400" />
-                        <div className="size-2 rounded-full bg-amber-400" />
-                        <div className="size-2 rounded-full bg-emerald-400" />
+            <div className="relative rounded-2xl md:rounded-[2.5rem] bg-gradient-to-tr from-muted/50 to-muted border border-border/50 p-2 md:p-4 shadow-2xl">
+                {/* Interface Mockup */}
+                <div className="bg-background rounded-xl md:rounded-[1.5rem] border border-border shadow-sm overflow-hidden flex flex-col aspect-[4/3] md:aspect-video">
+                  {/* Top Bar */}
+                  <div className="h-8 md:h-12 border-b border-border bg-muted/20 flex items-center justify-between px-4">
+                    <div className="flex gap-1.5 md:gap-2">
+                      <div className="size-2 md:size-3 rounded-full bg-destructive/40" />
+                      <div className="size-2 md:size-3 rounded-full bg-amber-400/40" />
+                      <div className="size-2 md:size-3 rounded-full bg-emerald-400/40" />
                     </div>
-                    <div className="p-4 grid grid-cols-2 gap-3">
-                        <div className="h-20 bg-primary/10 rounded-xl border border-primary/20 p-3">
-                            <div className="text-[10px] text-primary font-bold uppercase tracking-wider mb-1">Saldo Total</div>
-                            <div className="text-lg font-black tracking-tight text-foreground">R$ 12.450,00</div>
+                    <div className="flex items-center gap-3">
+                      <div className="size-5 md:size-7 rounded-full bg-muted" />
+                      <div className="h-2 w-16 md:w-24 bg-muted rounded-full" />
+                    </div>
+                  </div>
+                  
+                  {/* Content Layout */}
+                  <div className="flex-1 flex overflow-hidden">
+                    {/* Sidebar mockup */}
+                    <div className="w-12 md:w-16 border-r border-border bg-muted/10 p-2 md:p-3 space-y-4">
+                      {[1,2,3,4].map(i => (
+                        <div key={i} className={`size-8 md:size-10 rounded-lg ${i === 1 ? 'bg-primary/20 text-primary' : 'bg-muted'} flex items-center justify-center`}>
+                          <div className="size-4 bg-current opacity-50 rounded-sm" />
                         </div>
-                        <div className="h-20 bg-muted/50 rounded-xl border border-border p-3">
-                            <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Gastos Mês</div>
-                            <div className="text-lg font-black tracking-tight text-destructive">R$ 3.820,00</div>
-                        </div>
-                        <div className="col-span-2 h-32 bg-muted/20 rounded-xl border border-border p-3 flex flex-col justify-between">
-                            <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Fluxo Semanal</div>
-                            <div className="flex items-end justify-between h-16 px-2">
-                                {[30, 60, 45, 90, 65, 80, 50].map((h, i) => (
-                                    <div key={i} className="w-4 bg-primary rounded-t-sm" style={{ height: `${h}%` }} />
-                                ))}
+                      ))}
+                    </div>
+                    
+                    {/* Main area mockup */}
+                    <div className="flex-1 p-3 md:p-6 space-y-4 md:space-y-6 overflow-y-auto custom-scrollbar">
+                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                        {[
+                          { label: 'Saldo', val: 'R$ 12.450', color: 'text-primary' },
+                          { label: 'Gastos', val: 'R$ 3.820', color: 'text-destructive' },
+                          { label: 'Cartões', val: 'R$ 1.200', color: 'text-blue-500' }
+                        ].map((card, i) => (
+                          <div key={i} className="bg-card p-3 rounded-xl border border-border space-y-1">
+                            <div className="text-[9px] md:text-[10px] font-black uppercase text-muted-foreground tracking-tighter">{card.label}</div>
+                            <div className={`text-sm md:text-xl font-black ${card.color}`}>{card.val}</div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div className="h-32 md:h-48 bg-card rounded-xl border border-border p-4 flex flex-col justify-between">
+                            <div className="h-2 w-24 bg-muted rounded-full" />
+                            <div className="flex items-end justify-between h-20 md:h-32 px-1">
+                              {[40, 70, 45, 90, 60, 80, 50, 65].map((h, i) => (
+                                <div key={i} className="w-2 md:w-3 bg-primary/20 hover:bg-primary transition-colors rounded-t-sm" style={{ height: `${h}%` }} />
+                              ))}
                             </div>
-                        </div>
+                         </div>
+                         <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+                            <div className="h-2 w-24 bg-muted rounded-full mb-4" />
+                            {[1,2,3].map(i => (
+                              <div key={i} className="flex items-center justify-between pb-2 border-b border-border last:border-0">
+                                <div className="flex items-center gap-2">
+                                  <div className="size-6 rounded bg-muted" />
+                                  <div className="h-2 w-16 bg-muted rounded-full" />
+                                </div>
+                                <div className="h-2 w-8 bg-muted rounded-full" />
+                              </div>
+                            ))}
+                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                
-                {/* Mobile Floating Card */}
-                <div className="absolute -bottom-6 -right-6 w-40 h-72 bg-card rounded-[2.5rem] border-8 border-foreground shadow-2xl overflow-hidden hidden md:block z-20">
-                    <div className="h-full bg-background p-4 flex flex-col gap-4">
-                        <div className="w-8 h-1 bg-muted rounded-full mx-auto" />
-                        <div className="size-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
-                            <Wallet size={16} />
-                        </div>
-                        <div className="space-y-2">
-                            <div className="h-2 w-3/4 bg-muted rounded-full" />
-                            <div className="h-4 w-full bg-primary/20 rounded-full" />
-                        </div>
-                        <div className="mt-auto grid grid-cols-2 gap-2">
-                            <div className="h-10 bg-muted rounded-lg" />
-                            <div className="h-10 bg-muted rounded-lg" />
-                        </div>
-                    </div>
+
+                {/* Floating Action Button Mockup */}
+                <div className="absolute -bottom-4 -right-4 size-10 md:size-14 rounded-full bg-primary text-white flex items-center justify-center shadow-xl shadow-primary/40 border-4 border-background animate-bounce md:animate-none">
+                  <Plus size={24} />
                 </div>
             </div>
-            
+
             {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] -z-10 pointer-events-none opacity-20 dark:opacity-10">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,var(--primary)_0%,transparent_70%)] blur-[100px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] -z-10 pointer-events-none opacity-30">
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,var(--primary)_0%,transparent_70%)] blur-[80px]" />
             </div>
           </motion.div>
         </div>
@@ -137,62 +181,73 @@ export function Hero() {
   );
 }
 
-const services = [
+const features = [
   {
-    icon: BarChart3,
-    title: "Análise Inteligente",
-    desc: "Gráficos intuitivos que mostram para onde cada centavo está indo.",
-    color: "text-blue-500",
-    bg: "bg-blue-500/10"
+    icon: PieChart,
+    title: "Análise Visual",
+    desc: "Categorização automática e gráficos de pizza/barras que dão clareza.",
+    color: "bg-blue-500"
+  },
+  {
+    icon: Bell,
+    title: "Alertas Inteligentes",
+    desc: "Não esqueça mais de pagar contas ou ultrapassar limites de orçamento.",
+    color: "bg-amber-500"
   },
   {
     icon: Users,
-    title: "Espaço Kids",
-    desc: "Ensine educação financeira para seus filhos de forma lúdica e segura.",
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10"
+    title: "Multicontas",
+    desc: "Gerencie finanças pessoais e empresariais ou familiares separadamente.",
+    color: "bg-emerald-500"
   },
   {
-    icon: Smartphone,
-    title: "App Híbrido",
-    desc: "Acesse pelo PC ou Celular com a mesma experiência fluída e rápida.",
-    color: "text-amber-500",
-    bg: "bg-amber-500/10"
+    icon: Lock,
+    title: "Segurança Bancária",
+    desc: "Dados criptografados de ponta a ponta com as melhores práticas.",
+    color: "bg-indigo-500"
   },
   {
-      icon: Shield,
-      title: "Segurança Total",
-      desc: "Dados criptografados e proteção de meses anteriores com senha.",
-      color: "text-primary",
-      bg: "bg-primary/10"
+    icon: Target,
+    title: "Metas e Sonhos",
+    desc: "Defina objetivos financeiros e acompanhe seu progresso real.",
+    color: "bg-rose-500"
+  },
+  {
+    icon: TrendingUp,
+    title: "Balanço Anual",
+    desc: "Visão macro da sua evolução financeira ao longo dos anos.",
+    color: "bg-cyan-500"
   }
 ];
 
 export function Features() {
   return (
-    <section id="plataforma" className="py-20 bg-background border-t border-border/50">
+    <section id="recursos" className="py-16 bg-muted/30 relative">
       <div className="container px-4 mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Recursos que facilitam sua vida</h2>
-            <p className="text-muted-foreground font-medium">Tudo o que você precisa para sair do vermelho e começar a investir no que importa.</p>
+        <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4">Essencial para seu sucesso</h2>
+            <p className="text-muted-foreground font-medium text-sm md:text-base leading-relaxed">
+              Desenvolvemos cada ferramenta focando no que realmente importa: 
+              economizar seu tempo e seu dinheiro.
+            </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((s, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {features.map((f, i) => (
             <motion.div
-              key={s.title}
+              key={f.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group p-6 rounded-3xl border border-border bg-card/50 hover:border-primary/30 hover:bg-card transition-all duration-300"
+              transition={{ delay: i * 0.05 }}
+              className="bg-card p-5 rounded-2xl border border-border hover:shadow-lg hover:shadow-primary/5 transition-all group"
             >
-              <div className={`size-12 rounded-2xl ${s.bg} ${s.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                <s.icon size={24} />
+              <div className={`size-10 rounded-xl ${f.color} text-white flex items-center justify-center mb-4 shadow-lg shadow-current/20 group-hover:scale-110 transition-transform`}>
+                <f.icon size={20} />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">{s.title}</h3>
+              <h3 className="text-lg font-bold text-foreground mb-2">{f.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed font-medium">
-                {s.desc}
+                {f.desc}
               </p>
             </motion.div>
           ))}
@@ -204,64 +259,82 @@ export function Features() {
 
 export function BentoGrid() {
   return (
-    <section className="py-20 bg-muted/10 overflow-hidden">
+    <section className="py-16 bg-background">
       <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          <div className="md:col-span-7 lg:col-span-8 bg-card rounded-[2rem] border border-border p-8 relative overflow-hidden group">
-            <div className="relative z-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-4 block">Visualização Premium</span>
-              <h3 className="text-3xl md:text-5xl font-black text-foreground mb-4">Dashboard de <br/>Alta Performance</h3>
-              <p className="text-muted-foreground max-w-sm mb-8 font-medium">
-                Entenda seu patrimônio com clareza absoluta e tome decisões baseadas em dados reais.
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 auto-rows-[280px]">
+          {/* Bento item 1 */}
+          <div className="md:col-span-8 bg-muted/50 rounded-3xl border border-border p-6 md:p-10 flex flex-col justify-center overflow-hidden relative group">
+            <div className="relative z-10 max-w-md">
+              <span className="text-[9px] font-black uppercase tracking-widest text-primary mb-3 block">Inovação</span>
+              <h3 className="text-3xl md:text-5xl font-black text-foreground mb-4">Controle Total em suas mãos</h3>
+              <p className="text-muted-foreground font-medium text-sm md:text-base mb-6 leading-relaxed">
+                Nossa interface compacta foi desenhada para carregar instantaneamente, 
+                mesmo em conexões lentas. Gestão financeira de alta performance.
               </p>
-              <Button variant="outline" className="rounded-xl font-bold">Explorar Painel</Button>
+              <div className="flex gap-4">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                  <CheckCircle2 size={14} className="text-primary" /> Offline First
+                </div>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                  <CheckCircle2 size={14} className="text-primary" /> Sync em Tempo Real
+                </div>
+              </div>
             </div>
-            {/* Decorative background for the card */}
-            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 size-64 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent pointer-events-none group-hover:from-primary/15 transition-all" />
+            <div className="absolute -bottom-10 -right-10 size-48 md:size-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
           </div>
           
-          <div className="md:col-span-5 lg:col-span-4 bg-foreground rounded-[2rem] p-8 text-background flex flex-col justify-between group overflow-hidden relative">
+          {/* Bento item 2 */}
+          <div className="md:col-span-4 bg-foreground rounded-3xl p-6 md:p-8 text-background flex flex-col justify-between overflow-hidden relative group">
             <div className="relative z-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-4 block">Familiar</span>
-              <h3 className="text-3xl font-bold mb-4">Ensine seus filhos</h3>
-              <p className="text-background/60 font-medium">
-                Gamificação financeira para crianças. O modo Kids torna o aprendizado divertido.
+              <div className="size-10 rounded-xl bg-primary flex items-center justify-center mb-6">
+                <Users size={20} className="text-white" />
+              </div>
+              <h3 className="text-2xl font-black mb-3 leading-tight">Espaço Kids</h3>
+              <p className="text-background/60 text-sm font-medium leading-relaxed">
+                Gamificação financeira para os pequenos. Educação que transforma o futuro.
               </p>
             </div>
-            <div className="relative z-10 mt-8">
-                <div className="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-4 transition-all">
-                    Conhecer modo kids <ArrowRight size={18} />
-                </div>
+            <div className="relative z-10 mt-6 flex items-center gap-2 text-primary text-xs font-black uppercase tracking-wider group-hover:gap-3 transition-all cursor-pointer">
+                Ver mais <ChevronRight size={14} />
             </div>
-            <div className="absolute -bottom-20 -left-20 size-64 bg-primary/20 rounded-full blur-[80px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-48 bg-primary/20 rounded-full blur-[60px]" />
           </div>
 
-          <div className="md:col-span-5 lg:col-span-4 bg-primary rounded-[2rem] p-8 text-primary-foreground group overflow-hidden relative">
-            <h3 className="text-2xl font-bold mb-4">Relatórios em PDF/CSV</h3>
-            <p className="font-medium text-primary-foreground/80 text-sm mb-6">
-                Leve seus dados para onde quiser. Exportação completa para contadores ou análise offline.
-            </p>
-            <div className="flex gap-2">
-                <div className="size-10 rounded-xl bg-white/20 flex items-center justify-center font-bold text-xs">PDF</div>
-                <div className="size-10 rounded-xl bg-white/20 flex items-center justify-center font-bold text-xs">CSV</div>
+          {/* Bento item 3 */}
+          <div className="md:col-span-5 bg-card rounded-3xl border border-border p-6 md:p-8 flex flex-col justify-between group">
+            <div>
+              <h3 className="text-xl font-black text-foreground mb-3">Mobilidade Híbrida</h3>
+              <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-6">
+                Instale como um aplicativo no seu celular ou use no navegador. 
+                Sua conta sempre com você.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="size-10 rounded-xl bg-muted flex items-center justify-center">
+                <Smartphone size={20} className="text-primary" />
+              </div>
+              <div className="size-10 rounded-xl bg-muted flex items-center justify-center">
+                <Globe size={20} className="text-primary" />
+              </div>
             </div>
           </div>
 
-          <div className="md:col-span-7 lg:col-span-8 bg-card rounded-[2rem] border border-border p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden">
-             <div className="max-w-md">
-                <h3 className="text-2xl font-bold text-foreground mb-4">Controle de Combustível</h3>
-                <p className="text-muted-foreground font-medium text-sm">
-                    Módulo exclusivo para gerenciar gastos com veículos e botijão de gás. Saiba exatamente quanto custa seu transporte.
+          {/* Bento item 4 */}
+          <div className="md:col-span-7 bg-primary rounded-3xl p-6 md:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative group">
+             <div className="max-w-xs relative z-10">
+                <h3 className="text-2xl font-black mb-3">Exportação Profissional</h3>
+                <p className="text-white/80 text-sm font-medium leading-relaxed">
+                    Gere relatórios completos em PDF ou CSV para sua contabilidade ou análise pessoal profunda.
                 </p>
              </div>
-             <div className="flex gap-3 mt-6 md:mt-0">
-                 {[1,2].map(i => (
-                     <div key={i} className="size-16 rounded-2xl bg-muted/50 border border-border flex items-center justify-center text-muted-foreground">
-                         <Zap size={20} />
-                     </div>
-                 ))}
+             <div className="flex gap-2 relative z-10">
+                <div className="px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-[10px] font-black uppercase tracking-widest backdrop-blur-sm">PDF</div>
+                <div className="px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-[10px] font-black uppercase tracking-widest backdrop-blur-sm">CSV</div>
+                <div className="px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-[10px] font-black uppercase tracking-widest backdrop-blur-sm">XLS</div>
              </div>
+             <div className="absolute -bottom-10 -left-10 size-40 bg-white/10 rounded-full blur-2xl" />
           </div>
         </div>
       </div>
@@ -271,49 +344,62 @@ export function BentoGrid() {
 
 export function Footer() {
   return (
-    <footer className="py-16 bg-background border-t border-border">
+    <footer className="py-12 bg-muted/20 border-t border-border mt-10">
       <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-16">
-          <div className="col-span-2 lg:col-span-2">
-            <div className="text-xl font-black tracking-tighter mb-6 flex items-center gap-2">
-              <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white text-xs">GC</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
+          <div className="col-span-2">
+            <div className="text-xl font-black tracking-tighter mb-4 flex items-center gap-2">
+              <div className="size-7 bg-primary rounded-lg flex items-center justify-center text-white text-[10px]">GC</div>
               GASTO<span className="text-primary">CERTO</span>
             </div>
-            <p className="text-muted-foreground max-w-sm mb-8 font-medium text-sm leading-relaxed">
-              Simplificando o dia a dia financeiro de milhares de brasileiros. 
-              Seguro, intuitivo e completo.
+            <p className="text-muted-foreground max-w-xs mb-6 font-medium text-xs leading-relaxed">
+              Transformando a complexidade financeira em clareza absoluta. 
+              O app para quem quer crescer.
             </p>
-          </div>
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-widest mb-6 text-foreground">Produto</h4>
-            <ul className="space-y-4 text-muted-foreground text-sm font-medium">
-              <li><a href="#plataforma" className="hover:text-primary transition-colors">Recursos</a></li>
-              <li><a href="#planos" className="hover:text-primary transition-colors">Preços</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Segurança</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-widest mb-6 text-foreground">Empresa</h4>
-            <ul className="space-y-4 text-muted-foreground text-sm font-medium">
-              <li><a href="#" className="hover:text-primary transition-colors">Sobre nós</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Contato</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Privacidade</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-widest mb-6 text-foreground">Social</h4>
-            <div className="flex gap-4">
-                {[1,2,3].map(i => (
-                    <div key={i} className="size-10 rounded-xl bg-muted border border-border hover:bg-primary/10 hover:border-primary/30 transition-all cursor-pointer" />
-                ))}
+            <div className="flex gap-3">
+              {[1,2,3].map(i => (
+                <div key={i} className="size-8 rounded-lg bg-card border border-border flex items-center justify-center hover:bg-muted transition-colors cursor-pointer">
+                  <div className="size-3.5 bg-muted-foreground/30 rounded-sm" />
+                </div>
+              ))}
             </div>
           </div>
+          
+          <div>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.2em] mb-4 text-foreground">Plataforma</h4>
+            <ul className="space-y-2.5 text-muted-foreground text-xs font-bold">
+              <li><a href="#recursos" className="hover:text-primary transition-colors">Funcionalidades</a></li>
+              <li><a href="#planos" className="hover:text-primary transition-colors">Planos e Preços</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Segurança</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">App Mobile</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.2em] mb-4 text-foreground">Suporte</h4>
+            <ul className="space-y-2.5 text-muted-foreground text-xs font-bold">
+              <li><a href="#" className="hover:text-primary transition-colors">Central de Ajuda</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Dúvidas Frequentes</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Contato</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Status</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.2em] mb-4 text-foreground">Legal</h4>
+            <ul className="space-y-2.5 text-muted-foreground text-xs font-bold">
+              <li><a href="#" className="hover:text-primary transition-colors">Privacidade</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Termos de Uso</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Cookies</a></li>
+            </ul>
+          </div>
         </div>
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] text-muted-foreground font-black uppercase tracking-widest">
-          <p>© 2026 GastoCerto — Feito com paixão pelas suas finanças.</p>
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-foreground transition-colors">Status do Sistema</a>
-            <a href="#" className="hover:text-foreground transition-colors">Acessibilidade</a>
+
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-[9px] text-muted-foreground font-black uppercase tracking-[0.2em]">
+          <p>© 2026 GastoCerto — Inteligência Financeira.</p>
+          <div className="flex gap-6">
+            <span className="flex items-center gap-1.5"><div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> Servidores Online</span>
+            <span className="opacity-50">v1.4.0-stable</span>
           </div>
         </div>
       </div>
