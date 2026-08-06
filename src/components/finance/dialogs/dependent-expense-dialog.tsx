@@ -224,14 +224,15 @@ export function DependentExpenseDialog({
       toast.error("Nenhuma categoria de despesa disponível.");
       return;
     }
-    const who = selected.nickname?.trim() || selected.name;
+    const currentSelected = selected!; // Já validado acima pelo newErrors.selected
+    const who = currentSelected.nickname?.trim() || currentSelected.name;
     const description = note.trim()
       ? `${who} — ${note.trim()}`.slice(0, 140)
       : `${who} — ${reasonInfo.label}`;
     try {
       await save.mutateAsync({
         values: {
-          user_id: selected.kid_user_id || selected.user_id, // Usar kid_user_id se disponível
+          user_id: currentSelected.kid_user_id || currentSelected.user_id,
           description,
           amount: value,
           transaction_type: reasonInfo.type,
@@ -239,8 +240,8 @@ export function DependentExpenseDialog({
           transaction_date: date,
           status: reasonInfo.type === "income" ? "received" : "paid",
           payment_date: date,
-          tags: [dependentTag(selected.id), reasonTag(reason)],
-          notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(selected.relation)}) — ${reasonInfo.label}`,
+          tags: [dependentTag(currentSelected.id), reasonTag(reason)],
+          notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
         },
       });
       toast.success(`${formatCurrency(value)} com ${who} registrado.`);
