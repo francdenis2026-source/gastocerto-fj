@@ -34,8 +34,11 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   return (
     <div className="min-h-dvh w-full max-w-full overflow-x-hidden bg-navy-800 font-sans antialiased selection:bg-primary/25 selection:text-bone-100">
+      <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
+        Pular para o conteúdo principal
+      </a>
       <SiteNav />
-      <main className="flex flex-col">
+      <main id="main-content" className="flex flex-col">
         <SiteHero />
         <SiteCapabilities />
         <SiteMethod />
