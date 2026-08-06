@@ -12,7 +12,7 @@ export function SiteClosing() {
       />
       <div className="shell relative py-24 text-center lg:py-32">
         <Appear className="mx-auto max-w-2xl">
-          <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold leading-[1.06] text-bone-100">
+          <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold tracking-tight leading-[1.06] text-bone-100">
             Comece o próximo mês sabendo exatamente onde está seu dinheiro
           </h2>
           <p className="mx-auto mt-6 max-w-lg text-[16px] leading-relaxed text-bone-100/50">
