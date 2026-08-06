@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: ## Redesign e Otimização da Homepage
+        comando mais recente enviado por ele: CORRIJA, NAO MUDOU NADA
       */}
     </div>
   );
