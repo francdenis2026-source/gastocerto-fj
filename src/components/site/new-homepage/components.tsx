@@ -45,7 +45,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-xl text-primary text-xs md:text-sm font-bold tracking-wider uppercase"
+            className="mb-8 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-xl text-primary text-xs md:text-sm font-bold tracking-wider uppercase border-glow"
           >
             A Próxima Geração em Controle Financeiro
           </motion.div>
@@ -54,10 +54,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[0.9] mb-8"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[0.9] mb-8 font-display"
           >
             Seu dinheiro, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-emerald-400 to-primary animate-gradient">sob domínio total.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-emerald-400 to-primary animate-gradient text-glow">sob domínio total.</span>
           </motion.h1>
 
           <motion.p
@@ -76,7 +76,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
           >
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full glow-effect" asChild>
+              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full glow-effect border-glow" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Jornada
                   <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
@@ -163,7 +163,7 @@ export function Features() {
               whileHover={{ y: -8, scale: 1.02 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, type: "spring", stiffness: 300 }}
-              className="group relative p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden glow-effect"
+              className="group relative p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden glow-effect hover:border-glow"
             >
               <Link to="/auth" search={item.title === "Espaço Kids" ? { mode: "kid" } : { mode: "signup" }} className="absolute inset-0 z-20" />
               <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -194,7 +194,7 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.01 }}
-            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30 glow-effect"
+            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30 glow-effect hover:border-glow"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-md relative z-10">

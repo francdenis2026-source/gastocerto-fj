@@ -37,8 +37,8 @@
   --radius-md: calc(var(--radius) - 0.25rem);
   --radius-sm: calc(var(--radius) - 0.5rem);
 
-  --font-display: "Outfit", system-ui, sans-serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Outfit", system-ui, sans-serif;
+  --font-sans: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
   --animate-float: float 6s ease-in-out infinite;
@@ -148,6 +148,14 @@ h4 {
 .animate-gradient {
   background-size: 200% auto;
   animation: gradient 5s ease infinite;
+}
+
+.text-glow {
+  text-shadow: 0 0 20px color-mix(in oklab, var(--primary) 40%, transparent);
+}
+
+.border-glow {
+  box-shadow: 0 0 15px -5px color-mix(in oklab, var(--primary) 50%, transparent);
 }
 
 /* ——— Estrutura ——— */
