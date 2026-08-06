@@ -244,12 +244,20 @@ select,
 html {
   overflow-y: scroll;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  /* Garantindo que o scroll do mouse funcione mesmo sem barra visual */
+  -webkit-overflow-scrolling: touch;
 }
 
+/* Oculta barra visual mas mantém funcionalidade de scroll nativa */
 html::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  width: 0px;
+  background: transparent;
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 html,
