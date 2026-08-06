@@ -63,6 +63,11 @@
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
   }
+  @keyframes progress-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  --animate-progress-grow: progress-grow 2s ease-out forwards;
 }
 
 :root {
