@@ -26,7 +26,7 @@ const items = [
 
 export function SiteAssurance() {
   return (
-    <section id="seguranca" className="band border-t border-border bg-navy-800">
+    <section id="seguranca" className="band border-t border-border/40 bg-navy-900">
       <div className="shell">
         <Appear className="max-w-2xl">
           <p className="kicker">Segurança</p>

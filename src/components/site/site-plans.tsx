@@ -61,7 +61,7 @@ export function SitePlans() {
   const { data: plans } = usePublicPlans();
 
   return (
-    <section id="planos" className="band border-t border-border bg-navy-700">
+    <section id="planos" className="band border-t border-border/40 bg-navy-900 relative">
       <div className="shell">
         <Appear className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">

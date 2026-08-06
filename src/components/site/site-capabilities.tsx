@@ -43,7 +43,7 @@ const capabilities = [
 
 export function SiteCapabilities() {
   return (
-    <section id="plataforma" className="band bg-navy-800">
+    <section id="plataforma" className="band bg-navy-900 relative">
       <div className="shell">
         <Appear className="max-w-2xl">
           <p className="kicker">A plataforma</p>

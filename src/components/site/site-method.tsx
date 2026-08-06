@@ -20,7 +20,7 @@ const steps = [
 
 export function SiteMethod() {
   return (
-    <section id="metodo" className="band border-t border-border bg-navy-700">
+    <section id="metodo" className="band border-t border-border/40 bg-navy-900">
       <div className="shell grid gap-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
         <Appear>
           <p className="kicker">O método</p>
