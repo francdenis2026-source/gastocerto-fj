@@ -1,9 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdminRole } from "@/lib/lib/admin-guard";
-import { AI_LIMITS_SETTING_KEY, AiLimitsSchema, normalizeAiLimits } from "@/lib/lib/ai-limits";
-import { loadAiLimits } from "@/lib/lib/ai-guard";
+import { assertAdminRole } from "@/lib/admin-guard";
+import { AI_LIMITS_SETTING_KEY, AiLimitsSchema, normalizeAiLimits } from "@/lib/ai-limits";
+import { loadAiLimits } from "@/lib/ai-guard";
 import { auditLog } from "@/lib/admin-guard.server";
 
 /** Limites atuais do Consultor de IA (leitura para qualquer usuário logado). */

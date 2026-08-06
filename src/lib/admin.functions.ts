@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { pinToPassword } from "@/lib/lib/cpf";
+import { pinToPassword } from "@/lib/cpf";
 import { sendAdminNotification } from "@/lib/admin-notifications.server";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */

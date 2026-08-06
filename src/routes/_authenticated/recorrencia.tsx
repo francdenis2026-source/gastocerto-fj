@@ -17,7 +17,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
-import { RecurringDialog } from "@/components/finance/recurring-dialog";
+import { RecurringDialog } from "@/components/finance/dialogs/recurring-dialog";
 import { DeleteConfirmDialog } from "@/components/finance/dialogs/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

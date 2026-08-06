@@ -2,9 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdminRole } from "@/lib/lib/admin-guard";
-import { loadPlanAccess } from "@/lib/lib/plan-access.server";
-import { trialDaysForSlug } from "@/lib/lib/plan-features";
+import { assertAdminRole } from "@/lib/admin-guard";
+import { loadPlanAccess } from "@/lib/plan-access.server";
+import { trialDaysForSlug } from "@/lib/plan-features";
 import { sendAdminNotification } from "@/lib/admin-notifications.server";
 
 const trialSchema = z.object({

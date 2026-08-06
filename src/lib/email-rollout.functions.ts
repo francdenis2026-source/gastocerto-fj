@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdminRole } from "@/lib/lib/admin-guard";
+import { assertAdminRole } from "@/lib/admin-guard";
 import { auditLog } from "@/lib/admin-guard.server";
 
 export const EMAIL_ROLLOUT_KEY = "email_rollout";

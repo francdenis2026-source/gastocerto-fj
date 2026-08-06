@@ -55,8 +55,8 @@ import {
 import { AppShell } from "@/components/app-shell";
 import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { ExpenseCardsDialog } from "@/components/finance/dialogs/expense-cards-dialog";
-import { DependentExpenseDialog } from "@/components/finance/dependent-expense-dialog";
-import { TaxQuickDialog } from "@/components/finance/tax-quick-dialog";
+import { DependentExpenseDialog } from "@/components/finance/dialogs/dependent-expense-dialog";
+import { TaxQuickDialog } from "@/components/finance/dialogs/tax-quick-dialog";
 import { RecurringAlerts } from "@/components/finance/recurring-alerts";
 import { MetricDetailDialog, type MetricDetail as BaseMetricDetail } from "@/components/finance/dialogs/metric-detail-dialog";
 
@@ -66,14 +66,14 @@ interface MetricDetail extends BaseMetricDetail {
 import { QuickCategoryMenu, type QuickPick } from "@/components/finance/quick-category-menu";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { CardMonthSummary } from "@/components/finance/card-month-summary";
-import { InsightsPanel } from "@/components/finance/insights-panel";
+import { InsightsPanel } from "@/components/finance/panels/insights-panel";
 import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-notice";
 import { VehicleEmblem } from "@/components/finance/vehicle-emblem";
 import { usePeriodStore } from "@/lib/period-store";
 import { InteractiveCalendar } from "@/components/finance/interactive-calendar";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { GlobalAnnouncementsBanner } from "@/components/finance/global-announcements-banner";
-import { DebtAdvisorPanel } from "@/components/finance/debt-advisor-panel";
+import { DebtAdvisorPanel } from "@/components/finance/panels/debt-advisor-panel";
 import { KidsManagementPanel } from "@/components/kids/kids-management-panel";
 import { FamilySpendingDashboard } from "@/components/finance/family-spending-dashboard";
 import { DashboardTabs } from "@/components/finance/dashboard-tabs";

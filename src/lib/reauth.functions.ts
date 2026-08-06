@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { cpfFromLoginEmail, pinToPassword } from "@/lib/lib/cpf";
+import { cpfFromLoginEmail, pinToPassword } from "@/lib/cpf";
 
 /**
  * Reconfirma a senha do próprio usuário sem trocar a sessão do navegador.

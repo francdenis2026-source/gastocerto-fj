@@ -2,8 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { generateText } from "ai";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { AskInput, MODEL, SYSTEM_PROMPT, buildFinancialSummary } from "@/lib/lib/ai-advisor-core";
-import { AI_BLOCK_MESSAGE, AI_QUOTA_MESSAGE, AI_RATE_MESSAGE } from "@/lib/lib/ai-entitlement";
+import { AskInput, MODEL, SYSTEM_PROMPT, buildFinancialSummary } from "@/lib/ai-advisor-core";
+import { AI_BLOCK_MESSAGE, AI_QUOTA_MESSAGE, AI_RATE_MESSAGE } from "@/lib/ai-entitlement";
 import {
   checkAiRateLimit,
   loadAiLimits,
@@ -11,7 +11,7 @@ import {
   listAiReceipts,
   logAiUsage,
   resolveAiAccess,
-} from "@/lib/lib/ai-guard";
+} from "@/lib/ai-guard";
 
 /** Direito de uso + consumo do mês (para banner e painel de créditos). */
 export const getAdvisorAccess = createServerFn({ method: "POST" })
