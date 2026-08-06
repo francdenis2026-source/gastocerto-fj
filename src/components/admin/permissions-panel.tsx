@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { adminUpdateStaffPermissions } from "@/functions/admin-permissions.functions";
+import { adminUpdateStaffPermissions } from "@/lib/admin-permissions.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

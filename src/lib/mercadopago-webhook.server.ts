@@ -1,5 +1,5 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { adminSettleManualOrder } from "@/functions/admin-integrations.functions";
+import { adminSettleManualOrder } from "@/lib/admin-integrations.functions";
 import { resolveMercadoPagoCredentials } from "@/lib/mercadopago-credentials.server";
 
 export async function processMercadoPagoWebhook(externalId: string, topic: string) {

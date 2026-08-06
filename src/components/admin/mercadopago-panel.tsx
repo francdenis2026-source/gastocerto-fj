@@ -20,7 +20,7 @@ import {
   adminSaveMercadoPagoCredentials,
   adminTestMercadoPago,
   adminTestMercadoPagoOAuth,
-} from "@/functions/admin-integrations.functions";
+} from "@/lib/admin-integrations.functions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

@@ -22,7 +22,7 @@ import {
   getManualPaymentInstructions,
   requestCheckoutVerification,
   startManualOrder,
-} from "@/functions/checkout.functions";
+} from "@/lib/checkout.functions";
 
 import {
   CHECKOUT_PLANS,

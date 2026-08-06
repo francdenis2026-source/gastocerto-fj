@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { adminGetBusinessMetrics } from "@/functions/admin-expansion.functions";
+import { adminGetBusinessMetrics } from "@/lib/admin-expansion.functions";
 import { StatTile } from "@/components/finance/stat-tile";
 import { TrendingUp, Users, DollarSign, BrainCircuit, FileDown, Loader2, FileText, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { formatCurrency } from "@/lib/format-utils";

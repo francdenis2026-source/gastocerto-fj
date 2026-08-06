@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { purgeExpiredTrash } from '@/functions/admin-trash.functions'
-import { adminAutoPurgeLogs } from '@/functions/admin-ops.functions'
+import { purgeExpiredTrash } from '@/lib/admin-trash.functions'
+import { adminAutoPurgeLogs } from '@/lib/admin-ops.functions'
 
 export const Route = createFileRoute('/api/public/cron')({
   server: {

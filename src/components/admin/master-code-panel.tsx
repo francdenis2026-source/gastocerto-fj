@@ -13,7 +13,7 @@ import {
   getMasterCodeStatus,
   resetMasterCode,
   revealMasterCode,
-} from "@/functions/master-code.functions";
+} from "@/lib/master-code.functions";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 /** Redefinição segura do código mestre usado nas ações críticas do painel. */

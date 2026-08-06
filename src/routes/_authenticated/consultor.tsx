@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { AiCreditsPanel } from "@/components/finance/panels/ai-credits-panel";
 import { AiReceipts } from "@/components/finance/ai-receipts";
 import { EmblemAdvisor } from "@/components/ui/panel-emblems";
-import { askAdvisor, getAdvisorAccess } from "@/functions/advisor.functions";
+import { askAdvisor, getAdvisorAccess } from "@/lib/advisor.functions";
 
 const TITLE = "Consultor de IA — GastoCerto";
 const DESCRIPTION = "Análise inteligente dos seus gastos com dicas e decisões sugeridas.";

@@ -29,8 +29,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
-import { getCheckoutStatus } from "@/functions/checkout.functions";
-import { adminListLicenses } from "@/functions/licenses.functions";
+import { getCheckoutStatus } from "@/lib/checkout.functions";
+import { adminListLicenses } from "@/lib/licenses.functions";
 import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 

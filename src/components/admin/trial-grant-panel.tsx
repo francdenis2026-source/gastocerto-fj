@@ -19,14 +19,14 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { maskCpf } from "@/lib/cpf";
 import { formatDateTime } from "@/lib/format-utils";
-import { adminGrantTrial } from "@/functions/plan.functions";
-import { verifyMasterCode } from "@/functions/master-code.functions";
+import { adminGrantTrial } from "@/lib/plan.functions";
+import { verifyMasterCode } from "@/lib/master-code.functions";
 import { useConfirm } from "@/components/ui/confirm-dialog";
-import { adminSetUserStatus } from "@/functions/admin.functions";
+import { adminSetUserStatus } from "@/lib/admin.functions";
 import {
   adminDeleteUser,
   adminPromoteToPaid,
-} from "@/functions/admin-users.functions";
+} from "@/lib/admin-users.functions";
 
 import { TRIAL_OPTIONS, type TrialSlug } from "@/lib/plan-features";
 

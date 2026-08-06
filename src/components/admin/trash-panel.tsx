@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format-utils";
-import { getTrashItems, restoreFromTrash, permanentDeleteFromTrash } from "@/functions/admin-trash.functions";
+import { getTrashItems, restoreFromTrash, permanentDeleteFromTrash } from "@/lib/admin-trash.functions";
 import { useServerFn } from "@tanstack/react-start";
 
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {

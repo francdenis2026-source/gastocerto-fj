@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { KeyRound, Clock, Search, Trash2, Loader2 } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { adminListLicenses, adminDeleteLicense } from "@/functions/licenses.functions";
+import { adminListLicenses, adminDeleteLicense } from "@/lib/licenses.functions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

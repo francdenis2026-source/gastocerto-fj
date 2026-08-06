@@ -3,7 +3,7 @@ import { formatCurrency } from "@/lib/format-utils";
 import { Link } from "@tanstack/react-router";
 import { Zap, AlertCircle, CheckCircle2, ChevronRight, RefreshCw } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getRecurrentExpenses } from "@/functions/recurrent-metrics.functions";
+import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
 import { cn } from "@/lib/utils";
 
 export function EnergySidebarWidget({ collapsed }: { collapsed?: boolean }) {

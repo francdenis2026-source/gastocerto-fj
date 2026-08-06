@@ -64,16 +64,16 @@ import { useDependents, type Dependent } from "@/lib/dependents";
 import { formatCurrency } from "@/lib/format-utils";
 import { KidEntryDetailsDialog } from "@/components/kids/kid-entry-details-dialog";
 import { kidEntryKind, kidEntryLabel, kidEntryTone, syncStatusFor } from "@/lib/kids-labels";
-import { giveMoneyToKid, getKidsFinancialMetrics } from "@/functions/kids-management.functions";
-import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/functions/kids-management-actions.functions";
-import { getKidGoals, saveKidGoal, deleteKidGoal, updateKidSettings } from "@/functions/kids-goals.functions";
+import { giveMoneyToKid, getKidsFinancialMetrics } from "@/lib/kids-management.functions";
+import { deleteKidManagementTransaction, updateKidManagementTransaction } from "@/lib/kids-management-actions.functions";
+import { getKidGoals, saveKidGoal, deleteKidGoal, updateKidSettings } from "@/lib/kids-goals.functions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
 import { useAuth } from "@/hooks/use-auth";
 import { useParentKidsRealtime } from "@/lib/kids-space-realtime";
-import { undoKidTransactionDeletion } from "@/functions/kids-undo.functions";
+import { undoKidTransactionDeletion } from "@/lib/kids-undo.functions";
 import { UNDO_WINDOW_MS, useDeletePermission } from "@/lib/undo-delete";
 import { 
   BarChart, 

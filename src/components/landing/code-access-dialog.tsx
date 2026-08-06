@@ -16,8 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useServerFn } from "@tanstack/react-start";
-import { adminAccessByCode } from "@/functions/admin-code.functions";
-import { verifyAccessCode } from "@/functions/licenses.functions";
+import { adminAccessByCode } from "@/lib/admin-code.functions";
+import { verifyAccessCode } from "@/lib/licenses.functions";
 import { cn } from "@/lib/utils";
 
 /** Chave guardada até o login para ser ativada automaticamente na conta. */

@@ -35,7 +35,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ClearHistoryButton } from "@/components/finance/clear-history-button";
 import { formatCurrency } from "@/lib/format-utils";
-import { regeneratePixCharge } from "@/functions/pix-ledger.functions";
+import { regeneratePixCharge } from "@/lib/pix-ledger.functions";
 
 
 import { useAvatarUrl, useProfile } from "@/lib/queries";
@@ -75,8 +75,8 @@ import {
   updateKidUpgradeConfig,
   updateKidNotificationPrefs,
   deleteKidAccount,
-} from "@/functions/kids-account.functions";
-import { getKidTransactions } from "@/functions/kids-transactions.functions";
+} from "@/lib/kids-account.functions";
+import { getKidTransactions } from "@/lib/kids-transactions.functions";
 
 import {
   createExternalCode,
@@ -84,7 +84,7 @@ import {
   revokeExternalCode,
   updateExternalCodeExpiry,
   getExternalAccessLogs,
-} from "@/functions/external-access.functions";
+} from "@/lib/external-access.functions";
 
 import {
   Dialog,

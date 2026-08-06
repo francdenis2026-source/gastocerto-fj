@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { getPlanAccess } from "@/functions/plan.functions";
+import { getPlanAccess } from "@/lib/plan.functions";
 import { hasFeature, type FeatureKey } from "@/lib/plan-features";
 
 /** Plano, nível e período de teste do usuário logado (cacheado). */

@@ -14,7 +14,7 @@ import { KidsLoginScreen } from "@/components/kids/kids-login-screen";
 import { PENDING_LICENSE_KEY } from "@/components/landing/code-access-dialog";
 
 import { CodeAccessInline } from "@/components/landing/code-access-inline";
-import { activateLicense, verifyAccessCode } from "@/functions/licenses.functions";
+import { activateLicense, verifyAccessCode } from "@/lib/licenses.functions";
 
 // Implementação simples de Rate Limiting para Auth no servidor (em memória/simulado para o ambiente)
 const ATTEMPT_LIMIT = 5;
@@ -60,7 +60,7 @@ import {
   kidPassword,
   normalizeKidCode,
 } from "@/lib/kids-account";
-import { checkKidLock, registerKidAttempt } from "@/functions/kids-account.functions";
+import { checkKidLock, registerKidAttempt } from "@/lib/kids-account.functions";
 import { kidLockMessage, kidRemainingMessage } from "@/lib/kids-login-guard";
 import {
   cpfSignInSchema,
@@ -1068,7 +1068,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
   const checkLock = useServerFn(checkKidLock);
   const registerAttempt = useServerFn(registerKidAttempt);
   const checkStatus = useServerFn(async (args: { data: { kidUserId?: string; code?: string } }) => {
-    const { checkKidAccountStatus } = await import("@/functions/kids-license-check.functions");
+    const { checkKidAccountStatus } = await import("@/lib/kids-license-check.functions");
     let kidUserId = args.data.kidUserId;
     if (!kidUserId && args.data.code) {
       const { data } = await supabase.from("dependents").select("id").eq("kid_login_code", args.data.code).maybeSingle();
@@ -1076,7 +1076,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     }
     if (!kidUserId) return { active: true, readOnly: false };
     const result = await checkKidAccountStatus({ data: { kidUserId } });
-    return result as import("@/functions/kids-license-check.functions").KidAccountStatus;
+    return result as import("@/lib/kids-license-check.functions").KidAccountStatus;
   });
 
   const [code, setCode] = useState(normalizeKidCode(initialCode));

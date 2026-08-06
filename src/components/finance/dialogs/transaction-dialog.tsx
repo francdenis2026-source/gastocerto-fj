@@ -170,7 +170,7 @@ export function TransactionDialog({
   useEffect(() => {
     async function checkRevenue() {
       if (kind === "income" && date && !editing) {
-        const { suggestRevenueTransfer } = await import("@/functions/reconciliation.functions");
+        const { suggestRevenueTransfer } = await import("@/lib/reconciliation.functions");
         const res = await suggestRevenueTransfer({ data: { userId: "temp", date } });
         if (res.shouldSuggest && res.suggestedDate) {
           setRevenueSuggestion({ message: res.message, date: res.suggestedDate });
@@ -216,7 +216,7 @@ export function TransactionDialog({
   /** Sugestão inteligente de categoria familiar */
   const autoCategorize = useServerFn(async (d: { description: string, beneficiaryType: any }) => {
     try {
-      const { autoCategorizeFamilyExpense } = await import("@/functions/categorization/family-categories.functions");
+      const { autoCategorizeFamilyExpense } = await import("@/lib/categorization/family-categories.functions");
       return await autoCategorizeFamilyExpense({ data: d });
     } catch (e) {
       return null;

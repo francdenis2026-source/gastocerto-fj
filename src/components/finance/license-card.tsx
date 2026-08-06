@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDateTime } from "@/lib/format-utils";
-import { activateLicense } from "@/functions/licenses.functions";
+import { activateLicense } from "@/lib/licenses.functions";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "Pendente",

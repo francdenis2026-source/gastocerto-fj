@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format-utils";
-import { adminBlockIp, adminListBlockedIps, adminUnblockIp } from "@/functions/admin-users.functions";
+import { adminBlockIp, adminListBlockedIps, adminUnblockIp } from "@/lib/admin-users.functions";
 
 /** Bloqueio de IPs suspeitos: cadastro, listagem e liberação. */
 export function BlockedIpsPanel() {

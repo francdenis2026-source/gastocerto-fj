@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Download, FileText, FileCode } from "lucide-react";
-import { useRecurrentExpenses } from "@/functions/recurrent-metrics.functions";
+import { useRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
 import { exportRecurrentSpendPdf, exportRecurrentSpendCsv } from "@/lib/recurrent-export";
 import { 
   DropdownMenu,

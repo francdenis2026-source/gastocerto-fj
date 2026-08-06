@@ -20,7 +20,7 @@ import { StatTile } from "@/components/finance/stat-tile";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
-import { adminOverview } from "@/functions/admin.functions";
+import { adminOverview } from "@/lib/admin.functions";
 import { formatDateTime, formatCurrency } from "@/lib/format-utils";
 
 /** Visão geral da operação: indicadores, atalhos e últimas ações da equipe. */
