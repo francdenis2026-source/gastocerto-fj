@@ -45,6 +45,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ensureLocalDataOwner(currentUserId);
         sessionRef.current = data.session;
         setSession(data.session);
+        if (data.session?.user?.id) {
+          (window as any)._lastAuthUser = data.session.user.id;
+        }
       } catch (err) {
         console.error("[auth] Falha crítica ao carregar sessão:", err);
       } finally {
