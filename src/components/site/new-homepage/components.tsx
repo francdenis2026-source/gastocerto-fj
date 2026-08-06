@@ -30,9 +30,9 @@ export function Hero() {
       {/* Cinematic Background */}
       <motion.div style={{ y: y1, opacity }} className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
-          alt="Financial Data" 
-          className="w-full h-full object-cover opacity-30"
+          src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2232&auto=format&fit=crop" 
+          alt="Abstract Financial Future" 
+          className="w-full h-full object-cover opacity-20 mix-blend-overlay"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#000c18]/0 via-[#000c18]/80 to-[#000c18]" />
       </motion.div>
@@ -160,16 +160,16 @@ export function Features() {
               whileHover={{ y: -8, scale: 1.02 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, type: "spring", stiffness: 300 }}
-              className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden"
+              className="group relative p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden"
             >
               <Link to="/auth" search={item.title === "Espaço Kids" ? { mode: "kid" } : { mode: "signup" }} className="absolute inset-0 z-20" />
               <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               <div className="relative z-10">
-                <div className="size-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 border border-white/10 group-hover:scale-110 group-hover:bg-primary group-hover:border-primary transition-all duration-500">
-                  <item.icon className="text-primary group-hover:text-white transition-colors size-6" />
+                <div className="size-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 group-hover:bg-primary group-hover:border-primary transition-all duration-500">
+                  <item.icon className="text-primary group-hover:text-white transition-colors size-5" />
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4">{item.title}</h3>
-                <p className="text-slate-400 font-medium leading-relaxed">
+                <h3 className="text-xl font-black text-white mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-400 font-medium leading-relaxed">
                   {item.desc}
                 </p>
               </div>
@@ -185,13 +185,13 @@ export function BentoGrid() {
   return (
     <section className="py-24 bg-[#000c18]">
       <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[320px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[280px]">
           {/* Main: IA Advisor */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.01 }}
-            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[3rem] border border-white/10 p-10 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30"
+            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-md relative z-10">
@@ -202,13 +202,13 @@ export function BentoGrid() {
                 </span>
                 AI Core Engine
               </div>
-              <h3 className="text-4xl md:text-6xl font-black text-white mb-6 leading-[0.9]">Dicas de Economia Inteligente.</h3>
-              <p className="text-slate-400 font-medium text-lg leading-relaxed">
+              <h3 className="text-4xl md:text-5xl font-black text-white mb-4 leading-[0.9]">Dicas de Economia Inteligente.</h3>
+              <p className="text-slate-400 font-medium text-base leading-relaxed">
                 Nosso sistema avisa onde você pode economizar mais para sobrar dinheiro no final do mês.
               </p>
             </div>
-            <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
-              <Search className="size-80 text-primary" strokeWidth={0.5} />
+            <div className="absolute right-[2%] top-1/2 -translate-y-1/2 opacity-30 group-hover:opacity-60 transition-all duration-700 group-hover:scale-110 pointer-events-none">
+              <Search className="size-64 text-primary/40" strokeWidth={1} />
             </div>
           </motion.div>
 
@@ -217,13 +217,13 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.02, y: -5 }}
-            className="lg:col-span-4 bg-[#001830] rounded-[3rem] border border-white/10 p-10 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30"
+            className="lg:col-span-4 bg-[#001830] rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
-              <Layers className="text-primary size-10 mb-8" />
-              <h3 className="text-2xl font-black text-white mb-4">Relatórios para Impressão</h3>
-              <p className="text-slate-400 font-medium leading-relaxed">
+              <Layers className="text-primary size-8 mb-6" />
+              <h3 className="text-xl font-black text-white mb-3">Relatórios para Impressão</h3>
+              <p className="text-sm text-slate-400 font-medium leading-relaxed">
                 Gere arquivos em PDF ou Excel para ver como estão seus gastos de forma organizada.
               </p>
             </div>
@@ -238,13 +238,13 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.02, y: -5 }}
-            className="lg:col-span-5 bg-primary rounded-[3rem] p-10 flex flex-col justify-between group relative overflow-hidden transition-all duration-500 shadow-2xl shadow-primary/0 hover:shadow-primary/20"
+            className="lg:col-span-5 bg-primary rounded-[2.5rem] p-8 flex flex-col justify-between group relative overflow-hidden transition-all duration-500 shadow-2xl shadow-primary/0 hover:shadow-primary/20"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
-              <Smartphone className="text-white size-12 mb-8" />
-              <h3 className="text-3xl font-black text-white mb-4 leading-tight">Use em qualquer lugar</h3>
-              <p className="text-white/80 font-medium text-lg">
+              <Smartphone className="text-white size-10 mb-6" />
+              <h3 className="text-2xl font-black text-white mb-3 leading-tight">Use em qualquer lugar</h3>
+              <p className="text-white/90 font-medium text-base">
                 Suas contas sempre com você, no computador, tablet ou celular.
               </p>
             </div>
@@ -258,13 +258,13 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.01 }}
-            className="lg:col-span-7 bg-white/5 rounded-[3rem] border border-white/10 p-10 flex items-center justify-between group transition-all duration-500 hover:border-primary/30"
+            className="lg:col-span-7 bg-white/5 rounded-[2.5rem] border border-white/10 p-8 flex items-center justify-between group transition-all duration-500 hover:border-primary/30"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-sm">
-              <Globe className="text-primary size-10 mb-8" />
-              <h3 className="text-3xl font-black text-white mb-4">Seus dados protegidos</h3>
-              <p className="text-slate-400 font-medium">
+              <Globe className="text-primary size-8 mb-6" />
+              <h3 className="text-2xl font-black text-white mb-3">Seus dados protegidos</h3>
+              <p className="text-sm text-slate-400 font-medium">
                 Tudo é salvo automaticamente na nuvem com a mesma segurança dos grandes bancos.
               </p>
             </div>
