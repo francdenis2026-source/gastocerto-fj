@@ -50,7 +50,7 @@ export function SiteQuestions() {
                   onClick={() => setOpen(active ? null : i)}
                   aria-expanded={active}
                   aria-controls={`q-panel-${i}`}
-                  className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                  className="flex w-full items-center justify-between gap-6 py-6 text-left outline-none transition-colors duration-200 hover:text-primary focus-visible:text-primary"
                 >
                   <span className="font-display text-[16px] font-semibold text-bone-100">
                     {item.q}

@@ -58,7 +58,7 @@ export function SiteCapabilities() {
         <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((item, i) => (
             <Appear key={item.title} delay={i * 40}>
-              <div className="group h-full bg-navy-700 p-8 transition-colors duration-200 hover:bg-navy-600">
+              <div className="group h-full bg-navy-700 p-8 transition-all duration-200 hover:bg-navy-600 hover:shadow-soft active:scale-[0.99]">
                 <item.icon className="size-5 text-primary" strokeWidth={1.75} />
                 <h3 className="mt-6 font-display text-[17px] font-semibold text-bone-100">
                   {item.title}

@@ -45,7 +45,7 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-[14px] text-bone-100/55 transition-colors hover:text-bone-100"
+                      className="text-[14px] text-bone-100/55 transition-colors duration-200 hover:text-bone-100 focus-visible:text-bone-100"
                     >
                       {link.label}
                     </a>
@@ -64,7 +64,7 @@ export function SiteFooter() {
                 <Link
                   to="/auth"
                   search={{ mode: "signup" }}
-                  className="text-[14px] text-bone-100/55 transition-colors hover:text-bone-100"
+                  className="text-[14px] text-bone-100/55 transition-colors duration-200 hover:text-bone-100 focus-visible:text-bone-100"
                 >
                   Criar conta
                 </Link>
@@ -73,7 +73,7 @@ export function SiteFooter() {
                 <Link
                   to="/auth"
                   search={{ mode: "login" }}
-                  className="text-[14px] text-bone-100/55 transition-colors hover:text-bone-100"
+                  className="text-[14px] text-bone-100/55 transition-colors duration-200 hover:text-bone-100 focus-visible:text-bone-100"
                 >
                   Entrar
                 </Link>
