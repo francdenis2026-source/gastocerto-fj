@@ -98,18 +98,18 @@ export function Hero() {
                     <div className="h-8 w-32 bg-muted rounded-full" />
                     <div className="h-10 w-10 rounded-full bg-primary/20" />
                   </div>
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="h-40 bg-card border border-border rounded-2xl p-4 flex flex-col justify-end gap-2">
-                       <div className="h-2 w-16 bg-primary/20 rounded-full" />
-                       <div className="h-6 w-24 bg-primary/10 rounded-full" />
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
+                       <div className="h-1.5 w-12 bg-primary/20 rounded-full" />
+                       <div className="h-4 w-16 bg-primary/10 rounded-full" />
                     </div>
-                    <div className="h-40 bg-card border border-border rounded-2xl p-4 flex flex-col justify-end gap-2">
-                       <div className="h-2 w-16 bg-blue-500/20 rounded-full" />
-                       <div className="h-6 w-24 bg-blue-500/10 rounded-full" />
+                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
+                       <div className="h-1.5 w-12 bg-primary/20 rounded-full" />
+                       <div className="h-4 w-16 bg-primary/10 rounded-full" />
                     </div>
-                    <div className="h-40 bg-card border border-border rounded-2xl p-4 flex flex-col justify-end gap-2">
-                       <div className="h-2 w-16 bg-muted rounded-full" />
-                       <div className="h-6 w-24 bg-muted/50 rounded-full" />
+                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
+                       <div className="h-1.5 w-12 bg-muted rounded-full" />
+                       <div className="h-4 w-16 bg-muted/50 rounded-full" />
                     </div>
                   </div>
                   <div className="flex-1 bg-card border border-border rounded-2xl p-6 flex items-center justify-center">
