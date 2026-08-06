@@ -234,10 +234,6 @@ export function DependentExpenseDialog({
     try {
       await save.mutateAsync({
         values: {
-          user_id: user?.id,
-          // Registramos na conta do responsável, mas mantemos o vínculo via tags
-          // O foreign key error ocorria porque tentávamos salvar com o user_id da criança 
-          // que não necessariamente tem permissão ou perfil completo.
           description,
           amount: value,
           transaction_type: reasonInfo.type,
