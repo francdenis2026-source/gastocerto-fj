@@ -501,7 +501,7 @@ function AuthPage() {
                         type="button"
                         variant="outline"
                         onClick={() => setPendingCode("")}
-                        className="h-11 rounded-xl text-[10px] font-bold uppercase tracking-widest gap-2"
+                        className="h-11 rounded-xl text-[11px] font-bold uppercase tracking-widest gap-2"
                       >
                         <Fingerprint className="size-3.5" />
                         Código de Acesso
