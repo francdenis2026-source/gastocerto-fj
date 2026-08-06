@@ -272,10 +272,10 @@ export function BentoGrid() {
           {/* Tertiary Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-4 bg-card rounded-[2.5rem] border border-border p-10 flex flex-col justify-between group"
+            className="lg:col-span-4 bg-card rounded-[2rem] border border-border p-8 flex flex-col justify-between group"
           >
-            <div className="size-14 rounded-2xl bg-muted flex items-center justify-center group-hover:bg-blue-500/5 transition-colors">
-              <Smartphone size={28} className="text-blue-500" />
+            <div className="size-12 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+              <Smartphone size={24} className="text-primary" />
             </div>
             <div>
               <h3 className="text-2xl font-black mb-3">App Híbrido</h3>
