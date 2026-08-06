@@ -935,7 +935,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <FormAlert message={formError} />
       <div className="space-y-3">
         <div className="space-y-1">
-          <Label htmlFor="signup-name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nome Completo</Label>
+          <Label htmlFor="signup-name" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">Nome Completo</Label>
           <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.fullName} />
           <FieldError message={errors.fullName} />
         </div>
