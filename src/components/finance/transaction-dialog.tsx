@@ -1280,7 +1280,6 @@ export function TransactionDialog({
 
         </div>
       </form>
-
       <PasswordConfirmDialog
         open={passwordOpen}
         onOpenChange={setPasswordOpen}
@@ -1291,10 +1290,10 @@ export function TransactionDialog({
           window.setTimeout(() => formRef.current?.requestSubmit(), 0);
         }}
       />
-    </DialogContent>
-    </Dialog>
-    <ConfirmDialog />
-  </>
-);
+      </DialogContent>
+      </Dialog>
+      <ConfirmDialog />
+    </>
+  );
 }
 
