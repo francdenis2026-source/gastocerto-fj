@@ -41,40 +41,52 @@ export function SiteNav() {
 
           <nav className="hidden items-center gap-1 md:flex">
             {links.map((link) => (
-              <a
+              <motion.a
                 key={link.href}
                 href={link.href}
-                className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary relative group"
               >
                 {link.label}
-              </a>
+                <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-primary origin-left scale-x-0 transition-transform group-hover:scale-x-100" />
+              </motion.a>
             ))}
           </nav>
         </div>
 
         <div className="flex items-center gap-3">
-          <Link 
-            to="/auth" 
-            search={{ mode: "login" }}
-            className="hidden text-sm font-bold text-foreground hover:text-primary transition-colors md:block px-2"
-          >
-            Entrar
-          </Link>
-          <Link 
-            to="/auth" 
-            search={{ mode: "login", code: "" }}
-            className="hidden text-sm font-bold text-brand hover:opacity-80 transition-colors md:block px-2"
-          >
-            Acesso por Código
-          </Link>
-          <Button
-            className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
-            asChild
-          >
-            <Link to="/auth" search={{ mode: "signup" }}>
-              Criar conta gratuita
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link 
+              to="/auth" 
+              search={{ mode: "login" }}
+              className="hidden text-sm font-bold text-foreground hover:text-primary transition-colors md:block px-2"
+            >
+              Entrar
             </Link>
-          </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link 
+              to="/auth" 
+              search={{ mode: "login", code: "" }}
+              className="hidden text-sm font-bold text-brand hover:opacity-80 transition-colors md:block px-2"
+            >
+              Acesso por Código
+            </Link>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 168, 95, 0.4)" }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Button
+              className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 transition-all"
+              asChild
+            >
+              <Link to="/auth" search={{ mode: "signup" }}>
+                Criar conta gratuita
+              </Link>
+            </Button>
+          </motion.div>
           
           <button
             onClick={() => setOpen(!open)}
