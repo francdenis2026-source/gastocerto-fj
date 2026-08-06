@@ -805,7 +805,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
         <button 
           type="button" 
           onClick={onAdmin} 
-          className="group inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground/60 hover:text-brand-green transition-colors"
+          className="group inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground/70 hover:text-brand-green transition-colors"
         >
           <ShieldAlert className="size-3" />
           Acesso ADM
