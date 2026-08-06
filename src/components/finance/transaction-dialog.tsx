@@ -581,42 +581,33 @@ export function TransactionDialog({
     <>
     <Dialog open={open} onOpenChange={onOpenChange}>
 
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            {editing ? "Editar lançamento" : kind === "income" ? "Adicionar receita" : "Adicionar gasto"}
-          </DialogTitle>
-          <DialogDescription>
-            {kind === "income"
-              ? "Registre quanto entrou e de onde veio o dinheiro."
-              : "Registre quanto saiu e em que você gastou."}{" "}
-            Use “Mais opções” para conta, parcelas e anexos. Atalhos: Enter avança, Ctrl/Cmd +
-            Enter salva e Alt + C abre as categorias.
-          </DialogDescription>
+      <DialogContent className="max-h-[92svh] sm:max-w-xl p-0 gap-0 overflow-hidden">
+        <div className="flex items-center justify-between px-8 pt-8">
+           <div className="flex gap-2">
+              <Badge variant={currentStep === 1 ? "default" : "outline"} className="cursor-pointer" onClick={() => setCurrentStep(1)}>Básico</Badge>
+              <Badge variant={currentStep === 2 ? "default" : "outline"} className="cursor-pointer" onClick={() => setCurrentStep(2)}>Detalhes</Badge>
+           </div>
+           <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              <span className={cn("size-1.5 rounded-full", kind === "expense" ? "bg-destructive" : "bg-primary")} />
+              {kind === "expense" ? "Despesa" : "Receita"}
+           </div>
+        </div>
 
+        <DialogHeader className="px-8 pt-6 pb-2">
+          <DialogTitle className="text-2xl font-bold tracking-tight">
+            {editing ? "Editar lançamento" : kind === "income" ? "Nova receita" : "Novo gasto"}
+          </DialogTitle>
         </DialogHeader>
 
         <form autoComplete="off" data-1p-ignore
           ref={formRef}
           onSubmit={handleSubmit}
           onKeyDown={handleFormKeyDown}
-          className="space-y-4"
+          className="flex-1 overflow-y-auto px-8 py-6 space-y-6"
           noValidate
         >
-          <div className="flex justify-end">
-            <Button
-              type="button"
-              variant={advanced ? "secondary" : "outline"}
-              size="sm"
-              className="h-8 text-[11px]"
-              onClick={() => setAdvanced((current) => !current)}
-            >
-              {advanced ? "Ocultar campos extras" : "Mais opções"}
-            </Button>
-          </div>
-
-
-          <div className="grid gap-4 sm:grid-cols-2">
+          {currentStep === 1 ? (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="sm:col-span-2">
               <Label htmlFor="description">
                 {kind === "income" ? "Descrição / Fonte da Renda" : "Descrição / Nome do estabelecimento"}
