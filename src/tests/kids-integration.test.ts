@@ -12,10 +12,12 @@ vi.mock('../integrations/supabase/client', () => ({
     insert: vi.fn().mockReturnThis(),
     update: vi.fn().mockReturnThis(),
     select: vi.fn().mockReturnThis(),
-    single: vi.fn().mockReturnThis(),
+    maybeSingle: vi.fn().mockReturnThis(),
     eq: vi.fn().mockReturnThis(),
     is: vi.fn().mockReturnThis(),
     order: vi.fn().mockReturnThis(),
+    in: vi.fn().mockReturnThis(),
+    upsert: vi.fn().mockReturnThis(),
   },
 }));
 
@@ -69,9 +71,12 @@ describe('Espaço Kids Integration - Transaction Saving', () => {
       user_id: 'parent-user-id-123',
     };
 
-    (supabase.from('transactions').insert as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
-    (supabase.from('transactions').select as any).mockReturnThis();
-    (supabase.from('transactions').single as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
+    // Mock das chamadas encadeadas do supabase
+    const mockQueryBuilder = {
+      select: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: { id: 'new-id' }, error: null }),
+    };
+    (supabase.from('transactions').insert as any).mockReturnValue(mockQueryBuilder);
 
     await result.current.mutateAsync({ values: kidsTransactionValues });
 
@@ -97,9 +102,11 @@ describe('Espaço Kids Integration - Transaction Saving', () => {
       category_id: 'cat-id',
     };
 
-    (supabase.from('transactions').insert as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
-    (supabase.from('transactions').select as any).mockReturnThis();
-    (supabase.from('transactions').single as any).mockResolvedValue({ data: { id: 'new-id' }, error: null });
+    const mockQueryBuilder = {
+      select: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data: { id: 'new-id' }, error: null }),
+    };
+    (supabase.from('transactions').insert as any).mockReturnValue(mockQueryBuilder);
 
     await result.current.mutateAsync({ values: simpleTransactionValues });
 
