@@ -36,8 +36,7 @@ function HomePage() {
       <main id="main-content" className="flex flex-col">
         <Hero />
         <Features />
-        <BentoGrid />
-        <SitePlans />
+        {/* SitePlans e BentoGrid removidos para compactar para 2 telas principais */}
         <SiteQuestions />
       </main>
       <Footer />
