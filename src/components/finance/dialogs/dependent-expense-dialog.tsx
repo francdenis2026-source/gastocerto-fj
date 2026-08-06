@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowLeft, Check, Plus, Baby, PiggyBank, Gift, Trophy, Rocket, ToyBrick, ShieldCheck, Lock, TrendingUp, Target, Star, AlertTriangle, RefreshCw } from "lucide-react";
+import { ArrowLeft, Check, Plus, Baby, PiggyBank, Gift, Trophy, Rocket, ToyBrick, ShieldCheck, Lock, TrendingUp, Target, Star, AlertTriangle, RefreshCw, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -253,7 +253,27 @@ export function DependentExpenseDialog({
       await save.mutateAsync({
         values: transactionValues,
       });
-      toast.success(`${formatCurrency(value)} com ${who} registrado.`);
+      
+      if (reasonInfo.type === "income") {
+        toast.success(
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 font-bold text-primary">
+              <PartyPopper className="size-4" />
+              Dinheiro Enviado com Sucesso!
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {formatCurrency(value)} foi enviado para o cofrinho de {who}.
+            </div>
+            <svg className="mt-2 h-1 w-full rounded-full bg-primary/20" viewBox="0 0 100 4">
+              <rect width="100" height="4" fill="currentColor" className="text-primary animate-progress-grow origin-left" />
+            </svg>
+          </div>,
+          { duration: 5000 }
+        );
+      } else {
+        toast.success(`${formatCurrency(value)} com ${who} registrado.`);
+      }
+      
       reset();
       onOpenChange(false);
     } catch (error) {
