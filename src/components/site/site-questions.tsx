@@ -130,32 +130,32 @@ export function SiteQuestions() {
               </div>
             </div>
 
-            <div className="bg-primary rounded-[2.5rem] p-8 relative overflow-hidden group shadow-2xl shadow-primary/20">
-              <div className="relative z-10 flex items-center justify-between gap-6">
-                <div>
-                  <h3 className="text-2xl font-black text-white mb-2">Ainda tem dúvidas?</h3>
-                  <p className="text-white/80 text-sm font-medium mb-6">
+            <div className="bg-[#1FAE6D] rounded-3xl p-6 relative overflow-hidden group shadow-lg shadow-emerald-500/10 max-w-md ml-auto border border-white/10">
+              <div className="relative z-10 flex items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-black text-white mb-1">Ainda tem dúvidas?</h3>
+                  <p className="text-white/90 text-xs font-medium mb-4">
                     Fale com nosso time de especialistas agora mesmo.
                   </p>
-                  <Button variant="secondary" className="bg-white text-primary hover:bg-white/90 font-black rounded-xl" asChild>
+                  <Button variant="secondary" size="sm" className="bg-white text-[#1FAE6D] hover:bg-white/90 font-black rounded-lg h-9 px-4 text-xs" asChild>
                     <a href="https://wa.me/5568999999999" target="_blank">
-                      <MessageSquare className="mr-2 size-4" />
+                      <MessageSquare className="mr-2 size-3" />
                       Suporte VIP
                     </a>
                   </Button>
                 </div>
                 <div className="hidden sm:block">
                   <motion.div 
-                    animate={{ y: [0, -10, 0] }}
+                    animate={{ y: [0, -5, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="size-24 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center"
+                    className="size-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center"
                   >
-                    <Shield className="size-12 text-white" />
+                    <Shield className="size-8 text-white" />
                   </motion.div>
                 </div>
               </div>
-              {/* Decorative elements */}
-              <div className="absolute -bottom-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl" />
+              {/* Subtle decoration */}
+              <div className="absolute -bottom-10 -right-10 size-32 bg-white/5 rounded-full blur-2xl" />
             </div>
           </motion.div>
 
