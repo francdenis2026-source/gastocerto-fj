@@ -215,7 +215,7 @@ function AuthPage() {
   }
 
   return (
-    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-3 sm:p-4 lg:p-6 bg-[#000a14]">
+    <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-3 sm:p-4 lg:p-6 bg-[#000a14] selection:bg-brand-green/30">
       {/* Imagem de fundo global otimizada com carregamento progressivo */}
       <div className="absolute inset-0 -z-20 overflow-hidden bg-brand-navy">
         <Suspense fallback={<div className="size-full bg-brand-navy" />}>
@@ -317,7 +317,7 @@ function AuthPage() {
                       ? "Não se preocupe, vamos te ajudar."
                       : "Administração e Suporte Técnico."}
               </h2>
-              <p className="mt-2 hidden text-xs font-medium leading-relaxed text-white/70 sm:block">
+              <p className="mt-2 hidden text-[13px] font-medium leading-relaxed text-white/80 sm:block">
                 {mode === "login"
                   ? "Gerencie suas finanças com praticidade e segurança total."
                   : mode === "signup"
@@ -330,7 +330,7 @@ function AuthPage() {
           </div>
 
           <div className="hidden p-6 pt-0 sm:block">
-            <p className="relative z-10 text-[10px] font-bold uppercase tracking-widest text-white/20">
+            <p className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-white/30">
               Franc D&apos;nis · Feijó, AC
             </p>
           </div>
@@ -339,10 +339,10 @@ function AuthPage() {
         {/* Painel do formulário - Mais compacto */}
         <section className="flex min-h-0 flex-col px-6 py-6 sm:px-10 sm:py-8 bg-background/95 lg:h-full transition-colors duration-500">
           <div className="mb-5">
-            <h1 className="text-xl font-black text-foreground tracking-tight leading-tight sm:text-2xl">
+            <h1 className="text-2xl font-black text-foreground tracking-tight leading-tight sm:text-3xl">
               {mode === "login" ? "Entrar" : mode === "signup" ? "Criar conta" : "Área Restrita"}
             </h1>
-            <p className="text-[11px] font-bold text-muted-foreground/60 mt-1 uppercase tracking-wider">
+            <p className="text-[12px] font-bold text-muted-foreground/70 mt-1 uppercase tracking-wider">
               {mode === "login" ? "Acesse sua conta com segurança" : "Comece sua jornada gratuita hoje"}
             </p>
           </div>
@@ -356,15 +356,15 @@ function AuthPage() {
                       <Fingerprint className="size-5" />
                     </div>
                     <div>
-                      <h3 className="text-xs sm:text-sm font-bold text-brand">Acesso via código detectado</h3>
-                      <p className="text-[10px] sm:text-[11px] leading-tight text-muted-foreground">Insira seu CPF e como deseja ser chamado para entrar.</p>
+                      <h3 className="text-sm sm:text-base font-bold text-brand">Acesso via código detectado</h3>
+                      <p className="text-[11px] sm:text-[12px] leading-tight text-muted-foreground">Insira seu CPF e como deseja ser chamado para entrar.</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-3 sm:space-y-4">
                   <div className="space-y-1.5 sm:space-y-2">
-                    <Label htmlFor="code-cpf" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Seu CPF</Label>
+                    <Label htmlFor="code-cpf" className="text-[11px] font-black uppercase tracking-widest text-emerald-500/90">Seu CPF</Label>
                     <div className="relative group/field">
                       <UserCircle className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
                       <Input 
@@ -381,7 +381,7 @@ function AuthPage() {
                   </div>
 
                   <div className="space-y-1.5 sm:space-y-2">
-                    <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Nome Completo</Label>
+                    <Label htmlFor="code-name" className="text-[11px] font-black uppercase tracking-widest text-emerald-500/90">Nome Completo</Label>
                     <div className="relative group/field">
                       <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
                       <Input id="code-name" aria-label="Nome completo" placeholder="Ex: João Silva" className="h-12 rounded-xl pl-10 text-sm bg-foreground/[0.03] dark:bg-white/[0.03] border-foreground/10 dark:border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all text-foreground dark:text-white" />
@@ -389,7 +389,7 @@ function AuthPage() {
                   </div>
 
                   <Button 
-                    className="w-full h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest gap-2 bg-brand text-brand-foreground hover:opacity-90 shadow-lg shadow-brand/20 active:scale-[0.98] transition-all" 
+                    className="w-full h-11 sm:h-12 rounded-xl text-[13px] sm:text-[14px] font-black uppercase tracking-widest gap-2 bg-brand text-brand-foreground hover:opacity-95 shadow-lg shadow-brand/20 active:scale-[0.98] transition-all" 
                     onClick={async () => {
                       const cpfInput = document.getElementById("code-cpf") as HTMLInputElement;
                       const nameInput = document.getElementById("code-name") as HTMLInputElement;
@@ -501,7 +501,7 @@ function AuthPage() {
                         type="button"
                         variant="outline"
                         onClick={() => setPendingCode("")}
-                        className="h-11 rounded-xl text-[10px] font-bold uppercase tracking-widest gap-2"
+                        className="h-11 rounded-xl text-[11px] font-bold uppercase tracking-widest gap-2"
                       >
                         <Fingerprint className="size-3.5" />
                         Código de Acesso
@@ -511,7 +511,7 @@ function AuthPage() {
                   </TabsContent>
                   <TabsContent value="signup" className="m-0 focus-visible:outline-none">
                     <CpfSignUpForm onDone={() => setMode("login")} />
-                    <p className="mt-3 border-t border-border pt-2.5 text-center text-[11px] font-medium text-[oklch(0.25_0.04_259)] dark:text-white/90">
+                    <p className="mt-4 border-t border-border pt-3 text-center text-[12px] font-medium text-[oklch(0.25_0.04_259)] dark:text-white/90">
                       Já tem conta?{" "}
                       <button
                         type="button"
@@ -528,7 +528,7 @@ function AuthPage() {
           </div>
 
           <div className="mt-3 shrink-0 border-t border-border/50 pt-2.5">
-            <p className="text-center text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40">
+            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">
               <button
                 type="button"
                 onClick={async () => {
@@ -551,7 +551,7 @@ function AuthPage() {
 function FieldError({ id, message }: { id?: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-xs text-destructive dark:text-destructive-foreground font-semibold">
+    <p id={id} role="alert" className="mt-1 flex items-start gap-1 text-[13px] text-rose-600 dark:text-rose-400 font-bold">
       <AlertCircle className="mt-px size-3.5 shrink-0" aria-hidden="true" />
       <span>{message}</span>
     </p>
@@ -564,7 +564,7 @@ function FormAlert({ message }: { message?: string | null }) {
     <div
       role="alert"
       tabIndex={-1}
-      className="mb-4 flex items-start gap-2.5 rounded-xl border border-destructive/20 bg-destructive/5 p-3 text-[11px] font-bold text-destructive animate-in fade-in slide-in-from-top-1"
+      className="mb-4 flex items-start gap-2.5 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-[13px] font-bold text-rose-600 dark:text-rose-400 animate-in fade-in slide-in-from-top-1"
     >
       <AlertCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
       <span className="leading-tight">{message}</span>
@@ -601,7 +601,7 @@ function CpfInput({
       required
       aria-invalid={invalid || undefined}
       aria-describedby={describedById}
-      className="h-10 rounded-xl border-border/50 bg-muted/20"
+      className="h-12 rounded-xl border-border/50 bg-muted/20 text-[14px]"
       onChange={(event) => onChange(maskCpf(event.target.value))}
     />
   );
@@ -630,7 +630,7 @@ function PinInput({
       <div className="flex items-center justify-between">
         <Label
           htmlFor={id}
-          className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
+          className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80"
         >
           {label}
         </Label>
@@ -647,7 +647,7 @@ function PinInput({
           required
           aria-invalid={invalid || undefined}
           aria-describedby={describedById}
-          className="h-10 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em]"
+          className="h-12 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em] text-[14px]"
           onChange={(event) => {
             event.target.value = onlyDigits(event.target.value).slice(0, 6);
           }}
@@ -775,7 +775,7 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <FormAlert message={formError} />
       <div className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="login-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
+          <Label htmlFor="login-cpf" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">CPF</Label>
           <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" invalid={!!errors.cpf} />
           <FieldError message={errors.cpf} />
         </div>
@@ -799,13 +799,13 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       </div>
 
       <div className="flex items-center justify-between pt-1">
-        <button type="button" onClick={onForgot} className="text-[11px] font-bold text-brand-green hover:underline">
+        <button type="button" onClick={onForgot} className="text-[12px] font-bold text-brand-green hover:underline">
           Esqueci minha senha
         </button>
         <button 
           type="button" 
           onClick={onAdmin} 
-          className="group inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground/60 hover:text-brand-green transition-colors"
+          className="group inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground/70 hover:text-brand-green transition-colors"
         >
           <ShieldAlert className="size-3" />
           Acesso ADM
@@ -815,7 +815,8 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div className="space-y-3">
         <Button 
           type="submit" 
-          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
+          className="h-12 w-full rounded-xl bg-brand-green text-[14px] font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/95 transition-all active:scale-95" 
+
           disabled={loading}
         >
           {loading ? (
@@ -934,18 +935,18 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <FormAlert message={formError} />
       <div className="space-y-3">
         <div className="space-y-1">
-          <Label htmlFor="signup-name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nome Completo</Label>
-          <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.fullName} />
+          <Label htmlFor="signup-name" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">Nome Completo</Label>
+          <Input id="signup-name" name="fullName" required className="h-12 rounded-xl border-border/50 bg-muted/20 text-[14px]" autoComplete="off" aria-invalid={!!errors.fullName} />
           <FieldError message={errors.fullName} />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="signup-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
+          <Label htmlFor="signup-cpf" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">CPF</Label>
           <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" invalid={!!errors.cpf} />
           <FieldError message={errors.cpf} />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="signup-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail (opcional)</Label>
-          <Input id="signup-email" name="contactEmail" type="email" className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.contactEmail} />
+          <Label htmlFor="signup-email" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">E-mail (opcional)</Label>
+          <Input id="signup-email" name="contactEmail" type="email" className="h-12 rounded-xl border-border/50 bg-muted/20 text-[14px]" autoComplete="off" aria-invalid={!!errors.contactEmail} />
           <FieldError message={errors.contactEmail} />
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -962,7 +963,8 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div className="pt-3">
         <Button 
           type="submit" 
-          className="h-11 w-full rounded-xl bg-brand-green text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/90 transition-all active:scale-95" 
+          className="h-12 w-full rounded-xl bg-brand-green text-[14px] font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-green/20 hover:bg-brand-green/95 transition-all active:scale-95" 
+
           disabled={loading}
         >
           {loading ? (
