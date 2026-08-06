@@ -127,6 +127,7 @@ body {
   font-family: var(--font-sans);
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -136,6 +137,7 @@ h4 {
   font-family: var(--font-display);
   letter-spacing: -0.035em;
   font-weight: 600;
+  line-height: 1.1;
 }
 
 /* ——— Estrutura ——— */
@@ -226,8 +228,9 @@ select,
 
 :focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: 3px;
+  outline-offset: 4px;
   border-radius: 0.5rem;
+  transition: outline-offset 200ms ease;
 }
 
 @media (pointer: coarse) {

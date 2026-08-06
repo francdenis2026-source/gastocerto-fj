@@ -47,8 +47,15 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: continua a impelmentação e melhorias onde paramos, 
-        analise e aplque nas demasi seçoes da homepage e em todo sistema
+        comando mais recente enviado por ele: Otimize a performance e o carregamento da landing (imagens, fontes e scripts) para reduzir o tempo de renderização sem perder a qualidade visual. 
+
+        Atualize a interface para cumprir acessibilidade AA, garantindo contraste, estados de foco visíveis e navegação por teclado em toda a aplicação. 
+
+        Implemente e revise microinterações (hover, focus e transições) em todos os componentes para ficarem consistentes com 180–260ms e com o novo visual. 
+
+        Ajuste o grid, margens e tamanhos tipográficos para garantir que o layout fique idêntico e sem quebras no Desktop, Tablet, Mobile e PWA. 
+
+        Realize uma auditoria de consistência do Design System e corrija quaisquer diferenças de tipografia, espaçamento e estilos na homepage inteira e no restante do sistema.
       */}
     </div>
   );
