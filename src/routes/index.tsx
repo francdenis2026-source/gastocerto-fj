@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: Remove vertical scrollbar in the homepage while preserving native scrolling behavior for a cleaner look.
+        comando mais recente enviado por ele: Audit and align typography and spacing across homepage and internal pages for absolute consistency.
       */}
     </div>
   );
