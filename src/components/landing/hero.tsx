@@ -73,7 +73,7 @@ export function Hero() {
                   initial={{ rotateY: 5, rotateX: 5, opacity: 0, y: 20 }}
                   whileInView={{ rotateY: 0, rotateX: 0, opacity: 1, y: 0 }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="relative rounded-2xl border border-white/10 bg-[#0A0F14] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
+                  className="relative rounded-2xl border border-white/10 bg-card shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden"
                 >
                   {/* Laptop Screen Content - Realistic Dashboard UI */}
                   <div className="aspect-[16/10] bg-[#020617] p-4 flex flex-col gap-4">
