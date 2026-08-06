@@ -601,7 +601,7 @@ function CpfInput({
       required
       aria-invalid={invalid || undefined}
       aria-describedby={describedById}
-      className="h-10 rounded-xl border-border/50 bg-muted/20"
+      className="h-12 rounded-xl border-border/50 bg-muted/20 text-[14px]"
       onChange={(event) => onChange(maskCpf(event.target.value))}
     />
   );
