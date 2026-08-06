@@ -29,7 +29,7 @@ export function Hero() {
   useMouseGlow();
 
   return (
-    <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#000c18] pt-20">
+    <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#000a14] pt-20">
       {/* Cinematic Background */}
       <motion.div style={{ y: y1, opacity }} className="absolute inset-0 z-0">
         <img 
@@ -109,7 +109,7 @@ const trustItems = [
 
 export function Features() {
   return (
-    <section className="py-24 bg-[#000c18] relative">
+    <section className="py-24 bg-[#000a14] relative">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
           <div className="max-w-2xl">
@@ -186,7 +186,7 @@ export function Features() {
 
 export function BentoGrid() {
   return (
-    <section className="py-24 bg-[#000c18]">
+    <section className="py-24 bg-[#000a14]">
       <div className="container px-4 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[280px]">
           {/* Main: IA Advisor */}
@@ -220,7 +220,7 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.02, y: -5 }}
-            className="lg:col-span-4 bg-[#001830] rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30 glow-effect"
+            className="lg:col-span-4 bg-[#001222] rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30 glow-effect"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
@@ -288,7 +288,7 @@ import { Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="py-24 bg-[#000c18]">
+    <footer className="py-24 bg-[#000a14]">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row justify-between gap-16 mb-20">
           <div className="max-w-xs">
