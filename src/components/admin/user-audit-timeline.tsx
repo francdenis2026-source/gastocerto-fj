@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ScrollText, ShieldAlert, TrendingUp, UserMinus, ShieldCheck, History, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 import { useServerFn } from "@tanstack/react-start";
 import { adminListAuditLogs } from "@/lib/audit-logs.functions";

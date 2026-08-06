@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";

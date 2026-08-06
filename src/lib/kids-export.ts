@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import { formatCurrency } from "./format";
+import { formatCurrency } from "./format-utils";
 
 export interface KidExportRow {
   date: string;

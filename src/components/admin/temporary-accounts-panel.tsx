@@ -26,7 +26,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { supabase } from "@/integrations/supabase/client";
 import { adminUpdateUser } from "@/lib/admin-users.functions";
 import { useServerFn } from "@tanstack/react-start";

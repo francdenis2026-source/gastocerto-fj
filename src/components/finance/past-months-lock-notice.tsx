@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Lock, LockOpen, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
+import { PasswordConfirmDialog } from "@/components/finance/dialogs/password-confirm-dialog";
 import { MONTH_NAMES } from "@/lib/finance";
 import { usePastEditUnlock, PAST_EDIT_UNLOCK_MINUTES } from "@/lib/past-edit-unlock";
 import { useClosingPolicy } from "@/lib/use-closing-policy";

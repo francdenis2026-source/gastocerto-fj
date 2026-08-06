@@ -1,4 +1,4 @@
-import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDate, formatDateTime } from "@/lib/format-utils";
 import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/lib/finance";
 import type { NoteHistoryEntry } from "@/lib/transaction-notes";
 import { NOTE_FIELD_LABEL } from "@/lib/transaction-notes";

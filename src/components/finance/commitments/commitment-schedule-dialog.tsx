@@ -22,7 +22,7 @@ import {
 import { exportScheduleCsv, exportSchedulePdf } from "@/lib/commitment-export";
 import { useCommitmentEntries, useSaveCommitmentEntry, type CommitmentSummary } from "@/lib/commitments";
 import { isoDate } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 
 
 const STATUS_STYLE: Record<InstallmentStatus, string> = {

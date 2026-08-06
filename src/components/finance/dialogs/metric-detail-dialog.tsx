@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarDays, ChevronRight, History, NotebookPen, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
+import { DeleteConfirmDialog } from "@/components/finance/dialogs/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { categoryIcon } from "@/lib/category-icons";
 import { PAYMENT_METHODS, TRANSACTION_STATUS, EXPENSE_TYPES, labelFor } from "@/lib/finance";
-import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDate, formatDateTime } from "@/lib/format-utils";
 import { NOTE_FIELD_LABEL, useNoteHistory } from "@/lib/transaction-notes";
 import { type Category, type Transaction } from "@/lib/transactions";
 import { useUndoableDelete } from "@/lib/undo-delete";

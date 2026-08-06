@@ -20,7 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useDependents } from "@/lib/dependents";
 import { isoDate } from "@/lib/finance";
-import { formatCurrency, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import {
   KIDS_AUDIT_ACTIONS,
   kidsAuditActionLabel,

@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/admin-guard";
 import { loadPlanAccess } from "@/lib/plan-access.server";
 import { trialDaysForSlug } from "@/lib/plan-features";
-import { sendAdminNotification } from "./admin-notifications.server";
+import { sendAdminNotification } from "@/lib/admin-notifications.server";
 
 const trialSchema = z.object({
   slug: z.enum(["trial_14", "trial_15", "trial_30", "trial_1h", "trial_6h", "trial_12h", "trial_custom"]),

@@ -1,6 +1,6 @@
 import { dependentIdFromTags, type Dependent } from "@/lib/dependents";
 import { toCents } from "@/lib/finance";
-import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDate, formatDateTime } from "@/lib/format-utils";
 
 type Txn = {
   transaction_type: string;

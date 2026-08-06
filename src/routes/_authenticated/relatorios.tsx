@@ -29,7 +29,7 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { FeatureGate } from "@/components/finance/feature-gate";
-import { FilterField, FilterPanel } from "@/components/finance/filter-panel";
+import { FilterField, FilterPanel } from "@/components/finance/panels/filter-panel";
 import { FilterPresets } from "@/components/finance/filter-presets";
 import { EMPTY_FILTERS } from "@/lib/filter-presets";
 import { MetaChip, PageHeader } from "@/components/finance/page-header";
@@ -64,7 +64,7 @@ import {
   tooltipProps,
 } from "@/lib/chart-theme";
 import { isoDate, labelFor, MONTH_NAMES, PAYMENT_METHODS } from "@/lib/finance";
-import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
+import { formatCurrency, formatDate, formatPercent } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useTransactions } from "@/lib/transactions";
 

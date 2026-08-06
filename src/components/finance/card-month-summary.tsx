@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { CreditCard, Plus, Sparkles } from "lucide-react";
 
-import { CreditPurchaseDialog } from "@/components/finance/credit-purchase-dialog";
-import { MetricDetailDialog, type MetricDetail } from "@/components/finance/metric-detail-dialog";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { CreditPurchaseDialog } from "@/components/finance/dialogs/credit-purchase-dialog";
+import { MetricDetailDialog, type MetricDetail } from "@/components/finance/dialogs/metric-detail-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { creditPurchases, summarizeByCard } from "@/lib/credit-purchases";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import type { Category, Transaction } from "@/lib/transactions";
 import { useAccounts } from "@/lib/transactions";
 

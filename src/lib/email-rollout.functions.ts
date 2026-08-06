@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/admin-guard";
-import { auditLog } from "./admin-guard.server";
+import { auditLog } from "@/lib/admin-guard.server";
 
 export const EMAIL_ROLLOUT_KEY = "email_rollout";
 

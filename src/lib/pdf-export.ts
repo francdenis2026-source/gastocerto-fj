@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import { formatCurrency, formatDate } from "./format";
+import { formatCurrency, formatDate } from "./format-utils";
 
 export async function exportDashboardToPDF(elementId: string, title: string) {
   const element = document.getElementById(elementId);

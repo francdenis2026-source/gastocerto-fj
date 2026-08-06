@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { usePeriodStore } from "@/lib/period-store";
 import { useTransactions } from "@/lib/transactions";
 import { monthRange, isoDate, MONTH_NAMES } from "@/lib/finance";

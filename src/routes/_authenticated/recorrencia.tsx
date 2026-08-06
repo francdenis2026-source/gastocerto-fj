@@ -17,8 +17,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
-import { RecurringDialog } from "@/components/finance/recurring-dialog";
-import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
+import { RecurringDialog } from "@/components/finance/dialogs/recurring-dialog";
+import { DeleteConfirmDialog } from "@/components/finance/dialogs/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +39,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TRANSACTION_STATUS, isoDate, labelFor } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import {
   FREQUENCIES,

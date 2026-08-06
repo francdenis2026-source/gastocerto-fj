@@ -1,5 +1,5 @@
 import { useEnergyBills } from "@/lib/energy";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { Link } from "@tanstack/react-router";
 import { Zap, AlertCircle, CheckCircle2, ChevronRight, RefreshCw } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";

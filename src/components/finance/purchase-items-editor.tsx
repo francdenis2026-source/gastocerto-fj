@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { toCents } from "@/lib/finance";
 import { maskAmountInput, maskDecimalInput } from "@/lib/money-input";
 import { upperText } from "@/lib/text-case";

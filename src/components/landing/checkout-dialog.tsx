@@ -32,7 +32,7 @@ import {
   type CheckoutPlan,
 } from "@/lib/checkout";
 import { maskCpf } from "@/lib/cpf";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 import { livePrice, usePublicPlans } from "@/hooks/use-public-plans";
 

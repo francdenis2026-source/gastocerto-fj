@@ -31,7 +31,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { DEPENDENT_REASONS, dependentTag, reasonTag, useDependents, type Dependent } from "@/lib/dependents";
 import { MONTH_NAMES, parseAmount } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useKidSession } from "@/lib/kids-session";
 import { parseKidVisibility } from "@/lib/kids-access";
 import { cn } from "@/lib/utils";

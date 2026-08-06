@@ -3,7 +3,7 @@ import { ArrowLeft, Check, Delete, Eye, SlidersHorizontal, Smartphone, Sparkles,
 import { toast } from "sonner";
 
 import { readRecentCategories, rememberCategory } from "@/components/finance/category-picker";
-import { CreditPurchaseDialog } from "@/components/finance/credit-purchase-dialog";
+import { CreditPurchaseDialog } from "@/components/finance/dialogs/credit-purchase-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { categoryIcon } from "@/lib/category-icons";
 import { isoDate, monthRange, toCents } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { addMonths } from "@/lib/commitment-schedule";
 import { useSaveRecurringRule } from "@/lib/recurring";

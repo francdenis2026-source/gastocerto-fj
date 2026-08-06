@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PAYMENT_METHODS, labelFor, parseAmount, toCents } from "@/lib/finance";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import {
   AUDIT_ACTIONS,
   buildPurchaseChanges,

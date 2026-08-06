@@ -31,7 +31,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { getCheckoutStatus } from "@/lib/checkout.functions";
 import { adminListLicenses } from "@/lib/licenses.functions";
-import { formatCurrency, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 
 const STATUS_LABEL: Record<string, string> = {

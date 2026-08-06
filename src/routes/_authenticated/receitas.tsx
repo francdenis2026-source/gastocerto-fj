@@ -7,7 +7,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { MonthPresets, loadPeriod } from "@/components/finance/month-presets";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { monthRange, periodDefaultDate } from "@/lib/finance";
 import { useCategories } from "@/lib/queries";
 import { useTransactions, type Transaction } from "@/lib/transactions";

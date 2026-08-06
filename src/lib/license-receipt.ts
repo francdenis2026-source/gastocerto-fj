@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 
 export type LicenseReceiptData = {
   licenseKey: string;

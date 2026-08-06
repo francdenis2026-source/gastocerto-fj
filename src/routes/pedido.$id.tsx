@@ -7,7 +7,7 @@ import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getOrderStatus } from "@/lib/checkout.functions";
-import { formatCurrency, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/pedido/$id")({

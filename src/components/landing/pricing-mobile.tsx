@@ -7,7 +7,7 @@ import { basePlans, type PricingPlan } from "@/components/landing/pricing";
 import { Button } from "@/components/ui/button";
 import { usePublicPlans, livePrice } from "@/hooks/use-public-plans";
 import { annualMonthlyEquivalent } from "@/lib/plan-pricing";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 
 type Slug = "free" | "premium" | "premium_ia";

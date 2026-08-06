@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useDependents } from "@/lib/dependents";
 import { getKidTransactions } from "@/lib/kids-transactions.functions";
 import {

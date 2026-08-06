@@ -24,7 +24,7 @@ import { Switch } from "@/components/ui/switch";
 import { PAYMENT_METHODS, isoDate, labelFor, parseAmount, toCents } from "@/lib/finance";
 import { MoneyInput } from "@/components/ui/money-input";
 import { amountToInput } from "@/lib/money-input";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import {
   FREQUENCIES,

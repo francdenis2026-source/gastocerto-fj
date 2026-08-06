@@ -27,11 +27,11 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
-import { GasImportDialog } from "@/components/finance/gas-import-dialog";
+import { GasImportDialog } from "@/components/finance/gas/gas-import-dialog";
 import { Input } from "@/components/ui/input";
 
-import { GasRefillDialog } from "@/components/finance/gas-refill-dialog";
-import { GasReminderCard } from "@/components/finance/gas-reminder-card";
+import { GasRefillDialog } from "@/components/finance/gas/gas-refill-dialog";
+import { GasReminderCard } from "@/components/finance/gas/gas-reminder-card";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -53,7 +53,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { axisProps, gridProps, tooltipProps } from "@/lib/chart-theme";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { durationLabel, summarizeGas, type GasSummary } from "@/lib/gas-analytics";
 import { exportGasCsv, exportGasPdf } from "@/lib/gas-export";
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 
 import { dependentIdFromTags, useSaveDependent, type Dependent } from "@/lib/dependents";
 import { isoDate, toCents } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useLogKidsAudit } from "@/lib/kids-audit";
 import {
   useNotificationPreferences,

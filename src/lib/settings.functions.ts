@@ -4,7 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdminRole } from "@/lib/admin-guard";
 import { AI_LIMITS_SETTING_KEY, AiLimitsSchema, normalizeAiLimits } from "@/lib/ai-limits";
 import { loadAiLimits } from "@/lib/ai-guard";
-import { auditLog } from "./admin-guard.server";
+import { auditLog } from "@/lib/admin-guard.server";
 
 /** Limites atuais do Consultor de IA (leitura para qualquer usuário logado). */
 export const getAiLimits = createServerFn({ method: "POST" })

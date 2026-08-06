@@ -30,7 +30,7 @@ import { useState, type ReactNode, useEffect, useMemo } from "react";
 import { Logo } from "@/components/logo";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { Badge } from "@/components/ui/badge";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 
 import { useKidSession } from "@/lib/kids-session";
 import { useKidsRealtimeAlerts } from "@/lib/kids-realtime";
@@ -45,7 +45,7 @@ import { clearBrowserCredentials } from "@/lib/local-session";
 import { useNotifications } from "@/lib/notifications";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { EnergySidebarWidget } from "@/components/sidebar/energy-widget";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
 import type { SidebarMetric } from "./settings/sidebar-config";
 import { CommandPalette } from "@/components/nav/command-palette";

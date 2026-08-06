@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { recalcFromNextDue } from "@/lib/commitment-schedule";
 import { useSaveCommitment, type Commitment } from "@/lib/commitments";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 
 /**
  * Edição rápida do próximo vencimento: ao trocar a data, o sistema recalcula

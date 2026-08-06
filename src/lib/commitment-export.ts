@@ -1,7 +1,7 @@
 import type { CommitmentSchedule } from "@/lib/commitment-schedule";
 import { INSTALLMENT_STATUS_LABEL } from "@/lib/commitment-schedule";
 import type { Commitment } from "@/lib/commitments";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 
 function download(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);

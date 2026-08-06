@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { GAS_CSV_TEMPLATE, parseGasCsv } from "@/lib/gas-import";
 import { useGasExpenseSync } from "@/lib/gas-expense";
 import { useGasRefills, useSaveGasRefill } from "@/lib/gas";

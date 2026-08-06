@@ -8,7 +8,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useHydrated } from "@/hooks/use-hydrated";
 
 const DashboardPreview = lazy(() =>

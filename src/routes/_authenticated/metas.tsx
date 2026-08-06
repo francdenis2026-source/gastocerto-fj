@@ -29,7 +29,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { isoDate, parseAmount } from "@/lib/finance";
 import { MoneyInput } from "@/components/ui/money-input";
-import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
+import { formatCurrency, formatDate, formatPercent } from "@/lib/format-utils";
 import {
   GOAL_STATUS,
   GOAL_TYPES,

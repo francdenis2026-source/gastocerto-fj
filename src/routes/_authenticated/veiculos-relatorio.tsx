@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { labelFor, monthRange } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useTransactions } from "@/lib/transactions";
 import { downloadCsv, useVehicles, VEHICLE_TYPES } from "@/lib/vehicles";

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { activateLicense } from "@/lib/licenses.functions";
 
 const STATUS_LABEL: Record<string, string> = {

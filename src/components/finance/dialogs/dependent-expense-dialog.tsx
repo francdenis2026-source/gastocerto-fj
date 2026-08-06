@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, Check, Plus, Baby, PiggyBank, Gift, Trophy, Rocket, ToyBrick, ShieldCheck, Lock, TrendingUp, Target, Star, AlertTriangle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
-import { DependentDialog } from "@/components/finance/dependent-dialog";
-import { KidsPinDialog } from "@/components/finance/kids-pin-dialog";
+import { DependentDialog } from "@/components/finance/dialogs/dependent-dialog";
+import { KidsPinDialog } from "@/components/finance/kids/kids-pin-dialog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,13 +29,13 @@ import {
   type DependentReason,
 } from "@/lib/dependents";
 import { isoDate, monthRange, parseAmount, toCents } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useSaveTransaction, useTransactions } from "@/lib/transactions";
 import { cn } from "@/lib/utils";
 
-import { KidsEvolutionChart, KidsGoalsList } from "@/components/finance/kids-visuals";
-import { KidsGoalDialog } from "@/components/finance/kids-goal-dialog";
+import { KidsEvolutionChart, KidsGoalsList } from "@/components/finance/kids/kids-visuals";
+import { KidsGoalDialog } from "@/components/finance/kids/kids-goal-dialog";
 import { useLogKidsAudit } from "@/lib/kids-audit";
 import {
   useContributeKidsGoal,

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { usePlanAccess } from "@/hooks/use-plan";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { startTrial } from "@/lib/plan.functions";
 import { FEATURE_LABEL, FREE_FEATURES, TRIAL_OPTIONS, type TrialSlug } from "@/lib/plan-features";
 

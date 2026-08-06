@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { CategoryPicker, readRecentCategories, rememberCategory } from "@/components/finance/category-picker";
 import { PurchaseItemsEditor } from "@/components/finance/purchase-items-editor";
 import { ReceiptField } from "@/components/finance/receipt-field";
-import { StoredTransactionPanel } from "@/components/finance/stored-transaction-panel";
+import { StoredTransactionPanel } from "@/components/finance/panels/stored-transaction-panel";
 
 import { Button } from "@/components/ui/button";
 
@@ -51,11 +51,11 @@ import { MIN_TRANSACTION_DATE, lockedMonthKeys } from "@/lib/closing-lock";
 import { useClosingPolicy } from "@/lib/use-closing-policy";
 import { PAST_EDIT_UNLOCK_MINUTES, usePastEditUnlock } from "@/lib/past-edit-unlock";
 import { useAuth } from "@/hooks/use-auth";
-import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
+import { PasswordConfirmDialog } from "@/components/finance/dialogs/password-confirm-dialog";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 
-import { formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format-utils";
 import { amountToInput, maskAmountInput } from "@/lib/money-input";
 import { upperText } from "@/lib/text-case";
 
@@ -216,7 +216,7 @@ export function TransactionDialog({
   /** Sugestão inteligente de categoria familiar */
   const autoCategorize = useServerFn(async (d: { description: string, beneficiaryType: any }) => {
     try {
-      const { autoCategorizeFamilyExpense } = await import("@/lib/categorization/family-categories.functions");
+      const { autoCategorizeFamilyExpense } = await import("@/lib/family-categories.functions");
       return await autoCategorizeFamilyExpense({ data: d });
     } catch (e) {
       return null;

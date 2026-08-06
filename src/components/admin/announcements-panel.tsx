@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader2, Megaphone, Plus, Trash2 } from "lucide-react";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {

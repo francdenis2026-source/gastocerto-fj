@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { pinToPassword } from "@/lib/cpf";
-import { sendAdminNotification } from "./admin-notifications.server";
+import { sendAdminNotification } from "@/lib/admin-notifications.server";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */
 async function assertAdmin(context: { supabase: any; userId: string }) {

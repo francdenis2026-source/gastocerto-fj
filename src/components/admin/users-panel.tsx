@@ -66,7 +66,7 @@ import {
 import { moveToTrash } from "@/lib/admin-trash.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { maskCpf, onlyDigits } from "@/lib/cpf";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import type { Profile } from "@/lib/queries";
 
 const STATUS_LABELS: Record<string, string> = {

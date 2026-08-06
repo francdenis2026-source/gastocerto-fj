@@ -6,10 +6,10 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
-import { AccountSettingsDialog } from "@/components/finance/account-settings-dialog";
-import { AvatarCropDialog } from "@/components/finance/avatar-crop-dialog";
+import { AccountSettingsDialog } from "@/components/finance/accounts/account-settings-dialog";
+import { AvatarCropDialog } from "@/components/finance/dialogs/avatar-crop-dialog";
 import { LicenseCard } from "@/components/finance/license-card";
-import { LicenseDetailPanel } from "@/components/finance/license-detail-panel";
+import { LicenseDetailPanel } from "@/components/finance/panels/license-detail-panel";
 import { TrialCard } from "@/components/finance/trial-card";
 import { ProfileAuditPanel, RedemptionHistoryPanel } from "@/components/admin/audit-panels";
 

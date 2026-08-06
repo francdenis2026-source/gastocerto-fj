@@ -24,7 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { getTrashItems, restoreFromTrash, permanentDeleteFromTrash } from "@/lib/admin-trash.functions";
 import { useServerFn } from "@tanstack/react-start";
 

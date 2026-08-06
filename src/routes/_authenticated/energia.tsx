@@ -23,9 +23,9 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
-import { EnergyBillDialog } from "@/components/finance/energy-bill-dialog";
+import { EnergyBillDialog } from "@/components/finance/dialogs/energy-bill-dialog";
 import { Button } from "@/components/ui/button";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useEnergyBills, type EnergyBill } from "@/lib/energy";
 import { useEnergyInsights } from "@/lib/energy-analytics";
 import { Skeleton } from "@/components/ui/skeleton";

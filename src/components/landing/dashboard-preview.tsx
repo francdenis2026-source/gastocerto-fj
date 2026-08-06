@@ -10,7 +10,7 @@ import {
 
 import { PreviewChart } from "@/components/landing/preview-chart";
 import { Progress } from "@/components/ui/progress";
-import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
+import { formatCurrency, formatDate, formatPercent } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 
 

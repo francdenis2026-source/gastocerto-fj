@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import type { AiReceipt } from "@/lib/ai-guard";
 
 const REASON_LABEL: Record<string, string> = {
