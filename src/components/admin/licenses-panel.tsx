@@ -52,7 +52,7 @@ import {
   adminSetLicenseStatus,
 } from "@/lib/licenses.functions";
 import { describeLicense } from "@/lib/license-status";
-import { formatCurrency, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 const STATUS_LABEL: Record<string, string> = {

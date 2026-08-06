@@ -17,7 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlanAccess } from "@/hooks/use-plan";
 import { supabase } from "@/integrations/supabase/client";
-import { formatCurrency, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDateTime } from "@/lib/format-utils";
 import { downloadLicenseReceipt } from "@/lib/license-receipt";
 import { FEATURE_LABEL } from "@/lib/plan-features";
 import { useProfile } from "@/lib/queries";

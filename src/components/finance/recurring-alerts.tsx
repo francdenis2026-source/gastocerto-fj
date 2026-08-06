@@ -4,7 +4,7 @@ import { BellRing, CalendarClock, Check } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import {
   useMarkNotifications,
   useNotificationPreferences,

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { maskCpf } from "@/lib/cpf";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { adminGrantTrial } from "@/lib/plan.functions";
 import { verifyMasterCode } from "@/lib/master-code.functions";
 import { useConfirm } from "@/components/ui/confirm-dialog";

@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCommitments, useCommitmentEntries, summarizeAll } from "@/lib/commitments";
 import { useSyncNotifications } from "@/lib/notifications";
 import { cn } from "@/lib/utils";

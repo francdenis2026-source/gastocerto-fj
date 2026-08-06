@@ -1,5 +1,5 @@
 import { isoDate, toCents } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import type { NotificationDraft } from "@/lib/notifications";
 
 import type { Commitment, CommitmentEntry } from "@/lib/commitments";

@@ -76,7 +76,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { PdfExportSettingsDialog } from "@/components/finance/pdf-export-settings-dialog";
 import { ShareLinkDialog } from "@/components/finance/share-link-dialog";
 import { exportTransactionPdf } from "@/lib/transaction-detail-export";

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { adminGetBusinessMetrics } from "@/lib/admin-expansion.functions";
 import { StatTile } from "@/components/finance/stat-tile";
 import { TrendingUp, Users, DollarSign, BrainCircuit, FileDown, Loader2, FileText, ArrowUpRight, ArrowDownRight } from "lucide-react";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 

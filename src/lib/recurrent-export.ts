@@ -1,5 +1,5 @@
 import { Transaction } from "@/lib/transactions";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 
 export async function exportRecurrentSpendPdf(
   recurrentData: any[],

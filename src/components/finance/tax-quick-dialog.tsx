@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { MoneyInput } from "@/components/ui/money-input";
 import { addMonths } from "@/lib/commitment-schedule";
 import { isoDate, parseAmount, toCents } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useSaveTransaction } from "@/lib/transactions";
 import { cn } from "@/lib/utils";

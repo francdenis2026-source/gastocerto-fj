@@ -55,7 +55,7 @@ import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dia
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 
-import { formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format-utils";
 import { amountToInput, maskAmountInput } from "@/lib/money-input";
 import { upperText } from "@/lib/text-case";
 

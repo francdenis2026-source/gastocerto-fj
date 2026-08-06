@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useApplyCategoryAutofix, useCategoryAutofix } from "@/lib/category-autofix";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 
 /**
  * Detecta gastos de aplicativos/licenças, IPVA, licenciamento, farmácia e afins

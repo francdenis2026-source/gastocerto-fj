@@ -53,7 +53,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { axisProps, gridProps, tooltipProps } from "@/lib/chart-theme";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { durationLabel, summarizeGas, type GasSummary } from "@/lib/gas-analytics";
 import { exportGasCsv, exportGasPdf } from "@/lib/gas-export";
 

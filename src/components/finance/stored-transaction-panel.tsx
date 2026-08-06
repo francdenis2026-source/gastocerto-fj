@@ -3,7 +3,7 @@ import { Archive, ChevronDown, History } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import type { Tables } from "@/integrations/supabase/types";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { NOTE_FIELD_LABEL, useNoteHistory } from "@/lib/transaction-notes";
 import { PAYMENT_METHODS, TRANSACTION_STATUS } from "@/lib/finance";
 

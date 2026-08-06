@@ -13,7 +13,7 @@ import {
 import { Star, Trophy, Target, Gift, Check, RotateCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import type { KidsSavingsGoal } from "@/lib/kids-goals";
 import { cn } from "@/lib/utils";
 

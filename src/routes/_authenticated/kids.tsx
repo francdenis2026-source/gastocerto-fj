@@ -34,7 +34,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { ClearHistoryButton } from "@/components/finance/clear-history-button";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { regeneratePixCharge } from "@/lib/pix-ledger.functions";
 
 

@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { MercadoPagoPanel } from "@/components/admin/mercadopago-panel";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 type PixKeyType = "cpf" | "cnpj" | "email" | "telefone" | "aleatoria";

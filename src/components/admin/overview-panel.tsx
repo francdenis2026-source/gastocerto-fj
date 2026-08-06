@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { adminOverview } from "@/lib/admin.functions";
-import { formatDateTime, formatCurrency } from "@/lib/format";
+import { formatDateTime, formatCurrency } from "@/lib/format-utils";
 
 /** Visão geral da operação: indicadores, atalhos e últimas ações da equipe. */
 export function AdminOverviewPanel({

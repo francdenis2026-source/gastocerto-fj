@@ -7,7 +7,7 @@ import { TransactionDialog } from "@/components/finance/transaction-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { creditPurchases, summarizeByCard } from "@/lib/credit-purchases";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import type { Category, Transaction } from "@/lib/transactions";
 import { useAccounts } from "@/lib/transactions";
 

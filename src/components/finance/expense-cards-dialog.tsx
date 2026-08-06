@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { categoryIcon } from "@/lib/category-icons";
 import { isoDate, monthRange, toCents } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { addMonths } from "@/lib/commitment-schedule";
 import { useSaveRecurringRule } from "@/lib/recurring";

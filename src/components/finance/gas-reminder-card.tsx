@@ -3,7 +3,7 @@ import { BellRing, Check, Flame } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format-utils";
 import { buildGasReminders, gasReminderDrafts } from "@/lib/gas-reminders";
 import type { GasSummary } from "@/lib/gas-analytics";
 import {

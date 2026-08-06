@@ -64,7 +64,7 @@ import {
   tooltipProps,
 } from "@/lib/chart-theme";
 import { isoDate, labelFor, MONTH_NAMES, PAYMENT_METHODS } from "@/lib/finance";
-import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
+import { formatCurrency, formatDate, formatPercent } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useTransactions } from "@/lib/transactions";
 

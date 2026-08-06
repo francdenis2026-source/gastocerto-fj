@@ -22,7 +22,7 @@ import {
   legendProps,
   tooltipProps,
 } from "@/lib/chart-theme";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { toCents } from "@/lib/finance";
 import { useBalanceTransactions } from "@/lib/closing";
 import { useCategories } from "@/lib/queries";

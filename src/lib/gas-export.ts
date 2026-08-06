@@ -1,4 +1,4 @@
-import { formatCurrency, formatDate, formatDateTime } from "@/lib/format";
+import { formatCurrency, formatDate, formatDateTime } from "@/lib/format-utils";
 import { durationLabel, type GasSummary } from "@/lib/gas-analytics";
 
 function download(blob: Blob, filename: string) {

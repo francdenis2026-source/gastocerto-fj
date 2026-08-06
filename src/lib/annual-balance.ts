@@ -1,4 +1,4 @@
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import type { MonthBalance } from "@/lib/closing";
 import { MONTH_NAMES, toCents } from "@/lib/finance";
 import type { Transaction } from "@/lib/transactions";

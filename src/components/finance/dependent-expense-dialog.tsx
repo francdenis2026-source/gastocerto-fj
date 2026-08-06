@@ -29,7 +29,7 @@ import {
   type DependentReason,
 } from "@/lib/dependents";
 import { isoDate, monthRange, parseAmount, toCents } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useSaveTransaction, useTransactions } from "@/lib/transactions";
 import { cn } from "@/lib/utils";

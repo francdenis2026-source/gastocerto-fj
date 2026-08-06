@@ -70,7 +70,7 @@ import {
 } from "@/lib/closing-lock";
 import { exportBalanceCsv, exportBalancePdf } from "@/lib/closing-export";
 import { PAYMENT_METHODS, toCents } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useBudgets } from "@/lib/transactions";
 import type { Transaction } from "@/lib/transactions";

@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 
 /** Trilha completa de ações administrativas. */
 export function LogsTable({ globalSearch = "" }: { globalSearch?: string }) {

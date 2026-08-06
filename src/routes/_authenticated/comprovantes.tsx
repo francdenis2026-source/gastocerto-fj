@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useDeleteReceipt, useReceipts, type ReceiptItem } from "@/lib/receipts";
 import { downloadReceipt, isPdfPath } from "@/lib/storage";
 

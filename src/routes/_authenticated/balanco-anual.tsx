@@ -59,7 +59,7 @@ import {
 } from "@/lib/annual-balance";
 import { BALANCE_START, buildBalance, useBalanceTransactions, useClosings } from "@/lib/closing";
 import { MONTH_NAMES } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useCategories, useProfile } from "@/lib/queries";
 import { usePeriodStore } from "@/lib/period-store";
 

@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { remainingTime } from "@/lib/audit-log";
 import { useNow } from "@/lib/use-now";
 import { toast } from "sonner";

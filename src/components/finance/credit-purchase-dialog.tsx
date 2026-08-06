@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { CREDIT_TAG, creditNote } from "@/lib/credit-purchases";
 import { isoDate } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useAccounts, useSaveTransaction } from "@/lib/transactions";
 

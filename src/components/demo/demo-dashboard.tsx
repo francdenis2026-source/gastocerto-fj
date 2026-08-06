@@ -28,7 +28,7 @@ import { DemoOnboarding, type DemoTab } from "@/components/demo/demo-onboarding"
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 
 const dailySeries = Array.from({ length: 30 }, (_, index) => {

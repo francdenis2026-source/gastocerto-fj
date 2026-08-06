@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { MONTH_NAMES, labelFor, monthRange } from "@/lib/finance";
 import { useTransactions } from "@/lib/transactions";
 import {

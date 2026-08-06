@@ -32,7 +32,7 @@ import { Switch } from "@/components/ui/switch";
 import { ConfirmDialog } from "@/components/finance/confirm-dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { CATEGORY_ICON_KEYS, categoryIcon } from "@/lib/category-icons";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { monthRange } from "@/lib/finance";
 import { useAllCategories } from "@/lib/queries";
 import { usePlanAccess } from "@/hooks/use-plan";

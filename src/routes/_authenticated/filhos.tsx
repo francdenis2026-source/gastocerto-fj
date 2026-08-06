@@ -54,7 +54,7 @@ import {
   type Dependent,
 } from "@/lib/dependents";
 import { parseAmount } from "@/lib/finance";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { isValidKidCode, isValidKidPin, suggestKidCode } from "@/lib/kids-account";
 import { saveKidAccess } from "@/lib/kids-account.functions";
 import { describeKidCodeExpiry } from "@/lib/kids-access";

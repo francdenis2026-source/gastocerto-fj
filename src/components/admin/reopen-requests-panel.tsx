@@ -15,7 +15,7 @@ import {
   useDecideReopenRequest,
   type ReopenRequest,
 } from "@/lib/closing-lock";
-import { formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format-utils";
 
 /** Fila de pedidos de reabertura de competências fechadas. */
 export function ReopenRequestsPanel() {

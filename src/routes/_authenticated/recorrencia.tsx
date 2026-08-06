@@ -39,7 +39,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TRANSACTION_STATUS, isoDate, labelFor } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import {
   FREQUENCIES,

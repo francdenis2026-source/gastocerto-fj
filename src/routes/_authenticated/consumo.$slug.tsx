@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CHART_TOKENS, axisProps, gridProps, tooltipProps } from "@/lib/chart-theme";
 import { MONTH_NAMES, monthRange } from "@/lib/finance";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { usePeriodStore } from "@/lib/period-store";
 import { useCategories } from "@/lib/queries";
 import { findServiceArea, matchesArea, SERVICE_AREAS } from "@/lib/service-areas";

@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { monthRange, parseAmount, toCents } from "@/lib/finance";
 import { MoneyInput } from "@/components/ui/money-input";
 import { useCategories } from "@/lib/queries";

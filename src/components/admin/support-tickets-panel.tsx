@@ -3,7 +3,7 @@ import { adminGetSupportTickets, adminUpdateTicket } from "@/lib/admin-expansion
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@/lib/format-utils";
 import { toast } from "sonner";
 import { Loader2, MessageSquare, CheckCircle, LifeBuoy } from "lucide-react";
 import { cn } from "@/lib/utils";

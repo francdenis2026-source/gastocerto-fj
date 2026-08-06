@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useTransactions } from "@/lib/transactions";
 import { useDependents, dependentIdFromTags } from "@/lib/dependents";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { periodDefaultDate, monthRange } from "@/lib/finance";
 import { CHART_TOKENS, axisProps, gridProps, tooltipProps } from "@/lib/chart-theme";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from "recharts";

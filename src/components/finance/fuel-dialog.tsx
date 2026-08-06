@@ -25,7 +25,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { isoDate, parseAmount, toCents } from "@/lib/finance";
 import { diffValues, useLogFuelAudit } from "@/lib/fuel-audit";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useAccounts } from "@/lib/transactions";
 import { maskAmountInput, maskDecimalInput } from "@/lib/money-input";

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { getKidsWalletOverview, type KidWallet } from "@/lib/kids-wallet.functions";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/lib/format-utils";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { CHART_TOKENS, tooltipProps } from "@/lib/chart-theme";
