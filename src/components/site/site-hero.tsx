@@ -12,7 +12,7 @@ const proof = [
 
 export function SiteHero() {
   return (
-    <section className="relative overflow-hidden bg-navy-800 pt-28 lg:pt-36">
+    <section className="relative overflow-hidden bg-navy-900 pt-28 lg:pt-40">
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-[-18rem] h-[36rem] w-[72rem] -translate-x-1/2 rounded-full bg-brand-600/8 blur-[160px]"

@@ -27,8 +27,8 @@ export function ProductConsole({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl border border-border bg-navy-700",
-        "shadow-[0_50px_120px_-50px_rgba(0,13,26,0.9)]",
+        "overflow-hidden rounded-2xl border border-white/10 bg-navy-800/80 backdrop-blur-md",
+        "shadow-[0_80px_160px_-50px_rgba(0,0,0,0.8)]",
         className,
       )}
     >
