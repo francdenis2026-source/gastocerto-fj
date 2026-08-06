@@ -101,7 +101,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-background border-t border-border/50">
       <div className="container px-4 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {features.map((f, i) => (
@@ -111,13 +111,13 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group"
+              className="group p-8 rounded-[2rem] bg-muted/20 border border-transparent hover:border-primary/20 hover:bg-card transition-all duration-500"
             >
               <div className={`size-14 rounded-2xl ${f.color} flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-current/10`}>
                 <f.icon size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">{f.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">
+              <h3 className="text-2xl font-bold text-foreground mb-4">{f.title}</h3>
+              <p className="text-muted-foreground leading-relaxed font-medium">
                 {f.desc}
               </p>
             </motion.div>
@@ -130,60 +130,61 @@ export function Features() {
 
 export function BentoGrid() {
   return (
-    <section className="py-24 bg-slate-50">
+    <section className="py-24 bg-muted/10">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mb-16">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6">
+          <h2 className="text-4xl md:text-7xl font-black tracking-tight text-foreground mb-6">
             Tudo o que você precisa em <br />
-            <span className="text-primary">um só lugar.</span>
+            <span className="text-primary italic">um só lugar.</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[800px] md:h-[600px]">
-          <div className="md:col-span-8 bg-white rounded-[2.5rem] border border-slate-200 p-8 md:p-12 relative overflow-hidden group">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[650px]">
+          <div className="md:col-span-8 bg-card rounded-[2.5rem] border border-border p-8 md:p-12 relative overflow-hidden group hover:border-primary/30 transition-colors">
             <div className="relative z-10">
-              <h3 className="text-3xl font-bold text-slate-900 mb-4">Dashboard Inteligente</h3>
-              <p className="text-slate-600 max-w-sm mb-8 font-medium">
+              <h3 className="text-4xl font-bold text-foreground mb-4">Dashboard Inteligente</h3>
+              <p className="text-muted-foreground max-w-sm mb-8 font-medium text-lg">
                 Uma visão panorâmica e imediata da sua saúde financeira através de gráficos dinâmicos.
               </p>
               <div className="flex gap-2">
-                <div className="size-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 hover:bg-primary hover:text-white transition-colors cursor-pointer">
-                    <ChevronRight size={20} />
-                </div>
+                <Button size="icon" className="rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all">
+                    <ChevronRight size={24} />
+                </Button>
               </div>
             </div>
-            <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-slate-50 rounded-tl-[3rem] border-t border-l border-slate-100 group-hover:translate-y-4 transition-transform duration-500" />
+            <div className="absolute bottom-0 right-0 w-3/4 h-2/3 bg-muted/30 rounded-tl-[3rem] border-t border-l border-border group-hover:translate-y-4 transition-transform duration-700" />
           </div>
-          <div className="md:col-span-4 bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white flex flex-col justify-between group overflow-hidden">
+          <div className="md:col-span-4 bg-foreground rounded-[2.5rem] p-8 md:p-12 text-background flex flex-col justify-between group overflow-hidden relative">
             <div className="relative z-10">
-              <h3 className="text-3xl font-bold mb-4">Modo Kids</h3>
-              <p className="text-slate-400 font-medium">
+              <h3 className="text-4xl font-bold mb-4">Modo Kids</h3>
+              <p className="text-background/60 font-medium text-lg">
                 Eduque a próxima geração com ferramentas lúdicas de gestão.
               </p>
             </div>
             <div className="relative z-10 flex justify-end">
-                <div className="size-16 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-primary transition-colors">
-                    <ArrowRight className="text-white" />
+                <div className="size-20 rounded-full bg-background/10 flex items-center justify-center group-hover:bg-primary transition-colors text-background">
+                    <ArrowRight size={32} />
                 </div>
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/20 rounded-full blur-[80px] group-hover:scale-150 transition-transform duration-700" />
           </div>
-          <div className="md:col-span-4 bg-primary rounded-[2.5rem] p-8 md:p-12 text-white group overflow-hidden">
-            <h3 className="text-3xl font-bold mb-4">Consultoria IA</h3>
-            <p className="font-medium text-white/80">
+          <div className="md:col-span-4 bg-primary rounded-[2.5rem] p-8 md:p-12 text-primary-foreground group overflow-hidden relative">
+            <h3 className="text-4xl font-bold mb-4">IA Consultora</h3>
+            <p className="font-medium text-primary-foreground/80 text-lg">
                 Insights reais baseados no seu comportamento.
             </p>
+            <Zap size={120} className="absolute -bottom-8 -right-8 text-white/10 group-hover:scale-110 transition-transform duration-500" />
           </div>
-          <div className="md:col-span-8 bg-white rounded-[2.5rem] border border-slate-200 p-8 md:p-12 flex items-center justify-between group overflow-hidden">
+          <div className="md:col-span-8 bg-card rounded-[2.5rem] border border-border p-8 md:p-12 flex flex-col md:flex-row items-center justify-between group overflow-hidden hover:border-primary/30 transition-colors">
              <div className="max-w-md">
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">Multi-Contas</h3>
-                <p className="text-slate-600 font-medium">
+                <h3 className="text-4xl font-bold text-foreground mb-4">Multi-Contas</h3>
+                <p className="text-muted-foreground font-medium text-lg">
                     Gerencie cartões, bancos e dinheiro vivo em fluxos separados mas integrados.
                 </p>
              </div>
-             <div className="hidden md:flex gap-4">
+             <div className="hidden md:flex gap-4 mt-8 md:mt-0">
                  {[1,2,3].map(i => (
-                     <div key={i} className="size-16 rounded-2xl bg-slate-50 border border-slate-100 group-hover:-translate-y-2 transition-transform duration-500" style={{ transitionDelay: `${i*100}ms` }} />
+                     <div key={i} className="size-20 rounded-2xl bg-muted/50 border border-border group-hover:-translate-y-4 transition-transform duration-500" style={{ transitionDelay: `${i*100}ms` }} />
                  ))}
              </div>
           </div>
