@@ -209,11 +209,46 @@ h4 {
 .lift:hover {
   transform: translateY(-4px);
   border-color: color-mix(in oklab, var(--primary) 45%, transparent);
-  box-shadow: var(--shadow-soft);
+  box-shadow: 
+    0 0 20px -5px color-mix(in oklab, var(--primary) 30%, transparent),
+    var(--shadow-soft);
 }
 
 .lift:active {
   transform: translateY(-1px);
+}
+
+/* Efeito de Luz Profissional (Spotlight) */
+.glow-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    color-mix(in oklab, var(--primary) 12%, transparent),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glow-effect:hover::after {
+  opacity: 1;
+}
+
+/* Aplicando em botões e menus */
+a,
+button,
+.site-nav-link {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
 }
 
 a,

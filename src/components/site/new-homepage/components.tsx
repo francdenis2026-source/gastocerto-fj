@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useMouseGlow } from "@/hooks/use-mouse-glow";
 import { 
   ArrowRight, 
   Zap, 
@@ -25,6 +26,7 @@ export function Hero() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  useMouseGlow();
 
   return (
     <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#000c18] pt-20">
@@ -74,7 +76,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
           >
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full" asChild>
+              <Button size="lg" className="h-14 px-10 rounded-2xl text-base font-bold group bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/20 w-full glow-effect" asChild>
                 <Link to="/auth" search={{ mode: "signup" }}>
                   Começar Jornada
                   <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
@@ -82,7 +84,7 @@ export function Hero() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl text-base font-bold border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white w-full">
+              <Button variant="outline" size="lg" className="h-14 px-10 rounded-2xl text-base font-bold border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white w-full glow-effect">
                 Ver Demonstração
               </Button>
             </motion.div>
@@ -161,7 +163,7 @@ export function Features() {
               whileHover={{ y: -8, scale: 1.02 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, type: "spring", stiffness: 300 }}
-              className="group relative p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden"
+              className="group relative p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden glow-effect"
             >
               <Link to="/auth" search={item.title === "Espaço Kids" ? { mode: "kid" } : { mode: "signup" }} className="absolute inset-0 z-20" />
               <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -192,7 +194,7 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.01 }}
-            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30"
+            className="lg:col-span-8 bg-gradient-to-br from-primary/10 to-blue-600/10 rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-center relative overflow-hidden group transition-all duration-500 hover:border-primary/30 glow-effect"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-md relative z-10">
@@ -218,7 +220,7 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.02, y: -5 }}
-            className="lg:col-span-4 bg-[#001830] rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30"
+            className="lg:col-span-4 bg-[#001830] rounded-[2.5rem] border border-white/10 p-8 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-primary/30 glow-effect"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
@@ -239,7 +241,7 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.02, y: -5 }}
-            className="lg:col-span-5 bg-primary rounded-[2.5rem] p-8 flex flex-col justify-between group relative overflow-hidden transition-all duration-500 shadow-2xl shadow-primary/0 hover:shadow-primary/20"
+            className="lg:col-span-5 bg-primary rounded-[2.5rem] p-8 flex flex-col justify-between group relative overflow-hidden transition-all duration-500 shadow-2xl shadow-primary/0 hover:shadow-primary/20 glow-effect"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="relative z-10">
@@ -259,7 +261,7 @@ export function BentoGrid() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.01 }}
-            className="lg:col-span-7 bg-white/5 rounded-[2.5rem] border border-white/10 p-8 flex items-center justify-between group transition-all duration-500 hover:border-primary/30"
+            className="lg:col-span-7 bg-white/5 rounded-[2.5rem] border border-white/10 p-8 flex items-center justify-between group transition-all duration-500 hover:border-primary/30 glow-effect"
           >
             <Link to="/auth" search={{ mode: "signup" }} className="absolute inset-0 z-20" />
             <div className="max-w-sm">
