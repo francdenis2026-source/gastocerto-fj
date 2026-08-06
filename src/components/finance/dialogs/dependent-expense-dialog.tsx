@@ -94,6 +94,7 @@ export function DependentExpenseDialog({
   const [reason, setReason] = useState<DependentReason>("ganho_mesada");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(isoDate(new Date()));
+  const [errors, setErrors] = useState<{ amount?: string; selected?: string }>({});
   const [note, setNote] = useState("");
   const [goalOpen, setGoalOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<KidsSavingsGoal | null>(null);
@@ -205,26 +206,33 @@ export function DependentExpenseDialog({
     setAmount("");
     setDate(isoDate(new Date()));
     setNote("");
+    setErrors({});
   }
 
   async function handleSave() {
-    if (!selected) return;
-    if (value <= 0) {
-      toast.error("Informe o valor do gasto.");
+    const newErrors: typeof errors = {};
+    if (!selected) newErrors.selected = "Selecione uma criança.";
+    if (value <= 0) newErrors.amount = "Informe um valor maior que zero.";
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast.error("Corrija os campos antes de continuar.");
       return;
     }
+
     if (!category) {
       toast.error("Nenhuma categoria de despesa disponível.");
       return;
     }
-    const who = selected.nickname?.trim() || selected.name;
+    const currentSelected = selected!; // Já validado acima pelo newErrors.selected
+    const who = currentSelected.nickname?.trim() || currentSelected.name;
     const description = note.trim()
       ? `${who} — ${note.trim()}`.slice(0, 140)
       : `${who} — ${reasonInfo.label}`;
     try {
       await save.mutateAsync({
         values: {
-          user_id: selected.user_id, // Pass the dependent's user_id if they are the transaction owner
+          user_id: currentSelected.kid_user_id || currentSelected.user_id,
           description,
           amount: value,
           transaction_type: reasonInfo.type,
@@ -232,8 +240,8 @@ export function DependentExpenseDialog({
           transaction_date: date,
           status: reasonInfo.type === "income" ? "received" : "paid",
           payment_date: date,
-          tags: [dependentTag(selected.id), reasonTag(reason)],
-          notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(selected.relation)}) — ${reasonInfo.label}`,
+          tags: [dependentTag(currentSelected.id), reasonTag(reason)],
+          notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
         },
       });
       toast.success(`${formatCurrency(value)} com ${who} registrado.`);
