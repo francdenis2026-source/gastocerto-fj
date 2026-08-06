@@ -185,7 +185,7 @@ export function BentoGrid() {
   return (
     <section className="py-24 bg-[#000c18]">
       <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[320px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[280px]">
           {/* Main: IA Advisor */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -207,8 +207,8 @@ export function BentoGrid() {
                 Nosso sistema avisa onde você pode economizar mais para sobrar dinheiro no final do mês.
               </p>
             </div>
-            <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
-              <Search className="size-80 text-primary" strokeWidth={0.5} />
+            <div className="absolute right-[2%] top-1/2 -translate-y-1/2 opacity-30 group-hover:opacity-60 transition-all duration-700 group-hover:scale-110 pointer-events-none">
+              <Search className="size-64 text-primary/40" strokeWidth={1} />
             </div>
           </motion.div>
 
