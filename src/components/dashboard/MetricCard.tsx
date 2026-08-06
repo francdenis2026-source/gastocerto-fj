@@ -28,28 +28,28 @@ export function MetricCard({
     <div 
       onClick={onClick}
       className={cn(
-        "rounded-[12px] border border-[#22C55E1F] bg-[#10241E] p-4 transition-all group/card cursor-default shadow-lg",
-        onClick && "cursor-pointer hover:bg-[#142B24] hover:border-[#22C55E3D] active:scale-[0.98]",
+        "rounded-2xl border bg-card p-5 transition-all group/card cursor-default shadow-sm",
+        onClick && "cursor-pointer hover:shadow-md hover:border-primary/20 active:scale-[0.98]",
         className
       )}
       title={hint}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] font-black text-[#8FA39C] uppercase tracking-[0.05em]">{label}</span>
+        <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">{label}</span>
         {Icon && (
-          <div className="p-1.5 rounded-lg border border-[#22C55E1F] bg-[#22C55E0A] text-[#22C55E]">
-            <Icon className="size-4" />
+          <div className="p-2 rounded-xl bg-primary/10 text-primary">
+            <Icon className="size-4.5" />
           </div>
         )}
       </div>
       
       <div className="flex flex-col gap-1">
-        <span className="text-xl font-bold font-mono text-[#F5F7F6] tracking-tight tabular-nums">{value}</span>
+        <span className="text-2xl font-bold font-sans text-foreground tracking-tight tabular-nums">{value}</span>
         {trend && (
           <div className="flex items-center gap-1.5">
-            <span className={cn("text-[11px] font-bold px-1.5 py-0.5 rounded-md", 
-              trendDirection === "up" ? "bg-emerald-500/10 text-[#4ADE80]" : 
-              trendDirection === "down" ? "bg-rose-500/10 text-[#EF4444]" : "bg-white/5 text-[#8FA39C]"
+            <span className={cn("text-[11px] font-bold px-2 py-0.5 rounded-full", 
+              trendDirection === "up" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : 
+              trendDirection === "down" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground"
             )}>
               {trend}
             </span>

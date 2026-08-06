@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -77,6 +78,7 @@ import {
 } from "@/lib/transactions";
 
 import { sanitizeText } from "@/lib/validation";
+import { cn } from "@/lib/utils";
 
 type Kind = "expense" | "income";
 
@@ -103,6 +105,7 @@ export function TransactionDialog({
   presetSubCategoryId?: string | null;
 }) {
   const [kind, setKind] = useState<Kind>(initialKind);
+  const [currentStep, setCurrentStep] = useState(1);
 
   useEffect(() => {
     if (open && initialKind) setKind(initialKind);
@@ -579,428 +582,233 @@ export function TransactionDialog({
     <>
     <Dialog open={open} onOpenChange={onOpenChange}>
 
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            {editing ? "Editar lançamento" : kind === "income" ? "Adicionar receita" : "Adicionar gasto"}
-          </DialogTitle>
-          <DialogDescription>
-            {kind === "income"
-              ? "Registre quanto entrou e de onde veio o dinheiro."
-              : "Registre quanto saiu e em que você gastou."}{" "}
-            Use “Mais opções” para conta, parcelas e anexos. Atalhos: Enter avança, Ctrl/Cmd +
-            Enter salva e Alt + C abre as categorias.
-          </DialogDescription>
+      <DialogContent className="max-h-[92svh] sm:max-w-xl p-0 gap-0 overflow-hidden">
+        <div className="flex items-center justify-between px-8 pt-8">
+           <div className="flex gap-2">
+              <Badge variant={currentStep === 1 ? "default" : "outline"} className="cursor-pointer" onClick={() => setCurrentStep(1)}>Básico</Badge>
+              <Badge variant={currentStep === 2 ? "default" : "outline"} className="cursor-pointer" onClick={() => setCurrentStep(2)}>Detalhes</Badge>
+           </div>
+           <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              <span className={cn("size-1.5 rounded-full", kind === "expense" ? "bg-destructive" : "bg-primary")} />
+              {kind === "expense" ? "Despesa" : "Receita"}
+           </div>
+        </div>
 
+        <DialogHeader className="px-8 pt-6 pb-2">
+          <DialogTitle className="text-2xl font-bold tracking-tight">
+            {editing ? "Editar lançamento" : kind === "income" ? "Nova receita" : "Novo gasto"}
+          </DialogTitle>
         </DialogHeader>
 
         <form autoComplete="off" data-1p-ignore
           ref={formRef}
           onSubmit={handleSubmit}
           onKeyDown={handleFormKeyDown}
-          className="space-y-4"
           noValidate
         >
-          <div className="flex justify-end">
-            <Button
-              type="button"
-              variant={advanced ? "secondary" : "outline"}
-              size="sm"
-              className="h-8 text-[11px]"
-              onClick={() => setAdvanced((current) => !current)}
-            >
-              {advanced ? "Ocultar campos extras" : "Mais opções"}
-            </Button>
-          </div>
-
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="sm:col-span-2">
-              <Label htmlFor="description">
-                {kind === "income" ? "Descrição / Fonte da Renda" : "Descrição / Nome do estabelecimento"}
-              </Label>
-              <Input
-                id="description"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                maxLength={140}
-                className="mt-1.5"
-                placeholder={
-                  kind === "income" ? "Ex: Salário Mensal, Venda OLX..." : "Ex: Supermercado Silva, Posto Ipiranga..."
-                }
-              />
-              {errors.description ? (
-                <p className="mt-1 text-xs text-destructive">{errors.description}</p>
-              ) : null}
-            </div>
-
-
-            <div>
-              <Label htmlFor="amount">
-                {kind === "income" ? "Valor recebido (R$)" : "Valor do gasto (R$)"}
-              </Label>
-              <Input
-                id="amount"
-                value={amount}
-                inputMode="numeric"
-                onChange={(event) => setAmount(maskAmountInput(event.target.value))}
-                className="mt-1.5 text-right tabular-nums"
-                placeholder="0,00"
-                aria-describedby="amount-help"
-              />
-              <p id="amount-help" className="mt-1 text-[11px] text-muted-foreground">
-                Digite só os números: o ponto de milhar e a vírgula dos centavos são colocados
-                automaticamente.
-              </p>
-              {errors.amount ? (
-                <p className="mt-1 text-xs text-destructive">{errors.amount}</p>
-              ) : null}
-            </div>
-
-
-            <div>
-              <Label htmlFor="date">Data</Label>
-              <Input
-                id="date"
-                type="date"
-                value={date}
-                min={MIN_TRANSACTION_DATE}
-                onChange={(event) => setDate(event.target.value)}
-                className="mt-1.5"
-                aria-invalid={Boolean(errors.date)}
-              />
-              {revenueSuggestion && (
-                <Alert className="mt-2 py-2 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800">
-                  <div className="flex flex-col gap-1 w-full">
-                    <p className="text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
-                      {revenueSuggestion.message}
-                    </p>
-                    <Button 
-                      type="button" 
-                      variant="link" 
-                      className="h-auto p-0 text-[11px] text-emerald-600 underline justify-start"
-                      onClick={() => {
-                        setDate(revenueSuggestion.date);
-                        setRevenueSuggestion(null);
-                        setNotes((n) => n ? `${n} (Transferido para o mês correto)` : "Transferido para o mês correto");
-                      }}
-                    >
-                      Mover para {formatDate(revenueSuggestion.date)}
-                    </Button>
-                  </div>
-                </Alert>
-              )}
-              {dateInconsistent && !isLockedMonth ? (
-                <Alert className="mt-2 border-amber-300/70 bg-amber-50 py-2 dark:border-amber-800 dark:bg-amber-900/20">
-                  <AlertTitle className="text-xs font-semibold text-amber-800 dark:text-amber-200">
-                    Competência fora do período atual
-                  </AlertTitle>
-                  <AlertDescription className="text-[11px] text-amber-700 dark:text-amber-300">
-                    {competence.outOfMonth
-                      ? `Este lançamento está em ${formatDate(date)}, em outro mês. Mova para a data correta se foi um erro.`
-                      : `Este lançamento está em ${formatDate(date)}, fora da semana atual.`}
-                    <span className="mt-2 flex flex-wrap gap-2">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        className="h-7 text-[11px]"
-                        onClick={() => setDate(competence.todayIso)}
-                      >
-                        Mover para hoje
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        className="h-7 text-[11px]"
-                        onClick={() => setDate(competence.weekStart)}
-                      >
-                        Esta semana ({formatDate(competence.weekStart)})
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        className="h-7 text-[11px]"
-                        onClick={() => setDate(competence.sameDayThisMonth)}
-                      >
-                        Este mês ({formatDate(competence.sameDayThisMonth)})
-                      </Button>
-                    </span>
-                  </AlertDescription>
-                </Alert>
-              ) : null}
-
-              <div className="mt-2 flex flex-wrap gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => shiftDate("today")}>
-                  Hoje
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => shiftDate("yesterday")}
-                >
-                  Ontem
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => shiftDate("lastMonth")}
-                >
-                  Mês passado
-                </Button>
-              </div>
-              <p className="mt-1.5 text-xs text-muted-foreground">
-                {isLockedMonth
-                  ? "Mês fechado: peça a liberação ao administrador para editar esta competência."
-                  : isPastMonth
-                    ? `Lançamento retroativo: será contabilizado em ${formatDate(date)}.`
-                    : "Você pode registrar gastos de dias ou meses anteriores, a partir de 01/07/2026."}
-              </p>
-              {errors.date ? <p className="mt-1 text-xs text-destructive">{errors.date}</p> : null}
-            </div>
-
-
-            {/* Categorização Inteligente Familiar */}
-            {kind === "expense" && !editing && (
-              <div className="space-y-3 rounded-xl border border-border/50 bg-muted/20 p-3 mb-4">
-                <Label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground/80">Este gasto foi para alguém?</Label>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    type="button"
-                    variant={beneficiaryType === "adult_child" ? "default" : "outline"}
-                    size="sm"
-                    className="h-8 gap-1.5 text-[10px]"
-                    onClick={() => setBeneficiaryType(beneficiaryType === "adult_child" ? "none" : "adult_child")}
-                  >
-                    <Baby className="size-3" />
-                    Filho Maior
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={beneficiaryType === "family_member" ? "default" : "outline"}
-                    size="sm"
-                    className="h-8 gap-1.5 text-[10px]"
-                    onClick={() => setBeneficiaryType(beneficiaryType === "family_member" ? "none" : "family_member")}
-                  >
-                    <Users className="size-3" />
-                    Outro Familiar
-                  </Button>
-                </div>
-                
-                {beneficiaryType !== "none" && (
-                  <div className="pt-1 animate-in fade-in slide-in-from-top-2">
-                    <Input
-                      placeholder={beneficiaryType === "adult_child" ? "Nome do filho..." : "Nome do familiar..."}
-                      value={beneficiaryName}
-                      onChange={(e) => setBeneficiaryName(e.target.value)}
-                      className="h-8 text-xs bg-background/50"
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="space-y-1.5">
-              <Label>Categoria</Label>
-              <CategoryPicker
-                categories={options}
-                value={subCategoryId || categoryId}
-                onChange={(id) => {
-                  const selectedCat = options.find((c) => c.id === id);
-                  if (selectedCat) {
-                    if (selectedCat.type === "income") setKind("income");
-                    else setKind("expense");
-                  }
-                  if (suggestion && suggestion.id !== id) {
-                    saveFeedback.mutate({
-                      description: description,
-                      suggested_category_id: suggestion.id,
-                      accepted: false,
-                      corrected_category_id: id
-                    });
-                  } else if (suggestion && suggestion.id === id) {
-                    saveFeedback.mutate({
-                      description: description,
-                      suggested_category_id: suggestion.id,
-                      accepted: true
-                    });
-                  }
-                  
-                  if (selectedCat?.parent_id) {
-                    setCategoryId(selectedCat.parent_id);
-                    setSubCategoryId(id);
-                  } else {
-                    setCategoryId(id);
-                    setSubCategoryId("");
-                  }
-                  setSuggestion(null);
-                }}
-                autoFilled={Boolean(suggestion)}
-              />
-              {suggestion && (
-                <div className="mt-2 flex items-center justify-between rounded-lg bg-secondary/50 p-2 text-[11px]">
-                  <span>Sugestão: <strong>{suggestion.name}</strong></span>
-                  <div className="flex gap-2">
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2 text-[10px]"
-                      onClick={() => {
-                        saveFeedback.mutate({
-                          description: description,
-                          suggested_category_id: suggestion.id,
-                          accepted: true
-                        });
-                        setSuggestion(null);
-                      }}
-                    >
-                      Correspondeu
-                    </Button>
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2 text-[10px]"
-                      onClick={() => {
-                        setSuggestion(null);
-                        setCategoryId("");
-                        setSubCategoryId("");
-                      }}
-                    >
-                      Não correspondeu
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {selectedCategory?.description && (
-                <p className="px-1 text-[10px] italic text-muted-foreground">
-                  {selectedCategory.description}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="description">Descrição do lançamento</Label>
-              <Input
-                id="description"
-                value={description}
-                onChange={(event) => setDescription(upperText(event.target.value))}
-                placeholder={kind === "income" ? "Ex.: Salário, Venda..." : "Ex.: Almoço, Peças..."}
-                maxLength={100}
-                required
-              />
-              <p className="px-1 text-[10px] text-muted-foreground">
-                Dica: Mantenha a descrição focada no gasto específico. O nome da categoria ("{selectedCategory?.name || "..."}") já é salvo automaticamente.
-              </p>
-            </div>
-
-
-            <div>
-              <Label>Forma de pagamento</Label>
-              <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-                <SelectTrigger className="mt-1.5">
-                  <SelectValue placeholder="Selecione" />
-                </SelectTrigger>
-                <SelectContent>
-                  {PAYMENT_METHODS.map((method) => (
-                    <SelectItem key={method.value} value={method.value}>
-                      {method.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="sm:col-span-2">
-              <Label htmlFor="merchant">
-                {kind === "income" ? "Fonte da renda" : "Estabelecimento / loja"}
-              </Label>
-              <Input
-                id="merchant"
-                value={merchant}
-                onChange={(event) => setMerchant(upperText(event.target.value))}
-                maxLength={100}
-                className="mt-1.5"
-                placeholder={
-                  kind === "income"
-                    ? "EX.: SALÁRIO DA PREFEITURA, VENDA DE BOLOS, SERVIÇO DE PINTURA"
-                    : "EX.: SUPERMERCADO CENTRAL, FEIRA DO PRODUTOR"
-                }
-              />
-              {kind === "income" ? (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {INCOME_SOURCES.map((source) => (
-                    <button
-                      key={source}
-                      type="button"
-                      onClick={() => setMerchant(upperText(source))}
-                      className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                    >
-                      {source}
-                    </button>
-                  ))}
-                </div>
-
-              ) : null}
-            </div>
-
-
-            {kind === "expense" ? (
-              <div className="sm:col-span-2">
-                <PurchaseItemsEditor
-                  items={items}
-                  onChange={setItems}
-                  amount={toCents(parseAmount(amount))}
-                  showValidation
-                  onApplyTotal={(total) => setAmount(amountToInput(total))}
-                />
-                {errors.items ? (
-                  <p className="mt-1 text-xs text-destructive">{errors.items}</p>
-                ) : null}
-              </div>
-            ) : null}
-
-            {advanced ? (
-              <>
-                <div>
-                  <Label htmlFor="time">Horário</Label>
+          {currentStep === 1 ? (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <Label htmlFor="description" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">O que você comprou ou recebeu?</Label>
                   <Input
-                    id="time"
-                    type="time"
-                    value={time ?? ""}
-                    onChange={(event) => setTime(event.target.value)}
-                    className="mt-1.5"
+                    id="description"
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}
+                    maxLength={140}
+                    className="mt-2 h-12 text-base rounded-2xl bg-muted/30 border-none px-5"
+                    placeholder={kind === "income" ? "Ex: Salário Mensal..." : "Ex: Supermercado Silva..."}
+                  />
+                  {errors.description && <p className="mt-1 text-xs text-destructive">{errors.description}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="amount" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Valor (R$)</Label>
+                  <Input
+                    id="amount"
+                    value={amount}
+                    inputMode="numeric"
+                    onChange={(event) => setAmount(maskAmountInput(event.target.value))}
+                    className="h-12 text-xl font-bold rounded-2xl bg-muted/30 border-none px-5 text-primary tabular-nums"
+                    placeholder="0,00"
+                  />
+                  {errors.amount && <p className="mt-1 text-xs text-destructive">{errors.amount}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="date" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Data</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={date}
+                    onChange={(event) => setDate(event.target.value)}
+                    className="h-12 rounded-2xl bg-muted/30 border-none px-5"
                   />
                 </div>
 
-                {kind === "expense" ? (
-                  <div>
-                    <Label>Tipo de despesa</Label>
-                    <Select value={expenseType} onValueChange={setExpenseType}>
-                      <SelectTrigger className="mt-1.5">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {EXPENSE_TYPES.map((type) => (
-                          <SelectItem key={type.value} value={type.value}>
-                            {type.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                ) : null}
+                <div className="sm:col-span-2 space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Categoria</Label>
+                  <CategoryPicker
+                    categories={options}
+                    value={subCategoryId || categoryId}
+                    onChange={(id) => {
+                      const selectedCat = options.find((c) => c.id === id);
+                      if (selectedCat?.parent_id) {
+                        setCategoryId(selectedCat.parent_id);
+                        setSubCategoryId(id);
+                      } else {
+                        setCategoryId(id);
+                        setSubCategoryId("");
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pagamento</Label>
+                  <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted/30 border-none px-5">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PAYMENT_METHODS.map((m) => (
+                        <SelectItem key={m.value} value={m.value}>{m.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Conta</Label>
+                  <Select value={accountId} onValueChange={setAccountId}>
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted/30 border-none px-5">
+                      <SelectValue placeholder="Padrão" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {accounts?.map((acc) => (
+                        <SelectItem key={acc.id} value={acc.id}>{acc.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="sm:col-span-2 space-y-2">
+                  <Label htmlFor="merchant" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Local / Beneficiário</Label>
+                  <Input
+                    id="merchant"
+                    value={merchant}
+                    onChange={(e) => setMerchant(e.target.value)}
+                    className="h-12 rounded-2xl bg-muted/30 border-none px-5"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 space-y-2">
+                  <Label htmlFor="notes" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Observações</Label>
+                  <Textarea
+                    id="notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="min-h-[100px] rounded-2xl bg-muted/30 border-none px-5 py-3 resize-none"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 flex items-center justify-between p-4 rounded-2xl bg-muted/30">
+                   <div className="space-y-0.5">
+                      <Label className="text-sm font-bold">Despesa Essencial</Label>
+                      <p className="text-[11px] text-muted-foreground">Marque se for um gasto vital</p>
+                   </div>
+                   <Switch checked={essential} onCheckedChange={setEssential} />
+                </div>
+              </div>
+            </div>
+          )}
+        {currentStep === 1 ? (
+          <div className="px-8 py-6 space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <Label htmlFor="description" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">O que você comprou ou recebeu?</Label>
+                <Input
+                  id="description"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  maxLength={140}
+                  className="mt-2 h-12 text-base rounded-2xl bg-muted/30 border-none px-5"
+                  placeholder={kind === "income" ? "Ex: Salário Mensal..." : "Ex: Supermercado Silva..."}
+                />
+                {errors.description && <p className="mt-1 text-xs text-destructive">{errors.description}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="amount" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Valor (R$)</Label>
+                <Input
+                  id="amount"
+                  value={amount}
+                  inputMode="numeric"
+                  onChange={(event) => setAmount(maskAmountInput(event.target.value))}
+                  className="h-12 text-xl font-bold rounded-2xl bg-muted/30 border-none px-5 text-primary tabular-nums"
+                  placeholder="0,00"
+                />
+                {errors.amount && <p className="mt-1 text-xs text-destructive">{errors.amount}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="date" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Data</Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={date}
+                  onChange={(event) => setDate(event.target.value)}
+                  className="h-12 rounded-2xl bg-muted/30 border-none px-5"
+                />
+              </div>
+
+              <div className="sm:col-span-2 space-y-2">
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Categoria</Label>
+                <CategoryPicker
+                  categories={options}
+                  value={subCategoryId || categoryId}
+                  onChange={(id) => {
+                    const cat = options.find(c => c.id === id);
+                    if (cat?.parent_id) {
+                      setCategoryId(cat.parent_id);
+                      setSubCategoryId(id);
+                    } else {
+                      setCategoryId(id);
+                      setSubCategoryId("");
+                    }
+                  }}
+                />
+                {errors.categoryId && <p className="mt-1 text-xs text-destructive">{errors.categoryId}</p>}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="px-8 py-6 space-y-6 overflow-y-auto max-h-[60svh]">
+             <div className="grid gap-6 sm:grid-cols-2">
+                <div>
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Forma de pagamento</Label>
+                  <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                    <SelectTrigger className="mt-2 h-11 rounded-xl bg-muted/30 border-none">
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PAYMENT_METHODS.map((method) => (
+                        <SelectItem key={method.value} value={method.value}>
+                          {method.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 <div>
-                  <Label>Conta ou carteira</Label>
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Conta ou carteira</Label>
                   <Select value={accountId} onValueChange={setAccountId}>
-                    <SelectTrigger className="mt-1.5">
+                    <SelectTrigger className="mt-2 h-11 rounded-xl bg-muted/30 border-none">
                       <SelectValue placeholder="Opcional" />
                     </SelectTrigger>
                     <SelectContent>
@@ -1013,161 +821,56 @@ export function TransactionDialog({
                   </Select>
                 </div>
 
-                <div>
-                  <Label>Situação</Label>
-                  <Select value={status} onValueChange={setStatus}>
-                    <SelectTrigger className="mt-1.5">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {TRANSACTION_STATUS.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-
-                <div>
-                  <Label htmlFor="dueDate">Vencimento</Label>
-                  <Input
-                    id="dueDate"
-                    type="date"
-                    value={dueDate}
-                    onChange={(event) => setDueDate(event.target.value)}
-                    className="mt-1.5"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="installments">Parcelas</Label>
-                  <Input
-                    id="installments"
-                    type="number"
-                    min={1}
-                    max={99}
-                    value={installments}
-                    onChange={(event) => setInstallments(event.target.value)}
-                    className="mt-1.5"
-                    placeholder="À vista"
-                  />
-                </div>
-
-                {kind === "expense" && installments && Number(installments) > 1 && (
-                  <div className="rounded-lg bg-muted/50 p-3 sm:col-span-2">
-                    <p className="text-xs font-medium text-muted-foreground">Impacto Mensal Estimado</p>
-                    <div className="mt-1 flex items-baseline gap-2">
-                      <span className="text-lg font-semibold tracking-tight">
-                        R$ {(parseAmount(amount) / Number(installments)).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                      </span>
-                      <span className="text-[10px] uppercase text-muted-foreground">por mês</span>
-                    </div>
-                    <p className="mt-1.5 text-[10px] leading-relaxed text-muted-foreground italic">
-                      Lançamento em {merchant || "estabelecimento"} dividido em {installments}x. 
-                      O sistema gerará as parcelas futuras automaticamente.
-                    </p>
-                  </div>
-                )}
-
                 <div className="sm:col-span-2">
-
-                  <Label htmlFor="notes">Observações e detalhes</Label>
-                  <Textarea
-                    id="notes"
-                    value={notes}
-                    onChange={(event) => setNotes(sanitizeText(event.target.value))}
-                    className="mt-1.5 resize-none"
-                    placeholder="Ex.: Presente para minha esposa, cor azul, tamanho M. Aniversário do João."
-                    rows={3}
-                  />
+                   <Label htmlFor="notes" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Observações</Label>
+                   <Textarea
+                     id="notes"
+                     value={notes}
+                     onChange={(event) => setNotes(sanitizeText(event.target.value))}
+                     className="mt-2 rounded-xl bg-muted/30 border-none resize-none"
+                     placeholder="Detalhes adicionais..."
+                     rows={3}
+                   />
                 </div>
-
-                <div className="sm:col-span-2">
-                  <Label htmlFor="tags">Tags (separadas por vírgula)</Label>
-                  <Input
-                    id="tags"
-                    value={tags}
-                    onChange={(event) => setTags(upperText(event.target.value))}
-
-                    className="mt-1.5"
-                    placeholder="CASA, URGENTE"
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <Label htmlFor="notes">Observações</Label>
-                  <Textarea
-                    id="notes"
-                    value={notes}
-                    onChange={(event) => setNotes(upperText(event.target.value))}
-
-                    maxLength={500}
-                    className="mt-1.5"
-                    rows={3}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl border border-border p-3 sm:col-span-2">
-                  <Label htmlFor="essential" className="text-sm font-normal">
-                    Despesa essencial
-                  </Label>
-                  <Switch id="essential" checked={essential} onCheckedChange={setEssential} />
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl border border-border p-3 sm:col-span-2">
-                  <Label htmlFor="recurring" className="text-sm font-normal">
-                    Lançamento recorrente
-                  </Label>
-                  <Switch id="recurring" checked={recurring} onCheckedChange={setRecurring} />
-                </div>
-              </>
-            ) : null}
-
-            {editing && transaction ? (
-              <StoredTransactionPanel
-                transaction={transaction}
-                categoryName={
-                  (categories ?? []).find((item) => item.id === transaction.category_id)?.name ?? null
-                }
-                enabled={open}
-              />
-            ) : null}
-
-            <div className="sm:col-span-2">
-              <ReceiptField value={attachment} onChange={setAttachment} />
-            </div>
+             </div>
           </div>
+        )}
 
+        <DialogFooter className="px-8 py-6 border-t border-border bg-muted/10">
+          <div className="flex w-full items-center justify-between gap-3">
+             {currentStep === 1 ? (
+               <Button type="button" variant="ghost" className="rounded-xl" onClick={() => onOpenChange(false)}>Cancelar</Button>
+             ) : (
+               <Button type="button" variant="ghost" className="rounded-xl" onClick={() => setCurrentStep(1)}>Voltar</Button>
+             )}
+             
+             <div className="flex gap-2">
+                {currentStep === 1 && (
+                  <Button type="button" variant="secondary" className="rounded-xl px-6" onClick={() => setCurrentStep(2)}>Mais Detalhes</Button>
+                )}
+                <Button type="submit" disabled={save.isPending} className="rounded-xl px-8 shadow-lg shadow-primary/20">
+                  {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+                  {editing ? "Atualizar" : "Salvar Lançamento"}
+                </Button>
+             </div>
+          </div>
+        </DialogFooter>
 
-          <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
-            <Button type="submit" disabled={save.isPending}>
-              {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-              Salvar
-            </Button>
-          </DialogFooter>
-        </form>
-
-        <PasswordConfirmDialog
-          open={passwordOpen}
-          onOpenChange={setPasswordOpen}
-          email={user?.email}
-          description={`Para ${editing ? "editar" : "registrar"} um lançamento de ${formatDate(date)} (mês anterior) confirme sua senha. A liberação vale ${PAST_EDIT_UNLOCK_MINUTES} minutos para todo o mês.`}
-          onConfirmed={() => {
-            pastUnlock.grant();
-            window.setTimeout(() => formRef.current?.requestSubmit(), 0);
-          }}
-        />
-
+      </form>
+      <PasswordConfirmDialog
+        open={passwordOpen}
+        onOpenChange={setPasswordOpen}
+        email={user?.email}
+        description={`Para ${editing ? "editar" : "registrar"} um lançamento de ${formatDate(date)} (mês anterior) confirme sua senha. A liberação vale ${PAST_EDIT_UNLOCK_MINUTES} minutos para todo o mês.`}
+        onConfirmed={() => {
+          pastUnlock.grant();
+          window.setTimeout(() => formRef.current?.requestSubmit(), 0);
+        }}
+      />
       </DialogContent>
       </Dialog>
       <ConfirmDialog />
     </>
-
   );
 }
 

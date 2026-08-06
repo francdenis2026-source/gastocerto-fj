@@ -278,17 +278,17 @@ export function AppShell({ children }: { children: ReactNode }) {
         </header>
 
         {/* Desktop Title Bar (Internal Header) */}
-        <header className="hidden lg:flex sticky top-0 z-40 h-16 items-center justify-between px-8 border-b border-white/5 bg-background/80 backdrop-blur-md">
+        <header className="hidden lg:flex sticky top-0 z-40 h-16 items-center justify-between px-8 border-b border-border bg-background/80 backdrop-blur-md">
           <div className="flex flex-col">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 opacity-70">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
               {isAdminArea ? "Administração" : "Painel do Cliente"}
             </p>
-            <h1 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
+            <h1 className="text-lg font-bold tracking-tight text-foreground flex items-center gap-2">
               {activeGroup?.label || "Meu Controle Financeiro"}
               {activeMetrics.length > 0 && (
                 <div className="flex gap-2 ml-4">
                   {activeMetrics.slice(0, 2).map(m => (
-                    <Badge key={m.id} variant="outline" className="h-5 px-1.5 text-[9px] font-bold border-white/10 bg-white/5 text-slate-400">
+                    <Badge key={m.id} variant="outline" className="h-5 px-1.5 text-[9px] font-bold border-border bg-muted/50 text-muted-foreground">
                       {m.label}
                     </Badge>
                   ))}
@@ -300,7 +300,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-4">
              <CommandPalette onQuickEntry={setQuickEntry} />
              
-             <div className="h-8 w-px bg-white/5 mx-2" />
+             <div className="h-8 w-px bg-border mx-2" />
              
              <div className="flex items-center gap-2">
                <NotificationCenter />
@@ -309,7 +309,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
              <Button
                 onClick={() => setQuickEntry("expense")}
-                className="h-10 gap-2 rounded-xl bg-emerald-500 px-6 text-[12px] font-black uppercase tracking-wider text-black shadow-lg shadow-emerald-500/20 transition-all hover:bg-emerald-400 active:scale-95"
+                className="h-10 gap-2 rounded-xl bg-primary px-6 text-[12px] font-bold uppercase tracking-wider text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:opacity-90 active:scale-95"
               >
                 <Plus className="size-4" />
                 Lançar
@@ -324,7 +324,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </main>
 
-        <footer className="mt-auto border-t border-white/5 py-6 text-center lg:px-8">
+        <footer className="mt-auto border-t border-border py-6 text-center lg:px-8">
           <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60">
           &lt;Dev. Franc D&apos;nis&gt; · Acre
           </p>
