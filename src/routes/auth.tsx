@@ -564,10 +564,10 @@ function FormAlert({ message }: { message?: string | null }) {
     <div
       role="alert"
       tabIndex={-1}
-      className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive dark:text-destructive-foreground font-semibold"
+      className="mb-4 flex items-start gap-2.5 rounded-xl border border-destructive/20 bg-destructive/5 p-3 text-[11px] font-bold text-destructive animate-in fade-in slide-in-from-top-1"
     >
-      <AlertCircle className="mt-px size-4 shrink-0" aria-hidden="true" />
-      <span>{message}</span>
+      <AlertCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+      <span className="leading-tight">{message}</span>
     </div>
   );
 }
