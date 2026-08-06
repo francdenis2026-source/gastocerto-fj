@@ -42,7 +42,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: AJUSTE  APRIMEIRA PAGINA COM IMAGEM DE FUNDO, OU HERO PROFSSIONAL
+        comando mais recente enviado por ele: VOCE NAO CONSEGUE CRIAR UMA ARTE PAR ACOMBNINAR ESTA IMAGEM DE FUNDO COM BACKGFROUND, VEROIFICA
       */}
     </div>
   );
