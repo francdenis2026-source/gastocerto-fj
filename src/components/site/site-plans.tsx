@@ -50,7 +50,7 @@ const catalog = [
 ];
 
 export function SitePlans() {
-  const [cycle, setCycle] = useState<Cycle>("annual");
+  const [cycle, setCycle] = useState<Cycle>("monthly");
   const [checkout, setCheckout] = useState<(typeof catalog)[number]["slug"] | null>(null);
   const { data: plans } = usePublicPlans();
 
