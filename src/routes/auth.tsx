@@ -630,7 +630,7 @@ function PinInput({
       <div className="flex items-center justify-between">
         <Label
           htmlFor={id}
-          className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
+          className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80"
         >
           {label}
         </Label>
