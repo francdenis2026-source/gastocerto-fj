@@ -27,11 +27,11 @@ import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
+    <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden bg-background">
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 opacity-30">
         <div className="absolute top-[-10%] left-[10%] w-[40%] h-[50%] bg-primary/20 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[10%] right-[10%] w-[35%] h-[40%] bg-blue-500/10 blur-[100px] rounded-full" />
+        <div className="absolute bottom-[10%] right-[10%] w-[35%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
       </div>
 
       <div className="container px-4 mx-auto relative z-10">
