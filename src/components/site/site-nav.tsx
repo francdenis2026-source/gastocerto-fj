@@ -27,7 +27,7 @@ export function SiteNav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-[1000] transition-all duration-500",
+        "fixed inset-x-0 top-0 z-[1000] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
         scrolled
           ? "top-4 shell"
           : "top-0 w-full"
@@ -35,9 +35,9 @@ export function SiteNav() {
     >
       <div 
         className={cn(
-          "mx-auto flex h-16 items-center justify-between px-6 transition-all duration-500",
+          "mx-auto flex h-16 items-center justify-between px-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
           scrolled 
-            ? "rounded-2xl border border-border/50 bg-background/80 backdrop-blur-xl shadow-lg"
+            ? "rounded-2xl border border-primary/20 bg-background/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)]"
             : "bg-transparent"
         )}
       >
