@@ -231,19 +231,26 @@ export function DependentExpenseDialog({
     const description = note.trim()
       ? `${who} — ${note.trim()}`.slice(0, 140)
       : `${who} — ${reasonInfo.label}`;
+    
+    // Forçamos o user_id para ser o do responsável logado (user.id)
+    // para evitar o erro de foreign key 'transactions_user_id_fkey'.
+    // A transação pertence ao responsável, mas é marcada com a tag do dependente.
+    const transactionValues = {
+      description,
+      amount: value,
+      transaction_type: reasonInfo.type,
+      category_id: category.id,
+      transaction_date: date,
+      status: reasonInfo.type === "income" ? "received" : "paid",
+      payment_date: date,
+      tags: [dependentTag(currentSelected.id), reasonTag(reason)],
+      notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
+      user_id: user.id // Garantia explícita
+    };
+
     try {
       await save.mutateAsync({
-        values: {
-          description,
-          amount: value,
-          transaction_type: reasonInfo.type,
-          category_id: category.id,
-          transaction_date: date,
-          status: reasonInfo.type === "income" ? "received" : "paid",
-          payment_date: date,
-          tags: [dependentTag(currentSelected.id), reasonTag(reason)],
-          notes: `${reasonInfo.type === "income" ? "Ganho" : "Gasto"} com ${who} (${relationLabel(currentSelected.relation)}) — ${reasonInfo.label}`,
-        },
+        values: transactionValues,
       });
       toast.success(`${formatCurrency(value)} com ${who} registrado.`);
       reset();
