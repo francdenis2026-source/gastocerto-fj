@@ -27,13 +27,13 @@ import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden bg-background py-12 md:py-20 lg:py-24">
+    <section className="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-background py-16 md:py-24 lg:py-32">
       {/* Optimized Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop" 
           alt="Financial Hero Background" 
-          className="w-full h-full object-cover opacity-15 dark:opacity-10 mix-blend-overlay scale-100 md:scale-105"
+          className="w-full h-full object-cover opacity-25 dark:opacity-20 mix-blend-soft-light scale-100 md:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
@@ -150,7 +150,7 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card p-6 rounded-[1.5rem] border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all group flex flex-col h-full"
+              className="bg-card p-6 rounded-[1.5rem] border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 group flex flex-col h-full lift"
             >
               <div className="size-12 rounded-xl bg-muted flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/5 transition-all duration-500">
                 <f.icon size={24} className="text-primary" />
