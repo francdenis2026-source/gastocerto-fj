@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CheckoutDialog } from "@/components/landing/checkout-dialog";
 import { livePrice, usePublicPlans } from "@/hooks/use-public-plans";
@@ -11,49 +11,43 @@ type Cycle = "monthly" | "annual";
 const catalog = [
   {
     slug: "free" as const,
-    name: "Essencial",
-    pitch: "Para começar a organizar hoje mesmo",
-    fallback: { monthly: 0, annual: 0 },
+    name: "Gratuito",
+    pitch: "Para quem está começando",
     features: [
-      "Lançamentos ilimitados",
-      "Contas fixas e vencimentos",
-      "Relatório mensal",
-      "14 dias de teste dos recursos pagos",
+      "Até 50 lançamentos/mês",
+      "Categorias básicas",
+      "Relatórios simples",
+      "Acesso mobile"
     ],
   },
   {
     slug: "premium" as const,
-    name: "Premium",
-    pitch: "O controle completo da casa",
-    fallback: { monthly: 19.9, annual: 199 },
+    name: "Pro",
+    pitch: "O controle que você merece",
     featured: true,
     features: [
-      "Tudo do Essencial",
-      "Cartões, parcelas e faturas",
-      "Combustível, veículos e gás",
-      "Balanço anual e exportação",
-      "Fechamento de mês com senha",
+      "Lançamentos ilimitados",
+      "Contas e cartões ilimitados",
+      "Análise de combustível/gás",
+      "Balanço anual completo",
+      "Exportação CSV/PDF",
+      "Suporte prioritário"
     ],
   },
   {
     slug: "premium_ia" as const,
-    name: "Família",
-    pitch: "Para quem cuida de mais gente",
-    fallback: { monthly: 29.9, annual: 299 },
+    name: "Elite",
+    pitch: "Inteligência máxima",
     features: [
-      "Tudo do Premium",
-      "Espaço Kids com mesada",
-      "Múltiplas contas na mesma casa",
-      "Análise inteligente dos gastos",
-      "Compartilhamento protegido",
+      "Tudo do plano Pro",
+      "IA Consultora Financeira",
+      "Espaço Kids ilimitado",
+      "Multi-usuários (Família)",
+      "Previsão de fluxo de caixa",
+      "Conciliação bancária"
     ],
   },
 ];
-
-function money(value: number) {
-  if (value === 0) return "Grátis";
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
 
 export function SitePlans() {
   const [cycle, setCycle] = useState<Cycle>("annual");
@@ -61,82 +55,81 @@ export function SitePlans() {
   const { data: plans } = usePublicPlans();
 
   return (
-    <section id="planos" className="band border-t border-border/40 bg-navy-900 relative">
+    <section id="planos" className="py-24 md:py-32 bg-background border-t border-border">
       <div className="shell">
-        <Appear className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
-            <p className="kicker">Planos</p>
-            <h2 className="mt-5 font-display text-[clamp(1.9rem,3.6vw,2.7rem)] font-semibold leading-[1.1] text-bone-100">
-              Preço honesto, sem pegadinha
-            </h2>
-            <p className="mt-5 text-[17px] leading-relaxed text-bone-100/50">
-              Cancele quando quiser. Seus dados continuam seus, exportáveis a qualquer momento.
-            </p>
-          </div>
-
-          <div className="inline-flex shrink-0 rounded-full border border-border p-1">
-            {(["monthly", "annual"] as Cycle[]).map((option) => (
+        <Appear className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+            Um plano para cada <span className="text-primary italic">estilo de vida.</span>
+          </h2>
+          
+          <div className="flex items-center justify-center mt-10">
+            <div className="bg-muted p-1.5 rounded-2xl flex gap-1">
               <button
-                key={option}
-                type="button"
-                onClick={() => setCycle(option)}
-                aria-pressed={cycle === option}
+                onClick={() => setCycle("monthly")}
                 className={cn(
-                  "rounded-full px-5 py-2 text-[13px] font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4 focus-visible:ring-0",
-                  cycle === option
-                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-                    : "text-bone-100/55 hover:text-bone-100 hover:bg-navy-600/50",
+                  "px-6 py-2.5 rounded-xl text-sm font-bold transition-all",
+                  cycle === "monthly" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {option === "monthly" ? "Mensal" : "Anual · 2 meses grátis"}
+                Mensal
               </button>
-            ))}
+              <button
+                onClick={() => setCycle("annual")}
+                className={cn(
+                  "px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2",
+                  cycle === "annual" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                Anual
+                <span className="bg-primary/10 text-primary text-[10px] px-2 py-0.5 rounded-full uppercase">Economize 20%</span>
+              </button>
+            </div>
           </div>
         </Appear>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {catalog.map((plan, i) => {
-            const price = livePrice(plans, plan.slug, plan.fallback);
+            const price = livePrice(plans, plan.slug, { monthly: 0, annual: 0 });
             const amount = cycle === "annual" ? price.annual : price.monthly;
+            const priceLabel = amount === 0 ? "R$ 0" : `R$ ${amount.toFixed(2).replace('.', ',')}`;
 
             return (
-              <Appear key={plan.slug} delay={i * 60}>
-                <div
-                  className={cn(
-                    "lift flex h-full flex-col rounded-2xl border p-8 transition-all duration-300",
-                    plan.featured
-                      ? "border-primary/50 bg-navy-600 ring-2 ring-primary/20 shadow-[0_20px_50px_rgba(0,168,95,0.15)]"
-                      : "border-border bg-navy-800 hover:border-primary/30",
+              <Appear key={plan.slug} delay={i * 100}>
+                <div className={cn(
+                  "relative p-10 rounded-[2.5rem] flex flex-col h-full transition-all duration-500",
+                  plan.featured 
+                    ? "bg-foreground text-background shadow-2xl scale-105 z-10" 
+                    : "bg-muted/30 border border-border hover:bg-background"
+                )}>
+                  {plan.featured && (
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full shadow-lg">
+                      Mais Popular
+                    </div>
                   )}
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-display text-[18px] font-semibold text-bone-100">
-                      {plan.name}
-                    </h3>
-                    {plan.featured && (
-                      <span className="rounded-full bg-primary/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand-300">
-                        Mais escolhido
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-2 text-[13px] text-bone-100/45">{plan.pitch}</p>
 
-                  <div className="mt-8 flex items-baseline gap-1.5">
-                    <span className="numeric text-[42px] font-bold text-bone-100 tracking-tight">
-                      {money(amount)}
-                    </span>
-                    {amount > 0 && (
-                      <span className="text-[14px] font-medium text-bone-100/40">
-                        /{cycle === "annual" ? "ano" : "mês"}
-                      </span>
-                    )}
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                    <p className={cn("text-sm", plan.featured ? "text-background/60" : "text-muted-foreground")}>
+                      {plan.pitch}
+                    </p>
                   </div>
 
-                  <ul className="mt-8 flex-1 space-y-3.5">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex gap-3 text-[14px] text-bone-100/60">
-                        <Check className="mt-0.5 size-4 shrink-0 text-primary" strokeWidth={2.25} />
-                        {feature}
+                  <div className="mb-8">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-5xl font-bold tracking-tight">{priceLabel}</span>
+                      {amount > 0 && (
+                        <span className={cn("text-sm font-medium", plan.featured ? "text-background/50" : "text-muted-foreground")}>
+                          /{cycle === "annual" ? "ano" : "mês"}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <ul className="space-y-4 mb-10 flex-1">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-center gap-3 text-sm font-medium">
+                        <Check size={18} className="text-primary shrink-0" />
+                        {f}
                       </li>
                     ))}
                   </ul>
@@ -144,13 +137,13 @@ export function SitePlans() {
                   <Button
                     onClick={() => setCheckout(plan.slug)}
                     className={cn(
-                      "mt-9 h-12 w-full rounded-full text-[14px] font-semibold",
-                      plan.featured
-                        ? "bg-primary text-primary-foreground hover:bg-brand-400"
-                        : "border border-border bg-transparent text-bone-100 hover:bg-navy-600",
+                      "h-14 rounded-2xl text-lg font-bold transition-all",
+                      plan.featured 
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-[1.02]" 
+                        : "bg-foreground text-background hover:bg-foreground/90"
                     )}
                   >
-                    {plan.slug === "free" ? "Começar grátis" : `Assinar ${plan.name}`}
+                    {plan.slug === "free" ? "Começar Agora" : "Assinar agora"}
                   </Button>
                 </div>
               </Appear>

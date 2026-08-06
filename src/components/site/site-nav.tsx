@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -18,122 +18,102 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, [open]);
-
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-[900] transition-[background-color,border-color] duration-300",
+        "fixed inset-x-0 top-0 z-[1000] transition-all duration-500",
         scrolled
-          ? "border-b border-border bg-navy-800/85 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
+          ? "top-4 shell"
+          : "top-0 w-full"
       )}
     >
-      <div className="shell flex h-16 items-center justify-between lg:h-[76px]">
-        <div className="group flex items-center">
-          <Logo onDark className="scale-[0.85] origin-left lg:scale-90" />
+      <div 
+        className={cn(
+          "mx-auto flex h-16 items-center justify-between px-6 transition-all duration-500",
+          scrolled 
+            ? "rounded-2xl border border-border/50 bg-background/80 backdrop-blur-xl shadow-lg"
+            : "bg-transparent"
+        )}
+      >
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-2">
+            <Logo className="h-8 w-auto" />
+          </Link>
+
+          <nav className="hidden items-center gap-1 md:flex">
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
         </div>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-4 py-2 text-[15px] font-medium text-bone-100/60 transition-colors duration-200 hover:text-bone-100 focus-visible:text-bone-100"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-2 lg:flex">
-          <Button
-            variant="ghost"
-            className="h-10 rounded-full px-5 text-[15px] font-semibold text-bone-100/80 transition-all duration-220 hover:bg-navy-600 hover:text-bone-100 focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none"
-            asChild
+        <div className="flex items-center gap-3">
+          <Link 
+            to="/auth" 
+            search={{ mode: "login" }}
+            className="hidden text-sm font-bold text-foreground hover:text-primary transition-colors md:block px-4"
           >
-            <Link to="/auth" search={{ mode: "login" }}>
-              Entrar
-            </Link>
-          </Button>
+            Entrar
+          </Link>
           <Button
-            className="h-10 rounded-full bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-all duration-220 hover:bg-brand-400 focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-none"
+            className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
             asChild
           >
             <Link to="/auth" search={{ mode: "signup" }}>
-              Criar conta
+              Criar conta gratuita
             </Link>
           </Button>
+          
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex size-10 items-center justify-center rounded-xl bg-muted/50 text-foreground md:hidden"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
-
-        <button
-          type="button"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setOpen((v) => !v)}
-          className="flex size-11 items-center justify-center rounded-full border border-border text-bone-100 transition-all duration-200 hover:bg-navy-700 hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none lg:hidden"
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
       </div>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-16 z-[899] bg-navy-800/98 backdrop-blur-xl lg:hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute inset-x-0 top-full mt-4 rounded-3xl border border-border bg-background p-6 shadow-2xl md:hidden"
           >
-            <div className="shell flex flex-col gap-1 pt-8">
-              {links.map((link, i) => (
-                <motion.a
+            <nav className="flex flex-col gap-4">
+              {links.map((link) => (
+                <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.04 * i, duration: 0.2 }}
-                  className="border-b border-border py-5 font-display text-2xl font-semibold text-bone-100"
+                  className="flex items-center justify-between text-lg font-bold text-foreground p-2"
                 >
                   {link.label}
-                </motion.a>
+                  <ArrowRight size={18} className="text-primary" />
+                </a>
               ))}
-              <div className="mt-8 flex flex-col gap-3">
-                <Button className="h-13 rounded-full bg-primary text-base font-semibold" asChild>
-                  <Link to="/auth" search={{ mode: "signup" }} onClick={() => setOpen(false)}>
-                    Criar conta
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-13 rounded-full border-border text-base font-semibold text-bone-100"
-                  asChild
-                >
-                  <Link to="/auth" search={{ mode: "login" }} onClick={() => setOpen(false)}>
-                    Entrar
-                  </Link>
-                </Button>
-              </div>
-            </div>
+              <hr className="border-border my-2" />
+              <Link
+                to="/auth"
+                search={{ mode: "login" }}
+                className="text-lg font-bold text-foreground p-2"
+              >
+                Entrar na conta
+              </Link>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
