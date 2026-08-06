@@ -35,7 +35,7 @@ export function SiteHero() {
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Button
-                className="h-13 rounded-full bg-primary px-8 text-[15px] font-semibold text-primary-foreground transition-all duration-220 hover:bg-brand-400 hover:shadow-lifted active:scale-[0.98]"
+                className="h-13 rounded-full bg-primary px-8 text-[15px] font-semibold text-primary-foreground transition-all duration-220 hover:bg-brand-400 hover:shadow-lifted active:scale-[0.98] focus-visible:outline-none"
                 asChild
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
@@ -45,7 +45,7 @@ export function SiteHero() {
               </Button>
               <Button
                 variant="outline"
-                className="h-13 rounded-full border-border bg-transparent px-8 text-[15px] font-semibold text-bone-100 transition-all duration-220 hover:bg-navy-600 hover:border-primary/30 active:scale-[0.98]"
+                className="h-13 rounded-full border-border bg-transparent px-8 text-[15px] font-semibold text-bone-100 transition-all duration-220 hover:bg-navy-600 hover:border-primary/30 active:scale-[0.98] focus-visible:outline-none"
                 asChild
               >
                 <Link to="/demonstracao">Ver a plataforma</Link>
