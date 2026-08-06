@@ -288,10 +288,10 @@ export function BentoGrid() {
           {/* Quaternary Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-8 bg-primary rounded-[2.5rem] p-10 text-white flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group"
+            className="lg:col-span-8 bg-primary rounded-[2rem] p-8 text-white flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group"
           >
             <div className="relative z-10 max-w-sm">
-              <h3 className="text-4xl font-black mb-4 leading-tight">Relatórios em um clique</h3>
+              <h3 className="text-3xl font-black mb-3 leading-tight">Relatórios em um clique</h3>
               <p className="text-white/80 font-medium leading-relaxed mb-6">
                 PDF, Excel ou CSV. Exporte tudo com um design profissional pronto para compartilhar.
               </p>
