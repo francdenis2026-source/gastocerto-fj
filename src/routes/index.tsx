@@ -50,7 +50,7 @@ function HomePage() {
       <SiteFooter />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: NAO CONSGIGO FZAER ROLAGEM USANDO A BOLINHA DO MOUSE
+        comando mais recente enviado por ele: ANALISE NAO CONSIGO USAR A ROLAGEM DA PAGINA, TEM ALGO BLOQUEADO
       */}
     </div>
   );
