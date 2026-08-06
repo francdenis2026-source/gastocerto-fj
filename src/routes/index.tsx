@@ -42,7 +42,9 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: NAO GOSTEI DA IOMAGEM, TOMOU MUITO ESPAÇO, CORRIJA, ENTREGUE ELA COMO SE FOSSE UMA HERO
+        comando mais recente enviado por ele: Melhorar a hierarquia de títulos, subtítulos e espaçamentos do Hero para garantir legibilidade e impacto visual sem excesso de espaço. 
+
+        Ajustar o Hero para que a imagem de fundo ocupe menos espaço e fique proporcional em celular, tablet e desktop.
       */}
     </div>
   );

@@ -27,26 +27,26 @@ import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-background">
-      {/* Background Image as Hero Layer */}
+    <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden bg-background py-12 md:py-20 lg:py-24">
+      {/* Optimized Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop" 
           alt="Financial Hero Background" 
-          className="w-full h-full object-cover opacity-20 mix-blend-overlay scale-105"
+          className="w-full h-full object-cover opacity-15 dark:opacity-10 mix-blend-overlay scale-100 md:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/40 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
       </div>
 
-      <div className="container px-4 mx-auto relative z-10 py-20">
+      <div className="container px-4 mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold mb-8 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] md:text-xs font-bold mb-6 md:mb-8 backdrop-blur-md"
           >
-            <Star size={14} className="fill-primary" />
+            <Star size={12} className="fill-primary md:size-14" />
             <span>O futuro da gestão financeira pessoal</span>
           </motion.div>
 
@@ -54,7 +54,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-foreground leading-[1.1] mb-8"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-foreground leading-[1.1] mb-6 md:mb-8"
           >
             Gestão inteligente <br />
             para sua <span className="text-primary italic">evolução.</span>
@@ -64,7 +64,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto font-medium leading-relaxed"
+            className="text-base md:text-lg lg:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto font-medium leading-relaxed px-4 md:px-0"
           >
             Simplifique sua vida, recupere o controle e projete seu patrimônio com a plataforma mais rápida e intuitiva do mercado.
           </motion.p>
@@ -73,15 +73,15 @@ export function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 px-6 md:px-0"
           >
-            <Button size="lg" className="h-14 px-8 rounded-full text-base font-bold group shadow-xl shadow-primary/25 hover:scale-105 transition-transform" asChild>
+            <Button size="lg" className="w-full sm:w-auto h-12 md:h-14 px-6 md:px-8 rounded-full text-sm md:text-base font-bold group shadow-xl shadow-primary/25 hover:scale-105 transition-transform" asChild>
               <Link to="/auth" search={{ mode: "signup" }}>
                 Começar agora gratuitamente
-                <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 size-4 md:size-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-            <Button variant="outline" size="lg" className="h-14 px-8 rounded-full text-base font-bold backdrop-blur-sm bg-background/20 hover:bg-background/40 transition-colors">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 md:h-14 px-6 md:px-8 rounded-full text-sm md:text-base font-bold backdrop-blur-sm bg-background/20 hover:bg-background/40 transition-colors">
               Explorar funcionalidades
             </Button>
           </motion.div>
