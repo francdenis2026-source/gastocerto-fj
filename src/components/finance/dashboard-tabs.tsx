@@ -28,33 +28,33 @@ export function DashboardTabs({
   return (
     <Tabs defaultValue="resumo" className={cn("w-full space-y-6", className)}>
       <div className="flex items-center justify-between overflow-x-auto pb-2 scrollbar-none">
-        <TabsList className="bg-[#10241E] border border-emerald-500/10 h-11 p-1 rounded-xl">
+        <TabsList className="bg-muted/50 border border-border h-12 p-1.5 rounded-2xl">
           <TabsTrigger 
             value="resumo" 
-            className="rounded-lg px-4 text-xs font-bold data-[state=active]:bg-emerald-500 data-[state=active]:text-white transition-all gap-2"
+            className="rounded-xl px-5 text-xs font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:shadow-primary/20 transition-all gap-2"
           >
-            <LayoutDashboard className="size-3.5" />
+            <LayoutDashboard className="size-4" />
             Resumo
           </TabsTrigger>
           <TabsTrigger 
             value="categorias" 
-            className="rounded-lg px-4 text-xs font-bold data-[state=active]:bg-emerald-500 data-[state=active]:text-white transition-all gap-2"
+            className="rounded-xl px-5 text-xs font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:shadow-primary/20 transition-all gap-2"
           >
-            <PieChart className="size-3.5" />
+            <PieChart className="size-4" />
             Categorias
           </TabsTrigger>
           <TabsTrigger 
             value="evolucao" 
-            className="rounded-lg px-4 text-xs font-bold data-[state=active]:bg-emerald-500 data-[state=active]:text-white transition-all gap-2"
+            className="rounded-xl px-5 text-xs font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:shadow-primary/20 transition-all gap-2"
           >
-            <TrendingUp className="size-3.5" />
+            <TrendingUp className="size-4" />
             Evolução
           </TabsTrigger>
           <TabsTrigger 
             value="proximas" 
-            className="rounded-lg px-4 text-xs font-bold data-[state=active]:bg-emerald-500 data-[state=active]:text-white transition-all gap-2"
+            className="rounded-xl px-5 text-xs font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:shadow-primary/20 transition-all gap-2"
           >
-            <Zap className="size-3.5" />
+            <Zap className="size-4" />
             Próximas ações
           </TabsTrigger>
         </TabsList>

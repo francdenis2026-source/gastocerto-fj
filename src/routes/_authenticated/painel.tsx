@@ -602,9 +602,9 @@ function DashboardPage() {
               </div>
               <div className="lg:col-span-4 space-y-6">
                  {/* Insights e Alertes */}
-                 <div className="glass-morphism p-6 rounded-2xl">
-                    <h2 className="text-sm font-black mb-4">Insights Estratégicos</h2>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
+                 <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">Insights Estratégicos</h2>
+                    <p className="text-sm font-medium leading-relaxed">
                       {metrics.usedPercent > 90 ? "Alerta de orçamento: alto comprometimento." : "Seu orçamento está sob controle."}
                     </p>
                  </div>
@@ -614,18 +614,18 @@ function DashboardPage() {
           categorias={
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {byCategory.map(cat => (
-                <div key={cat.id} className="glass-morphism p-4 rounded-xl flex items-center justify-between">
+                <div key={cat.id} className="bg-card border border-border p-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-all">
                    <div className="flex items-center gap-3">
-                     <div className="size-3 rounded-full" style={{ backgroundColor: cat.color }} />
+                     <div className="size-3 rounded-full shadow-sm" style={{ backgroundColor: cat.color }} />
                      <span className="text-sm font-bold">{cat.name}</span>
                    </div>
-                   <span className="text-sm font-black text-emerald-500">{formatCurrency(cat.value)}</span>
+                   <span className="text-sm font-bold text-primary">{formatCurrency(cat.value)}</span>
                 </div>
               ))}
             </div>
           }
           evolucao={
-             <div className="glass-morphism p-6 rounded-2xl h-[400px]">
+             <div className="bg-card border border-border p-6 rounded-2xl h-[400px] shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                    <BarChart data={byDay}>
                       <CartesianGrid {...gridProps} />
@@ -640,12 +640,12 @@ function DashboardPage() {
           proximasAcoes={
              <div className="grid grid-cols-1 gap-4">
                 {(metrics.upcoming ?? []).map(tx => (
-                   <div key={tx.id} className="glass-morphism p-4 rounded-xl flex items-center justify-between">
+                   <div key={tx.id} className="bg-card border border-border p-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-all">
                       <div className="flex flex-col">
                         <span className="font-bold text-sm">{tx.description}</span>
-                        <span className="text-[10px] text-muted-foreground font-black uppercase">{formatDate(tx.transaction_date)}</span>
+                        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{formatDate(tx.transaction_date)}</span>
                       </div>
-                      <span className="font-black text-rose-500">{formatCurrency(tx.amount)}</span>
+                      <span className="font-bold text-destructive">{formatCurrency(tx.amount)}</span>
                    </div>
                 ))}
              </div>
