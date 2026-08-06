@@ -381,7 +381,7 @@ function AuthPage() {
                   </div>
 
                   <div className="space-y-1.5 sm:space-y-2">
-                    <Label htmlFor="code-name" className="text-[10px] font-black uppercase tracking-widest text-emerald-500/80">Nome Completo</Label>
+                    <Label htmlFor="code-name" className="text-[11px] font-black uppercase tracking-widest text-emerald-500/90">Nome Completo</Label>
                     <div className="relative group/field">
                       <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within/field:text-emerald-500" />
                       <Input id="code-name" aria-label="Nome completo" placeholder="Ex: João Silva" className="h-12 rounded-xl pl-10 text-sm bg-foreground/[0.03] dark:bg-white/[0.03] border-foreground/10 dark:border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all text-foreground dark:text-white" />
