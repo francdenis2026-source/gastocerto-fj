@@ -68,13 +68,29 @@ export const saveKidAccess = createServerFn({ method: "POST" })
     let kidUserId = row.kid_user_id;
 
     if (kidUserId) {
-      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(kidUserId, {
-        email,
-        password,
-        email_confirm: true,
-        user_metadata: metadata,
-      });
-      if (updateError) throw new Error(traduzirErroKid(updateError.message));
+      const { data: existingUser } = await supabaseAdmin.auth.admin.getUserById(kidUserId);
+      
+      if (!existingUser?.user) {
+        // User disappeared from Auth but exists in DB record, let's re-create
+        const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
+          email,
+          password,
+          email_confirm: true,
+          user_metadata: metadata,
+        });
+        if (createError || !created?.user) {
+          throw new Error(traduzirErroKid(createError?.message ?? "Falha ao criar o acesso."));
+        }
+        kidUserId = created.user.id;
+      } else {
+        const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(kidUserId, {
+          email,
+          password,
+          email_confirm: true,
+          user_metadata: metadata,
+        });
+        if (updateError) throw new Error(traduzirErroKid(updateError.message));
+      }
     } else {
       const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
         email,
