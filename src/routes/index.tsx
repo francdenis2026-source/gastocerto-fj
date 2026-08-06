@@ -42,7 +42,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: VOCE NAO CONSEGUE CRIAR UMA ARTE PAR ACOMBNINAR ESTA IMAGEM DE FUNDO COM BACKGFROUND, VEROIFICA
+        comando mais recente enviado por ele: REMOVA ESTA UIMAGEM EM SGV, E SUBSTITUA POR UMA IMAGEM REALISTA, FOTO REALISTA QUE COMBINE COM O SITE E O APP
       */}
     </div>
   );

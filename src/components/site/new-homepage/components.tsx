@@ -106,32 +106,16 @@ export function Hero() {
           >
             <div className="relative rounded-[2rem] border border-border bg-card p-2 md:p-3 shadow-2xl overflow-hidden group-hover:border-primary/30 transition-colors duration-500">
               <div className="bg-background rounded-[1.5rem] border border-border shadow-inner overflow-hidden aspect-video relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-card/50 pointer-events-none" />
+                {/* Realistic Dashboard/App Image */}
+                <img 
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
+                  alt="GastoCerto Dashboard Premium" 
+                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
                 
-                {/* Mockup Content */}
-                <div className="p-6 md:p-10 h-full flex flex-col gap-6 opacity-80">
-                  <div className="flex items-center justify-between">
-                    <div className="h-8 w-32 bg-muted rounded-full" />
-                    <div className="h-10 w-10 rounded-full bg-primary/20" />
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
-                       <div className="h-1.5 w-12 bg-primary/20 rounded-full" />
-                       <div className="h-4 w-16 bg-primary/10 rounded-full" />
-                    </div>
-                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
-                       <div className="h-1.5 w-12 bg-primary/20 rounded-full" />
-                       <div className="h-4 w-16 bg-primary/10 rounded-full" />
-                    </div>
-                    <div className="h-24 bg-card border border-border rounded-xl p-3 flex flex-col justify-end gap-1">
-                       <div className="h-1.5 w-12 bg-muted rounded-full" />
-                       <div className="h-4 w-16 bg-muted/50 rounded-full" />
-                    </div>
-                  </div>
-                  <div className="flex-1 bg-card border border-border rounded-2xl p-6 flex items-center justify-center">
-                    <BarChart3 className="size-20 text-muted/30" strokeWidth={1} />
-                  </div>
-                </div>
+                {/* Glass Overlay for Content Feel */}
+                <div className="absolute inset-0 backdrop-blur-[1px] opacity-30 pointer-events-none" />
               </div>
             </div>
             
