@@ -140,10 +140,11 @@ body {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.6;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: var(--foreground);
+  font-weight: 450; /* Peso ligeiramente maior para melhor leitura em fundos escuros */
 }
 
 h1,
@@ -151,9 +152,9 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  letter-spacing: -0.05em;
-  font-weight: 800;
-  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .animate-gradient {
