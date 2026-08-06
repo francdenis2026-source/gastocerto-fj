@@ -542,8 +542,8 @@ function DashboardPage() {
           </div>
         )}
         
-      <div className="flex flex-col gap-6 max-w-5xl mx-auto">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
+      <div className="flex flex-col gap-8 max-w-5xl mx-auto pb-12">
+        <header className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between mb-2 px-2">
           <div className="flex items-center gap-4">
             <div className="flex flex-col">
               <h1 className="text-2xl font-black tracking-tight sm:text-3xl text-foreground">
@@ -573,7 +573,7 @@ function DashboardPage() {
           </div>
         </header>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           <MetricCard 
             label="Saldo" 
             value={formatCurrency(metrics.balance)} 
@@ -598,9 +598,9 @@ function DashboardPage() {
         </div>
 
         <DashboardTabs
-          className="mt-2"
+          className="mt-4"
           resumo={
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-8">
                 <div className="bg-card border border-border p-6 rounded-3xl shadow-sm h-full min-h-[350px]">
                   <div className="flex items-center justify-between mb-8">
@@ -653,7 +653,7 @@ function DashboardPage() {
                   </div>
                 </div>
               </div>
-              <div className="lg:col-span-4 space-y-6">
+              <div className="lg:col-span-4 space-y-8">
                  <div className="bg-card border border-border p-6 rounded-3xl shadow-sm">
                     <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">INSIGHTS IA</h2>
                     <div className="flex items-start gap-4">
