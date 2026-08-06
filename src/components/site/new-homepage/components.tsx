@@ -226,13 +226,13 @@ export function Features() {
 
 export function BentoGrid() {
   return (
-    <section className="py-24 bg-background overflow-hidden">
+    <section className="py-16 bg-background overflow-hidden">
       <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[320px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 auto-rows-[280px]">
           {/* Main Bento */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="lg:col-span-7 bg-muted/50 rounded-[2.5rem] border border-border p-10 flex flex-col justify-center overflow-hidden relative group"
+            className="lg:col-span-7 bg-muted/50 rounded-[2rem] border border-border p-8 flex flex-col justify-center overflow-hidden relative group"
           >
             <div className="relative z-10 max-w-md">
               <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Inteligência Artificial</span>
