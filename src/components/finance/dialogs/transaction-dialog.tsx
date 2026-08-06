@@ -216,7 +216,7 @@ export function TransactionDialog({
   /** Sugestão inteligente de categoria familiar */
   const autoCategorize = useServerFn(async (d: { description: string, beneficiaryType: any }) => {
     try {
-      const { autoCategorizeFamilyExpense } = await import("@/lib/categorization/family-categories.functions");
+      const { autoCategorizeFamilyExpense } = await import("@/lib/family-categories.functions");
       return await autoCategorizeFamilyExpense({ data: d });
     } catch (e) {
       return null;
