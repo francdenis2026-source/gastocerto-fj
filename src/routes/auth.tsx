@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { createServerFn, useServerFn } from "@tanstack/react-start";
-import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight, Fingerprint, UserCircle, User, LogIn } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { AlertCircle, Baby, KeyRound, Loader2, Sparkles, LayoutDashboard, UserPlus, ShieldAlert, Lock, Eye, EyeOff, ArrowRight, Fingerprint, UserCircle, User, LogIn, CheckCircle2 } from "lucide-react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -48,6 +48,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { clearBrowserCredentials } from "@/lib/local-session";
@@ -215,15 +216,18 @@ function AuthPage() {
 
   return (
     <main className="relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-3 sm:p-4 lg:p-6 bg-[#000a14]">
-      {/* Imagem de fundo global otimizada */}
-      <div className="absolute inset-0 -z-20 overflow-hidden">
-        <img
-          src={authHero}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          className="size-full object-cover opacity-40 blur-[3px] brightness-[0.6] contrast-[1.1] transition-all duration-700"
-        />
+      {/* Imagem de fundo global otimizada com carregamento progressivo */}
+      <div className="absolute inset-0 -z-20 overflow-hidden bg-brand-navy">
+        <Suspense fallback={<div className="size-full bg-brand-navy" />}>
+          <img
+            src={authHero}
+            alt=""
+            aria-hidden="true"
+            loading="eager"
+            decoding="async"
+            className="size-full object-cover opacity-40 blur-[3px] brightness-[0.6] contrast-[1.1] transition-opacity duration-1000"
+          />
+        </Suspense>
         <div
           className="absolute inset-0 bg-gradient-to-b from-brand-navy/80 via-transparent to-brand-navy/90 mix-blend-multiply"
           aria-hidden="true"
@@ -236,19 +240,23 @@ function AuthPage() {
 
         {/* Painel lateral dinâmico (Hero) - Compacto */}
         <section className="relative flex min-h-[140px] shrink-0 flex-col justify-between overflow-hidden lg:min-h-0 border-b border-white/5 lg:border-b-0 lg:border-r">
-          <img
-            src={
-              mode === "login"
-                ? loginHero
-                : mode === "signup"
-                  ? signupHero
-                  : mode === "forgot"
-                    ? forgotHero
-                    : adminHero
-            }
-            alt=""
-            className="absolute inset-0 -z-10 size-full object-cover brightness-[0.35] contrast-[1.1] transition-all duration-700"
-          />
+          <Suspense fallback={<div className="absolute inset-0 -z-10 bg-brand-navy/80" />}>
+            <img
+              src={
+                mode === "login"
+                  ? loginHero
+                  : mode === "signup"
+                    ? signupHero
+                    : mode === "forgot"
+                      ? forgotHero
+                      : adminHero
+              }
+              alt=""
+              loading="eager"
+              decoding="async"
+              className="absolute inset-0 -z-10 size-full object-cover brightness-[0.35] contrast-[1.1] transition-opacity duration-700"
+            />
+          </Suspense>
           <div
             aria-hidden="true"
             className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-navy/60 via-brand-navy/20 to-brand-navy/80"
@@ -694,6 +702,7 @@ function PinInputOld({
 function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: () => void }) {
   const navigate = useNavigate();
   const [cpf, setCpf] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -710,8 +719,12 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
     });
 
     if (!parsed.success) {
-      setErrors({});
-      setFormError("Revise os dados informados.");
+      const fieldErrors: Record<string, string> = {};
+      parsed.error.issues.forEach(issue => {
+        fieldErrors[String(issue.path[0])] = issue.message;
+      });
+      setErrors(fieldErrors);
+      setFormError(null);
       return;
     }
 
@@ -763,12 +776,26 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       <div className="space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="login-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
-          <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
+          <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" invalid={!!errors.cpf} />
+          <FieldError message={errors.cpf} />
         </div>
         
         <div className="space-y-1.5">
-          <PinInput id="login-pin" name="pin" autoComplete="current-password" label="Senha" />
+          <PinInput id="login-pin" name="pin" autoComplete="current-password" label="Senha" invalid={!!errors.pin} />
+          <FieldError message={errors.pin} />
         </div>
+      </div>
+
+      <div className="flex items-center gap-2 pt-1">
+        <Checkbox 
+          id="remember-me" 
+          checked={rememberMe} 
+          onCheckedChange={(checked) => setRememberMe(checked === true)}
+          className="border-muted-foreground/30 data-[state=checked]:bg-brand-green data-[state=checked]:border-brand-green"
+        />
+        <Label htmlFor="remember-me" className="text-[11px] font-bold text-muted-foreground/80 cursor-pointer select-none">
+          Manter-me conectado
+        </Label>
       </div>
 
       <div className="flex items-center justify-between pt-1">
@@ -908,22 +935,27 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
       <div className="space-y-3">
         <div className="space-y-1">
           <Label htmlFor="signup-name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nome Completo</Label>
-          <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" />
+          <Input id="signup-name" name="fullName" required className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.fullName} />
+          <FieldError message={errors.fullName} />
         </div>
         <div className="space-y-1">
           <Label htmlFor="signup-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
-          <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
+          <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" invalid={!!errors.cpf} />
+          <FieldError message={errors.cpf} />
         </div>
         <div className="space-y-1">
           <Label htmlFor="signup-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">E-mail (opcional)</Label>
-          <Input id="signup-email" name="contactEmail" type="email" className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" />
+          <Input id="signup-email" name="contactEmail" type="email" className="h-10 rounded-xl border-border/50 bg-muted/20" autoComplete="off" aria-invalid={!!errors.contactEmail} />
+          <FieldError message={errors.contactEmail} />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <PinInput id="signup-pin" name="pin" autoComplete="new-password" label="Senha" />
+            <PinInput id="signup-pin" name="pin" autoComplete="new-password" label="Senha" invalid={!!errors.pin} />
+            <FieldError message={errors.pin} />
           </div>
           <div className="space-y-1">
-            <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" label="Confirmar" />
+            <PinInput id="signup-confirm-pin" name="confirmPin" autoComplete="new-password" label="Confirmar" invalid={!!errors.confirmPin} />
+            <FieldError message={errors.confirmPin} />
           </div>
         </div>
       </div>
