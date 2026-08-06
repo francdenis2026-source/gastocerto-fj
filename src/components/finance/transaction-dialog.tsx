@@ -608,6 +608,149 @@ export function TransactionDialog({
         >
           {currentStep === 1 ? (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <Label htmlFor="description" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">O que você comprou ou recebeu?</Label>
+                  <Input
+                    id="description"
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}
+                    maxLength={140}
+                    className="mt-2 h-12 text-base rounded-2xl bg-muted/30 border-none px-5"
+                    placeholder={kind === "income" ? "Ex: Salário Mensal..." : "Ex: Supermercado Silva..."}
+                  />
+                  {errors.description && <p className="mt-1 text-xs text-destructive">{errors.description}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="amount" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Valor (R$)</Label>
+                  <Input
+                    id="amount"
+                    value={amount}
+                    inputMode="numeric"
+                    onChange={(event) => setAmount(maskAmountInput(event.target.value))}
+                    className="h-12 text-xl font-bold rounded-2xl bg-muted/30 border-none px-5 text-primary tabular-nums"
+                    placeholder="0,00"
+                  />
+                  {errors.amount && <p className="mt-1 text-xs text-destructive">{errors.amount}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="date" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Data</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={date}
+                    onChange={(event) => setDate(event.target.value)}
+                    className="h-12 rounded-2xl bg-muted/30 border-none px-5"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Categoria</Label>
+                  <CategoryPicker
+                    categories={options}
+                    value={subCategoryId || categoryId}
+                    onChange={(id) => {
+                      const selectedCat = options.find((c) => c.id === id);
+                      if (selectedCat?.parent_id) {
+                        setCategoryId(selectedCat.parent_id);
+                        setSubCategoryId(id);
+                      } else {
+                        setCategoryId(id);
+                        setSubCategoryId("");
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pagamento</Label>
+                  <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted/30 border-none px-5">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PAYMENT_METHODS.map((m) => (
+                        <SelectItem key={m.value} value={m.value}>{m.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Conta</Label>
+                  <Select value={accountId} onValueChange={setAccountId}>
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted/30 border-none px-5">
+                      <SelectValue placeholder="Padrão" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {accounts?.map((acc) => (
+                        <SelectItem key={acc.id} value={acc.id}>{acc.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="sm:col-span-2 space-y-2">
+                  <Label htmlFor="merchant" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Local / Beneficiário</Label>
+                  <Input
+                    id="merchant"
+                    value={merchant}
+                    onChange={(e) => setMerchant(e.target.value)}
+                    className="h-12 rounded-2xl bg-muted/30 border-none px-5"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 space-y-2">
+                  <Label htmlFor="notes" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Observações</Label>
+                  <Textarea
+                    id="notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="min-h-[100px] rounded-2xl bg-muted/30 border-none px-5 py-3 resize-none"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 flex items-center justify-between p-4 rounded-2xl bg-muted/30">
+                   <div className="space-y-0.5">
+                      <Label className="text-sm font-bold">Despesa Essencial</Label>
+                      <p className="text-[11px] text-muted-foreground">Marque se for um gasto vital</p>
+                   </div>
+                   <Switch checked={essential} onCheckedChange={setEssential} />
+                </div>
+              </div>
+            </div>
+          )}
+        </form>
+
+        <DialogFooter className="px-8 py-6 border-t border-border bg-muted/10">
+          <div className="flex w-full items-center justify-between gap-3">
+             {currentStep === 1 ? (
+               <Button type="button" variant="ghost" className="rounded-xl" onClick={() => onOpenChange(false)}>Cancelar</Button>
+             ) : (
+               <Button type="button" variant="ghost" className="rounded-xl" onClick={() => setCurrentStep(1)}>Voltar</Button>
+             )}
+             
+             <div className="flex gap-2">
+                {currentStep === 1 && (
+                  <Button type="button" variant="secondary" className="rounded-xl px-6" onClick={() => setCurrentStep(2)}>Mais Detalhes</Button>
+                )}
+                <Button type="submit" disabled={save.isPending} className="rounded-xl px-8 shadow-lg shadow-primary/20">
+                  {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+                  {editing ? "Atualizar" : "Salvar Lançamento"}
+                </Button>
+             </div>
+          </div>
+        </DialogFooter>
+
+        {/* Hidden original fields to avoid reference errors if any script still expects them */}
+        <div className="hidden">
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="sm:col-span-2">
               <Label htmlFor="description">
                 {kind === "income" ? "Descrição / Fonte da Renda" : "Descrição / Nome do estabelecimento"}
@@ -1134,15 +1277,7 @@ export function TransactionDialog({
           </div>
 
 
-          <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
-            <Button type="submit" disabled={save.isPending}>
-              {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-              Salvar
-            </Button>
-          </DialogFooter>
+        </div>
         </form>
 
         <PasswordConfirmDialog
