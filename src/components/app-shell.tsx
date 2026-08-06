@@ -30,7 +30,7 @@ import { useState, type ReactNode, useEffect, useMemo } from "react";
 import { Logo } from "@/components/logo";
 import { NotificationCenter } from "@/components/notifications/notification-center";
 import { Badge } from "@/components/ui/badge";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 
 import { useKidSession } from "@/lib/kids-session";
 import { useKidsRealtimeAlerts } from "@/lib/kids-realtime";

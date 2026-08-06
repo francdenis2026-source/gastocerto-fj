@@ -3,7 +3,7 @@ import { ArrowLeft, Check, Delete, Eye, SlidersHorizontal, Smartphone, Sparkles,
 import { toast } from "sonner";
 
 import { readRecentCategories, rememberCategory } from "@/components/finance/category-picker";
-import { CreditPurchaseDialog } from "@/components/finance/credit-purchase-dialog";
+import { CreditPurchaseDialog } from "@/components/finance/dialogs/credit-purchase-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

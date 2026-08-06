@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { isCourtesyTrialLicense, TRIAL_GIFT_PLAN_SLUG, TRIAL_GIFT_SOURCE } from "@/lib/license-status";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { isCourtesyTrialLicense, TRIAL_GIFT_PLAN_SLUG, TRIAL_GIFT_SOURCE } from "@/lib/lib/license-status";
 
 /** Garante que o chamador tem papel de administrador antes de qualquer ação privilegiada. */
 async function assertAdmin(context: { supabase: any; userId: string }) {

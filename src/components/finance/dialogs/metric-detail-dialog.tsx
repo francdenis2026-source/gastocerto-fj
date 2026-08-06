@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarDays, ChevronRight, History, NotebookPen, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
+import { DeleteConfirmDialog } from "@/components/finance/dialogs/delete-confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

@@ -8,8 +8,8 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
-import { TransactionDetailsDialog } from "@/components/finance/transaction-details-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
+import { TransactionDetailsDialog } from "@/components/finance/dialogs/transaction-details-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {

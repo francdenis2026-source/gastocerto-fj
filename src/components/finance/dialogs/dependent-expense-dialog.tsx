@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, Check, Plus, Baby, PiggyBank, Gift, Trophy, Rocket, ToyBrick, ShieldCheck, Lock, TrendingUp, Target, Star, AlertTriangle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
-import { DependentDialog } from "@/components/finance/dependent-dialog";
+import { DependentDialog } from "@/components/finance/dialogs/dependent-dialog";
 import { KidsPinDialog } from "@/components/finance/kids/kids-pin-dialog";
 
 import { Button } from "@/components/ui/button";

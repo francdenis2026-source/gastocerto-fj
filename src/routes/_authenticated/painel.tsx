@@ -53,12 +53,12 @@ import {
 } from "recharts";
 
 import { AppShell } from "@/components/app-shell";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
-import { ExpenseCardsDialog } from "@/components/finance/expense-cards-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
+import { ExpenseCardsDialog } from "@/components/finance/dialogs/expense-cards-dialog";
 import { DependentExpenseDialog } from "@/components/finance/dependent-expense-dialog";
 import { TaxQuickDialog } from "@/components/finance/tax-quick-dialog";
 import { RecurringAlerts } from "@/components/finance/recurring-alerts";
-import { MetricDetailDialog, type MetricDetail as BaseMetricDetail } from "@/components/finance/metric-detail-dialog";
+import { MetricDetailDialog, type MetricDetail as BaseMetricDetail } from "@/components/finance/dialogs/metric-detail-dialog";
 
 interface MetricDetail extends BaseMetricDetail {
   onAction?: () => void;

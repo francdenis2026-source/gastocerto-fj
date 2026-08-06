@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { CategoryPicker, readRecentCategories, rememberCategory } from "@/components/finance/category-picker";
 import { PurchaseItemsEditor } from "@/components/finance/purchase-items-editor";
 import { ReceiptField } from "@/components/finance/receipt-field";
-import { StoredTransactionPanel } from "@/components/finance/stored-transaction-panel";
+import { StoredTransactionPanel } from "@/components/finance/panels/stored-transaction-panel";
 
 import { Button } from "@/components/ui/button";
 
@@ -51,7 +51,7 @@ import { MIN_TRANSACTION_DATE, lockedMonthKeys } from "@/lib/closing-lock";
 import { useClosingPolicy } from "@/lib/use-closing-policy";
 import { PAST_EDIT_UNLOCK_MINUTES, usePastEditUnlock } from "@/lib/past-edit-unlock";
 import { useAuth } from "@/hooks/use-auth";
-import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
+import { PasswordConfirmDialog } from "@/components/finance/dialogs/password-confirm-dialog";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 
 

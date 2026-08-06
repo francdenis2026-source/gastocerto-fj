@@ -10,7 +10,7 @@ import { AppShell } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { AiCreditsPanel } from "@/components/finance/ai-credits-panel";
+import { AiCreditsPanel } from "@/components/finance/panels/ai-credits-panel";
 import { AiReceipts } from "@/components/finance/ai-receipts";
 import { EmblemAdvisor } from "@/components/ui/panel-emblems";
 import { askAdvisor, getAdvisorAccess } from "@/functions/advisor.functions";

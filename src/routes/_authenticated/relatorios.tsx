@@ -29,7 +29,7 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { FeatureGate } from "@/components/finance/feature-gate";
-import { FilterField, FilterPanel } from "@/components/finance/filter-panel";
+import { FilterField, FilterPanel } from "@/components/finance/panels/filter-panel";
 import { FilterPresets } from "@/components/finance/filter-presets";
 import { EMPTY_FILTERS } from "@/lib/filter-presets";
 import { MetaChip, PageHeader } from "@/components/finance/page-header";

@@ -26,7 +26,7 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { RefreshCw } from "lucide-react";
-import { FilterField, FilterPanel } from "@/components/finance/filter-panel";
+import { FilterField, FilterPanel } from "@/components/finance/panels/filter-panel";
 import { FilterPresets } from "@/components/finance/filter-presets";
 import { MetaChip, PageHeader } from "@/components/finance/page-header";
 import { StatTile } from "@/components/finance/stat-tile";
@@ -34,14 +34,14 @@ import { StatTile } from "@/components/finance/stat-tile";
 import { PeriodPdfPreview } from "@/components/finance/period-pdf-preview";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { InlineNotes } from "@/components/finance/inline-notes";
-import { TransactionDetailsDialog } from "@/components/finance/transaction-details-dialog";
-import { DeleteConfirmDialog } from "@/components/finance/delete-confirm-dialog";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDetailsDialog } from "@/components/finance/dialogs/transaction-details-dialog";
+import { DeleteConfirmDialog } from "@/components/finance/dialogs/delete-confirm-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-notice";
-import { PasswordConfirmDialog } from "@/components/finance/password-confirm-dialog";
+import { PasswordConfirmDialog } from "@/components/finance/dialogs/password-confirm-dialog";
 import { usePastEditUnlock } from "@/lib/past-edit-unlock";
 import { useClosingPolicy } from "@/lib/use-closing-policy";
-import { ExpenseCardsDialog } from "@/components/finance/expense-cards-dialog";
+import { ExpenseCardsDialog } from "@/components/finance/dialogs/expense-cards-dialog";
 import { cn } from "@/lib/utils";
 import { usePeriodStore } from "@/lib/period-store";
 
@@ -77,8 +77,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatCurrency, formatDate } from "@/lib/format-utils";
-import { PdfExportSettingsDialog } from "@/components/finance/pdf-export-settings-dialog";
-import { ShareLinkDialog } from "@/components/finance/share-link-dialog";
+import { PdfExportSettingsDialog } from "@/components/finance/dialogs/pdf-export-settings-dialog";
+import { ShareLinkDialog } from "@/components/finance/dialogs/share-link-dialog";
 import { exportTransactionPdf } from "@/lib/transaction-detail-export";
 import { fetchNoteHistory } from "@/lib/transaction-notes";
 

@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { formatCurrency } from "@/lib/format-utils";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { formatCurrency } from "@/lib/lib/format-utils";
 
 async function assertAdmin(context: { supabase: any; userId: string }) {
   const { data, error } = await context.supabase.rpc("has_role", {

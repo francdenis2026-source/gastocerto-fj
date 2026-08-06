@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { PageHeader } from "@/components/finance/page-header";
 import { PastMonthsLockNotice } from "@/components/finance/past-months-lock-notice";
 import { Badge } from "@/components/ui/badge";

@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
 
 /**
  * Envia lembretes de expiração para contas que vencem em 3 ou 1 dia.

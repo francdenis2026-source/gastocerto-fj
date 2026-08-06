@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { isValidCpf, onlyDigits } from "@/lib/cpf";
+import { isValidCpf, onlyDigits } from "@/lib/lib/cpf";
 
 const startSchema = z.object({
   planSlug: z.enum(["premium", "premium_ia"]),

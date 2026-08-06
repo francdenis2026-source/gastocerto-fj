@@ -16,10 +16,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
-import { DependentDialog } from "@/components/finance/dependent-dialog";
+import { DependentDialog } from "@/components/finance/dialogs/dependent-dialog";
 import { AccountDialog } from "@/components/finance/accounts/account-dialog";
 import { CommitmentDialog } from "@/components/finance/commitments/commitment-dialog";
-import { VehicleDialog } from "@/components/finance/vehicle-dialog";
+import { VehicleDialog } from "@/components/finance/dialogs/vehicle-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";

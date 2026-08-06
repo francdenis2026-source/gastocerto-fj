@@ -29,7 +29,7 @@ import { CategoryAutofixCard } from "@/components/finance/category-autofix-card"
 import { MetaChip, PageHeader } from "@/components/finance/page-header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { ConfirmDialog } from "@/components/finance/confirm-dialog";
+import { ConfirmDialog } from "@/components/finance/dialogs/confirm-dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { CATEGORY_ICON_KEYS, categoryIcon } from "@/lib/category-icons";
 import { formatCurrency } from "@/lib/format-utils";

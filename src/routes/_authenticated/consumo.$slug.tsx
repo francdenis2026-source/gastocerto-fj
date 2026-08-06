@@ -15,7 +15,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { StatTile } from "@/components/finance/stat-tile";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CHART_TOKENS, axisProps, gridProps, tooltipProps } from "@/lib/chart-theme";

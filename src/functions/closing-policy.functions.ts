@@ -1,14 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdminRole } from "@/lib/admin-guard";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { assertAdminRole } from "@/lib/lib/admin-guard";
 import {
   CLOSING_POLICY_SETTING_KEY,
   ClosingPolicySchema,
   DEFAULT_CLOSING_POLICY,
   normalizeClosingPolicy,
   type ClosingPolicy,
-} from "@/lib/closing-policy";
+} from "@/lib/lib/closing-policy";
 
 /** Política atual de fechamento (leitura para qualquer usuário logado). */
 export const getClosingPolicy = createServerFn({ method: "POST" })

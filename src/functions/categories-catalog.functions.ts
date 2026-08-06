@@ -1,13 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdminRole } from "@/lib/admin-guard";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { assertAdminRole } from "@/lib/lib/admin-guard";
 import {
   CATEGORY_CATALOG_KEY,
   CatalogSchema,
   dedupeCatalog,
   type CatalogItem,
-} from "@/lib/categories-catalog";
+} from "@/lib/lib/categories-catalog";
 
 /** Catálogo atual de categorias padrão (somente administradores). */
 export const getCategoryCatalog = createServerFn({ method: "POST" })

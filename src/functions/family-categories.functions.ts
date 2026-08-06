@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { categorizeLogic } from "./family-categories-logic";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { categorizeLogic } from "@/lib/family-categories-logic";
 
 const categorizationInput = z.object({
   description: z.string(),

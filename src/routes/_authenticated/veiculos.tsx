@@ -23,7 +23,7 @@ import { FilterPresets } from "@/components/finance/filter-presets";
 import { EMPTY_FILTERS } from "@/lib/filter-presets";
 import { StatTile } from "@/components/finance/stat-tile";
 import { ReceiptViewer } from "@/components/finance/receipt-viewer";
-import { VehicleDialog } from "@/components/finance/vehicle-dialog";
+import { VehicleDialog } from "@/components/finance/dialogs/vehicle-dialog";
 import {
   AlertDialog,
   AlertDialogAction,

@@ -1,10 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/integrations/supabase/client";
 
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { kidCodeToEmail, kidPassword, normalizeKidCode } from "@/lib/kids-account";
-import { KID_LOCK_MINUTES_SERVER, KID_MAX_ATTEMPTS_SERVER, traduzirErroKid } from "@/lib/kids-account.server";
+import { requireSupabaseAuth } from "@/lib/integrations/supabase/auth-middleware";
+import { kidCodeToEmail, kidPassword, normalizeKidCode } from "@/lib/lib/kids-account";
+import { KID_LOCK_MINUTES_SERVER, KID_MAX_ATTEMPTS_SERVER, traduzirErroKid } from "@/lib/lib/kids-account.server";
 
 const saveSchema = z.object({
   dependentId: z.string().uuid(),

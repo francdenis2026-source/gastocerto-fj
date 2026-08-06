@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { supabaseAdmin } from "@/lib/integrations/supabase/client.server";
 
 /**
  * Função administrativa para sincronizar licenças e corrigir acessos bloqueados.

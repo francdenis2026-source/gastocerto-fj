@@ -7,7 +7,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
 import { PeriodPicker } from "@/components/finance/period-picker";
 import { MonthPresets, loadPeriod } from "@/components/finance/month-presets";
-import { TransactionDialog } from "@/components/finance/transaction-dialog";
+import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {

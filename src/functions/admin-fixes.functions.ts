@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { supabaseAdmin } from "@/lib/integrations/supabase/client.server";
 
 export const fixNexxusTransaction = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({ userId: z.string() }).parse(data))
