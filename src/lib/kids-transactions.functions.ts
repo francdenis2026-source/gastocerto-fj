@@ -17,7 +17,7 @@ export const getKidTransactions = createServerFn({ method: "GET" })
     
     let query = context.supabase
       .from("transactions")
-      .select("id, description, amount, transaction_type, transaction_date, status, tags")
+      .select("id, description, amount, transaction_type, transaction_date, status, tags, category_id, user_id")
       .contains("tags", [tag])
       .is("deleted_at", null)
       .order("transaction_date", { ascending: false });
