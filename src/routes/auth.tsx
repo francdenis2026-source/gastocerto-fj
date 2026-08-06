@@ -940,7 +940,7 @@ function CpfSignUpForm({ onDone }: { onDone: () => void }) {
           <FieldError message={errors.fullName} />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="signup-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
+          <Label htmlFor="signup-cpf" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80">CPF</Label>
           <CpfInput id="signup-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" invalid={!!errors.cpf} />
           <FieldError message={errors.cpf} />
         </div>
