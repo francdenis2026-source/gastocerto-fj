@@ -120,7 +120,7 @@ export function useSaveTransaction() {
   const guard = useServerFn(assertWriteAllowed);
 
   return useMutation({
-    mutationFn: async (input: { id?: string; values: Omit<TablesInsert<"transactions">, "user_id"> }) => {
+    mutationFn: async (input: { id?: string; values: TablesInsert<"transactions"> }) => {
       if (!user) throw new Error("Sessão expirada");
       await guard({ data: undefined });
       if (input.id) {
@@ -135,7 +135,7 @@ export function useSaveTransaction() {
       }
       const { data, error } = await supabase
         .from("transactions")
-        .insert({ ...input.values, user_id: input.values.user_id || user.id })
+        .insert({ user_id: user.id, ...input.values })
         .select()
         .single();
       if (error) throw error;
