@@ -630,6 +630,7 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
   const [code, setCode] = useState(dependent.kid_login_code ?? "");
   const [pin, setPin] = useState("");
   const [days, setDays] = useState<number | string>(dependent.kid_auto_upgrade_days ?? 365);
+  const [showPin, setShowPin] = useState(false);
   const [busy, setBusy] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
   const [qrNonce, setQrNonce] = useState(0);
@@ -830,9 +831,21 @@ function KidAccessCard({ dependent }: { dependent: Dependent }) {
             </Badge>
           )}
           {(dependent as any).pin_code && (
-            <Badge variant="outline" className="h-5 border-emerald-500/30 text-emerald-600 bg-emerald-50 text-[9px] gap-1 uppercase tracking-wider">
-              <ShieldCheck className="size-2.5" /> PIN OK
-            </Badge>
+            <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-500/20 rounded-full pl-2.5 pr-1.5 py-0.5 shadow-sm transition-all hover:bg-emerald-100/50">
+              <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Senha:</span>
+              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-white/60 px-2 rounded-md border border-emerald-500/10 min-w-[45px] text-center">
+                {showPin ? (dependent as any).pin_code : "••••"}
+              </span>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="size-5 rounded-full hover:bg-emerald-500/10 text-emerald-600"
+                onClick={() => setShowPin(!showPin)}
+                title={showPin ? "Ocultar senha" : "Ver senha"}
+              >
+                {showPin ? <Eye className="size-3" /> : <Eye className="size-3 opacity-60" />}
+              </Button>
+            </div>
           )}
         </div>
       </header>

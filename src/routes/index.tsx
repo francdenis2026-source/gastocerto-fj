@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground" data-body-context="Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, comando mais recente enviado por ele: a tipogrtafia esta pequena neste painel ao alafo, corrija, troque esse tipografia por um afonte tpeclear">
+    <div className="min-h-dvh w-full max-w-full bg-[#000a14] font-sans antialiased selection:bg-primary/25 selection:text-foreground" data-body-context="Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, comando mais recente enviado por ele: Refinar o espaçamento, margens e grid dos cartões e seções para deixar o painel mais organizado e com alinhamentos consistentes. \n\nimplemente poder ver a senha criada para a criança, no painel;">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Pular para o conteúdo principal
       </a>
