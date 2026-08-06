@@ -42,7 +42,7 @@ function HomePage() {
       <Footer />
       {/* 
         Antes de realizar qualquer ação, entenda o contexto e instrução recente do usuário, 
-        comando mais recente enviado por ele: ANALISE TODA A PAGINA HOEPAGE E EACH O QUE PRECISA SER MELHRADO, DESDE MICRO INTERAÇOES ATE AS CORES E CONTARSTES, TAMANHO, E HEROS
+        comando mais recente enviado por ele: MELHORE TODAS HOMEPAGE, REMOVA ESSE AMADORISMO E DEIXE PROFSSIONAL,  REMOVA O QUE FOR DESNECESARIO E INTEGRE COISA SMELHORES
       */}
     </div>
   );
