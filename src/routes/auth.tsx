@@ -317,7 +317,7 @@ function AuthPage() {
                       ? "Não se preocupe, vamos te ajudar."
                       : "Administração e Suporte Técnico."}
               </h2>
-              <p className="mt-2 hidden text-xs font-medium leading-relaxed text-white/70 sm:block">
+              <p className="mt-2 hidden text-[13px] font-medium leading-relaxed text-white/80 sm:block">
                 {mode === "login"
                   ? "Gerencie suas finanças com praticidade e segurança total."
                   : mode === "signup"
