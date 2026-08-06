@@ -468,36 +468,35 @@ function AuthPage() {
                       onForgot={() => setMode("forgot")}
                       onAdmin={() => setMode("admin")}
                     />
-                    <div className="relative mt-4">
+                    <div className="relative mt-5">
                       <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                        <div className="w-full border-t border-border"></div>
+                        <div className="w-full border-t border-border/50"></div>
                       </div>
                       <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="bg-card px-2 text-[oklch(0.25_0.04_259)] font-extrabold dark:text-white/80">Acesso Infantil</span>
+                        <span className="bg-background px-3 text-muted-foreground/50">Alternativas</span>
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setMode("kid")}
-                      className="group relative mt-2.5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-input bg-secondary px-3 py-2.5 text-foreground transition-all duration-300 hover:border-primary/45 hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.99] dark:bg-secondary/40"
-                    >
-                      <Baby className="size-4 animate-soft-pulse shrink-0 text-primary transition-transform duration-300 group-hover:scale-105" aria-hidden />
-                      <span className="text-[12px] font-bold leading-tight tracking-tight sm:text-[13px] text-[oklch(0.25_0.04_259)] dark:text-foreground">
-                        Sou criança — entrar com meu código
-                      </span>
-                    </button>
+                    <div className="mt-4 grid grid-cols-1 gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setMode("kid")}
+                        className="group flex w-full items-center gap-3 rounded-xl border border-border/50 bg-muted/30 p-2.5 transition-all hover:bg-muted/50 hover:border-brand-green/30"
+                      >
+                        <div className="flex size-8 items-center justify-center rounded-lg bg-brand-green/10 text-brand-green">
+                          <Baby className="size-4" />
+                        </div>
+                        <span className="text-xs font-bold text-foreground">Acesso Kids</span>
+                      </button>
 
-                    <div className="mt-4 space-y-2">
-                      <CodeAccessInline onContinue={() => setMode("signup")} />
                       <Button
                         type="button"
-                        variant="ghost"
+                        variant="outline"
                         onClick={() => setPendingCode("")}
-                        className="w-full h-10 rounded-xl text-[11px] font-bold uppercase tracking-widest text-brand hover:bg-brand/5 border border-brand/20"
+                        className="h-11 rounded-xl text-[10px] font-bold uppercase tracking-widest gap-2"
                       >
-                        <Fingerprint className="size-3.5 mr-2" />
-                        Entrar com Código de Acesso
+                        <Fingerprint className="size-3.5" />
+                        Código de Acesso
                       </Button>
                     </div>
 
@@ -761,24 +760,28 @@ function CpfSignInForm({ onForgot, onAdmin }: { onForgot: () => void; onAdmin: (
       autoComplete="off"
     >
       <FormAlert message={formError} />
-      <div>
-        <Label htmlFor="login-cpf" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">CPF</Label>
-        <div className="mt-1">
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="login-cpf" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">CPF</Label>
           <CpfInput id="login-cpf" name="cpf" value={cpf} onChange={setCpf} autoComplete="off" />
         </div>
+        
+        <div className="space-y-1.5">
+          <PinInput id="login-pin" name="pin" autoComplete="current-password" label="Senha" />
+        </div>
       </div>
-      <PinInput id="login-pin" name="pin" autoComplete="current-password" />
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <button type="button" onClick={onForgot} className="text-sm font-semibold text-primary underline">
+
+      <div className="flex items-center justify-between pt-1">
+        <button type="button" onClick={onForgot} className="text-[11px] font-bold text-brand-green hover:underline">
           Esqueci minha senha
         </button>
         <button 
           type="button" 
           onClick={onAdmin} 
-          className="group inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground/80 hover:text-primary transition-colors"
+          className="group inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground/60 hover:text-brand-green transition-colors"
         >
-          <ShieldAlert className="size-3.5" />
-          Acesso administrativo
+          <ShieldAlert className="size-3" />
+          Acesso ADM
         </button>
       </div>
 
