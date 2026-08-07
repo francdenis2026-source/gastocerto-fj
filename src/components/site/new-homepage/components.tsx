@@ -30,16 +30,12 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className="relative min-h-[95vh] flex items-center justify-center overflow-hidden pt-20">
-      {/* Cinematic Background Image as the actual background */}
+      {/* Cinematic gradient background */}
       <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1554224155-16974a4ea2bc?q=80&w=2340&auto=format&fit=crop" 
-          alt="Economia Familiar e Controle de Gastos" 
-          className="w-full h-full object-cover"
-        />
-        {/* Adjusted gradients for better visibility and transition */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_60%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#000a14]/80" />
       </motion.div>
+
 
       <div className="container relative z-10 px-4 md:px-6">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
