@@ -1217,7 +1217,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
           onChange={(event) => setCode(normalizeKidCode(event.target.value))}
           placeholder="EX: JOAO-A1B"
           autoComplete="off"
-          className="mt-1 font-mono tracking-wide uppercase"
+          className="h-14 mt-1.5 rounded-2xl border-white/10 bg-white/5 font-mono text-lg tracking-wider uppercase transition-all focus:border-brand-green/50 focus:ring-brand-green/20"
         />
       </div>
       <PinInput 
