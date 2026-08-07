@@ -631,7 +631,7 @@ function PinInput({
           {label}
         </Label>
       </div>
-      <div className="relative mt-1.5">
+      <div className="relative mt-1.5 group/pin">
         <Input
           id={id}
           name={name}
@@ -643,7 +643,7 @@ function PinInput({
           required
           aria-invalid={invalid || undefined}
           aria-describedby={describedById}
-          className="h-12 rounded-xl border-border/50 bg-muted/20 pr-10 tracking-[0.4em] text-[14px]"
+          className="h-14 rounded-2xl border-white/10 bg-white/5 pr-12 text-lg tracking-[0.8em] transition-all focus:border-brand-green/50 focus:ring-brand-green/20 placeholder:tracking-normal placeholder:opacity-30"
           onChange={(event) => {
             event.target.value = onlyDigits(event.target.value).slice(0, 6);
           }}
@@ -651,7 +651,7 @@ function PinInput({
         <button
           type="button"
           onClick={() => setShow(!show)}
-          className="absolute right-0 top-0 flex h-full w-10 items-center justify-center text-muted-foreground/60 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground/40 transition-all hover:bg-white/5 hover:text-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/50"
           aria-label={show ? "Ocultar senha" : "Mostrar senha"}
         >
           <Icon className="size-4" />
@@ -1205,19 +1205,19 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
       <div className="flex items-center justify-center gap-2">
         <Baby className="size-5 shrink-0 text-primary" aria-hidden />
-        <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>
+        <h1 className="text-xl font-black text-foreground tracking-tight">Entrar no meu espaço</h1>
       </div>
 
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="kid-code" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Meu código</Label>
+        <Label htmlFor="kid-code" className="text-[11px] font-black uppercase tracking-widest text-muted-foreground/80">Meu código</Label>
         <Input
           id="kid-code"
           value={code}
           onChange={(event) => setCode(normalizeKidCode(event.target.value))}
           placeholder="EX: JOAO-A1B"
           autoComplete="off"
-          className="mt-1 font-mono tracking-wide uppercase"
+          className="h-14 mt-1.5 rounded-2xl border-white/10 bg-white/5 font-mono text-lg tracking-wider uppercase transition-all focus:border-brand-green/50 focus:ring-brand-green/20"
         />
       </div>
       <PinInput 
