@@ -1205,7 +1205,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
     <form onSubmit={handleSubmit} className="space-y-3" noValidate aria-busy={loading} autoComplete="off">
       <div className="flex items-center justify-center gap-2">
         <Baby className="size-5 shrink-0 text-primary" aria-hidden />
-        <h1 className="text-lg font-extrabold text-foreground">Entrar no meu espaço</h1>
+        <h1 className="text-xl font-black text-foreground tracking-tight">Entrar no meu espaço</h1>
       </div>
 
       <FormAlert message={formError} />
