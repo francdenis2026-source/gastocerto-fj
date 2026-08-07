@@ -29,10 +29,9 @@ export function PricingMobile() {
     <section id="planos-mobile" className="section-y md:hidden border-t border-white/5 relative">
 
       {/* Foto de Fundo em Baixa Opacidade */}
-      <img 
-        src="https://images.unsplash.com/photo-1554224154-7626155e82b1?q=80&w=2070&auto=format&fit=crop" 
-        alt="" 
-        className="absolute inset-0 h-full w-full object-cover grayscale-0 pointer-events-none -z-10"
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none -z-10 bg-[radial-gradient(120%_80%_at_50%_0%,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_70%)]"
       />
       <div className="relative z-10">
       <div className="flex flex-col gap-4 mb-8">
