@@ -33,12 +33,9 @@ export function HowItWorks() {
           <Reveal>
             <div className="relative group">
               <div className="relative z-10 aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
-                <img 
-                  src="https://images.unsplash.com/photo-1573163231154-2ef8a93e8631?q=80&w=1600&auto=format&fit=crop" 
-                  alt="Pessoa organizando as finanças pessoais no notebook" 
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                <div
+                  aria-hidden="true"
+                  className="w-full h-full transition-transform duration-500 group-hover:scale-[1.03] bg-[radial-gradient(90%_70%_at_30%_20%,color-mix(in_oklab,var(--primary)_28%,transparent),transparent_70%),linear-gradient(160deg,#04120E,#020617)]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/90 via-transparent to-transparent" />
               </div>
@@ -55,7 +52,7 @@ export function HowItWorks() {
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map(i => (
                       <div key={i} className="size-8 rounded-full border-2 border-background bg-secondary overflow-hidden">
-                        <img src={`https://i.pravatar.cc/100?img=${i + 20}`} alt="" loading="lazy" decoding="async" className="size-full object-cover" />
+                        <div aria-hidden="true" className="size-full bg-[linear-gradient(140deg,color-mix(in_oklab,var(--primary)_60%,transparent),transparent)]" />
                       </div>
                     ))}
                   </div>

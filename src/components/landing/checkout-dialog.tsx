@@ -199,10 +199,9 @@ export function CheckoutDialog({
       <DialogContent className="max-h-[95dvh] max-w-2xl overflow-y-auto p-0 border-white/10 bg-[#0A1512] shadow-2xl">
         {step === "plan" && (
           <div className="relative h-48 w-full overflow-hidden sm:h-64">
-            <img 
-              src={plan.slug === 'premium_ia' ? "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop" : "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"} 
-              alt={plan.name}
-              className="h-full w-full object-cover brightness-[0.4]"
+            <div
+              aria-hidden="true"
+              className="h-full w-full bg-[radial-gradient(85%_70%_at_25%_10%,color-mix(in_oklab,var(--primary)_30%,transparent),transparent_70%),linear-gradient(160deg,#0A1512,#020617)]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1512] to-transparent" />
             <div className="absolute bottom-6 left-8 text-left">

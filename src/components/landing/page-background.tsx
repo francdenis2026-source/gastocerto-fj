@@ -7,11 +7,9 @@ export function PageBackground() {
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-50 bg-background transition-colors duration-500">
       {/* Imagem Temática Realista com Blur Adaptativo */}
       <div className="absolute inset-0 overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2670&auto=format&fit=crop" 
-          alt=""
-          className="h-full w-full object-cover opacity-10 brightness-[1.0] dark:opacity-25 dark:brightness-[0.45] sm:opacity-15 dark:sm:opacity-35 blur-[1px] transition-all duration-500"
-          style={{ transform: 'scale(1.1)' }}
+        <div
+          aria-hidden="true"
+          className="h-full w-full opacity-60 transition-all duration-500 bg-[radial-gradient(80%_60%_at_20%_0%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_70%),radial-gradient(70%_50%_at_90%_100%,color-mix(in_oklab,var(--primary)_10%,transparent),transparent_70%)]"
         />
         
         {/* Camada de Gradiente Sutil para contraste */}

@@ -270,19 +270,15 @@ function AuthPage() {
 
           <div className="relative z-10 space-y-3 p-4 sm:p-6">
             <div className="hidden -space-x-3 overflow-hidden sm:flex">
-              {[
-                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
-                "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop",
-                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-              ].map((url, i) => (
-                <img
+              {["A", "M", "J", "R"].map((letter, i) => (
+                <div
                   key={i}
-                  src={url}
-                  className="inline-block size-9 rounded-full border-2 border-primary object-cover shadow-lg"
-                  alt="Usuário satisfeito"
-                />
+                  className="inline-flex size-9 items-center justify-center rounded-full border-2 border-primary bg-[linear-gradient(140deg,color-mix(in_oklab,var(--primary)_70%,transparent),transparent)] text-[11px] font-bold text-white shadow-lg"
+                >
+                  {letter}
+                </div>
               ))}
+
               <div className="flex size-9 items-center justify-center rounded-full border-2 border-primary bg-emerald-500 text-[10px] font-bold shadow-lg">
                 +2k
               </div>
