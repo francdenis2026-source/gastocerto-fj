@@ -618,9 +618,6 @@ function PinInput({
   describedById?: string;
   label?: string;
 }) {
-  const [show, setShow] = useState(false);
-  const Icon = show ? EyeOff : Eye;
-
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -635,7 +632,7 @@ function PinInput({
         <Input
           id={id}
           name={name}
-          type={show ? "text" : "password"}
+          type="password"
           inputMode="numeric"
           autoComplete={autoComplete}
           placeholder="••••••"
@@ -648,18 +645,11 @@ function PinInput({
             event.target.value = onlyDigits(event.target.value).slice(0, 6);
           }}
         />
-        <button
-          type="button"
-          onClick={() => setShow(!show)}
-          className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground/40 transition-all hover:bg-white/5 hover:text-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/50"
-          aria-label={show ? "Ocultar senha" : "Mostrar senha"}
-        >
-          <Icon className="size-4" />
-        </button>
       </div>
     </div>
   );
 }
+
 
 // Versão anterior para compatibilidade se necessário (embora não usada nas rotas principais)
 function PinInputOld({
