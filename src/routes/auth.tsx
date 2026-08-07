@@ -1210,7 +1210,7 @@ function KidSignInForm({ onBack, initialCode = "" }: { onBack: () => void; initi
 
       <FormAlert message={formError} />
       <div>
-        <Label htmlFor="kid-code" className="text-[oklch(0.25_0.04_259)] dark:text-foreground font-semibold">Meu código</Label>
+        <Label htmlFor="kid-code" className="text-[11px] font-black uppercase tracking-widest text-muted-foreground/80">Meu código</Label>
         <Input
           id="kid-code"
           value={code}
