@@ -49,7 +49,7 @@ export function ClearHistoryButton({
   const [busy, setBusy] = useState(false);
 
   async function handleClear() {
-    if (!user?.id) return;
+    if (!user?.id || busy) return;
     setBusy(true);
     try {
       const { error } = await supabase
@@ -75,11 +75,17 @@ export function ClearHistoryButton({
         <Button
           variant="outline"
           size="sm"
-          className={className ?? "h-8 gap-1.5 text-[11px]"}
+          disabled={busy}
+          className={className ?? "min-h-11 gap-2 px-3 text-xs"}
           aria-label={`Limpar ${label}`}
+          aria-busy={busy}
         >
-          {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Eraser className="size-3.5" />}
-          Limpar
+          {busy ? (
+            <Loader2 className="size-4 animate-spin motion-reduce:animate-none" aria-hidden="true" />
+          ) : (
+            <Eraser className="size-4" aria-hidden="true" />
+          )}
+          {busy ? "Limpando…" : "Limpar"}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -87,12 +93,18 @@ export function ClearHistoryButton({
           <AlertDialogTitle>Limpar {label}?</AlertDialogTitle>
           <AlertDialogDescription>
             Todos os seus registros deste histórico serão apagados definitivamente. Recomendamos
-            exportar antes, se precisar guardar o comprovante.
+            exportar antes, caso precise guardar um comprovante.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={handleClear}>Apagar registros</AlertDialogAction>
+          <AlertDialogCancel disabled={busy}>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={busy}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={handleClear}
+          >
+            {busy ? "Apagando…" : "Apagar registros"}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
