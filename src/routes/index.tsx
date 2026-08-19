@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site/site-nav";
-import { Hero, Features, BentoGrid, Footer } from "@/components/site/new-homepage/components";
+import { Hero, Features, Footer } from "@/components/site/new-homepage/components";
 import { SitePlans } from "@/components/site/site-plans";
 import { SiteQuestions } from "@/components/site/site-questions";
 
@@ -36,7 +36,6 @@ function HomePage() {
       <main id="main-content" className="relative z-10 flex flex-col" tabIndex={-1}>
         <Hero />
         <Features />
-        <BentoGrid />
         <SitePlans />
         <SiteQuestions />
       </main>
