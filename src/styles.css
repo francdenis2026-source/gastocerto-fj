@@ -102,6 +102,9 @@ img,video,canvas,svg { max-width: 100%; height: auto; }
 button,input,textarea,select { font: inherit; }
 textarea { resize: vertical; }
 
+/* Pro Max readability floor: dense legacy screens used 8–10px labels. */
+.text-\[8px\], .text-\[9px\], .text-\[10px\] { font-size: .75rem !important; line-height: 1rem !important; }
+
 @utility shell { margin-inline: auto; width: 100%; max-width: 78rem; padding-inline: 1rem; @media (min-width: 640px) { padding-inline: 1.5rem; } @media (min-width: 1024px) { padding-inline: 2.5rem; } }
 @utility section-shell { margin-inline: auto; width: 100%; max-width: 90rem; padding-inline: 1rem; @media (min-width: 640px) { padding-inline: 1.5rem; } @media (min-width: 1024px) { padding-inline: 2.5rem; } }
 @utility band { padding-block: 4rem; @media (min-width: 1024px) { padding-block: 6rem; } }
