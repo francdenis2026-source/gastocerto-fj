@@ -1,19 +1,18 @@
 import type { LucideIcon } from "lucide-react";
-import { Search, ShieldCheck, Sun, Moon, LogOut, FileDown, FileText, Menu, RefreshCcw } from "lucide-react";
+import { FileText, LogOut, Moon, RefreshCcw, Search, ShieldCheck, Sun } from "lucide-react";
+import { useState } from "react";
+import { jsPDF } from "jspdf";
+
+import { MobileAdminTabBar } from "./mobile-admin-tab-bar";
+import consoleBg from "@/assets/admin-console-bg.jpg";
+import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { clearBrowserCredentials } from "@/lib/local-session";
-import { useState } from "react";
-import { MobileAdminTabBar } from "./mobile-admin-tab-bar";
-
-import consoleBg from "@/assets/admin-console-bg.jpg";
 import { cn } from "@/lib/utils";
-import { useTheme } from "@/components/theme-provider";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
-import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export type AdminSection = {
   id: string;
@@ -23,10 +22,6 @@ export type AdminSection = {
   adminOnly?: boolean;
 };
 
-/**
- * Casca visual exclusiva da central administrativa: fundo próprio, hero
- * institucional e navegação lateral por seções (nada da área do cliente).
- */
 export function AdminConsoleShell({
   sections,
   active,
@@ -52,73 +47,48 @@ export function AdminConsoleShell({
 
   function handleLogout() {
     confirm({
-      title: "Encerrar Sessão",
-      description: "Deseja sair do sistema completamente? Você será desconectado da administração e da área do cliente.",
+      title: "Encerrar sessão",
+      description:
+        "Deseja sair do sistema completamente? Você será desconectado da administração e da área do cliente.",
       type: "warning",
       confirmLabel: "Sair agora",
       onConfirm: async () => {
         const toastId = toast.loading("Finalizando acesso administrativo...", {
           description: "Encerrando sessão com segurança.",
-          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+          icon: <RefreshCcw className="size-4 animate-spin text-primary" />,
         });
 
         try {
-          // Signout direto do backend
           await supabase.auth.signOut();
-
-          // Limpeza profunda
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
-          
-          toast.success("Até logo!", {
+          toast.success("Sessão encerrada", {
             id: toastId,
-            description: "Acesso administrativo encerrado com segurança.",
-            icon: (
-              <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-sm border border-emerald-500/20">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="animate-in zoom-in duration-300"
-                >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-              </div>
-            ),
+            description: "Seu acesso administrativo foi finalizado com segurança.",
           });
-
-          // Redirecionamento forçado para a raiz (limpa o estado do react-router)
-          setTimeout(() => {
-            window.location.replace("/");
-          }, 800);
+          window.location.replace("/");
         } catch (error) {
           console.error("Erro no logout admin:", error);
           toast.error("Erro ao encerrar sessão", { id: toastId });
           window.location.replace("/");
         }
-      }
+      },
     });
   }
 
   const exportSearchPdf = () => {
-    if (!searchTerm) {
+    if (!searchTerm.trim()) {
       toast.error("Insira um termo de busca para exportar os resultados globais.");
       return;
     }
     const doc = new jsPDF();
-    doc.text(`GastoCerto — Resultados da Busca Global: "${searchTerm}"`, 14, 15);
+    doc.text(`GastoCerto — Resultados da busca global: "${searchTerm}"`, 14, 15);
     doc.setFontSize(10);
     doc.text(`Gerado em: ${new Date().toLocaleString("pt-BR")}`, 14, 22);
-    doc.text("Nota: Este PDF contém uma captura dos dados filtrados na sessão atual.", 14, 28);
+    doc.text("Nota: este PDF contém uma captura dos dados filtrados na sessão atual.", 14, 28);
     doc.save(`busca-global-${searchTerm}.pdf`);
-    toast.success("PDF de busca gerado.");
+    toast.success("PDF da busca gerado.");
   };
 
   return (
@@ -134,68 +104,74 @@ export function AdminConsoleShell({
           className="size-full object-cover opacity-[0.18] dark:opacity-[0.35]"
         />
         <div className="absolute inset-0 bg-background/88" />
-        <div className="absolute inset-0 bg-[radial-gradient(120%_70%_at_10%_0%,color-mix(in_oklab,var(--brand)_18%,transparent),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_70%_at_10%_0%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_60%)]" />
       </div>
 
+      <a href="#admin-content" className="skip-link sr-only focus:not-sr-only">
+        Pular para o conteúdo administrativo
+      </a>
+
       <div className="mx-auto w-full max-w-[1400px] px-3 py-4 sm:px-6 sm:py-6">
-        {/* Hero da central */}
-        <header className="overflow-hidden rounded-2xl border border-border/70 bg-card/70 backdrop-blur">
+        <header className="overflow-hidden rounded-2xl border border-border bg-card/90 shadow-sm backdrop-blur">
           <div className="relative p-4 sm:p-6">
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,color-mix(in_oklab,var(--brand)_16%,transparent),transparent_55%)]" />
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="flex items-center gap-3">
-                <span className="grid size-12 place-items-center rounded-xl border border-border/70 bg-background/70 shadow-sm">
-                  <ShieldCheck className="size-7 text-brand" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_55%)]" />
+            <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-border bg-background/80 shadow-sm">
+                  <ShieldCheck className="size-7 text-primary" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
                     Central de controle
                   </p>
-                  <h1 className="truncate text-xl font-bold sm:text-2xl">GastoCerto — Administração</h1>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
+                  <h1 className="text-balance text-xl font-bold leading-tight sm:text-2xl">
+                    GastoCerto — Administração
+                  </h1>
+                  <p className="mt-1 break-all text-xs text-muted-foreground">
                     {operatorName} · {role}
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-1 items-center gap-2 sm:ml-auto">
-                <div className="relative flex-1 sm:max-w-md">
-                  <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+              <div className="flex min-w-0 flex-1 items-center gap-2 xl:ml-auto xl:max-w-2xl">
+                <div className="relative min-w-0 flex-1">
+                  <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
                   <Input
-                    placeholder="Busca global (usuários, chaves, logs...)"
+                    aria-label="Busca global administrativa"
+                    placeholder="Buscar usuários, chaves, logs..."
                     value={searchTerm}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                    className="h-10 pl-9 pr-10 bg-background/50 border-border/50"
+                    onChange={(event) => onSearchChange(event.target.value)}
+                    className="h-11 bg-background/70 pl-9 pr-12"
                   />
-                  {searchTerm && (
+                  {searchTerm ? (
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="absolute right-1 top-1/2 size-8 -translate-y-1/2 text-muted-foreground hover:text-brand"
+                      className="absolute right-0.5 top-1/2 size-10 -translate-y-1/2"
                       onClick={exportSearchPdf}
-                      title="Exportar resultados da busca para PDF"
+                      aria-label="Exportar resultados da busca para PDF"
                     >
-                      <FileText className="size-4" />
+                      <FileText className="size-4" aria-hidden="true" />
                     </Button>
-                  )}
+                  ) : null}
                 </div>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="size-10 bg-background/50"
+                  className="size-11 shrink-0 bg-background/70"
                   onClick={toggleTheme}
-                  title="Alternar tema claro/escuro"
+                  aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
                 >
-                  {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
+                  {theme === "dark" ? <Sun className="size-5" aria-hidden="true" /> : <Moon className="size-5" aria-hidden="true" />}
                 </Button>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="size-10 bg-background/50 text-muted-foreground hover:text-foreground"
+                  className="size-11 shrink-0 bg-background/70 text-muted-foreground hover:text-foreground"
                   onClick={handleLogout}
-                  title="Voltar ao painel do cliente"
+                  aria-label="Encerrar sessão administrativa"
                 >
-                  <LogOut className="size-5" />
+                  <LogOut className="size-5" aria-hidden="true" />
                 </Button>
               </div>
             </div>
@@ -203,10 +179,9 @@ export function AdminConsoleShell({
         </header>
 
         <div className="mt-4 grid gap-4 lg:grid-cols-[248px_minmax(0,1fr)]">
-          {/* Navegação por seções */}
           <nav
             aria-label="Seções administrativas"
-            className="flex gap-2 overflow-x-auto rounded-2xl border border-border/70 bg-card/70 p-2 backdrop-blur lg:sticky lg:top-4 lg:h-fit lg:flex-col lg:overflow-visible"
+            className="flex gap-2 overflow-x-auto rounded-2xl border border-border bg-card/90 p-2 shadow-sm backdrop-blur [scrollbar-width:none] lg:sticky lg:top-4 lg:h-fit lg:flex-col lg:overflow-visible [&::-webkit-scrollbar]:hidden"
           >
             {sections.map((section) => {
               const Icon = section.icon;
@@ -217,34 +192,36 @@ export function AdminConsoleShell({
                   type="button"
                   onClick={() => onSelect(section.id)}
                   aria-current={isActive ? "page" : undefined}
+                  aria-label={`${section.label}: ${section.hint}`}
                   className={cn(
-                    "flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors lg:w-full",
+                    "flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:w-full",
                     isActive
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
-                  <Icon className="size-5 shrink-0" />
+                  <Icon className="size-5 shrink-0" aria-hidden="true" />
                   <span className="whitespace-nowrap lg:whitespace-normal">{section.label}</span>
                 </button>
               );
             })}
           </nav>
 
-          <main className="min-w-0 rounded-2xl border border-border/70 bg-card/70 p-3 backdrop-blur sm:p-5">
-            <div className="mb-3 hidden items-baseline justify-between gap-3 sm:flex">
+          <main
+            id="admin-content"
+            tabIndex={-1}
+            className="min-w-0 rounded-2xl border border-border bg-card/90 p-3 shadow-sm backdrop-blur focus:outline-none sm:p-5"
+          >
+            <div className="mb-4 border-b border-border pb-3">
               <h2 className="text-lg font-semibold">{current?.label}</h2>
-              <p className="text-xs text-muted-foreground">{current?.hint}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{current?.hint}</p>
             </div>
             {children}
           </main>
         </div>
       </div>
-      <MobileAdminTabBar 
-        sections={sections} 
-        active={current?.id || active} 
-        onSelect={onSelect} 
-      />
+
+      <MobileAdminTabBar sections={sections} active={current?.id || active} onSelect={onSelect} />
       <ConfirmDialog />
     </div>
   );
