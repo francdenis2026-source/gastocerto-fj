@@ -2,17 +2,11 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/*
-  GASTOCERTO — DESIGN SYSTEM
-  Todas as cores derivam exclusivamente da logomarca:
-  navy #001830 · verde #00A85F / #009060 · off-white #F0F0F0
-*/
-
+/* GastoCerto design system — navy, green and neutral surfaces. */
 @theme inline {
   --color-brand-green: #00A85F;
   --color-brand-navy: #001830;
   --color-brand-navy-dark: #000c18;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -32,479 +26,108 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-
   --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 0.25rem);
-  --radius-sm: calc(var(--radius) - 0.5rem);
-
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-sm: calc(var(--radius) - 0.25rem);
   --font-display: "Space Grotesk", "Outfit", system-ui, sans-serif;
   --font-sans: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @keyframes pulse-subtle { 0%,100% { opacity: 1; } 50% { opacity: .78; } }
+  @keyframes gradient { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 3s ease-in-out infinite;
-  --animate-glow: glow 4s ease-in-out infinite;
-  --animate-spin-slow: spin 20s linear infinite;
   --animate-gradient: gradient 8s linear infinite;
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-  }
-  @keyframes pulse-subtle {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.02); }
-  }
-  @keyframes glow {
-    0%, 100% { opacity: 0.5; filter: blur(40px); }
-    50% { opacity: 1; filter: blur(60px); }
-  }
-  @keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  @keyframes progress-grow {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-  }
-  --animate-progress-grow: progress-grow 2s ease-out forwards;
 }
 
 :root {
-  --radius: 0.75rem;
-
+  --radius: 0.875rem;
   --background: #ffffff;
   --foreground: #0f172a;
   --card: #ffffff;
   --card-foreground: #0f172a;
   --popover: #ffffff;
   --popover-foreground: #0f172a;
-
-  --primary: #00A85F;
+  --primary: #008f51;
   --primary-foreground: #ffffff;
   --secondary: #001830;
-  --secondary-foreground: #F0F0F0;
-
+  --secondary-foreground: #f8fafc;
   --muted: #f8fafc;
-  --muted-foreground: #64748b;
-  --accent: #00A85F15;
-  --accent-foreground: #00A85F;
-
-  --destructive: #ef4444;
+  --muted-foreground: #526173;
+  --accent: #e8f8f0;
+  --accent-foreground: #006c3d;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #00A85F;
-  
-  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-lifted: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --border: #dbe3ec;
+  --input: #cbd5e1;
+  --ring: #008f51;
+  --shadow-soft: 0 4px 16px rgba(15, 23, 42, .06);
+  --shadow-lifted: 0 16px 36px rgba(15, 23, 42, .10);
 }
 
-/* 
-  MODO DARK — PALETA PREMIUM REESCRITA
-  Fundo: Mistura profunda de azul petróleo/navy para reduzir fadiga visual (#000D1A)
-  Card: Superfície com toque acetinado (#001529)
-  Contraste: Emerald/Green vibrante (#22C55E) para legibilidade crítica
-*/
 .dark {
   --background: #000d1a;
-  --foreground: #f0f4f8;
+  --foreground: #f1f5f9;
   --card: #001529;
-  --card-foreground: #f0f4f8;
+  --card-foreground: #f1f5f9;
   --popover: #001529;
-  --popover-foreground: #f0f4f8;
-
+  --popover-foreground: #f1f5f9;
   --primary: #22c55e;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #00150b;
   --secondary: #000810;
-  --secondary-foreground: #cbd5e1;
-
+  --secondary-foreground: #e2e8f0;
   --muted: #001a33;
-  --muted-foreground: #a3b3c9;
-  --accent: #22c55e25;
-  --accent-foreground: #22c55e;
-
-  --destructive: #f43f5e;
-  --destructive-foreground: #ffffff;
-
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: #22c55e;
-
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.6);
-  --shadow-lifted: 0 20px 50px rgba(0, 0, 0, 0.8);
+  --muted-foreground: #b6c3d4;
+  --accent: #123c2b;
+  --accent-foreground: #86efac;
+  --destructive: #fb7185;
+  --destructive-foreground: #190408;
+  --border: rgba(255,255,255,.12);
+  --input: rgba(255,255,255,.16);
+  --ring: #4ade80;
+  --shadow-soft: 0 4px 20px rgba(0,0,0,.35);
+  --shadow-lifted: 0 18px 44px rgba(0,0,0,.5);
 }
 
-body {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.6;
-  letter-spacing: -0.015em;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  color: var(--foreground);
-  font-weight: 450; /* Peso ligeiramente maior para melhor leitura em fundos escuros */
+html { overflow-y: auto; height: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+body { min-height: 100dvh; max-width: 100%; overflow-x: hidden; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-size: 1rem; line-height: 1.6; letter-spacing: -.012em; font-weight: 450; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; -webkit-tap-highlight-color: transparent; }
+h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -.035em; font-weight: 700; line-height: 1.1; }
+img,video { max-width: 100%; height: auto; }
+
+@utility shell { margin-inline: auto; width: 100%; max-width: 78rem; padding-inline: 1rem; @media (min-width: 640px) { padding-inline: 1.5rem; } @media (min-width: 1024px) { padding-inline: 2.5rem; } }
+@utility section-shell { margin-inline: auto; width: 100%; max-width: 90rem; padding-inline: 1rem; @media (min-width: 640px) { padding-inline: 1.5rem; } @media (min-width: 1024px) { padding-inline: 2.5rem; } }
+@utility band { padding-block: 4rem; @media (min-width: 1024px) { padding-block: 6rem; } }
+@utility section-y { padding-block: 4rem; @media (min-width: 1024px) { padding-block: 6rem; } }
+@utility kicker { font-size: .75rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in oklab, var(--primary) 88%, var(--foreground)); }
+@utility numeric { font-family: var(--font-mono); font-feature-settings: "tnum" 1; letter-spacing: -.02em; }
+@utility surface { border-radius: var(--radius); border: 1px solid var(--border); background: color-mix(in oklab, var(--card) 94%, transparent); }
+@utility premium-card { border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); padding: 1.5rem; box-shadow: var(--shadow-soft); }
+
+.text-glow { text-shadow: 0 0 20px color-mix(in oklab, var(--primary) 35%, transparent); }
+.border-glow { box-shadow: 0 0 15px -6px color-mix(in oklab, var(--primary) 45%, transparent); }
+.animate-gradient { background-size: 200% auto; animation: gradient 6s ease infinite; }
+.glass-panel { backdrop-filter: blur(18px); background-color: color-mix(in oklab, var(--background) 78%, transparent); border: 1px solid var(--border); }
+
+.lift,.interactive-card { transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .lift:hover,.interactive-card:hover { transform: translateY(-3px); border-color: color-mix(in oklab, var(--primary) 50%, var(--border)); box-shadow: var(--shadow-lifted); }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display);
-  letter-spacing: -0.04em;
-  font-weight: 700;
-  line-height: 1.1;
-}
+button:not([disabled]), a, [role="button"], [role="tab"] { transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, opacity 180ms ease, transform 180ms ease; }
+a,button,summary,label[for],[role="button"],[role="tab"],[role="option"],[role="menuitem"],input[type="submit"],input[type="button"],input[type="checkbox"],input[type="radio"],select,.clickable { cursor: pointer; }
+:is(button,a,[role="button"]):disabled,[aria-disabled="true"] { cursor: not-allowed; }
 
-.animate-gradient {
-  background-size: 200% auto;
-  animation: gradient 5s ease infinite;
-}
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: .5rem; }
+input:focus-visible,textarea:focus-visible,select:focus-visible { outline-offset: 1px; }
 
-.text-glow {
-  text-shadow: 0 0 20px color-mix(in oklab, var(--primary) 40%, transparent);
-}
+@media (pointer: coarse) { button, a[role="button"], [role="tab"], input[type="submit"], input[type="button"] { min-height: 44px; } }
 
-.border-glow {
-  box-shadow: 0 0 15px -5px color-mix(in oklab, var(--primary) 50%, transparent);
-}
-
-/* ——— Estrutura ——— */
-
-@utility shell {
-  margin-inline: auto;
-  width: 100%;
-  max-width: 78rem;
-  padding-inline: 1.5rem;
-
-  @media (min-width: 1024px) {
-    padding-inline: 2.5rem;
-  }
-}
-
-@utility band {
-  padding-block: 5rem;
-
-  @media (min-width: 1024px) {
-    padding-block: 7.5rem;
-  }
-}
-
-@utility hairline {
-  border-top: 1px solid var(--border);
-}
-
-@utility kicker {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--primary) 85%, var(--foreground));
-}
-
-@utility numeric {
-  font-family: var(--font-mono);
-  font-feature-settings: "tnum" 1;
-  letter-spacing: -0.03em;
-}
-
-@utility surface {
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--card) 88%, transparent);
-}
-
-/* ——— Interação ——— */
-
-.lift {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, box-shadow;
-}
-
-.lift:hover {
-  transform: translateY(-8px) scale(1.01);
-  border-color: var(--primary);
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.5),
-    0 0 20px -5px color-mix(in oklab, var(--primary) 40%, transparent);
-}
-
-.lift:active {
-  transform: translateY(-2px) scale(0.99);
-}
-
-/* Botões Modernos */
-button:not([disabled]), 
-.btn-premium {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-button:not([disabled]):hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -10px color-mix(in oklab, var(--primary) 50%, transparent);
-}
-
-button:not([disabled]):active {
-  transform: translateY(0) scale(0.98);
-}
-
-/* Efeito de Luz Profissional (Spotlight) */
-.glow-effect {
-  position: relative;
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
-}
-
-.glow-effect::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    color-mix(in oklab, var(--primary) 20%, transparent),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.glow-effect:hover::after {
-  opacity: 1;
-}
-
-.glow-effect:hover {
-  box-shadow: 0 0 25px -5px color-mix(in oklab, var(--primary) 30%, transparent);
-}
-
-/* Aplicando em botões e menus */
-a,
-button,
-.site-nav-link {
-  --mouse-x: 50%;
-  --mouse-y: 50%;
-}
-
-a,
-button,
-summary,
-label[for],
-[role="button"],
-[role="tab"],
-[role="option"],
-[role="menuitem"],
-input[type="submit"],
-input[type="button"],
-input[type="checkbox"],
-input[type="radio"],
-select,
-.clickable {
-  cursor: pointer;
-}
-
-:is(button, a, [role="button"]):disabled,
-[aria-disabled="true"] {
-  cursor: not-allowed;
-}
-
-:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 4px;
-  border-radius: 0.5rem;
-  transition: outline-offset 200ms ease;
-}
-
-[data-reduced-motion="true"] *,
-[data-reduced-motion="true"] *::before,
-[data-reduced-motion="true"] *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-  scroll-behavior: auto !important;
-}
-
-@media (pointer: coarse) {
-  button,
-  a[role="button"],
-  [role="tab"] {
-    min-height: 44px;
-  }
-}
-
-html {
-  overflow-y: auto !important;
-  height: auto !important;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Garante que a barra de rolagem seja visível conforme solicitado */
-html::-webkit-scrollbar {
-  width: 12px !important;
-  height: 12px !important;
-  display: block !important;
-}
-
-html::-webkit-scrollbar-track {
-  background: var(--background) !important;
-}
-
-html::-webkit-scrollbar-thumb {
-  background: var(--primary) !important;
-  border: 3px solid var(--background) !important;
-  border-radius: 10px !important;
-}
-
-html {
-  scrollbar-width: auto !important; /* Firefox: torna visível */
-  scrollbar-color: var(--primary) var(--background) !important;
-}
-
-body {
-  overflow-y: visible !important;
-  height: auto !important;
-  max-width: 100%;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
-  overscroll-behavior-y: auto !important;
-}
-
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+.skip-link { position: fixed; top: .75rem; left: .75rem; z-index: 1001; transform: translateY(-150%); border-radius: .5rem; background: var(--primary); color: var(--primary-foreground); padding: .75rem 1rem; font-weight: 700; }
+.skip-link:focus { transform: translateY(0); }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
-
-/* Compatibilidade com telas internas do produto */
-@utility section-shell {
-  margin-inline: auto;
-  width: 100%;
-  max-width: 90rem;
-  padding-inline: 1.5rem;
-
-  @media (min-width: 1024px) {
-    padding-inline: 2.5rem;
-  }
-}
-
-@utility section-y {
-  padding-block: 5rem;
-
-  @media (min-width: 1024px) {
-    padding-block: 7.5rem;
-  }
-}
-
-@utility premium-card {
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--card) 95%, transparent);
-  padding: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--shadow-soft);
-  position: relative;
-  overflow: hidden;
-
-  &:hover {
-    transform: translateY(-6px);
-    border-color: color-mix(in oklab, var(--primary) 40%, transparent);
-    background: var(--card);
-    box-shadow: var(--shadow-lifted);
-  }
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top right, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover::before {
-    opacity: 1;
-  }
-}
-
-.interactive-card {
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 1px solid var(--border);
-  background: var(--card);
-}
-
-.interactive-card:hover {
-  transform: scale(1.02) translateY(-4px);
-  border-color: var(--primary);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
-}
-
-.glass-panel {
-  backdrop-filter: blur(20px);
-  background-color: color-mix(in oklab, var(--background) 72%, transparent);
-  border: 1px solid var(--border);
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--primary);
-  color: var(--primary-foreground);
-  padding: 8px;
-  z-index: 1001;
-  transition: top 0.2s;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* NEXUS-PRO:WATERMARK-HIDE:START */
-/* Overlay do badge oficial ocultado por conflito com UI custom.
-   Bloco idempotente gerenciado pela extensão Nexus Pro.
-   NÃO EDITAR manualmente — para reverter, remova o bloco inteiro. */
-#lovable-badge,
-#lovable-badge-v2,
-[id^="lovable-badge"],
-[data-testid="lovable-badge"],
-a[href*="lovable.dev/?via="],
-a[href*="lovable.dev?via="],
-a[href*="gpteng.co"],
-iframe[src*="lovable.dev/badge"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-/* NEXUS-PRO:WATERMARK-HIDE:END */
