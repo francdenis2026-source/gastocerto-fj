@@ -5,36 +5,36 @@ import { cn } from "@/lib/utils";
 
 const tones = {
   brand: {
-    ring: "border-brand/25",
-    glow: "color-mix(in oklab, var(--brand) 16%, transparent)",
-    icon: "border-brand/25 bg-brand/12 text-brand",
+    ring: "border-primary/25",
+    glow: "color-mix(in oklab, var(--primary) 14%, transparent)",
+    icon: "border-primary/25 bg-primary/10 text-primary",
     value: "text-foreground",
-    bar: "bg-brand",
+    bar: "bg-primary",
   },
   success: {
-    ring: "border-success/25",
-    glow: "color-mix(in oklab, var(--success) 16%, transparent)",
-    icon: "border-success/30 bg-success/12 text-success",
-    value: "text-success",
-    bar: "bg-success",
+    ring: "border-emerald-500/25",
+    glow: "oklch(0.72 0.16 155 / 10%)",
+    icon: "border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+    value: "text-emerald-700 dark:text-emerald-400",
+    bar: "bg-emerald-500",
   },
   expense: {
     ring: "border-rose-500/30",
     glow: "oklch(0.68 0.18 25 / 8%)",
     icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
-    value: "text-rose-600 font-bold dark:text-rose-400 dark:font-black",
+    value: "text-rose-600 dark:text-rose-400",
     bar: "bg-rose-500",
   },
   warning: {
-    ring: "border-warning/30",
-    glow: "color-mix(in oklab, var(--warning) 18%, transparent)",
-    icon: "border-warning/35 bg-warning/14 text-warning",
-    value: "text-warning",
-    bar: "bg-warning",
+    ring: "border-amber-500/30",
+    glow: "oklch(0.78 0.16 80 / 10%)",
+    icon: "border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-400",
+    value: "text-amber-700 dark:text-amber-400",
+    bar: "bg-amber-500",
   },
   neutral: {
     ring: "border-border",
-    glow: "color-mix(in oklab, var(--foreground) 6%, transparent)",
+    glow: "color-mix(in oklab, var(--foreground) 5%, transparent)",
     icon: "border-border bg-muted text-muted-foreground",
     value: "text-foreground",
     bar: "bg-muted-foreground",
@@ -49,14 +49,12 @@ type StatTileProps = {
   hint?: ReactNode;
   icon?: LucideIcon;
   tone?: StatTone;
-  /** 0-100: desenha uma barra de proporção no pé do cartão. */
   progress?: number;
   badge?: ReactNode;
   onClick?: () => void;
   className?: string;
 };
 
-/** Cartão de métrica com cor semântica, ícone e proporção opcional. */
 export function StatTile({
   label,
   value,
@@ -70,48 +68,56 @@ export function StatTile({
 }: StatTileProps) {
   const t = tones[tone];
   const Comp = onClick ? "button" : "div";
+  const normalizedProgress =
+    typeof progress === "number" ? Math.min(100, Math.max(0, progress)) : undefined;
 
   return (
     <Comp
       {...(onClick ? { type: "button" as const, onClick } : {})}
       className={cn(
-        "relative w-full overflow-hidden glass-morphism mobile-compact-card text-left shadow-soft transition-all hover:bg-card/80",
+        "relative w-full overflow-hidden rounded-2xl border bg-card p-4 text-left shadow-soft transition-[transform,box-shadow,border-color,background-color] sm:p-5",
         t.ring,
-        onClick
-          ? "hover:-translate-y-0.5 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          : null,
+        onClick &&
+          "cursor-pointer hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-0",
         className,
       )}
-      style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 60%)` }}
+      style={{ backgroundImage: `linear-gradient(150deg, ${t.glow}, transparent 62%)` }}
+      aria-label={onClick ? `${label}: ${value}` : undefined}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="min-w-0 truncate text-[9.5px] font-semibold uppercase tracking-[0.05em] text-muted-foreground sm:text-[11.5px] sm:tracking-[0.09em]">
+      <div className="flex items-start justify-between gap-3">
+        <p className="min-w-0 text-[10px] font-semibold uppercase leading-snug tracking-[0.09em] text-muted-foreground sm:text-[11px]">
           {label}
         </p>
         {Icon ? (
-          <span className={cn("grid size-6 sm:size-7 shrink-0 place-items-center rounded-lg border", t.icon)}>
-            <Icon className="size-3.5" aria-hidden="true" />
+          <span className={cn("grid size-8 shrink-0 place-items-center rounded-xl border", t.icon)}>
+            <Icon className="size-4" aria-hidden="true" />
           </span>
         ) : null}
       </div>
+
       <p
-        title={value}
         className={cn(
-          "mt-1.5 truncate font-display text-[clamp(0.95rem,4.1vw,1.3rem)] font-bold leading-tight tabular tracking-tight",
+          "mt-2 break-words font-display text-[clamp(1.05rem,5vw,1.45rem)] font-bold leading-tight tracking-tight tabular-nums",
           t.value,
         )}
       >
         {value}
       </p>
-      {hint ? (
-        <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground sm:text-xs">{hint}</p>
-      ) : null}
-      {badge ? <div className="mt-2">{badge}</div> : null}
-      {typeof progress === "number" ? (
-        <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-muted">
+
+      {hint ? <div className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{hint}</div> : null}
+      {badge ? <div className="mt-2.5">{badge}</div> : null}
+
+      {typeof normalizedProgress === "number" ? (
+        <div
+          className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(normalizedProgress)}
+        >
           <div
-            className={cn("h-full rounded-full transition-[width] duration-500", t.bar)}
-            style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
+            className={cn("h-full rounded-full transition-[width] duration-300", t.bar)}
+            style={{ width: `${normalizedProgress}%` }}
           />
         </div>
       ) : null}
