@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { WifiOff } from "lucide-react";
+import { useEffect, useState } from "react";
 
 /** Aviso discreto quando o usuário fica sem conexão (o app segue navegável via cache). */
 export function OfflineBanner() {
@@ -22,10 +22,10 @@ export function OfflineBanner() {
     <div
       role="status"
       aria-live="polite"
-      className="fixed inset-x-0 bottom-0 z-[60] flex items-center justify-center gap-2 border-t border-amber-500/30 bg-amber-500/95 px-3 py-2 text-xs font-medium text-amber-950 shadow-lg"
+      className="fixed inset-x-0 bottom-0 z-[60] flex min-h-11 items-center justify-center gap-2 border-t border-amber-500/30 bg-amber-400/95 px-4 pt-2 text-center text-xs font-semibold text-amber-950 shadow-lg pb-[calc(0.5rem+env(safe-area-inset-bottom))]"
     >
-      <WifiOff className="h-3.5 w-3.5" aria-hidden="true" />
-      Você está offline — mostrando os dados salvos no dispositivo.
+      <WifiOff className="size-4 shrink-0" aria-hidden="true" />
+      <span>Você está offline — mostrando os dados salvos no dispositivo.</span>
     </div>
   );
 }
