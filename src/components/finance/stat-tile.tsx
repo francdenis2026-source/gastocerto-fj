@@ -3,6 +3,14 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
+const expenseTone = {
+  ring: "border-rose-500/30",
+  glow: "oklch(0.68 0.18 25 / 8%)",
+  icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
+  value: "text-rose-600 dark:text-rose-400",
+  bar: "bg-rose-500",
+} as const;
+
 const tones = {
   brand: {
     ring: "border-primary/25",
@@ -18,13 +26,8 @@ const tones = {
     value: "text-emerald-700 dark:text-emerald-400",
     bar: "bg-emerald-500",
   },
-  expense: {
-    ring: "border-rose-500/30",
-    glow: "oklch(0.68 0.18 25 / 8%)",
-    icon: "border-rose-500/20 bg-rose-500/10 text-rose-500",
-    value: "text-rose-600 dark:text-rose-400",
-    bar: "bg-rose-500",
-  },
+  expense: expenseTone,
+  danger: expenseTone,
   warning: {
     ring: "border-amber-500/30",
     glow: "oklch(0.78 0.16 80 / 10%)",
@@ -85,7 +88,7 @@ export function StatTile({
       aria-label={onClick ? `${label}: ${value}` : undefined}
     >
       <div className="flex items-start justify-between gap-3">
-        <p className="min-w-0 text-[10px] font-semibold uppercase leading-snug tracking-[0.09em] text-muted-foreground sm:text-[11px]">
+        <p className="min-w-0 text-xs font-semibold uppercase leading-snug tracking-[0.09em] text-muted-foreground">
           {label}
         </p>
         {Icon ? (
