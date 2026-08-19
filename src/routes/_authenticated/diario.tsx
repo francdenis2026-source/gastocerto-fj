@@ -8,6 +8,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/finance/page-header";
+import { StatTile } from "@/components/finance/stat-tile";
 import { TransactionDialog } from "@/components/finance/dialogs/transaction-dialog";
 import { TransactionDetailsDialog } from "@/components/finance/dialogs/transaction-details-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -22,10 +23,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CHART_TOKENS, axisProps, gridProps, tooltipProps } from "@/lib/chart-theme";
 import { formatCurrency, formatDate } from "@/lib/format-utils";
 import { useCategories } from "@/lib/queries";
 import { useTransactions, type Transaction } from "@/lib/transactions";
-
 
 export const Route = createFileRoute("/_authenticated/diario")({
   head: () => ({
@@ -58,14 +59,13 @@ function iso(date: Date) {
 function rangeFor(mode: Mode, year: number, month: number) {
   const today = new Date();
   const dateInView = new Date(year, month - 1, 1);
-  
+
   if (mode === "dia") {
-    // Se for o mês atual e ano atual, mostrar "Hoje", caso contrário mostrar o primeiro dia do mês em questão
     const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
     const targetDate = isCurrentMonth ? today : dateInView;
     return { start: iso(targetDate), end: iso(targetDate) };
   }
-  
+
   if (mode === "semana") {
     const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
     const refDate = isCurrentMonth ? today : dateInView;
@@ -80,12 +80,10 @@ function rangeFor(mode: Mode, year: number, month: number) {
     const isCurrentMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
     const first = isCurrentMonth ? today.getDate() <= 15 : true;
     const start = new Date(year, month - 1, first ? 1 : 16);
-    const end = first
-      ? new Date(year, month - 1, 15)
-      : new Date(year, month, 0);
+    const end = first ? new Date(year, month - 1, 15) : new Date(year, month, 0);
     return { start: iso(start), end: iso(end) };
   }
-  
+
   return { start: iso(dateInView), end: iso(new Date(year, month, 0)) };
 }
 
@@ -110,7 +108,6 @@ function DailyPage() {
   const [editing, setEditing] = useState<Transaction | null>(null);
   const { data: categories } = useCategories();
 
-
   const categoryName = useMemo(() => {
     const map = new Map<string, string>();
     (categories ?? []).forEach((category) => map.set(category.id, category.name));
@@ -122,8 +119,7 @@ function DailyPage() {
     () =>
       (allTransactions ?? []).filter((item) => {
         if (categoryFilter !== "all") {
-          const matches =
-            item.category_id === categoryFilter || item.sub_category_id === categoryFilter;
+          const matches = item.category_id === categoryFilter || item.sub_category_id === categoryFilter;
           if (!matches) return false;
         }
         if (!term) return true;
@@ -136,21 +132,19 @@ function DailyPage() {
     [allTransactions, categoryFilter, term],
   );
 
-  const expenses = (transactions ?? []).filter((item) => item.transaction_type === "expense");
-  const incomes = (transactions ?? []).filter((item) => item.transaction_type === "income");
+  const expenses = transactions.filter((item) => item.transaction_type === "expense");
+  const incomes = transactions.filter((item) => item.transaction_type === "income");
   const totalExpense = expenses.reduce((sum, item) => sum + Number(item.amount), 0);
   const totalIncome = incomes.reduce((sum, item) => sum + Number(item.amount), 0);
+  const balance = totalIncome - totalExpense;
 
-  /** Agrupa por dia (quinzena/mês) ou por hora (dia atual) para o gráfico. */
   const chartData = useMemo(() => {
     const buckets = new Map<string, number>();
     expenses.forEach((item) => {
       const key =
         mode === "dia"
           ? (hourOf(item.created_at) ?? "—").slice(0, 2) + "h"
-          : mode === "semana"
-            ? formatDate(item.transaction_date).slice(0, 5)
-            : formatDate(item.transaction_date).slice(0, 5);
+          : formatDate(item.transaction_date).slice(0, 5);
       buckets.set(key, (buckets.get(key) ?? 0) + Number(item.amount));
     });
     return [...buckets.entries()]
@@ -158,10 +152,9 @@ function DailyPage() {
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [expenses, mode]);
 
-  /** Lista agrupada por data, como um extrato bancário. */
   const groups = useMemo(() => {
     const map = new Map<string, typeof expenses>();
-    (transactions ?? []).forEach((item) => {
+    transactions.forEach((item) => {
       const list = map.get(item.transaction_date) ?? [];
       list.push(item);
       map.set(item.transaction_date, list);
@@ -169,10 +162,9 @@ function DailyPage() {
     return [...map.entries()].sort((a, b) => b[0].localeCompare(a[0]));
   }, [transactions]);
 
-  /** Totais por categoria, para o modo de agrupamento por categoria. */
   const categoryGroups = useMemo(() => {
     const map = new Map<string, { total: number; count: number; items: typeof expenses }>();
-    (transactions ?? []).forEach((item) => {
+    transactions.forEach((item) => {
       const key = item.category_id ?? "none";
       const entry = map.get(key) ?? { total: 0, count: 0, items: [] };
       entry.total += (item.transaction_type === "income" ? 1 : -1) * Number(item.amount);
@@ -186,7 +178,6 @@ function DailyPage() {
   return (
     <AppShell>
       <div className="space-y-4">
-        {/* Aviso de Dívidas em Atraso */}
         <DebtOverdueNotice />
 
         <PageHeader
@@ -195,49 +186,28 @@ function DailyPage() {
           title="Gastos em detalhes"
           description={`${formatDate(range.start)} até ${formatDate(range.end)} · hora de cada lançamento`}
           actions={
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-2 mr-2">
-                <PeriodPicker 
-                  year={selectedYear} 
-                  month={selectedMonth} 
-                  onChange={(p) => {
-                    setSelectedYear(p.year);
-                    setSelectedMonth(p.month);
-                  }} 
-                />
-              </div>
+            <div className="flex max-w-full flex-wrap items-center gap-2">
+              <PeriodPicker
+                year={selectedYear}
+                month={selectedMonth}
+                onChange={(p) => {
+                  setSelectedYear(p.year);
+                  setSelectedMonth(p.month);
+                }}
+              />
               <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
-                <TabsList className="bg-muted/50 p-1">
-                  <TabsTrigger value="dia" className="text-[11px] font-bold">Dia</TabsTrigger>
-                  <TabsTrigger value="semana" className="text-[11px] font-bold">Semana</TabsTrigger>
-                  <TabsTrigger value="quinzena" className="text-[11px] font-bold">Quinzena</TabsTrigger>
-                  <TabsTrigger value="mes" className="text-[11px] font-bold">Mês</TabsTrigger>
+                <TabsList className="max-w-full overflow-x-auto bg-muted/50 p-1">
+                  <TabsTrigger value="dia">Dia</TabsTrigger>
+                  <TabsTrigger value="semana">Semana</TabsTrigger>
+                  <TabsTrigger value="quinzena">Quinzena</TabsTrigger>
+                  <TabsTrigger value="mes">Mês</TabsTrigger>
                 </TabsList>
               </Tabs>
-              <div className="flex items-center gap-2 ml-auto">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="rounded-xl"
-                  onClick={() => {
-                    // Export CSV logic simplified
-                    toast.info("Exportação CSV iniciada...");
-                  }}
-                >
-                  CSV
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="rounded-xl"
-                  onClick={() => {
-                    toast.info("Exportação PDF iniciada...");
-                  }}
-                >
-                  PDF
-                </Button>
-                <Button size="sm" onClick={() => setDialogOpen(true)} className="rounded-xl">
-                  <Plus className="mr-1.5 size-4" />
+              <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+                <Button variant="outline" size="sm" onClick={() => toast.info("Exportação CSV iniciada...")}>CSV</Button>
+                <Button variant="outline" size="sm" onClick={() => toast.info("Exportação PDF iniciada...")}>PDF</Button>
+                <Button size="sm" onClick={() => setDialogOpen(true)}>
+                  <Plus className="size-4" />
                   Adicionar gasto
                 </Button>
               </div>
@@ -245,32 +215,10 @@ function DailyPage() {
           }
         />
 
-        <section className="auto-cards-sm">
-          <article className="rounded-2xl border border-border bg-card p-4">
-            <p className="text-xs font-medium text-muted-foreground">Saídas no período</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-destructive">
-              {formatCurrency(totalExpense)}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">{expenses.length} lançamento(s)</p>
-          </article>
-          <article className="rounded-2xl border border-border bg-card p-4">
-            <p className="text-xs font-medium text-muted-foreground">Entradas no período</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-primary">
-              {formatCurrency(totalIncome)}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">{incomes.length} lançamento(s)</p>
-          </article>
-          <article className="rounded-2xl border border-border bg-card p-4">
-            <p className="text-xs font-medium text-muted-foreground">Resultado</p>
-            <p
-              className={`mt-1 text-2xl font-bold tabular-nums ${
-                totalIncome - totalExpense >= 0 ? "text-primary" : "text-destructive"
-              }`}
-            >
-              {formatCurrency(totalIncome - totalExpense)}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">Entradas menos saídas</p>
-          </article>
+        <section className="auto-cards-sm" aria-label="Resumo do período">
+          <StatTile tone="danger" label="Saídas no período" value={formatCurrency(totalExpense)} hint={`${expenses.length} lançamento(s)`} icon={ArrowDownRight} />
+          <StatTile tone="success" label="Entradas no período" value={formatCurrency(totalIncome)} hint={`${incomes.length} lançamento(s)`} icon={ArrowUpRight} />
+          <StatTile tone={balance >= 0 ? "success" : "danger"} label="Resultado" value={formatCurrency(balance)} hint="Entradas menos saídas" icon={ListFilter} />
         </section>
 
         <section className="rounded-2xl border border-border bg-card p-4">
@@ -278,26 +226,18 @@ function DailyPage() {
             <CalendarDays className="size-4 text-muted-foreground" />
             {mode === "dia" ? "Saídas por hora" : mode === "semana" ? "Saídas por dia da semana" : "Saídas por dia"}
           </h2>
-          <div className="chart-frame mt-2">
+          <p className="mt-1 text-xs text-muted-foreground">Distribuição das despesas no período selecionado.</p>
+          <div className="chart-frame mt-3" role="img" aria-label="Gráfico de saídas no período">
             {chartData.length === 0 ? (
-              <p className="grid h-full place-items-center text-sm text-muted-foreground">
-                Sem gastos registrados neste período.
-              </p>
+              <p className="grid h-full place-items-center text-sm text-muted-foreground">Sem gastos registrados neste período.</p>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                  <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} />
-                  <YAxis tickLine={false} axisLine={false} width={54} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} />
-                  <Tooltip
-                    formatter={(value: number) => formatCurrency(value)}
-                    contentStyle={{
-                      background: "var(--card)",
-                      border: "1px solid var(--border)",
-                      borderRadius: 12,
-                    }}
-                  />
-                  <Bar dataKey="total" fill="var(--destructive)" radius={[6, 6, 0, 0]} maxBarSize={28} />
+                  <CartesianGrid {...gridProps} />
+                  <XAxis dataKey="label" {...axisProps} />
+                  <YAxis {...axisProps} width={54} />
+                  <Tooltip {...tooltipProps} formatter={(value: number) => [formatCurrency(value), "Saídas"]} />
+                  <Bar dataKey="total" fill={CHART_TOKENS.expense} radius={[6, 6, 0, 0]} maxBarSize={28} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -305,40 +245,20 @@ function DailyPage() {
         </section>
 
         <section className="rounded-2xl border border-border bg-card">
-          <div className="flex flex-wrap items-center gap-2 border-b border-border p-4">
+          <div className="flex flex-wrap items-center gap-3 border-b border-border p-4">
             <h2 className="text-sm font-semibold">Extrato detalhado</h2>
-            <div className="ms-auto flex flex-wrap items-center gap-2">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-2.5 size-3.5 text-muted-foreground" />
-                <Input
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Buscar lançamento"
-                  aria-label="Buscar lançamento no extrato"
-                  className="h-9 w-44 ps-8 text-xs"
-                />
+            <div className="flex w-full flex-wrap items-center gap-2 sm:ms-auto sm:w-auto">
+              <div className="relative min-w-0 flex-1 sm:w-52 sm:flex-none">
+                <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar lançamento" aria-label="Buscar lançamento no extrato" className="w-full ps-9" />
               </div>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="h-9 w-44 text-xs" aria-label="Filtrar por categoria">
+                <SelectTrigger className="min-w-40 flex-1 sm:w-48 sm:flex-none" aria-label="Filtrar por categoria">
                   <SelectValue placeholder="Categoria" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todas as categorias</SelectItem>
-                  {(categories ?? []).map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select defaultValue="all">
-                <SelectTrigger className="h-9 w-32 text-xs">
-                  <SelectValue placeholder="Tipo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="expense">Despesas</SelectItem>
-                  <SelectItem value="income">Receitas</SelectItem>
+                  {(categories ?? []).map((category) => <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>)}
                 </SelectContent>
               </Select>
               <Tabs value={groupBy} onValueChange={(value) => setGroupBy(value as typeof groupBy)}>
@@ -349,42 +269,22 @@ function DailyPage() {
               </Tabs>
             </div>
           </div>
+
           {isLoading ? (
-            <div className="space-y-2 p-4">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-            </div>
+            <div className="space-y-2 p-4"><Skeleton className="h-12 w-full" /><Skeleton className="h-12 w-full" /><Skeleton className="h-12 w-full" /></div>
           ) : groups.length === 0 ? (
-            <p className="p-6 text-sm text-muted-foreground">
-              Nenhum lançamento neste período. Use “Adicionar gasto” para registrar agora.
-            </p>
+            <p className="p-6 text-sm text-muted-foreground">Nenhum lançamento neste período. Use “Adicionar gasto” para registrar agora.</p>
           ) : (
             <ul className="divide-y divide-border">
               {(groupBy === "category"
-                ? categoryGroups.map(
-                    ([key, entry]) =>
-                      [
-                        key === "none" ? "Sem categoria" : (categoryName.get(key) ?? "Sem categoria"),
-                        entry.items,
-                      ] as const,
-                  )
+                ? categoryGroups.map(([key, entry]) => [key === "none" ? "Sem categoria" : (categoryName.get(key) ?? "Sem categoria"), entry.items] as const)
                 : groups
               ).map(([date, items]) => (
                 <li key={date}>
-                  <div className="flex items-center justify-between gap-2 bg-muted/40 px-4 py-2">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      {groupBy === "category" ? date : formatDate(date)}
-                    </span>
+                  <div className="flex items-center justify-between gap-2 bg-muted/40 px-4 py-2.5">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{groupBy === "category" ? date : formatDate(date)}</span>
                     <span className="text-xs font-semibold tabular-nums text-muted-foreground">
-                      {formatCurrency(
-                        items.reduce(
-                          (sum, item) =>
-                            sum +
-                            (item.transaction_type === "income" ? 1 : -1) * Number(item.amount),
-                          0,
-                        ),
-                      )}
+                      {formatCurrency(items.reduce((sum, item) => sum + (item.transaction_type === "income" ? 1 : -1) * Number(item.amount), 0))}
                     </span>
                   </div>
                   <ul className="divide-y divide-border">
@@ -392,60 +292,30 @@ function DailyPage() {
                       const income = item.transaction_type === "income";
                       const time = hourOf(item.created_at);
                       return (
-                        <li
-                          key={item.id}
-                          className="flex cursor-pointer items-center justify-between gap-3 px-4 py-2.5 transition hover:bg-muted/50"
-                          onClick={() => setDetails(item)}
-                        >
-
-                          <div className="flex min-w-0 items-center gap-3">
-                            <span
-                              aria-hidden="true"
-                              className={`grid size-8 shrink-0 place-items-center rounded-full ${
-                                income ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
-                              }`}
-                            >
-                              {income ? (
-                                <ArrowUpRight className="size-4" />
-                              ) : (
-                                <ArrowDownRight className="size-4" />
-                              )}
+                        <li key={item.id}>
+                          <button
+                            type="button"
+                            onClick={() => setDetails(item)}
+                            className="flex min-h-14 w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50 focus-visible:bg-muted/50"
+                            aria-label={`Abrir detalhes de ${item.description}, ${formatCurrency(Number(item.amount))}`}
+                          >
+                            <span className="flex min-w-0 items-center gap-3">
+                              <span aria-hidden="true" className={`grid size-9 shrink-0 place-items-center rounded-full ${income ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"}`}>
+                                {income ? <ArrowUpRight className="size-4" /> : <ArrowDownRight className="size-4" />}
+                              </span>
+                              <span className="min-w-0">
+                                <span className="block truncate text-sm font-medium">{item.description}</span>
+                                <span className="flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+                                  {time ? <><Clock className="size-3" />{time}</> : null}
+                                  {item.category_id ? <span className="truncate">· {categoryName.get(item.category_id) ?? "Sem categoria"}{item.sub_category_id ? ` › ${categoryName.get(item.sub_category_id) ?? ""}` : ""}</span> : null}
+                                </span>
+                              </span>
                             </span>
-                            <div className="min-w-0">
-                              <p className="truncate text-sm font-medium">{item.description}</p>
-                              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                {time ? (
-                                  <>
-                                    <Clock className="size-3" />
-                                    {time}
-                                  </>
-                                ) : null}
-                                {item.category_id ? (
-                                  <span className="truncate">
-                                    · {categoryName.get(item.category_id) ?? "Sem categoria"}
-                                    {item.sub_category_id
-                                      ? ` › ${categoryName.get(item.sub_category_id) ?? ""}`
-                                      : ""}
-                                  </span>
-                                ) : null}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex shrink-0 items-center gap-2">
-                            {item.is_essential ? (
-                              <Badge variant="secondary" className="hidden sm:inline-flex">
-                                Essencial
-                              </Badge>
-                            ) : null}
-                            <span
-                              className={`text-sm font-semibold tabular-nums ${
-                                income ? "text-primary" : "text-foreground"
-                              }`}
-                            >
-                              {income ? "+" : "−"}
-                              {formatCurrency(Number(item.amount))}
+                            <span className="flex shrink-0 items-center gap-2">
+                              {item.is_essential ? <Badge variant="secondary" className="hidden sm:inline-flex">Essencial</Badge> : null}
+                              <span className={`text-sm font-semibold tabular-nums ${income ? "text-primary" : "text-foreground"}`}>{income ? "+" : "−"}{formatCurrency(Number(item.amount))}</span>
                             </span>
-                          </div>
+                          </button>
                         </li>
                       );
                     })}
@@ -480,41 +350,31 @@ function DailyPage() {
           setEditing(row);
         }}
       />
-
     </AppShell>
-
   );
 }
 
 function DebtOverdueNotice() {
   const { data: commitments } = useCommitments();
   const { data: entries } = useCommitmentEntries();
-  
   const summaries = useMemo(() => summarizeAll(commitments ?? [], entries ?? []), [commitments, entries]);
-  const overdueItems = summaries.filter((s: any) => s.overdue && s.commitment.status === 'open');
-  
+  const overdueItems = summaries.filter((s: any) => s.overdue && s.commitment.status === "open");
   if (overdueItems.length === 0) return null;
-  
   const totalOverdue = overdueItems.reduce((sum: number, s: any) => sum + s.outstanding, 0);
 
   return (
-    <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-4 mb-4">
+    <section role="alert" className="rounded-2xl border border-destructive/30 bg-destructive/10 p-4">
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 size-8 shrink-0 rounded-full bg-destructive/20 flex items-center justify-center">
+        <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-destructive/20">
           <AlertTriangle className="size-5 text-destructive" />
         </div>
         <div className="flex-1 space-y-1">
-          <h3 className="text-sm font-bold text-destructive flex items-center gap-2">
-            Atenção: Você possui {overdueItems.length} {overdueItems.length === 1 ? 'dívida' : 'dívidas'} em atraso
-          </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            O valor total pendente é de <span className="font-bold text-destructive">{formatCurrency(totalOverdue)}</span>. 
-            Para regularizar, siga o checklist na página de 
-            <Link to="/pagar-dividas" className="mx-1 font-semibold underline text-destructive hover:opacity-80">Pagar Dívidas</Link>.
+          <h3 className="text-sm font-bold text-destructive">Atenção: você possui {overdueItems.length} {overdueItems.length === 1 ? "dívida" : "dívidas"} em atraso</h3>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            O valor total pendente é de <strong className="text-destructive">{formatCurrency(totalOverdue)}</strong>. Para regularizar, siga o checklist em <Link to="/pagar-dividas" className="font-semibold text-destructive underline underline-offset-4">Pagar Dívidas</Link>.
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
-
