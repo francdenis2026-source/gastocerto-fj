@@ -58,8 +58,10 @@ import { labelFor } from "@/lib/finance";
 import {
   FUEL_TYPES,
   VEHICLE_TYPES,
+  buildFuelCycles,
   downloadCsv,
   fuelStatsCsv,
+  round,
   statsByVehicle,
   summarizeFuel,
   useDeleteFuelEntry,
@@ -113,14 +115,42 @@ function VehiclesPage() {
     });
   }, [entries, fuelFilter, from, to]);
 
-  const summary = useMemo(() => summarizeFuel(filtered), [filtered]);
+  const summary = useMemo(() => summarizeFuel(filtered, entries ?? []), [filtered, entries]);
   const perVehicle = useMemo(
     () => statsByVehicle(
       (vehicles ?? []).filter((vehicle) => vehicleFilter === "all" || vehicle.id === vehicleFilter),
       filtered,
+      entries ?? [],
     ).filter((item) => item.summary.entries > 0),
-    [vehicles, filtered, vehicleFilter],
+    [vehicles, filtered, vehicleFilter, entries],
   );
+
+  const liveCycles = useMemo(() => buildFuelCycles(entries ?? []), [entries]);
+  const cycleByEndId = useMemo(
+    () => new Map(liveCycles.map((cycle) => [cycle.endEntryId, cycle])),
+    [liveCycles],
+  );
+  const distanceByEntryId = useMemo(() => {
+    const result = new Map<string, number>();
+    const byVehicle = new Map<string, FuelEntry[]>();
+    for (const entry of entries ?? []) {
+      const own = byVehicle.get(entry.vehicle_id) ?? [];
+      own.push(entry);
+      byVehicle.set(entry.vehicle_id, own);
+    }
+    for (const own of byVehicle.values()) {
+      const ordered = own.slice().sort(
+        (a, b) => a.entry_date.localeCompare(b.entry_date) || Number(a.odometer) - Number(b.odometer),
+      );
+      ordered.forEach((entry, index) => {
+        const previous = ordered[index - 1];
+        if (!previous) return;
+        const distance = Number(entry.odometer) - Number(previous.odometer);
+        if (Number.isFinite(distance) && distance > 0) result.set(entry.id, round(distance, 1));
+      });
+    }
+    return result;
+  }, [entries]);
 
   const selectedVehicle = (vehicles ?? []).find((vehicle) => vehicle.id === vehicleFilter) ?? null;
   const latestEntry = useMemo(
@@ -237,7 +267,7 @@ function VehiclesPage() {
               <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {(vehicles ?? []).map((vehicle) => {
                   const selected = vehicleFilter === vehicle.id;
-                  const vehicleStats = statsByVehicle([vehicle], entries ?? [])[0]?.summary;
+                  const vehicleStats = statsByVehicle([vehicle], entries ?? [], entries ?? [])[0]?.summary;
                   return (
                     <article key={vehicle.id} className={`group rounded-2xl border bg-card p-3 transition-all ${selected ? "border-primary ring-2 ring-primary/10" : "border-border hover:border-primary/40"}`}>
                       <button type="button" onClick={() => setVehicleFilter(vehicle.id)} className="flex min-h-14 w-full items-center gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl" aria-pressed={selected}>
@@ -268,7 +298,7 @@ function VehiclesPage() {
               </Select>
               <Select value={fuelFilter} onValueChange={setFuelFilter}>
                 <SelectTrigger aria-label="Filtrar por combustível"><SelectValue /></SelectTrigger>
-                <SelectContent><SelectItem value="all">Todos os combustíveis</SelectItem>{FUEL_TYPES.map((item) => <SelectItem key={item.value} value={item.value}>{item.value === "etanol" ? "Etanol / Álcool" : item.label}</SelectItem>)}</SelectContent>
+                <SelectContent><SelectItem value="all">Todos os combustíveis</SelectItem>{FUEL_TYPES.map((item) => <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>)}</SelectContent>
               </Select>
               <Input type="date" value={from} onChange={(event) => setFrom(event.target.value)} aria-label="Data inicial" />
               <Input type="date" value={to} onChange={(event) => setTo(event.target.value)} aria-label="Data final" />
@@ -321,17 +351,18 @@ function VehiclesPage() {
                   <TableHeader><TableRow><TableHead>Data / combustível</TableHead><TableHead className="hidden md:table-cell">Veículo</TableHead><TableHead className="text-right">Km</TableHead><TableHead className="text-right">Litros</TableHead><TableHead className="hidden sm:table-cell text-right">R$/L</TableHead><TableHead className="text-right">Total</TableHead><TableHead className="hidden lg:table-cell text-right">Métrica</TableHead><TableHead className="w-24 text-right">Ações</TableHead></TableRow></TableHeader>
                   <TableBody>
                     {filtered.map((entry) => {
-                      const distancePrevious = Number((entry as FuelEntry & { distance_since_previous?: number | null }).distance_since_previous ?? 0);
+                      const distancePrevious = distanceByEntryId.get(entry.id) ?? 0;
+                      const cycle = cycleByEndId.get(entry.id);
                       const fillMode = (entry as FuelEntry & { fill_mode?: string }).fill_mode;
                       return (
                         <TableRow key={entry.id} className="group cursor-pointer hover:bg-muted/40" onClick={() => openEntry(entry)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openEntry(entry); } }}>
-                          <TableCell><div className="font-medium">{formatDate(entry.entry_date)}</div><div className="mt-0.5 text-xs text-muted-foreground">{entry.fuel_type === "etanol" ? "Etanol / Álcool" : labelFor(FUEL_TYPES, entry.fuel_type)} · {fillMode === "partial" ? "Parcial" : fillMode === "top_off" ? "Completou" : "Tanque cheio"}</div></TableCell>
+                          <TableCell><div className="font-medium">{formatDate(entry.entry_date)}</div><div className="mt-0.5 text-xs text-muted-foreground">{labelFor(FUEL_TYPES, entry.fuel_type)} · {fillMode === "partial" ? "Parcial" : fillMode === "top_off" ? "Completou" : entry.full_tank ? "Tanque cheio" : "Parcial"}</div></TableCell>
                           <TableCell className="hidden md:table-cell font-medium">{(vehicles ?? []).find((vehicle) => vehicle.id === entry.vehicle_id)?.name ?? "—"}</TableCell>
                           <TableCell className="text-right tabular-nums"><div>{entry.odometer}</div>{distancePrevious > 0 ? <div className="text-xs text-muted-foreground">+{distancePrevious} km</div> : null}</TableCell>
                           <TableCell className="text-right tabular-nums">{entry.liters} L</TableCell>
                           <TableCell className="hidden sm:table-cell text-right tabular-nums">{formatCurrency(Number(entry.price_per_liter))}</TableCell>
                           <TableCell className="text-right font-semibold tabular-nums">{formatCurrency(Number(entry.total_amount ?? 0))}</TableCell>
-                          <TableCell className="hidden lg:table-cell text-right">{entry.consumption ? <Badge variant="secondary">{entry.consumption} km/l</Badge> : <span className="text-xs text-muted-foreground">{entry.full_tank ? "Referência" : "Ciclo aberto"}</span>}</TableCell>
+                          <TableCell className="hidden lg:table-cell text-right">{cycle ? <Badge variant="secondary">{cycle.consumption} km/l · {cycle.distance} km</Badge> : <span className="text-xs text-muted-foreground">{entry.full_tank ? "Referência" : "Ciclo aberto"}</span>}</TableCell>
                           <TableCell className="text-right" onClick={(event) => event.stopPropagation()}><div className="flex justify-end gap-1">{entry.attachment_url ? <Button size="icon" variant="ghost" aria-label="Ver comprovante" onClick={() => setReceipt(entry.attachment_url)}><ReceiptText className="size-4" /></Button> : null}<Button size="icon" variant="ghost" aria-label="Editar abastecimento" onClick={() => openEntry(entry)}><Pencil className="size-4" /></Button><Button size="icon" variant="ghost" aria-label="Excluir abastecimento" onClick={() => setConfirmEntry(entry)}><Trash2 className="size-4" /></Button></div></TableCell>
                         </TableRow>
                       );
