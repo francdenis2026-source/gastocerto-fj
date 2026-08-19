@@ -104,8 +104,9 @@ export function FuelDialog({
       date,
       entries ?? [],
       entry?.id,
+      fullTank,
     );
-  }, [odometer, litersValue, computedTotal, date, entries, entry?.id]);
+  }, [odometer, litersValue, computedTotal, date, entries, entry?.id, fullTank]);
 
   const fuelCategoryId = useMemo(
     () =>
@@ -125,8 +126,9 @@ export function FuelDialog({
         vehicle,
         entries ?? [],
         entry?.id,
+        fullTank,
       ),
-    [odometer, litersValue, date, vehicle, entries, entry?.id],
+    [odometer, litersValue, date, vehicle, entries, entry?.id, fullTank],
   );
 
   async function handleSubmit(event: React.FormEvent) {
@@ -169,6 +171,7 @@ export function FuelDialog({
       date,
       entries ?? [],
       entry?.id,
+      fullTank,
     );
 
     try {
@@ -211,7 +214,7 @@ export function FuelDialog({
       await logAudit
         .mutateAsync({
           action: entry ? "update" : "create",
-          vehicleId: vehicleId,
+          vehicleId,
           fuelEntryId: entry?.id ?? null,
           odometerBefore: entry ? Number(entry.odometer) : null,
           odometerAfter: odometerValue,
@@ -225,7 +228,13 @@ export function FuelDialog({
         })
         .catch((error) => console.error("[auditoria] falha ao registrar", error));
 
-      toast.success(entry ? "Abastecimento atualizado." : "Abastecimento adicionado.");
+      toast.success(entry ? "Abastecimento atualizado." : "Abastecimento adicionado.", {
+        description: metrics.measurementComplete
+          ? `Ciclo fechado: ${metrics.distance} km · ${metrics.consumption} km/l.`
+          : fullTank
+            ? "Este tanque cheio foi salvo como referência para a próxima medição."
+            : "Abastecimento parcial acumulado no ciclo atual.",
+      });
       onOpenChange(false);
     } catch (error) {
       console.error("[abastecimentos] falha ao salvar", error);
@@ -235,11 +244,11 @@ export function FuelDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle>{entry ? "Editar gasto do veículo" : "Adicionar gasto do veículo"}</DialogTitle>
+          <DialogTitle>{entry ? "Editar abastecimento" : "Novo abastecimento"}</DialogTitle>
           <DialogDescription>
-            Informe os dados do abastecimento. O consumo (km/l) e o custo por km são calculados automaticamente.
+            Registre odômetro, litros e valor. Para máxima precisão, marque tanque cheio sempre que completar o tanque; o sistema fecha automaticamente cada ciclo de consumo.
           </DialogDescription>
         </DialogHeader>
 
@@ -258,64 +267,31 @@ export function FuelDialog({
                 ))}
               </SelectContent>
             </Select>
-            {errors.vehicle ? (
-              <p className="mt-1 text-xs text-destructive">{errors.vehicle}</p>
-            ) : null}
+            {errors.vehicle ? <p className="mt-1 text-xs text-destructive">{errors.vehicle}</p> : null}
           </div>
 
           <div>
             <Label htmlFor="fuel-date">Data</Label>
-            <Input
-              id="fuel-date"
-              type="date"
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
-              className="mt-1.5"
-            />
-            <p className="mt-1.5 text-xs text-muted-foreground">
-              Aceita abastecimentos de dias e meses anteriores.
-            </p>
+            <Input id="fuel-date" type="date" value={date} onChange={(event) => setDate(event.target.value)} className="mt-1.5" />
+            <p className="mt-1.5 text-xs text-muted-foreground">Aceita abastecimentos de dias e meses anteriores.</p>
             {errors.date ? <p className="mt-1 text-xs text-destructive">{errors.date}</p> : null}
           </div>
 
           <div>
             <Label htmlFor="fuel-odometer">Odômetro (km)</Label>
-            <Input
-              id="fuel-odometer"
-              inputMode="decimal"
-              value={odometer}
-              onChange={(event) => setOdometer(maskDecimalInput(event.target.value, 1))}
-              className="mt-1.5 tabular-nums"
-              placeholder="Ex.: 58230"
-            />
-            {errors.odometer ? (
-              <p className="mt-1 text-xs text-destructive">{errors.odometer}</p>
-            ) : null}
+            <Input id="fuel-odometer" inputMode="decimal" value={odometer} onChange={(event) => setOdometer(maskDecimalInput(event.target.value, 1))} className="mt-1.5 tabular-nums" placeholder="Ex.: 58230" />
+            {errors.odometer ? <p className="mt-1 text-xs text-destructive">{errors.odometer}</p> : null}
           </div>
 
           <div>
-            <Label htmlFor="fuel-liters">Litros</Label>
-            <Input
-              id="fuel-liters"
-              inputMode="decimal"
-              value={liters}
-              onChange={(event) => setLiters(maskDecimalInput(event.target.value, 3))}
-              className="mt-1.5 tabular-nums"
-              placeholder="0,00"
-            />
+            <Label htmlFor="fuel-liters">Litros abastecidos</Label>
+            <Input id="fuel-liters" inputMode="decimal" value={liters} onChange={(event) => setLiters(maskDecimalInput(event.target.value, 3))} className="mt-1.5 tabular-nums" placeholder="0,00" />
             {errors.liters ? <p className="mt-1 text-xs text-destructive">{errors.liters}</p> : null}
           </div>
 
           <div>
             <Label htmlFor="fuel-price">Preço por litro (R$)</Label>
-            <Input
-              id="fuel-price"
-              inputMode="decimal"
-              value={pricePerLiter}
-              onChange={(event) => setPricePerLiter(maskDecimalInput(event.target.value, 3))}
-              className="mt-1.5 tabular-nums"
-              placeholder="0,000"
-            />
+            <Input id="fuel-price" inputMode="decimal" value={pricePerLiter} onChange={(event) => setPricePerLiter(maskDecimalInput(event.target.value, 3))} className="mt-1.5 tabular-nums" placeholder="0,000" />
             {errors.price ? <p className="mt-1 text-xs text-destructive">{errors.price}</p> : null}
           </div>
 
@@ -324,13 +300,7 @@ export function FuelDialog({
             <Input
               id="fuel-total"
               inputMode="decimal"
-              value={
-                totalTouched
-                  ? total
-                  : Number.isFinite(computedTotal)
-                    ? String(computedTotal).replace(".", ",")
-                    : ""
-              }
+              value={totalTouched ? total : Number.isFinite(computedTotal) ? String(computedTotal).replace(".", ",") : ""}
               onChange={(event) => {
                 setTotalTouched(true);
                 setTotal(maskAmountInput(event.target.value));
@@ -344,123 +314,92 @@ export function FuelDialog({
           <div>
             <Label>Combustível</Label>
             <Select value={fuelType} onValueChange={setFuelType}>
-              <SelectTrigger className="mt-1.5">
-                <SelectValue />
-              </SelectTrigger>
+              <SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {FUEL_TYPES.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
+                {FUEL_TYPES.map((item) => <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
 
           <div className="sm:col-span-2">
             <Label htmlFor="fuel-station">Posto</Label>
-            <Input
-              id="fuel-station"
-              value={station}
-              onChange={(event) => setStation(event.target.value)}
-              maxLength={80}
-              className="mt-1.5"
-            />
+            <Input id="fuel-station" value={station} onChange={(event) => setStation(event.target.value)} maxLength={80} className="mt-1.5" />
           </div>
 
-          {preview?.consumption ? (
-            <div className="rounded-xl border border-border bg-secondary/30 p-3 text-sm sm:col-span-2">
-              <p className="font-medium">Prévia dos cálculos</p>
-              <p className="mt-1 text-muted-foreground tabular-nums">
-                {preview.distance} km rodados · {preview.consumption} km/l ·{" "}
-                {formatCurrency(preview.costPerKm ?? 0)} por km
-              </p>
+          <div className="flex items-center justify-between rounded-xl border border-border p-3 sm:col-span-2">
+            <div>
+              <Label htmlFor="fuel-full" className="text-sm font-medium">Completei o tanque</Label>
+              <p className="mt-1 text-xs text-muted-foreground">Ative quando o abastecimento deixar o tanque cheio. Isso fecha o ciclo e gera a média precisa.</p>
+            </div>
+            <Switch id="fuel-full" checked={fullTank} onCheckedChange={setFullTank} />
+          </div>
+
+          {preview ? (
+            <div className="rounded-xl border border-border bg-secondary/30 p-4 text-sm sm:col-span-2">
+              {preview.baselineOdometer == null ? (
+                <>
+                  <p className="font-semibold">Primeira referência de consumo</p>
+                  <p className="mt-1 text-muted-foreground">Salve este abastecimento com o tanque cheio. A partir do próximo tanque cheio o sistema calculará automaticamente km/l, distância e custo por km.</p>
+                </>
+              ) : preview.measurementComplete ? (
+                <>
+                  <p className="font-semibold">Prévia do ciclo completo</p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-4">
+                    <span><strong>{preview.distance}</strong> km rodados</span>
+                    <span><strong>{preview.cycleLiters}</strong> L no ciclo</span>
+                    <span><strong>{preview.consumption}</strong> km/l</span>
+                    <span><strong>{formatCurrency(preview.costPerKm ?? 0)}</strong>/km</span>
+                  </div>
+                  <p className="mt-2 text-xs text-muted-foreground">Gasto do ciclo: {formatCurrency(preview.cycleCost ?? 0)}.</p>
+                </>
+              ) : (
+                <>
+                  <p className="font-semibold">Ciclo de consumo em andamento</p>
+                  <p className="mt-1 text-muted-foreground">Desde o último tanque cheio: {preview.distance ?? 0} km · {preview.cycleLiters ?? 0} L acumulados · {formatCurrency(preview.cycleCost ?? 0)} gastos.</p>
+                  <p className="mt-1 text-xs text-muted-foreground">A média km/l será fechada no próximo abastecimento marcado como tanque cheio.</p>
+                </>
+              )}
             </div>
           ) : null}
 
           {warnings.length > 0 ? (
             <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm sm:col-span-2">
-              <p className="flex items-center gap-2 font-medium">
-                <TriangleAlert className="size-4" />
-                Variações fora do padrão
-              </p>
-              <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">
-                {warnings.map((warning) => (
-                  <li key={warning}>{warning}</li>
-                ))}
-              </ul>
-              {acknowledged ? (
-                <p className="mt-2 text-xs font-medium">
-                  Clique em salvar novamente para confirmar mesmo assim.
-                </p>
-              ) : null}
+              <p className="flex items-center gap-2 font-medium"><TriangleAlert className="size-4" />Variações fora do padrão</p>
+              <ul className="mt-1 list-disc space-y-0.5 pl-5 text-muted-foreground">{warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>
+              {acknowledged ? <p className="mt-2 text-xs font-medium">Clique em salvar novamente para confirmar mesmo assim.</p> : null}
             </div>
           ) : null}
-
-
-
-          <div className="flex items-center justify-between rounded-xl border border-border p-3 sm:col-span-2">
-            <Label htmlFor="fuel-full" className="text-sm font-normal">
-              Tanque cheio (melhora a precisão do consumo)
-            </Label>
-            <Switch id="fuel-full" checked={fullTank} onCheckedChange={setFullTank} />
-          </div>
 
           {!entry ? (
             <>
               <div className="flex items-center justify-between rounded-xl border border-border p-3 sm:col-span-2">
-                <Label htmlFor="fuel-expense" className="text-sm font-normal">
-                  Lançar também como despesa
-                </Label>
-                <Switch
-                  id="fuel-expense"
-                  checked={createExpense}
-                  onCheckedChange={setCreateExpense}
-                />
+                <Label htmlFor="fuel-expense" className="text-sm font-normal">Lançar também como despesa</Label>
+                <Switch id="fuel-expense" checked={createExpense} onCheckedChange={setCreateExpense} />
               </div>
               {createExpense ? (
                 <div className="sm:col-span-2">
                   <Label>Conta (opcional)</Label>
                   <Select value={accountId} onValueChange={setAccountId}>
-                    <SelectTrigger className="mt-1.5">
-                      <SelectValue placeholder="Sem conta" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {(accounts ?? []).map((account) => (
-                        <SelectItem key={account.id} value={account.id}>
-                          {account.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    <SelectTrigger className="mt-1.5"><SelectValue placeholder="Sem conta" /></SelectTrigger>
+                    <SelectContent>{(accounts ?? []).map((account) => <SelectItem key={account.id} value={account.id}>{account.name}</SelectItem>)}</SelectContent>
                   </Select>
                 </div>
               ) : null}
             </>
           ) : null}
 
-          <div className="sm:col-span-2">
-            <ReceiptField value={attachment} onChange={setAttachment} label="Comprovante / nota" />
-          </div>
+          <div className="sm:col-span-2"><ReceiptField value={attachment} onChange={setAttachment} label="Comprovante / nota" /></div>
 
           <div className="sm:col-span-2">
             <Label htmlFor="fuel-notes">Observações</Label>
-            <Textarea
-              id="fuel-notes"
-              value={notes}
-              onChange={(event) => setNotes(event.target.value)}
-              maxLength={500}
-              rows={2}
-              className="mt-1.5"
-            />
+            <Textarea id="fuel-notes" value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={500} rows={2} className="mt-1.5" />
           </div>
 
           <DialogFooter className="sm:col-span-2">
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
             <Button type="submit" disabled={save.isPending}>
               {save.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-              Salvar
+              Salvar abastecimento
             </Button>
           </DialogFooter>
         </form>
