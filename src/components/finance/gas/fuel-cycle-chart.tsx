@@ -1,9 +1,13 @@
 import { useMemo } from "react";
 import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
+  ComposedChart,
   Legend,
   Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -50,8 +54,45 @@ function currentCycle(entries: FuelEntry[]) {
     distance: round(distance, 1),
     liters: round(liters, 3),
     cost: round(cost, 2),
-    closed: end.id !== baseline.id && end.full_tank === true,
   };
+}
+
+function MetricCard({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      <p className="mt-1 text-xl font-semibold tracking-tight tabular-nums">{value}</p>
+      <p className="mt-1 text-xs leading-5 text-muted-foreground">{hint}</p>
+    </div>
+  );
+}
+
+function ChartCard({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+      <div className="mb-4">
+        <h3 className="text-sm font-semibold">{title}</h3>
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
+      </div>
+      {children}
+    </section>
+  );
 }
 
 export function FuelCycleChart({ entries }: { entries: FuelEntry[] }) {
@@ -63,7 +104,8 @@ export function FuelCycleChart({ entries }: { entries: FuelEntry[] }) {
       cycles
         .slice()
         .sort((a, b) => a.endDate.localeCompare(b.endDate))
-        .map((cycle) => ({
+        .map((cycle, index) => ({
+          index: index + 1,
           date: cycle.endDate,
           label: formatDate(cycle.endDate),
           consumption: cycle.consumption,
@@ -81,6 +123,30 @@ export function FuelCycleChart({ entries }: { entries: FuelEntry[] }) {
     [cycles],
   );
 
+  const analytics = useMemo(() => {
+    if (data.length === 0) return null;
+    const totalDistance = data.reduce((sum, item) => sum + item.distance, 0);
+    const totalLiters = data.reduce((sum, item) => sum + item.liters, 0);
+    const totalCost = data.reduce((sum, item) => sum + item.cost, 0);
+    const averageConsumption = totalLiters > 0 ? round(totalDistance / totalLiters, 2) : null;
+    const averageDistance = round(totalDistance / data.length, 1);
+    const averageCycleCost = round(totalCost / data.length, 2);
+    const averageLiters = round(totalLiters / data.length, 2);
+    const costPerKm = totalDistance > 0 ? round(totalCost / totalDistance, 3) : null;
+    const costPer100Km = costPerKm != null ? round(costPerKm * 100, 2) : null;
+    return {
+      totalDistance,
+      totalLiters,
+      totalCost,
+      averageConsumption,
+      averageDistance,
+      averageCycleCost,
+      averageLiters,
+      costPerKm,
+      costPer100Km,
+    };
+  }, [data]);
+
   const comparison = useMemo(() => {
     if (data.length < 2) return null;
     const current = data[data.length - 1];
@@ -90,14 +156,7 @@ export function FuelCycleChart({ entries }: { entries: FuelEntry[] }) {
       previous,
       consumptionChange: percentChange(current.consumption, previous.consumption),
       costPerKmChange: percentChange(current.costPerKm, previous.costPerKm),
-      litersPer100KmChange:
-        current.litersPer100Km != null && previous.litersPer100Km != null
-          ? percentChange(current.litersPer100Km, previous.litersPer100Km)
-          : null,
-      costPer100KmChange:
-        current.costPer100Km != null && previous.costPer100Km != null
-          ? percentChange(current.costPer100Km, previous.costPer100Km)
-          : null,
+      distanceChange: percentChange(current.distance, previous.distance),
     };
   }, [data]);
 
@@ -118,13 +177,13 @@ export function FuelCycleChart({ entries }: { entries: FuelEntry[] }) {
               </span>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
-              <div className="rounded-xl bg-background p-3"><span className="text-xs text-muted-foreground">Odômetro atual</span><strong className="mt-1 block tabular-nums">{live.end.odometer} km</strong></div>
-              <div className="rounded-xl bg-background p-3"><span className="text-xs text-muted-foreground">Km desde a referência</span><strong className="mt-1 block tabular-nums">{live.distance} km</strong></div>
-              <div className="rounded-xl bg-background p-3"><span className="text-xs text-muted-foreground">Litros após a referência</span><strong className="mt-1 block tabular-nums">{live.liters} L</strong></div>
-              <div className="rounded-xl bg-background p-3"><span className="text-xs text-muted-foreground">Gasto após a referência</span><strong className="mt-1 block tabular-nums">{formatCurrency(live.cost)}</strong></div>
+              <MetricCard label="Odômetro atual" value={`${live.end.odometer} km`} hint="Última leitura registrada" />
+              <MetricCard label="Distância atual" value={`${live.distance} km`} hint="Desde o último tanque cheio" />
+              <MetricCard label="Litros acumulados" value={`${live.liters} L`} hint="Após a referência" />
+              <MetricCard label="Gasto acumulado" value={formatCurrency(live.cost)} hint="Após a referência" />
             </div>
             <p className="mt-3 text-xs leading-5 text-muted-foreground">
-              A distância e os valores já podem ser auditados. A média km/l só é publicada quando um abastecimento posterior também termina com o tanque cheio, porque antes disso não é possível saber com precisão quanto combustível foi efetivamente consumido.
+              O sistema já acompanha distância, litros e gasto. O consumo médio em km/l só é publicado quando um abastecimento posterior também termina com o tanque cheio.
             </p>
           </div>
         ) : (
@@ -159,75 +218,137 @@ export function FuelCycleChart({ entries }: { entries: FuelEntry[] }) {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-border bg-muted/20 p-3">
-          <p className="text-xs font-medium text-muted-foreground">Consumo atual</p>
-          <p className="mt-1 text-lg font-semibold tabular-nums">{latest.consumption} km/l</p>
-          <p className="mt-1 text-xs text-muted-foreground">{variationLabel(comparison?.consumptionChange ?? null, true)}</p>
-        </div>
-        <div className="rounded-xl border border-border bg-muted/20 p-3">
-          <p className="text-xs font-medium text-muted-foreground">Litros / 100 km</p>
-          <p className="mt-1 text-lg font-semibold tabular-nums">{latest.litersPer100Km != null ? `${latest.litersPer100Km} L` : "—"}</p>
-          <p className="mt-1 text-xs text-muted-foreground">{variationLabel(comparison?.litersPer100KmChange ?? null, false)}</p>
-        </div>
-        <div className="rounded-xl border border-border bg-muted/20 p-3">
-          <p className="text-xs font-medium text-muted-foreground">Custo / 100 km</p>
-          <p className="mt-1 text-lg font-semibold tabular-nums">{latest.costPer100Km != null ? formatCurrency(latest.costPer100Km) : "—"}</p>
-          <p className="mt-1 text-xs text-muted-foreground">{variationLabel(comparison?.costPer100KmChange ?? null, false)}</p>
-        </div>
-        <div className="rounded-xl border border-border bg-muted/20 p-3">
-          <p className="text-xs font-medium text-muted-foreground">Preço médio do ciclo</p>
-          <p className="mt-1 text-lg font-semibold tabular-nums">{formatCurrency(latest.averagePrice)}/L</p>
-          <p className="mt-1 text-xs text-muted-foreground">{latest.distance} km · {latest.liters} L · {formatCurrency(latest.cost)}</p>
-        </div>
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-6">
+        <MetricCard
+          label="Consumo médio"
+          value={analytics?.averageConsumption != null ? `${analytics.averageConsumption} km/l` : "—"}
+          hint={`${data.length} ciclo${data.length === 1 ? "" : "s"} completo${data.length === 1 ? "" : "s"}`}
+        />
+        <MetricCard
+          label="Distância média"
+          value={analytics ? `${analytics.averageDistance} km` : "—"}
+          hint={`Total medido: ${round(analytics?.totalDistance ?? 0, 1)} km`}
+        />
+        <MetricCard
+          label="Gasto médio / ciclo"
+          value={analytics ? formatCurrency(analytics.averageCycleCost) : "—"}
+          hint={`Total: ${formatCurrency(analytics?.totalCost ?? 0)}`}
+        />
+        <MetricCard
+          label="Litros médios / ciclo"
+          value={analytics ? `${analytics.averageLiters} L` : "—"}
+          hint={`Total: ${round(analytics?.totalLiters ?? 0, 2)} L`}
+        />
+        <MetricCard
+          label="Custo médio / km"
+          value={analytics?.costPerKm != null ? formatCurrency(analytics.costPerKm) : "—"}
+          hint="Custo ponderado pela distância"
+        />
+        <MetricCard
+          label="Custo médio / 100 km"
+          value={analytics?.costPer100Km != null ? formatCurrency(analytics.costPer100Km) : "—"}
+          hint="Comparação financeira padronizada"
+        />
       </div>
 
-      {comparison ? (
-        <div className="rounded-xl border border-border bg-card p-3 text-sm">
-          <p className="font-semibold">Comparação com o ciclo anterior</p>
-          <div className="mt-2 grid gap-2 text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
-            <span>Consumo: <strong className="text-foreground">{comparison.previous.consumption} → {comparison.current.consumption} km/l</strong></span>
-            <span>R$/km: <strong className="text-foreground">{formatCurrency(comparison.previous.costPerKm)} → {formatCurrency(comparison.current.costPerKm)}</strong></span>
-            <span>L/100 km: <strong className="text-foreground">{comparison.previous.litersPer100Km ?? "—"} → {comparison.current.litersPer100Km ?? "—"}</strong></span>
-            <span>R$/100 km: <strong className="text-foreground">{comparison.previous.costPer100Km != null ? formatCurrency(comparison.previous.costPer100Km) : "—"} → {comparison.current.costPer100Km != null ? formatCurrency(comparison.current.costPer100Km) : "—"}</strong></span>
+      <div className="grid gap-4 xl:grid-cols-2">
+        <ChartCard
+          title="Eficiência de combustível"
+          description="Evolução do consumo em km/l e do custo por quilômetro em cada ciclo completo."
+        >
+          <div className="h-80 w-full" role="img" aria-label="Gráfico de consumo e custo por quilômetro">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.55} />
+                <XAxis dataKey="label" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+                <YAxis yAxisId="consumption" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={44} />
+                <YAxis yAxisId="cost" orientation="right" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={52} />
+                <Tooltip content={({ active, payload }) => {
+                  if (!active || !payload?.length) return null;
+                  const item = payload[0]?.payload as (typeof data)[number];
+                  return (
+                    <div className="rounded-xl border border-border bg-popover p-3 text-xs shadow-xl">
+                      <p className="font-semibold">Ciclo {formatDate(item.startDate)} → {item.label}</p>
+                      <div className="mt-2 space-y-1 text-muted-foreground">
+                        <p>Consumo: <strong className="text-foreground">{item.consumption} km/l</strong></p>
+                        <p>Distância: <strong className="text-foreground">{item.distance} km</strong></p>
+                        <p>Custo/km: <strong className="text-foreground">{formatCurrency(item.costPerKm)}</strong></p>
+                        <p>R$/100 km: <strong className="text-foreground">{item.costPer100Km != null ? formatCurrency(item.costPer100Km) : "—"}</strong></p>
+                      </div>
+                    </div>
+                  );
+                }} />
+                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Area yAxisId="consumption" type="monotone" dataKey="consumption" name="Consumo (km/l)" fill="var(--primary)" fillOpacity={0.10} stroke="var(--primary)" strokeWidth={2.5} />
+                <Line yAxisId="cost" type="monotone" dataKey="costPerKm" name="Custo/km (R$)" stroke="var(--destructive)" strokeWidth={2.2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+              </ComposedChart>
+            </ResponsiveContainer>
           </div>
-        </div>
-      ) : null}
+        </ChartCard>
 
-      <div className="h-72 w-full" role="img" aria-label="Evolução do consumo de combustível e custo por quilômetro por ciclo completo">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.6} />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
-            <YAxis yAxisId="consumption" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={42} unit=" km/l" />
-            <YAxis yAxisId="cost" orientation="right" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={54} />
-            <Tooltip
-              content={({ active, payload }) => {
+        <ChartCard
+          title="Distância por ciclo"
+          description="Quantos quilômetros foram percorridos entre cada medição completa de tanque."
+        >
+          <div className="h-80 w-full" role="img" aria-label="Gráfico de distância percorrida por ciclo">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.55} vertical={false} />
+                <XAxis dataKey="label" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={48} />
+                <Tooltip formatter={(value: number) => [`${value} km`, "Distância"]} />
+                <Bar dataKey="distance" name="Distância (km)" fill="var(--primary)" radius={[8, 8, 2, 2]} maxBarSize={52} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </ChartCard>
+      </div>
+
+      <ChartCard
+        title="Custo e volume abastecido"
+        description="Compare quanto foi gasto e quantos litros entraram em cada ciclo para identificar aumento de preço ou uso."
+      >
+        <div className="h-80 w-full" role="img" aria-label="Gráfico de gasto e litros por ciclo">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.55} />
+              <XAxis dataKey="label" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+              <YAxis yAxisId="money" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={52} />
+              <YAxis yAxisId="liters" orientation="right" tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={48} />
+              <Tooltip content={({ active, payload }) => {
                 if (!active || !payload?.length) return null;
                 const item = payload[0]?.payload as (typeof data)[number];
                 return (
-                  <div className="rounded-xl border border-border bg-popover p-3 text-xs text-popover-foreground shadow-xl">
-                    <p className="font-semibold">Ciclo {formatDate(item.startDate)} → {item.label}</p>
-                    <div className="mt-2 space-y-1 text-muted-foreground">
-                      <p>Odômetro: <strong className="text-foreground">{item.startOdometer} → {item.endOdometer} km</strong></p>
-                      <p>Distância: <strong className="text-foreground">{item.distance} km</strong></p>
-                      <p>Consumo: <strong className="text-foreground">{item.consumption} km/l</strong></p>
-                      <p>Litros/100 km: <strong className="text-foreground">{item.litersPer100Km ?? "—"}</strong></p>
-                      <p>Custo/km: <strong className="text-foreground">{formatCurrency(item.costPerKm)}</strong></p>
-                      <p>Custo/100 km: <strong className="text-foreground">{item.costPer100Km != null ? formatCurrency(item.costPer100Km) : "—"}</strong></p>
-                      <p>Preço médio/L: <strong className="text-foreground">{formatCurrency(item.averagePrice)}</strong></p>
-                      <p>Combustível: <strong className="text-foreground">{item.liters} L</strong></p>
-                      <p>Gasto do ciclo: <strong className="text-foreground">{formatCurrency(item.cost)}</strong></p>
-                    </div>
+                  <div className="rounded-xl border border-border bg-popover p-3 text-xs shadow-xl">
+                    <p className="font-semibold">Ciclo encerrado em {item.label}</p>
+                    <p className="mt-2 text-muted-foreground">Gasto: <strong className="text-foreground">{formatCurrency(item.cost)}</strong></p>
+                    <p className="text-muted-foreground">Litros: <strong className="text-foreground">{item.liters} L</strong></p>
+                    <p className="text-muted-foreground">Preço médio: <strong className="text-foreground">{formatCurrency(item.averagePrice)}/L</strong></p>
                   </div>
                 );
-              }}
-            />
-            <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Line yAxisId="consumption" type="monotone" dataKey="consumption" name="Consumo (km/l)" stroke="var(--success)" strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
-            <Line yAxisId="cost" type="monotone" dataKey="costPerKm" name="Custo por km (R$)" stroke="var(--primary)" strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
-          </LineChart>
-        </ResponsiveContainer>
+              }} />
+              <Legend wrapperStyle={{ fontSize: 12 }} />
+              <Area yAxisId="money" type="monotone" dataKey="cost" name="Gasto (R$)" fill="var(--primary)" fillOpacity={0.14} stroke="var(--primary)" strokeWidth={2.4} />
+              <Area yAxisId="liters" type="monotone" dataKey="liters" name="Litros" fill="var(--success)" fillOpacity={0.08} stroke="var(--success)" strokeWidth={2.2} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </ChartCard>
+
+      <div className="rounded-2xl border border-border bg-muted/20 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p className="text-sm font-semibold">Leitura do último ciclo</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {formatDate(latest.startDate)} → {latest.label} · {latest.distance} km · {latest.liters} L · {formatCurrency(latest.cost)}
+            </p>
+          </div>
+          <div className="text-right text-xs text-muted-foreground">
+            <p>{variationLabel(comparison?.consumptionChange ?? null, true)} no consumo</p>
+            <p>{variationLabel(comparison?.costPerKmChange ?? null, false)} no custo/km</p>
+            {comparison?.distanceChange != null ? <p>{Math.abs(comparison.distanceChange)}% de variação na distância</p> : null}
+          </div>
+        </div>
       </div>
     </div>
   );
