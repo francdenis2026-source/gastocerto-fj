@@ -6,13 +6,14 @@ import { cn } from "@/lib/utils";
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
->(({ className, ...props }, ref) => (
+>(({ className, style, ...props }, ref) => (
   <SwitchPrimitives.Root
     className={cn(
-      "peer relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border border-border bg-input/80 p-0.5 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted",
+      "peer relative inline-flex h-7 min-h-7 w-12 min-w-12 shrink-0 cursor-pointer items-center rounded-full border border-border bg-input/80 p-0.5 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted",
       "before:absolute before:-inset-y-2 before:-inset-x-1 before:content-['']",
       className,
     )}
+    style={{ scale: 1, ...style }}
     {...props}
     ref={ref}
   >
