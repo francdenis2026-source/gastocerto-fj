@@ -7,7 +7,6 @@ export type MonthPeriod = { year: number; month: number };
 
 const KEY_PREFIX = "gc.period.";
 
-/** Lê o último mês escolhido pelo usuário nesta tela. */
 export function loadPeriod(scope: string): MonthPeriod | null {
   if (typeof window === "undefined") return null;
   try {
@@ -26,7 +25,7 @@ function savePeriod(scope: string, period: MonthPeriod) {
   try {
     window.localStorage.setItem(`${KEY_PREFIX}${scope}`, JSON.stringify(period));
   } catch {
-    /* aba privada: segue sem salvar */
+    // Segue sem persistência em contextos onde o armazenamento não está disponível.
   }
 }
 
@@ -41,10 +40,6 @@ const MONTH_LABELS = [
   "jul", "ago", "set", "out", "nov", "dez",
 ];
 
-/**
- * Atalhos de mês para telas mensais (Receitas, Orçamentos).
- * Guarda a última escolha no aparelho para o usuário não repetir o ajuste.
- */
 export function MonthPresets({
   scope,
   value,
@@ -68,20 +63,23 @@ export function MonthPresets({
   ];
 
   return (
-    <div
+    <section
       className={cn(
-        "grid gap-2 rounded-xl border border-border bg-card/60 p-2.5",
+        "grid gap-2.5 rounded-2xl border border-border bg-card p-3 shadow-soft",
         className,
       )}
+      aria-label="Períodos rápidos"
     >
-      <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-        <CalendarRange className="size-3.5 shrink-0 text-brand" aria-hidden="true" />
-        <span className="truncate">Períodos rápidos</span>
+      <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+        <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+          <CalendarRange className="size-3.5" aria-hidden="true" />
+        </span>
+        Períodos rápidos
       </p>
       <div
         role="group"
         aria-label="Atalhos de período"
-        className="-mx-0.5 flex gap-1.5 overflow-x-auto px-0.5 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-0.5 flex gap-2 overflow-x-auto px-0.5 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {options.map((option) => {
           const active =
@@ -93,20 +91,20 @@ export function MonthPresets({
               aria-pressed={active}
               onClick={() => onChange(option.period)}
               className={cn(
-                "shrink-0 rounded-full border px-3 py-1 text-[11px] font-medium transition-colors",
+                "min-h-11 shrink-0 rounded-xl border px-3.5 py-2 text-[12px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 active
-                  ? "border-brand/50 bg-brand/15 text-brand"
-                  : "border-border bg-secondary/70 text-foreground hover:border-brand/40 hover:bg-brand/10",
+                  ? "border-primary/45 bg-primary/12 text-primary"
+                  : "border-border bg-background text-foreground hover:border-primary/35 hover:bg-accent",
               )}
             >
               {option.label}
-              <span className="ml-1 text-[10px] text-muted-foreground">
+              <span className={cn("ml-1 text-[10px]", active ? "text-primary/80" : "text-muted-foreground")}>
                 {MONTH_LABELS[option.period.month - 1]}
               </span>
             </button>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
