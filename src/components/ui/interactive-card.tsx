@@ -3,11 +3,10 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, useDragControls } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface InteractiveCardProps {
-  id: string; // Obrigatório para persistência de estado
-
+  id: string;
   title: string;
   description?: string;
   icon?: React.ReactNode;
@@ -33,10 +32,10 @@ export function InteractiveCard({
   items = [],
   renderItem,
   className,
-  onClick
+  onClick,
 }: InteractiveCardProps) {
-  // Persistência de estado via LocalStorage
   const storageKey = `card-state-${id}`;
+  const shouldReduceMotion = useReducedMotion();
   const [isExpanded, setIsExpanded] = React.useState(() => {
     if (typeof window === "undefined") return false;
     return localStorage.getItem(storageKey) === "true";
@@ -47,135 +46,130 @@ export function InteractiveCard({
     localStorage.setItem(storageKey, String(isExpanded));
   }, [isExpanded, storageKey]);
 
-  const hasItems = items && items.length > 0 && renderItem;
+  const hasItems = items.length > 0 && Boolean(renderItem);
   const visibleItems = showAllItems ? items : items.slice(0, maxVisibleItems);
   const canExpandItems = items.length > maxVisibleItems;
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('button') || target.closest('a')) return;
-    if (onClick) onClick();
+  const handleCardClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("button") || target.closest("a") || target.closest("input") || target.closest("select")) return;
+    onClick?.();
   };
 
-  // Navegação por teclado
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      setIsExpanded(!isExpanded);
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (!onClick) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onClick();
     }
   };
 
   return (
-    <Card 
+    <Card
       className={cn(
-        "overflow-hidden transition-all duration-300 hover:shadow-lg border-border/40 bg-card/40 backdrop-blur-md cursor-pointer focus-within:ring-2 focus-within:ring-brand/50 outline-none focus-visible:ring-2 focus-visible:ring-brand",
-        className
+        "overflow-hidden border-border bg-card shadow-soft transition-[border-color,box-shadow]",
+        onClick && "cursor-pointer hover:border-primary/30 hover:shadow-lifted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        className,
       )}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      tabIndex={0}
-      role="button"
+      tabIndex={onClick ? 0 : undefined}
+      role={onClick ? "button" : undefined}
       aria-labelledby={`card-title-${id}`}
       aria-describedby={description ? `card-desc-${id}` : undefined}
-      aria-expanded={isExpanded}
     >
-      <CardHeader className="p-4 pb-2">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            {icon && <div className="p-1.5 rounded-lg bg-primary/10 text-primary">{icon}</div>}
-            <CardTitle id={`card-title-${id}`} className="text-sm font-bold tracking-tight">{title}</CardTitle>
+      <CardHeader className="p-4 pb-2 sm:p-5 sm:pb-2">
+        <div className="mb-1 flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5">
+            {icon ? (
+              <div className="grid size-9 shrink-0 place-items-center rounded-xl border border-primary/15 bg-primary/10 text-primary">
+                {icon}
+              </div>
+            ) : null}
+            <CardTitle id={`card-title-${id}`} className="min-w-0 text-sm font-bold leading-snug tracking-tight">
+              {title}
+            </CardTitle>
           </div>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="size-8 rounded-full hover:bg-primary/10 transition-colors focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-11 shrink-0 rounded-xl"
             aria-expanded={isExpanded}
             aria-controls={`card-content-${id}`}
             aria-label={isExpanded ? `Recolher ${title}` : `Expandir ${title}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded(!isExpanded);
+            onClick={(event) => {
+              event.stopPropagation();
+              setIsExpanded((value) => !value);
             }}
           >
             {isExpanded ? <ChevronUp className="size-5" /> : <ChevronDown className="size-5" />}
           </Button>
         </div>
-        {description && <CardDescription id={`card-desc-${id}`} className="text-[10px] leading-tight">{description}</CardDescription>}
+        {description ? (
+          <CardDescription id={`card-desc-${id}`} className="text-xs leading-relaxed">
+            {description}
+          </CardDescription>
+        ) : null}
       </CardHeader>
 
-      {/* Swipe Gestures para Mobile usando Framer Motion */}
-      <motion.div
-        drag="y"
-        dragConstraints={{ top: 0, bottom: 0 }}
-        dragElastic={0.1}
-        onDragEnd={(_, info) => {
-          if (info.offset.y > 50 && isExpanded) setIsExpanded(false);
-          else if (info.offset.y < -50 && !isExpanded) setIsExpanded(true);
-        }}
-        className="touch-none"
-      >
-        <CardContent className="p-4 pt-0 space-y-4">
-          {chart && (
-            <div 
-              className="h-32 w-full rounded-2xl bg-muted/20 p-3 flex items-center justify-center border border-border/10 shadow-inner"
-              role="img"
-              aria-label="Gráfico de dados"
+      <CardContent className="space-y-4 p-4 pt-0 sm:p-5 sm:pt-0">
+        {chart ? (
+          <div
+            className="flex h-32 w-full items-center justify-center rounded-2xl border border-border bg-muted/30 p-3"
+            role="img"
+            aria-label={`Gráfico: ${title}`}
+          >
+            {chart}
+          </div>
+        ) : null}
+
+        <AnimatePresence initial={false}>
+          {isExpanded ? (
+            <motion.div
+              id={`card-content-${id}`}
+              initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={shouldReduceMotion ? undefined : { height: 0, opacity: 0 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
+              className="overflow-hidden"
             >
-              {chart}
-            </div>
-          )}
+              <div className="space-y-4 pt-2">
+                {children}
 
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                id={`card-content-${id}`}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <div className="pt-2 space-y-4">
-                  {children}
-                  
-                  {hasItems && (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Registros</h4>
-                        {canExpandItems && (
-                          <Button 
-                            variant="link" 
-                            className="h-auto p-0 text-[10px] font-bold text-primary hover:no-underline"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowAllItems(!showAllItems);
-                            }}
-                          >
-                            {showAllItems ? "Ver menos" : `Ver todos (${items.length})`}
-                          </Button>
-                        )}
-                      </div>
-                      <div className="space-y-1" role="list">
-                        {visibleItems.map((item, idx) => (
-                          <div key={idx} className="group/item transition-all hover:translate-x-1" role="listitem">
-                            {renderItem(item, idx)}
-                          </div>
-                        ))}
-                      </div>
+                {hasItems ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Registros</h4>
+                      {canExpandItems ? (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-9 px-2.5 text-xs text-primary"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setShowAllItems((value) => !value);
+                          }}
+                        >
+                          {showAllItems ? "Ver menos" : `Ver todos (${items.length})`}
+                        </Button>
+                      ) : null}
                     </div>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    <div className="space-y-1.5" role="list">
+                      {visibleItems.map((item, index) => (
+                        <div key={index} role="listitem">
+                          {renderItem?.(item, index)}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
-          {footerInfo && (
-            <div className="pt-2 border-t border-border/20">
-              {footerInfo}
-            </div>
-          )}
-        </CardContent>
-      </motion.div>
+        {footerInfo ? <div className="border-t border-border pt-3">{footerInfo}</div> : null}
+      </CardContent>
     </Card>
   );
 }
