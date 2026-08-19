@@ -1,107 +1,106 @@
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { ChevronRight, RefreshCw, Zap } from "lucide-react";
+
 import { useEnergyBills } from "@/lib/energy";
 import { formatCurrency } from "@/lib/format-utils";
-import { Link } from "@tanstack/react-router";
-import { Zap, AlertCircle, CheckCircle2, ChevronRight, RefreshCw } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { getRecurrentExpenses } from "@/lib/recurrent-metrics.functions";
 import { cn } from "@/lib/utils";
 
 export function EnergySidebarWidget({ collapsed }: { collapsed?: boolean }) {
-  const { data: bills, isLoading: isLoadingEnergy } = useEnergyBills();
-  const { data: recurrents, isLoading: isLoadingRecurrent } = useQuery({
+  const { data: bills } = useEnergyBills();
+  const { data: recurrents } = useQuery({
     queryKey: ["recurrent-expenses-sidebar"],
-    queryFn: () => getRecurrentExpenses()
+    queryFn: () => getRecurrentExpenses(),
   });
 
   const latestBill = bills?.[0];
   const lastMonthBill = bills?.[1];
-  const isHigh = lastMonthBill ? latestBill!.amount > lastMonthBill.amount * 1.1 : false;
+  const isHigh = Boolean(
+    latestBill && lastMonthBill && latestBill.amount > lastMonthBill.amount * 1.1,
+  );
 
   const totalRecurrent = (recurrents ?? [])
-    .filter(r => r.transaction_type === 'expense')
-    .reduce((sum, r) => sum + Number(r.amount), 0);
+    .filter((row) => row.transaction_type === "expense")
+    .reduce((sum, row) => sum + Number(row.amount), 0);
 
   if (collapsed) {
     return (
       <div className="flex flex-col items-center gap-2 py-2">
-        {latestBill && (
-          <Link 
+        {latestBill ? (
+          <Link
             to="/energia"
+            aria-label={`Energia: ${formatCurrency(latestBill.amount)}. Ver detalhes.`}
             className={cn(
-              "flex flex-col items-center gap-1 p-2 rounded-xl transition-colors hover:bg-secondary/70",
-              isHigh ? "text-orange-500" : "text-emerald-500"
+              "grid min-h-11 min-w-11 place-items-center rounded-xl transition-colors hover:bg-muted motion-reduce:transition-none",
+              isHigh ? "text-amber-700 dark:text-amber-400" : "text-emerald-700 dark:text-emerald-400",
             )}
             title={`Energia: ${formatCurrency(latestBill.amount)}`}
           >
-            <Zap className="size-4" />
+            <Zap className="size-5" aria-hidden="true" />
           </Link>
-        )}
-        {totalRecurrent > 0 && (
-          <Link 
+        ) : null}
+
+        {totalRecurrent > 0 ? (
+          <Link
             to="/recorrencia"
-            className="flex flex-col items-center gap-1 p-2 rounded-xl transition-colors hover:bg-secondary/70 text-brand"
+            aria-label={`Gastos recorrentes: ${formatCurrency(totalRecurrent)}. Ver agenda.`}
+            className="grid min-h-11 min-w-11 place-items-center rounded-xl text-primary transition-colors hover:bg-muted motion-reduce:transition-none"
             title={`Recorrentes: ${formatCurrency(totalRecurrent)}`}
           >
-            <RefreshCw className="size-4" />
+            <RefreshCw className="size-5" aria-hidden="true" />
           </Link>
-        )}
+        ) : null}
       </div>
     );
   }
 
   return (
-    <div className="px-3 py-2 space-y-3">
-      {latestBill && (
-        <div className="rounded-xl border border-border bg-secondary/30 p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-              <Zap className="size-3 text-brand" />
+    <div className="space-y-3 px-3 py-2">
+      {latestBill ? (
+        <section className="rounded-xl border border-border bg-muted/35 p-3" aria-label="Resumo de energia">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              <Zap className="size-4 text-primary" aria-hidden="true" />
               Energia
             </div>
-            {isHigh ? (
-              <div className="flex items-center gap-1 text-[9px] text-orange-500 font-bold uppercase">
-                Atenção
-              </div>
-            ) : (
-              <div className="flex items-center gap-1 text-[9px] text-emerald-500 font-bold uppercase">
-                Ok
-              </div>
-            )}
+            <span
+              className={cn(
+                "text-xs font-bold uppercase",
+                isHigh ? "text-amber-700 dark:text-amber-400" : "text-emerald-700 dark:text-emerald-400",
+              )}
+            >
+              {isHigh ? "Atenção" : "Ok"}
+            </span>
           </div>
-          <p className="text-base font-bold tabular-nums">
-            {formatCurrency(latestBill.amount)}
-          </p>
-          <Link 
-            to="/energia" 
-            className="mt-2 flex items-center justify-between text-[10px] font-medium text-brand hover:underline"
+          <p className="text-base font-bold tabular-nums">{formatCurrency(latestBill.amount)}</p>
+          <Link
+            to="/energia"
+            className="mt-2 flex min-h-10 items-center justify-between rounded-lg px-1 text-xs font-semibold text-primary transition-colors hover:bg-muted hover:underline motion-reduce:transition-none"
           >
             Detalhes
-            <ChevronRight className="size-3" />
+            <ChevronRight className="size-4" aria-hidden="true" />
           </Link>
-        </div>
-      )}
+        </section>
+      ) : null}
 
-      {totalRecurrent > 0 && (
-        <div className="rounded-xl border border-border bg-secondary/30 p-3">
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">
-            <RefreshCw className="size-3 text-brand" />
+      {totalRecurrent > 0 ? (
+        <section className="rounded-xl border border-border bg-muted/35 p-3" aria-label="Resumo de gastos recorrentes">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <RefreshCw className="size-4 text-primary" aria-hidden="true" />
             Recorrentes
           </div>
-          <p className="text-base font-bold tabular-nums">
-            {formatCurrency(totalRecurrent)}
-          </p>
-          <p className="text-[9px] text-muted-foreground mt-1">
-            Gasto fixo mensal projetado
-          </p>
-          <Link 
-            to="/recorrencia" 
-            className="mt-2 flex items-center justify-between text-[10px] font-medium text-brand hover:underline"
+          <p className="text-base font-bold tabular-nums">{formatCurrency(totalRecurrent)}</p>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Gasto fixo mensal projetado</p>
+          <Link
+            to="/recorrencia"
+            className="mt-2 flex min-h-10 items-center justify-between rounded-lg px-1 text-xs font-semibold text-primary transition-colors hover:bg-muted hover:underline motion-reduce:transition-none"
           >
-            Ver Agenda
-            <ChevronRight className="size-3" />
+            Ver agenda
+            <ChevronRight className="size-4" aria-hidden="true" />
           </Link>
-        </div>
-      )}
+        </section>
+      ) : null}
     </div>
   );
 }
