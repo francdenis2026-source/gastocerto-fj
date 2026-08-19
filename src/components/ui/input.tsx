@@ -3,23 +3,18 @@ import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, autoComplete, ...props }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const isPassword = type === "password";
 
-    const togglePassword = () => setShowPassword((prev) => !prev);
-
     return (
-      <div className="relative w-full group">
+      <div className="group relative w-full">
         <input
-          type={isPassword ? (showPassword ? "text" : "password") : type}
-          autoComplete="off"
-          data-1p-ignore
-          data-lpignore="true"
-          data-form-type="other"
+          type={isPassword && showPassword ? "text" : type}
+          autoComplete={autoComplete}
           className={cn(
-            "flex h-11 w-full rounded-xl border border-input bg-background/50 px-4 py-2 text-base shadow-sm transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-            isPassword && "pr-10",
+            "flex min-h-11 w-full rounded-xl border border-input bg-background px-4 py-2 text-base text-foreground shadow-sm transition-[border-color,box-shadow,background-color] duration-200 placeholder:text-muted-foreground/90 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/25 disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-60 aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-destructive/20 md:text-sm motion-reduce:transition-none",
+            isPassword && "pr-12",
             className,
           )}
           ref={ref}
@@ -28,13 +23,10 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         {isPassword && (
           <button
             type="button"
-            onMouseDown={() => setShowPassword(true)}
-            onMouseUp={() => setShowPassword(false)}
-            onMouseLeave={() => setShowPassword(false)}
-            onTouchStart={() => setShowPassword(true)}
-            onTouchEnd={() => setShowPassword(false)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer select-none"
-            aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
+            onClick={() => setShowPassword((value) => !value)}
+            className="absolute right-1 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            aria-pressed={showPassword}
           >
             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
           </button>
