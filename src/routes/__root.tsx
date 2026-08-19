@@ -8,76 +8,85 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { AlertTriangle, Home, RefreshCw } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Button } from "@/components/ui/button";
 import { AuthProvider } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { setupServiceWorker } from "@/lib/pwa";
 import { OfflineBanner } from "@/components/offline-banner";
 
-
 export const SITE_URL = "https://gastocerto-fj.lovable.app";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
+    <main className="flex min-h-dvh items-center justify-center bg-background px-4 py-12">
+      <section className="w-full max-w-lg rounded-3xl border border-border bg-card p-6 text-center shadow-soft sm:p-8" aria-labelledby="not-found-title">
+        <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground" aria-hidden="true">
+          <AlertTriangle className="size-6" />
         </div>
-      </div>
-    </div>
+        <p className="kicker mb-3">Erro 404</p>
+        <h1 id="not-found-title" className="text-3xl font-bold text-foreground sm:text-4xl">Página não encontrada</h1>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground sm:text-base">
+          O endereço pode ter mudado ou não existir mais. Volte ao início para continuar usando o GastoCerto.
+        </p>
+        <div className="mt-7 flex justify-center">
+          <Button asChild size="lg">
+            <Link to="/">
+              <Home className="size-4" />
+              Voltar ao início
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </main>
   );
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-bold tracking-tight text-foreground">
-          Ah não, ocorreu um probleminha 😅
+    <main className="flex min-h-dvh items-center justify-center bg-background px-4 py-12">
+      <section className="w-full max-w-lg rounded-3xl border border-border bg-card p-6 text-center shadow-soft sm:p-8" aria-labelledby="error-title">
+        <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive" aria-hidden="true">
+          <AlertTriangle className="size-6" />
+        </div>
+        <p className="kicker mb-3">Não foi possível carregar</p>
+        <h1 id="error-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Algo saiu do esperado
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Algo não carregou como esperado. Tente atualizar a página ou volte para o início.
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground sm:text-base">
+          Tente carregar novamente. Se o problema continuar, volte ao início e repita a ação em alguns instantes.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
+        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
+            <RefreshCw className="size-4" />
+            Tentar novamente
+          </Button>
+          <Button asChild variant="outline">
+            <a href="/">
+              <Home className="size-4" />
+              Voltar ao início
+            </a>
+          </Button>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
@@ -89,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "GastoCerto — Controle hoje, tranquilidade sempre" },
       { name: "description", content: "A plataforma completa para gestão de finanças pessoais. Controle hoje, tranquilidade sempre." },
       { name: "author", content: "GastoCerto" },
-      { name: "theme-color", content: "#0A1512" },
+      { name: "theme-color", content: "#000d1a" },
       { name: "application-name", content: "GastoCerto" },
       { name: "apple-mobile-web-app-title", content: "GastoCerto" },
       { property: "og:site_name", content: "GastoCerto" },
@@ -101,10 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -120,7 +126,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "mask-icon", href: "/favicon-32.png", color: "#1FAE6D" },
       { rel: "manifest", href: "/site.webmanifest" },
     ],
-
     scripts: [
       {
         type: "application/ld+json",
@@ -164,7 +169,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
   }),
-
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -184,8 +188,8 @@ function RootShell({ children }: { children: ReactNode }) {
                   if (!theme) theme = 'dark';
                   document.documentElement.classList.toggle('dark', theme === 'dark');
                   document.documentElement.style.colorScheme = theme;
-                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#001222' : '#f6f7f8';
-                  
+                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#000d1a' : '#f8fafc';
+
                   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                   if (reduced) document.documentElement.setAttribute('data-reduced-motion', 'true');
                 } catch (e) {}
@@ -195,8 +199,7 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <HeadContent />
       </head>
-      <body className="relative overscroll-none select-none md:select-auto bg-background text-foreground transition-colors duration-300 antialiased text-rendering-optimize-legibility">
-        <div className="noise-overlay pointer-events-none opacity-[0.03] dark:opacity-[0.02]" />
+      <body className="relative bg-background text-foreground antialiased transition-colors duration-300">
         {children}
         <Scripts />
       </body>
@@ -213,16 +216,6 @@ function RootComponent() {
   }, []);
 
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      return undefined;
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
-  useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       router.invalidate();
@@ -230,7 +223,6 @@ function RootComponent() {
     });
     return () => data.subscription.unsubscribe();
   }, [router, queryClient]);
-
 
   return (
     <QueryClientProvider client={queryClient}>
