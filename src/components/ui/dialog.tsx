@@ -35,6 +35,18 @@ const DialogContent = React.forwardRef<
       (className?.includes("max-h-[90vh]") || className?.includes("max-h-[90dvh]")),
   );
 
+  // O assistente de lançamento (Novo gasto/Nova receita) usa um shell próprio
+  // com p-0 + gap-0 + overflow-hidden. Ele precisa de mais largura e de uma
+  // área rolável interna. A versão atual do formulário ainda mantém um bloco
+  // visual antigo duplicado antes do conteúdo principal; ocultamos somente
+  // esse bloco legado para impedir a repetição de campos vista em produção.
+  const transactionWizard = Boolean(
+    className?.includes("sm:max-w-xl") &&
+      className?.includes("p-0") &&
+      className?.includes("gap-0") &&
+      className?.includes("overflow-hidden"),
+  );
+
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -42,10 +54,13 @@ const DialogContent = React.forwardRef<
         ref={ref}
         data-slot="dialog-content"
         data-long-form={legacyLongForm ? "true" : undefined}
+        data-transaction-wizard={transactionWizard ? "true" : undefined}
         className={cn(
           "fixed left-1/2 top-1/2 z-50 grid max-h-[96dvh] w-[calc(100vw-0.75rem)] max-w-xl -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto overscroll-contain scroll-pb-32 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 focus-visible:outline-none motion-reduce:animate-none sm:w-[calc(100vw-2rem)] sm:scroll-pb-28 sm:p-6",
           legacyLongForm &&
             "sm:!max-w-3xl lg:!max-w-4xl xl:!max-w-5xl sm:max-h-[94dvh] lg:px-7 lg:py-6",
+          transactionWizard &&
+            "!max-h-[96dvh] !w-[calc(100vw-0.75rem)] !max-w-none !overflow-hidden sm:!w-[calc(100vw-2rem)] sm:!max-w-3xl lg:!max-w-4xl xl:!max-w-5xl [&>form]:min-h-0 [&>form]:overflow-y-auto [&>form]:overscroll-contain [&>form]:scroll-pb-32 [&>form>.animate-in]:hidden",
           className,
         )}
         {...props}
