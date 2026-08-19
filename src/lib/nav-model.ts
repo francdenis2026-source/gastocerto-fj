@@ -1,15 +1,10 @@
 import {
   ArrowLeftRight,
   BarChart3,
-  Baby,
-  CalendarClock,
-  ClipboardCheck,
+  Car,
   LayoutDashboard,
-  PiggyBank,
   Settings2,
   ShieldCheck,
-  User2,
-  Zap,
   Target,
   Users,
   type LucideIcon,
@@ -20,8 +15,8 @@ import {
  *
  * Por que existe: antes cada superfície (sidebar desktop, menu mobile, abas do
  * header) tinha sua própria lista, o que gerava rotas órfãs (acessíveis só por
- * link interno) e classificação incoerente (ex.: Agenda dentro de "Ajuda").
- * Centralizando aqui, qualquer rota nova aparece em todas as superfícies.
+ * link interno) e classificação incoerente. Centralizando aqui, qualquer rota
+ * nova aparece em todas as superfícies que consomem este modelo.
  */
 
 export type NavChild = {
@@ -85,6 +80,39 @@ export const navSections: NavSection[] = [
           { key: "entries.list", label: "Movimentações", to: "/lancamentos", keywords: "gastos lançar compras receitas entradas" },
           { key: "entries.recurring", label: "Fixos e assinaturas", to: "/recorrencia", keywords: "recorrente mensalidade" },
           { key: "entries.receipts", label: "Comprovantes", to: "/comprovantes", keywords: "notas recibos anexos" },
+        ],
+      },
+    ],
+  },
+  {
+    key: "vehicles_group",
+    label: "Veículos",
+    groups: [
+      {
+        key: "vehicles",
+        label: "VEÍCULOS E COMBUSTÍVEL",
+        to: "/veiculos",
+        icon: Car,
+        hint: "Abastecimentos, consumo e custo por km",
+        children: [
+          {
+            key: "vehicles.dashboard",
+            label: "Painel de combustível",
+            to: "/veiculos",
+            keywords: "veículos combustível abastecimento gasolina etanol diesel consumo km/l custo por km gasto médio",
+          },
+          {
+            key: "vehicles.settings",
+            label: "Metas e alertas",
+            to: "/veiculos-configuracoes",
+            keywords: "meta consumo alerta teto mensal combustível média",
+          },
+          {
+            key: "vehicles.audit",
+            label: "Auditoria de abastecimentos",
+            to: "/veiculos-auditoria",
+            keywords: "histórico odômetro abastecimento alertas logs auditoria",
+          },
         ],
       },
     ],
@@ -169,7 +197,6 @@ export const navSections: NavSection[] = [
 export const adminNavGroups: NavGroup[] = [
   { key: "admin", label: "Administração", to: "/admin", icon: ShieldCheck, hint: "Usuários, licenças e ajustes" },
 ];
-
 
 export const staffNavGroup: NavGroup = {
   key: "admin",
