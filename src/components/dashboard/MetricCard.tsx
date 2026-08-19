@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface MetricCardProps {
@@ -10,7 +11,7 @@ interface MetricCardProps {
   className?: string;
   onClick?: () => void;
   tone?: string;
-  badge?: React.ReactNode;
+  badge?: ReactNode;
   hint?: string;
 }
 
@@ -22,41 +23,70 @@ export function MetricCard({
   icon: Icon,
   className,
   onClick,
-  hint
+  tone,
+  badge,
+  hint,
 }: MetricCardProps) {
-  return (
-    <div 
-      onClick={onClick}
-      className={cn(
-        "rounded-2xl border bg-card p-5 transition-all group/card cursor-default shadow-sm hover:shadow-md hover:border-primary/20",
-        onClick && "cursor-pointer active:scale-[0.98]",
-        className
-      )}
-      title={hint}
-    >
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest leading-none">{label}</span>
-        {Icon && (
-          <div className="p-2 rounded-xl bg-primary/10 text-primary">
-            <Icon className="size-4.5" />
+  const content = (
+    <>
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <span className="block text-[11px] font-extrabold uppercase leading-tight tracking-[0.12em] text-muted-foreground">
+            {label}
+          </span>
+          {badge ? <div className="mt-2">{badge}</div> : null}
+        </div>
+        {Icon ? (
+          <div className={cn("grid size-10 shrink-0 place-items-center rounded-xl border border-primary/15 bg-primary/8 text-primary", tone)}>
+            <Icon className="size-5" aria-hidden />
           </div>
-        )}
+        ) : null}
       </div>
-      
-      <div className="flex flex-col gap-1">
-        <span className="text-[28px] font-bold font-sans text-foreground tracking-tight tabular-nums leading-tight">{value}</span>
-        {trend && (
-          <div className="flex items-center gap-1.5">
-            <span className={cn("text-[12px] font-bold px-2 py-0.5 rounded-full", 
-              trendDirection === "up" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : 
-              trendDirection === "down" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground"
-            )}>
+
+      <div className="flex flex-col gap-2">
+        <span className="numeric break-words text-[clamp(1.5rem,5vw,2rem)] font-bold leading-none text-foreground">
+          {value}
+        </span>
+        {trend ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={cn(
+                "inline-flex min-h-6 items-center rounded-full px-2.5 py-1 text-[11px] font-bold",
+                trendDirection === "up"
+                  ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                  : trendDirection === "down"
+                    ? "bg-rose-500/10 text-rose-700 dark:text-rose-300"
+                    : "bg-muted text-muted-foreground",
+              )}
+            >
               {trend}
             </span>
-            <span className="text-[12px] text-[#8FA39C] font-medium tracking-tight">vs mês ant.</span>
+            <span className="text-[11px] font-medium text-muted-foreground">vs. mês anterior</span>
           </div>
-        )}
+        ) : null}
       </div>
+    </>
+  );
+
+  const baseClass = cn(
+    "min-w-0 rounded-2xl border border-border/80 bg-card p-5 text-left shadow-soft",
+    onClick
+      ? "cursor-pointer transition-[transform,border-color,box-shadow,background-color] duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lifted active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      : "cursor-default",
+    className,
+  );
+
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} className={cn(baseClass, "w-full")} title={hint} aria-label={hint ? `${label}: ${hint}` : `${label}: ${value}`}>
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <div className={baseClass} title={hint}>
+      {content}
     </div>
   );
 }
