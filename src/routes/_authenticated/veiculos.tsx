@@ -19,6 +19,7 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
 import { FeatureGate } from "@/components/finance/feature-gate";
+import { FleetFuelAnalytics } from "@/components/finance/gas/fleet-fuel-analytics";
 import { FuelDialog } from "@/components/finance/gas/fuel-dialog";
 import { FuelCycleChart } from "@/components/finance/gas/fuel-cycle-chart";
 import { ReceiptViewer } from "@/components/finance/receipt-viewer";
@@ -329,12 +330,24 @@ function VehiclesPage() {
             </div>
           </section>
 
-          {vehicleFilter !== "all" ? (
-            <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-              <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><div><h2 className="font-semibold">Evolução de {selectedVehicle?.name}</h2><p className="mt-1 text-xs text-muted-foreground">Comparação apenas entre ciclos completos para não distorcer o consumo.</p></div><Badge variant="outline">Tanque cheio → tanque cheio</Badge></div>
+          <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 className="font-semibold">{selectedVehicle ? `Central analítica de ${selectedVehicle.name}` : "Central analítica da frota"}</h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {selectedVehicle
+                    ? "Consumo, distância, litros e custos calculados somente entre ciclos completos deste veículo."
+                    : "Visão consolidada e comparação profissional entre os veículos, sem misturar os ciclos de cada um."}
+                </p>
+              </div>
+              <Badge variant="outline">Tanque cheio → tanque cheio</Badge>
+            </div>
+            {vehicleFilter === "all" ? (
+              <FleetFuelAnalytics vehicles={vehicles ?? []} entries={entries ?? []} />
+            ) : (
               <FuelCycleChart entries={entries ?? []} />
-            </section>
-          ) : null}
+            )}
+          </section>
 
           <section className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
