@@ -1,13 +1,7 @@
-import { 
-  CheckCircle2, 
-  MessageSquare, 
-  Zap, 
-  ChevronRight,
-  Shield,
-  Star,
-  Quote
-} from "lucide-react";
 import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle2, Shield } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+
 import {
   Accordion,
   AccordionContent,
@@ -15,156 +9,55 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
 
 const faqs = [
   {
-    question: "O GastoCerto é gratuito?",
-    answer: "Sim! Temos um plano gratuito vitalício para controle básico. Recursos avançados exigem Pro ou Elite."
+    question: "Posso começar gratuitamente?",
+    answer: "Sim. O GastoCerto possui um plano gratuito para começar a organizar a rotina financeira e conhecer a plataforma.",
   },
   {
-    question: "Como funciona a IA?",
-    answer: "Nossa IA analisa padrões e sugere economias reais e previsões de caixa personalizadas."
+    question: "O sistema funciona no celular?",
+    answer: "Sim. A experiência é responsiva e foi organizada para uso tanto no celular quanto no computador.",
   },
   {
-    question: "Posso importar dados?",
-    answer: "Sim, aceitamos CSV e Excel com mapeamento inteligente e automático de categorias."
+    question: "Quais informações posso acompanhar?",
+    answer: "Receitas, despesas, cartões, contas, metas e outros recursos disponíveis conforme o plano contratado.",
   },
   {
-    question: "É seguro?",
-    answer: "Sim, usamos criptografia de ponta a ponta e seguimos rigorosamente a LGPD."
-  }
-];
-
-const testimonials = [
-  {
-    name: "Ricardo Silva",
-    role: "Empresário",
-    content: "Finalmente consegui organizar minhas contas sem perder horas em planilhas.",
-    avatar: "RS"
+    question: "Como escolher um plano?",
+    answer: "Compare os recursos apresentados na seção de planos e escolha a opção mais adequada à sua rotina.",
   },
-  {
-    name: "Ana Oliveira",
-    role: "Designer",
-    content: "A interface é impecável. Dá prazer em controlar meus gastos todos os dias.",
-    avatar: "AO"
-  }
 ];
 
 export function SiteQuestions() {
   return (
-    <section id="faq" className="py-24 bg-[#000c18] relative overflow-hidden border-t border-white/5">
-      <div className="container px-4 mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          
-          {/* Coluna 1: FAQ Compacto */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest mb-6">
-              Suporte & Dúvidas
+    <section id="faq" className="border-t border-white/5 bg-[#000c18] py-12 sm:py-14">
+      <div className="shell">
+        <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+          <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-md">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+              <Shield className="size-3.5" aria-hidden="true" /> Informações essenciais
             </div>
-            <h2 className="text-4xl font-black text-white mb-8 tracking-tighter">
-              Perguntas <br /> <span className="text-primary">Frequentes</span>
-            </h2>
-            
-            <Accordion type="single" collapsible className="w-full space-y-3">
-              {faqs.map((faq, i) => (
-                <AccordionItem 
-                  key={i} 
-                  value={`item-${i}`}
-                  className="border border-white/5 bg-white/5 rounded-2xl px-6 overflow-hidden data-[state=open]:border-primary/30 data-[state=open]:bg-white/10 transition-all"
-                >
-                  <AccordionTrigger className="hover:no-underline py-4 text-left text-sm font-bold text-white group">
-                    <span className="flex items-center gap-3">
-                      <CheckCircle2 className="size-4 text-primary opacity-0 group-data-[state=open]:opacity-100 transition-opacity" />
-                      {faq.question}
-                    </span>
+            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Dúvidas frequentes</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-400">Respostas rápidas para entender como o GastoCerto funciona antes de começar.</p>
+            <Button variant="outline" className="mt-5 h-10 border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white" asChild>
+              <Link to="/recursos">Ver todos os recursos <ArrowRight className="ml-2 size-4" aria-hidden="true" /></Link>
+            </Button>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <Accordion type="single" collapsible className="grid gap-2 sm:grid-cols-2">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={faq.question} value={`faq-${index}`} className="rounded-xl border border-white/8 bg-white/[0.035] px-4 data-[state=open]:border-primary/25 data-[state=open]:bg-white/[0.055]">
+                  <AccordionTrigger className="min-h-12 py-3 text-left text-sm font-semibold text-white hover:no-underline">
+                    <span className="flex items-center gap-2"><CheckCircle2 className="size-4 shrink-0 text-primary" aria-hidden="true" />{faq.question}</span>
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-400 text-xs leading-relaxed pb-4 pl-7">
-                    {faq.answer}
-                  </AccordionContent>
+                  <AccordionContent className="pb-4 pl-6 text-sm leading-5 text-slate-400">{faq.answer}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
           </motion.div>
-
-          {/* Coluna 2: Depoimentos & Call to Action (Nova Funcionalidade) */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <div className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-[2.5rem] p-8 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Quote className="size-32 text-primary" />
-              </div>
-              
-              <div className="relative z-10">
-                <div className="flex gap-1 mb-6">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} className="size-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                
-                <div className="space-y-6">
-                  {testimonials.map((t, i) => (
-                    <div key={i} className="flex gap-4 items-start">
-                      <div className="size-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary font-black text-xs shrink-0">
-                        {t.avatar}
-                      </div>
-                      <div>
-                        <p className="text-white text-sm font-medium leading-relaxed mb-2">
-                          "{t.content}"
-                        </p>
-                        <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-                          {t.name} • {t.role}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#1FAE6D] rounded-3xl p-6 relative overflow-hidden group shadow-lg shadow-emerald-500/10 max-w-md ml-auto border border-white/10">
-              <div className="relative z-10 flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-black text-white mb-1">Ainda tem dúvidas?</h3>
-                  <p className="text-white/90 text-xs font-medium mb-4">
-                    Fale com nosso time de especialistas agora mesmo.
-                  </p>
-                  <Button variant="secondary" size="sm" className="bg-white text-[#1FAE6D] hover:bg-white/90 font-black rounded-lg h-9 px-4 text-xs" asChild>
-                    <a href="https://wa.me/5568999999999" target="_blank">
-                      <MessageSquare className="mr-2 size-3" />
-                      Suporte VIP
-                    </a>
-                  </Button>
-                </div>
-                <div className="hidden sm:block">
-                  <motion.div 
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="size-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center"
-                  >
-                    <Shield className="size-8 text-white" />
-                  </motion.div>
-                </div>
-              </div>
-              {/* Subtle decoration */}
-              <div className="absolute -bottom-10 -right-10 size-32 bg-white/5 rounded-full blur-2xl" />
-            </div>
-          </motion.div>
-
         </div>
-      </div>
-
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full -z-10 pointer-events-none">
-        <div className="absolute top-0 right-1/4 size-[400px] bg-primary/5 blur-[100px] rounded-full" />
       </div>
     </section>
   );
