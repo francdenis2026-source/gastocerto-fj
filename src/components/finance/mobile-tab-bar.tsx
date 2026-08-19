@@ -1,10 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ArrowLeftRight, PiggyBank, BarChart3, Menu, X, LogOut, Baby, RefreshCcw } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, BarChart3, Menu, X, Baby, RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { navSections } from "@/lib/nav-model";
-import { useAuth } from "@/hooks/use-auth";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +11,6 @@ import { clearBrowserCredentials } from "@/lib/local-session";
 import { toast } from "sonner";
 
 export function MobileTabBar() {
-  const { signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { confirm, ConfirmDialog } = useConfirm();
@@ -28,14 +26,14 @@ export function MobileTabBar() {
   async function handleSignOut() {
     setMenuOpen(false);
     confirm({
-      title: "Encerrar Sessão",
+      title: "Encerrar sessão",
       description: "Tem certeza que deseja encerrar sua sessão com segurança?",
       type: "warning",
       confirmLabel: "Sair agora",
       onConfirm: async () => {
         const toastId = toast.loading("Finalizando acesso...", {
-          description: "Sua segurança é nossa prioridade.",
-          icon: <RefreshCcw className="size-4 animate-spin text-brand" />
+          description: "Estamos encerrando sua sessão com segurança.",
+          icon: <RefreshCcw className="size-4 animate-spin" aria-hidden />,
         });
 
         try {
@@ -45,65 +43,56 @@ export function MobileTabBar() {
           clearBrowserCredentials();
           window.localStorage.clear();
           window.sessionStorage.clear();
-          
-          toast.success("Até logo!", {
-            id: toastId,
-            description: "Você foi desconectado com segurança.",
-            icon: (
-              <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-sm border border-emerald-500/20">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="animate-in zoom-in duration-300"
-                >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-              </div>
-            ),
-          });
-
-          setTimeout(() => {
-            window.location.replace("/");
-          }, 800);
+          toast.success("Sessão encerrada", { id: toastId, description: "Até logo!" });
+          window.location.replace("/");
         } catch (error) {
           console.error("Erro durante logout mobile:", error);
           toast.error("Erro ao encerrar sessão", { id: toastId });
           window.location.replace("/");
         }
-      }
+      },
     });
   }
 
   return (
     <>
       <ConfirmDialog />
-      {/* Menu Drawer Mobile */}
-      <div className={cn(
-        "fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm transition-opacity lg:hidden",
-        menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
-      )} onClick={() => setMenuOpen(false)}>
-        <div className={cn(
-          "fixed inset-y-0 right-0 w-[300px] glass-morphism border-l border-border/10 shadow-2xl transition-transform duration-300 lg:hidden flex flex-col",
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        )} onClick={e => e.stopPropagation()}>
-          <div className="flex h-14 items-center justify-between border-b border-border px-4">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-brand">Navegação</span>
-            <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)} className="rounded-full size-10">
-              <X className="size-5" />
+
+      <div
+        className={cn(
+          "fixed inset-0 z-[60] bg-background/75 backdrop-blur-sm transition-opacity lg:hidden",
+          menuOpen ? "opacity-100" : "pointer-events-none opacity-0",
+        )}
+        aria-hidden={!menuOpen}
+        onClick={() => setMenuOpen(false)}
+      >
+        <aside
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+          className={cn(
+            "fixed inset-y-0 right-0 flex w-[min(88vw,320px)] flex-col border-l border-border bg-background/98 shadow-2xl transition-transform duration-200 lg:hidden",
+            menuOpen ? "translate-x-0" : "translate-x-full",
+          )}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <div className="flex min-h-14 items-center justify-between border-b border-border px-4">
+            <span className="text-xs font-extrabold uppercase tracking-[0.16em] text-primary">Navegação</span>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMenuOpen(false)}
+              className="rounded-full"
+              aria-label="Fechar menu"
+            >
+              <X className="size-5" aria-hidden />
             </Button>
           </div>
-          
-          <div className="flex-1 overflow-y-auto p-4 space-y-6 pb-4">
+
+          <div className="flex-1 space-y-6 overflow-y-auto overscroll-contain p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             {navSections.map((section) => (
-              <div key={section.key} className="space-y-2">
-                <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 px-1">
+              <section key={section.key} className="space-y-2" aria-labelledby={`mobile-nav-${section.key}`}>
+                <p id={`mobile-nav-${section.key}`} className="px-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">
                   {section.label}
                 </p>
                 <div className="grid gap-2">
@@ -115,63 +104,42 @@ export function MobileTabBar() {
                         key={group.key}
                         to={group.to as any}
                         onClick={() => setMenuOpen(false)}
+                        aria-current={isActive ? "page" : undefined}
                         className={cn(
-                          "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[12px] font-bold transition-all active:scale-[0.98]",
-                          isActive 
-                            ? "bg-brand/10 text-brand shadow-inner border border-brand/20" 
-                            : "bg-secondary/40 text-muted-foreground hover:bg-secondary/60"
+                          "flex min-h-12 items-center gap-3 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                          isActive
+                            ? "border-primary/25 bg-primary/10 text-foreground"
+                            : "border-transparent bg-muted/40 text-foreground hover:bg-muted",
                         )}
                       >
-                        <div className={cn(
-                          "grid size-7 place-items-center rounded-lg border",
-                          isActive ? "border-brand/30 bg-brand/10" : "border-border/50 bg-background/50"
-                        )}>
-                          <Icon className="size-5" />
+                        <div className={cn("grid size-9 shrink-0 place-items-center rounded-lg border", isActive ? "border-primary/25 bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground") }>
+                          <Icon className="size-5" aria-hidden />
                         </div>
-                        <div className="flex flex-col">
-                          <span>{group.label}</span>
-                          {group.hint && <span className="text-[10px] font-medium opacity-60 leading-none mt-0.5">{group.hint}</span>}
+                        <div className="min-w-0">
+                          <span className="block truncate">{group.label}</span>
+                          {group.hint ? <span className="mt-0.5 block text-[11px] font-medium leading-snug text-muted-foreground">{group.hint}</span> : null}
                         </div>
                       </Link>
                     );
                   })}
                 </div>
-              </div>
+              </section>
             ))}
 
-            <div className="pt-4 border-t border-border mt-4">
-              <Button 
-                variant="destructive" 
-                className="w-full justify-start gap-3 rounded-xl py-6 text-[14px] font-bold shadow-lg shadow-destructive/10 active:scale-[0.98] transition-all hover:bg-destructive/90"
-                onClick={handleSignOut}
-              >
-                <div className="flex size-8 items-center justify-center rounded-lg bg-white/20">
-                  <svg 
-                    width="18" 
-                    height="18" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2.5" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                    className="shrink-0"
-                  >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
-                </div>
-                Sair da Conta
+            <div className="border-t border-border pt-4">
+              <Button variant="destructive" className="w-full justify-start gap-3" onClick={handleSignOut}>
+                Sair da conta
               </Button>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
 
-      {/* Tab Bar Fixo Inferior */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/10 bg-background/50 p-1 pb-safe backdrop-blur-2xl lg:hidden">
-        <div className="mx-auto flex max-w-md items-center justify-around">
+      <nav
+        aria-label="Navegação principal mobile"
+        className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 px-1 pt-1 pb-[max(.25rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(15,23,42,.08)] backdrop-blur-xl lg:hidden"
+      >
+        <div className="mx-auto flex max-w-md items-stretch justify-around">
           {mainActions.map((item) => {
             const isActive = pathname === item.to;
             const Icon = item.icon;
@@ -179,36 +147,30 @@ export function MobileTabBar() {
               <Link
                 key={item.to}
                 to={item.to as any}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 transition-all active:scale-90",
-                  isActive ? "text-brand" : "text-muted-foreground/60"
+                  "flex min-h-14 flex-1 flex-col items-center justify-center gap-1 rounded-xl px-1 py-1.5 text-[10px] font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                  isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
                 )}
               >
-                <div className={cn(
-                  "relative grid size-8 place-items-center rounded-xl transition-all duration-300",
-                  isActive ? "bg-brand/10 shadow-sm border border-brand/20" : "hover:bg-secondary/40"
-                )}>
-                  <Icon className={cn("size-5", isActive && "animate-pulse")} />
-                  {isActive && (
-                    <span className="absolute -bottom-1 size-1 rounded-full bg-brand shadow-[0_0_8px_var(--brand)]" />
-                  )}
-                </div>
-                <span className="text-[9px] font-black uppercase tracking-tighter leading-none">{item.label}</span>
+                <Icon className="size-5" aria-hidden />
+                <span className="leading-none">{item.label}</span>
               </Link>
             );
           })}
-          
+
           <button
+            type="button"
             onClick={() => setMenuOpen(true)}
-            className="flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-muted-foreground/60 active:scale-90"
+            aria-expanded={menuOpen}
+            aria-haspopup="dialog"
+            className="flex min-h-14 flex-1 flex-col items-center justify-center gap-1 rounded-xl px-1 py-1.5 text-[10px] font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
           >
-            <div className="grid size-8 place-items-center rounded-xl hover:bg-secondary/40 border border-transparent">
-              <Menu className="size-5" />
-            </div>
-            <span className="text-[9px] font-black uppercase tracking-tighter leading-none">Mais</span>
+            <Menu className="size-5" aria-hidden />
+            <span className="leading-none">Mais</span>
           </button>
         </div>
-      </div>
+      </nav>
     </>
   );
 }
