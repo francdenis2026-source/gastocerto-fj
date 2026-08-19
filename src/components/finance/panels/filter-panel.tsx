@@ -7,19 +7,13 @@ import { cn } from "@/lib/utils";
 type FilterPanelProps = {
   title?: string;
   description?: string;
-  /** Quantidade de filtros diferentes do padrão — exibida como selo. */
   activeCount?: number;
   onClear?: () => void;
   children: ReactNode;
   className?: string;
-  /** Fica recolhido por padrão no mobile. */
   collapsibleOnMobile?: boolean;
 };
 
-/**
- * Bloco de filtros consistente: cabeçalho com contagem de filtros ativos,
- * botão de limpar e recolhimento automático em telas pequenas.
- */
 export function FilterPanel({
   title = "Filtros",
   description,
@@ -30,6 +24,7 @@ export function FilterPanel({
   collapsibleOnMobile = true,
 }: FilterPanelProps) {
   const [open, setOpen] = useState(false);
+  const contentId = `filter-panel-${title.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
 
   return (
     <section
@@ -39,52 +34,59 @@ export function FilterPanel({
       )}
       aria-label={title}
     >
-      <div className="flex items-center justify-between gap-2 border-b border-border bg-secondary/40 px-3 py-2 sm:px-4">
-        <div className="flex min-w-0 items-center gap-2">
-          <span className="grid size-7 shrink-0 place-items-center rounded-lg border border-brand/25 bg-brand/10 text-brand">
-            <SlidersHorizontal className="size-3.5" aria-hidden="true" />
+      <div className="flex items-start justify-between gap-3 border-b border-border bg-muted/35 px-3 py-3 sm:px-4">
+        <div className="flex min-w-0 items-start gap-2.5">
+          <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <SlidersHorizontal className="size-4" aria-hidden="true" />
           </span>
           <div className="min-w-0">
-            <p className="truncate text-[12.5px] font-semibold leading-tight">{title}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-sm font-semibold leading-tight">{title}</p>
+              {activeCount > 0 ? (
+                <span className="shrink-0 rounded-full border border-primary/25 bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary tabular-nums">
+                  {activeCount} ativo{activeCount > 1 ? "s" : ""}
+                </span>
+              ) : null}
+            </div>
             {description ? (
-              <p className="hidden truncate text-[11px] text-muted-foreground sm:block">
+              <p className="mt-0.5 max-w-prose text-xs leading-relaxed text-muted-foreground">
                 {description}
               </p>
             ) : null}
           </div>
-          {activeCount > 0 ? (
-            <span className="shrink-0 rounded-full border border-brand/30 bg-brand/12 px-2 py-0.5 text-[10.5px] font-bold text-brand tabular">
-              {activeCount} ativo{activeCount > 1 ? "s" : ""}
-            </span>
-          ) : null}
         </div>
-        <div className="flex shrink-0 items-center gap-1">
+
+        <div className="flex shrink-0 items-center gap-1.5">
           {onClear && activeCount > 0 ? (
-            <Button variant="ghost" size="sm" className="h-7 px-2 text-[11px]" onClick={onClear}>
-              <X className="mr-1 size-3.5" aria-hidden="true" />
-              Limpar
+            <Button variant="ghost" size="sm" className="min-h-9 px-2.5 text-xs" onClick={onClear}>
+              <X className="size-3.5" aria-hidden="true" />
+              <span className="hidden sm:inline">Limpar</span>
+              <span className="sm:hidden sr-only">Limpar filtros</span>
             </Button>
           ) : null}
           {collapsibleOnMobile ? (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="h-7 px-2 text-[11px] sm:hidden"
+              className="min-h-9 px-2.5 text-xs sm:hidden"
               aria-expanded={open}
+              aria-controls={contentId}
               onClick={() => setOpen((value) => !value)}
             >
               {open ? "Fechar" : "Abrir"}
               <ChevronDown
-                className={cn("ml-1 size-3.5 transition-transform", open && "rotate-180")}
+                className={cn("size-3.5 transition-transform", open && "rotate-180")}
                 aria-hidden="true"
               />
             </Button>
           ) : null}
         </div>
       </div>
+
       <div
+        id={contentId}
         className={cn(
-          "grid gap-2.5 p-3 sm:gap-3 sm:p-4 auto-cards-sm",
+          "grid gap-3 p-3 sm:p-4 auto-cards-sm",
           collapsibleOnMobile && !open && "hidden sm:grid",
         )}
       >
@@ -94,7 +96,6 @@ export function FilterPanel({
   );
 }
 
-/** Campo de filtro com rótulo padronizado. */
 export function FilterField({
   label,
   htmlFor,
@@ -110,7 +111,7 @@ export function FilterField({
     <div className={cn("min-w-0", className)}>
       <label
         htmlFor={htmlFor}
-        className="mb-1 block text-[10.5px] font-semibold uppercase tracking-[0.1em] text-muted-foreground"
+        className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground"
       >
         {label}
       </label>
