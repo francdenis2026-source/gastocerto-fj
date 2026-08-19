@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { AppShell } from "@/components/app-shell";
 import { FeatureGate } from "@/components/finance/feature-gate";
 import { FuelDialog } from "@/components/finance/gas/fuel-dialog";
+import { FuelCycleChart } from "@/components/finance/gas/fuel-cycle-chart";
 import { PageHeader } from "@/components/finance/page-header";
 import { FilterPresets } from "@/components/finance/filter-presets";
 import { EMPTY_FILTERS } from "@/lib/filter-presets";
@@ -163,7 +164,6 @@ function VehiclesPage() {
     [vehicles],
   );
 
-
   function exportFuelCsv() {
     const csv = fuelStatsCsv(perVehicle, { from, to });
     const suffix = from || to ? `${from || "inicio"}_${to || "hoje"}` : "geral";
@@ -211,7 +211,7 @@ function VehiclesPage() {
           icon={Fuel}
           eyebrow="Frota e combustível"
           title="Veículos e combustível"
-          description="Consumo médio, custo por km e histórico completo dos abastecimentos."
+          description="Consumo preciso por ciclos de tanque cheio, custo por km e histórico completo dos abastecimentos."
           className="lg:p-4"
           actions={
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -308,57 +308,22 @@ function VehiclesPage() {
                   </div>
 
                   <div className="flex shrink-0 gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="size-8 rounded-lg"
-                      onClick={() => {
-                        setEditingVehicle(vehicle);
-                        setVehicleDialog(true);
-                      }}
-                    >
+                    <Button variant="ghost" size="icon" className="size-8 rounded-lg" onClick={() => { setEditingVehicle(vehicle); setVehicleDialog(true); }}>
                       <Pencil className="size-3.5" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="size-8 rounded-lg hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => setConfirmVehicle(vehicle)}
-                    >
+                    <Button variant="ghost" size="icon" className="size-8 rounded-lg hover:text-destructive hover:bg-destructive/10" onClick={() => setConfirmVehicle(vehicle)}>
                       <Trash2 className="size-3.5" />
                     </Button>
                   </div>
                 </div>
-                
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  <Badge variant="secondary" className="bg-muted/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md">
-                    {labelFor(FUEL_TYPES, vehicle.fuel_type)}
-                  </Badge>
-                  {vehicle.plate && (
-                    <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 border-border/60 rounded-md">
-                      {vehicle.plate}
-                    </Badge>
-                  )}
-                  {vehicle.tank_capacity && (
-                    <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 border-border/60 rounded-md">
-                      {vehicle.tank_capacity}L
-                    </Badge>
-                  )}
+                  <Badge variant="secondary" className="bg-muted/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md">{labelFor(FUEL_TYPES, vehicle.fuel_type)}</Badge>
+                  {vehicle.plate && <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 border-border/60 rounded-md">{vehicle.plate}</Badge>}
+                  {vehicle.tank_capacity && <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 border-border/60 rounded-md">{vehicle.tank_capacity}L</Badge>}
                 </div>
-
                 <div className="mt-5 border-t border-border/50 pt-3">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-full justify-center text-[11px] font-bold uppercase tracking-[0.1em] text-brand hover:bg-brand/5"
-                    onClick={() => {
-                      setEditingEntry(null);
-                      setVehicleFilter(vehicle.id);
-                      setFuelDialog(true);
-                    }}
-                  >
-                    <Plus className="mr-1.5 size-3" />
-                    Abastecer
+                  <Button variant="ghost" size="sm" className="h-8 w-full justify-center text-[11px] font-bold uppercase tracking-[0.1em] text-brand hover:bg-brand/5" onClick={() => { setEditingEntry(null); setVehicleFilter(vehicle.id); setFuelDialog(true); }}>
+                    <Plus className="mr-1.5 size-3" />Abastecer
                   </Button>
                 </div>
               </article>
@@ -368,264 +333,115 @@ function VehiclesPage() {
 
         <section className="grid gap-3 rounded-2xl border border-border bg-card p-4 auto-cards-sm">
           <Select value={vehicleFilter} onValueChange={setVehicleFilter}>
-            <SelectTrigger aria-label="Filtrar por veículo">
-              <SelectValue />
-            </SelectTrigger>
+            <SelectTrigger aria-label="Filtrar por veículo"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todos os veículos</SelectItem>
-              {(vehicles ?? []).map((vehicle) => (
-                <SelectItem key={vehicle.id} value={vehicle.id}>
-                  {vehicle.name}
-                </SelectItem>
-              ))}
+              {(vehicles ?? []).map((vehicle) => <SelectItem key={vehicle.id} value={vehicle.id}>{vehicle.name}</SelectItem>)}
             </SelectContent>
           </Select>
-
           <Select value={fuelFilter} onValueChange={setFuelFilter}>
-            <SelectTrigger aria-label="Filtrar por combustível">
-              <SelectValue />
-            </SelectTrigger>
+            <SelectTrigger aria-label="Filtrar por combustível"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todos os combustíveis</SelectItem>
-              {FUEL_TYPES.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
+              {FUEL_TYPES.map((item) => <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>)}
             </SelectContent>
           </Select>
-
-          <Input
-            type="date"
-            value={from}
-            onChange={(event) => setFrom(event.target.value)}
-            aria-label="Data inicial"
-          />
-          <Input
-            type="date"
-            value={to}
-            onChange={(event) => setTo(event.target.value)}
-            aria-label="Data final"
-          />
+          <Input type="date" value={from} onChange={(event) => setFrom(event.target.value)} aria-label="Data inicial" />
+          <Input type="date" value={to} onChange={(event) => setTo(event.target.value)} aria-label="Data final" />
         </section>
 
         <FilterPresets
           scope="veiculos"
-          values={{
-            ...EMPTY_FILTERS,
-            from,
-            to,
-            vehicle: vehicleFilter,
-            type: fuelFilter,
-          }}
+          values={{ ...EMPTY_FILTERS, from, to, vehicle: vehicleFilter, type: fuelFilter }}
           presetKeys={["month", "prevMonth", "last30", "last7"]}
           onApply={(patch) => {
             if (patch.from !== undefined) setFrom(patch.from);
             if (patch.to !== undefined) setTo(patch.to);
             if (patch.vehicle !== undefined) setVehicleFilter(patch.vehicle);
           }}
-          onClear={() => {
-            setFrom("");
-            setTo("");
-            setVehicleFilter("all");
-            setFuelFilter("all");
-          }}
+          onClear={() => { setFrom(""); setTo(""); setVehicleFilter("all"); setFuelFilter("all"); }}
         />
 
-
         <section className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-          <Metric
-            label="Gasto no filtro"
-            value={formatCurrency(summary.total)}
-            hint={`${summary.entries} abastecimentos`}
-            icon={Fuel}
-            tone="brand"
-          />
-          <Metric
-            label="Consumo médio"
-            value={summary.averageConsumption ? `${summary.averageConsumption} km/l` : "—"}
-            hint={`${summary.liters} litros totais`}
-            icon={Droplets}
-            tone="success"
-          />
-          <Metric
-            label="Custo por km"
-            value={summary.costPerKm ? formatCurrency(summary.costPerKm) : "—"}
-            hint={`${summary.distance} km rodados`}
-            icon={Car}
-            tone="neutral"
-          />
-          <Metric
-            label="Preço médio"
-            value={summary.averagePrice ? formatCurrency(summary.averagePrice) : "—"}
-            hint={summary.best?.consumption ? `Recorde: ${summary.best.consumption} km/l` : "—"}
-            icon={TriangleAlert}
-            tone="warning"
-          />
+          <Metric label="Gasto no filtro" value={formatCurrency(summary.total)} hint={`${summary.entries} abastecimentos`} icon={Fuel} tone="brand" />
+          <Metric label="Consumo médio" value={summary.averageConsumption ? `${summary.averageConsumption} km/l` : "—"} hint={summary.cycles > 0 ? `${summary.cycles} ciclo(s) completo(s)` : "Aguardando ciclo completo"} icon={Droplets} tone="success" />
+          <Metric label="Custo por km" value={summary.costPerKm ? formatCurrency(summary.costPerKm) : "—"} hint={`${summary.distance} km medidos`} icon={Car} tone="neutral" />
+          <Metric label="Preço médio" value={summary.averagePrice ? formatCurrency(summary.averagePrice) : "—"} hint={summary.best?.consumption ? `Recorde: ${summary.best.consumption} km/l` : `${summary.liters} L abastecidos`} icon={TriangleAlert} tone="warning" />
         </section>
+
+        {vehicleFilter !== "all" ? (
+          <section className="rounded-2xl border border-border bg-card p-4 shadow-soft sm:p-5">
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+              <div>
+                <h2 className="text-base font-semibold">Evolução do consumo</h2>
+                <p className="mt-1 text-xs leading-5 text-muted-foreground">Cada ponto representa um ciclo completo entre dois abastecimentos com tanque cheio. Abastecimentos parciais são acumulados dentro do ciclo.</p>
+              </div>
+              <Badge variant="outline">Medição tanque cheio → tanque cheio</Badge>
+            </div>
+            <FuelCycleChart entries={entries ?? []} />
+          </section>
+        ) : (
+          <section className="rounded-xl border border-dashed border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+            Selecione um veículo para visualizar o gráfico histórico de consumo e custo por km.
+          </section>
+        )}
 
         {perVehicle.length > 0 ? (
           <section className="space-y-3">
             <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 px-1">Desempenho por veículo</h2>
             <div className="grid gap-3 sm:grid-cols-2">
-              {perVehicle.map(({ vehicle, summary: stats, target, threshold, deviation, alert, budgetAlert }) => (
-                <article
-                  key={vehicle.id}
-                  className={cn(
-                    "interactive-card rounded-xl border bg-card p-5 shadow-soft",
-                    alert ? "border-destructive/30" : "border-border"
-                  )}
-                >
+              {perVehicle.map(({ vehicle, summary: stats, target, deviation, alert, budgetAlert }) => (
+                <article key={vehicle.id} className={cn("interactive-card rounded-xl border bg-card p-5 shadow-soft", alert ? "border-destructive/30" : "border-border")}>
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <h3 className="truncate text-base font-bold tracking-tight">{vehicle.name}</h3>
-                      <p className="mt-1 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Métrica atual</p>
+                      <p className="mt-1 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Métrica por ciclos completos</p>
                     </div>
-                    <Badge variant={alert ? "destructive" : "secondary"} className="h-6 px-2 text-[12px] font-bold rounded-lg">
-                      {stats.averageConsumption ? `${stats.averageConsumption} km/l` : "—"}
-                    </Badge>
+                    <Badge variant={alert ? "destructive" : "secondary"} className="h-6 px-2 text-[12px] font-bold rounded-lg">{stats.averageConsumption ? `${stats.averageConsumption} km/l` : "—"}</Badge>
                   </div>
                   <div className="mt-5 grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">Gasto Total</dt>
-                      <dd className="text-sm font-bold tabular-nums">{formatCurrency(stats.total)}</dd>
-                    </div>
-                    <div className="space-y-1">
-                      <dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">Custo/km</dt>
-                      <dd className="text-sm font-bold tabular-nums">
-                        {stats.costPerKm ? formatCurrency(stats.costPerKm) : "—"}
-                      </dd>
-                    </div>
+                    <div className="space-y-1"><dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">Gasto Total</dt><dd className="text-sm font-bold tabular-nums">{formatCurrency(stats.total)}</dd></div>
+                    <div className="space-y-1"><dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">Custo/km</dt><dd className="text-sm font-bold tabular-nums">{stats.costPerKm ? formatCurrency(stats.costPerKm) : "—"}</dd></div>
                   </div>
-                  
                   {target && (
                     <div className="mt-5 border-t border-border/40 pt-4">
-                      <div className="flex items-center justify-between text-[11px] font-medium text-muted-foreground">
-                        <span>Meta: {target} km/l</span>
-                        <span className={cn(deviation && deviation > 0 ? "text-success" : "text-destructive")}>
-                          {deviation != null ? `${deviation > 0 ? "+" : ""}${deviation}%` : "—"}
-                        </span>
-                      </div>
-                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
-                        <div 
-                          className={cn("h-full rounded-full transition-all", alert ? "bg-destructive" : "bg-success")}
-                          style={{ width: `${Math.min(100, (Number(stats.averageConsumption ?? 0) / target) * 100)}%` }}
-                        />
-                      </div>
+                      <div className="flex items-center justify-between text-[11px] font-medium text-muted-foreground"><span>Meta: {target} km/l</span><span className={cn(deviation && deviation > 0 ? "text-success" : "text-destructive")}>{deviation != null ? `${deviation > 0 ? "+" : ""}${deviation}%` : "—"}</span></div>
+                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted"><div className={cn("h-full rounded-full transition-all", alert ? "bg-destructive" : "bg-success")} style={{ width: `${Math.min(100, (Number(stats.averageConsumption ?? 0) / target) * 100)}%` }} /></div>
                     </div>
                   )}
-
-                  {alert && (
-                    <div className="mt-4 flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-[11px] font-semibold text-destructive">
-                      <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
-                      <span>Consumo abaixo da meta. Verifique calibragem ou manutenção.</span>
-                    </div>
-                  )}
-                  {budgetAlert && (
-                    <div className="mt-2 flex items-start gap-2 rounded-lg bg-amber-500/10 p-3 text-[11px] font-semibold text-amber-600 dark:text-amber-400">
-                      <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
-                      <span>Gasto acima do teto mensal para este veículo.</span>
-                    </div>
-                  )}
+                  {alert && <div className="mt-4 flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-[11px] font-semibold text-destructive"><TriangleAlert className="mt-0.5 size-3.5 shrink-0" /><span>Consumo abaixo da meta. Verifique calibragem ou manutenção.</span></div>}
+                  {budgetAlert && <div className="mt-2 flex items-start gap-2 rounded-lg bg-amber-500/10 p-3 text-[11px] font-semibold text-amber-600 dark:text-amber-400"><TriangleAlert className="mt-0.5 size-3.5 shrink-0" /><span>Gasto acima do teto mensal para este veículo.</span></div>}
                 </article>
               ))}
             </div>
           </section>
         ) : null}
 
-
-
         <section className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
-          <div className="bg-muted/30 border-b border-border/50 px-4 py-3">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Histórico de abastecimentos</h3>
-          </div>
+          <div className="bg-muted/30 border-b border-border/50 px-4 py-3"><h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Histórico de abastecimentos</h3></div>
           {loadingEntries ? (
-            <div className="space-y-2 p-4">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Skeleton key={index} className="h-10 w-full" />
-              ))}
-            </div>
+            <div className="space-y-2 p-4">{Array.from({ length: 5 }).map((_, index) => <Skeleton key={index} className="h-10 w-full" />)}</div>
           ) : filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center p-20 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground/40">
-                <Droplets className="size-7" />
-              </div>
-              <p className="mt-5 text-sm font-semibold">Nenhum abastecimento encontrado</p>
-              <p className="mt-1 text-xs text-muted-foreground">Tente ajustar os filtros ou registre um novo gasto.</p>
-            </div>
+            <div className="flex flex-col items-center justify-center p-20 text-center"><div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground/40"><Droplets className="size-7" /></div><p className="mt-5 text-sm font-semibold">Nenhum abastecimento encontrado</p><p className="mt-1 text-xs text-muted-foreground">Tente ajustar os filtros ou registre um novo gasto.</p></div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
-                <TableHeader className="bg-muted/20">
-                  <TableRow className="hover:bg-transparent">
-                    <TableHead className="font-bold text-[10px] uppercase tracking-wider text-muted-foreground">Data</TableHead>
-                    <TableHead className="hidden font-bold text-[10px] uppercase tracking-wider text-muted-foreground md:table-cell">Veículo</TableHead>
-                    <TableHead className="text-right font-bold text-[10px] uppercase tracking-wider text-muted-foreground">Odômetro</TableHead>
-                    <TableHead className="text-right font-bold text-[10px] uppercase tracking-wider text-muted-foreground">Litros</TableHead>
-                    <TableHead className="hidden sm:table-cell text-right font-bold text-[10px] uppercase tracking-wider text-muted-foreground">R$/L</TableHead>
-                    <TableHead className="text-right font-bold text-[10px] uppercase tracking-wider text-muted-foreground">Total</TableHead>
-                    <TableHead className="hidden lg:table-cell text-right font-bold text-[10px] uppercase tracking-wider text-muted-foreground">km/l</TableHead>
-                    <TableHead className="w-20 text-right font-bold text-[10px] uppercase tracking-wider text-muted-foreground">Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
+                <TableHeader className="bg-muted/20"><TableRow className="hover:bg-transparent"><TableHead>Data</TableHead><TableHead className="hidden md:table-cell">Veículo</TableHead><TableHead className="text-right">Odômetro</TableHead><TableHead className="text-right">Litros</TableHead><TableHead className="hidden sm:table-cell text-right">R$/L</TableHead><TableHead className="text-right">Total</TableHead><TableHead className="hidden lg:table-cell text-right">km/l</TableHead><TableHead className="w-20 text-right">Ações</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {filtered.map((entry) => (
                     <TableRow key={entry.id} className="group hover:bg-muted/40 transition-colors">
-                      <TableCell className="whitespace-nowrap tabular-nums text-[13px] font-medium text-muted-foreground">
-                        {formatDate(entry.entry_date)}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell text-[13px] font-semibold">
-                        {vehicleNames.get(entry.vehicle_id) ?? "—"}
-                      </TableCell>
+                      <TableCell className="whitespace-nowrap tabular-nums text-[13px] font-medium text-muted-foreground">{formatDate(entry.entry_date)}</TableCell>
+                      <TableCell className="hidden md:table-cell text-[13px] font-semibold">{vehicleNames.get(entry.vehicle_id) ?? "—"}</TableCell>
                       <TableCell className="text-right tabular-nums text-[13px] font-medium">{entry.odometer}</TableCell>
                       <TableCell className="text-right tabular-nums text-[13px] font-medium">{entry.liters}L</TableCell>
-                      <TableCell className="hidden sm:table-cell text-right tabular-nums text-[13px] text-muted-foreground">
-                        {formatCurrency(Number(entry.price_per_liter))}
-                      </TableCell>
-                      <TableCell className="text-right tabular-nums text-[14px] font-bold text-foreground">
-                        {formatCurrency(Number(entry.total_amount ?? 0))}
-                      </TableCell>
-                      <TableCell className="hidden lg:table-cell text-right tabular-nums">
-                        {entry.consumption ? (
-                          <span className="inline-flex rounded-md bg-success/10 px-2 py-0.5 text-[11px] font-bold text-success">
-                            {entry.consumption} km/l
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground/40">—</span>
-                        )}
-                      </TableCell>
+                      <TableCell className="hidden sm:table-cell text-right tabular-nums text-[13px] text-muted-foreground">{formatCurrency(Number(entry.price_per_liter))}</TableCell>
+                      <TableCell className="text-right tabular-nums text-[14px] font-bold text-foreground">{formatCurrency(Number(entry.total_amount ?? 0))}</TableCell>
+                      <TableCell className="hidden lg:table-cell text-right tabular-nums">{entry.consumption ? <span className="inline-flex rounded-md bg-success/10 px-2 py-0.5 text-[11px] font-bold text-success">{entry.consumption} km/l</span> : <span className="text-muted-foreground/40">{entry.full_tank ? "Referência" : "Ciclo aberto"}</span>}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {entry.attachment_url && (
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="size-8 rounded-lg"
-                              onClick={() => setReceipt(entry.attachment_url)}
-                            >
-                              <Droplets className="size-3.5" />
-                            </Button>
-                          )}
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="size-8 rounded-lg"
-                            onClick={() => {
-                              setEditingEntry(entry);
-                              setVehicleFilter(entry.vehicle_id);
-                              setFuelDialog(true);
-                            }}
-                          >
-                            <Pencil className="size-3.5" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="size-8 rounded-lg hover:text-destructive hover:bg-destructive/10"
-                            onClick={() => setConfirmEntry(entry)}
-                          >
-                            <Trash2 className="size-3.5" />
-                          </Button>
+                          {entry.attachment_url && <Button variant="ghost" size="icon" className="size-8 rounded-lg" onClick={() => setReceipt(entry.attachment_url)}><Droplets className="size-3.5" /></Button>}
+                          <Button variant="ghost" size="icon" className="size-8 rounded-lg" onClick={() => { setEditingEntry(entry); setVehicleFilter(entry.vehicle_id); setFuelDialog(true); }}><Pencil className="size-3.5" /></Button>
+                          <Button variant="ghost" size="icon" className="size-8 rounded-lg hover:text-destructive hover:bg-destructive/10" onClick={() => setConfirmEntry(entry)}><Trash2 className="size-3.5" /></Button>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -637,61 +453,17 @@ function VehiclesPage() {
         </section>
 
         <section className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-            <History className="size-4" />
-            Histórico de auditoria
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Cada edição de odômetro ou abastecimento fica registrada com autor, valores anteriores
-            e alertas acionados no momento de salvar.
-          </p>
-          {(auditLog ?? []).length === 0 ? (
-            <p className="mt-4 text-sm text-muted-foreground">
-              Nenhum registro de auditoria ainda.
-            </p>
-          ) : (
+          <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight"><History className="size-4" />Histórico de auditoria</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Cada edição de odômetro ou abastecimento fica registrada com autor, valores anteriores e alertas acionados no momento de salvar.</p>
+          {(auditLog ?? []).length === 0 ? <p className="mt-4 text-sm text-muted-foreground">Nenhum registro de auditoria ainda.</p> : (
             <ul className="mt-4 space-y-3">
               {(auditLog ?? []).map((log) => (
                 <li key={log.id} className="rounded-xl border border-border p-3 text-sm">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-medium">
-                      {AUDIT_ACTIONS[log.action] ?? log.action}
-                      {log.vehicle_id ? ` · ${vehicleNames.get(log.vehicle_id) ?? "veículo"}` : ""}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(log.created_at).toLocaleString("pt-BR")} ·{" "}
-                      {log.actor_name ?? "Você"}
-                    </span>
-                  </div>
-                  {log.odometer_after != null || log.odometer_before != null ? (
-                    <p className="mt-1 text-xs text-muted-foreground tabular-nums">
-                      Odômetro: {log.odometer_before ?? "—"} → {log.odometer_after ?? "—"} km
-                    </p>
-                  ) : null}
-                  {Object.keys((log.changes ?? {}) as Record<string, unknown>).length > 0 ? (
-                    <ul className="mt-1 list-disc space-y-0.5 pl-5 text-xs text-muted-foreground">
-                      {Object.entries(
-                        log.changes as Record<string, { before: unknown; after: unknown }>,
-                      ).map(([field, value]) => (
-                        <li key={field}>
-                          {AUDIT_FIELD_LABELS[field] ?? field}: {String(value.before ?? "—")} →{" "}
-                          {String(value.after ?? "—")}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  {(log.warnings ?? []).length > 0 ? (
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {(log.warnings ?? []).map((warning) => (
-                        <Badge key={warning} variant="outline" className="text-amber-600">
-                          {warning}
-                        </Badge>
-                      ))}
-                    </div>
-                  ) : null}
-                  {log.notes ? (
-                    <p className="mt-1 text-xs text-muted-foreground">{log.notes}</p>
-                  ) : null}
+                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="font-medium">{AUDIT_ACTIONS[log.action] ?? log.action}{log.vehicle_id ? ` · ${vehicleNames.get(log.vehicle_id) ?? "veículo"}` : ""}</span><span className="text-xs text-muted-foreground">{new Date(log.created_at).toLocaleString("pt-BR")} · {log.actor_name ?? "Você"}</span></div>
+                  {log.odometer_after != null || log.odometer_before != null ? <p className="mt-1 text-xs text-muted-foreground tabular-nums">Odômetro: {log.odometer_before ?? "—"} → {log.odometer_after ?? "—"} km</p> : null}
+                  {Object.keys((log.changes ?? {}) as Record<string, unknown>).length > 0 ? <ul className="mt-1 list-disc space-y-0.5 pl-5 text-xs text-muted-foreground">{Object.entries(log.changes as Record<string, { before: unknown; after: unknown }>).map(([field, value]) => <li key={field}>{AUDIT_FIELD_LABELS[field] ?? field}: {String(value.before ?? "—")} → {String(value.after ?? "—")}</li>)}</ul> : null}
+                  {(log.warnings ?? []).length > 0 ? <div className="mt-2 flex flex-wrap gap-1">{(log.warnings ?? []).map((warning) => <Badge key={warning} variant="outline" className="text-amber-600">{warning}</Badge>)}</div> : null}
+                  {log.notes ? <p className="mt-1 text-xs text-muted-foreground">{log.notes}</p> : null}
                 </li>
               ))}
             </ul>
@@ -699,69 +471,16 @@ function VehiclesPage() {
         </section>
       </div>
 
-      {vehicleDialog ? (
-        <VehicleDialog
-          key={editingVehicle?.id ?? "new-vehicle"}
-          open={vehicleDialog}
-          onOpenChange={setVehicleDialog}
-          vehicle={editingVehicle}
-        />
-      ) : null}
+      {vehicleDialog ? <VehicleDialog key={editingVehicle?.id ?? "new-vehicle"} open={vehicleDialog} onOpenChange={setVehicleDialog} vehicle={editingVehicle} /> : null}
+      {fuelDialog ? <FuelDialog key={editingEntry?.id ?? "new-fuel"} open={fuelDialog} onOpenChange={setFuelDialog} vehicles={vehicles ?? []} defaultVehicleId={vehicleFilter === "all" ? undefined : vehicleFilter} entry={editingEntry} /> : null}
+      <ReceiptViewer path={receipt} open={receipt !== null} onOpenChange={(value) => !value && setReceipt(null)} />
 
-      {fuelDialog ? (
-        <FuelDialog
-          key={editingEntry?.id ?? "new-fuel"}
-          open={fuelDialog}
-          onOpenChange={setFuelDialog}
-          vehicles={vehicles ?? []}
-          defaultVehicleId={vehicleFilter === "all" ? undefined : vehicleFilter}
-          entry={editingEntry}
-        />
-      ) : null}
-
-      <ReceiptViewer
-        path={receipt}
-        open={receipt !== null}
-        onOpenChange={(value) => !value && setReceipt(null)}
-      />
-
-      <AlertDialog
-        open={confirmVehicle !== null}
-        onOpenChange={() => setConfirmVehicle(null)}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Remover veículo?</AlertDialogTitle>
-            <AlertDialogDescription>
-              O histórico de abastecimentos ligado a este veículo também será removido.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => confirmVehicle && handleDeleteVehicle(confirmVehicle)}
-            >
-              Remover
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+      <AlertDialog open={confirmVehicle !== null} onOpenChange={() => setConfirmVehicle(null)}>
+        <AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Remover veículo?</AlertDialogTitle><AlertDialogDescription>O histórico de abastecimentos ligado a este veículo também será removido.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancelar</AlertDialogCancel><AlertDialogAction onClick={() => confirmVehicle && handleDeleteVehicle(confirmVehicle)}>Remover</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
       </AlertDialog>
 
       <AlertDialog open={confirmEntry !== null} onOpenChange={() => setConfirmEntry(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Remover abastecimento?</AlertDialogTitle>
-            <AlertDialogDescription>
-              A despesa vinculada, se existir, também será excluída do histórico.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => confirmEntry && handleDeleteEntry(confirmEntry)}>
-              Remover
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        <AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Remover abastecimento?</AlertDialogTitle><AlertDialogDescription>A despesa vinculada, se existir, também será excluída do histórico.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancelar</AlertDialogCancel><AlertDialogAction onClick={() => confirmEntry && handleDeleteEntry(confirmEntry)}>Remover</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
       </AlertDialog>
     </FeatureGate>
     </AppShell>
