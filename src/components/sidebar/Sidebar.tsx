@@ -1,17 +1,14 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { cn } from "@/lib/utils";
-import { 
-  LayoutDashboard, 
-  ChevronDown,
-  LogOut,
-  ChevronRight
-} from "lucide-react";
-import { useProfile } from "@/lib/queries";
-import { Logo } from "@/components/logo";
+import { ChevronRight, LogOut } from "lucide-react";
 import { useState } from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
+import { cn } from "@/lib/utils";
 import { navSections, type NavGroup } from "@/lib/nav-model";
 import { usePlanAccess } from "@/lib/plan-features";
-import { Badge } from "@/components/ui/badge";
+import { useProfile } from "@/lib/queries";
 
 interface SidebarProps {
   railCollapsed?: boolean;
@@ -23,41 +20,46 @@ export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
   const { planSlug } = usePlanAccess();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  // Accordion state: keep track of which section is open
   const [openSection, setOpenSection] = useState<string | null>(() => {
-    const activeSection = navSections.find(s => s.groups.some(g => pathname === g.to || g.children?.some(c => pathname === c.to)));
+    const activeSection = navSections.find((section) =>
+      section.groups.some(
+        (group) => pathname === group.to || group.children?.some((child) => pathname === child.to),
+      ),
+    );
     return activeSection?.key || "main";
   });
 
   const toggleSection = (key: string) => {
-    setOpenSection(prev => prev === key ? null : key);
+    setOpenSection((previous) => (previous === key ? null : key));
   };
 
   return (
-    <nav className={cn(
-      "bg-card border-r border-border h-screen flex flex-col transition-all duration-300 relative z-40",
-      railCollapsed ? "w-20" : "w-64"
-    )}>
-      {/* Header / Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-border">
+    <nav
+      aria-label="Navegação principal"
+      className={cn(
+        "relative z-40 flex h-dvh flex-col border-r border-border bg-card transition-[width] duration-300 motion-reduce:transition-none",
+        railCollapsed ? "w-20" : "w-64",
+      )}
+    >
+      <div className="flex h-16 items-center border-b border-border px-6">
         <Logo compact={railCollapsed} href="/painel" />
       </div>
 
-      {/* Navigation */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-2 scrollbar-none">
+      <div className="flex-1 space-y-2 overflow-y-auto overflow-x-hidden p-4 scrollbar-none">
         {navSections.map((section) => {
           const isSectionOpen = openSection === section.key;
 
           return (
             <div key={section.key} className="space-y-1">
               {section.groups.map((group) => (
-                <SidebarItem 
+                <SidebarItem
                   key={group.key}
                   group={group}
                   collapsed={railCollapsed}
-                  active={pathname === group.to || group.children?.some(c => pathname === c.to)}
+                  active={pathname === group.to || group.children?.some((child) => pathname === child.to)}
                   isOpen={isSectionOpen}
                   onToggle={() => toggleSection(section.key)}
+                  pathname={pathname}
                 />
               ))}
             </div>
@@ -65,47 +67,53 @@ export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
         })}
       </div>
 
-      {/* Footer / User Profile */}
-      <div className="p-4 border-t border-border">
-        <div className={cn(
-          "bg-muted/50 p-3 rounded-2xl border border-border shadow-sm",
-          railCollapsed ? "flex flex-col items-center gap-3" : "space-y-3"
-        )}>
-          {!railCollapsed && (
-             <div className="flex items-center justify-between px-1">
-                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Saldo Mensal</span>
-                <span className="text-[11px] font-bold text-primary">R$ 2.450,00</span>
-             </div>
+      <div className="border-t border-border p-4">
+        <div
+          className={cn(
+            "rounded-2xl border border-border bg-muted/50 p-3 shadow-sm",
+            railCollapsed ? "flex flex-col items-center gap-3" : "space-y-3",
           )}
-
+        >
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold shrink-0">
+            <div
+              aria-hidden="true"
+              className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 font-bold text-emerald-600 dark:text-emerald-400"
+            >
               {profile?.full_name?.charAt(0) || "U"}
             </div>
-            {!railCollapsed && (
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[13px] font-bold text-foreground truncate">
-                    {profile?.full_name?.split(" ")[0]}
+
+            {!railCollapsed ? (
+              <div className="min-w-0 flex-1">
+                <div className="flex min-w-0 items-center gap-2">
+                  <span className="truncate text-sm font-bold text-foreground">
+                    {profile?.full_name?.split(" ")[0] || "Usuário"}
                   </span>
-                  <Badge variant="outline" className="h-4 px-1 text-[8px] font-black uppercase bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-[0_0_8px_rgba(34,197,94,0.2)]">
+                  <Badge
+                    variant="outline"
+                    className="shrink-0 border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                  >
                     {planSlug === "premium_ia" ? "Premium IA" : "Premium"}
                   </Badge>
                 </div>
-                <div className="text-[10px] text-muted-foreground font-medium truncate uppercase tracking-tighter">
-                  {profile?.full_name?.split(" ").slice(1).join(" ")}
-                </div>
+                <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                  {profile?.full_name?.split(" ").slice(1).join(" ") || "Conta GastoCerto"}
+                </p>
               </div>
-            )}
-            {!railCollapsed && onSignOut && (
-              <button 
+            ) : null}
+
+            {!railCollapsed && onSignOut ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
                 onClick={onSignOut}
-                className="p-1.5 text-muted-foreground hover:text-destructive transition-colors"
-                title="Sair"
+                aria-label="Sair da conta"
+                title="Sair da conta"
+                className="text-muted-foreground hover:text-destructive"
               >
-                <LogOut className="size-4" />
-              </button>
-            )}
+                <LogOut className="size-4" aria-hidden="true" />
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>
@@ -113,76 +121,96 @@ export function Sidebar({ railCollapsed, onSignOut }: SidebarProps) {
   );
 }
 
-function SidebarItem({ 
-  group, 
-  collapsed, 
+function SidebarItem({
+  group,
+  collapsed,
   active,
   isOpen,
-  onToggle
-}: { 
-  group: NavGroup; 
+  onToggle,
+  pathname,
+}: {
+  group: NavGroup;
   collapsed?: boolean;
   active?: boolean;
   isOpen: boolean;
   onToggle: () => void;
+  pathname: string;
 }) {
   const Icon = group.icon;
   const hasChildren = (group.children?.length ?? 0) > 0;
+  const childrenId = `sidebar-${group.key}-children`;
 
   return (
     <div className="space-y-1">
       <button
+        type="button"
         onClick={onToggle}
+        aria-expanded={hasChildren ? isOpen : undefined}
+        aria-controls={hasChildren ? childrenId : undefined}
+        aria-current={active ? "page" : undefined}
+        aria-label={collapsed ? group.label : undefined}
         className={cn(
-          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative",
-          active 
-            ? "bg-primary/10 text-primary" 
-            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+          "group relative flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors motion-reduce:transition-none",
+          active
+            ? "bg-primary/10 text-primary"
+            : "text-muted-foreground hover:bg-muted hover:text-foreground",
         )}
       >
-        <div className={cn(
-          "rounded-lg transition-colors shrink-0",
-          active ? "text-primary" : "group-hover:text-foreground"
-        )}>
-          <Icon className="size-5" />
-        </div>
-        
-        {!collapsed && (
-          <span className="text-[12px] font-bold flex-1 truncate tracking-wider text-left uppercase">
+        <span
+          className={cn(
+            "shrink-0 rounded-lg transition-colors motion-reduce:transition-none",
+            active ? "text-primary" : "group-hover:text-foreground",
+          )}
+        >
+          <Icon className="size-5" aria-hidden="true" />
+        </span>
+
+        {!collapsed ? (
+          <span className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-wider">
             {group.label}
           </span>
-        )}
+        ) : null}
 
-        {hasChildren && !collapsed && (
-          <ChevronRight 
+        {hasChildren && !collapsed ? (
+          <ChevronRight
+            aria-hidden="true"
             className={cn(
-              "size-3.5 opacity-40 transition-transform",
-              isOpen && "rotate-90"
-            )} 
+              "size-4 shrink-0 opacity-50 transition-transform motion-reduce:transition-none",
+              isOpen && "rotate-90",
+            )}
           />
-        )}
+        ) : null}
 
-        {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
-        )}
+        {active ? (
+          <span
+            aria-hidden="true"
+            className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary"
+          />
+        ) : null}
       </button>
 
-      {hasChildren && !collapsed && isOpen && (
-        <div className="ml-11 space-y-1 animate-in slide-in-from-top-1 duration-200 overflow-hidden">
-          {group.children?.filter(c => !c.hidden).map((child) => (
-            <Link
-              key={child.key}
-              to={child.to as any}
-              className={cn(
-                "block py-1.5 text-[12px] font-bold transition-colors truncate pr-2 text-muted-foreground hover:text-foreground"
-              )}
-              activeProps={{ className: "text-primary!" }}
-            >
-              {child.label}
-            </Link>
-          ))}
+      {hasChildren && !collapsed && isOpen ? (
+        <div id={childrenId} className="ml-9 space-y-1 overflow-hidden pl-2">
+          {group.children
+            ?.filter((child) => !child.hidden)
+            .map((child) => {
+              const childActive = pathname === child.to;
+              return (
+                <Link
+                  key={child.key}
+                  to={child.to as any}
+                  aria-current={childActive ? "page" : undefined}
+                  className={cn(
+                    "flex min-h-10 items-center rounded-lg px-2 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground motion-reduce:transition-none",
+                    childActive && "bg-primary/8 text-primary",
+                  )}
+                >
+                  <span className="truncate">{child.label}</span>
+                </Link>
+              );
+            })}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
