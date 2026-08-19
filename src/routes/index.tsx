@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { SiteNav } from "@/components/site/site-nav";
 import { Hero, Features, Footer } from "@/components/site/new-homepage/components";
 import { SitePlans } from "@/components/site/site-plans";
@@ -27,6 +28,22 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.dataset.homeScrollbar = "hidden";
+    style.textContent = `
+      html { scrollbar-width: none; }
+      html::-webkit-scrollbar { display: none; width: 0; height: 0; }
+      body { -ms-overflow-style: none; }
+      body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      style.remove();
+    };
+  }, []);
+
   return (
     <div className="min-h-dvh w-full max-w-full overflow-x-clip bg-background font-sans antialiased selection:bg-primary/25 selection:text-foreground">
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
