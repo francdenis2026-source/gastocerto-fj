@@ -231,6 +231,10 @@ export function FuelDialog({
     }
 
     const metrics = computeFuelMetrics(odometerValue, litersValue, toCents(totalValue), date, entries ?? [], entry?.id, fullTank);
+
+    // Mantemos o payload principal compatível com o schema antigo de produção.
+    // fill_mode e distance_since_previous continuam na interface/auditoria e podem
+    // voltar ao payload assim que a migration opcional estiver aplicada no banco.
     const values = {
       vehicle_id: vehicleId,
       entry_date: date,
@@ -241,13 +245,17 @@ export function FuelDialog({
       fuel_type: fuelType,
       station: station ? sanitizeText(station) : null,
       full_tank: fullTank,
-      fill_mode: fillMode,
-      distance_since_previous: distanceSincePrevious,
       distance: metrics.distance,
       consumption: metrics.consumption,
       cost_per_km: metrics.costPerKm,
       notes: notes ? sanitizeText(notes) : null,
       attachment_url: attachment,
+    };
+
+    const auditValues = {
+      ...values,
+      fill_mode: fillMode,
+      distance_since_previous: distanceSincePrevious,
     };
 
     try {
@@ -263,7 +271,7 @@ export function FuelDialog({
         fuelEntryId: entry?.id ?? null,
         odometerBefore: entry ? Number(entry.odometer) : null,
         odometerAfter: odometerValue,
-        changes: diffValues(entry as unknown as Record<string, unknown> | null, values, Object.keys(values)),
+        changes: diffValues(entry as unknown as Record<string, unknown> | null, auditValues, Object.keys(auditValues)),
         warnings,
         notes: warnings.length > 0 ? "Salvo com avisos confirmados pelo usuário." : null,
       }).catch((error) => console.error("[auditoria] falha ao registrar", error));
@@ -276,7 +284,12 @@ export function FuelDialog({
       onOpenChange(false);
     } catch (error) {
       console.error("[abastecimentos] falha ao salvar", error);
-      toast.error("Não foi possível salvar o abastecimento.");
+      const message = error instanceof Error ? error.message : "Erro desconhecido";
+      toast.error("Não foi possível salvar o abastecimento.", {
+        description: message.includes("column") || message.includes("schema")
+          ? "O banco ainda está atualizando. Tente novamente; o formulário já está compatível com a versão anterior."
+          : message,
+      });
     }
   }
 
