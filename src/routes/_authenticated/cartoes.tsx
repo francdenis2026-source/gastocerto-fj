@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { CreditCard, Plus, ArrowRight, Wallet, History, CreditCard as CardIcon, LayoutGrid, FileDown, Search, AlertCircle } from "lucide-react";
+import { CreditCard, Plus, ArrowRight, History, CreditCard as CardIcon, LayoutGrid, FileDown, Search, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -39,145 +39,159 @@ function CreditCardsPage() {
 
   return (
     <AppShell>
-      <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6">
+      <div className="mx-auto w-full max-w-7xl space-y-5 sm:space-y-7">
         <PageHeader
           icon={CreditCard}
           eyebrow="Movimentações"
           title="Meus cartões"
-          description="Gerencie limites, faturas e gastos por cartão."
+          description="Acompanhe limites, faturas e gastos por cartão com clareza."
           actions={
             <>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-9 gap-2 text-xs"
+                className="min-h-11 gap-2 sm:min-h-9"
                 onClick={() => toast.success("Relatório gerado com filtros completos! (Simulação)")}
               >
-                <FileDown className="size-4" /> Exportar
+                <FileDown className="size-4" aria-hidden />
+                Exportar
               </Button>
-              <Button size="sm" className="h-9 gap-2 text-xs">
-                <Plus className="size-4" /> Adicionar cartão
+              <Button size="sm" className="min-h-11 gap-2 sm:min-h-9">
+                <Plus className="size-4" aria-hidden />
+                Adicionar cartão
               </Button>
             </>
           }
         />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="bg-muted/50 p-1 rounded-xl">
-            <TabsTrigger value="overview" className="rounded-lg gap-2">
-              <LayoutGrid className="size-4" /> Visão Geral
-            </TabsTrigger>
-            <TabsTrigger value="transactions" className="rounded-lg gap-2">
-              <History className="size-4" /> Últimas Compras
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <TabsList className="min-w-max rounded-xl bg-muted/60 p-1">
+              <TabsTrigger value="overview" className="min-h-10 gap-2 rounded-lg px-4">
+                <LayoutGrid className="size-4" aria-hidden />
+                Visão geral
+              </TabsTrigger>
+              <TabsTrigger value="transactions" className="min-h-10 gap-2 rounded-lg px-4">
+                <History className="size-4" aria-hidden />
+                Últimas compras
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-          <TabsContent value="overview" className="mt-6 space-y-6">
+          <TabsContent value="overview" className="mt-5 space-y-6">
             {isLoading ? (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {[1, 2, 3].map(i => <Skeleton key={i} className="h-48 rounded-2xl" />)}
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" aria-label="Carregando cartões">
+                {[1, 2, 3].map((item) => <Skeleton key={item} className="h-52 rounded-2xl" />)}
               </div>
             ) : cards?.length === 0 ? (
-              <div className="text-center py-8 border-2 border-dashed rounded-3xl bg-muted/10">
-                <CardIcon className="size-10 mx-auto text-muted-foreground/30 mb-3" />
-                <h3 className="text-base font-semibold">Nenhum cartão cadastrado</h3>
-                <p className="text-muted-foreground text-xs mb-4">Comece adicionando seu primeiro cartão de crédito ou débito.</p>
-                <Button variant="outline" size="sm" className="h-8 text-xs gap-2">
-                  <Plus className="size-3" /> Adicionar Cartão
+              <section className="rounded-3xl border border-dashed border-border bg-muted/20 px-5 py-10 text-center sm:px-8">
+                <div className="mx-auto mb-4 grid size-12 place-items-center rounded-2xl border border-border bg-background text-muted-foreground">
+                  <CardIcon className="size-6" aria-hidden />
+                </div>
+                <h2 className="text-base font-semibold text-foreground">Nenhum cartão cadastrado</h2>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+                  Adicione seu primeiro cartão para acompanhar limite, fechamento, vencimento e saldo devedor.
+                </p>
+                <Button variant="outline" size="sm" className="mt-5 min-h-11 gap-2 sm:min-h-9">
+                  <Plus className="size-4" aria-hidden />
+                  Adicionar cartão
                 </Button>
-              </div>
+              </section>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {cards?.map(card => {
+                {cards?.map((card) => {
                   const usedPercent = card.limit_amount > 0 ? (card.current_balance / card.limit_amount) * 100 : 0;
+                  const progressValue = Math.min(Math.max(usedPercent, 0), 100);
                   return (
-                    <div 
-                      key={card.id} 
-                      className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-all"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-1">
-                          <p className="text-xs font-medium text-muted-foreground uppercase">{card.institution || "Instituição"}</p>
-                          <h3 className="font-bold text-lg">{card.name}</h3>
+                    <article key={card.id} className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-soft">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0 space-y-1">
+                          <p className="truncate text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                            {card.institution || "Instituição"}
+                          </p>
+                          <h2 className="truncate text-lg font-bold text-foreground">{card.name}</h2>
                         </div>
-                        <div 
-                          className="size-10 rounded-xl flex items-center justify-center text-white"
+                        <div
+                          className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm"
                           style={{ backgroundColor: card.color || "var(--primary)" }}
+                          aria-hidden
                         >
                           <CreditCard className="size-5" />
                         </div>
                       </div>
 
                       <div className="mt-6 space-y-3">
-                        <div className="flex justify-between text-sm">
+                        <div className="flex items-center justify-between gap-3 text-sm">
                           <span className="text-muted-foreground">Limite utilizado</span>
-                          <span className="font-semibold">{usedPercent.toFixed(0)}%</span>
+                          <span className="numeric font-semibold text-foreground">{usedPercent.toFixed(0)}%</span>
                         </div>
-                        <Progress value={usedPercent} className="h-1.5" />
-                        <div className="flex justify-between items-end">
-                          <div>
-                            <p className="text-[10px] text-muted-foreground uppercase">Saldo Devedor</p>
-                            <p className="text-xl font-black">{formatCurrency(card.current_balance)}</p>
+                        <Progress value={progressValue} className="h-2" aria-label={`${usedPercent.toFixed(0)}% do limite utilizado`} />
+                        <div className="flex items-end justify-between gap-4">
+                          <div className="min-w-0">
+                            <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Saldo devedor</p>
+                            <p className="numeric mt-1 break-words text-xl font-bold text-foreground">{formatCurrency(card.current_balance)}</p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-[10px] text-muted-foreground uppercase">Limite Total</p>
-                            <p className="text-sm font-bold text-muted-foreground">{formatCurrency(card.limit_amount)}</p>
+                          <div className="shrink-0 text-right">
+                            <p className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Limite total</p>
+                            <p className="numeric mt-1 text-sm font-semibold text-muted-foreground">{formatCurrency(card.limit_amount)}</p>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-5 pt-4 border-t flex items-center justify-between text-[11px] text-muted-foreground">
-                        <div className="flex gap-2">
-                          <Badge variant="outline" className="text-[9px] h-4">Dia {card.due_day} (Venc)</Badge>
-                          <Badge variant="outline" className="text-[9px] h-4">Dia {card.closing_day} (Fech)</Badge>
+                      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="outline" className="min-h-6 px-2 text-[10px]">Vence dia {card.due_day}</Badge>
+                          <Badge variant="outline" className="min-h-6 px-2 text-[10px]">Fecha dia {card.closing_day}</Badge>
                         </div>
-                        <Button variant="ghost" size="sm" className="h-6 text-[10px] gap-1 px-2">
-                          Detalhes <ArrowRight className="size-3" />
+                        <Button variant="ghost" size="sm" className="min-h-9 gap-1 px-3 text-xs">
+                          Detalhes
+                          <ArrowRight className="size-3.5" aria-hidden />
                         </Button>
                       </div>
-                    </div>
+                    </article>
                   );
                 })}
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="transactions" className="mt-6 space-y-6">
-             <div className="flex flex-wrap items-center justify-between gap-3 bg-muted/30 p-4 rounded-2xl">
-                <div className="relative flex-1 min-w-[240px]">
-                  <Input placeholder="Buscar na descrição ou valor..." className="pl-9 h-9 text-xs" />
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.success("Histórico exportado em CSV!")}>
-                    <FileDown className="size-4" /> CSV
-                  </Button>
-                  <Button variant="outline" size="sm" className="h-9 text-xs gap-2" onClick={() => toast.success("PDF do Cartão exportado!")}>
-                    <FileDown className="size-4" /> PDF
-                  </Button>
-                </div>
-             </div>
+          <TabsContent value="transactions" className="mt-5 space-y-5">
+            <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-muted/30 p-4">
+              <div className="relative min-w-[min(100%,240px)] flex-1">
+                <label htmlFor="card-transaction-search" className="sr-only">Buscar compras por descrição ou valor</label>
+                <Input id="card-transaction-search" placeholder="Buscar na descrição ou valor..." className="pl-10" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline" size="sm" className="min-h-11 gap-2 sm:min-h-9" onClick={() => toast.success("Histórico exportado em CSV!")}>
+                  <FileDown className="size-4" aria-hidden />
+                  CSV
+                </Button>
+                <Button variant="outline" size="sm" className="min-h-11 gap-2 sm:min-h-9" onClick={() => toast.success("PDF do Cartão exportado!")}>
+                  <FileDown className="size-4" aria-hidden />
+                  PDF
+                </Button>
+              </div>
+            </section>
 
-             <section className="rounded-2xl border bg-brand/5 border-brand/20 p-4 flex items-start gap-3">
-               <AlertCircle className="size-5 text-brand shrink-0 mt-0.5" />
-               <div className="space-y-1">
-                 <p className="text-sm font-semibold text-brand">Monitor de Assinaturas e Recorrências</p>
-                 <p className="text-xs text-muted-foreground">
-                   Detectamos 2 possíveis assinaturas recorrentes neste cartão (Netflix, Spotify). 
-                   Deseja criar uma meta de economia para estas categorias?
-                 </p>
-                 <Button variant="link" className="p-0 h-auto text-xs text-brand">Ver detalhes</Button>
-               </div>
-             </section>
-             
-             <div className="rounded-2xl border bg-card p-8 text-center text-muted-foreground">
-                <History className="size-10 mx-auto mb-3 opacity-20" />
-                <p className="text-sm font-medium">Auditoria e Histórico Detalhado</p>
-                <p className="text-xs mt-1 max-w-[320px] mx-auto opacity-70">
-                  Visualização completa de quem inseriu, editou ou removeu cada compra. 
-                  Filtrado por: {user?.email} · Período: Últimos 30 dias.
+            <section className="flex items-start gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4">
+              <AlertCircle className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+              <div className="space-y-1.5">
+                <h2 className="text-sm font-semibold text-foreground">Monitor de assinaturas e recorrências</h2>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Detectamos 2 possíveis assinaturas recorrentes neste cartão (Netflix, Spotify). Deseja criar uma meta de economia para essas categorias?
                 </p>
-             </div>
+                <Button variant="link" className="h-auto min-h-0 p-0 text-sm">Ver detalhes</Button>
+              </div>
+            </section>
+
+            <section className="rounded-2xl border border-border bg-card p-6 text-center sm:p-8">
+              <History className="mx-auto mb-3 size-9 text-muted-foreground/50" aria-hidden />
+              <h2 className="text-sm font-semibold text-foreground">Auditoria e histórico detalhado</h2>
+              <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+                Visualização completa de quem inseriu, editou ou removeu cada compra. Filtrado por: {user?.email} · Período: últimos 30 dias.
+              </p>
+            </section>
           </TabsContent>
         </Tabs>
       </div>
