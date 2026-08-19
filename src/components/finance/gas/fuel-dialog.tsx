@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Loader2, TriangleAlert } from "lucide-react";
+import { Calculator, Loader2, TriangleAlert } from "lucide-react";
 import { toast } from "sonner";
 
 import { ReceiptField } from "@/components/finance/receipt-field";
@@ -41,6 +41,10 @@ import {
   type FuelEntry,
   type Vehicle,
 } from "@/lib/vehicles";
+
+function decimalInput(value: number, digits = 3) {
+  return value.toFixed(digits).replace(".", ",");
+}
 
 export function FuelDialog({
   open,
@@ -86,13 +90,28 @@ export function FuelDialog({
 
   const vehicle = vehicles.find((item) => item.id === vehicleId);
 
-  const litersValue = parseAmount(liters);
+  const enteredLiters = parseAmount(liters);
   const priceValue = parseAmount(pricePerLiter);
+  const enteredTotal = parseAmount(total);
+
+  const autoLiters =
+    totalTouched && Number.isFinite(enteredTotal) && enteredTotal > 0 && Number.isFinite(priceValue) && priceValue > 0
+      ? round(enteredTotal / priceValue, 3)
+      : Number.NaN;
+
+  const litersValue = Number.isFinite(autoLiters) ? autoLiters : enteredLiters;
   const computedTotal = totalTouched
-    ? parseAmount(total)
+    ? enteredTotal
     : Number.isFinite(litersValue) && Number.isFinite(priceValue)
       ? toCents(litersValue * priceValue)
       : Number.NaN;
+
+  const displayedLiters = Number.isFinite(autoLiters) ? decimalInput(autoLiters) : liters;
+  const displayedTotal = totalTouched
+    ? total
+    : Number.isFinite(computedTotal)
+      ? decimalInput(computedTotal, 2)
+      : "";
 
   const preview = useMemo(() => {
     const odometerValue = parseAmount(odometer);
@@ -107,6 +126,19 @@ export function FuelDialog({
       fullTank,
     );
   }, [odometer, litersValue, computedTotal, date, entries, entry?.id, fullTank]);
+
+  const financialMetrics = useMemo(() => {
+    if (!preview) return null;
+    const cycleLiters = Number(preview.cycleLiters ?? 0);
+    const cycleCost = Number(preview.cycleCost ?? 0);
+    const consumption = Number(preview.consumption ?? 0);
+    const costPerKm = Number(preview.costPerKm ?? 0);
+    return {
+      cycleAveragePrice: cycleLiters > 0 ? round(cycleCost / cycleLiters, 3) : null,
+      litersPer100Km: consumption > 0 ? round(100 / consumption, 2) : null,
+      costPer100Km: costPerKm > 0 ? round(costPerKm * 100, 2) : null,
+    };
+  }, [preview]);
 
   const fuelCategoryId = useMemo(
     () =>
@@ -140,11 +172,12 @@ export function FuelDialog({
     if (!vehicleId) nextErrors.vehicle = "Selecione um veículo.";
     if (!date) nextErrors.date = "Informe a data.";
     if (date > isoDate(new Date())) nextErrors.date = "A data não pode ser futura.";
-    if (!Number.isFinite(litersValue) || litersValue <= 0) nextErrors.liters = "Informe os litros.";
+    if (!Number.isFinite(priceValue) || priceValue <= 0) nextErrors.price = "Informe o preço por litro.";
+    if (!Number.isFinite(totalValue) || totalValue <= 0) nextErrors.total = "Informe o valor total abastecido.";
+    if (!Number.isFinite(litersValue) || litersValue <= 0) {
+      nextErrors.liters = "Informe os litros ou preencha valor total + preço por litro para calcular automaticamente.";
+    }
     if (litersValue > 1000) nextErrors.liters = "Quantidade de litros muito alta.";
-    if (!Number.isFinite(priceValue) || priceValue <= 0)
-      nextErrors.price = "Informe o preço por litro.";
-    if (!Number.isFinite(totalValue) || totalValue <= 0) nextErrors.total = "Valor inválido.";
 
     const odometerCheck = validateOdometer(
       odometerValue,
@@ -230,7 +263,7 @@ export function FuelDialog({
 
       toast.success(entry ? "Abastecimento atualizado." : "Abastecimento adicionado.", {
         description: metrics.measurementComplete
-          ? `Ciclo fechado: ${metrics.distance} km · ${metrics.consumption} km/l.`
+          ? `Ciclo fechado: ${metrics.distance} km · ${metrics.consumption} km/l · ${formatCurrency(metrics.costPerKm ?? 0)}/km.`
           : fullTank
             ? "Este tanque cheio foi salvo como referência para a próxima medição."
             : "Abastecimento parcial acumulado no ciclo atual.",
@@ -248,7 +281,7 @@ export function FuelDialog({
         <DialogHeader>
           <DialogTitle>{entry ? "Editar abastecimento" : "Novo abastecimento"}</DialogTitle>
           <DialogDescription>
-            Registre odômetro, litros e valor. Para máxima precisão, marque tanque cheio sempre que completar o tanque; o sistema fecha automaticamente cada ciclo de consumo.
+            Informe o valor pago e o preço por litro para calcular automaticamente quantos litros foram abastecidos. Se preferir, informe os litros e o sistema calcula o total.
           </DialogDescription>
         </DialogHeader>
 
@@ -261,9 +294,7 @@ export function FuelDialog({
               </SelectTrigger>
               <SelectContent>
                 {vehicles.map((item) => (
-                  <SelectItem key={item.id} value={item.id}>
-                    {item.name}
-                  </SelectItem>
+                  <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -283,32 +314,66 @@ export function FuelDialog({
             {errors.odometer ? <p className="mt-1 text-xs text-destructive">{errors.odometer}</p> : null}
           </div>
 
-          <div>
-            <Label htmlFor="fuel-liters">Litros abastecidos</Label>
-            <Input id="fuel-liters" inputMode="decimal" value={liters} onChange={(event) => setLiters(maskDecimalInput(event.target.value, 3))} className="mt-1.5 tabular-nums" placeholder="0,00" />
-            {errors.liters ? <p className="mt-1 text-xs text-destructive">{errors.liters}</p> : null}
-          </div>
-
-          <div>
-            <Label htmlFor="fuel-price">Preço por litro (R$)</Label>
-            <Input id="fuel-price" inputMode="decimal" value={pricePerLiter} onChange={(event) => setPricePerLiter(maskDecimalInput(event.target.value, 3))} className="mt-1.5 tabular-nums" placeholder="0,000" />
-            {errors.price ? <p className="mt-1 text-xs text-destructive">{errors.price}</p> : null}
-          </div>
-
-          <div>
-            <Label htmlFor="fuel-total">Valor total (R$)</Label>
+          <div className="rounded-xl border border-border bg-card p-3">
+            <Label htmlFor="fuel-total">Valor do abastecimento (R$)</Label>
             <Input
               id="fuel-total"
               inputMode="decimal"
-              value={totalTouched ? total : Number.isFinite(computedTotal) ? String(computedTotal).replace(".", ",") : ""}
+              value={displayedTotal}
               onChange={(event) => {
                 setTotalTouched(true);
                 setTotal(maskAmountInput(event.target.value));
               }}
               className="mt-1.5 tabular-nums"
-              placeholder="Calculado automaticamente"
+              placeholder="Ex.: 200,00"
             />
+            <p className="mt-1.5 text-xs text-muted-foreground">Digite quanto pagou no posto.</p>
             {errors.total ? <p className="mt-1 text-xs text-destructive">{errors.total}</p> : null}
+          </div>
+
+          <div className="rounded-xl border border-border bg-card p-3">
+            <Label htmlFor="fuel-price">Preço no posto (R$/L)</Label>
+            <Input
+              id="fuel-price"
+              inputMode="decimal"
+              value={pricePerLiter}
+              onChange={(event) => setPricePerLiter(maskDecimalInput(event.target.value, 3))}
+              className="mt-1.5 tabular-nums"
+              placeholder="Ex.: 6,199"
+            />
+            <p className="mt-1.5 text-xs text-muted-foreground">Preço de 1 litro do combustível.</p>
+            {errors.price ? <p className="mt-1 text-xs text-destructive">{errors.price}</p> : null}
+          </div>
+
+          <div className="rounded-xl border border-primary/25 bg-primary/5 p-3 sm:col-span-2">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <Label htmlFor="fuel-liters">Litros abastecidos</Label>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {Number.isFinite(autoLiters)
+                    ? "Calculado automaticamente: valor total ÷ preço por litro."
+                    : "Você também pode informar os litros; o valor total será calculado automaticamente."}
+                </p>
+              </div>
+              {Number.isFinite(autoLiters) ? <Calculator className="size-5 text-primary" aria-hidden="true" /> : null}
+            </div>
+            <Input
+              id="fuel-liters"
+              inputMode="decimal"
+              value={displayedLiters}
+              onChange={(event) => {
+                setTotalTouched(false);
+                setLiters(maskDecimalInput(event.target.value, 3));
+              }}
+              className="mt-2 tabular-nums"
+              placeholder="0,000"
+            />
+            {Number.isFinite(autoLiters) ? (
+              <p className="mt-2 text-sm font-semibold tabular-nums text-primary">
+                {decimalInput(autoLiters)} L por {formatCurrency(enteredTotal)} a {formatCurrency(priceValue)}/L
+              </p>
+            ) : null}
+            {errors.liters ? <p className="mt-1 text-xs text-destructive">{errors.liters}</p> : null}
           </div>
 
           <div>
@@ -321,9 +386,9 @@ export function FuelDialog({
             </Select>
           </div>
 
-          <div className="sm:col-span-2">
+          <div>
             <Label htmlFor="fuel-station">Posto</Label>
-            <Input id="fuel-station" value={station} onChange={(event) => setStation(event.target.value)} maxLength={80} className="mt-1.5" />
+            <Input id="fuel-station" value={station} onChange={(event) => setStation(event.target.value)} maxLength={80} className="mt-1.5" placeholder="Nome do posto" />
           </div>
 
           <div className="flex items-center justify-between rounded-xl border border-border p-3 sm:col-span-2">
@@ -339,24 +404,34 @@ export function FuelDialog({
               {preview.baselineOdometer == null ? (
                 <>
                   <p className="font-semibold">Primeira referência de consumo</p>
-                  <p className="mt-1 text-muted-foreground">Salve este abastecimento com o tanque cheio. A partir do próximo tanque cheio o sistema calculará automaticamente km/l, distância e custo por km.</p>
+                  <p className="mt-1 text-muted-foreground">Salve este abastecimento com o tanque cheio. A partir do próximo tanque cheio o sistema calculará automaticamente consumo e custos reais.</p>
                 </>
               ) : preview.measurementComplete ? (
                 <>
-                  <p className="font-semibold">Prévia do ciclo completo</p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-4">
-                    <span><strong>{preview.distance}</strong> km rodados</span>
-                    <span><strong>{preview.cycleLiters}</strong> L no ciclo</span>
-                    <span><strong>{preview.consumption}</strong> km/l</span>
-                    <span><strong>{formatCurrency(preview.costPerKm ?? 0)}</strong>/km</span>
+                  <p className="font-semibold">Prévia inteligente do ciclo completo</p>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Distância</span><strong className="mt-1 block tabular-nums">{preview.distance} km</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Combustível consumido</span><strong className="mt-1 block tabular-nums">{preview.cycleLiters} L</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Consumo médio</span><strong className="mt-1 block tabular-nums">{preview.consumption} km/l</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Custo por km</span><strong className="mt-1 block tabular-nums">{formatCurrency(preview.costPerKm ?? 0)}/km</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Preço médio do litro consumido</span><strong className="mt-1 block tabular-nums">{financialMetrics?.cycleAveragePrice != null ? `${formatCurrency(financialMetrics.cycleAveragePrice)}/L` : "—"}</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Litros por 100 km</span><strong className="mt-1 block tabular-nums">{financialMetrics?.litersPer100Km != null ? `${financialMetrics.litersPer100Km} L` : "—"}</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Custo por 100 km</span><strong className="mt-1 block tabular-nums">{financialMetrics?.costPer100Km != null ? formatCurrency(financialMetrics.costPer100Km) : "—"}</strong></div>
+                    <div className="rounded-lg bg-background/70 p-3"><span className="text-xs text-muted-foreground">Gasto do ciclo</span><strong className="mt-1 block tabular-nums">{formatCurrency(preview.cycleCost ?? 0)}</strong></div>
                   </div>
-                  <p className="mt-2 text-xs text-muted-foreground">Gasto do ciclo: {formatCurrency(preview.cycleCost ?? 0)}.</p>
                 </>
               ) : (
                 <>
                   <p className="font-semibold">Ciclo de consumo em andamento</p>
-                  <p className="mt-1 text-muted-foreground">Desde o último tanque cheio: {preview.distance ?? 0} km · {preview.cycleLiters ?? 0} L acumulados · {formatCurrency(preview.cycleCost ?? 0)} gastos.</p>
-                  <p className="mt-1 text-xs text-muted-foreground">A média km/l será fechada no próximo abastecimento marcado como tanque cheio.</p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                    <span><strong>{preview.distance ?? 0}</strong> km desde a referência</span>
+                    <span><strong>{preview.cycleLiters ?? 0}</strong> L acumulados</span>
+                    <span><strong>{formatCurrency(preview.cycleCost ?? 0)}</strong> gastos</span>
+                  </div>
+                  {financialMetrics?.cycleAveragePrice != null ? (
+                    <p className="mt-2 text-xs text-muted-foreground">Preço médio do combustível no ciclo até agora: {formatCurrency(financialMetrics.cycleAveragePrice)}/L.</p>
+                  ) : null}
+                  <p className="mt-1 text-xs text-muted-foreground">A média km/l e o custo real por distância serão fechados no próximo abastecimento marcado como tanque cheio.</p>
                 </>
               )}
             </div>
