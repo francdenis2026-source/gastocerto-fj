@@ -78,7 +78,6 @@ export function useSaveVehicle() {
     mutationFn: async (input: {
       id?: string;
       values: Omit<TablesInsert<"vehicles">, "user_id">;
-      /** Cota de veículos do plano (`null`/omitido = ilimitado). */
       limit?: number | null;
     }) => {
       if (!user) throw new Error("Sessão expirada");
@@ -118,6 +117,131 @@ export function useDeleteVehicle() {
   });
 }
 
+export function round(value: number, digits = 2) {
+  const factor = 10 ** digits;
+  return Math.round((value + Number.EPSILON) * factor) / factor;
+}
+
+export type FuelCycle = {
+  vehicleId: string;
+  startEntryId: string;
+  endEntryId: string;
+  startDate: string;
+  endDate: string;
+  startOdometer: number;
+  endOdometer: number;
+  distance: number;
+  liters: number;
+  cost: number;
+  consumption: number;
+  costPerKm: number;
+  averagePrice: number;
+  fillCount: number;
+};
+
+/**
+ * Constrói ciclos precisos pelo método tanque cheio -> tanque cheio.
+ * O primeiro tanque cheio é apenas a referência. Abastecimentos parciais entre
+ * duas medições completas são acumulados e só entram na média quando um novo
+ * tanque cheio fecha o ciclo.
+ */
+export function buildFuelCycles(entries: FuelEntry[]): FuelCycle[] {
+  const cycles: FuelCycle[] = [];
+  const byVehicle = new Map<string, FuelEntry[]>();
+
+  for (const entry of entries) {
+    const list = byVehicle.get(entry.vehicle_id) ?? [];
+    list.push(entry);
+    byVehicle.set(entry.vehicle_id, list);
+  }
+
+  for (const [vehicleId, own] of byVehicle) {
+    const history = own
+      .slice()
+      .sort((a, b) => a.entry_date.localeCompare(b.entry_date) || Number(a.odometer) - Number(b.odometer));
+
+    let baseline: FuelEntry | null = null;
+    let cycleLiters = 0;
+    let cycleCost = 0;
+    let fillCount = 0;
+
+    for (const entry of history) {
+      if (!baseline) {
+        if (entry.full_tank === true) {
+          baseline = entry;
+          cycleLiters = 0;
+          cycleCost = 0;
+          fillCount = 0;
+        }
+        continue;
+      }
+
+      const liters = Number(entry.liters ?? 0);
+      const cost = Number(entry.total_amount ?? 0);
+      if (Number.isFinite(liters) && liters > 0) cycleLiters += liters;
+      if (Number.isFinite(cost) && cost > 0) cycleCost += cost;
+      fillCount += 1;
+
+      if (entry.full_tank !== true) continue;
+
+      const distance = Number(entry.odometer) - Number(baseline.odometer);
+      if (distance > 0 && cycleLiters > 0) {
+        cycles.push({
+          vehicleId,
+          startEntryId: baseline.id,
+          endEntryId: entry.id,
+          startDate: baseline.entry_date,
+          endDate: entry.entry_date,
+          startOdometer: Number(baseline.odometer),
+          endOdometer: Number(entry.odometer),
+          distance: round(distance, 1),
+          liters: round(cycleLiters, 3),
+          cost: round(cycleCost, 2),
+          consumption: round(distance / cycleLiters, 2),
+          costPerKm: round(cycleCost / distance, 3),
+          averagePrice: round(cycleCost / cycleLiters, 3),
+          fillCount,
+        });
+      }
+
+      baseline = entry;
+      cycleLiters = 0;
+      cycleCost = 0;
+      fillCount = 0;
+    }
+  }
+
+  return cycles;
+}
+
+/** Mantém os campos derivados do banco sincronizados após inclusão/edição/exclusão. */
+async function recalculateVehicleFuelMetrics(vehicleId: string) {
+  const { data, error } = await supabase
+    .from("fuel_entries")
+    .select("*")
+    .eq("vehicle_id", vehicleId)
+    .order("entry_date", { ascending: true })
+    .order("odometer", { ascending: true });
+  if (error) throw error;
+
+  const history = (data ?? []) as FuelEntry[];
+  const cycles = buildFuelCycles(history);
+  const byEndEntry = new Map(cycles.map((cycle) => [cycle.endEntryId, cycle]));
+
+  await Promise.all(
+    history.map(async (entry) => {
+      const cycle = byEndEntry.get(entry.id);
+      const values: TablesUpdate<"fuel_entries"> = {
+        distance: cycle?.distance ?? null,
+        consumption: cycle?.consumption ?? null,
+        cost_per_km: cycle?.costPerKm ?? null,
+      };
+      const { error: updateError } = await supabase.from("fuel_entries").update(values).eq("id", entry.id);
+      if (updateError) throw updateError;
+    }),
+  );
+}
+
 export function useSaveFuelEntry() {
   const { user } = useAuth();
   const refresh = useRefreshFleet();
@@ -125,17 +249,32 @@ export function useSaveFuelEntry() {
     mutationFn: async (input: {
       id?: string;
       values: Omit<TablesInsert<"fuel_entries">, "user_id">;
-      /** Cria também um lançamento de despesa vinculado. */
       createTransaction?: { categoryId: string | null; accountId: string | null };
     }) => {
       if (!user) throw new Error("Sessão expirada");
 
+      const newVehicleId = String(input.values.vehicle_id);
+      let previousVehicleId: string | null = null;
+
       if (input.id) {
+        const { data: previous, error: previousError } = await supabase
+          .from("fuel_entries")
+          .select("vehicle_id")
+          .eq("id", input.id)
+          .single();
+        if (previousError) throw previousError;
+        previousVehicleId = previous?.vehicle_id ?? null;
+
         const { error } = await supabase
           .from("fuel_entries")
           .update(input.values as TablesUpdate<"fuel_entries">)
           .eq("id", input.id);
         if (error) throw error;
+
+        if (previousVehicleId && previousVehicleId !== newVehicleId) {
+          await recalculateVehicleFuelMetrics(previousVehicleId);
+        }
+        await recalculateVehicleFuelMetrics(newVehicleId);
         return;
       }
 
@@ -167,6 +306,8 @@ export function useSaveFuelEntry() {
         .from("fuel_entries")
         .insert({ ...input.values, user_id: user.id, transaction_id: transactionId });
       if (error) throw error;
+
+      await recalculateVehicleFuelMetrics(newVehicleId);
     },
     onSuccess: refresh,
   });
@@ -184,6 +325,7 @@ export function useDeleteFuelEntry() {
           .update({ deleted_at: new Date().toISOString() })
           .eq("id", entry.transaction_id);
       }
+      await recalculateVehicleFuelMetrics(entry.vehicle_id);
     },
     onSuccess: refresh,
   });
@@ -195,11 +337,6 @@ export function useDeleteFuelEntry() {
 
 export type OdometerCheck = { ok: true } | { ok: false; message: string };
 
-/**
- * Valida o odômetro informado contra o histórico do veículo.
- * O valor precisa ser maior que o último registro anterior à data e menor que o
- * próximo registro posterior, além de respeitar o odômetro inicial do veículo.
- */
 export function validateOdometer(
   odometer: number,
   entryDate: string,
@@ -243,10 +380,98 @@ export function validateOdometer(
   return { ok: true };
 }
 
+export type FuelMetricPreview = {
+  distance: number | null;
+  consumption: number | null;
+  costPerKm: number | null;
+  cycleLiters: number | null;
+  cycleCost: number | null;
+  baselineOdometer: number | null;
+  measurementComplete: boolean;
+};
+
 /**
- * Avisos não bloqueantes sobre um abastecimento: variações fora do padrão que
- * merecem uma segunda conferência antes de salvar.
+ * Calcula a prévia do ciclo atual. Só publica km/l e custo/km quando o
+ * abastecimento atual fecha um ciclo com tanque cheio.
  */
+export function computeFuelMetrics(
+  odometer: number,
+  liters: number,
+  totalAmount: number,
+  entryDate: string,
+  entries: FuelEntry[],
+  ignoreId?: string,
+  currentFullTank = true,
+): FuelMetricPreview {
+  const history = entries
+    .filter((entry) => entry.id !== ignoreId)
+    .filter(
+      (entry) =>
+        entry.entry_date < entryDate ||
+        (entry.entry_date === entryDate && Number(entry.odometer) < odometer),
+    )
+    .slice()
+    .sort((a, b) => a.entry_date.localeCompare(b.entry_date) || Number(a.odometer) - Number(b.odometer));
+
+  const baseline = [...history].reverse().find((entry) => entry.full_tank === true);
+  if (!baseline) {
+    return {
+      distance: null,
+      consumption: null,
+      costPerKm: null,
+      cycleLiters: null,
+      cycleCost: null,
+      baselineOdometer: null,
+      measurementComplete: false,
+    };
+  }
+
+  const sinceBaseline = history.filter(
+    (entry) =>
+      entry.entry_date > baseline.entry_date ||
+      (entry.entry_date === baseline.entry_date && Number(entry.odometer) > Number(baseline.odometer)),
+  );
+  const cycleLiters =
+    sinceBaseline.reduce((sum, entry) => sum + Number(entry.liters ?? 0), 0) + liters;
+  const cycleCost =
+    sinceBaseline.reduce((sum, entry) => sum + Number(entry.total_amount ?? 0), 0) + totalAmount;
+  const distance = round(odometer - Number(baseline.odometer), 1);
+
+  if (distance <= 0 || cycleLiters <= 0) {
+    return {
+      distance: null,
+      consumption: null,
+      costPerKm: null,
+      cycleLiters: round(cycleLiters, 3),
+      cycleCost: round(cycleCost, 2),
+      baselineOdometer: Number(baseline.odometer),
+      measurementComplete: false,
+    };
+  }
+
+  if (!currentFullTank) {
+    return {
+      distance,
+      consumption: null,
+      costPerKm: null,
+      cycleLiters: round(cycleLiters, 3),
+      cycleCost: round(cycleCost, 2),
+      baselineOdometer: Number(baseline.odometer),
+      measurementComplete: false,
+    };
+  }
+
+  return {
+    distance,
+    consumption: round(distance / cycleLiters, 2),
+    costPerKm: round(cycleCost / distance, 3),
+    cycleLiters: round(cycleLiters, 3),
+    cycleCost: round(cycleCost, 2),
+    baselineOdometer: Number(baseline.odometer),
+    measurementComplete: true,
+  };
+}
+
 export function odometerWarnings(
   odometer: number,
   liters: number,
@@ -254,6 +479,7 @@ export function odometerWarnings(
   vehicle: Vehicle | undefined,
   entries: FuelEntry[],
   ignoreId?: string,
+  currentFullTank = true,
 ): string[] {
   const warnings: string[] = [];
   if (!Number.isFinite(odometer)) return warnings;
@@ -267,27 +493,26 @@ export function odometerWarnings(
   if (previous) {
     const distance = odometer - Number(previous.odometer);
     if (distance < 5) {
-      warnings.push(
-        `Apenas ${round(distance, 1)} km desde o último abastecimento. Confira o odômetro.`,
-      );
+      warnings.push(`Apenas ${round(distance, 1)} km desde o último abastecimento. Confira o odômetro.`);
     }
     if (distance > 3000) {
-      warnings.push(
-        `Variação alta: ${round(distance, 1)} km desde o último abastecimento.`,
-      );
+      warnings.push(`Variação alta: ${round(distance, 1)} km desde o último abastecimento.`);
     }
-    if (Number.isFinite(liters) && liters > 0 && distance > 0) {
-      const consumption = distance / liters;
-      if (consumption > 40) {
-        warnings.push(`Consumo calculado muito alto (${round(consumption, 1)} km/l).`);
+  }
+
+  if (currentFullTank) {
+    const preview = computeFuelMetrics(odometer, liters, 0, entryDate, entries, ignoreId, true);
+    if (preview.consumption != null) {
+      if (preview.consumption > 40) {
+        warnings.push(`Consumo calculado muito alto (${round(preview.consumption, 1)} km/l).`);
       }
-      if (consumption < 3) {
-        warnings.push(`Consumo calculado muito baixo (${round(consumption, 1)} km/l).`);
+      if (preview.consumption < 3) {
+        warnings.push(`Consumo calculado muito baixo (${round(preview.consumption, 1)} km/l).`);
       }
       const reference = Number(vehicle?.average_consumption ?? 0);
-      if (reference > 0 && Math.abs(consumption - reference) / reference > 0.4) {
+      if (reference > 0 && Math.abs(preview.consumption - reference) / reference > 0.4) {
         warnings.push(
-          `Consumo ${round(consumption, 1)} km/l está longe da média cadastrada (${reference} km/l).`,
+          `Consumo ${round(preview.consumption, 1)} km/l está longe da média cadastrada (${reference} km/l).`,
         );
       }
     }
@@ -301,39 +526,6 @@ export function odometerWarnings(
   return warnings;
 }
 
-
-/** Distância, consumo (km/l) e custo por km em relação ao abastecimento anterior. */
-export function computeFuelMetrics(
-  odometer: number,
-  liters: number,
-  totalAmount: number,
-  entryDate: string,
-  entries: FuelEntry[],
-  ignoreId?: string,
-) {
-  const previous = entries
-    .filter((entry) => entry.id !== ignoreId && entry.entry_date <= entryDate)
-    .slice()
-    .sort((a, b) => b.entry_date.localeCompare(a.entry_date) || Number(b.odometer) - Number(a.odometer))
-    .find((entry) => Number(entry.odometer) < odometer);
-
-  if (!previous) return { distance: null, consumption: null, costPerKm: null };
-
-  const distance = round(odometer - Number(previous.odometer), 1);
-  if (distance <= 0 || liters <= 0) return { distance: null, consumption: null, costPerKm: null };
-
-  return {
-    distance,
-    consumption: round(distance / liters, 2),
-    costPerKm: round(totalAmount / distance, 3),
-  };
-}
-
-export function round(value: number, digits = 2) {
-  const factor = 10 ** digits;
-  return Math.round((value + Number.EPSILON) * factor) / factor;
-}
-
 export type FuelSummary = {
   total: number;
   liters: number;
@@ -344,20 +536,34 @@ export type FuelSummary = {
   costPerKm: number | null;
   best: FuelEntry | null;
   worst: FuelEntry | null;
+  cycles: number;
+  measuredLiters: number;
+  measuredCost: number;
 };
 
+/**
+ * Resume usando apenas ciclos completos para consumo/custo por km. Totais de
+ * dinheiro e litros continuam incluindo todos os abastecimentos do filtro.
+ */
 export function summarizeFuel(entries: FuelEntry[]): FuelSummary {
-  const total = entries.reduce((sum, entry) => sum + Number(entry.total_amount), 0);
-  const liters = entries.reduce((sum, entry) => sum + Number(entry.liters), 0);
-  const distance = entries.reduce((sum, entry) => sum + Number(entry.distance ?? 0), 0);
-  const withConsumption = entries.filter((entry) => entry.consumption != null);
-  const averageConsumption = withConsumption.length
-    ? round(
-        withConsumption.reduce((sum, entry) => sum + Number(entry.consumption), 0) /
-          withConsumption.length,
-      )
-    : null;
-  const sorted = withConsumption
+  const total = entries.reduce((sum, entry) => sum + Number(entry.total_amount ?? 0), 0);
+  const liters = entries.reduce((sum, entry) => sum + Number(entry.liters ?? 0), 0);
+  const measured = entries.filter(
+    (entry) =>
+      Number(entry.distance ?? 0) > 0 &&
+      Number(entry.consumption ?? 0) > 0 &&
+      Number(entry.cost_per_km ?? 0) >= 0,
+  );
+  const distance = measured.reduce((sum, entry) => sum + Number(entry.distance ?? 0), 0);
+  const measuredLiters = measured.reduce(
+    (sum, entry) => sum + Number(entry.distance ?? 0) / Number(entry.consumption),
+    0,
+  );
+  const measuredCost = measured.reduce(
+    (sum, entry) => sum + Number(entry.distance ?? 0) * Number(entry.cost_per_km ?? 0),
+    0,
+  );
+  const sorted = measured
     .slice()
     .sort((a, b) => Number(b.consumption) - Number(a.consumption));
 
@@ -367,29 +573,26 @@ export function summarizeFuel(entries: FuelEntry[]): FuelSummary {
     entries: entries.length,
     distance: round(distance, 1),
     averagePrice: liters > 0 ? round(total / liters, 3) : null,
-    averageConsumption,
-    costPerKm: distance > 0 ? round(total / distance, 3) : null,
+    averageConsumption: measuredLiters > 0 ? round(distance / measuredLiters, 2) : null,
+    costPerKm: distance > 0 ? round(measuredCost / distance, 3) : null,
     best: sorted[0] ?? null,
     worst: sorted.length > 1 ? sorted[sorted.length - 1] : null,
+    cycles: measured.length,
+    measuredLiters: round(measuredLiters, 3),
+    measuredCost: round(measuredCost, 2),
   };
 }
 
 export type VehicleFuelStats = {
   vehicle: Vehicle;
   summary: FuelSummary;
-  /** Meta de consumo configurada (ou média cadastrada do veículo). */
   target: number | null;
-  /** Percentual de tolerância antes de disparar o alerta. */
   threshold: number;
-  /** Consumo abaixo da meta além da tolerância configurada. */
   alert: boolean;
-  /** Gasto acima do teto mensal configurado. */
   budgetAlert: boolean;
-  /** Variação percentual em relação à meta. */
   deviation: number | null;
 };
 
-/** Agrupa os abastecimentos filtrados por veículo e calcula alertas de consumo. */
 export function statsByVehicle(
   vehicles: Vehicle[],
   entries: FuelEntry[],
@@ -418,7 +621,6 @@ export function statsByVehicle(
   });
 }
 
-/** Gera o CSV do dashboard de combustível por veículo. */
 export function fuelStatsCsv(
   stats: VehicleFuelStats[],
   period: { from?: string; to?: string } = {},
@@ -467,8 +669,10 @@ export function fuelStatsCsv(
       liters: round(acc.liters + item.summary.liters, 2),
       distance: round(acc.distance + item.summary.distance, 1),
       total: round(acc.total + item.summary.total, 2),
+      measuredLiters: round(acc.measuredLiters + item.summary.measuredLiters, 3),
+      measuredCost: round(acc.measuredCost + item.summary.measuredCost, 2),
     }),
-    { entries: 0, liters: 0, distance: 0, total: 0 },
+    { entries: 0, liters: 0, distance: 0, total: 0, measuredLiters: 0, measuredCost: 0 },
   );
 
   const totalRow = [
@@ -479,11 +683,13 @@ export function fuelStatsCsv(
     totals.entries,
     totals.liters,
     totals.distance,
-    totals.distance > 0 && totals.liters > 0 ? round(totals.distance / totals.liters, 2) : "",
+    totals.distance > 0 && totals.measuredLiters > 0
+      ? round(totals.distance / totals.measuredLiters, 2)
+      : "",
     "",
     "",
     totals.liters > 0 ? round(totals.total / totals.liters, 3) : "",
-    totals.distance > 0 ? round(totals.total / totals.distance, 3) : "",
+    totals.distance > 0 ? round(totals.measuredCost / totals.distance, 3) : "",
     totals.total,
     "",
   ].join(";");
@@ -504,7 +710,6 @@ export function downloadCsv(content: string, filename: string) {
   URL.revokeObjectURL(url);
 }
 
-
 export type VehicleAlertSettings = {
   target_consumption: number | null;
   alert_threshold: number;
@@ -512,7 +717,6 @@ export type VehicleAlertSettings = {
   alerts_enabled: boolean;
 };
 
-/** Salva metas e limites de alerta de um veículo. */
 export function useSaveVehicleSettings() {
   const refresh = useRefreshFleet();
   return useMutation({
