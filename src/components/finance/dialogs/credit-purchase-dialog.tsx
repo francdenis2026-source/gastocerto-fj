@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -153,7 +154,7 @@ export function CreditPurchaseDialog({
         onOpenChange(next);
       }}
     >
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="size-4 text-primary" aria-hidden />
@@ -305,8 +306,13 @@ export function CreditPurchaseDialog({
               <p className="font-semibold tabular-nums">{formatCurrency(totalAmount)}</p>
             </div>
           </div>
+        </div>
 
-          <Button type="button" className="w-full" onClick={handleSave} disabled={save.isPending}>
+        <DialogFooter>
+          <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancelar
+          </Button>
+          <Button type="button" onClick={handleSave} disabled={save.isPending}>
             {save.isPending ? (
               <Loader2 className="mr-2 size-4 animate-spin" aria-hidden />
             ) : (
@@ -314,7 +320,7 @@ export function CreditPurchaseDialog({
             )}
             Lançar {valids.length > 0 ? `${valids.length} compra(s)` : "compras"}
           </Button>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
