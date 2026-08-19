@@ -13,7 +13,6 @@ type PanelProps = {
   bodyClassName?: string;
 };
 
-/** Cartão de conteúdo com cabeçalho consistente para gráficos e tabelas. */
 export function Panel({
   title,
   description,
@@ -30,21 +29,27 @@ export function Panel({
         className,
       )}
     >
-      <header className="flex items-center justify-between gap-2 border-b border-border px-3 py-2.5 sm:px-4 sm:py-3">
-        <div className="flex min-w-0 items-center gap-2">
+      <header className="flex flex-col gap-3 border-b border-border bg-muted/20 px-3 py-3 sm:px-4 sm:py-3.5 md:flex-row md:items-center md:justify-between">
+        <div className="flex min-w-0 items-start gap-2.5">
           {Icon ? (
-            <span className="grid size-7 shrink-0 place-items-center rounded-lg border border-border bg-secondary text-muted-foreground">
-              <Icon className="size-3.5" aria-hidden="true" />
+            <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+              <Icon className="size-4" aria-hidden="true" />
             </span>
           ) : null}
           <div className="min-w-0">
-            <h2 className="truncate text-[13px] font-semibold leading-tight sm:text-sm">{title}</h2>
+            <h2 className="text-sm font-semibold leading-tight text-foreground sm:text-[15px]">{title}</h2>
             {description ? (
-              <p className="truncate text-[11px] text-muted-foreground">{description}</p>
+              <p className="mt-0.5 max-w-prose text-xs leading-relaxed text-muted-foreground">
+                {description}
+              </p>
             ) : null}
           </div>
         </div>
-        {actions ? <div className="flex shrink-0 items-center gap-1.5">{actions}</div> : null}
+        {actions ? (
+          <div className="-mx-0.5 flex max-w-full items-center gap-2 overflow-x-auto px-0.5 pb-0.5 [scrollbar-width:none] md:justify-end md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden [&>*]:shrink-0">
+            {actions}
+          </div>
+        ) : null}
       </header>
       <div className={cn("p-3 sm:p-4", bodyClassName)}>{children}</div>
     </section>
