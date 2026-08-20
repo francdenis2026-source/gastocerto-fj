@@ -74,7 +74,6 @@ export function SiteNav() {
               Criar Conta
             </Link>
           </Button>
-        </div>
           
           <button
             onClick={() => setOpen(!open)}
