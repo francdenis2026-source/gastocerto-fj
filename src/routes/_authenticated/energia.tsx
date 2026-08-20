@@ -209,7 +209,7 @@ function EnergyPage() {
                   <p className="font-semibold">Consumo em standby</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Desligar aparelhos que ficam ociosos ajuda a reduzir consumo contínuo ao longo do mês.</p>
                 </div>
-                {stats.variation > 5 ? (
+                {stats?.variation && stats.variation > 5 ? (
                   <div className="rounded-xl border border-destructive/25 bg-destructive/5 p-3" role="alert">
                     <p className="font-semibold text-destructive">Aumento detectado</p>
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Seu consumo subiu {stats.variation.toFixed(1)}% neste mês. Compare hábitos e equipamentos usados no período.</p>
