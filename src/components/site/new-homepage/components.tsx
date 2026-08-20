@@ -39,7 +39,7 @@ export function Hero() {
     <section 
       ref={ref} 
       aria-labelledby="home-title" 
-      className="relative isolate overflow-hidden bg-[#00050a] pt-24 sm:pt-32"
+      className="relative isolate overflow-hidden bg-[#00050a] pt-20 pb-8 sm:pt-24 sm:pb-12 lg:pt-32"
     >
       {/* Background with optimized image and overlay */}
       <motion.div 
@@ -63,8 +63,8 @@ export function Hero() {
       <div aria-hidden="true" className="absolute inset-0 z-[1] bg-gradient-to-b from-[#00050a]/80 via-[#00050a]/60 to-[#000a14]" />
       <div aria-hidden="true" className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_50%)]" />
       
-      <div className="shell relative z-10 py-12 sm:py-20 lg:py-24">
-        <div className="flex flex-col items-center text-center">
+      <div className="shell relative z-10 py-8 sm:py-16 lg:py-20">
+        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 10 }} 
             animate={{ opacity: 1, y: 0 }} 
@@ -82,17 +82,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
-            className="max-w-4xl text-balance font-display text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white sm:text-7xl lg:text-8xl"
+            className="max-w-4xl text-balance font-display text-4xl font-black leading-[0.9] tracking-[-0.05em] text-white sm:text-6xl md:text-7xl lg:text-8xl lg:leading-[0.85]"
           >
             Seu dinheiro sob <br className="hidden sm:block" />
-            <span className="text-primary">controle absoluto.</span>
+            <span className="text-primary italic">controle absoluto.</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 12 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, delay: 0.1 }} 
-            className="mt-8 max-w-2xl text-pretty text-lg font-medium leading-relaxed text-slate-300 sm:text-xl"
+            className="mt-6 max-w-xl text-pretty text-base font-medium leading-relaxed text-slate-300 sm:text-lg lg:text-xl lg:mt-8"
           >
             A plataforma definitiva para quem busca clareza, segurança e o domínio total das finanças pessoais e familiares.
           </motion.p>
@@ -144,9 +144,9 @@ const features = [
 
 export function Features() {
   return (
-    <section aria-labelledby="features-title" className="bg-[#000a14] py-16 sm:py-24">
+    <section aria-labelledby="features-title" className="bg-[#000a14] py-12 sm:py-20 lg:py-24">
       <div className="shell">
-        <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-start lg:gap-16">
           <div className="max-w-md">
             <p className="kicker mb-3">O essencial</p>
             <h2 id="features-title" className="text-balance text-2xl font-bold text-white sm:text-3xl">Informação financeira organizada para decisões melhores.</h2>

@@ -31,9 +31,9 @@ const faqs = [
 
 export function SiteQuestions() {
   return (
-    <section id="faq" className="border-t border-white/5 bg-[#000c18] py-12 sm:py-14">
+    <section id="faq" className="border-t border-white/5 bg-[#000c18] py-10 sm:py-16 lg:py-20">
       <div className="shell">
-        <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start lg:gap-16">
           <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-md">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
               <Shield className="size-3.5" aria-hidden="true" /> Informações essenciais

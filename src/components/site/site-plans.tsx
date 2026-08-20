@@ -37,9 +37,9 @@ export function SitePlans() {
   const { data: plans } = usePublicPlans();
 
   return (
-    <section id="planos" className="bg-background py-12 sm:py-14">
+    <section id="planos" className="bg-background py-10 sm:py-16 lg:py-20">
       <div className="shell">
-        <Appear className="mb-7 flex flex-col gap-4 text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
+        <Appear className="mb-6 flex flex-col gap-4 text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-primary">Planos</p>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Escolha o nível de recursos ideal.</h2>
