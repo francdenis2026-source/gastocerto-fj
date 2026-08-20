@@ -35,7 +35,7 @@ function ExtratosKidsPage() {
       <div className="space-y-6 p-4 md:p-6 lg:p-8">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild className="rounded-full">
-            <Link to="/_authenticated/kids">
+            <Link to="/kids">
               <ArrowLeft className="size-5" />
             </Link>
           </Button>
