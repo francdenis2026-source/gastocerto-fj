@@ -94,7 +94,10 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }} 
             className="mt-6 max-w-xl text-pretty text-base font-medium leading-relaxed text-slate-300 sm:text-lg lg:text-xl lg:mt-8"
           >
-            A plataforma definitiva para quem busca clareza, segurança e o domínio total das finanças pessoais e familiares.
+            '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+                                        
+                                            
+                                            onde estao as imagens de fundoe de hero da homepage
           </motion.p>
           
           <motion.div 
