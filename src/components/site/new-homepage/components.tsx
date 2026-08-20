@@ -144,9 +144,9 @@ const features = [
 
 export function Features() {
   return (
-    <section aria-labelledby="features-title" className="bg-[#000a14] py-12 sm:py-14">
+    <section aria-labelledby="features-title" className="bg-[#000a14] py-16 sm:py-24">
       <div className="shell">
-        <div className="grid gap-6 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+        <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
           <div className="max-w-md">
             <p className="kicker mb-3">O essencial</p>
             <h2 id="features-title" className="text-balance text-2xl font-bold text-white sm:text-3xl">Informação financeira organizada para decisões melhores.</h2>
@@ -154,8 +154,8 @@ export function Features() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {features.map((item, index) => (
-              <motion.article key={item.title} {...reveal} transition={{ delay: index * 0.04 }} className="rounded-xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-primary/35 hover:bg-white/[0.06]">
-                <div className="flex items-start gap-3"><div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10"><item.icon aria-hidden="true" className="size-4 text-primary" /></div><div><h3 className="text-sm font-bold text-white">{item.title}</h3><p className="mt-1 text-sm leading-5 text-slate-400">{item.desc}</p></div></div>
+              <motion.article key={item.title} {...reveal} transition={{ delay: index * 0.04 }} className="rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-all hover:border-primary/30 hover:bg-white/[0.04] hover:shadow-2xl hover:shadow-primary/5">
+                <div className="flex items-start gap-4"><div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/10 bg-primary/5"><item.icon aria-hidden="true" className="size-5 text-primary" /></div><div><h3 className="text-base font-bold text-white">{item.title}</h3><p className="mt-2 text-sm leading-relaxed text-slate-400">{item.desc}</p></div></div>
               </motion.article>
             ))}
           </div>

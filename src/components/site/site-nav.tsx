@@ -30,11 +30,11 @@ export function SiteNav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-[1000] py-3 bg-[#000a14]/80 backdrop-blur-2xl border-b border-white/10 shadow-2xl transition-all duration-500"
+        "fixed inset-x-0 top-0 z-[1000] py-2 bg-[#00050a]/80 backdrop-blur-xl border-b border-white/5 transition-all duration-500"
       )}
     >
       <div 
-        className="container mx-auto flex h-16 items-center justify-between px-6"
+        className="container mx-auto flex h-14 items-center justify-between px-6"
       >
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
@@ -58,37 +58,23 @@ export function SiteNav() {
         </div>
 
         <div className="flex items-center gap-3">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link 
-              to="/auth" 
-              search={{ mode: "login" }}
-              className="hidden text-sm font-bold text-foreground hover:text-primary transition-colors md:block px-2"
-            >
-              Entrar
-            </Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link 
-              to="/auth" 
-              search={{ mode: "login", code: "" }}
-              className="hidden text-sm font-bold text-brand hover:opacity-80 transition-colors md:block px-2"
-            >
-              Acesso por Código
-            </Link>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 168, 95, 0.4)" }}
-            whileTap={{ scale: 0.98 }}
+          <Link 
+            to="/auth" 
+            search={{ mode: "login" }}
+            className="hidden text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors md:block px-3"
           >
-            <Button
-              className="h-10 rounded-xl bg-primary px-6 text-sm font-bold shadow-lg shadow-primary/20 transition-all glow-effect"
-              asChild
-            >
-              <Link to="/auth" search={{ mode: "signup" }}>
-                Criar conta gratuita
-              </Link>
-            </Button>
-          </motion.div>
+            Entrar
+          </Link>
+          <Button
+            size="sm"
+            className="h-9 rounded-xl bg-primary px-5 text-[11px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+            asChild
+          >
+            <Link to="/auth" search={{ mode: "signup" }}>
+              Criar Conta
+            </Link>
+          </Button>
+        </div>
           
           <button
             onClick={() => setOpen(!open)}
