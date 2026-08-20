@@ -36,67 +36,100 @@ export function Hero() {
   useMouseGlow();
 
   return (
-    <section ref={ref} aria-labelledby="home-title" className="relative isolate overflow-hidden bg-[#020a12] pt-20 sm:pt-24">
-      <motion.div style={{ y }} aria-hidden="true" className="absolute -inset-y-10 inset-x-0 z-0 motion-reduce:transform-none">
+    <section 
+      ref={ref} 
+      aria-labelledby="home-title" 
+      className="relative isolate overflow-hidden bg-[#00050a] pt-24 sm:pt-32"
+    >
+      {/* Background with optimized image and overlay */}
+      <motion.div 
+        style={{ y }} 
+        aria-hidden="true" 
+        className="absolute -inset-y-20 inset-x-0 z-0 motion-reduce:transform-none"
+      >
         <picture>
           <source media="(max-width: 767px)" srcSet={heroMobile} />
-          <img src={heroDesktop} alt="" className="h-full w-full object-cover object-center opacity-70" loading="eager" fetchPriority="high" />
+          <img 
+            src={heroDesktop} 
+            alt="" 
+            className="h-full w-full object-cover object-center opacity-40 brightness-75 grayscale-[0.2]" 
+            loading="eager" 
+            fetchPriority="high" 
+          />
         </picture>
       </motion.div>
-      <div aria-hidden="true" className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(2,10,18,.98)_0%,rgba(2,10,18,.9)_43%,rgba(2,10,18,.48)_75%,rgba(2,10,18,.72)_100%)]" />
-      <div aria-hidden="true" className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_76%_42%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_30%)]" />
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-b from-transparent to-[#000a14]" />
-
-      <div className="shell relative z-10 py-10 sm:py-12 lg:py-14">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.08fr_.92fr] lg:gap-10 xl:gap-14">
-          <div className="max-w-3xl">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-4 inline-flex min-h-9 items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-emerald-200 backdrop-blur-xl">
-              <CheckCircle2 aria-hidden="true" className="size-4" /> Gestão financeira pessoal e familiar
-            </motion.div>
-            <motion.h1 id="home-title" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }} className="max-w-4xl text-balance font-display text-4xl font-black leading-[1] tracking-[-0.045em] text-white sm:text-5xl lg:text-6xl">
-              Clareza para controlar gastos e planejar melhor.
-            </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.58, delay: 0.06 }} className="mt-4 max-w-2xl text-pretty text-base font-medium leading-7 text-slate-200 sm:text-lg">
-              Centralize receitas, despesas, cartões, contas, metas e finanças da família em uma visão objetiva e fácil de acompanhar.
-            </motion.p>
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.58, delay: 0.12 }} className="mt-6 flex flex-col gap-2.5 sm:flex-row">
-              <Button size="lg" className="h-12 rounded-xl px-7 text-sm font-bold shadow-xl shadow-primary/25" asChild>
-                <Link to="/auth" search={{ mode: "signup" }}>Começar agora <ArrowRight aria-hidden="true" className="ml-2 size-4" /></Link>
-              </Button>
-              <Button variant="outline" size="lg" className="h-12 rounded-xl border-white/20 bg-black/20 px-7 text-sm font-bold text-white backdrop-blur-xl hover:bg-white/10 hover:text-white" asChild>
-                <Link to="/demonstracao">Ver demonstração</Link>
-              </Button>
-            </motion.div>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.24 }} className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-slate-300 sm:text-sm">
-              <span className="inline-flex items-center gap-2"><Shield aria-hidden="true" className="size-4 text-emerald-300" /> Dados protegidos</span>
-              <span className="inline-flex items-center gap-2"><Smartphone aria-hidden="true" className="size-4 text-emerald-300" /> Responsivo</span>
-              <span className="inline-flex items-center gap-2"><Zap aria-hidden="true" className="size-4 text-emerald-300" /> Lançamentos rápidos</span>
-            </motion.div>
-          </div>
-
-          <motion.div initial={{ opacity: 0, x: 22, scale: 0.98 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: 0.68, delay: 0.1 }} className="relative mx-auto w-full max-w-lg lg:mx-0">
-            <div aria-hidden="true" className="absolute -inset-6 rounded-[2rem] bg-primary/15 blur-3xl" />
-            <div className="relative overflow-hidden rounded-[1.4rem] border border-white/15 bg-[#07131f]/82 p-4 shadow-[0_24px_64px_rgba(0,0,0,.42)] backdrop-blur-2xl">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <div><p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Resumo financeiro</p><p className="mt-1 text-base font-bold text-white">Visão do mês</p></div>
-                <div className="flex size-9 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-300/10 text-emerald-300"><LayoutDashboard aria-hidden="true" className="size-4" /></div>
-              </div>
-              <div className="mt-3 grid grid-cols-2 gap-2.5">
-                <PreviewMetric label="Receitas" value="R$ 5.240" icon={TrendingUp} positive />
-                <PreviewMetric label="Gastos" value="R$ 3.180" icon={ReceiptText} />
-                <PreviewMetric label="Saldo" value="R$ 2.060" icon={WalletCards} positive />
-                <PreviewMetric label="Meta" value="64%" icon={PiggyBank} positive />
-              </div>
-              <div className="mt-3 rounded-xl border border-white/10 bg-black/20 p-3">
-                <div className="flex items-center justify-between gap-3"><div><p className="text-xs text-slate-400">Planejamento</p><p className="mt-0.5 text-sm font-semibold text-white">Dentro do previsto</p></div><span className="rounded-full bg-emerald-400/10 px-2 py-1 text-xs font-bold text-emerald-300">68%</span></div>
-                <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full w-[68%] rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300" /></div>
-              </div>
-              <p className="mt-2 text-center text-[10px] font-medium text-slate-500">Prévia ilustrativa</p>
-            </div>
+      
+      {/* Cinematic Overlays */}
+      <div aria-hidden="true" className="absolute inset-0 z-[1] bg-gradient-to-b from-[#00050a]/80 via-[#00050a]/60 to-[#000a14]" />
+      <div aria-hidden="true" className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_50%)]" />
+      
+      <div className="shell relative z-10 py-12 sm:py-20 lg:py-24">
+        <div className="flex flex-col items-center text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.2em] text-primary backdrop-blur-xl"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            Gestão Financeira de Elite
+          </motion.div>
+          
+          <motion.h1 
+            id="home-title" 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
+            className="max-w-4xl text-balance font-display text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white sm:text-7xl lg:text-8xl"
+          >
+            Seu dinheiro sob <br className="hidden sm:block" />
+            <span className="text-primary">controle absoluto.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 12 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6, delay: 0.1 }} 
+            className="mt-8 max-w-2xl text-pretty text-lg font-medium leading-relaxed text-slate-300 sm:text-xl"
+          >
+            A plataforma definitiva para quem busca clareza, segurança e o domínio total das finanças pessoais e familiares.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 12 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6, delay: 0.2 }} 
+            className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-6"
+          >
+            <Button size="lg" className="h-14 rounded-2xl px-10 text-base font-black shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95" asChild>
+              <Link to="/auth" search={{ mode: "signup" }}>
+                Começar agora <ArrowRight aria-hidden="true" className="ml-2 size-5" />
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" className="h-14 rounded-2xl border-white/10 bg-white/5 px-10 text-base font-bold text-white backdrop-blur-xl hover:bg-white/10 transition-all" asChild>
+              <Link to="/demonstracao">Ver demonstração</Link>
+            </Button>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ delay: 0.4 }} 
+            className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs font-black uppercase tracking-widest text-slate-500"
+          >
+            <span className="flex items-center gap-2"><Shield className="size-4 text-primary/60" /> Criptografia de Ponta</span>
+            <span className="flex items-center gap-2"><Zap className="size-4 text-primary/60" /> Insights em Tempo Real</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="size-4 text-primary/60" /> Multi-plataforma</span>
           </motion.div>
         </div>
       </div>
+      
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-[1] h-32 bg-gradient-to-b from-transparent to-[#000a14]" />
     </section>
+  );
+}
   );
 }
 
