@@ -98,17 +98,17 @@ export function Hero() {
           </motion.p>
           
           <motion.div 
-            initial={{ opacity: 0, y: 12 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6, delay: 0.2 }} 
-            className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-6"
+            initial={{ opacity: 0, scale: 0.9 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{ duration: 0.5, delay: 0.2 }} 
+            className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4 lg:mt-10"
           >
-            <Button size="lg" className="h-14 rounded-2xl px-10 text-base font-black shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95" asChild>
+            <Button size="lg" className="h-12 w-full sm:w-auto rounded-2xl px-8 text-sm font-black uppercase tracking-widest shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95 sm:h-14 sm:px-10 sm:text-base" asChild>
               <Link to="/auth" search={{ mode: "signup" }}>
                 Começar agora <ArrowRight aria-hidden="true" className="ml-2 size-5" />
               </Link>
             </Button>
-            <Button variant="outline" size="lg" className="h-14 rounded-2xl border-white/10 bg-white/5 px-10 text-base font-bold text-white backdrop-blur-xl hover:bg-white/10 transition-all" asChild>
+            <Button variant="outline" size="lg" className="h-12 w-full sm:w-auto rounded-2xl border-white/10 bg-white/5 px-8 text-sm font-bold text-white backdrop-blur-xl hover:bg-white/10 transition-all sm:h-14 sm:px-10 sm:text-base" asChild>
               <Link to="/demonstracao">Ver demonstração</Link>
             </Button>
           </motion.div>
