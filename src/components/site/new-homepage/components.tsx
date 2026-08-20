@@ -130,8 +130,6 @@ export function Hero() {
     </section>
   );
 }
-  );
-}
 
 function PreviewMetric({ label, value, icon: Icon, positive = false }: { label: string; value: string; icon: typeof TrendingUp; positive?: boolean }) {
   return <div className="rounded-xl border border-white/10 bg-white/[0.045] p-3"><div className="flex items-center justify-between gap-2"><span className="text-[11px] font-medium text-slate-400">{label}</span><Icon aria-hidden="true" className={`size-3.5 ${positive ? "text-emerald-300" : "text-slate-300"}`} /></div><strong className="mt-1.5 block text-base font-bold tabular-nums text-white">{value}</strong></div>;
